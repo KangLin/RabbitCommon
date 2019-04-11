@@ -34,6 +34,7 @@ isEmpty(BUILD_VERSION){
 }
 message("BUILD_VERSION:$$BUILD_VERSION")
 DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
+CONFIG(debug, debug|release): DEFINES *= _DEBUG
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -60,6 +61,13 @@ INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src
 !android: DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 
+isEmpty(PREFIX) {
+    qnx : PREFIX = /tmp
+    else : android : PREFIX = /.
+    else : unnix : PREFIX = /usr/local
+    else : PREFIX = $$OUT_PWD/../install
+}
+
 SOURCES += \
         main.cpp
 
@@ -79,9 +87,10 @@ INSTALLS += target
 
 win32 : equals(QMAKE_HOST.os, Windows){
     
-    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET))
+    INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
 
     Deployment_qtlib.target = Deployment_qtlib
+    Deployment_qtlib.files = $$system_path($${DESTDIR}/)
     Deployment_qtlib.path = $$system_path($${PREFIX})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
@@ -91,3 +100,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
 }
 
 OTHER_FILES += CMakeLists.txt
+
+TRANSLATIONS_DIR=$$PWD
+TRANSLATIONS_NAME=$${TARGET}
+include($$PWD/../pri/Translations.pri)

@@ -48,9 +48,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szHomePage = "https://github.com/KangLin/RabbitCommon.git";
     m_szCopyright = tr("KangLin Studio");
     
-    m_AppIcon = QPixmap(":/icon/App");
-    m_CopyrightIcon = QPixmap(":/icon/CopyRight");
-    m_DonationIcon = QPixmap(":/icon/Contribute20");
+    m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
+    m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
+    m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)

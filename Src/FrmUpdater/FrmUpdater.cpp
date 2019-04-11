@@ -157,7 +157,7 @@ int CFrmUpdater::SetTitle(const QString &szTitle, QPixmap icon)
     ui->lbTitle->setText(szTitle);
     QPixmap pixmpa = icon;
     if(pixmpa.isNull())
-        pixmpa.load(":/icon/App", "PNG");
+        pixmpa.load(":/icon/RabbitCommon/App", "PNG");
     ui->lbTitleIcon->setPixmap(pixmpa);
     return 0;
 }

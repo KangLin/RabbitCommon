@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../Resource/Resource.qrc">
-    <normaloff>:/icon/Download</normaloff>:/icon/Download</iconset>
+    <normaloff>:/icon/RabbitCommon/Download</normaloff>:/icon/RabbitCommon/Download</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -54,7 +54,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../Resource/Resource.qrc">:/icon/App</pixmap>
+        <pixmap resource="../Resource/Resource.qrc">:/icon/RabbitCommon/App</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

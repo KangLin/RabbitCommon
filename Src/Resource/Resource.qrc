@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/icon">
+    <qresource prefix="/icon/RabbitCommon">
         <file alias="Contribute">image/Contribute.png</file>
         <file alias="Contribute20">image/Contribute20.png</file>
         <file alias="Download">image/download.png</file>
