@@ -29,6 +29,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+DISTFILES += Authors.md \
+    Authors_zh_CN.md \
+    ChangeLog.md \
+    ChangeLog_zh_CN.md \
+    License.md
+
 OTHER_FILES += CMakeLists.txt \
     .travis.yml \
     appveyor.yml \

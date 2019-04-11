@@ -86,7 +86,7 @@
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
         <source> Copyright (C) 2018 - %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>版权 (C) 2018 - %1 %2</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="47"/>
@@ -98,78 +98,12 @@ Email:kl222@126.com</source>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="49"/>
         <source>KangLin Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>康林工作室</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="70"/>
         <source>Home page:</source>
         <translation>主页：</translation>
-    </message>
-    <message>
-        <source> Copyright (C) 2018 - %1 KangLin Studio</source>
-        <translation type="vanished">版权 (C) 2018 - %1 康林工作室</translation>
-    </message>
-</context>
-<context>
-    <name>CDlgOption</name>
-    <message>
-        <source>Option</source>
-        <translation type="vanished">选项</translation>
-    </message>
-    <message>
-        <source>General</source>
-        <translation type="vanished">普通</translation>
-    </message>
-    <message>
-        <source>Enable run from boot</source>
-        <translation type="vanished">允许开户自启动</translation>
-    </message>
-    <message>
-        <source>Show windows in application start</source>
-        <translation type="vanished">应用启动时，显示窗口</translation>
-    </message>
-</context>
-<context>
-    <name>CFrmEyeNurse</name>
-    <message>
-        <source>Eye nurse</source>
-        <translation type="vanished">眼睛护士</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="vanished">显示</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">关于</translation>
-    </message>
-    <message>
-        <source>Enable run from boot</source>
-        <translation type="vanished">允许开户自启动</translation>
-    </message>
-    <message>
-        <source>Disable run from boot</source>
-        <translation type="vanished">禁止开机自启动</translation>
-    </message>
-    <message>
-        <source>Protect eyesight</source>
-        <translation type="vanished">保护视力</translation>
-    </message>
-    <message>
-        <source>Work</source>
-        <translation type="vanished">工作</translation>
-    </message>
-    <message>
-        <source>Will want to lock the screen</source>
-        <translation type="vanished">将要锁屏</translation>
-    </message>
-    <message>
-        <source>Prompt to lock the screen and rest</source>
-        <translation type="vanished">提示锁屏和休息</translation>
     </message>
 </context>
 <context>
@@ -400,73 +334,6 @@ Email:kl222@126.com</source>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="842"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
-    </message>
-</context>
-<context>
-    <name>CMainWindow</name>
-    <message>
-        <source>Tasks</source>
-        <translation type="vanished">任务</translation>
-    </message>
-    <message>
-        <source>Help(&amp;H)</source>
-        <translation type="vanished">帮助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>Tools(&amp;T)</source>
-        <translation type="vanished">工具(&amp;T)</translation>
-    </message>
-    <message>
-        <source>About(&amp;A)</source>
-        <translation type="vanished">关于(&amp;A)</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">关于</translation>
-    </message>
-    <message>
-        <source>Exit(&amp;E)</source>
-        <translation type="vanished">即出(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Option(&amp;O)</source>
-        <translation type="vanished">选项(&amp;O)</translation>
-    </message>
-    <message>
-        <source>Option</source>
-        <translation type="vanished">选项</translation>
-    </message>
-    <message>
-        <source>Sink(&amp;S)</source>
-        <translation type="vanished">换肤(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Sink</source>
-        <translation type="vanished">换肤</translation>
-    </message>
-    <message>
-        <source>Update(&amp;U)</source>
-        <translation type="vanished">更新(&amp;U)</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
-        <source>Hide</source>
-        <translation type="vanished">隐藏</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="vanished">显示</translation>
-    </message>
-    <message>
-        <source>Enable run from boot</source>
-        <translation type="vanished">允许开户自启动</translation>
-    </message>
-    <message>
-        <source>Open sink</source>
-        <translation type="vanished">打开皮肤</translation>
     </message>
 </context>
 </TS>

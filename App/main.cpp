@@ -1,4 +1,3 @@
-#include "MainWindow.h"
 #include <QApplication>
 #include "DlgAbout/DlgAbout.h"
 #include "FrmUpdater/FrmUpdater.h"
@@ -24,6 +23,7 @@ int main(int argc, char *argv[])
         
   
     CFrmUpdater update;
+    update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/App"));
     update.show();
     CDlgAbout dlg;
     return dlg.exec();

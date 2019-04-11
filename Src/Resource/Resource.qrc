@@ -1,14 +1,9 @@
 <RCC>
     <qresource prefix="/icon">
-        <file alias="App">image/app.png</file>
         <file alias="Contribute">image/Contribute.png</file>
         <file alias="Contribute20">image/Contribute20.png</file>
-        <file alias="Refresh">image/refresh.png</file>
-        <file alias="CopyRight">image/copyright.png</file>
         <file alias="Download">image/download.png</file>
-        <file alias="Close">image/green_close.png</file>
-    </qresource>
-    <qresource prefix="/icon/red">
-        <file alias="Close">image/close.png</file>
+        <file alias="App">image/App.png</file>
+        <file alias="CopyRight">image/copyright.png</file>
     </qresource>
 </RCC>

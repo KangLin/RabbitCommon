@@ -138,7 +138,13 @@ endif(BUILD_APP)
 
 set(OTHER_FILES
     License.md
+    Authors.md
+    Authors_zh_CN.md
+    ChangeLog.md
+    ChangeLog_zh_CN.md
     )
+
+INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
 
 # 设置安装前缀
 SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/install CACHE STRING "Install path prefix.") 
