@@ -3,6 +3,7 @@
 #include "DlgAbout/DlgAbout.h"
 #include "FrmUpdater/FrmUpdater.h"
 #include <QTranslator>
+#include <QDir>
 
 int main(int argc, char *argv[])
 {
