@@ -100,7 +100,3 @@ win32 : equals(QMAKE_HOST.os, Windows){
 }
 
 OTHER_FILES += CMakeLists.txt
-
-TRANSLATIONS_DIR=$$PWD
-TRANSLATIONS_NAME=$${TARGET}
-include($$PWD/../pri/Translations.pri)
