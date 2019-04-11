@@ -15,10 +15,11 @@ Abstract:
 
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
+#include "GlobalDir.h"
+
 #include <QFile>
 #include <QDir>
-#include "GlobalDir.h"
-#include "Tools.h"
+#include <QDebug>
 
 /*
  * Author: KangLin(Email:kl222@126.com)
@@ -47,7 +48,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szTime = __TIME__;
     
     m_szAuthor = tr("Author: KangLin\nEmail:kl222@126.com");
-    m_szHomePage = "https://github.com/KangLin/RabbitCommon.git";
+    m_szHomePage = "https://github.com/KangLin/RabbitCommon";
     m_szCopyright = tr("KangLin Studio");
     
     m_AppIcon = QPixmap(":/icon/RabbitCommon/App");

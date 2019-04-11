@@ -21,7 +21,7 @@ class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
     Q_OBJECT
 
 public:
-    explicit CFrmUpdater(QWidget *parent = nullptr);
+    explicit CFrmUpdater(QString szUrl = QString(), QWidget *parent = nullptr);
     virtual ~CFrmUpdater();
 
     /**

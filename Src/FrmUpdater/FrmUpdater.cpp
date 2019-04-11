@@ -15,7 +15,7 @@
 #include <QDesktopServices>
 #include "Tools.h"
 
-CFrmUpdater::CFrmUpdater(QWidget *parent) :
+CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
     m_ButtonGroup(this),
@@ -44,8 +44,12 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     SetTitle(qApp->applicationDisplayName());
     SetArch(BUILD_ARCH);
     QString szVerion = qApp->applicationVersion();
+#ifdef BUILD_VERSION
     if(szVerion.isEmpty())
         szVerion = BUILD_VERSION;
+#else
+    szVerion = "V0.0.1";
+#endif
     SetVersion(szVerion);
 
     if(!QSslSocket::supportsSsl())
@@ -58,16 +62,19 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
                 <<QSslSocket::sslLibraryVersionString();
     }
     
-    QString szUrl = "https://raw.githubusercontent.com/KangLin/"
-            + qApp->applicationName() +"/master/Update/update_";
+    if(szUrl.isEmpty())
+    {
+        szUrl = "https://raw.githubusercontent.com/KangLin/"
+                + qApp->applicationName() +"/master/Update/update_";
 #if defined (Q_OS_WIN)
-    szUrl += "windows";
+        szUrl += "windows";
 #elif defined(Q_OS_ANDROID)
-    szUrl += "android";
+        szUrl += "android";
 #elif defined (Q_OS_LINUX)
-    szUrl += "linux";
+        szUrl += "linux";
 #endif
-    szUrl += ".xml";
+        szUrl += ".xml";
+    }
     DownloadFile(QUrl(szUrl));
     
     InitStateMachine();
@@ -90,7 +97,7 @@ CFrmUpdater::~CFrmUpdater()
  *                  |                                    |
  *                  V                                    |
  *   -----------------------------------|                |sigError
- *   |             s                    |                |sigFinished
+ *   |             s                    |                |
  *   |----------------------------------|                |
  *   |                                  |                |
  *   |  |------------------|            |                |

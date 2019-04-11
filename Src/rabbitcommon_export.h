@@ -1,5 +1,5 @@
-#ifndef LUNARCALENDAR_EXPORT_H
-#define LUNARCALENDAR_EXPORT_H
+#ifndef RABBITCOMMON_EXPORT_H
+#define RABBITCOMMON_EXPORT_H
 
 #if defined (Q_OS_WIN)
 	#include "rabbitcommon_export_windows.h"
@@ -9,4 +9,4 @@
     #include "rabbitcommon_export_linux.h"
 #endif
 
-#endif //LUNARCALENDAR_EXPORT_H
+#endif //RABBITCOMMON_EXPORT_H

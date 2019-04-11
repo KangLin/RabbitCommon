@@ -18,7 +18,7 @@ msvc {
     QMAKE_CXXFLAGS += "/utf-8"
 }
 
-INCLUDEPATH = $$PWD
+INCLUDEPATH += $$PWD
 
 DEFINES += RabbitCommon_EXPORTS
 

@@ -29,14 +29,14 @@ DISTFILES += Authors.md \
     ChangeLog_zh_CN.md \
     License.md
 
+other.files = $$DISTFILES
+other.path = $$PREFIX
+other.CONFIG += directory no_check_exist 
+!android : INSTALLS += other
+
 OTHER_FILES += CMakeLists.txt \
     .travis.yml \
     appveyor.yml \
     ci/* \
     tag.sh \
     README.md
-
-other.files = $$DISTFILES
-other.path = $$PREFIX
-other.CONFIG += directory no_check_exist 
-!android : INSTALLS += other
