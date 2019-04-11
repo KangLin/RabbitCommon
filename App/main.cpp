@@ -3,6 +3,7 @@
 #include "FrmUpdater/FrmUpdater.h"
 #include <QTranslator>
 #include <QDir>
+#include "Tools.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,10 +19,9 @@ int main(int argc, char *argv[])
     QTranslator tApp, tTasks;
     tApp.load(szPre + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
-    tTasks.load(szPre + "/RabbitCommon_" + QLocale::system().name() + ".qm");
-    a.installTranslator(&tTasks);
+
+    CTools::InitTranslator();
     
-  
     CFrmUpdater update;
     update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/RabbitCommon/App"));
     update.show();

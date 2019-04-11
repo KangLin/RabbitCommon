@@ -13,6 +13,7 @@
 #include <QDir>
 #include <QSsl>
 #include <QDesktopServices>
+#include "Tools.h"
 
 CFrmUpdater::CFrmUpdater(QWidget *parent) :
     QWidget(parent),

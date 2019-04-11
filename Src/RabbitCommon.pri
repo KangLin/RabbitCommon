@@ -24,7 +24,8 @@ DEFINES += RabbitCommon_EXPORTS
 
 SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp \
     $$PWD/DlgAbout/DlgAbout.cpp \
-    $$PWD/GlobalDir.cpp
+    $$PWD/GlobalDir.cpp \
+    $$PWD/Tools.cpp
 
 INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h \
     $$PWD/DlgAbout/DlgAbout.h \
@@ -33,7 +34,8 @@ INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h \
     $$PWD/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/GlobalDir.h 
+    $$PWD/GlobalDir.h \ 
+    $$PWD/Tools.h
 
 FORMS += $$PWD/FrmUpdater/FrmUpdater.ui \
     $$PWD/DlgAbout/DlgAbout.ui

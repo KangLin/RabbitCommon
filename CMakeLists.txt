@@ -57,6 +57,10 @@ add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
 add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
 add_definitions(-DBUILD_PLATFORM="${BUILD_PLATFORM}")
 
+if("Debug" STREQUAL CMAKE_BUILD_TYPE)
+    add_definitions(-D_DEBUG)
+endif()
+
 #需要的QT组件
 SET(QT_COMPONENTS Core Gui Widgets Xml Network Multimedia)
 find_package(Qt5 COMPONENTS ${QT_COMPONENTS})

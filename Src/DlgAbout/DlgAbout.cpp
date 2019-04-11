@@ -18,6 +18,8 @@ Abstract:
 #include <QFile>
 #include <QDir>
 #include "GlobalDir.h"
+#include "Tools.h"
+
 /*
  * Author: KangLin(Email:kl222@126.com)
  */
