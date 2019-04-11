@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     tApp.load(szPre + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
 
-    CTools::InitTranslator();
+    CTools::Instance()->InitTranslator();
     
     CFrmUpdater update;
     update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/RabbitCommon/App"));

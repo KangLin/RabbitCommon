@@ -20,6 +20,7 @@ SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 set(INSTALL_HEAD_FILES
     FrmUpdater/FrmUpdater.h 
     DlgAbout/DlgAbout.h
+    Tools.h
     rabbitcommon_export.h
     rabbitcommon_export_windows.h
     rabbitcommon_export_linux.h
@@ -32,6 +33,7 @@ set(SOURCE_FILES
     DlgAbout/DlgAbout.cpp
     FrmUpdater/FrmUpdater.cpp
     GlobalDir.cpp
+    Tools.cpp
     )
 set(SOURCE_UI_FILES
     FrmUpdater/FrmUpdater.ui

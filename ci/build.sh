@@ -77,17 +77,22 @@ if [ -n "$GENERATORS" ]; then
          -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     cmake --build . --target install --config Release ${RABBIT_MAKE_JOB_PARA}
 else
+
     if [ "${BUILD_TARGERT}" = "android" ]; then
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR}/RabbitCommon.pro \
             "CONFIG+=release" 
+        
+        $MAKE
+        echo "$MAKE install ...."
+        $MAKE install    
     else
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR}/RabbitCommon.pro \
             "CONFIG+=release" \
             PREFIX=`pwd`/install
+            
+        $MAKE
     fi
-    $MAKE
-    echo "$MAKE install ...."
-    $MAKE install
+    
 fi
 #if [ "${BUILD_TARGERT}" != "android" ]; then
 #    "/C/Program Files (x86)/NSIS/makensis.exe" "Install.nsi"

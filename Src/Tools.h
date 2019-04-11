@@ -2,20 +2,21 @@
 #define TOOLS_H
 
 #include <QTranslator>
+#include "rabbitcommon_export.h"
 
-class CTools
+class RABBITCOMMON_EXPORT CTools
 {
 public:
     static CTools* Instance();
     
-    static void InitTranslator();
-    static void CleanTranslator();
+    void InitTranslator();
+    void CleanTranslator();
     
 private:
     CTools();
     virtual ~CTools();
     
-    static QTranslator m_Translator;
+    QTranslator m_Translator;
 };
 
 #endif // TOOLS_H
