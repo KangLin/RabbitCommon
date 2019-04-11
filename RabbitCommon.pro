@@ -33,7 +33,8 @@ OTHER_FILES += CMakeLists.txt \
     .travis.yml \
     appveyor.yml \
     ci/* \
-    tag.sh
+    tag.sh \
+    README.md
 
 other.files = $$DISTFILES
 other.path = $$PREFIX
