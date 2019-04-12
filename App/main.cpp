@@ -23,10 +23,12 @@ int main(int argc, char *argv[])
     CTools::Instance()->InitTranslator();
     
     CFrmUpdater update;
+    update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/RabbitCommon/App"));
     update.show();
     CDlgAbout dlg;
-    return dlg.exec();
+    dlg.setAttribute(Qt::WA_QuitOnClose, true);
+    dlg.show();
     
     return a.exec();
 }
