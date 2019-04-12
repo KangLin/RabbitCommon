@@ -118,7 +118,7 @@ build_script:
 
 artifacts:
   - path: build_${BUILD_TARGERT}/install
-    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
 
 test: off
@@ -126,12 +126,12 @@ test: off
 #See:https://www.appveyor.com/docs/deployment/github/
 deploy:
   - provider: GitHub
-    #release: RabbitCommon_v$(appveyor_build_version)
+    #release: RabbitCommon_$(appveyor_build_version)
     description: 'Release RabbitCommon $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
       secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
-    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     #draft: true
     #prerelease: true
     on:
