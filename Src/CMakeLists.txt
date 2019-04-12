@@ -1,5 +1,20 @@
 project(RabbitCommon)
 
+set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
+
+# ----------------------------------------------------------------------------
+# Detect compiler and target platform architecture
+# ----------------------------------------------------------------------------
+if(NOT ANDROID)
+    if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(BUILD_ARCH x86_64)
+    elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(BUILD_ARCH x86)
+    endif()
+else()
+    set(BUILD_ARCH ${CMAKE_ANDROID_ARCH})
+endif()
+
 #需要的QT组件
 SET(QT_COMPONENTS Core Gui Widgets Xml Network Multimedia)
 find_package(Qt5 COMPONENTS ${QT_COMPONENTS})
@@ -41,7 +56,7 @@ set(SOURCE_UI_FILES
     )
 
 #翻译
-include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake) 
+include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
 
 #设置资源文件
@@ -60,8 +75,19 @@ IF(MSVC)
 ENDIF()
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
-add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
+#add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
+
+if(BUILD_VERSION)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_VERSION="${BUILD_VERSION}")
+else()
+    message("Please set BUILD_VERSION")
+endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    -DBUILD_ARCH="${BUILD_ARCH}"
+    -DBUILD_PLATFORM="${BUILD_PLATFORM}")
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+    INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}")
 # See: http://www.it1352.com/478094.html
 #target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

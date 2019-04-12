@@ -5,7 +5,7 @@ set(SOURCE_FILES
     )
 
 #翻译
-include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake) 
+include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
 
 set(RESOURCE_FILES Resource/Resource.qrc
@@ -19,7 +19,7 @@ IF(MSVC)
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 ENDIF()
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
+#add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
 if(MINGW)
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-mwindows")
 elseif(MSVC)
