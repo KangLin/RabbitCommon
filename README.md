@@ -44,22 +44,28 @@
 
 ### 使用
 - 直接用源码
-
-        git submodule add https://github.com/KangLin/RabbitCommon.git 3th_libs/RabbitCommon
-
   + 是QT工程
-    - 则直接引入 RabbitCommon.pri
+    - 子模块方式：
+      + 增加子模块：
+      
+            git submodule add https://github.com/KangLin/RabbitCommon.git 3th_libs/RabbitCommon
+      
+      + 在工程文件(.pro)中直接引入 RabbitCommon.pri
 
-        include(3th_libs/RabbitCommon/RabbitCommon.pri)
+            include(3th_libs/RabbitCommon/RabbitCommon.pri)
 
-    - 非子模块方式，在环境变量（RabbitCommonRoot） 或 QMAKE参数 （RabbitCommonRoot） 
+    - 非子模块方式：在环境变量（RabbitCommonRoot） 或 QMAKE参数 （RabbitCommonRoot） 
       中指定 RabbitCommon 源码根目录的位置，然后在主工程文件（.pro）中加入下列：
     
-        isEmpty(RabbitCommonRoot): RabbitCommonRoot=$$(RabbitCommonRoot)
-        !isEmpty(RabbitCommonRoot): exists("$${RabbitCommonRoot}/Src/RabbitCommon.pri"){
-            DEFINES += RABBITCOMMON
-            include($${RabbitCommonRoot}/Src/RabbitCommon.pri)
-        } else: message("Please set RabbitCommonRoot")
+            isEmpty(RabbitCommonRoot): RabbitCommonRoot=$$(RabbitCommonRoot)
+            !isEmpty(RabbitCommonRoot): exists("$${RabbitCommonRoot}/Src/RabbitCommon.pri"){
+                DEFINES += RABBITCOMMON
+                include($${RabbitCommonRoot}/Src/RabbitCommon.pri)
+            } else{
+                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
+                message("   git clone https://github.com/KangLin/RabbitCommon.git")
+                message("2. Then set value RabbitCommonRoot to download root dirctory")
+            }
     
   + cmake工程
 
