@@ -123,9 +123,7 @@ INSTALL(TARGETS ${PROJECT_NAME}
         )
 INSTALL(
         EXPORT ${PROJECT_NAME}
-        DESTINATION
-            ${CMAKE_INSTALL_LIBDIR}/cmake/
-        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
     )
 # Install cmake files
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/LunarCalendarConfig.cmake.in

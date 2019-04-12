@@ -37,7 +37,7 @@
   + 用 cmake
   
         cd build
-        cmake ..
+        cmake .. -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
 ------------------------------------------------
