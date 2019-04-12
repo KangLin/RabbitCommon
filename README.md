@@ -54,22 +54,37 @@
 
             include(3th_libs/RabbitCommon/RabbitCommon.pri)
 
-    - 非子模块方式：在环境变量（RabbitCommonRoot） 或 QMAKE参数 （RabbitCommonRoot） 
+    - 非子模块方式：在环境变量（RabbitCommon_DIR） 或 QMAKE参数 （RabbitCommon_DIR） 
       中指定 RabbitCommon 源码根目录的位置，然后在主工程文件（.pro）中加入下列：
     
-            isEmpty(RabbitCommonRoot): RabbitCommonRoot=$$(RabbitCommonRoot)
-            !isEmpty(RabbitCommonRoot): exists("$${RabbitCommonRoot}/Src/RabbitCommon.pri"){
+            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
+            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/RabbitCommon.pri"){
                 DEFINES += RABBITCOMMON
-                include($${RabbitCommonRoot}/Src/RabbitCommon.pri)
+                include($${RabbitCommon_DIR}/Src/RabbitCommon.pri)
             } else{
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
                 message("   git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set value RabbitCommonRoot to download root dirctory")
+                message("2. Then set value RabbitCommon_DIR to download root dirctory")
             }
     
   + cmake工程
-
+    - 子模块方式
+    
         add_subdirectory(3th_libs/RabbitCommon/Src)
+        
+    - 非子模块方式
+    
+        set(RabbitCommon_DIR $ENV{RabbitCommon_DIR} CACHE PATH "Set RabbitCommon source code root directory.")
+        if(EXISTS ${RabbitCommon_DIR}/Src)
+            add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
+        else()
+            message(FATAL_ERROR 
+            "1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:"
+            "   git clone https://github.com/KangLin/RabbitCommon.git"
+            "2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory."
+            "    ag:"
+            "       cmake -DRabbitCommon_DIR= ")
+        endif()
 
 - 加载翻译资源
   + 用库中提供的函数
