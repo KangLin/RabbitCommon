@@ -31,6 +31,9 @@ sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_D
 APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
 
+sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
+sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+
 if [ -n "$1" ]; then
     git add .
     git commit -m "Release $1"
