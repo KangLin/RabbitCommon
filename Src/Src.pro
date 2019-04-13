@@ -42,7 +42,7 @@ OTHER_FILES += \
 header_files.target = header_files
 header_files.files = $$INSTALL_HEADERS
 win32 {
-    header_files.path = $$system_path($${PREFIX})/include
+    header_files.path = $$system_path($${PREFIX})/include/RabbitCommon
 
     INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
 
@@ -55,7 +55,7 @@ win32 {
                     "$${INSTALL_TARGET}"
     INSTALLS += Deployment_qtlib
 } else {
-    header_files.path = $${PREFIX}/include
+    header_files.path = $${PREFIX}/include/RabbitCommon
     # Default rules for deployment.
     !android: target.path = $${PREFIX}/bin
 }

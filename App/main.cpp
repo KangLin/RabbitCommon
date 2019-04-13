@@ -7,7 +7,7 @@
 #endif
 #include <QTranslator>
 #include <QDir>
-#include "Tools.h"
+#include "RabbitCommonTools.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     tApp.load(szPre + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
 
-    CTools::Instance()->InitTranslator();
+    CRabbitCommonTools::Instance()->InitTranslator();
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);

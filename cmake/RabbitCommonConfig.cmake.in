@@ -34,7 +34,7 @@ get_filename_component(_prefix "${_dir}" ABSOLUTE)
 find_path(RabbitCommon_INCLUDE_DIR 
     NAMES Tools.h DlgAbout.h FrmUpdate.h
     HINTS ${_prefix}
-    PATH_SUFFIXES include)
+    PATH_SUFFIXES include/RabbitCommon)
 find_library(RabbitCommon_LIBRARY RabbitCommon
     HINTS ${_prefix}
     PATH_SUFFIXES lib)

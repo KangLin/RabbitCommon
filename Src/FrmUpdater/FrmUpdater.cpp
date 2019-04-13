@@ -13,7 +13,7 @@
 #include <QDir>
 #include <QSsl>
 #include <QDesktopServices>
-#include "Tools.h"
+#include "RabbitCommonTools.h"
 
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),

@@ -1,26 +1,26 @@
-#include "Tools.h"
+#include "RabbitCommonTools.h"
 
 #include <QApplication>
 #include <QDir>
 
 
-CTools::CTools()
+CRabbitCommonTools::CRabbitCommonTools()
 {   
 }
 
-CTools::~CTools()
+CRabbitCommonTools::~CRabbitCommonTools()
 {
 }
 
-CTools* CTools::Instance()
+CRabbitCommonTools* CRabbitCommonTools::Instance()
 {
-    static CTools* pTools = nullptr;
+    static CRabbitCommonTools* pTools = nullptr;
     if(nullptr == pTools)
-        pTools = new CTools();
+        pTools = new CRabbitCommonTools();
     return pTools;
 }
 
-void CTools::InitTranslator()
+void CRabbitCommonTools::InitTranslator()
 {
     QString szPre;    
 #if defined(Q_OS_ANDROID) || _DEBUG
@@ -32,7 +32,7 @@ void CTools::InitTranslator()
     qApp->installTranslator(&m_Translator);
 }
 
-void CTools::CleanTranslator()
+void CRabbitCommonTools::CleanTranslator()
 {
     qApp->removeTranslator(&m_Translator);    
 }

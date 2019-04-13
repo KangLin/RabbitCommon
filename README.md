@@ -109,7 +109,7 @@
 - 加载翻译资源
   + 用库中提供的函数
 
-        CTools::Instance()->InitTranslator();
+        CRabbitCommonTools::Instance()->InitTranslator();
 
   + 自定义
   

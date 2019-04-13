@@ -34,9 +34,9 @@ DEFINES += RabbitCommon_EXPORTS
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
 }
 SOURCES += $$PWD/GlobalDir.cpp \
-    $$PWD/Tools.cpp
+    $$PWD/RabbitCommonTools.cpp
 
-INSTALL_HEADERS += $$PWD/Tools.h \
+INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
     $$PWD/rabbitcommon_export.h \
     $$PWD/rabbitcommon_export_windows.h \
     $$PWD/rabbitcommon_export_linux.h
