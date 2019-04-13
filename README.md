@@ -59,7 +59,7 @@
 
 ### 使用
 - 直接用源码
-  + 是QT工程
+  + QT工程文件
     - 子模块方式：
       + 增加子模块：
       
@@ -101,6 +101,11 @@
                 "       cmake -DRabbitCommon_DIR= ")
             endif()
 
+- 使用库
+  + Qt 工程文件
+  + cmake
+    cmake 参数 RabbitCommon_DIR 指定安装根目录
+    
 - 加载翻译资源
   + 用库中提供的函数
 

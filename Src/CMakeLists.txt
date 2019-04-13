@@ -34,6 +34,7 @@ SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 option(BUILD_ABOUT "Set to ON to build about function" ON)
 if(BUILD_ABOUT)
+    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_ABOUT")
     set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} DlgAbout/DlgAbout.h)
     set(SOURCE_FILES ${SOURCE_FILES} DlgAbout/DlgAbout.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} DlgAbout/DlgAbout.ui)
@@ -41,6 +42,7 @@ endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
+    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_UPDATE")
     set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} FrmUpdater/FrmUpdater.h)
     set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
@@ -49,9 +51,6 @@ endif(BUILD_ABOUT)
 set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
     Tools.h
-    rabbitcommon_export.h
-    rabbitcommon_export_windows.h
-    rabbitcommon_export_linux.h
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
@@ -135,22 +134,22 @@ INSTALL(
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
     )
 # Install cmake files
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/LunarCalendarConfig.cmake.in
-#    ${CMAKE_BINARY_DIR}/LunarCalendarConfig.cmake @ONLY)
-#install(FILES ${CMAKE_BINARY_DIR}/LunarCalendarConfig.cmake DESTINATION .)
-#write_basic_package_version_file(
-#    "${CMAKE_BINARY_DIR}/LunarCalendarConfigVersion.cmake"
-#    VERSION ${BUILD_VERSION}
-#    COMPATIBILITY AnyNewerVersion)
-#install(FILES ${CMAKE_BINARY_DIR}/LunarCalendarConfigVersion.cmake
-#    DESTINATION .)
-#if(NOT MSVC)
-#    # Install pc files
-#    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/LunarCalendar.pc.in
-#        ${CMAKE_BINARY_DIR}/LunarCalendar.pc @ONLY)
-#    install(FILES ${CMAKE_BINARY_DIR}/LunarCalendar.pc
-#        DESTINATION lib/pkgconfig)
-#endif()
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
+    ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake DESTINATION .)
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/RabbitCommonConfigVersion.cmake"
+    VERSION ${BUILD_VERSION}
+    COMPATIBILITY AnyNewerVersion)
+install(FILES ${CMAKE_BINARY_DIR}/RabbitCommonConfigVersion.cmake
+    DESTINATION .)
+if(NOT MSVC)
+    # Install pc files
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
+        ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
+    install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+endif()
 IF(WIN32 AND BUILD_SHARED_LIBS)
     IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
         #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip

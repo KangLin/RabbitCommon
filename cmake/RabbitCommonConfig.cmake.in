@@ -1,0 +1,54 @@
+# Author: KangLin(kl222@126.com)
+
+#.rst:
+# RabbitCommon
+# --------
+#
+# Find RabbitCommon
+#
+# Find the RabbitCommon libraries (asound)
+#
+# ::
+#
+#   This module defines the following variables:
+#      RabbitCommon_FOUND          - True if RabbitCommon libraries are found
+#      RabbitCommon_LIBRARIES      - Set when RabbitCommon libraries is found
+#      RabbitCommon_INCLUDE_DIRS   - where to find RabbitCommon heard directory.
+#      RabbitCommon_DEFINITIONS    - Set definitions
+#      RabbitCommon_VERSION_STRING - the version of RabbitCommon found (since CMake 2.8.8)
+
+set(RabbitCommon_VERSION_STRING @BUILD_VERSION@)
+
+find_package(PkgConfig)
+if(PKG_CONFIG_FOUND)
+	pkg_check_modules(RabbitCommon RabbitCommon)
+    if(RabbitCommon_FOUND)
+        return()
+    endif()
+endif()
+
+# Compute and install package configuration and version files
+get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_prefix "${_dir}" ABSOLUTE)
+
+find_path(RabbitCommon_INCLUDE_DIR 
+    NAMES Tools.h DlgAbout.h FrmUpdate.h
+    HINTS ${_prefix}
+    PATH_SUFFIXES include)
+find_library(RabbitCommon_LIBRARY RabbitCommon
+    HINTS ${_prefix}
+    PATH_SUFFIXES lib)
+
+find_package_handle_standard_args(RabbitCommon
+    REQUIRED_VARS RabbitCommon_INCLUDE_DIR
+                  RabbitCommon_LIBRARY
+    VERSION_VAR   RabbitCommon_VERSION_STRING)
+
+if(RabbitCommon_FOUND)
+	SET(RabbitCommon_INCLUDE_DIRS ${RabbitCommon_INCLUDE_DIR})
+	SET(RabbitCommon_LIBRARIES ${RabbitCommon_LIBRARY})
+    SET(RabbitCommon_DEFINITIONS @RabbitCommon_DEFINITIONS@)
+endif()
+
+MARK_AS_ADVANCED(RabbitCommon_INCLUDE_DIR RabbitCommon_LIBRARY)
+
