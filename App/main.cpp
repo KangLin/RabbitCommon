@@ -1,6 +1,10 @@
 #include <QApplication>
-#include "DlgAbout/DlgAbout.h"
-#include "FrmUpdater/FrmUpdater.h"
+#ifdef HAVE_ABOUT
+    #include "DlgAbout/DlgAbout.h"
+#endif
+#ifdef HAVE_UPDATE
+    #include "FrmUpdater/FrmUpdater.h"
+#endif
 #include <QTranslator>
 #include <QDir>
 #include "Tools.h"
@@ -21,14 +25,17 @@ int main(int argc, char *argv[])
     a.installTranslator(&tApp);
 
     CTools::Instance()->InitTranslator();
-    
+#ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/RabbitCommon/App"));
     update.show();
+#endif
+
+#ifdef HAVE_ABOUT
     CDlgAbout dlg;
     dlg.setAttribute(Qt::WA_QuitOnClose, true);
     dlg.show();
-    
+#endif
     return a.exec();
 }

@@ -1,7 +1,7 @@
 TARGET = RabbitCommon
 TEMPLATE = lib
 !android: DESTDIR = $$OUT_PWD/../bin
-CONFIG += link_pkgconfig
+CONFIG += link_pkgconfig create_prl link_prl
 
 #Get app version use git, please set git path to environment variable PATH
 isEmpty(BUILD_VERSION) {

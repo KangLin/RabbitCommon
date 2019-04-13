@@ -33,12 +33,27 @@
         cd build
         qmake ../RabbitCommon.pro
         make install
-    
+
+      * 参数
+        - BUILD_ABOUT=OFF: 关闭编译关于功能
+        - BUILD_UPDATE=OFF: 关闭编译在线更新功能
+          
   + 用 cmake
   
         cd build
         cmake .. -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
+
+      * 参数
+        - Qt5_DIR: Qt 位置
+        - BUILD_APP: 编译应用程序
+        - BUILD_ABOUT: 编译关于功能
+        - BUILD_UPDATE: 编译在线更新功能
+        
+- 安装注意  
+如果使用在线更新功能，Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
+    - 如果是32的，可以在Qt安装程序Tools\QtCreator\bin目录下，找到openssl的动态库（libeay32.dll、ssleay32.dll）
+    - 如果是64位，则需要自己下载openssl的二进制安装包。
 
 ------------------------------------------------
 

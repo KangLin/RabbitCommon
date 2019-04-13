@@ -23,23 +23,26 @@ INCLUDEPATH += $$PWD
 
 DEFINES += RabbitCommon_EXPORTS
 
-SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp \
-    $$PWD/DlgAbout/DlgAbout.cpp \
-    $$PWD/GlobalDir.cpp \
+!equals(BUILD_UPDATE, "OFF"){
+    SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
+    INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
+    FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
+}
+!equals(BUILD_ABOUT, "OFF"){
+    SOURCES += $$PWD/DlgAbout/DlgAbout.cpp
+    INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
+    FORMS += $$PWD/DlgAbout/DlgAbout.ui
+}
+SOURCES += $$PWD/GlobalDir.cpp \
     $$PWD/Tools.cpp
 
-INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h \
-    $$PWD/DlgAbout/DlgAbout.h \
+INSTALL_HEADERS += $$PWD/Tools.h \
     $$PWD/rabbitcommon_export.h \
     $$PWD/rabbitcommon_export_windows.h \
     $$PWD/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/GlobalDir.h \ 
-    $$PWD/Tools.h
-
-FORMS += $$PWD/FrmUpdater/FrmUpdater.ui \
-    $$PWD/DlgAbout/DlgAbout.ui
+    $$PWD/GlobalDir.h 
 
 RESOURCES += \
     $$PWD/Resource/Resource.qrc

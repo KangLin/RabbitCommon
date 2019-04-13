@@ -32,9 +32,22 @@ ENDFOREACH()
 
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
+option(BUILD_ABOUT "Set to ON to build about function" ON)
+if(BUILD_ABOUT)
+    set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} DlgAbout/DlgAbout.h)
+    set(SOURCE_FILES ${SOURCE_FILES} DlgAbout/DlgAbout.cpp)
+    set(SOURCE_UI_FILES ${SOURCE_UI_FILES} DlgAbout/DlgAbout.ui)
+endif(BUILD_ABOUT)
+
+option(BUILD_UPDATE "Set to ON to build update function" ON)
+if(BUILD_UPDATE)
+    set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} FrmUpdater/FrmUpdater.h)
+    set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
+    set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
+endif(BUILD_ABOUT)
+
 set(INSTALL_HEAD_FILES
-    FrmUpdater/FrmUpdater.h 
-    DlgAbout/DlgAbout.h
+    ${INSTALL_HEAD_FILES}
     Tools.h
     rabbitcommon_export.h
     rabbitcommon_export_windows.h
@@ -45,15 +58,11 @@ set(HEAD_FILES
     GlobalDir.h 
     )
 set(SOURCE_FILES
-    DlgAbout/DlgAbout.cpp
-    FrmUpdater/FrmUpdater.cpp
+    ${SOURCE_FILES}
     GlobalDir.cpp
     Tools.cpp
     )
-set(SOURCE_UI_FILES
-    FrmUpdater/FrmUpdater.ui
-    DlgAbout/DlgAbout.ui
-    )
+set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
 
 #翻译
 include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)

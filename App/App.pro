@@ -68,6 +68,12 @@ isEmpty(PREFIX) {
     else : PREFIX = $$OUT_PWD/../install
 }
 
+!equals(BUILD_UPDATE, "OFF"){
+    DEFINES *= HAVE_UPDATE
+}
+!equals(BUILD_ABOUT, "OFF"){
+    DEFINES *= HAVE_ABOUT
+}
 SOURCES += \
         main.cpp
 

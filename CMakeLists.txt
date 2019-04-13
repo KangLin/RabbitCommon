@@ -106,6 +106,9 @@ if (BUILD_SHARED_LIBS)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
+# 设置安装前缀
+SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/install CACHE STRING "Install path prefix.") 
+
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 include(CheckIncludeFile)
@@ -155,8 +158,9 @@ set(OTHER_FILES
 
 INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
 
-# 设置安装前缀
-SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/install CACHE STRING "Install path prefix.") 
-
 message("Build app:${BUILD_APP}")
+if(BUILD_APP)
+    message("Build about function:${BUILD_ABOUT}")
+    message("BUild update function:${BUILD_UPDATE}")
+endif()
 message("Build shared library:${BUILD_SHARED_LIBS}")
