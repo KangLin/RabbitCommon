@@ -81,7 +81,7 @@ if [ -n "$GENERATORS" ]; then
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
 else
     if [ "ON" = "${STATIC}" ]; then
-        CONFIG_PARA="CONFIG*=staticlib"
+        CONFIG_PARA="CONFIG*=static"
     fi
     if [ "${BUILD_TARGERT}" = "android" ]; then
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
@@ -95,10 +95,10 @@ else
             
         $MAKE
         echo "$MAKE install ...."
-        $MAKE install  
+        $MAKE install
     fi
 fi
-if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
+if [ "${BUILD_TARGERT}" != "android" ]; then
     #cd ${SOURCE_DIR}
     #cp Install/Install.nsi build_${BUILD_TARGERT}
     #"/C/Program Files (x86)/NSIS/makensis.exe" "build_${BUILD_TARGERT}/Install.nsi"

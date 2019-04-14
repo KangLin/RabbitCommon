@@ -106,10 +106,10 @@
   + cmake
     cmake 参数 RabbitCommon_DIR 指定安装根目录
     
-- 加载翻译资源
+- 加载资源
   + 用库中提供的函数
 
-        CRabbitCommonTools::Instance()->InitTranslator();
+        CRabbitCommonTools::Instance()->Init();
 
   + 自定义
   

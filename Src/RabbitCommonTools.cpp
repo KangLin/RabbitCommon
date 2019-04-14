@@ -19,6 +19,12 @@ CRabbitCommonTools* CRabbitCommonTools::Instance()
     return pTools;
 }
 
+void CRabbitCommonTools::Init()
+{
+    InitResource();
+    InitTranslator();
+}
+
 void CRabbitCommonTools::InitTranslator()
 {
     QString szPre;    
@@ -34,4 +40,20 @@ void CRabbitCommonTools::InitTranslator()
 void CRabbitCommonTools::CleanTranslator()
 {
     qApp->removeTranslator(&m_Translator);    
+}
+
+void CRabbitCommonTools::InitResource()
+{
+    Q_INIT_RESOURCE(ResourceRabbitCommon);
+#if defined(Q_OS_ANDROID) || _DEBUG
+    Q_INIT_RESOURCE(translations_RabbitCommon);
+#endif
+}
+
+void CRabbitCommonTools::CleanResource()
+{
+    Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
+#if defined(Q_OS_ANDROID) || _DEBUG
+    Q_CLEANUP_RESOURCE(translations_RabbitCommon);
+#endif
 }

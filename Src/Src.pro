@@ -2,6 +2,7 @@ TARGET = RabbitCommon
 TEMPLATE = lib
 !android: DESTDIR = $$OUT_PWD/../bin
 CONFIG += link_pkgconfig create_prl link_prl
+CONFIG(staticlib): CONFIG*=static
 
 #Get app version use git, please set git path to environment variable PATH
 isEmpty(BUILD_VERSION) {
@@ -41,7 +42,7 @@ OTHER_FILES += \
 
 header_files.target = header_files
 header_files.files = $$INSTALL_HEADERS
-win32 {
+!CONFIG(static): win32 {
     header_files.path = $$system_path($${PREFIX})/include/RabbitCommon
 
     INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))

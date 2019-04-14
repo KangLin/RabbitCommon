@@ -9,8 +9,11 @@ class RABBITCOMMON_EXPORT CRabbitCommonTools
 public:
     static CRabbitCommonTools* Instance();
     
+    void Init();
     void InitTranslator();
     void CleanTranslator();
+    void InitResource();
+    void CleanResource();
     
 private:
     CRabbitCommonTools();

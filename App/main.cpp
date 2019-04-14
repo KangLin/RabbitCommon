@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     tApp.load(szPre + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
 
-    CRabbitCommonTools::Instance()->InitTranslator();
+    CRabbitCommonTools::Instance()->Init();
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);

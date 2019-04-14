@@ -47,7 +47,7 @@ HEADERS += $$INSTALL_HEADERS \
     $$PWD/GlobalDir.h 
 
 RESOURCES += \
-    $$PWD/Resource/Resource.qrc
+    $$PWD/Resource/ResourceRabbitCommon.qrc
 
 TRANSLATIONS_DIR=$$PWD
 TRANSLATIONS_NAME=RabbitCommon
