@@ -19,7 +19,7 @@ msvc {
     QMAKE_CXXFLAGS += "/utf-8"
 }
 
-INCLUDEPATH += $$PWD
+INCLUDEPATH += $$PWD $$PWD/export
 
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 else: DEFINES *= RabbitCommon_EXPORTS
@@ -38,9 +38,9 @@ SOURCES += $$PWD/GlobalDir.cpp \
     $$PWD/RabbitCommonTools.cpp
 
 INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
-    $$PWD/rabbitcommon_export.h \
-    $$PWD/rabbitcommon_export_windows.h \
-    $$PWD/rabbitcommon_export_linux.h
+    $$PWD/export/rabbitcommon_export.h \
+    $$PWD/export/rabbitcommon_export_windows.h \
+    $$PWD/export/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/GlobalDir.h 

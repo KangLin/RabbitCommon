@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QDir>
 
-
 CRabbitCommonTools::CRabbitCommonTools()
 {   
 }

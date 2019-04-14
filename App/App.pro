@@ -35,6 +35,7 @@ isEmpty(BUILD_VERSION){
 message("BUILD_VERSION:$$BUILD_VERSION")
 DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
 CONFIG(debug, debug|release): DEFINES *= _DEBUG
+CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -57,7 +58,7 @@ msvc {
 }
 
 #VERSION=$$BUILD_VERSION
-INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src
+INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
 !android: DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 
