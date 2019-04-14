@@ -21,7 +21,8 @@ msvc {
 
 INCLUDEPATH += $$PWD
 
-DEFINES += RabbitCommon_EXPORTS
+CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
+else: DEFINES *= RabbitCommon_EXPORTS
 
 !equals(BUILD_UPDATE, "OFF"){
     SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
