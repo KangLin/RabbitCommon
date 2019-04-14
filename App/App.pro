@@ -35,6 +35,7 @@ isEmpty(BUILD_VERSION){
 message("BUILD_VERSION:$$BUILD_VERSION")
 DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
 CONFIG(debug, debug|release): DEFINES *= _DEBUG
+CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
 # The following define makes your compiler emit warnings if you use

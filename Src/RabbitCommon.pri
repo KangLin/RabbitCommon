@@ -21,6 +21,7 @@ msvc {
 
 INCLUDEPATH += $$PWD $$PWD/export
 
+CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 else: DEFINES *= RabbitCommon_EXPORTS
 
