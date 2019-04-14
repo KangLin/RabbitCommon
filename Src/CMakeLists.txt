@@ -84,10 +84,12 @@ ENDIF()
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
 #add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
-target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
 
 if(BUILD_VERSION)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_VERSION="${BUILD_VERSION}")
+    set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION ${BUILD_VERSION})
+    set_property(TARGET ${PROJECT_NAME} PROPERTY SOVERSION ${BUILD_VERSION})
 else()
     message("Please set BUILD_VERSION")
 endif()

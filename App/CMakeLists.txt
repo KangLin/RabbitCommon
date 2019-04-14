@@ -32,9 +32,9 @@ elseif(MSVC)
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE
         "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")
 endif()
-target_link_libraries(${PROJECT_NAME} RabbitCommon ${QT_LIBRARIES})
-target_include_directories(${PROJECT_NAME} PUBLIC
-    "${CMAKE_SOURCE_DIR}/Src" "${CMAKE_BINARY_DIR}")
+target_link_libraries(${PROJECT_NAME} PRIVATE RabbitCommon ${QT_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE
+      "${CMAKE_BINARY_DIR}/Src" "${CMAKE_SOURCE_DIR}/Src" )
 # Install target
 INSTALL(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
