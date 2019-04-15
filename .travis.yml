@@ -43,7 +43,7 @@ before_install:
   - mkdir ${SOURCE_DIR}/Tools
   
 install:
-  - bash ci/build-install-tools.sh #> /dev/null
+  - bash ci/build-install-tools.sh > /dev/null
 
 before_script:
   - cd ${SOURCE_DIR}
