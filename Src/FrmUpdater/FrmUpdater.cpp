@@ -605,9 +605,9 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     else if(szNew.at(2).toInt() < szCur.at(2).toInt()){
         return -1;
     }
-    if(szNew.length() >=4 && szCur.isEmpty())
+    if(szNew.length() >=4 && szCur.length() < 4)
         return 1;
-    else if(szNew.isEmpty() && szCur.length() >= 4)
+    else if(szNew.length() < 4 && szCur.length() >= 4)
         return -1;
     else if(szNew.length() >= 4 && szCur.length() >= 4)
     {
