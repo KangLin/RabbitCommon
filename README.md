@@ -79,7 +79,7 @@
             } else{
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
                 message("   git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set value RabbitCommon_DIR to download root dirctory")
+                error("2. Then set value RabbitCommon_DIR to download root dirctory")
             }
     
   + cmake工程
@@ -88,24 +88,40 @@
             add_subdirectory(3th_libs/RabbitCommon/Src)
         
     - 非子模块方式
-    
+      + 引入以 add_subdirectory 本项目录
+      
             set(RabbitCommon_DIR $ENV{RabbitCommon_DIR} CACHE PATH "Set RabbitCommon source code root directory.")
             if(EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
             else()
-                message(FATAL_ERROR 
-                "1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:"
-                "   git clone https://github.com/KangLin/RabbitCommon.git"
-                "2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory."
-                "    ag:"
-                "       cmake -DRabbitCommon_DIR= ")
+                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                message("   ag:")
+                message("       git clone https://github.com/KangLin/RabbitCommon.git")
+                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+                message("    ag:")
+                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
             endif()
+            
+      + 在使用的工程目录CMakeLists.txt
+      
+            SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+            if(TARGET RabbitCommon)
+                target_compile_definitions(${PROJECT_NAME}
+                                PRIVATE -DRABBITCOMMON)
+                target_include_directories(${PROJECT_NAME}
+                                PRIVATE "${RabbitCommon_DIR}/Src"
+                                        "${RabbitCommon_DIR}/Src/export")
+                set(APP_LIBS ${APP_LIBS} RabbitCommon)
+            endif()
+            target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
 
-- 使用库
+- 以库方式使用使用
   + Qt 工程文件
   + cmake
     cmake 参数 RabbitCommon_DIR 指定安装根目录
     
+        find_package(RabbitCommon)
+
 - 加载资源
   + 用库中提供的函数
 
