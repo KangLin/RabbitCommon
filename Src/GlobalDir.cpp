@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QApplication>
 
+namespace RabbitCommon {
 CGlobalDir::CGlobalDir()
 {
     //注意这个必须的在最前  
@@ -106,3 +107,5 @@ QString CGlobalDir::GetUserConfigureFile()
     QString szName = GetDirDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
     return szName;
 }
+
+} //namespace RabbitCommon

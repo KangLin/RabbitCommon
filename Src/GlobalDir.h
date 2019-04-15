@@ -3,6 +3,8 @@
 
 #include <QString>
 
+namespace RabbitCommon {
+
 class CGlobalDir
 {
 public:
@@ -30,4 +32,5 @@ private:
     QString m_szDocumentPath;
 };
 
+} //namespace RabbitCommon
 #endif // CGLOBALDIR_H
