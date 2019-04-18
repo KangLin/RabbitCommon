@@ -57,7 +57,7 @@
 
 ------------------------------------------------
 
-### 使用
+### 其它应用使用本项目
 - 直接用源码
   + QT工程文件
     - 子模块方式：
@@ -123,21 +123,34 @@
         find_package(RabbitCommon)
 
 - 加载资源
-  + 用库中提供的函数
 
         CRabbitCommonTools::Instance()->Init();
 
-  + 自定义
+- 关于对话框  
+
+  ```
+  #ifdef RABBITCOMMON
+      CDlgAbout about(this);
+      about.m_AppIcon = QPixmap(":/image/Calendar");
+      about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
+      about.exec();
+  #endif
+  ```
   
-        QString szPre;    
-        #if defined(Q_OS_ANDROID) || _DEBUG
-            szPre = ":/Translations";
-        #else
-            szPre = qApp->applicationDirPath() + QDir::separator() + ".." + QDir::separator() + "translations";
-        #endif
-        m_Translator.load(szPre + "/RabbitCommon_" + QLocale::system().name() + ".qm");
-        qApp->installTranslator(&m_Translator);
-        
+![关于对话框](docments/image/about.PNG "关于对话框")
+
+- 在线更新功能  
+
+  ```
+  #ifdef RABBITCOMMON
+      CFrmUpdater *fu = new CFrmUpdater();
+      fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
+      fu->show();
+  #endif
+  ```
+  
+![在线更新功能](docments/image/update.PNG "在线更新功能")
+
 ------------------------------------------------
 
 ### 下载
