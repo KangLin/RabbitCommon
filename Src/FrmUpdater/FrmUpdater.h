@@ -1,6 +1,7 @@
 #ifndef FRMUPDATER_H
 #define FRMUPDATER_H
 
+#include <QSystemTrayIcon>
 #include <QWidget>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -35,7 +36,7 @@ public:
                      bool bDownload = false);
     int SetVersion(const QString &szVersion);
     int SetArch(const QString &szArch);
-    int SetTitle(const QString &szTitle, QPixmap icon = QPixmap());
+    int SetTitle(QPixmap icon = QPixmap(), const QString &szTitle = QString());
 
     /**
      * @brief Update XML file used only to generate programs
@@ -53,24 +54,28 @@ private Q_SLOTS:
 
     void slotCheck();
     void slotDownloadXmlFile();
-    void slotDownload();
+    void slotCheckXmlFile();
+    void slotDownloadSetupFile();
     void slotUpdate();
+    void slotStateFinished();
 
     void on_pbOK_clicked();
     void on_pbClose_clicked();
-
+    void slotShowWindow(QSystemTrayIcon::ActivationReason reason);
+    
 Q_SIGNALS:
     void sigError();
     void sigFinished();
-    void sigDownloadFinished();
 
 private:
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
-    bool IsDownLoad();
+    bool IsDownLoad();    
     
 private:
     Ui::CFrmUpdater *ui;
+    QSystemTrayIcon m_TrayIcon;
+    
     QButtonGroup m_ButtonGroup;
     
     QString m_szCurrentVersion;
@@ -83,7 +88,8 @@ private:
     QNetworkReply *m_pReply;
 
     QStateMachine m_StateMachine;
-
+    QState *m_pStateDownloadSetupFile;
+    
     struct INFO{
         QString szVerion;
         QString szInfomation;
@@ -98,6 +104,10 @@ private:
     } m_Info;
     
     int GenerateUpdateXmlFile(const QString &szFile, const INFO &info);
+    
+    // QWidget interface
+protected:
+    virtual void showEvent(QShowEvent *event) override;
 };
 
 #endif // FRMUPDATER_H

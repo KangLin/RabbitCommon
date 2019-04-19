@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
-    update.SetTitle(qApp->applicationDisplayName(), QPixmap(":/icon/RabbitCommon/App"));
+    update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
     update.show();
 #endif
 

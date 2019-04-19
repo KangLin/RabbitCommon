@@ -1,5 +1,6 @@
 #include "FrmUpdater.h"
 #include "GlobalDir.h"
+#include "RabbitCommonTools.h"
 #include "ui_FrmUpdater.h"
 #include <QtNetwork>
 #include <QUrl>
@@ -13,24 +14,34 @@
 #include <QDir>
 #include <QSsl>
 #include <QDesktopServices>
-#include "RabbitCommonTools.h"
-
+#include <QMessageBox>
+#include <QMenu>
 
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
     m_ButtonGroup(this),
-    m_NetManager(this),
-    m_pReply(nullptr)
+    m_bDownload(false),
+    m_pReply(nullptr),
+    m_pStateDownloadSetupFile(nullptr)
+    
 {
     bool check = false;
-    m_bDownload = false;
     setAttribute(Qt::WA_QuitOnClose, false);
     ui->setupUi(this);
     ui->lbNewArch->hide();
     ui->lbNewVersion->hide();
     ui->progressBar->hide();
     ui->pbOK->hide();
+    
+    check = connect(&m_TrayIcon,
+                    SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                    this,
+                    SLOT(slotShowWindow(QSystemTrayIcon::ActivationReason)));
+    Q_ASSERT(check);
+    m_TrayIcon.setIcon(this->windowIcon());
+    m_TrayIcon.setToolTip(this->windowTitle());
+    
     QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
                   QSettings::IniFormat);
     int id = set.value("Update/RadioButton", -2).toInt();
@@ -91,36 +102,42 @@ CFrmUpdater::~CFrmUpdater()
  * @brief CFrmUpdater::InitStateMachine
  * @return 
  *               ________
- * start o ----->|sCheck|--------------------------------|
- *               --------                                |
- *                  |                                    |
- *                  |  sigFinished                       |
- *                  |                                    |
- *                  V                                    |
- *   -----------------------------------|                |sigError
- *   |             s                    |                |
- *   |----------------------------------|                |
- *   |                                  |                |
- *   |  |------------------|            |                |
- *   |  |Download xml fil  |            |                |
- *   |  |                  |            |                |
- *   |  |(sDownloadXmlFile)|            |                |
- *   |  |------------------|            |                |
- *   |      |                           |                |
- *   |      |                           |                |
- *   |      |sigDownloadFinished        |                |
- *   |      |                           |   sigFinished  V
+ * start o ----->|sCheck|----------------------------------|
+ *               --------                                  |
+ *                  |                                      |
+ *                  |  sigFinished                         |
+ *                  |                                      |
+ *                  V                                      |
+ *   -----------------------------------|                  |sigError
+ *   |             s                    |                  |
+ *   |----------------------------------|                  |
+ *   |                                  |                  |
+ *   |  |--------------------|          |                  |
+ *   |  |Download xml fil    |          |                  |
+ *   |  |(sDownloadXmlFile)  |          |                  |
+ *   |  |--------------------|          |                  |
+ *   |      |                           |                  |
+ *   |      | sigFinished               |                  |
+ *   |      |                           |                  |
+ *   |      V                           |                  |
+ *   |  |--------------------|          |                  |
+ *   |  |Check xml file      |          |                  |
+ *   |  |(sCheckXmlFile)     |          |                  |
+ *   |  |____________________|          |                  |
+ *   |      |                           |                  |
+ *   |      | sigFinished               |                  |
+ *   |      | pbOk->clicked             |   sigFinished    V
  *   |      V                           |   sigError   |------|
- *   |  |-------------------|           |------------->|sFinal|
- *   |  |Download setup file|           |              |------|
- *   |  |(sDownload)        |           |
- *   |  |-------------------|           |
+ *   |  |--------------------|          |------------->|sFinal|
+ *   |  |Download setup file |          |              |------|
+ *   |  |(sDownloadSetupFile)|          |
+ *   |  |--------------------|          |
  *   |      |                           |
- *   |      | sigDownloadFinished       |
+ *   |      | sigFinished               |
  *   |      V                           |
- *   |  |-----------------|             |
- *   |  |update(sUpdate)  |             | 
- *   |  |-----------------|             |
+ *   |  |--------------------|          |
+ *   |  |update(sUpdate)     |          | 
+ *   |  |--------------------|          |
  *   |----------------------------------|
  */
 int CFrmUpdater::InitStateMachine()
@@ -129,27 +146,42 @@ int CFrmUpdater::InitStateMachine()
     QState *sCheck = new QState();
     QState *s = new QState();
     QState *sDownloadXmlFile = new QState(s);
-    QState *sDownload = new QState(s);
+    QState *sCheckXmlFile = new QState(s);
+    QState *sDownloadSetupFile = new QState(s);
     QState *sUpdate = new QState(s);
-
+    
+    bool check = connect(sFinal, SIGNAL(entered()),
+                         this, SLOT(slotStateFinished()));
+    Q_ASSERT(check);
+    
     sCheck->addTransition(this, SIGNAL(sigError()), sFinal);
     sCheck->addTransition(this, SIGNAL(sigFinished()), s);
-    bool check = connect(sCheck, SIGNAL(entered()), this, SLOT(slotCheck()));
-
+    check = connect(sCheck, SIGNAL(entered()), this, SLOT(slotCheck()));
+    Q_ASSERT(check);
+    
     s->addTransition(this, SIGNAL(sigError()), sFinal);
     s->addTransition(this, SIGNAL(sigFinished()), sFinal);
 
     s->setInitialState(sDownloadXmlFile);
-    sDownloadXmlFile->addTransition(this, SIGNAL(sigDownloadFinished()), sDownload);
-    sDownload->addTransition(this, SIGNAL(sigDownloadFinished()), sUpdate);
     sDownloadXmlFile->assignProperty(ui->lbState, "text", tr("Being download xml file"));
-    sDownload->assignProperty(ui->lbState, "text", tr("Being download update file"));
-    sUpdate->assignProperty(ui->lbState, "text", tr("Being install update"));
+    sDownloadXmlFile->addTransition(this, SIGNAL(sigFinished()), sCheckXmlFile);
     check = connect(sDownloadXmlFile, SIGNAL(entered()),
                      this, SLOT(slotDownloadXmlFile()));
     Q_ASSERT(check);
-    check = connect(sDownload, SIGNAL(entered()), this, SLOT(slotDownload()));
+    
+    sCheckXmlFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
+    sCheckXmlFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
+    sCheckXmlFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
+    check = connect(sCheckXmlFile, SIGNAL(entered()),  this, SLOT(slotCheckXmlFile()));
     Q_ASSERT(check);
+    
+    m_pStateDownloadSetupFile = sDownloadSetupFile;
+    sDownloadSetupFile->addTransition(this, SIGNAL(sigFinished()), sUpdate);
+    sDownloadSetupFile->assignProperty(ui->lbState, "text", tr("Being download update file"));
+    check = connect(sDownloadSetupFile, SIGNAL(entered()), this, SLOT(slotDownloadSetupFile()));
+    Q_ASSERT(check);
+    
+    sUpdate->assignProperty(ui->lbState, "text", tr("Being install update"));
     check = connect(sUpdate, SIGNAL(entered()), this, SLOT(slotUpdate()));
     Q_ASSERT(check);
     
@@ -161,9 +193,10 @@ int CFrmUpdater::InitStateMachine()
     return 0;    
 }
 
-int CFrmUpdater::SetTitle(const QString &szTitle, QPixmap icon)
+int CFrmUpdater::SetTitle(QPixmap icon, const QString &szTitle)
 {
-    ui->lbTitle->setText(szTitle);
+    if(!szTitle.isEmpty())
+        ui->lbTitle->setText(szTitle);
     QPixmap pixmpa = icon;
     if(pixmpa.isNull())
         pixmpa.load(":/icon/RabbitCommon/App", "PNG");
@@ -201,7 +234,7 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
     if(url.isLocalFile())
     {
         m_DownloadFile.setFileName(url.toLocalFile());
-        emit sigDownloadFinished();
+        emit sigFinished();
         return 0;
     }
 
@@ -293,7 +326,7 @@ void CFrmUpdater::slotFinished()
     }
     m_DownloadFile.close();
     ui->progressBar->hide();
-    emit sigDownloadFinished();
+    emit sigFinished();
 }
 
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -336,8 +369,15 @@ void CFrmUpdater::slotSslError(const QList<QSslError> e)
     emit sigError();
 }
 
+void CFrmUpdater::slotStateFinished()
+{
+    if(m_pReply)
+        m_pReply->abort();
+}
+
 void CFrmUpdater::slotCheck()
 {
+    qDebug() << "CFrmUpdater::slotCheck()";
     QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
                   QSettings::IniFormat);
     QDateTime d = set.value("Update/DateTime").toDateTime();
@@ -364,6 +404,7 @@ void CFrmUpdater::slotCheck()
 
 void CFrmUpdater::slotDownloadXmlFile()
 {
+    qDebug() << "CFrmUpdater::slotDownloadXmlFile";
     if(m_Url.isValid())
         DownloadFile(m_Url);
 }
@@ -383,12 +424,12 @@ void CFrmUpdater::slotDownloadXmlFile()
     <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
    </UPDATE>
  */
-void CFrmUpdater::slotDownload()
+void CFrmUpdater::slotCheckXmlFile()
 {
-    qDebug() << "CFrmUpdater::slotDownload()";
+    qDebug() << "CFrmUpdater::slotCheckXmlFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qDebug() << "CFrmUpdater::slotDownload: open file fail:" << m_DownloadFile.fileName();
+        qDebug() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
         emit sigError();
         return;
     }
@@ -398,7 +439,7 @@ void CFrmUpdater::slotDownload()
         QString szError = tr("Parse file %1 fail. It isn't xml file")
                 .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
-        qDebug() << "CFrmUpdater::slotDownload:" << szError;
+        qDebug() << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
         return;
@@ -442,7 +483,7 @@ void CFrmUpdater::slotDownload()
     if(CompareVersion(m_Info.szVerion, m_szCurrentVersion) <= 0)
     {
         ui->lbState->setText(tr("There is laster version"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
 
@@ -455,41 +496,41 @@ void CFrmUpdater::slotDownload()
     if(m_Info.szSystem.compare("windows", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("System is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
     if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
         && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("Architecture is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
 #elif defined(Q_OS_ANDROID)
     if(m_Info.szSystem.compare("android", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("System is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
     if(m_szCurrentArch != m_Info.szArchitecture)
     {
         ui->lbState->setText(tr("Architecture is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
 #elif defined (Q_OS_LINUX)
     if(m_Info.szSystem.compare("linux", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("System is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
     if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
         && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("Architecture is different"));
-        emit sigFinished();
+        emit sigError();
         return;
     }
 #endif   
@@ -497,19 +538,26 @@ void CFrmUpdater::slotDownload()
     ui->lbState->setText(tr("There is a new version, is it updated?"));
     if(m_Info.bForce)
     {
-        if(IsDownLoad())
-            emit sigDownloadFinished();
-        else
-        {
-            ui->lbState->setText(tr("Download ......"));
-            DownloadFile(m_Info.szUrl);
-        }
+        qDebug() << "Force update";
+        emit sigFinished();
     }
     else
     {
+        ui->pbOK->setText(tr("OK(&O)"));
         ui->pbOK->show();
         show();
     }
+}
+
+void CFrmUpdater::slotDownloadSetupFile()
+{
+    qDebug() << "CFrmUpdater::slotDownloadSetupFile()";
+    ui->pbOK->setText(tr("Hide"));
+    ui->lbState->setText(tr("Download ......"));
+    if(IsDownLoad())
+        emit sigFinished();
+    else
+        DownloadFile(m_Info.szUrl);
 }
 
 void CFrmUpdater::slotUpdate()
@@ -661,17 +709,26 @@ bool CFrmUpdater::IsDownLoad()
 
 void CFrmUpdater::on_pbOK_clicked()
 {
-    ui->pbOK->hide();
-    ui->lbState->setText(tr("Download ......"));
+    qDebug() << "CFrmUpdater::on_pbOK_clicked()";
+    if(!m_pStateDownloadSetupFile->active())
+        return;
     
-    if(IsDownLoad())
-        emit sigDownloadFinished();
-    else
-        DownloadFile(m_Info.szUrl);
+    m_TrayIcon.show();
+    hide();
 }
 
 void CFrmUpdater::on_pbClose_clicked()
 {
+    if(m_StateMachine.isRunning())
+    {
+        QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Close"),
+                        tr("Is updating, be sure to close?"), QMessageBox::Yes|QMessageBox::No);
+        if(QMessageBox::No == ret)
+        {
+            return;
+        }
+    }
+    emit sigError();
     close();
 }
 
@@ -885,4 +942,20 @@ int CFrmUpdater::GenerateUpdateXml()
     info.szMinUpdateVersion = parser.value(oMin);
    
     return GenerateUpdateXmlFile(szFile, info);
+}
+
+void CFrmUpdater::showEvent(QShowEvent *event)
+{
+    if(!m_StateMachine.isRunning())
+        m_StateMachine.start();
+}
+
+void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)
+{
+#if defined(Q_OS_ANDROID)
+    showMaximized();
+#else
+    show();
+#endif
+    m_TrayIcon.hide();
 }

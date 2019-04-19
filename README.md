@@ -126,7 +126,7 @@
 
         CRabbitCommonTools::Instance()->Init();
 
-- 关于对话框  
+- [关于对话框](Src/DlgAbout/DlgAbout.h)
 
   ```
   #ifdef RABBITCOMMON
@@ -139,7 +139,7 @@
   
 ![关于对话框](docments/image/about.PNG "关于对话框")
 
-- 在线更新功能  
+- [在线更新功能](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
