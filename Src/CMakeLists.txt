@@ -46,7 +46,7 @@ if(BUILD_UPDATE)
     set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} FrmUpdater/FrmUpdater.h)
     set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
-endif(BUILD_ABOUT)
+endif(BUILD_UPDATE)
 
 set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
