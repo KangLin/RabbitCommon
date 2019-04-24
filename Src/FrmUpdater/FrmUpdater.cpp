@@ -53,7 +53,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     check = connect(&m_ButtonGroup, SIGNAL(buttonClicked(int)),
                     this, SLOT(slotButtonClickd(int)));
     Q_ASSERT(check);
-    SetTitle(qApp->applicationDisplayName());
+    SetTitle();
     SetArch(BUILD_ARCH);
     QString szVerion = qApp->applicationVersion();
 #ifdef BUILD_VERSION
@@ -195,8 +195,11 @@ int CFrmUpdater::InitStateMachine()
 
 int CFrmUpdater::SetTitle(QPixmap icon, const QString &szTitle)
 {
-    if(!szTitle.isEmpty())
-        ui->lbTitle->setText(szTitle);
+    QString title = szTitle;
+    if(szTitle.isEmpty())
+        title = qApp->applicationDisplayName();
+    ui->lbTitle->setText(title);
+    
     QPixmap pixmpa = icon;
     if(pixmpa.isNull())
         pixmpa.load(":/icon/RabbitCommon/App", "PNG");
