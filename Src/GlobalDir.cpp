@@ -2,6 +2,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QApplication>
+#include <QDebug>
 
 namespace RabbitCommon {
 CGlobalDir::CGlobalDir()
@@ -24,7 +25,7 @@ CGlobalDir* CGlobalDir::Instance()
 
 QString CGlobalDir::GetDirApplication()
 {
-    //LOG_MODEL_DEBUG("CGlobalDir", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
+    qDebug() << "GetDirApplication:" << qApp->applicationDirPath().toStdString().c_str();
     return qApp->applicationDirPath() + QDir::separator() + "..";
 }
 

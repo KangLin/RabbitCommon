@@ -77,7 +77,7 @@ void CDlgAbout::showEvent(QShowEvent *event)
                                  m_szCopyright));
 
     AppendFile(ui->txtChange, "ChangeLog");
-    AppendFile(ui->txtLicense, "LICENSE");
+    AppendFile(ui->txtLicense, "License");
     AppendFile(ui->txtThinks, "Authors");
 }
 
@@ -91,6 +91,12 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     QString szFileLocation;
 #if defined (Q_OS_ANDROID)
     szFileLocation = ":/file/" + szFile + "_" + QLocale().system().name();
+    QFile f(szFileLocation);
+    if(f.open(QIODevice::ReadOnly))
+    {
+        f.close();
+    } else
+        szFileLocation = ":/file/" + szFile;
 #else
     szFileLocation = RabbitCommon::CGlobalDir::Instance()->GetDirApplication() + QDir::separator()
             + szFile + "_" + QLocale().system().name() + ".md";

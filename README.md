@@ -82,6 +82,32 @@
                 error("2. Then set value RabbitCommon_DIR to download root dirctory")
             }
     
+       在android下，增加帮助文件资源：
+
+            android{
+                RESOURCE_QRC_FILE = $$OUT_PWD/ResourceAbout.qrc
+    
+                RESOURCE_QRC_FILE_CONTENT = \
+                    "<!DOCTYPE RCC><RCC version=\"1.0\">" \
+                    "<qresource prefix=\"file\">"
+        
+                RESOURCE_QRC_FILE_CONTENT += \
+                    "<file alias=\"Authors\">$$PWD/../Authors.md</file>"
+                RESOURCE_QRC_FILE_CONTENT += \
+                    "<file alias=\"Authors_zh_CN\">$$PWD/../Authors_zh_CN.md</file>"
+                RESOURCE_QRC_FILE_CONTENT += \
+                    "<file alias=\"ChangeLog\">$$PWD/../ChangeLog.md</file>"
+                RESOURCE_QRC_FILE_CONTENT += \
+                    "<file alias=\"License\">$$PWD/../License.md</file>"
+    
+                RESOURCE_QRC_FILE_CONTENT += \
+                    "</qresource>" \
+                    "</RCC>"
+                !write_file($$RESOURCE_QRC_FILE, RESOURCE_QRC_FILE_CONTENT): \
+                    error()
+                RESOURCES += $$RESOURCE_QRC_FILE
+			}
+
   + cmake工程
     - 子模块方式
     
