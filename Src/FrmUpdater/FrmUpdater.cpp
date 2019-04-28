@@ -1,5 +1,5 @@
 #include "FrmUpdater.h"
-#include "GlobalDir.h"
+#include "RabbitCommonGlobalDir.h"
 #include "RabbitCommonTools.h"
 #include "ui_FrmUpdater.h"
 #include <QtNetwork>
@@ -42,7 +42,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     m_TrayIcon.setIcon(this->windowIcon());
     m_TrayIcon.setToolTip(this->windowTitle());
     
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetUserConfigureFile(),
                   QSettings::IniFormat);
     int id = set.value("Update/RadioButton", -2).toInt();
     m_ButtonGroup.addButton(ui->rbEveryTime);
@@ -381,7 +381,7 @@ void CFrmUpdater::slotStateFinished()
 void CFrmUpdater::slotCheck()
 {
     qDebug() << "CFrmUpdater::slotCheck()";
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetUserConfigureFile(),
                   QSettings::IniFormat);
     QDateTime d = set.value("Update/DateTime").toDateTime();
     set.setValue("Update/DateTime", QDateTime::currentDateTime());
@@ -737,7 +737,7 @@ void CFrmUpdater::on_pbClose_clicked()
 
 void CFrmUpdater::slotButtonClickd(int id)
 {
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(), QSettings::IniFormat);
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetUserConfigureFile(), QSettings::IniFormat);
     set.setValue("Update/RadioButton", id);
 }
 

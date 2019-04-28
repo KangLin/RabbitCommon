@@ -35,7 +35,8 @@ else: DEFINES *= RabbitCommon_EXPORTS
     INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
 }
-SOURCES += $$PWD/GlobalDir.cpp \
+SOURCES += \
+    $$PWD/RabbitCommonGlobalDir.cpp \
     $$PWD/RabbitCommonTools.cpp
 
 INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
@@ -44,7 +45,7 @@ INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
     $$PWD/export/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/GlobalDir.h 
+    $$PWD/RabbitCommonGlobalDir.h
 
 RESOURCES += \
     $$PWD/Resource/ResourceRabbitCommon.qrc

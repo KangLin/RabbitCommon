@@ -3,14 +3,12 @@
 
 #include <QString>
 
-namespace RabbitCommon {
-
-class CGlobalDir
+class CRabbitCommonGlobalDir
 {
 public:
-    CGlobalDir();
+    CRabbitCommonGlobalDir();
     
-    static CGlobalDir* Instance();
+    static CRabbitCommonGlobalDir* Instance();
      
     QString GetDirApplication();
 
@@ -32,5 +30,4 @@ private:
     QString m_szDocumentPath;
 };
 
-} //namespace RabbitCommon
 #endif // RABBITCOMM_CGLOBALDIR_H
