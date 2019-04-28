@@ -1,5 +1,5 @@
-#ifndef CGLOBALDIR_H
-#define CGLOBALDIR_H
+#ifndef RABBITCOMM_CGLOBALDIR_H
+#define RABBITCOMM_CGLOBALDIR_H
 
 #include <QString>
 
@@ -33,4 +33,4 @@ private:
 };
 
 } //namespace RabbitCommon
-#endif // CGLOBALDIR_H
+#endif // RABBITCOMM_CGLOBALDIR_H

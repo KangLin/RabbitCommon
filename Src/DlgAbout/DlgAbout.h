@@ -13,8 +13,8 @@ Abstract:
     This file contains about dialog define.
  */
 
-#ifndef DLGABOUT_H
-#define DLGABOUT_H
+#ifndef RABBITCOMMON_DLGABOUT_H
+#define RABBITCOMMON_DLGABOUT_H
 
 #include <QDialog>
 #include <QTextEdit>
@@ -56,4 +56,4 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 };
 
-#endif // DLGABOUT_H
+#endif // RABBITCOMMON_DLGABOUT_H

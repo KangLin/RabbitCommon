@@ -1,5 +1,5 @@
-#ifndef FRMUPDATER_H
-#define FRMUPDATER_H
+#ifndef RABBITCOMMON_FRMUPDATER_H
+#define RABBITCOMMON_FRMUPDATER_H
 
 #include <QSystemTrayIcon>
 #include <QWidget>
@@ -110,4 +110,4 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 };
 
-#endif // FRMUPDATER_H
+#endif // RABBITCOMMON_FRMUPDATER_H
