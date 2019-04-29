@@ -98,11 +98,11 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     } else
         szFileLocation = ":/file/" + szFile;
 #else
-    szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplication() + QDir::separator()
+    szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplicationRoot() + QDir::separator()
             + szFile + "_" + QLocale().system().name() + ".md";
     QDir d;
     if(!d.exists(szFileLocation))
-        szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplication() 
+        szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplicationRoot() 
                 + QDir::separator() + szFile + ".md";
 #endif
     

@@ -8,10 +8,15 @@ CRabbitCommonGlobalDir::CRabbitCommonGlobalDir()
 {
     //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(
-                QStandardPaths::DocumentsLocation);
+             QStandardPaths::DocumentsLocation) 
+             + QDir::separator() + "Rabbit"
+             + QDir::separator() + QApplication::applicationName();
     QDir d;
     if(!d.exists(m_szDocumentPath))
         d.mkpath(m_szDocumentPath);
+    
+    m_szApplicationDir =  qApp->applicationDirPath();
+    m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 }
 
 CRabbitCommonGlobalDir* CRabbitCommonGlobalDir::Instance()
@@ -25,12 +30,29 @@ CRabbitCommonGlobalDir* CRabbitCommonGlobalDir::Instance()
 QString CRabbitCommonGlobalDir::GetDirApplication()
 {
     qDebug() << "GetDirApplication:" << qApp->applicationDirPath().toStdString().c_str();
-    return qApp->applicationDirPath() + QDir::separator() + "..";
+    return m_szApplicationDir;
+}
+
+int CRabbitCommonGlobalDir::SetDirApplication(const QString &szPath)
+{
+    m_szApplicationDir = szPath;
+    return 0;
+}
+
+QString CRabbitCommonGlobalDir::GetDirApplicationRoot()
+{
+    return m_szApplicationRootDir;
+}
+
+int CRabbitCommonGlobalDir::SetDirApplicationRoot(const QString &szPath)
+{
+    m_szApplicationRootDir = szPath;
+    return 0;
 }
 
 QString CRabbitCommonGlobalDir::GetDirConfig()
 {
-    QString szPath = GetDirApplication() + QDir::separator() + "etc";
+    QString szPath = GetDirApplicationRoot() + QDir::separator() + "etc";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
@@ -46,42 +68,32 @@ QString CRabbitCommonGlobalDir::GetDirApplicationXml()
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirDocument()
+QString CRabbitCommonGlobalDir::GetDirUserDocument()
 {
-    QString szPath;
-    if(m_szDocumentPath.right(1) == "/"
-            || m_szDocumentPath.right(1) == "\\")
-        szPath = m_szDocumentPath.left(m_szDocumentPath.size() - 1);
-    else
-        szPath = m_szDocumentPath;
-    szPath += QDir::separator();
-    szPath = szPath + "Rabbit"
-             + QDir::separator() + QApplication::applicationName();
+    return m_szDocumentPath;
+}
+
+int CRabbitCommonGlobalDir::SetDirUserDocument(QString szPath)
+{
+    m_szDocumentPath = szPath;
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
-    return szPath;
-}
-
-int CRabbitCommonGlobalDir::SetDirDocument(QString szPath)
-{
-    m_szDocumentPath = szPath + QDir::separator() + "Rabbit"
-            + QDir::separator() + QApplication::applicationName();
     return 0;
 }
 
-QString CRabbitCommonGlobalDir::GetDirData()
+QString CRabbitCommonGlobalDir::GetDirUserData()
 {
-    QString szPath = GetDirDocument() + QDir::separator() + "Data";
+    QString szPath = GetDirUserDocument() + QDir::separator() + "data";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirImage()
+QString CRabbitCommonGlobalDir::GetDirUserImage()
 {
-    QString szPath = GetDirData() + QDir::separator() + "Image";
+    QString szPath = GetDirUserData() + QDir::separator() + "image";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
@@ -90,11 +102,10 @@ QString CRabbitCommonGlobalDir::GetDirImage()
 
 QString CRabbitCommonGlobalDir::GetDirTranslations()
 {
-#if  defined(Q_OS_ANDROID)
-    //TODO:android下应该在安装包中装好语言  
-    return GetDirDocument() + QDir::separator() + "translations";
+#if defined(Q_OS_ANDROID) || _DEBUG
+    return ":/Translations";
 #endif
-    return GetDirApplication() + QDir::separator() + "translations";
+    return GetDirApplicationRoot() + QDir::separator() + "translations";
 }
 
 QString CRabbitCommonGlobalDir::GetApplicationConfigureFile()
@@ -102,9 +113,9 @@ QString CRabbitCommonGlobalDir::GetApplicationConfigureFile()
     return GetDirConfig() + QDir::separator() + QApplication::applicationName() + ".conf";
 }
 
-QString CRabbitCommonGlobalDir::GetUserConfigureFile()
+QString CRabbitCommonGlobalDir::GetFileUserConfigure()
 {
-    QString szName = GetDirDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
+    QString szName = GetDirUserDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
     return szName;
 }
 
