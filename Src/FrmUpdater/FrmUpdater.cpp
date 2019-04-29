@@ -642,9 +642,13 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     sC = sC.replace("-", ".");
     QStringList szNew = sN.split(".");
     QStringList szCur = sC.split(".");
-    if(szNew.at(0).toInt() > szCur.at(0).toInt())
+    QString firstNew = szNew.at(0);
+    QString firstCur = szCur.at(0);
+    firstNew = firstNew.remove(QChar('v'), Qt::CaseInsensitive);
+    firstCur = firstCur.remove(QChar('v'), Qt::CaseInsensitive);
+    if(firstNew.toInt() > firstCur.toInt())
         return 1;
-    else if(szNew.at(0).toInt() < szCur.at(0).toInt()){
+    else if(firstNew.toInt() < firstCur.toInt()){
         return -1;
     }
     if(szNew.at(1).toInt() > szCur.at(1).toInt())
