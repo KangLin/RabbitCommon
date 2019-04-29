@@ -35,7 +35,7 @@ public:
     QString GetDirConfig();
     QString GetDirApplicationXml();
     QString GetDirTranslations();
-    QString GetApplicationConfigureFile();
+    QString GetFileApplicationConfigure();
     
     QString GetDirUserDocument();
     int SetDirUserDocument(QString szPath);

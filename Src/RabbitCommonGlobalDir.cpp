@@ -108,7 +108,7 @@ QString CRabbitCommonGlobalDir::GetDirTranslations()
     return GetDirApplicationRoot() + QDir::separator() + "translations";
 }
 
-QString CRabbitCommonGlobalDir::GetApplicationConfigureFile()
+QString CRabbitCommonGlobalDir::GetFileApplicationConfigure()
 {
     return GetDirConfig() + QDir::separator() + QApplication::applicationName() + ".conf";
 }
