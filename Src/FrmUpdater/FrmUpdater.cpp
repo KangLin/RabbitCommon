@@ -40,7 +40,8 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
                     SLOT(slotShowWindow(QSystemTrayIcon::ActivationReason)));
     Q_ASSERT(check);
     m_TrayIcon.setIcon(this->windowIcon());
-    m_TrayIcon.setToolTip(this->windowTitle());
+    m_TrayIcon.setToolTip(windowTitle() + " - "
+                          + qApp->applicationDisplayName());
     
     QSettings set(CRabbitCommonGlobalDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -292,7 +293,7 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
 
 void CFrmUpdater::slotReadyRead()
 {
-    qDebug() << "CFrmUpdater::slotReadyRead()";
+    //qDebug() << "CFrmUpdater::slotReadyRead()";
     if(m_DownloadFile.isOpen() && m_pReply)
     {
         QByteArray d = m_pReply->readAll();
@@ -336,10 +337,10 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
-    m_TrayIcon.setToolTip(tr("Download %1%%(%2/%3)").arg(
-                              QString::number(bytesReceived * 100 / bytesTotal),
-                              QString::number(bytesReceived),
-                              QString::number(bytesTotal)));
+    m_TrayIcon.setToolTip(windowTitle() + " - "
+                          + qApp->applicationDisplayName()
+                          + tr(": downloading %1%").arg(
+                            QString::number(bytesReceived * 100 / bytesTotal)));
 }
 
 void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
@@ -433,6 +434,8 @@ void CFrmUpdater::slotDownloadXmlFile()
  */
 void CFrmUpdater::slotCheckXmlFile()
 {
+    m_TrayIcon.setToolTip(windowTitle() + " - "
+                          + qApp->applicationDisplayName());
     qDebug() << "CFrmUpdater::slotCheckXmlFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
@@ -569,6 +572,8 @@ void CFrmUpdater::slotDownloadSetupFile()
 
 void CFrmUpdater::slotUpdate()
 {
+    m_TrayIcon.setToolTip(windowTitle() + " - "
+                          + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
     qDebug() << "CFrmUpdater::slotUpdate()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
