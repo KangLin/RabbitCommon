@@ -1,5 +1,5 @@
 #include "FrmUpdater.h"
-#include "GlobalDir.h"
+#include "RabbitCommonGlobalDir.h"
 #include "RabbitCommonTools.h"
 #include "ui_FrmUpdater.h"
 #include <QtNetwork>
@@ -42,7 +42,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     m_TrayIcon.setIcon(this->windowIcon());
     m_TrayIcon.setToolTip(this->windowTitle());
     
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     int id = set.value("Update/RadioButton", -2).toInt();
     m_ButtonGroup.addButton(ui->rbEveryTime);
@@ -385,7 +385,7 @@ void CFrmUpdater::slotStateFinished()
 void CFrmUpdater::slotCheck()
 {
     qDebug() << "CFrmUpdater::slotCheck()";
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(),
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QDateTime d = set.value("Update/DateTime").toDateTime();
     set.setValue("Update/DateTime", QDateTime::currentDateTime());
@@ -646,9 +646,13 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     sC = sC.replace("-", ".");
     QStringList szNew = sN.split(".");
     QStringList szCur = sC.split(".");
-    if(szNew.at(0).toInt() > szCur.at(0).toInt())
+    QString firstNew = szNew.at(0);
+    QString firstCur = szCur.at(0);
+    firstNew = firstNew.remove(QChar('v'), Qt::CaseInsensitive);
+    firstCur = firstCur.remove(QChar('v'), Qt::CaseInsensitive);
+    if(firstNew.toInt() > firstCur.toInt())
         return 1;
-    else if(szNew.at(0).toInt() < szCur.at(0).toInt()){
+    else if(firstNew.toInt() < firstCur.toInt()){
         return -1;
     }
     if(szNew.at(1).toInt() > szCur.at(1).toInt())
@@ -741,7 +745,7 @@ void CFrmUpdater::on_pbClose_clicked()
 
 void CFrmUpdater::slotButtonClickd(int id)
 {
-    QSettings set(RabbitCommon::CGlobalDir::Instance()->GetUserConfigureFile(), QSettings::IniFormat);
+    QSettings set(CRabbitCommonGlobalDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     set.setValue("Update/RadioButton", id);
 }
 

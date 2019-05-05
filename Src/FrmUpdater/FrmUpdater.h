@@ -1,5 +1,5 @@
-#ifndef FRMUPDATER_H
-#define FRMUPDATER_H
+#ifndef RABBITCOMMON_FRMUPDATER_H
+#define RABBITCOMMON_FRMUPDATER_H
 
 #include <QSystemTrayIcon>
 #include <QWidget>
@@ -44,7 +44,7 @@ public:
      */
     int GenerateUpdateXml();
 
-private Q_SLOTS:
+protected Q_SLOTS:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError e);
     void slotSslError(const QList<QSslError> e);
@@ -54,7 +54,7 @@ private Q_SLOTS:
 
     void slotCheck();
     void slotDownloadXmlFile();
-    void slotCheckXmlFile();
+    virtual void slotCheckXmlFile();
     void slotDownloadSetupFile();
     void slotUpdate();
     void slotStateFinished();
@@ -110,4 +110,4 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 };
 
-#endif // FRMUPDATER_H
+#endif // RABBITCOMMON_FRMUPDATER_H

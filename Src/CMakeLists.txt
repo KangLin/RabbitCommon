@@ -54,11 +54,11 @@ set(INSTALL_HEAD_FILES
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
-    GlobalDir.h 
+    RabbitCommonGlobalDir.h
     )
 set(SOURCE_FILES
     ${SOURCE_FILES}
-    GlobalDir.cpp
+    RabbitCommonGlobalDir.cpp
     RabbitCommonTools.cpp
     )
 set(SOURCE_UI_FILES ${SOURCE_UI_FILES})

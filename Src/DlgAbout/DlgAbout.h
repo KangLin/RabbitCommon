@@ -10,11 +10,21 @@ Module Name:
 
 Abstract:
 
-    This file contains about dialog define.
+    About dialog
+    
+    User must install the follow file to install root:
+    ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
+    License:    License.md or License[_locale].md
+    Authors:    Authors.md or Authors[_locale].md
+    
+    locale is the language used. eg:
+    Chines language: ChangeLog_zh_CN.md     
+    English language: ChangeLog_en.md
+        
  */
 
-#ifndef DLGABOUT_H
-#define DLGABOUT_H
+#ifndef RABBITCOMMON_DLGABOUT_H
+#define RABBITCOMMON_DLGABOUT_H
 
 #include <QDialog>
 #include <QTextEdit>
@@ -56,4 +66,4 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 };
 
-#endif // DLGABOUT_H
+#endif // RABBITCOMMON_DLGABOUT_H

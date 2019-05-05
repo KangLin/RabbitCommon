@@ -1,5 +1,5 @@
 #include "RabbitCommonTools.h"
-
+#include "RabbitCommonGlobalDir.h"
 #include <QApplication>
 #include <QDir>
 
@@ -27,13 +27,8 @@ void CRabbitCommonTools::Init()
 
 void CRabbitCommonTools::InitTranslator()
 {
-    QString szPre;    
-#if defined(Q_OS_ANDROID) || _DEBUG
-    szPre = ":/Translations";
-#else
-    szPre = qApp->applicationDirPath() + QDir::separator() + ".." + QDir::separator() + "translations";
-#endif
-    m_Translator.load(szPre + "/RabbitCommon_" + QLocale::system().name() + ".qm");
+    m_Translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
+                      + "/RabbitCommon_" + QLocale::system().name() + ".qm");
     qApp->installTranslator(&m_Translator);
 }
 
