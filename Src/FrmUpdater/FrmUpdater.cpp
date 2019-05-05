@@ -336,6 +336,10 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
+    m_TrayIcon.setToolTip(tr("Download %1%%(%2/%3)").arg(
+                              QString::number(bytesReceived * 100 / bytesTotal),
+                              QString::number(bytesReceived),
+                              QString::number(bytesTotal)));
 }
 
 void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
