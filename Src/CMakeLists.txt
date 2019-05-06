@@ -16,7 +16,7 @@ else()
 endif()
 
 #需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets Xml Network Multimedia)
+SET(QT_COMPONENTS ${QT_COMPONENTS} Core Gui Widgets Xml Network)
 find_package(Qt5 COMPONENTS ${QT_COMPONENTS})
 
 #打开 qt 编译工具
