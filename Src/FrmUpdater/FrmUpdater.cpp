@@ -66,15 +66,19 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     SetVersion(szVerion);
 
     if(!QSslSocket::supportsSsl())
-    {    
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         qCritical() << "Please install openssl first. openssl build version:"
                 << QSslSocket::sslLibraryBuildVersionString();
+#endif
     } else {
         qDebug() << QSslSocket::supportsSsl()
+            #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
                  <<QSslSocket::sslLibraryBuildVersionString()
+           #endif
                 <<QSslSocket::sslLibraryVersionString();
     }
-    
+
     if(szUrl.isEmpty())
     {
         szUrl = "https://raw.githubusercontent.com/KangLin/"
