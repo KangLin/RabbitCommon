@@ -11,7 +11,7 @@ cd ${SOURCE_DIR}
 if [ "$BUILD_TARGERT" = "android" ]; then
     export ANDROID_SDK_ROOT=${SOURCE_DIR}/Tools/android-sdk
     export ANDROID_NDK_ROOT=${SOURCE_DIR}/Tools/android-ndk
-    if [ -z "$APPVEYOR" ]; then
+    if [ -n "$APPVEYOR" ]; then
         export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
     fi
     export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
@@ -19,8 +19,16 @@ if [ "$BUILD_TARGERT" = "android" ]; then
 fi
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
-    QT_DIR=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}
-    export QT_ROOT=${QT_DIR}/${QT_VERSION}/gcc_64
+    if [ "$BUILD_DOWNLOAD" = "TRUE" ]; then
+        QT_DIR=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}
+        export QT_ROOT=${QT_DIR}/${QT_VERSION}/gcc_64
+    else
+        #source /opt/qt${QT_VERSION_DIR}/bin/qt${QT_VERSION_DIR}-env.sh
+        export QT_ROOT=/opt/qt${QT_VERSION_DIR}
+    fi
+    export PATH=$QT_ROOT/bin:$PATH
+    export LD_LIBRARY_PATH=$QT_ROOT/lib/i386-linux-gnu:$QT_ROOT/lib:$LD_LIBRARY_PATH
+    export PKG_CONFIG_PATH=$QT_ROOT/lib/pkgconfig:$PKG_CONFIG_PATH
 fi
 
 if [ "$BUILD_TARGERT" != "windows_msvc" ]; then
@@ -32,7 +40,7 @@ fi
 
 if [ "$BUILD_TARGERT" = "windows_mingw" \
     -a -n "$APPVEYOR" ]; then
-    export PATH=/C/Qt/Tools/mingw${TOOLCHAIN_VERSION}/bin:$PATH    
+    export PATH=/C/Qt/Tools/mingw${TOOLCHAIN_VERSION}/bin:$PATH
 fi
 TARGET_OS=`uname -s`
 case $TARGET_OS in
@@ -69,15 +77,39 @@ case ${BUILD_TARGERT} in
         ;;
 esac
 
+if [ "${BUILD_TARGERT}" = "unix" ]; then
+    cd $SOURCE_DIR
+    if [ "$BUILD_DOWNLOAD" = "TRUE" ]; then
+        bash build_debpackage.sh ${QT_ROOT}
+    else
+        bash build_debpackage.sh ${QT_ROOT} 
+        exit 0
+        if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "59" ]; then
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/debian/rabbitcommon/opt/RabbitCommon/bin
+            MD5=`md5sum ../rabbitcommon_*_amd64.deb|awk '{print $1}'`
+            echo "MD5:${MD5}"
+            ./debian/rabbitcommon/opt/RabbitCommon/bin/RabbitCommonApp \
+                -f "`pwd`/update_linux.xml" \
+                --md5 ${MD5} 
+            export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
+            #export UPLOADTOOL_PR_BODY=
+            wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+            bash upload.sh ../rabbitcommon_*_amd64.deb update_linux.xml
+        fi
+        
+    fi
+    exit 0
+fi
+
 if [ -n "$GENERATORS" ]; then
     if [ -n "${STATIC}" ]; then
         CONFIG_PARA="-DBUILD_SHARED_LIBS=${STATIC}"
     fi
     cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
-         -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-         -DCMAKE_VERBOSE=ON \
-         -DCMAKE_BUILD_TYPE=Release \
-         -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+        -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+        -DCMAKE_VERBOSE=ON \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
 else
     if [ "ON" = "${STATIC}" ]; then
@@ -98,11 +130,8 @@ else
         $MAKE install
     fi
 fi
-if [ "${BUILD_TARGERT}" != "android" ]; then
-    #cd ${SOURCE_DIR}
-    #cp Install/Install.nsi build_${BUILD_TARGERT}
-    #"/C/Program Files (x86)/NSIS/makensis.exe" "build_${BUILD_TARGERT}/Install.nsi"
-    
+
+if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
     if [ "${AUTOBUILD_ARCH}" = "x86" ]; then
         cp /C/OpenSSL-Win32/bin/libeay32.dll install/bin
         cp /C/OpenSSL-Win32/bin/ssleay32.dll install/bin

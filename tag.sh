@@ -33,6 +33,10 @@ sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.y
 
 sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
 sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+sed -i "s/^\  - export VERSION=.*/\  - export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
+sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
+sed -i "s/rabbitcommon (.*) unstable; urgency=medium/rabbitcommon (${VERSION}) unstable; urgency=medium/g" ${SOURCE_DIR}/debian/changelog
+
 
 if [ -n "$1" ]; then
     git add .

@@ -40,4 +40,6 @@ OTHER_FILES += CMakeLists.txt \
     ci/* \
     tag.sh \
     README.md \
-    cmake/*
+    cmake/* \
+    debian/* \
+    build_debpackage.sh
