@@ -862,18 +862,18 @@ int CFrmUpdater::GenerateUpdateXml()
     szSystem = "Android";
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
-            + "/releases/download/v0.0.1/"
-            + qApp->applicationName()
-            + "-Setup-"
+            + "/releases/download/"
+            + m_szCurrentVersion + "/"
+            + qApp->applicationName().toLower()
             + m_szCurrentVersion + ".apk";
 #elif defined(Q_OS_LINUX)
     szSystem = "Linux";
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
-            + "/releases/download/v0.0.1/"
-            + qApp->applicationName()
-            + "-Setup-"
-            + m_szCurrentVersion + ".deb";
+            + "/releases/download/"
+            + m_szCurrentVersion + "/"
+            + qApp->applicationName().toLower()
+            + "_" + m_szCurrentVersion + "_amd64.deb";
 #endif
     
     QCommandLineParser parser;
@@ -927,7 +927,7 @@ int CFrmUpdater::GenerateUpdateXml()
     QCommandLineOption oMin(QStringList() << "m" << "min",
                              tr("Min update version"),
                              "",
-                             "v0.0.1");      
+                             "0.0.1");      
     parser.addOption(oMin);
 
     parser.process(QApplication::arguments());
