@@ -908,7 +908,7 @@ int CFrmUpdater::GenerateUpdateXml()
     QCommandLineOption oPlatform(QStringList() << "p" << "platform",
                              tr("Platform"),
                              "",
-                             m_szCurrentVersion);
+                             m_szCurrentArch);
     parser.addOption(oPlatform);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),
