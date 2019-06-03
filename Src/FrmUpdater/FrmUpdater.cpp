@@ -119,15 +119,15 @@ CFrmUpdater::~CFrmUpdater()
  *   |                                  |                  |
  *   |  |--------------------|          |                  |
  *   |  |Download xml fil    |          |                  |
- *   |  |(sDownloadXmlFile)  |          |                  |
- *   |  |--------------------|          |                  |
- *   |      |                           |                  |
- *   |      | sigFinished               |                  |
- *   |      |                           |                  |
- *   |      V                           |                  |
- *   |  |--------------------|          |                  |
- *   |  |Check xml file      |          |                  |
- *   |  |(sCheckXmlFile)     |          |                  |
+ *   |  |(sDownloadXmlFile)  |<-----|   |                  |
+ *   |  |--------------------|      |   |                  |
+ *   |      |                       |   |                  |
+ *   |      | sigFinished           |   |                  |
+ *   |      |                       |   |                  |
+ *   |      V         sigDownLoadXml|   |                  |
+ *   |  |--------------------|      |   |                  |
+ *   |  |Check xml file      |      |   |                  |
+ *   |  |(sCheckXmlFile)     |------|   |                  |
  *   |  |____________________|          |                  |
  *   |      |                           |                  |
  *   |      | sigFinished               |                  |
@@ -238,7 +238,7 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
         m_Url = url;
         return 0;
     }
-    m_DownloadFile.close();    
+    m_DownloadFile.close();
     if(url.isLocalFile())
     {
         m_DownloadFile.setFileName(url.toLocalFile());
@@ -420,6 +420,18 @@ void CFrmUpdater::slotDownloadXmlFile()
     if(m_Url.isValid())
         DownloadFile(m_Url);
 }
+
+int CFrmUpdater::CheckRedirectXmlFile(const QDomDocument &doc)
+{
+    return 0;
+}
+
+/*
+   <?xml version="1.0" encoding="UTF-8"?>
+   <REDIRECT>
+    <VERSION>v0.0.1</VERSION>
+   </REDIRECT>
+ */
 
 /*
    <?xml version="1.0" encoding="UTF-8"?>

@@ -11,6 +11,7 @@
 #include <QStateMachine>
 #include <QUrl>
 #include <QButtonGroup>
+#include <QDomDocument>
 #include "rabbitcommon_export.h"
 
 namespace Ui {
@@ -27,7 +28,7 @@ public:
 
     /**
      * @brief DownloadFile
-     * @param url: 
+     * @param url: Download url
      * @param bRedirection: true: Is redirection
      * @param bDownload: true: don't check, download immediately
      * @return 
@@ -66,11 +67,13 @@ protected Q_SLOTS:
 Q_SIGNALS:
     void sigError();
     void sigFinished();
+    void sigDownLoadXml();
 
 private:
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
-    bool IsDownLoad();    
+    bool IsDownLoad();
+    int CheckRedirectXmlFile(const QDomDocument &doc);
     
 private:
     Ui::CFrmUpdater *ui;
