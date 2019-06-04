@@ -2,6 +2,7 @@
 #include "RabbitCommonGlobalDir.h"
 #include "RabbitCommonTools.h"
 #include "ui_FrmUpdater.h"
+
 #include <QtNetwork>
 #include <QUrl>
 #include <QDebug>
@@ -56,12 +57,20 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     Q_ASSERT(check);
     SetTitle();
     SetArch(BUILD_ARCH);
+#if defined (Q_OS_WIN)
+        m_szPlatform += "x86";
+#elif defined(Q_OS_ANDROID)
+        m_szPlatform += "arm";
+#elif defined (Q_OS_LINUX)
+        m_szPlatform += "x86_64";
+#endif
+        
     QString szVerion = qApp->applicationVersion();
 #ifdef BUILD_VERSION
     if(szVerion.isEmpty())
         szVerion = BUILD_VERSION;
 #else
-    szVerion = "V0.0.1";
+    szVerion = "0.0.1";
 #endif
     SetVersion(szVerion);
 
@@ -82,15 +91,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     if(szUrl.isEmpty())
     {
         szUrl = "https://raw.githubusercontent.com/KangLin/"
-                + qApp->applicationName() +"/master/Update/update_";
-#if defined (Q_OS_WIN)
-        szUrl += "windows";
-#elif defined(Q_OS_ANDROID)
-        szUrl += "android";
-#elif defined (Q_OS_LINUX)
-        szUrl += "linux";
-#endif
-        szUrl += ".xml";
+                + qApp->applicationName() +"/master/Update/update.xml";
     }
     DownloadFile(QUrl(szUrl));
     
@@ -174,6 +175,7 @@ int CFrmUpdater::InitStateMachine()
                      this, SLOT(slotDownloadXmlFile()));
     Q_ASSERT(check);
     
+    sCheckXmlFile->addTransition(this, SIGNAL(sigDownLoadRedireXml()), sDownloadXmlFile);
     sCheckXmlFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
     sCheckXmlFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
     sCheckXmlFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
@@ -231,7 +233,7 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
 int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload)
 {
     int nRet = 0;
-
+    qDebug() << "CFrmUpdater::DownloadFile:" << url << bRedirection << bDownload;
     if(!m_StateMachine.isRunning())
     {
         m_bDownload = bDownload;        
@@ -259,13 +261,15 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
         QString szFile = szTmp + szPath.mid(szPath.lastIndexOf("/"));
         m_DownloadFile.setFileName(szFile);
         qDebug() << "CFrmUpdater download file: " << m_DownloadFile.fileName();
-        if(!m_DownloadFile.open(QIODevice::WriteOnly))
-        {
-            qDebug() << "Open file fail: " << szFile;
-            return -1;
-        }
+        
     }
 
+    if(!m_DownloadFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "Open file fail: " << m_DownloadFile.fileName();
+        return -1;
+    }
+    
     QNetworkRequest request(url);
     //https://blog.csdn.net/itjobtxq/article/details/8244509
     /*QSslConfiguration config;
@@ -310,18 +314,22 @@ void CFrmUpdater::slotFinished()
 {
     qDebug() << "CFrmUpdater::slotFinished()";
     
-    QVariant redirectionTarget
-            = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if(!redirectionTarget.isNull())
+    QVariant redirectionTarget;
+    if(m_pReply)
+       redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    if(redirectionTarget.isValid())
     {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-        QUrl u = redirectionTarget.toUrl();
-        
+        if(m_pReply)
+        {
+            m_pReply->disconnect();
+            m_pReply->deleteLater();
+            m_pReply = nullptr;
+        }
+        QUrl u = redirectionTarget.toUrl();  
         if(u.isValid())
         {
-            DownloadFile(u, false);
+            qDebug() << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
+            DownloadFile(u, true);
         }
         return;
     }
@@ -350,10 +358,10 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
 {
     qDebug() << "CFrmUpdater::slotError: " << e;
-    ui->lbState->setText(tr("Download network error: ")
-                         + m_pReply->errorString());
     if(m_pReply)
     {
+        ui->lbState->setText(tr("Download network error: ")
+                             + m_pReply->errorString());
         m_pReply->disconnect();
         m_pReply->deleteLater();
         m_pReply = nullptr;
@@ -421,43 +429,40 @@ void CFrmUpdater::slotDownloadXmlFile()
         DownloadFile(m_Url);
 }
 
-int CFrmUpdater::CheckRedirectXmlFile(const QDomDocument &doc)
-{
-    return 0;
-}
-
-/*
-   <?xml version="1.0" encoding="UTF-8"?>
-   <REDIRECT>
-    <VERSION>v0.0.1</VERSION>
-   </REDIRECT>
- */
-
-/*
-   <?xml version="1.0" encoding="UTF-8"?>
-   <UPDATE>
-    <VERSION>v0.0.1</VERSION>
-    <TIME>2019-2-24 19:28:50</TIME>
-    <INFO>v0.0.1 information</INFO>
-    <FORCE>0</FORCE>
-    <SYSTEM>Windows</SYSTEM>
-    <PLATFORM>x86</PLATFORM>
-    <ARCHITECTURE>x86</ARCHITECTURE>
-    <URL>url</URL>
-    <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
-    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
-   </UPDATE>
- */
 void CFrmUpdater::slotCheckXmlFile()
 {
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     qDebug() << "CFrmUpdater::slotCheckXmlFile()";
+    if(CheckRedirectXmlFile() <= 0)
+        return;
+    
+    CheckUpdateXmlFile();
+}
+
+/*
+   <?xml version="1.0" encoding="UTF-8"?>
+   <REDIRECT>
+       <VERSION>v0.0.1</VERSION>
+       <WINDOWS>
+           <URL>url</URL>
+       </WINDOWS>
+       <LINUX>
+           <URL>url</URL>
+       </LINUX>
+       <ANDROID>
+           <URL>url</URL>
+       </ANDROID>   
+   </REDIRECT>
+ */
+int CFrmUpdater::CheckRedirectXmlFile()
+{
+    qDebug() << "CFrmUpdater::CheckRedirectXmlFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qDebug() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
+        qCritical() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
         emit sigError();
-        return;
+        return -1;
     }
     QDomDocument doc;
     if(!doc.setContent(&m_DownloadFile))
@@ -468,10 +473,103 @@ void CFrmUpdater::slotCheckXmlFile()
         qDebug() << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
-        return;
+        return -2;
     }
     m_DownloadFile.close();
+    if(doc.elementsByTagName("REDIRECT").isEmpty())
+        return 1;
+
+    QString szUrl;
+    QString szVersion;
+    QDomNodeList versionNode = doc.documentElement().elementsByTagName("VERSION");
+    if(versionNode.isEmpty())
+    {
+        emit sigError();
+        return -3;
+    }
+
+    QDomElement node = versionNode.item(0).toElement();
+    szVersion = node.text();
+    szUrl = "https://github.com/KangLin/" 
+            + qApp->applicationName() + "/releases/download/"
+            + szVersion + "/update_";
+#if defined (Q_OS_WIN)
+    szUrl += "windows";
+    QDomNodeList n = doc.documentElement().elementsByTagName("WINDOWS");
+    if(!n.isEmpty())
+    {
+        QDomElement url = n.item(0).firstChildElement("URL");
+        szUrl = url.text();
+    }
+#elif defined(Q_OS_ANDROID)
+    szUrl += "android";
+    QDomNodeList n = doc.documentElement().elementsByTagName("ANDROID");
+    if(!n.isEmpty())
+    {
+        QDomElement url = n.item(0).firstChildElement("URL");
+        szUrl = url.text();
+    }
+#elif defined (Q_OS_LINUX)
+    szUrl += "linux";
+    QDomNodeList n = doc.documentElement().elementsByTagName("LINUX");
+    if(!n.isEmpty())
+    {
+        QDomElement url = n.item(0).firstChildElement("URL");
+        szUrl = url.text();
+    }
+#endif
+    szUrl += ".xml";
     
+    m_Url = szUrl;
+    emit sigDownLoadRedireXml();
+
+    return 0;
+}
+
+/*
+   <?xml version="1.0" encoding="UTF-8"?>
+   <UPDATE>
+    <VERSION>v0.0.1</VERSION>
+    <TIME>2019-2-24 19:28:50</TIME>
+    <INFO>v0.0.1 information</INFO>
+    <FORCE>0</FORCE>
+    <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
+    <PLATFORM>x86</PLATFORM>         <!--i386, amd, arm, mips-->
+    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64-->
+    <URL>url</URL>
+    <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
+    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
+   </UPDATE>
+ */
+int CFrmUpdater::CheckUpdateXmlFile()
+{
+    qDebug() << "CFrmUpdater::CheckUpdateXmlFile()";
+    if(!m_DownloadFile.open(QIODevice::ReadOnly))
+    {
+        qCritical() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
+        emit sigError();
+        return -1;
+    }
+    QDomDocument doc;
+    if(!doc.setContent(&m_DownloadFile))
+    {
+        QString szError = tr("Parse file %1 fail. It isn't xml file")
+                .arg(m_DownloadFile.fileName());
+        ui->lbState->setText(szError);
+        qDebug() << "CFrmUpdater::slotCheckXmlFile:" << szError;
+        m_DownloadFile.close();
+        emit sigError();
+        return -2;
+    }
+    m_DownloadFile.close();
+    if(doc.elementsByTagName("UPDATE").isEmpty())
+    {
+        QString szError = tr("Parse file %1 fail. It isn't update xml file")
+                .arg(m_DownloadFile.fileName());
+        ui->lbState->setText(szError);
+        emit sigError();
+        return -3;
+    }
     QDomNodeList lstNode = doc.documentElement().childNodes();
     for(int i = 0; i < lstNode.length(); i++)
     {
@@ -510,7 +608,7 @@ void CFrmUpdater::slotCheckXmlFile()
     {
         ui->lbState->setText(tr("There is laster version"));
         emit sigError();
-        return;
+        return -4;
     }
 
     ui->lbNewVersion->setText(tr("New version: %1").arg(m_Info.szVerion));
@@ -523,41 +621,41 @@ void CFrmUpdater::slotCheckXmlFile()
     {
         ui->lbState->setText(tr("System is different"));
         emit sigError();
-        return;
+        return -5;
     }
     if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
         && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("Architecture is different"));
         emit sigError();
-        return;
+        return -6;
     }
 #elif defined(Q_OS_ANDROID)
     if(m_Info.szSystem.compare("android", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("System is different"));
         emit sigError();
-        return;
+        return -7;
     }
     if(m_szCurrentArch != m_Info.szArchitecture)
     {
         ui->lbState->setText(tr("Architecture is different"));
         emit sigError();
-        return;
+        return -8;
     }
 #elif defined (Q_OS_LINUX)
     if(m_Info.szSystem.compare("linux", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("System is different"));
         emit sigError();
-        return;
+        return -9;
     }
     if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
         && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
     {
         ui->lbState->setText(tr("Architecture is different"));
         emit sigError();
-        return;
+        return -10;
     }
 #endif   
 
@@ -573,6 +671,7 @@ void CFrmUpdater::slotCheckXmlFile()
         ui->pbOK->show();
         show();
     }
+    return 0;
 }
 
 void CFrmUpdater::slotDownloadSetupFile()
@@ -920,7 +1019,7 @@ int CFrmUpdater::GenerateUpdateXml()
     QCommandLineOption oPlatform(QStringList() << "p" << "platform",
                              tr("Platform"),
                              "",
-                             m_szCurrentArch);
+                             m_szPlatform);
     parser.addOption(oPlatform);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),

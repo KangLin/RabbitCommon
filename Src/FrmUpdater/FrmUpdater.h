@@ -11,7 +11,6 @@
 #include <QStateMachine>
 #include <QUrl>
 #include <QButtonGroup>
-#include <QDomDocument>
 #include "rabbitcommon_export.h"
 
 namespace Ui {
@@ -67,13 +66,14 @@ protected Q_SLOTS:
 Q_SIGNALS:
     void sigError();
     void sigFinished();
-    void sigDownLoadXml();
+    void sigDownLoadRedireXml();
 
 private:
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
     bool IsDownLoad();
-    int CheckRedirectXmlFile(const QDomDocument &doc);
+    int CheckRedirectXmlFile();
+    int CheckUpdateXmlFile();
     
 private:
     Ui::CFrmUpdater *ui;
@@ -83,7 +83,8 @@ private:
     
     QString m_szCurrentVersion;
     QString m_szCurrentArch;
-
+    QString m_szPlatform;
+    
     QUrl m_Url;
     QFile m_DownloadFile;
     bool m_bDownload;
