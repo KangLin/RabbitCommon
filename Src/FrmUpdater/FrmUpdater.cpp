@@ -25,7 +25,6 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     m_bDownload(false),
     m_pReply(nullptr),
     m_pStateDownloadSetupFile(nullptr)
-    
 {
     bool check = false;
     setAttribute(Qt::WA_QuitOnClose, false);
