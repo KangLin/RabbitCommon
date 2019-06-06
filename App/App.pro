@@ -60,8 +60,9 @@ msvc {
 
 #VERSION=$$BUILD_VERSION
 INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
-!android: DESTDIR = $$OUT_PWD/../bin
+DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
+LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
@@ -82,13 +83,6 @@ SOURCES += \
 HEADERS +=
 
 FORMS +=
-
-android {
-    LIBS *= "-L$$OUT_PWD/../Src"
-} else {
-    LIBS *= "-L$$DESTDIR"
-}
-LIBS *= -lRabbitCommon
 
 !android: target.path = $$PREFIX/bin
 INSTALLS += target

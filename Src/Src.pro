@@ -1,6 +1,6 @@
 TARGET = RabbitCommon
 TEMPLATE = lib
-!android: DESTDIR = $$OUT_PWD/../bin
+DESTDIR = $$OUT_PWD/../bin
 CONFIG += link_pkgconfig create_prl link_prl
 CONFIG(staticlib): CONFIG*=static
 
