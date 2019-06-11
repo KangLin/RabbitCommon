@@ -60,7 +60,7 @@ msvc {
 
 #VERSION=$$BUILD_VERSION
 INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
-DESTDIR = $$OUT_PWD/../bin
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
 

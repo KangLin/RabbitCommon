@@ -1,6 +1,6 @@
 TARGET = RabbitCommon
 TEMPLATE = lib
-DESTDIR = $$OUT_PWD/../bin
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 CONFIG += link_pkgconfig create_prl link_prl
 CONFIG(staticlib): CONFIG*=static
 
