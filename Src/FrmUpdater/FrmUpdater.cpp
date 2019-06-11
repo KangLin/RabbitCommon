@@ -59,7 +59,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
 #if defined (Q_OS_WIN)
         m_szPlatform += "x86";
 #elif defined(Q_OS_ANDROID)
-        m_szPlatform += "arm";
+        m_szPlatform += "arm";        
 #elif defined (Q_OS_LINUX)
         m_szPlatform += "x86_64";
 #endif
@@ -533,8 +533,8 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <INFO>v0.0.1 information</INFO>
     <FORCE>0</FORCE>
     <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
-    <PLATFORM>x86</PLATFORM>         <!--i386, amd, arm, mips-->
-    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64-->
+    <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
+    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a-->
     <URL>url</URL>
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
     <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>

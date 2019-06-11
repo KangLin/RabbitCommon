@@ -108,6 +108,8 @@
                 RESOURCES += $$RESOURCE_QRC_FILE
 			}
 
+     因为此种方式翻译资源会在目标项目中重复。所以，一般在目标项目源码根目录下增加RabbitCommon目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
+     
   + cmake工程
     - 子模块方式
     

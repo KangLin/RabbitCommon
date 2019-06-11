@@ -12,7 +12,7 @@ if(NOT ANDROID)
         set(BUILD_ARCH x86)
     endif()
 else()
-    set(BUILD_ARCH ${CMAKE_ANDROID_ARCH})
+    set(BUILD_ARCH ${ANDROID_ARCH})
 endif()
 
 #需要的QT组件
