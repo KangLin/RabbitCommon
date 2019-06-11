@@ -159,6 +159,9 @@
       CDlgAbout about(this);
       about.m_AppIcon = QPixmap(":/image/Calendar");
       about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
+      #if defined (Q_OS_ANDROID)
+          about.showMaximized();
+      #endif
       about.exec();
   #endif
   ```
@@ -171,9 +174,20 @@
   #ifdef RABBITCOMMON
       CFrmUpdater *fu = new CFrmUpdater();
       fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
-      fu->show();
+      #if defined (Q_OS_ANDROID)
+          fu->showMaximized();
+      #else
+          fu->show();
+      #endif
   #endif
   ```
+  
+在目标工程源码目录中增加 Update/update.xml 文件
+
+        <?xml version='1.0' encoding='UTF-8'?>
+        <REDIRECT>
+            <VERSION>0.0.8</VERSION>
+        </REDIRECT>
   
 ![在线更新功能](docments/image/update.PNG "在线更新功能")
 
