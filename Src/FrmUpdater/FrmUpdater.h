@@ -84,7 +84,7 @@ private:
     QString m_szCurrentVersion;
     QString m_szCurrentArch;
     QString m_szPlatform;
-    
+
     QUrl m_Url;
     QFile m_DownloadFile;
     bool m_bDownload;
@@ -103,6 +103,7 @@ private:
         QString szPlatform;
         QString szArchitecture;
         QString szUrl;
+        QString szUrlHome;
         QString szMd5sum;
         QString szMinUpdateVersion;
     } m_Info;

@@ -32,6 +32,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     ui->lbNewArch->hide();
     ui->lbNewVersion->hide();
     ui->progressBar->hide();
+    ui->cbHomePage->hide();
     ui->pbOK->hide();
     
     check = connect(&m_TrayIcon,
@@ -536,6 +537,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
     <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a-->
     <URL>url</URL>
+    <HOME>home page</HOME>
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
     <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
    </UPDATE>
@@ -589,6 +591,8 @@ int CFrmUpdater::CheckUpdateXmlFile()
             m_Info.szArchitecture = node.text();
         else if(node.nodeName() == "URL")
             m_Info.szUrl = node.text();
+        else if(node.nodeName() == "HOME")
+            m_Info.szUrlHome = node.text();
         else if(node.nodeName() == "MD5SUM")
             m_Info.szMd5sum = node.text();
         else if(node.nodeName() == "MIN_UPDATE_VERSION")
@@ -666,6 +670,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
     }
     else
     {
+        ui->cbHomePage->show();
         ui->pbOK->setText(tr("OK(&O)"));
         ui->pbOK->show();
         show();
@@ -731,8 +736,20 @@ void CFrmUpdater::slotUpdate()
             return;
         }*/
 
-        //启动安装程序  
         QProcess proc;
+        if(ui->cbHomePage->isChecked() && !m_Info.szUrlHome.isEmpty())
+            if(!proc.startDetached(m_Info.szUrlHome))
+            {
+                QUrl url(m_Info.szUrlHome);
+                if(!QDesktopServices::openUrl(url))
+                {
+                    QString szErr = tr("Execute install program error.%1")
+                            .arg(m_DownloadFile.fileName());
+                    ui->lbState->setText(szErr);
+                }
+            }
+        
+        //启动安装程序  
         if(!proc.startDetached(m_DownloadFile.fileName()))
         {
             QUrl url(m_DownloadFile.fileName());
@@ -745,6 +762,7 @@ void CFrmUpdater::slotUpdate()
             }
         }
         ui->lbState->setText(tr("The installer has started, Please close the application"));
+        
         //system(m_DownloadFile.fileName().toStdString().c_str());
         //int nRet = QProcess::execute(m_DownloadFile.fileName());
         //qDebug() << "QProcess::execute return: " << nRet;
@@ -932,6 +950,12 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     eUrl.appendChild(url);
     root.appendChild(eUrl);
     
+    QDomText urlHome = doc.createTextNode("HOME");
+    urlHome.setData(info.szUrlHome);
+    QDomElement eUrlHome = doc.createElement("HOME");
+    eUrlHome.appendChild(urlHome);
+    root.appendChild(eUrlHome);
+    
     QDomText min = doc.createTextNode("MIN_UPDATE_VERSION");
     min.setData(info.szMinUpdateVersion);
     QDomElement eMin = doc.createElement("MIN_UPDATE_VERSION");
@@ -1007,7 +1031,7 @@ int CFrmUpdater::GenerateUpdateXml()
     QCommandLineOption oInfo(QStringList() << "i" << "info",
                              tr("Information"),
                              "",
-                             qApp->applicationDisplayName() + " " + m_szCurrentVersion);
+                             qApp->applicationName() + " " + m_szCurrentVersion);
     parser.addOption(oInfo);
 
     QCommandLineOption oSystem(QStringList() << "s" << "system",
@@ -1034,6 +1058,12 @@ int CFrmUpdater::GenerateUpdateXml()
                              "",
                              szUrl);
     parser.addOption(oUrl);
+    QString szHome = "https://github.com/KangLin/" + qApp->applicationName();
+    QCommandLineOption oUrlHome("home",
+                             tr("Project home url"),
+                             "",
+                             szHome);
+    parser.addOption(oUrlHome);
     QCommandLineOption oMin(QStringList() << "m" << "min",
                              tr("Min update version"),
                              "",
@@ -1069,6 +1099,7 @@ int CFrmUpdater::GenerateUpdateXml()
         }
     }
     info.szUrl = parser.value(oUrl);
+    info.szUrlHome = parser.value(oUrlHome);
     info.szMinUpdateVersion = parser.value(oMin);
    
     return GenerateUpdateXmlFile(szFile, info);
