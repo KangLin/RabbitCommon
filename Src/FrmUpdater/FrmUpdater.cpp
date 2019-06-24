@@ -450,6 +450,9 @@ void CFrmUpdater::slotCheckXmlFile()
        <LINUX>
            <URL>url</URL>
        </LINUX>
+       <LINUX_APPIMAGE>
+           <URL>url</URL>
+       </LINUX_APPIMAGE>
        <ANDROID>
            <URL>url</URL>
        </ANDROID>   
@@ -510,13 +513,32 @@ int CFrmUpdater::CheckRedirectXmlFile()
         szUrl = url.text();
     }
 #elif defined (Q_OS_LINUX)
-    szUrl += "linux";
-    QDomNodeList n = doc.documentElement().elementsByTagName("LINUX");
-    if(!n.isEmpty())
-    {
-        QDomElement url = n.item(0).firstChildElement("URL");
-        szUrl = url.text();
+    /*QFileInfo f(qApp->applicationFilePath());
+    if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
+    {   
+        szUrl += "linux";
+        QDomNodeList n = doc.documentElement().elementsByTagName("LINUX");
+        if(!n.isEmpty())
+        {
+            QDomElement url = n.item(0).firstChildElement("URL");
+            m_Url = url.text();
+            emit sigDownLoadRedireXml();
+            return 0;
+        }
     }
+    else*/
+    {
+        szUrl += "linux_appimage";
+        QDomNodeList n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
+        if(!n.isEmpty())
+        {
+            QDomElement url = n.item(0).firstChildElement("URL");
+            m_Url = url.text();
+            emit sigDownLoadRedireXml();
+            return 0;
+        }
+    }
+    
 #endif
     szUrl += ".xml";
     
@@ -749,18 +771,55 @@ void CFrmUpdater::slotUpdate()
                 }
             }
         
-        //启动安装程序  
-        if(!proc.startDetached(m_DownloadFile.fileName()))
+        QFileInfo fi(m_DownloadFile.fileName());
+        if(fi.completeSuffix().compare("tar.gz", Qt::CaseInsensitive))
         {
-            QUrl url(m_DownloadFile.fileName());
-            if(!QDesktopServices::openUrl(url))
+            //启动安装程序  
+            if(!proc.startDetached(m_DownloadFile.fileName()))
             {
-                QString szErr = tr("Execute install program error.%1")
-                        .arg(m_DownloadFile.fileName());
+                QUrl url(m_DownloadFile.fileName());
+                if(!QDesktopServices::openUrl(url))
+                {
+                    QString szErr = tr("Execute install program error.%1")
+                            .arg(m_DownloadFile.fileName());
+                    ui->lbState->setText(szErr);
+                    break;
+                }
+            }
+        } else {
+            QFile f(fi.absoluteFilePath() + QDir::separator() + "install.sh");
+            if(!f.open(QFile::WriteOnly))
+            {
+                QString szErr = tr("Open file %1 fail").arg(fi.absoluteFilePath());
+                ui->lbState->setText(szErr);
+                break;
+            }
+            
+            QString szCmd;
+            szCmd = "#!/bin/bash\n";
+            szCmd += "mkdir -p /opt/" + qApp->applicationName() + "\n";
+            szCmd += "cd /opt/" + qApp->applicationName() + "\n";
+            szCmd += "if [ -f install.sh ]; then\n";
+            szCmd += "    ./install.sh remove\n";
+            szCmd += "fi\n";
+            szCmd += "cp " + m_DownloadFile.fileName() + " ." + "\n";
+            szCmd += "tar xvfz " + fi.fileName() + "\n";
+            szCmd += QString("./install.sh install") + "\n";
+            f.write(szCmd.toStdString().c_str());
+            qDebug() << szCmd;
+            f.close();
+            //启动安装程序  
+            if(!proc.startDetached(QString("sudo /bin/bash"),
+                                   QStringList() << fi.absoluteFilePath(),
+                                   fi.absolutePath()))
+            {
+                QString szErr = tr("Execute") + "/bin/bash "
+                        + fi.absoluteFilePath() + "fail";
                 ui->lbState->setText(szErr);
                 break;
             }
         }
+
         ui->lbState->setText(tr("The installer has started, Please close the application"));
         
         //system(m_DownloadFile.fileName().toStdString().c_str());
@@ -1002,12 +1061,25 @@ int CFrmUpdater::GenerateUpdateXml()
             + m_szCurrentVersion + ".apk";
 #elif defined(Q_OS_LINUX)
     szSystem = "Linux";
-    szUrl = "https://github.com/KangLin/"
-            + qApp->applicationName()
-            + "/releases/download/"
-            + m_szCurrentVersion + "/"
-            + qApp->applicationName().toLower()
-            + "_" + m_szCurrentVersion + "_amd64.deb";
+    QFileInfo f(qApp->applicationFilePath());
+    if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
+    {
+        QString szVersion = m_szCurrentVersion;
+        szVersion.replace("v", "", Qt::CaseInsensitive);
+        szUrl = "https://github.com/KangLin/"
+                + qApp->applicationName()
+                + "/releases/download/"
+                + m_szCurrentVersion + "/"
+                + qApp->applicationName().toLower()
+                + "_" + szVersion + "_amd64.deb";
+    } else {
+        szUrl = "https://github.com/KangLin/"
+                + qApp->applicationName()
+                + "/releases/download/"
+                + m_szCurrentVersion + "/"
+                + qApp->applicationName()
+                + "_" + m_szCurrentVersion + ".tar.gz";
+    }
 #endif
     
     QCommandLineParser parser;
@@ -1020,33 +1092,33 @@ int CFrmUpdater::GenerateUpdateXml()
     parser.addOption(oFile);
     QCommandLineOption oPackageVersion("pv",
                                 tr("Package version"),
-                                "",
+                                "Package version",
                                 m_szCurrentVersion);
     parser.addOption(oPackageVersion);
     QCommandLineOption oTime(QStringList() << "t" << "time",
                              tr("Time"),
-                             "",
+                             "Time",
                              QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     parser.addOption(oTime);
     QCommandLineOption oInfo(QStringList() << "i" << "info",
                              tr("Information"),
-                             "",
+                             "Information",
                              qApp->applicationName() + " " + m_szCurrentVersion);
     parser.addOption(oInfo);
 
     QCommandLineOption oSystem(QStringList() << "s" << "system",
                              tr("Operating system"),
-                             "",
+                             "Operating system",
                              szSystem);
     parser.addOption(oSystem);
     QCommandLineOption oPlatform(QStringList() << "p" << "platform",
                              tr("Platform"),
-                             "",
+                             "Platform",
                              m_szPlatform);
     parser.addOption(oPlatform);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),
-                             "",
+                             "Architecture",
                              m_szCurrentArch);
     parser.addOption(oArch);
     QCommandLineOption oMd5(QStringList() << "c" << "md5",
@@ -1055,18 +1127,18 @@ int CFrmUpdater::GenerateUpdateXml()
     parser.addOption(oMd5);
     QCommandLineOption oUrl(QStringList() << "u" << "url",
                              tr("Package download url"),
-                             "",
+                             "Download url",
                              szUrl);
     parser.addOption(oUrl);
     QString szHome = "https://github.com/KangLin/" + qApp->applicationName();
     QCommandLineOption oUrlHome("home",
                              tr("Project home url"),
-                             "",
+                             "Project home url",
                              szHome);
     parser.addOption(oUrlHome);
     QCommandLineOption oMin(QStringList() << "m" << "min",
                              tr("Min update version"),
-                             "",
+                             "Min update version",
                              "0.0.1");      
     parser.addOption(oMin);
 
