@@ -5,6 +5,9 @@
 #ifdef HAVE_UPDATE
     #include "FrmUpdater/FrmUpdater.h"
 #endif
+#ifdef HAVE_ADMINAUTHORISER
+    #include "AdminAuthoriser/adminauthoriser.h"
+#endif
 #include <QTranslator>
 #include <QDir>
 #include "RabbitCommonTools.h"
@@ -31,6 +34,14 @@ int main(int argc, char *argv[])
     CDlgAbout dlg;
     dlg.setAttribute(Qt::WA_QuitOnClose, true);
     dlg.show();
+#endif
+
+#ifdef HAVE_ADMINAUTHORISER
+    QString szCmd = "mkdir";
+    QStringList paras;
+    paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
+    qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
+             << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 #endif
     return a.exec();
 }

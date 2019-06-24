@@ -77,6 +77,9 @@ isEmpty(PREFIX) {
 !equals(BUILD_ABOUT, "OFF"){
     DEFINES *= HAVE_ABOUT
 }
+!equals(BUILD_ADMINAUTHORISER, "OFF"){
+    DEFINES *= HAVE_ADMINAUTHORISER
+}
 SOURCES += \
         main.cpp
 

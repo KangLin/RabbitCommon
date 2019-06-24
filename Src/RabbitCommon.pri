@@ -33,11 +33,32 @@ else: DEFINES *= RabbitCommon_EXPORTS
     SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
     INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
     FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
+    BUILD_ADMINAUTHORISER = ON
 }
 !equals(BUILD_ABOUT, "OFF"){
     SOURCES += $$PWD/DlgAbout/DlgAbout.cpp
     INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
+}
+!equals(BUILD_ADMINAUTHORISER, "OFF"){
+    INSTALL_HEADERS += $$PWD/AdminAuthoriser/adminauthoriser.h
+    SOURCES += $$PWD/AdminAuthoriser/adminauthoriser.cpp
+    HEADERS += $$PWD/AdminAuthoriser/adminauthorization_p.h
+    win32: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_win.cpp
+    else:mac: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_mac.cpp
+    else:unix:!emscripten: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_x11.cpp
+    else: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_dummy.cpp
+
+    win32 {
+        QT += winextras
+        LIBS += -lAdvapi32 -lOle32 -lShell32
+    } else:mac {
+        QT += macextras
+        LIBS += -framework Security
+    } else:unix {
+        QT += dbus
+        LIBS += -lutil
+    }
 }
 SOURCES += \
     $$PWD/RabbitCommonGlobalDir.cpp \

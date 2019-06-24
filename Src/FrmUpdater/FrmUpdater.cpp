@@ -2,6 +2,7 @@
 #include "RabbitCommonGlobalDir.h"
 #include "RabbitCommonTools.h"
 #include "ui_FrmUpdater.h"
+#include "AdminAuthoriser/adminauthoriser.h"
 
 #include <QtNetwork>
 #include <QUrl>
@@ -811,20 +812,16 @@ void CFrmUpdater::slotUpdate()
             f.write(szCmd.toStdString().c_str());
             qDebug() << szCmd << szInstall;
             f.close();
-            //启动安装程序  
-            if(!proc.startDetached(QString("sudo /bin/bash"),
-                                   QStringList() << szInstall,
-                                   fi.absolutePath()))
+
+            //启动安装程序
+            if(!RabbitCommon::AdminAuthoriser::Instance()->execute("/bin/bash", QStringList() << szInstall))
             {
-                QUrl url("sudo /bin/bash szInstall");
-                if(!QDesktopServices::openUrl(url))
-                {
-                    QString szErr = tr("Execute") + "/bin/bash "
-                            + szInstall + "fail";
-                    ui->lbState->setText(szErr);
-                    break;
-                }
+                QString szErr = tr("Execute") + "/bin/bash "
+                        + szInstall + "fail";
+                ui->lbState->setText(szErr);
+                break;
             }
+
         }
 
         ui->lbState->setText(tr("The installer has started, Please close the application"));

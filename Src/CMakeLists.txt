@@ -47,6 +47,22 @@ if(BUILD_UPDATE)
     set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
+option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
+if(BUILD_ADMINAUTHORISER)
+    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_ADMINAUTHORISER")
+    set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} AdminAuthoriser/adminauthoriser)
+    set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthoriser.cpp)
+    SET(HEAD_FILES ${HEAD_FILES} AdminAuthoriser/adminauthorization_p.h)
+    if(WIN32)
+        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_win.cpp)
+    elseif(MAC)
+        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_mac.cpp)
+    elseif(UINX)
+        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_x11.cpp)
+    else()
+        set(SOURCE_FILES ${SOURCE_FILES} adminauthorization_dummy.cpp)
+    endif()
+endif(BUILD_ADMINAUTHORISER)
 
 set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
@@ -54,6 +70,7 @@ set(INSTALL_HEAD_FILES
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
+    ${HEAD_FILES}
     RabbitCommonGlobalDir.h
     )
 set(SOURCE_FILES
