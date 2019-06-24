@@ -758,9 +758,9 @@ void CFrmUpdater::slotUpdate()
             return;
         }*/
 
-        QProcess proc;
+        QProcess procHome;
         if(ui->cbHomePage->isChecked() && !m_Info.szUrlHome.isEmpty())
-            if(!proc.startDetached(m_Info.szUrlHome))
+            if(!procHome.startDetached(m_Info.szUrlHome))
             {
                 QUrl url(m_Info.szUrlHome);
                 if(!QDesktopServices::openUrl(url))
@@ -771,8 +771,9 @@ void CFrmUpdater::slotUpdate()
                 }
             }
         
+        QProcess proc;
         QFileInfo fi(m_DownloadFile.fileName());
-        if(fi.completeSuffix().compare("tar.gz", Qt::CaseInsensitive))
+        if(fi.suffix().compare("gz", Qt::CaseInsensitive))
         {
             //启动安装程序  
             if(!proc.startDetached(m_DownloadFile.fileName()))
@@ -787,16 +788,18 @@ void CFrmUpdater::slotUpdate()
                 }
             }
         } else {
-            QFile f(fi.absoluteFilePath() + QDir::separator() + "install.sh");
+            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
+            QFile f(szInstall);
             if(!f.open(QFile::WriteOnly))
             {
-                QString szErr = tr("Open file %1 fail").arg(fi.absoluteFilePath());
+                QString szErr = tr("Open file %1 fail").arg(fi.absolutePath());
                 ui->lbState->setText(szErr);
                 break;
             }
             
             QString szCmd;
             szCmd = "#!/bin/bash\n";
+            szCmd += "set -v";
             szCmd += "mkdir -p /opt/" + qApp->applicationName() + "\n";
             szCmd += "cd /opt/" + qApp->applicationName() + "\n";
             szCmd += "if [ -f install.sh ]; then\n";
@@ -806,17 +809,21 @@ void CFrmUpdater::slotUpdate()
             szCmd += "tar xvfz " + fi.fileName() + "\n";
             szCmd += QString("./install.sh install") + "\n";
             f.write(szCmd.toStdString().c_str());
-            qDebug() << szCmd;
+            qDebug() << szCmd << szInstall;
             f.close();
             //启动安装程序  
             if(!proc.startDetached(QString("sudo /bin/bash"),
-                                   QStringList() << fi.absoluteFilePath(),
+                                   QStringList() << szInstall,
                                    fi.absolutePath()))
             {
-                QString szErr = tr("Execute") + "/bin/bash "
-                        + fi.absoluteFilePath() + "fail";
-                ui->lbState->setText(szErr);
-                break;
+                QUrl url("sudo /bin/bash szInstall");
+                if(!QDesktopServices::openUrl(url))
+                {
+                    QString szErr = tr("Execute") + "/bin/bash "
+                            + szInstall + "fail";
+                    ui->lbState->setText(szErr);
+                    break;
+                }
             }
         }
 
