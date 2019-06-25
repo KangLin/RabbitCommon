@@ -37,7 +37,8 @@
       * 参数
         - BUILD_ABOUT=OFF: 关闭编译关于功能
         - BUILD_UPDATE=OFF: 关闭编译在线更新功能
-          
+        - BUILD_ADMINAUTHORISER＝OFF: 关闭用管理员权限运行程序
+        
   + 用 cmake
   
         cd build
@@ -49,6 +50,7 @@
         - BUILD_APP: 编译应用程序
         - BUILD_ABOUT: 编译关于功能
         - BUILD_UPDATE: 编译在线更新功能
+        - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
 - 安装注意  
 如果使用在线更新功能，Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
@@ -154,6 +156,7 @@
 
         CRabbitCommonTools::Instance()->Init();
 
+------------------------------------------------
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
   ```
@@ -192,6 +195,14 @@
         </REDIRECT>
   
 ![在线更新功能](docments/image/update.PNG "在线更新功能")
+
+- [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
+
+        QString szCmd = "mkdir";
+        QStringList paras;
+        paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
+        qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
+                 << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
 ------------------------------------------------
 
