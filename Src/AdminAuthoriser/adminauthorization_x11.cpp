@@ -193,12 +193,14 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
 
 					bool ok = false;
 					const auto password = QInputDialog::getText(nullptr,
-																QCoreApplication::translate("AdminAuthorization", "Enter Password"),
-																QCoreApplication::translate("AdminAuthorization", "Enter your root password to run the maintenancetool:"),
-																QLineEdit::Password,
-																QString(),
-																&ok,
-																Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
+						QCoreApplication::translate("AdminAuthorization",
+                                                    "Enter Password"),
+						QCoreApplication::translate("AdminAuthorization",
+                                "Enter your root password to run the program:"),
+						QLineEdit::Password,
+                        QString(),
+                        &ok,
+	                    Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
 
 					if (!ok) {
 						const auto pwd = password.toLatin1();
@@ -219,7 +221,8 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
 		}
 
 		if (!errData.isEmpty()) {
-            QMessageBox::critical(nullptr, QObject::tr("Critical"), QString::fromLocal8Bit(errData));
+            QMessageBox::critical(nullptr, QObject::tr("Critical"),
+                                  QString::fromLocal8Bit(errData));
 			return false;
 		}
 
@@ -250,7 +253,6 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
 		for (int i = 3; i < static_cast<int>(rlp.rlim_cur); ++i)
 			::close(i);
 
-		char **argp = reinterpret_cast<char **>(::malloc(static_cast<ulong>(arguments.count()) + 4 * sizeof(char *)));
 		QList<QByteArray> args;
 		args.push_back(SU_COMMAND);
 		args.push_back("-b");
@@ -259,8 +261,15 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
 		args.push_back(program.toLocal8Bit());
 		for (const auto &argument : arguments)
 			args.push_back(argument.toLocal8Bit());
-
+        QString szCmd;
+        for(auto &b: args)
+        {
+            szCmd += QString(b) + " ";
+        }
+        ::system(szCmd.toStdString().c_str());
+        /*
 		int i = 0;
+        char **argp = reinterpret_cast<char **>(::malloc(static_cast<ulong>(args.count()) * sizeof(char *)));
 		for (auto &arg : args)
 			argp[i] = arg.data();
 		argp[i] = nullptr;
@@ -268,7 +277,8 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
 		::unsetenv("LANG");
 		::unsetenv("LC_ALL");
 
-        ::execv(SU_COMMAND, argp);
+        ::execv(SU_COMMAND, argp);//*/
+        
 		_exit(EXIT_FAILURE);
 		return false;
 	}

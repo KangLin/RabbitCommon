@@ -800,28 +800,30 @@ void CFrmUpdater::slotUpdate()
             
             QString szCmd;
             szCmd = "#!/bin/bash\n";
-            szCmd += "set -v";
+            szCmd += "set -e\n";
             szCmd += "mkdir -p /opt/" + qApp->applicationName() + "\n";
             szCmd += "cd /opt/" + qApp->applicationName() + "\n";
             szCmd += "if [ -f install.sh ]; then\n";
             szCmd += "    ./install.sh remove\n";
+            szCmd += "    rm -fr *\n";
             szCmd += "fi\n";
             szCmd += "cp " + m_DownloadFile.fileName() + " ." + "\n";
             szCmd += "tar xvfz " + fi.fileName() + "\n";
             szCmd += QString("./install.sh install") + "\n";
+            szCmd += "rm " + fi.fileName() + "\n";
             f.write(szCmd.toStdString().c_str());
             qDebug() << szCmd << szInstall;
             f.close();
 
             //启动安装程序
-            if(!RabbitCommon::AdminAuthoriser::Instance()->execute("/bin/bash", QStringList() << szInstall))
+            if(!RabbitCommon::AdminAuthoriser::Instance()->execute("/bin/bash",
+                                                    QStringList() << szInstall))
             {
                 QString szErr = tr("Execute") + "/bin/bash "
-                        + szInstall + "fail";
+                                + szInstall + "fail";
                 ui->lbState->setText(szErr);
                 break;
             }
-
         }
 
         ui->lbState->setText(tr("The installer has started, Please close the application"));
