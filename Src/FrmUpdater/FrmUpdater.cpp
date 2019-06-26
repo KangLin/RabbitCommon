@@ -759,19 +759,7 @@ void CFrmUpdater::slotUpdate()
             return;
         }*/
 
-        QProcess procHome;
-        if(ui->cbHomePage->isChecked() && !m_Info.szUrlHome.isEmpty())
-            if(!procHome.startDetached(m_Info.szUrlHome))
-            {
-                QUrl url(m_Info.szUrlHome);
-                if(!QDesktopServices::openUrl(url))
-                {
-                    QString szErr = tr("Execute install program error.%1")
-                            .arg(m_DownloadFile.fileName());
-                    ui->lbState->setText(szErr);
-                }
-            }
-        
+                
         QProcess proc;
         QFileInfo fi(m_DownloadFile.fileName());
         if(fi.suffix().compare("gz", Qt::CaseInsensitive))
@@ -805,7 +793,7 @@ void CFrmUpdater::slotUpdate()
             szCmd += "cd /opt/" + qApp->applicationName() + "\n";
             szCmd += "if [ -f install.sh ]; then\n";
             szCmd += "    ./install.sh remove\n";
-            szCmd += "    rm -fr *\n";
+            //szCmd += "    rm -fr *\n";
             szCmd += "fi\n";
             szCmd += "cp " + m_DownloadFile.fileName() + " ." + "\n";
             szCmd += "tar xvfz " + fi.fileName() + "\n";
@@ -834,6 +822,19 @@ void CFrmUpdater::slotUpdate()
         emit sigFinished();
     }while(0);
 
+    QProcess procHome;
+    if(ui->cbHomePage->isChecked() && !m_Info.szUrlHome.isEmpty())
+        if(!procHome.startDetached(m_Info.szUrlHome))
+        {
+            QUrl url(m_Info.szUrlHome);
+            if(!QDesktopServices::openUrl(url))
+            {
+                QString szErr = tr("Execute install program error.%1")
+                        .arg(m_DownloadFile.fileName());
+                ui->lbState->setText(szErr);
+            }
+        }
+    
     m_DownloadFile.close();
 
     qApp->quit();
