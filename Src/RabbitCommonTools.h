@@ -17,6 +17,8 @@ public:
     void InitResource();
     void CleanResource();
     
+    static bool execute(const QString &program, const QStringList &arguments);
+
 private:
     CTools();
     virtual ~CTools();

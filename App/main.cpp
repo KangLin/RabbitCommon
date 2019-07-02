@@ -37,11 +37,15 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef HAVE_ADMINAUTHORISER
+#ifdef defined(Q_OS_LINUX)
     QString szCmd = "mkdir";
     QStringList paras;
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-    qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
-             << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
+    qDebug() << "RabbitCommon::CTools::execute(szCmd, paras):"
+             << RabbitCommon::CTools::execute(szCmd, paras);
+#elif defined(Q_OS_WINDOWS)
+    RabbitCommon::CTools::execute("regedit", QStringList());
+#endif
 #endif
     return a.exec();
 }

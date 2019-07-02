@@ -1,5 +1,7 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
+#include "AdminAuthoriser/adminauthoriser.h"
+
 #include <QApplication>
 #include <QDir>
 
@@ -53,6 +55,11 @@ void CTools::CleanResource()
 #if defined(Q_OS_ANDROID) || _DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitCommon);
 #endif
+}
+
+bool CTools::execute(const QString &program, const QStringList &arguments)
+{
+    return CAdminAuthoriser::Instance()->execute(program, arguments);
 }
 
 } //namespace RabbitCommon

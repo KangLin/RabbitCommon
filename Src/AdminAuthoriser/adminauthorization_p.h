@@ -6,7 +6,7 @@
 namespace RabbitCommon
 {
 
-class RABBITCOMMON_EXPORT AdminAuthorization : public AdminAuthoriser
+class RABBITCOMMON_EXPORT CAdminAuthorization : public CAdminAuthoriser
 {
 public:
 	bool hasAdminRights() override;

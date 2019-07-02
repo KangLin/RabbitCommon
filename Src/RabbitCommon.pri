@@ -41,9 +41,9 @@ else: DEFINES *= RabbitCommon_EXPORTS
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
 }
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
-    INSTALL_HEADERS += $$PWD/AdminAuthoriser/adminauthoriser.h
     SOURCES += $$PWD/AdminAuthoriser/adminauthoriser.cpp
-    HEADERS += $$PWD/AdminAuthoriser/adminauthorization_p.h
+    HEADERS += $$PWD/AdminAuthoriser/adminauthoriser.h \
+               $$PWD/AdminAuthoriser/adminauthorization_p.h
     win32: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_win.cpp
     else:mac: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_mac.cpp
     else:unix:!emscripten: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_x11.cpp

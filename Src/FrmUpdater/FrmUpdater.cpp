@@ -806,7 +806,7 @@ void CFrmUpdater::slotUpdate()
             f.close();
 
             //启动安装程序
-            if(!RabbitCommon::AdminAuthoriser::Instance()->execute("/bin/bash",
+            if(!RabbitCommon::CAdminAuthoriser::Instance()->execute("/bin/bash",
                                                     QStringList() << szInstall))
             {
                 QString szErr = tr("Execute") + "/bin/bash "

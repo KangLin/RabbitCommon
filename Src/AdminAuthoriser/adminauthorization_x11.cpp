@@ -73,12 +73,12 @@ const QList<QPair<QString, QStringList>> suFontends = {
 
 }
 
-bool AdminAuthorization::hasAdminRights()
+bool CAdminAuthorization::hasAdminRights()
 {
 	return getuid() == 0;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
+bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
 	for(const auto &su : qAsConst(suFontends)) {
 		auto command = QStandardPaths::findExecutable(su.first);

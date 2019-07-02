@@ -4,15 +4,14 @@
 
 作者：康林（kl222@126.com)
 
-------------------------------------------------
-
 ### 功能
 
 本人Qt项目的一些公共库
 
 - [x] 关于对话框
 - [x] 在线更新
-- [x] 用管理员权限执行程序
+- [x] 工具
+  - [x] 用管理员权限执行程序
 
 ------------------------------------------------
 
@@ -54,11 +53,15 @@
         - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
 - 安装注意  
-如果使用在线更新功能，Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
-    - 如果是32的，可以在Qt安装程序Tools\QtCreator\bin目录下，找到openssl的动态库（libeay32.dll、ssleay32.dll）
-    - 如果是64位，则需要自己下载openssl的二进制安装包。
+Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
+    + windows
+        - 如果是32的，可以在Qt安装程序Tools\QtCreator\bin目录下，找到openssl的动态库（libeay32.dll、ssleay32.dll）
+        - 如果是64位，则需要自己下载openssl的二进制安装包。
+    + linux
 
-------------------------------------------------
+        ```
+        sudo apt-get install libssl1.1
+        ```
 
 ### 其它应用使用本项目
 - 直接用源码
@@ -155,14 +158,14 @@
 
 - 加载资源
 
-        CRabbitCommonTools::Instance()->Init();
+        RabbitCommon::CTools::Instance()->Init();
 
 ------------------------------------------------
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
   ```
   #ifdef RABBITCOMMON
-      CDlgAbout about(this);
+      RabbitCommon::CDlgAbout about(this);
       about.m_AppIcon = QPixmap(":/image/Calendar");
       about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
       #if defined (Q_OS_ANDROID)
@@ -178,7 +181,7 @@
 
   ```
   #ifdef RABBITCOMMON
-      CFrmUpdater *fu = new CFrmUpdater();
+      RabbitCommon::CFrmUpdater *fu = new CFrmUpdater();
       fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
       #if defined (Q_OS_ANDROID)
           fu->showMaximized();
@@ -198,12 +201,17 @@
 ![在线更新功能](docments/image/update.PNG "在线更新功能")
 
 - [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
+    + 内部实现
 
-        QString szCmd = "mkdir";
-        QStringList paras;
-        paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-        qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
-                 << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
+            QString szCmd = "mkdir";
+            QStringList paras;
+            paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
+            qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
+                     << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
+
+    + 公开接口：
+
+            RabbitCommon::CTools::execute("regedit", QStringList());
 
 ------------------------------------------------
 

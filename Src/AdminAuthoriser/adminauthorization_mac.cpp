@@ -43,12 +43,12 @@
 
 using namespace RabbitCommon;
 
-bool AdminAuthorization::hasAdminRights()
+bool CAdminAuthorization::hasAdminRights()
 {
 	return geteuid() == 0;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
+bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
 	AuthorizationRef authorizationRef;
 	OSStatus status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,

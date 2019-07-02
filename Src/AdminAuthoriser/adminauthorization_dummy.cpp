@@ -1,12 +1,12 @@
 #include "adminauthorization_p.h"
 using namespace RabbitCommon;
 
-bool AdminAuthorization::hasAdminRights()
+bool CAdminAuthorization::hasAdminRights()
 {
 	return false;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
+bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
 	Q_UNUSED(program)
 	Q_UNUSED(arguments)

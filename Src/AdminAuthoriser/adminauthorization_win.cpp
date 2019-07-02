@@ -57,7 +57,7 @@ struct DeCoInitializer
 	bool neededCoInit;
 };
 
-bool AdminAuthorization::hasAdminRights()
+bool CAdminAuthorization::hasAdminRights()
 {
 	SID_IDENTIFIER_AUTHORITY authority = { SECURITY_NT_AUTHORITY };
 	PSID adminGroup;
@@ -78,7 +78,7 @@ bool AdminAuthorization::hasAdminRights()
 	return (bool)isInAdminGroup;
 }
 
-bool AdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
+bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
 	DeCoInitializer _;
 

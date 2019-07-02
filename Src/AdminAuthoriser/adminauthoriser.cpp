@@ -4,19 +4,19 @@
 #include <QApplication>
 #include <QProcess>
 
-RabbitCommon::AdminAuthoriser::AdminAuthoriser() = default;
+RabbitCommon::CAdminAuthoriser::CAdminAuthoriser() = default;
 
-RabbitCommon::AdminAuthoriser::~AdminAuthoriser() = default;
+RabbitCommon::CAdminAuthoriser::~CAdminAuthoriser() = default;
 
-RabbitCommon::AdminAuthoriser* RabbitCommon::AdminAuthoriser::Instance()
+RabbitCommon::CAdminAuthoriser* RabbitCommon::CAdminAuthoriser::Instance()
 {
-    RabbitCommon::AdminAuthoriser* p = nullptr;
+    RabbitCommon::CAdminAuthoriser* p = nullptr;
     if(!p)
-        p = new RabbitCommon::AdminAuthorization();
+        p = new RabbitCommon::CAdminAuthorization();
     return p;
 }
 
-bool RabbitCommon::AdminAuthoriser::execute(const QString &program, const QStringList &arguments)
+bool RabbitCommon::CAdminAuthoriser::execute(const QString &program, const QStringList &arguments)
 {
     if(hasAdminRights())
     {

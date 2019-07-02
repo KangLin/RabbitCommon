@@ -9,14 +9,14 @@ namespace RabbitCommon
 {
 
 //! An interface to run programs with elevated rights
-class RABBITCOMMON_EXPORT AdminAuthoriser
+class RABBITCOMMON_EXPORT CAdminAuthoriser
 {
-	Q_DISABLE_COPY(AdminAuthoriser)
+    Q_DISABLE_COPY(CAdminAuthoriser)
 public:
-	AdminAuthoriser();
-	virtual ~AdminAuthoriser();
+    CAdminAuthoriser();
+    virtual ~CAdminAuthoriser();
 
-    static AdminAuthoriser* Instance();
+    static CAdminAuthoriser* Instance();
     virtual bool execute(const QString &program, const QStringList &arguments);
 
 protected:
