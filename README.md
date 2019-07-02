@@ -102,7 +102,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 RESOURCE_QRC_FILE_CONTENT += \
                     "<file alias=\"Authors_zh_CN\">$$PWD/../Authors_zh_CN.md</file>"
                 RESOURCE_QRC_FILE_CONTENT += \
-                    "<file alias=\"ChangeLog\">$$PWD/../ChangeLog.md</file>"
+                    "<file alias=\"ChangeLog\">$$PWD/../ChangeLog_zh_CN.md</file>"
                 RESOURCE_QRC_FILE_CONTENT += \
                     "<file alias=\"License\">$$PWD/../License.md</file>"
     
