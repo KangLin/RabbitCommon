@@ -5,6 +5,22 @@
 #include <QApplication>
 #include <QDir>
 
+inline void g_RabbitCommon_InitResource()
+{
+    Q_INIT_RESOURCE(ResourceRabbitCommon);
+#if defined(Q_OS_ANDROID) || _DEBUG
+    Q_INIT_RESOURCE(translations_RabbitCommon);
+#endif
+}
+
+inline void g_RabbitCommon_CleanResource()
+{
+    Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
+#if defined(Q_OS_ANDROID) || _DEBUG
+    Q_CLEANUP_RESOURCE(translations_RabbitCommon);
+#endif
+}
+
 namespace RabbitCommon {
 
 CTools::CTools()
@@ -43,18 +59,12 @@ void CTools::CleanTranslator()
 
 void CTools::InitResource()
 {
-    Q_INIT_RESOURCE(ResourceRabbitCommon);
-#if defined(Q_OS_ANDROID) || _DEBUG
-    Q_INIT_RESOURCE(translations_RabbitCommon);
-#endif
+    g_RabbitCommon_InitResource();
 }
 
 void CTools::CleanResource()
 {
-    Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
-#if defined(Q_OS_ANDROID) || _DEBUG
-    Q_CLEANUP_RESOURCE(translations_RabbitCommon);
-#endif
+    g_RabbitCommon_CleanResource();
 }
 
 bool CTools::execute(const QString &program, const QStringList &arguments)
