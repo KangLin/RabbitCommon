@@ -1,8 +1,8 @@
 #include "FrmUpdater.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "ui_FrmUpdater.h"
 #include "AdminAuthoriser/adminauthoriser.h"
+#include "ui_FrmUpdater.h"
 
 #include <QtNetwork>
 #include <QUrl>
@@ -18,6 +18,8 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QMenu>
+
+namespace RabbitCommon {
 
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
@@ -1199,3 +1201,5 @@ void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)
 #endif
     m_TrayIcon.hide();
 }
+
+} //namespace RabbitCommon

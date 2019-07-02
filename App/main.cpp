@@ -24,14 +24,14 @@ int main(int argc, char *argv[])
 
     RabbitCommon::CTools::Instance()->Init();
 #ifdef HAVE_UPDATE
-    CFrmUpdater update;
+    RabbitCommon::CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
     update.show();
 #endif
 
 #ifdef HAVE_ABOUT
-    CDlgAbout dlg;
+    RabbitCommon::CDlgAbout dlg;
     dlg.setAttribute(Qt::WA_QuitOnClose, true);
     dlg.show();
 #endif

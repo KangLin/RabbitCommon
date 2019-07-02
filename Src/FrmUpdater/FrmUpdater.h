@@ -17,6 +17,8 @@ namespace Ui {
 class CFrmUpdater;
 }
 
+namespace RabbitCommon {
+
 class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
 {
     Q_OBJECT
@@ -114,5 +116,7 @@ private:
 protected:
     virtual void showEvent(QShowEvent *event) override;
 };
+
+} //namespace RabbitCommon
 
 #endif // RABBITCOMMON_FRMUPDATER_H
