@@ -60,7 +60,7 @@ if(BUILD_ADMINAUTHORISER)
     elseif(UINX)
         set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_x11.cpp)
     else()
-        set(SOURCE_FILES ${SOURCE_FILES} adminauthorization_dummy.cpp)
+        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_dummy.cpp)
     endif()
 endif(BUILD_ADMINAUTHORISER)
 
