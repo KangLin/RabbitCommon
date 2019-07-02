@@ -26,7 +26,9 @@ override_dh_auto_configure:
 	$(QT_ROOT)/bin/qmake PREFIX=/opt/RabbitCommon
     endif
 override_dh_auto_build:
+    ifndef GENERATORS
 	dh_auto_build -- -j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`
+    endif
 override_dh_shlibdeps:
     ifdef GENERATORS
 	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitcommon/opt/RabbitCommon/lib/
