@@ -4,6 +4,8 @@
 #include <QString>
 #include "rabbitcommon_export.h"
 
+namespace RabbitCommon {
+
 /*
  * Default directory:
  * 
@@ -21,12 +23,12 @@
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  */
-class RABBITCOMMON_EXPORT CRabbitCommonGlobalDir
+class RABBITCOMMON_EXPORT CDir
 {
 public:
-    CRabbitCommonGlobalDir();
+    CDir();
     
-    static CRabbitCommonGlobalDir* Instance();
+    static CDir* Instance();
      
     QString GetDirApplication();
     int SetDirApplication(const QString &szPath);
@@ -48,5 +50,7 @@ private:
     QString m_szApplicationDir;
     QString m_szApplicationRootDir;
 };
+
+} //namespace RabbitCommon
 
 #endif // RABBITCOMM_CGLOBALDIR_H

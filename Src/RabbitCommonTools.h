@@ -4,10 +4,12 @@
 #include <QTranslator>
 #include "rabbitcommon_export.h"
 
-class RABBITCOMMON_EXPORT CRabbitCommonTools
+namespace RabbitCommon {
+
+class RABBITCOMMON_EXPORT CTools
 {
 public:
-    static CRabbitCommonTools* Instance();
+    static CTools* Instance();
     
     void Init();
     void InitTranslator();
@@ -16,10 +18,12 @@ public:
     void CleanResource();
     
 private:
-    CRabbitCommonTools();
-    virtual ~CRabbitCommonTools();
+    CTools();
+    virtual ~CTools();
     
     QTranslator m_Translator;
 };
+
+} //namespace RabbitCommon
 
 #endif // RABBITCOMMON_TOOLS_H

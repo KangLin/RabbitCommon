@@ -1,10 +1,12 @@
-#include "RabbitCommonGlobalDir.h"
+#include "RabbitCommonDir.h"
 #include <QStandardPaths>
 #include <QDir>
 #include <QApplication>
 #include <QDebug>
 
-CRabbitCommonGlobalDir::CRabbitCommonGlobalDir()
+namespace RabbitCommon {
+
+CDir::CDir()
 {
     //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(
@@ -19,38 +21,38 @@ CRabbitCommonGlobalDir::CRabbitCommonGlobalDir()
     m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 }
 
-CRabbitCommonGlobalDir* CRabbitCommonGlobalDir::Instance()
+CDir* CDir::Instance()
 {
-    static CRabbitCommonGlobalDir* p = nullptr;
+    static CDir* p = nullptr;
     if(!p)
-        p = new CRabbitCommonGlobalDir;
+        p = new CDir;
     return p;
 }
 
-QString CRabbitCommonGlobalDir::GetDirApplication()
+QString CDir::GetDirApplication()
 {
     qDebug() << "GetDirApplication:" << qApp->applicationDirPath().toStdString().c_str();
     return m_szApplicationDir;
 }
 
-int CRabbitCommonGlobalDir::SetDirApplication(const QString &szPath)
+int CDir::SetDirApplication(const QString &szPath)
 {
     m_szApplicationDir = szPath;
     return 0;
 }
 
-QString CRabbitCommonGlobalDir::GetDirApplicationRoot()
+QString CDir::GetDirApplicationRoot()
 {
     return m_szApplicationRootDir;
 }
 
-int CRabbitCommonGlobalDir::SetDirApplicationRoot(const QString &szPath)
+int CDir::SetDirApplicationRoot(const QString &szPath)
 {
     m_szApplicationRootDir = szPath;
     return 0;
 }
 
-QString CRabbitCommonGlobalDir::GetDirConfig()
+QString CDir::GetDirConfig()
 {
     QString szPath = GetDirApplicationRoot() + QDir::separator() + "etc";
     QDir d;
@@ -59,7 +61,7 @@ QString CRabbitCommonGlobalDir::GetDirConfig()
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirApplicationXml()
+QString CDir::GetDirApplicationXml()
 {
     QString szPath = GetDirConfig() + QDir::separator() + "xml";
     QDir d;
@@ -68,12 +70,12 @@ QString CRabbitCommonGlobalDir::GetDirApplicationXml()
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirUserDocument()
+QString CDir::GetDirUserDocument()
 {
     return m_szDocumentPath;
 }
 
-int CRabbitCommonGlobalDir::SetDirUserDocument(QString szPath)
+int CDir::SetDirUserDocument(QString szPath)
 {
     m_szDocumentPath = szPath;
     QDir d;
@@ -82,7 +84,7 @@ int CRabbitCommonGlobalDir::SetDirUserDocument(QString szPath)
     return 0;
 }
 
-QString CRabbitCommonGlobalDir::GetDirUserData()
+QString CDir::GetDirUserData()
 {
     QString szPath = GetDirUserDocument() + QDir::separator() + "data";
     QDir d;
@@ -91,7 +93,7 @@ QString CRabbitCommonGlobalDir::GetDirUserData()
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirUserImage()
+QString CDir::GetDirUserImage()
 {
     QString szPath = GetDirUserData() + QDir::separator() + "image";
     QDir d;
@@ -100,7 +102,7 @@ QString CRabbitCommonGlobalDir::GetDirUserImage()
     return szPath;
 }
 
-QString CRabbitCommonGlobalDir::GetDirTranslations()
+QString CDir::GetDirTranslations()
 {
 #if defined(Q_OS_ANDROID) || _DEBUG
     return ":/Translations";
@@ -108,14 +110,15 @@ QString CRabbitCommonGlobalDir::GetDirTranslations()
     return GetDirApplicationRoot() + QDir::separator() + "translations";
 }
 
-QString CRabbitCommonGlobalDir::GetFileApplicationConfigure()
+QString CDir::GetFileApplicationConfigure()
 {
     return GetDirConfig() + QDir::separator() + QApplication::applicationName() + ".conf";
 }
 
-QString CRabbitCommonGlobalDir::GetFileUserConfigure()
+QString CDir::GetFileUserConfigure()
 {
     QString szName = GetDirUserDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
     return szName;
 }
 
+} //namespace RabbitCommon

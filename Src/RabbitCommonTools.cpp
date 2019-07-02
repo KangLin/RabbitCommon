@@ -1,43 +1,45 @@
 #include "RabbitCommonTools.h"
-#include "RabbitCommonGlobalDir.h"
+#include "RabbitCommonDir.h"
 #include <QApplication>
 #include <QDir>
 
-CRabbitCommonTools::CRabbitCommonTools()
+namespace RabbitCommon {
+
+CTools::CTools()
 {   
 }
 
-CRabbitCommonTools::~CRabbitCommonTools()
+CTools::~CTools()
 {
 }
 
-CRabbitCommonTools* CRabbitCommonTools::Instance()
+CTools* CTools::Instance()
 {
-    static CRabbitCommonTools* pTools = nullptr;
+    static CTools* pTools = nullptr;
     if(nullptr == pTools)
-        pTools = new CRabbitCommonTools();
+        pTools = new CTools();
     return pTools;
 }
 
-void CRabbitCommonTools::Init()
+void CTools::Init()
 {
     InitResource();
     InitTranslator();
 }
 
-void CRabbitCommonTools::InitTranslator()
+void CTools::InitTranslator()
 {
-    m_Translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
+    m_Translator.load(CDir::Instance()->GetDirTranslations()
                       + "/RabbitCommon_" + QLocale::system().name() + ".qm");
     qApp->installTranslator(&m_Translator);
 }
 
-void CRabbitCommonTools::CleanTranslator()
+void CTools::CleanTranslator()
 {
     qApp->removeTranslator(&m_Translator);    
 }
 
-void CRabbitCommonTools::InitResource()
+void CTools::InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
 #if defined(Q_OS_ANDROID) || _DEBUG
@@ -45,10 +47,12 @@ void CRabbitCommonTools::InitResource()
 #endif
 }
 
-void CRabbitCommonTools::CleanResource()
+void CTools::CleanResource()
 {
     Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
 #if defined(Q_OS_ANDROID) || _DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitCommon);
 #endif
 }
+
+} //namespace RabbitCommon

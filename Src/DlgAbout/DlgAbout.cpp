@@ -15,7 +15,7 @@ Abstract:
 
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
-#include "RabbitCommonGlobalDir.h"
+#include "RabbitCommonDir.h"
 
 #include <QFile>
 #include <QDir>
@@ -98,11 +98,11 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     } else
         szFileLocation = ":/file/" + szFile;
 #else
-    szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplicationRoot() + QDir::separator()
+    szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationRoot() + QDir::separator()
             + szFile + "_" + QLocale().system().name() + ".md";
     QDir d;
     if(!d.exists(szFileLocation))
-        szFileLocation = CRabbitCommonGlobalDir::Instance()->GetDirApplicationRoot() 
+        szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationRoot()
                 + QDir::separator() + szFile + ".md";
 #endif
     

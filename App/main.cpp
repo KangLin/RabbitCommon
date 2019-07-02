@@ -11,18 +11,18 @@
 #include <QTranslator>
 #include <QDir>
 #include "RabbitCommonTools.h"
-#include "RabbitCommonGlobalDir.h"
+#include "RabbitCommonDir.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
     QTranslator tApp, tTasks;
-    tApp.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
+    tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
               + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
 
-    CRabbitCommonTools::Instance()->Init();
+    RabbitCommon::CTools::Instance()->Init();
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
