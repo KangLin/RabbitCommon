@@ -1,3 +1,8 @@
+- 0.0.3
+  + 增加更新时，管理员权限
+  + 修改 deb url
+  + 增加 CheckRedirectXmlFile
+
 - 0.0.2
   + 增加ci
   + 修改ANDROID
