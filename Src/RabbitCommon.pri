@@ -46,7 +46,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
                $$PWD/AdminAuthoriser/adminauthorization_p.h
     win32: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_win.cpp
     else:mac: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_mac.cpp
-    else:unix:!emscripten: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_x11.cpp
+    else:unix:!emscripten:!android: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_x11.cpp
     else: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_dummy.cpp
 
     win32 {
@@ -55,7 +55,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
     } else:mac {
         QT += macextras
         LIBS += -framework Security
-    } else:unix {
+    } else:unix:!android {
         QT += dbus
         LIBS += -lutil
     }
