@@ -36,8 +36,10 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     
     m_szAppName = qApp->applicationDisplayName();
 
+    m_szVersion = qApp->applicationVersion();
 #ifdef BUILD_VERSION
-    m_szVersion = BUILD_VERSION;
+    if(m_szVersion.isEmpty())
+        m_szVersion = BUILD_VERSION;
 #endif
     
 #ifdef BUILD_ARCH
