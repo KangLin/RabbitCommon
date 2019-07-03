@@ -152,8 +152,7 @@ set(OTHER_FILES
     License.md
     Authors.md
     Authors_zh_CN.md
-    #ChangeLog.md
-    ChangeLog_zh_CN.md
+    ChangeLog.md
     )
 
 INSTALL(FILES ${OTHER_FILES} DESTINATION ".")

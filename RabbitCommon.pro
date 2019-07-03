@@ -25,8 +25,7 @@ isEmpty(PREFIX) {
 
 DISTFILES += Authors.md \
     Authors_zh_CN.md \
-    #ChangeLog.md \
-    ChangeLog_zh_CN.md \
+    ChangeLog.md \
     License.md
 
 other.files = $$DISTFILES

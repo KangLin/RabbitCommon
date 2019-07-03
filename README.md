@@ -4,6 +4,9 @@
 
 作者：康林（kl222@126.com)
 
+- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
+- [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
+
 ### 功能
 
 本人Qt项目的一些公共库
@@ -12,13 +15,6 @@
 - [x] 在线更新
 - [x] 工具
   - [x] 用管理员权限执行程序
-
-------------------------------------------------
-
-- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
-- [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
-
-------------------------------------------------
 
 ### 编译
 - 建立并进入build目录
@@ -160,7 +156,6 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
         RabbitCommon::CTools::Instance()->Init();
 
-------------------------------------------------
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
   ```
@@ -213,20 +208,11 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             RabbitCommon::CTools::execute("regedit", QStringList());
 
-------------------------------------------------
-
-### 下载
-https://github.com/KangLin/RabbitCommon/releases/latest
-
-------------------------------------------------
-
 ## 捐赠
 - 捐赠(大于￥20)：  
 ![捐赠( 大于 ￥20 )](Src/Resource/image/Contribute.png "捐赠(大于￥20)")
 
 - 捐赠￥20  
 ![捐赠￥20](Src/Resource/image/Contribute20.png "捐赠￥20")
-
-------------------------------------------------
 
 ### [许可协议](License.md "License.md")
