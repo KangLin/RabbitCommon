@@ -34,8 +34,6 @@ namespace Ui {
 class CDlgAbout;
 }
 
-namespace RabbitCommon {
-
 class RABBITCOMMON_EXPORT CDlgAbout : public QDialog
 {
     Q_OBJECT
@@ -68,5 +66,4 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 };
 
-} //namespace RabbitCommon
 #endif // RABBITCOMMON_DLGABOUT_H

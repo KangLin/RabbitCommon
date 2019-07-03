@@ -19,8 +19,6 @@
 #include <QMessageBox>
 #include <QMenu>
 
-namespace RabbitCommon {
-
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
@@ -1202,4 +1200,3 @@ void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)
     m_TrayIcon.hide();
 }
 
-} //namespace RabbitCommon

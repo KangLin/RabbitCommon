@@ -26,8 +26,6 @@ Abstract:
  */
 #include <QDateTime>
 
-namespace RabbitCommon {
-
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgAbout)
@@ -125,5 +123,3 @@ void CDlgAbout::on_pushButton_clicked()
 {
     close();
 }
-
-} //namespace RabbitCommon

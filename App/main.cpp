@@ -24,20 +24,20 @@ int main(int argc, char *argv[])
 
     RabbitCommon::CTools::Instance()->Init();
 #ifdef HAVE_UPDATE
-    RabbitCommon::CFrmUpdater update;
+    CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
     update.show();
 #endif
 
 #ifdef HAVE_ABOUT
-    RabbitCommon::CDlgAbout dlg;
+    CDlgAbout dlg;
     dlg.setAttribute(Qt::WA_QuitOnClose, true);
     dlg.show();
 #endif
 
 #ifdef HAVE_ADMINAUTHORISER
-#ifdef defined(Q_OS_LINUX)
+#ifdef defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     QString szCmd = "mkdir";
     QStringList paras;
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
