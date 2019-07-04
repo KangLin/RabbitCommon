@@ -159,6 +159,11 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
   ```
+  QApplication a(argc, argv);
+  a.setApplicationVersion(BUILD_VERSION);
+  a.setApplicationName("Calendar");
+  a.setApplicationDisplayName(QObject::tr("Calendar"));
+
   #ifdef RABBITCOMMON
       RabbitCommon::CDlgAbout about(this);
       about.m_AppIcon = QPixmap(":/image/Calendar");

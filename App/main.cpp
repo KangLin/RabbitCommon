@@ -16,7 +16,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    
+    a.setApplicationVersion(BUILD_VERSION);
+    a.setApplicationName("RabbitCommon");
+    a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
+
     QTranslator tApp, tTasks;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
               + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
