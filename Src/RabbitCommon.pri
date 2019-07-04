@@ -4,6 +4,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 CONFIG += c++11
 
 isEmpty(BUILD_VERSION): error("Please set BUILD_VERSION")
+VERSION=$$replace(BUILD_VERSION, v,)
+win32{
+    VERSION=$$split(VERSION, -)
+    VERSION=$$first(VERSION)
+}
+
 android{
     DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
 } else {

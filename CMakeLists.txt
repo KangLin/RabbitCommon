@@ -37,7 +37,7 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     ENDIF()
 ENDIF()
 message("BUILD_VERSION:${BUILD_VERSION}")
-
+set(VERSION ${BUILD_VERSION})
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
 # ----------------------------------------------------------------------------
