@@ -77,7 +77,7 @@ bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 }
 
 
-int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool bRoot)
+int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool bAllUser)
 {
     Q_UNUSED(szName);
     Q_UNUSED(szPath);
@@ -100,7 +100,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     //https://blog.csdn.net/DinnerHowe/article/details/79025282
     QString szDesktop = "/opt/" + appName + "/share/applications/" + appName +".desktop";
     QString szLink;
-    if(bRoot)
+    if(bAllUser)
     {
         szLink = "/etc/xdg";
     } else {
@@ -111,7 +111,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
 
     QDir d;
     if(d.exists(szLink))
-        RemoveStartRun(szName, bRoot);
+        RemoveStartRun(szName, bAllUser);
 
     QFile f(szDesktop);
     bool ret = f.link(szLink);
@@ -126,7 +126,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
 #endif
 }
 
-int CTools::RemoveStartRun(const QString &szName, bool bRoot)
+int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
 {
     Q_UNUSED(szName);
     QString appName = QApplication::applicationName();
@@ -139,7 +139,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bRoot)
     return 0;
 #elif defined(Q_OS_UNIX)
     QString szLink;
-    if(bRoot)
+    if(bAllUser)
     {
         szLink = "/etc/xdg";
     } else {
@@ -162,7 +162,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bRoot)
 #endif
 }
 
-bool CTools::IsStartRun(const QString &szName, bool bRoot)
+bool CTools::IsStartRun(const QString &szName, bool bAllUser)
 {
     Q_UNUSED(szName);
     QString appName = QApplication::applicationName();
@@ -176,7 +176,7 @@ bool CTools::IsStartRun(const QString &szName, bool bRoot)
     return false;
 #elif defined(Q_OS_UNIX)
     QString szLink;
-    if(bRoot)
+    if(bAllUser)
     {
         szLink = "/etc/xdg";
     } else {

@@ -216,6 +216,14 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 - [程序开机自启动](Src/RabbitCommonTools.h)
 
+    static int InstallStartRun(const QString &szName = QString(),
+                               const QString &szPath = QString(),
+                               bool bAllUser = false);
+    static int RemoveStartRun(const QString &szName = QString(),
+                              bool bAllUser = false);
+    static bool IsStartRun(const QString &szName = QString(),
+                           bool bAllUser = false);
+
 ## 捐赠
 - 捐赠(大于￥20)：  
 ![捐赠( 大于 ￥20 )](Src/Resource/image/Contribute.png "捐赠(大于￥20)")

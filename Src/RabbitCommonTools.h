@@ -29,15 +29,16 @@ public:
      * @brief InstallStartRun: auto run when startup
      * @param szName
      * @param szPath
-     * @return 
+     * @param bAllUser
+     * @return
      */
     static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
-                               bool bRoot = false);
+                               bool bAllUser = false);
     static int RemoveStartRun(const QString &szName = QString(),
-                              bool bRoot = false);
+                              bool bAllUser = false);
     static bool IsStartRun(const QString &szName = QString(),
-                           bool bRoot = false);
+                           bool bAllUser = false);
     
     /**
      * @brief GenerateDesktopFile: Generate desktop file
