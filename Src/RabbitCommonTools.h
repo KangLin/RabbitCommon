@@ -18,7 +18,7 @@ public:
     void CleanResource();
     
     /**
-     * @brief execute: Run with administrator privileges
+     * @brief executeByRoot: Run with administrator privileges
      * @param program
      * @param arguments
      * @return 
