@@ -74,6 +74,7 @@ private:
     bool IsDownLoad();
     int CheckRedirectXmlFile();
     int CheckUpdateXmlFile();
+    bool CheckPrompt(const QString &szVersion);
     
 private:
     Ui::CFrmUpdater *ui;
@@ -113,6 +114,8 @@ private:
     // QWidget interface
 protected:
     virtual void showEvent(QShowEvent *event) override;
+private slots:
+    void on_cbPrompt_clicked(bool checked);
 };
 
 #endif // RABBITCOMMON_FRMUPDATER_H

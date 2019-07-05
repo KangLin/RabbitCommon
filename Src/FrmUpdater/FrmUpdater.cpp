@@ -18,6 +18,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QMenu>
+#include <QSettings>
 
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
@@ -34,6 +35,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     ui->lbNewVersion->hide();
     ui->progressBar->hide();
     ui->cbHomePage->hide();
+    ui->cbPrompt->hide();
     ui->pbOK->hide();
     
     check = connect(&m_TrayIcon,
@@ -684,7 +686,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
         return -10;
     }
 #endif   
-
+    
     ui->lbState->setText(tr("There is a new version, is it updated?"));
     if(m_Info.bForce)
     {
@@ -693,7 +695,9 @@ int CFrmUpdater::CheckUpdateXmlFile()
     }
     else
     {
+        if(!CheckPrompt(m_Info.szVerion)) emit sigError();
         ui->cbHomePage->show();
+        ui->cbPrompt->show();
         ui->pbOK->setText(tr("OK(&O)"));
         ui->pbOK->show();
         show();
@@ -1200,3 +1204,23 @@ void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)
     m_TrayIcon.hide();
 }
 
+bool CFrmUpdater::CheckPrompt(const QString &szVersion)
+{
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    QString version = set.value("Updater/Version", m_szCurrentVersion).toString();
+    set.setValue("Updater/Version", szVersion);
+    int nRet = CompareVersion(szVersion, version);
+    if (nRet > 0)
+        return true;
+    else if(nRet == 0)
+        return ui->cbPrompt->isChecked();
+    return false;
+}
+
+void CFrmUpdater::on_cbPrompt_clicked(bool checked)
+{
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    set.setValue("Updater/Prompt", checked);
+}
