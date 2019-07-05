@@ -71,7 +71,7 @@ void CTools::CleanResource()
     g_RabbitCommon_CleanResource();
 }
 
-bool CTools::execute(const QString &program, const QStringList &arguments)
+bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 {
     return CAdminAuthoriser::Instance()->execute(program, arguments);
 }
@@ -108,11 +108,18 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
                     + "/.config";
     }
     szLink += "/autostart/" + appName + ".desktop";
+
+    QDir d;
+    if(d.exists(szLink))
+        RemoveStartRun(szName, bRoot);
+
     QFile f(szDesktop);
     bool ret = f.link(szLink);
     if(!ret)
     {
-        qCritical() << "CTools::InstallStartRun: file link " << f.fileName() << "to " << szLink << f.error();
+        QString szCmd = "ln -s " + szDesktop + " " + szLink;
+        if(!executeByRoot(szCmd))
+            qCritical() << "CTools::InstallStartRun: file link " << f.fileName() << "to " << szLink << f.error();
         return -1;
     }
     return 0;
@@ -141,10 +148,17 @@ int CTools::RemoveStartRun(const QString &szName, bool bRoot)
     }
     szLink += "/autostart/" + appName + ".desktop";
     QDir d;
-    if(d.remove(szLink))
-        return 0;
-    qCritical() << "CTools::RemoveStartRun: Remove" << szLink << "fail";
-    return -1;
+    if(d.exists(szLink))
+    {
+        if(d.remove(szLink))
+            return 0;
+
+        QString szCmd = "rm " + szLink;
+        if(!executeByRoot(szCmd))
+            qCritical() << "CTools::RemoveStartRun: Remove" << szLink << "fail";
+        return -1;
+    }
+    return 0;
 #endif
 }
 

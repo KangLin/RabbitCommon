@@ -23,7 +23,7 @@ public:
      * @param arguments
      * @return 
      */
-    static bool execute(const QString &program, const QStringList &arguments);
+    static bool executeByRoot(const QString &program, const QStringList &arguments = QStringList());
 
     /**
      * @brief InstallStartRun: auto run when startup
