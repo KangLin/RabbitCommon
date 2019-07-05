@@ -89,6 +89,8 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     QString appPath = QApplication::applicationFilePath();
     if(!szPath.isEmpty())
         appPath = szPath;
+    if(bAllUser)
+        return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();
 #elif defined(Q_OS_ANDROID)
     
@@ -133,6 +135,8 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
     if(!szName.isEmpty())
         appName = szName;
 #if defined (Q_OS_WIN)
+    if(bAllUser)
+        return RabbitCommon::CRegister::RemoveStartRun();
     return RabbitCommon::CRegister::RemoveStartRunCurrentUser();
 #elif defined(Q_OS_ANDROID)
     
@@ -170,6 +174,8 @@ bool CTools::IsStartRun(const QString &szName, bool bAllUser)
         appName = szName;
 
 #if defined (Q_OS_WIN)
+    if(bAllUser)
+        return RabbitCommon::CRegister::IsStartRun();
     return RabbitCommon::CRegister::IsStartRunCurrentUser();
 #elif defined(Q_OS_ANDROID)
     
