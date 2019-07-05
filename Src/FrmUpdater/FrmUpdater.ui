@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
-    <height>368</height>
+    <width>305</width>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <normaloff>:/icon/RabbitCommon/Download</normaloff>:/icon/RabbitCommon/Download</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -89,7 +89,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="1">
     <spacer name="verticalSpacer_4">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -102,7 +102,7 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0">
+   <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -178,7 +178,7 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item row="3" column="1">
     <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -191,7 +191,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0">
+   <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="lbState">
      <property name="text">
       <string>There is laster version</string>
@@ -204,7 +204,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="5" column="0" colspan="2">
     <widget class="QProgressBar" name="progressBar">
      <property name="value">
       <number>24</number>
@@ -224,7 +224,7 @@
      </property>
     </spacer>
    </item>
-   <item row="7" column="0">
+   <item row="7" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Settings</string>
@@ -296,31 +296,27 @@
      </layout>
     </widget>
    </item>
-   <item row="8" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QCheckBox" name="cbPrompt">
-       <property name="text">
-        <string>Prompt</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="cbHomePage">
-       <property name="text">
-        <string>Show home page</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="8" column="0" colspan="2">
+    <widget class="QCheckBox" name="cbPrompt">
+     <property name="text">
+      <string>Do not prompt again</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
-   <item row="9" column="0">
+   <item row="9" column="0" colspan="2">
+    <widget class="QCheckBox" name="cbHomePage">
+     <property name="text">
+      <string>Show home page</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -333,7 +329,7 @@
      </property>
     </spacer>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <spacer name="horizontalSpacer_3">

@@ -35,8 +35,11 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     ui->lbNewVersion->hide();
     ui->progressBar->hide();
     ui->cbHomePage->hide();
-    ui->cbPrompt->hide();
     ui->pbOK->hide();
+    
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    ui->cbPrompt->setChecked(set.value("Updater/Prompt", false).toBool());
     
     check = connect(&m_TrayIcon,
                     SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -47,8 +50,6 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                  QSettings::IniFormat);
     int id = set.value("Update/RadioButton", -2).toInt();
     m_ButtonGroup.addButton(ui->rbEveryTime);
     m_ButtonGroup.addButton(ui->rbEveryDate);
@@ -695,12 +696,14 @@ int CFrmUpdater::CheckUpdateXmlFile()
     }
     else
     {
-        if(!CheckPrompt(m_Info.szVerion)) emit sigError();
         ui->cbHomePage->show();
         ui->cbPrompt->show();
         ui->pbOK->setText(tr("OK(&O)"));
         ui->pbOK->show();
-        show();
+        if(!CheckPrompt(m_Info.szVerion) && this->isHidden())
+            emit sigError();
+        else
+            show();
     }
     return 0;
 }
@@ -1214,7 +1217,7 @@ bool CFrmUpdater::CheckPrompt(const QString &szVersion)
     if (nRet > 0)
         return true;
     else if(nRet == 0)
-        return ui->cbPrompt->isChecked();
+        return !ui->cbPrompt->isChecked();
     return false;
 }
 

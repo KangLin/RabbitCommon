@@ -18,7 +18,7 @@ namespace RabbitCommon {
  * 
  * 
  * 
- * DocumentRoot                                    GetDirUserDocument()
+ * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
