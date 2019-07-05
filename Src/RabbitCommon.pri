@@ -68,15 +68,17 @@ else: DEFINES *= RabbitCommon_EXPORTS
 }
 SOURCES += \
     $$PWD/RabbitCommonDir.cpp \
+    $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp
 
 INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
+    $$PWD/RabbitCommonDir.h \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/RabbitCommonDir.h
+    $$PWD/RabbitCommonRegister.h \
 
 RESOURCES += \
     $$PWD/Resource/ResourceRabbitCommon.qrc

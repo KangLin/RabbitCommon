@@ -15,6 +15,7 @@
 - [x] 在线更新
 - [x] 工具
   - [x] 用管理员权限执行程序
+  - [x] 程序开机自启动
 
 ### 编译
 - 建立并进入build目录
@@ -212,6 +213,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     + 公开接口：
 
             RabbitCommon::CTools::execute("regedit", QStringList());
+
+- [程序开机自启动](Src/RabbitCommonTools.h)
 
 ## 捐赠
 - 捐赠(大于￥20)：  

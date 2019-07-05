@@ -67,16 +67,18 @@ endif(BUILD_ADMINAUTHORISER)
 set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
     RabbitCommonTools.h
+    RabbitCommonDir.h
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
     ${HEAD_FILES}
-    RabbitCommonDir.h
+    RabbitCommonRegister.h
     )
 set(SOURCE_FILES
     ${SOURCE_FILES}
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
+    RabbitCommonRegister.cpp
     )
 set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
 

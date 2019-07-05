@@ -50,5 +50,8 @@ int main(int argc, char *argv[])
     RabbitCommon::CTools::execute("regedit", QStringList());
 #endif
 #endif
+    
+    RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
+    
     return a.exec();
 }
