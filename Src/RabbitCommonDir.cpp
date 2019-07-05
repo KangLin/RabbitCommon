@@ -41,12 +41,12 @@ int CDir::SetDirApplication(const QString &szPath)
     return 0;
 }
 
-QString CDir::GetDirApplicationRoot()
+QString CDir::GetDirApplicationInstallRoot()
 {
     return m_szApplicationRootDir;
 }
 
-int CDir::SetDirApplicationRoot(const QString &szPath)
+int CDir::SetDirApplicationInstallRoot(const QString &szPath)
 {
     m_szApplicationRootDir = szPath;
     return 0;
@@ -54,7 +54,7 @@ int CDir::SetDirApplicationRoot(const QString &szPath)
 
 QString CDir::GetDirConfig()
 {
-    QString szPath = GetDirApplicationRoot() + QDir::separator() + "etc";
+    QString szPath = GetDirApplicationInstallRoot() + QDir::separator() + "etc";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
@@ -107,7 +107,7 @@ QString CDir::GetDirTranslations()
 #if defined(Q_OS_ANDROID) || _DEBUG
     return ":/Translations";
 #endif
-    return GetDirApplicationRoot() + QDir::separator() + "translations";
+    return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
 }
 
 QString CDir::GetFileApplicationConfigure()

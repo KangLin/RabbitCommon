@@ -100,11 +100,11 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     } else
         szFileLocation = ":/file/" + szFile;
 #else
-    szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationRoot() + QDir::separator()
+    szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
             + szFile + "_" + QLocale().system().name() + ".md";
     QDir d;
     if(!d.exists(szFileLocation))
-        szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationRoot()
+        szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot()
                 + QDir::separator() + szFile + ".md";
 #endif
     

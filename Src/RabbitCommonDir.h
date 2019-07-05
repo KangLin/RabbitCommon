@@ -9,7 +9,7 @@ namespace RabbitCommon {
 /*
  * Default directory:
  * 
- * ApplicationRoot                                 GetDirApplicationRoot()
+ * ApplicationInstallRoot                          GetDirApplicationInstallRoot()
  *       |- bin                                    GetDirApplication()
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
@@ -32,8 +32,8 @@ public:
      
     QString GetDirApplication();
     int SetDirApplication(const QString &szPath);
-    QString GetDirApplicationRoot();
-    int SetDirApplicationRoot(const QString &szPath);
+    QString GetDirApplicationInstallRoot();
+    int SetDirApplicationInstallRoot(const QString &szPath);
     QString GetDirConfig();
     QString GetDirApplicationXml();
     QString GetDirTranslations();
