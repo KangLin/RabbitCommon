@@ -1,0 +1,21 @@
+{
+  "name": "RabbitCommon",
+  "version": "3.0.1",
+  "description": "Rabbit common library by Kang Lin",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KangLin/RabbitCommon.git"
+  },
+  "keywords": [
+    "qt"
+  ],
+  "author": "Kang Lin",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/KangLin/RabbitCommon/issues"
+  },
+  "homepage": "https://github.com/KangLin/RabbitCommon",
+  "devDependencies": {
+  }
+}
