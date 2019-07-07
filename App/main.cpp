@@ -20,6 +20,10 @@ int main(int argc, char *argv[])
     a.setApplicationName("RabbitCommon");
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 
+    qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
+    qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
+    qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
+    
     QTranslator tApp, tTasks;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
               + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
@@ -44,10 +48,10 @@ int main(int argc, char *argv[])
     QString szCmd = "mkdir";
     QStringList paras;
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-    qDebug() << "RabbitCommon::CTools::execute(szCmd, paras):"
-             << RabbitCommon::CTools::execute(szCmd, paras);
+    qDebug() << "RabbitCommon::CTools::executeByRoot(szCmd, paras):"
+             << RabbitCommon::CTools::executeByRoot(szCmd, paras);
 #elif defined(Q_OS_WINDOWS)
-    RabbitCommon::CTools::execute("regedit", QStringList());
+    RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 #endif
 #endif
     

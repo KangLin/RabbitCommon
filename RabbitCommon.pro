@@ -15,10 +15,10 @@ lib.subdir = Src
 App.depends = lib
 CONFIG *= ordered
 SUBDIRS = lib App
-
+message("INSTALL_ROOT:$$INSTALL_ROOT")
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
-    else : android : PREFIX = /.
+    else : android : PREFIX = $$INSTALL_ROOT/assets
     else : unnix : PREFIX = /usr/local
     else : PREFIX = $$OUT_PWD/install
 }
