@@ -15,16 +15,10 @@
 #      add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
 #
 # 2. 在源码 main 函数中加入, 如果是 DEBUG，需要加入宏定义 _DEBUG
-#   QString szPre;    
-#   #if defined(Q_OS_ANDROID) || _DEBUG
-#       szPre = ":/Translations";
-#   #else
-#       szPre = qApp->applicationDirPath() + QDir::separator() + ".." + QDir::separator() + "translations";
-#   #endif
-#    
-#    QTranslator tApp;
-#    tApp.load(szPre + "/${TRANSLATIONS_NAME}_" + QLocale::system().name() + ".qm");
-#    a.installTranslator(&tApp);
+#     QTranslator translator;
+#     translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
+#                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
+#     qApp->installTranslator(&translator);
 
 # android 和 debug 翻译资源做为资源文件嵌入程序
 #
@@ -35,7 +29,7 @@
 #           |      |- App.exe
 #           |- lib
 #           |      
-#           |- Translations
+#           |- translations
 #                           |- ${TRANSLATIONS_NAME}_zh_CN.qm
 #                           |- ${TRANSLATIONS_NAME}_zh_TW.qm
 #
@@ -81,7 +75,7 @@ IF(OPTION_TRANSLATIONS)
             file(WRITE "${RESOURCE_FILE_NAME}"
                 "<!DOCTYPE RCC>
                 <RCC version=\"1.0\">
-                <qresource prefix=\"/Translations\">
+                <qresource prefix=\"/translations\">
                 ")
             foreach(qm ${QM_FILES})
                 get_filename_component(qm_name ${qm} NAME)
@@ -94,7 +88,7 @@ IF(OPTION_TRANSLATIONS)
                 ")
             set(TRANSLATIONS_RESOURCE_FILES "${RESOURCE_FILE_NAME}")
         else()
-            install(FILES ${QM_FILES} DESTINATION "Translations")
+            install(FILES ${QM_FILES} DESTINATION "translations")
         endif()
 
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)

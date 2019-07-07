@@ -104,8 +104,10 @@ QString CDir::GetDirUserImage()
 
 QString CDir::GetDirTranslations()
 {
-#if defined(Q_OS_ANDROID) || _DEBUG
-    return ":/Translations";
+#if _DEBUG
+    return ":/translations";
+#elif defined(Q_OS_ANDROID)
+    return "assets:/translations";
 #endif
     return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
 }

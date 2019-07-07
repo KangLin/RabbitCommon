@@ -49,6 +49,9 @@
         - BUILD_UPDATE: 编译在线更新功能
         - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
+- 编译注意事项：
+    用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。其原因是windows下的make程序不能转换路径中的 \ 。  
+    解决方法：用可以识别路径中的 \ 的 make 程序。
 - 安装注意  
 Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
     + windows
@@ -159,7 +162,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
-    + 安装 Authors、 License、 ChangeLog等文件
+    + 安装 Authors、 License、 ChangeLog 等文件
     
             isEmpty(PREFIX) {
                 qnx : PREFIX = /tmp

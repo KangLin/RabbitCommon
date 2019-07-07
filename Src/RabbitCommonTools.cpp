@@ -12,7 +12,7 @@
 inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
-#if defined(Q_OS_ANDROID) || _DEBUG
+#if _DEBUG
     Q_INIT_RESOURCE(translations_RabbitCommon);
 #endif
 }
@@ -20,7 +20,7 @@ inline void g_RabbitCommon_InitResource()
 inline void g_RabbitCommon_CleanResource()
 {
     Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
-#if defined(Q_OS_ANDROID) || _DEBUG
+#if _DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitCommon);
 #endif
 }

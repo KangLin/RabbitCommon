@@ -15,7 +15,7 @@ lib.subdir = Src
 App.depends = lib
 CONFIG *= ordered
 SUBDIRS = lib App
-message("INSTALL_ROOT:$$INSTALL_ROOT")
+
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : ios: PREFIX=/
