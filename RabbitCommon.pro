@@ -18,8 +18,9 @@ SUBDIRS = lib App
 message("INSTALL_ROOT:$$INSTALL_ROOT")
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
-    else : android : PREFIX = $$INSTALL_ROOT/assets
-    else : unnix : PREFIX = /usr/local
+    else : ios: PREFIX=/
+    else : android : PREFIX = /
+    else : unix : PREFIX = /opt/RabbitCommon
     else : PREFIX = $$OUT_PWD/install
 }
 
@@ -29,9 +30,10 @@ DISTFILES += Authors.md \
     License.md
 
 other.files = $$DISTFILES
-other.path = $$PREFIX
+android: other.path = $$PREFIX/assets
+else: other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
-!android : INSTALLS += other
+INSTALLS += other
 
 OTHER_FILES += CMakeLists.txt \
     .travis.yml \

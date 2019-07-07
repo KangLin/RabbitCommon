@@ -92,13 +92,15 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 {
     QString szFileLocation;
 #if defined (Q_OS_ANDROID)
-    szFileLocation = ":/file/" + szFile + "_" + QLocale().system().name();
+    szFileLocation = "assets:/" + szFile + "_" + QLocale().system().name();
     QFile f(szFileLocation);
     if(f.open(QIODevice::ReadOnly))
     {
         f.close();
     } else
-        szFileLocation = ":/file/" + szFile;
+        szFileLocation = "assets:/" + szFile;
+    szFileLocation += ".md";
+    qCritical() << "CDlgAbout::AppendFile file:" << szFileLocation;
 #else
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
             + szFile + "_" + QLocale().system().name() + ".md";

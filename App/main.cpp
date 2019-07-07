@@ -34,14 +34,22 @@ int main(int argc, char *argv[])
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
+#if defined (Q_OS_ANDROID)
+    update.showMaximized();
+#else
     update.show();
 #endif
-
+#endif
+    
 #ifdef HAVE_ABOUT
     CDlgAbout dlg;
     dlg.setAttribute(Qt::WA_QuitOnClose, true);
+#if defined (Q_OS_ANDROID)
+    dlg.showMaximized();
+#else
     dlg.show();
 #endif
+#endif    
 
 #ifdef HAVE_ADMINAUTHORISER
 #ifdef defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
@@ -50,12 +58,11 @@ int main(int argc, char *argv[])
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
     qDebug() << "RabbitCommon::CTools::executeByRoot(szCmd, paras):"
              << RabbitCommon::CTools::executeByRoot(szCmd, paras);
+    RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
 #elif defined(Q_OS_WINDOWS)
     RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 #endif
 #endif
-    
-    RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
-    
+
     return a.exec();
 }

@@ -159,22 +159,45 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
-  ```
-  QApplication a(argc, argv);
-  a.setApplicationVersion(BUILD_VERSION);
-  a.setApplicationName("Calendar");
-  a.setApplicationDisplayName(QObject::tr("Calendar"));
-
-  #ifdef RABBITCOMMON
-      RabbitCommon::CDlgAbout about(this);
-      about.m_AppIcon = QPixmap(":/image/Calendar");
-      about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
-      #if defined (Q_OS_ANDROID)
-          about.showMaximized();
-      #endif
-      about.exec();
-  #endif
-  ```
+    + 安装 Authors、 License、 ChangeLog等文件
+    
+            isEmpty(PREFIX) {
+                qnx : PREFIX = /tmp
+                else : ios: PREFIX=/
+                else : android : PREFIX = /
+                else : unix : PREFIX = /opt/RabbitCommon
+                else : PREFIX = $$OUT_PWD/install
+            }
+            
+            DISTFILES += Authors.md \
+                Authors_zh_CN.md \
+                ChangeLog.md \
+                License.md
+            
+            other.files = $$DISTFILES
+            android: other.path = $$PREFIX/assets
+            else: other.path = $$PREFIX
+            other.CONFIG += directory no_check_exist 
+            INSTALLS += other
+            
+    + 代码中使用
+    
+            ```
+            QApplication a(argc, argv);
+            a.setApplicationVersion(BUILD_VERSION);
+            a.setApplicationName("Calendar");
+            a.setApplicationDisplayName(QObject::tr("Calendar"));
+        
+            #ifdef RABBITCOMMON
+                RabbitCommon::CDlgAbout about(this);
+                about.m_AppIcon = QPixmap(":/image/Calendar");
+                about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
+                #if defined (Q_OS_ANDROID)
+                    about.showMaximized();
+                #endif
+                about.exec();
+            #endif
+            ```
   
 ![关于对话框](docments/image/about.PNG "关于对话框")
 
