@@ -14,6 +14,9 @@ if [ "$BUILD_TARGERT" = "android" ]; then
     if [ -n "$APPVEYOR" ]; then
         export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
     fi
+    if [ "$TRAVIS" = "true" ]; then
+        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    fi
     export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
     export PATH=${SOURCE_DIR}/Tools/apache-ant/bin:$JAVA_HOME:$PATH
 fi
@@ -79,25 +82,22 @@ esac
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
-    if [ "$BUILD_DOWNLOAD" = "TRUE" ]; then
-        bash build_debpackage.sh ${QT_ROOT}
-    else
-        bash build_debpackage.sh ${QT_ROOT} 
-        exit 0
-        if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "59" ]; then
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/debian/rabbitcommon/opt/RabbitCommon/bin
-            MD5=`md5sum ../rabbitcommon_*_amd64.deb|awk '{print $1}'`
-            echo "MD5:${MD5}"
-            ./debian/rabbitcommon/opt/RabbitCommon/bin/RabbitCommonApp \
-                -f "`pwd`/update_linux.xml" \
-                --md5 ${MD5} 
-            export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
-            #export UPLOADTOOL_PR_BODY=
-            wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-            bash upload.sh ../rabbitcommon_*_amd64.deb update_linux.xml
-        fi
-        
+	bash build_debpackage.sh ${QT_ROOT}
+	exit 0
+
+    if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "59" ]; then
+       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/debian/rabbitcommon/opt/RabbitCommon/bin
+       MD5=`md5sum ../rabbitcommon_*_amd64.deb|awk '{print $1}'`
+       echo "MD5:${MD5}"
+       ./debian/rabbitcommon/opt/RabbitCommon/bin/RabbitCommonApp \
+            -f "`pwd`/update_linux.xml" \
+            --md5 ${MD5} 
+       export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
+       #export UPLOADTOOL_PR_BODY=
+       wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+       bash upload.sh ../rabbitcommon_*_amd64.deb update_linux.xml
     fi
+        
     exit 0
 fi
 
@@ -122,10 +122,11 @@ else
         $MAKE
         $MAKE install INSTALL_ROOT=`pwd`/android-build
         ${QT_ROOT}/bin/androiddeployqt \
+                       --gradle --verbose \
                        --input `pwd`/App/android-libRabbitCommonApp.so-deployment-settings.json \
                        --output `pwd`/android-build \
-                       --android-platform ${ANDROID_API} #\
-                       #--gradle --verbose
+                       #--android-platform ${ANDROID_API} 
+                       
     else
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
             "CONFIG+=release" ${CONFIG_PARA}\
