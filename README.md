@@ -88,34 +88,32 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 error("2. Then set value RabbitCommon_DIR to download root dirctory")
             }
     
-       在android下，增加帮助文件资源：
+     - 增加帮助文件：
 
-            android{
-                RESOURCE_QRC_FILE = $$OUT_PWD/ResourceAbout.qrc
-    
-                RESOURCE_QRC_FILE_CONTENT = \
-                    "<!DOCTYPE RCC><RCC version=\"1.0\">" \
-                    "<qresource prefix=\"file\">"
-        
-                RESOURCE_QRC_FILE_CONTENT += \
-                    "<file alias=\"Authors\">$$PWD/../Authors.md</file>"
-                RESOURCE_QRC_FILE_CONTENT += \
-                    "<file alias=\"Authors_zh_CN\">$$PWD/../Authors_zh_CN.md</file>"
-                RESOURCE_QRC_FILE_CONTENT += \
-                    "<file alias=\"ChangeLog\">$$PWD/../ChangeLog_zh_CN.md</file>"
-                RESOURCE_QRC_FILE_CONTENT += \
-                    "<file alias=\"License\">$$PWD/../License.md</file>"
-    
-                RESOURCE_QRC_FILE_CONTENT += \
-                    "</qresource>" \
-                    "</RCC>"
-                !write_file($$RESOURCE_QRC_FILE, RESOURCE_QRC_FILE_CONTENT): \
-                    error()
-                RESOURCES += $$RESOURCE_QRC_FILE
-			}
+            isEmpty(PREFIX) {
+            qnx : PREFIX = /tmp
+            else : ios: PREFIX=/
+            else : android : PREFIX = /
+            else : unix : PREFIX = /opt/RabbitCommon
+            else : PREFIX = $$OUT_PWD/install
+            }
+
+            DISTFILES += Authors.md \
+            Authors_zh_CN.md \
+            ChangeLog.md \
+            License.md
+
+            other.files = $$DISTFILES
+            android: other.path = $$PREFIX/assets
+            else: other.path = $$PREFIX
+            other.CONFIG += directory no_check_exist 
+            INSTALLS += other
 
      因为此种方式翻译资源会在目标项目中重复。所以，一般在目标项目源码根目录下增加RabbitCommon目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
-     
+    - 静态库
+
+            CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
+
   + cmake工程
     - 子模块方式
     
@@ -148,6 +146,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 set(APP_LIBS ${APP_LIBS} RabbitCommon)
             endif()
             target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+    - 静态库
+
+             target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
 
 - 以库方式使用使用
   + Qt 工程文件
@@ -165,18 +166,18 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     + 安装 Authors、 License、 ChangeLog 等文件
     
             isEmpty(PREFIX) {
-                qnx : PREFIX = /tmp
-                else : ios: PREFIX=/
-                else : android : PREFIX = /
-                else : unix : PREFIX = /opt/RabbitCommon
-                else : PREFIX = $$OUT_PWD/install
+            qnx : PREFIX = /tmp
+            else : ios: PREFIX=/
+            else : android : PREFIX = /
+            else : unix : PREFIX = /opt/RabbitCommon
+            else : PREFIX = $$OUT_PWD/install
             }
-            
+
             DISTFILES += Authors.md \
-                Authors_zh_CN.md \
-                ChangeLog.md \
-                License.md
-            
+            Authors_zh_CN.md \
+            ChangeLog.md \
+            License.md
+
             other.files = $$DISTFILES
             android: other.path = $$PREFIX/assets
             else: other.path = $$PREFIX
@@ -192,7 +193,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             a.setApplicationDisplayName(QObject::tr("Calendar"));
         
             #ifdef RABBITCOMMON
-                RabbitCommon::CDlgAbout about(this);
+                CDlgAbout about(this);
                 about.m_AppIcon = QPixmap(":/image/Calendar");
                 about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
                 #if defined (Q_OS_ANDROID)
@@ -208,7 +209,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
   ```
   #ifdef RABBITCOMMON
-      RabbitCommon::CFrmUpdater *fu = new CFrmUpdater();
+      CFrmUpdater *fu = new CFrmUpdater();
       fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
       #if defined (Q_OS_ANDROID)
           fu->showMaximized();
@@ -247,8 +248,13 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                                bool bAllUser = false);
         static int RemoveStartRun(const QString &szName = QString(),
                               bool bAllUser = false);
-         static bool IsStartRun(const QString &szName = QString(),
+        static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
+
+## 使用本项目的项目
+- [Tasks](https://github.com/KangLin/Tasks)
+- [LunarCalendar](https://github.com/KangLin/LunarCalendar)
+- [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 
 ## 捐赠
 - 捐赠(大于￥20)：  
