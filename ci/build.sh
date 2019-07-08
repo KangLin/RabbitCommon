@@ -124,8 +124,8 @@ else
         ${QT_ROOT}/bin/androiddeployqt \
                        --input `pwd`/App/android-libRabbitCommonApp.so-deployment-settings.json \
                        --output `pwd`/android-build \
-                       --android-platform ${ANDROID_API} \
-                       --gradle --verbose
+                       --android-platform ${ANDROID_API} #\
+                       #--gradle --verbose
     else
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
             "CONFIG+=release" ${CONFIG_PARA}\
