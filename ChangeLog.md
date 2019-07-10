@@ -2,6 +2,7 @@
   + 使用命名空间 RabbitCommon
   + 增加开机自启动
   + 增加更新不再提示
+  + 增加目录复制功能
   + Android 关于对话框的文件，放到 assets 下
   + Android 翻译资源，放到 assets 下
   + 固定BUG

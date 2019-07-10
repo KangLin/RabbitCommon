@@ -17,11 +17,24 @@ namespace RabbitCommon {
  *       |- translations                           GetDirTranslations()
  * 
  * 
- * 
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
+ * 
+ * 
+ * Android:
+ *    assets                                       (Only read)
+ *       |- etc                                    GetDirConfig()
+ *       |   |- xml                                GetDirApplicationXml()
+ *       |   |- applicationName.conf               GetApplicationConfigureFile()    
+ *       |- translations                           GetDirTranslations()
+ * 
+ *    DocumentRoot/Rabbit/applicationName          (Write and read)
+ *            |- etc                               GetDirConfig()
+ *            |   |- xml                           GetDirApplicationXml()
+ *            |   |- applicationName.conf          GetApplicationConfigureFile()    
+ * 
  */
 class RABBITCOMMON_EXPORT CDir
 {
@@ -45,10 +58,14 @@ public:
     QString GetDirUserImage();
     QString GetFileUserConfigure();
    
+    static int CopyDirectory(const QString &fromDir,
+                      const QString &toDir,
+                      bool bCoverIfFileExists = true);
 private:
     QString m_szDocumentPath;
     QString m_szApplicationDir;
     QString m_szApplicationRootDir;
+
 };
 
 } //namespace RabbitCommon

@@ -257,6 +257,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
+- [目录功能](Src/RabbitCommonDir.h)
+
 ## 使用本项目的项目
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)

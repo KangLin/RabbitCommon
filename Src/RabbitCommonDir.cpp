@@ -54,10 +54,22 @@ int CDir::SetDirApplicationInstallRoot(const QString &szPath)
 
 QString CDir::GetDirConfig()
 {
-    QString szPath = GetDirApplicationInstallRoot() + QDir::separator() + "etc";
+    QString szPath;
+#if defined (Q_OS_ANDROID)
+    szPath = GetDirUserDocument() + QDir::separator() + "etc";
+    QDir d;
+    if(!d.exists(szPath))
+    {
+        d.mkpath(szPath);
+        //Copy assets:/etc to here.
+        CopyDirectory("assets:/etc", szPath);
+    }
+#else
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "etc";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
+#endif
     return szPath;
 }
 
@@ -121,6 +133,45 @@ QString CDir::GetFileUserConfigure()
 {
     QString szName = GetDirUserDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
     return szName;
+}
+
+int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCoverIfFileExists)
+{
+    QDir formDir_(fromDir);
+    QDir toDir_(toDir);
+ 
+    if(!toDir_.exists())
+    {
+        if(!toDir_.mkpath(toDir_.absolutePath()))
+            return false;
+    }
+ 
+    QFileInfoList fileInfoList = formDir_.entryInfoList();
+    foreach(QFileInfo fileInfo, fileInfoList)
+    {
+        if(fileInfo.fileName() == "."|| fileInfo.fileName() == "..")
+            continue;
+ 
+        if(fileInfo.isDir())
+        {
+            if(!CopyDirectory(fileInfo.filePath(),
+                              toDir_.filePath(fileInfo.fileName()),
+                              true))
+                return false;
+        }
+        else
+        {
+            if(bCoverIfFileExists && toDir_.exists(fileInfo.fileName()))
+            {
+                toDir_.remove(fileInfo.fileName());
+            }
+            if(!QFile::copy(fileInfo.filePath(), toDir_.filePath(fileInfo.fileName())))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 } //namespace RabbitCommon
