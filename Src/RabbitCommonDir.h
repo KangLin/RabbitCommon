@@ -2,6 +2,7 @@
 #define RABBITCOMM_CGLOBALDIR_H
 
 #include <QString>
+#include <QFileDialog>
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
@@ -61,6 +62,11 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
+    static QString OpenFileDialog(QWidget *parent = nullptr,
+                                  const QString &caption = QString(),
+                                  const QString &dir = QString(),
+                                  const QString &filter = QString(),
+                                  QFileDialog::Options options = QFileDialog::Options());
 private:
     QString m_szDocumentPath;
     QString m_szApplicationDir;

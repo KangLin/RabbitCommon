@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QApplication>
 #include <QDebug>
+#include <QFileDialog>
 
 namespace RabbitCommon {
 
@@ -172,6 +173,33 @@ int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCove
         }
     }
     return true;
+}
+
+QString CDir::OpenFileDialog(QWidget *parent,
+                             const QString &caption,
+                             const QString &dir,
+                             const QString &filter,
+                             QFileDialog::Options options)
+{
+    QString szFile;
+#if defined (Q_OS_ANDROID)
+    QFileDialog fd(parent, caption, dir, filter);
+    fd.setOptions(options);
+    fd.showMaximized();
+    if(QFileDialog::Reject == fd.exec())
+    {
+        return QString();
+    }
+    szFile = fd.selectedFiles().at(0);
+#else
+    szFile = QFileDialog::getOpenFileName(parent, 
+                                          caption,
+                                          dir,
+                                          filter,
+                                          nullptr,
+                                          options);
+#endif
+    return szFile;
 }
 
 } //namespace RabbitCommon
