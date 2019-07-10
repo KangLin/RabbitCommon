@@ -116,6 +116,7 @@ protected:
     virtual void showEvent(QShowEvent *event) override;
 private slots:
     void on_cbPrompt_clicked(bool checked);
+    void on_cbHomePage_clicked(bool checked);
 };
 
 #endif // RABBITCOMMON_FRMUPDATER_H

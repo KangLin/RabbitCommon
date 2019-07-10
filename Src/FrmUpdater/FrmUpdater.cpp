@@ -40,6 +40,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     ui->cbPrompt->setChecked(set.value("Updater/Prompt", false).toBool());
+    ui->cbHomePage->setChecked(set.value("Updater/ShowHomePage", true).toBool());
     
     check = connect(&m_TrayIcon,
                     SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -1226,4 +1227,11 @@ void CFrmUpdater::on_cbPrompt_clicked(bool checked)
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Updater/Prompt", checked);
+}
+
+void CFrmUpdater::on_cbHomePage_clicked(bool checked)
+{
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    set.setValue("Updater/ShowHomePage", checked);
 }
