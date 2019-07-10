@@ -121,19 +121,24 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         
     - 非子模块方式
       + 引入以 add_subdirectory 本项目录
-      
-            set(RabbitCommon_DIR $ENV{RabbitCommon_DIR} CACHE PATH "Set RabbitCommon source code root directory.")
-            if(EXISTS ${RabbitCommon_DIR}/Src)
+
+            if(NOT RabbitCommon_DIR)
+                set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
+                if(NOT RabbitCommon_DIR)
+                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/..)
+                endif()
+            endif()
+            if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
             else()
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")
                 message("       git clone https://github.com/KangLin/RabbitCommon.git")
                 message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
-                message("    ag:")
+                message("   ag:")
                 message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
             endif()
-            
+
       + 在使用的工程目录CMakeLists.txt
       
             SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
@@ -141,11 +146,12 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 target_compile_definitions(${PROJECT_NAME}
                                 PRIVATE -DRABBITCOMMON)
                 target_include_directories(${PROJECT_NAME}
-                                PRIVATE "${RabbitCommon_DIR}/Src"
-                                        "${RabbitCommon_DIR}/Src/export")
+                                PRIVATE ${RabbitCommon_DIR}/Src
+                                        ${CMAKE_BINARY_DIR})
                 set(APP_LIBS ${APP_LIBS} RabbitCommon)
             endif()
             target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+
     - 静态库
 
              target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
