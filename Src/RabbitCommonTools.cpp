@@ -93,10 +93,11 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
         return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();
 #elif defined(Q_OS_ANDROID)
+    //TODO: See https://www.cnblogs.com/jetereting/p/4572302.html
     
     return 0;
 #elif defined(Q_OS_UNIX)
-    //See: debian/postinst
+    //See: debian/postinst and Install/install.sh
     //Ubuntu use gnome-session-properties
     // ~/.config/autostart 和 /etc/xdg/autostart/
     //https://blog.csdn.net/DinnerHowe/article/details/79025282
