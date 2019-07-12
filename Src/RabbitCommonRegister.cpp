@@ -156,6 +156,7 @@ int CRegister::InstallStartRun(const QString &szReg, const QString &szName, cons
         appName = szName;
     if(!szPath.isEmpty())
         appPath = szPath;
+    appPath = appPath.replace("/", "\\");
     return SetRegister(szReg, appName, appPath);
 #elif defined(Q_OS_ANDROID)
     
