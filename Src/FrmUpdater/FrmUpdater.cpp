@@ -786,19 +786,11 @@ void CFrmUpdater::slotUpdate()
             }
         } else {
             bool bRun = false;
-            if(QMessageBox::Ok == QMessageBox::information(this, tr("Run"),
+            if(QMessageBox::Yes == QMessageBox::information(this, tr("Run"),
                                                  tr("Is run after install?"),
                           QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes))
                 bRun = true;
-            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
-            QFile f(szInstall);
-            if(!f.open(QFile::WriteOnly))
-            {
-                QString szErr = tr("Open file %1 fail").arg(fi.absolutePath());
-                ui->lbState->setText(szErr);
-                break;
-            }
-            
+                        
             QString szCmd;
             szCmd = "#!/bin/bash\n";
             szCmd += "set -e\n";
@@ -810,10 +802,19 @@ void CFrmUpdater::slotUpdate()
             szCmd += "fi\n";
             szCmd += "cp " + m_DownloadFile.fileName() + " ." + "\n";
             szCmd += "tar xvfz " + fi.fileName() + "\n";
+            szCmd += "rm " + fi.fileName() + "\n";
             szCmd += "./install.sh install ";
             if(bRun) szCmd += " run"; //See: https://github.com/KangLin/Tasks/blob/master/Install/install.sh
             szCmd += "\n";
-            szCmd += "rm " + fi.fileName() + "\n";
+            
+            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
+            QFile f(szInstall);
+            if(!f.open(QFile::WriteOnly))
+            {
+                QString szErr = tr("Open file %1 fail").arg(fi.absolutePath());
+                ui->lbState->setText(szErr);
+                break;
+            }
             f.write(szCmd.toStdString().c_str());
             //qDebug() << szCmd << szInstall;
             f.close();
