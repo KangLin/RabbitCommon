@@ -56,7 +56,9 @@ public:
     
 private slots:
     void on_pushButton_clicked();
-
+    void slotDonation(const QPoint &pos);
+    void slotSaveDonation();
+    
 private:
     Ui::CDlgAbout *ui;
         

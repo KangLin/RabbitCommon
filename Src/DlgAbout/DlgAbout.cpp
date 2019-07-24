@@ -20,6 +20,7 @@ Abstract:
 #include <QFile>
 #include <QDir>
 #include <QDebug>
+#include <QMenu>
 
 /*
  * Author: KangLin(Email:kl222@126.com)
@@ -56,6 +57,11 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
+    
+    ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
+    bool check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
+                         this, SLOT(slotDonation(const QPoint &)));
+    Q_ASSERT(check);
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
@@ -126,4 +132,22 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 void CDlgAbout::on_pushButton_clicked()
 {
     close();
+}
+
+void CDlgAbout::slotDonation(const QPoint &pos)
+{
+    QMenu m;
+    m.addAction(QIcon(":/icon/Save"), tr("Save"),
+                this, SLOT(slotSaveDonation()));
+    m.exec(QCursor::pos());
+}
+
+void CDlgAbout::slotSaveDonation()
+{
+    QString szFile = RabbitCommon::CDir::GetSaveFileName(this,
+                                 tr("Save donation picture"),
+                                 QString(),
+                                 tr("Images (*.png *.xpm *.jpg)"));
+    if(!szFile.isEmpty())
+        m_DonationIcon.save(szFile);
 }
