@@ -50,8 +50,17 @@
         - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
 - 编译注意事项：
-    用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。其原因是windows下的make程序不能转换路径中的 \ 。  
+    用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。
+
+       找不到 D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
+       move libRabbitCommon.so ..\bin\libRabbitCommon.so
+       process_begin: CreateProcess(NULL, move libRabbitCommon.so ..\bin\libRabbitCommon.so, ...) failed.
+       make (e=2): 系统找不到指定的文件。
+       make[1]: [..\bin\libRabbitCommon.so] Error 2 (ignored)
+
+    其原因是windows下的make程序不能转换路径中的 \ 。  
     解决方法：用可以识别路径中的 \ 的 make 程序，例如: mingw32-make.exe。
+
 - 安装注意  
 Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
     + windows

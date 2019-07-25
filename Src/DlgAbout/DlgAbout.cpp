@@ -21,6 +21,7 @@ Abstract:
 #include <QDir>
 #include <QDebug>
 #include <QMenu>
+#include <QStandardPaths>
 
 /*
  * Author: KangLin(Email:kl222@126.com)
@@ -58,9 +59,16 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
     
+    bool check = false;
+#if defined (Q_OS_ANDROID)   
+    ui->lbDonation->installEventFilter(this);
+    check = connect(this, SIGNAL(sigDonationClicked()),
+                    this, SLOT(slotSaveDonation()));
+#else
     ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
-    bool check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
+    check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
                          this, SLOT(slotDonation(const QPoint &)));
+#endif
     Q_ASSERT(check);
 }
 
@@ -143,10 +151,25 @@ void CDlgAbout::slotDonation(const QPoint &pos)
 
 void CDlgAbout::slotSaveDonation()
 {
+    QString szDir = RabbitCommon::CDir::Instance()->GetDirUserImage()
+            + QDir::separator() + "donation.png";
     QString szFile = RabbitCommon::CDir::GetSaveFileName(this,
                                  tr("Save donation picture"),
-                                 QString(),
+                                 szDir,
                                  tr("Images (*.png *.xpm *.jpg)"));
+    QFileInfo fi(szFile);
+    if(fi.suffix().isEmpty())
+        szFile += ".png";
     if(!szFile.isEmpty())
         m_DonationIcon.save(szFile);
 }
+
+#if defined (Q_OS_ANDROID)
+bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
+{
+    qDebug() << event->type();
+    if(event->type() ==  QEvent::MouseButtonRelease)
+        emit sigDonationClicked();
+    return QDialog::eventFilter(watched, event);
+}
+#endif
