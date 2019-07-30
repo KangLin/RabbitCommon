@@ -20,6 +20,8 @@ Abstract:
 #include <QFile>
 #include <QDir>
 #include <QDebug>
+#include <QMenu>
+#include <QStandardPaths>
 
 /*
  * Author: KangLin(Email:kl222@126.com)
@@ -56,6 +58,18 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
+    
+    bool check = false;
+#if defined (Q_OS_ANDROID)   
+    ui->lbDonation->installEventFilter(this);
+    check = connect(this, SIGNAL(sigDonationClicked()),
+                    this, SLOT(slotSaveDonation()));
+#else
+    ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
+    check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
+                         this, SLOT(slotDonation(const QPoint &)));
+#endif
+    Q_ASSERT(check);
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
@@ -92,14 +106,13 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 {
     QString szFileLocation;
 #if defined (Q_OS_ANDROID)
-    szFileLocation = "assets:/" + szFile + "_" + QLocale().system().name();
+    szFileLocation = "assets:/" + szFile + "_" + QLocale().system().name() + ".md";
     QFile f(szFileLocation);
     if(f.open(QIODevice::ReadOnly))
     {
         f.close();
     } else
-        szFileLocation = "assets:/" + szFile;
-    szFileLocation += ".md";
+        szFileLocation = "assets:/" + szFile + ".md";
     qCritical() << "CDlgAbout::AppendFile file:" << szFileLocation;
 #else
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
@@ -127,3 +140,36 @@ void CDlgAbout::on_pushButton_clicked()
 {
     close();
 }
+
+void CDlgAbout::slotDonation(const QPoint &pos)
+{
+    QMenu m;
+    m.addAction(QIcon(":/icon/Save"), tr("Save"),
+                this, SLOT(slotSaveDonation()));
+    m.exec(QCursor::pos());
+}
+
+void CDlgAbout::slotSaveDonation()
+{
+    QString szDir = RabbitCommon::CDir::Instance()->GetDirUserImage()
+            + QDir::separator() + "donation.png";
+    QString szFile = RabbitCommon::CDir::GetSaveFileName(this,
+                                 tr("Save donation picture"),
+                                 szDir,
+                                 tr("Images (*.png *.xpm *.jpg)"));
+    QFileInfo fi(szFile);
+    if(fi.suffix().isEmpty())
+        szFile += ".png";
+    if(!szFile.isEmpty())
+        m_DonationIcon.save(szFile);
+}
+
+#if defined (Q_OS_ANDROID)
+bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
+{
+    qDebug() << event->type();
+    if(event->type() ==  QEvent::MouseButtonRelease)
+        emit sigDonationClicked();
+    return QDialog::eventFilter(watched, event);
+}
+#endif

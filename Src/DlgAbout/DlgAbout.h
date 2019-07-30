@@ -53,10 +53,19 @@ public:
     QPixmap m_AppIcon;
     QPixmap m_CopyrightIcon;
     QPixmap m_DonationIcon;
-    
+
+#if defined(Q_OS_ANDROID)
+Q_SIGNALS:
+    void sigDonationClicked();
+protected:    
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
+#endif
+
 private slots:
     void on_pushButton_clicked();
-
+    void slotDonation(const QPoint &pos);
+    void slotSaveDonation();
+    
 private:
     Ui::CDlgAbout *ui;
         

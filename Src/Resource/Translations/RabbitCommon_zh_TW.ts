@@ -82,41 +82,56 @@
         <translation>任務</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="52"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="54"/>
         <source>Author: KangLin
 Email:kl222@126.com</source>
         <translation>作者： 康林
 郵件:kl222@126.com</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="54"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="56"/>
         <source>KangLin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="70"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
         <source> Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="70"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
         <source> Arch:</source>
         <translation> 架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="71"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="85"/>
         <source>Build date:%1 %2</source>
         <translation>編譯日期：%1 %2</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
         <source>Home page:</source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="77"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
         <source> Copyright (C) 2018 - %1 %2</source>
         <translation>版權 (C) 2018 - %1 %2</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="147"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="157"/>
+        <source>Save donation picture</source>
+        <translation>保存捐贈圖片</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="159"/>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
 </context>
 <context>
@@ -322,7 +337,7 @@ Email:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="781"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="847"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="848"/>
         <source>Execute install program error.%1</source>
         <translation>執行安裝錯誤：%1</translation>
     </message>
@@ -337,77 +352,77 @@ Email:kl222@126.com</source>
         <translation>安裝後運行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="797"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="814"/>
         <source>Open file %1 fail</source>
         <translation>打開文件 %1 失敗</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="825"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="826"/>
         <source>Execute</source>
         <translation>執行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="832"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="833"/>
         <source>The installer has started, Please close the application</source>
         <translation>開始安裝，請先關閉本程序</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="953"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="954"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="954"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="955"/>
         <source>Is updating, be sure to close?</source>
         <translation>正在更新，是否關閉？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1117"/>
         <source>Package version</source>
         <translation>包版本</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1121"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1122"/>
         <source>Time</source>
         <translation>時間</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1126"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1127"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1132"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1133"/>
         <source>Operating system</source>
         <translation>操作系統</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1137"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1138"/>
         <source>Platform</source>
         <translation>平臺</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1142"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1143"/>
         <source>Architecture</source>
         <translation>架構</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1147"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1148"/>
         <source>MD5 checksum</source>
         <translation>MD5校驗和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1151"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1152"/>
         <source>Package download url</source>
         <translation>包下載URL</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1157"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1158"/>
         <source>Project home url</source>
         <translation>項目主頁</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1162"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1163"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
     </message>
@@ -419,6 +434,16 @@ Email:kl222@126.com</source>
         <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="224"/>
         <source>Critical</source>
         <translation>錯誤</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonDir.cpp" line="187"/>
+        <source>Open</source>
+        <translation>打開</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonDir.cpp" line="217"/>
+        <source>Save</source>
+        <translation>保存</translation>
     </message>
 </context>
 </TS>

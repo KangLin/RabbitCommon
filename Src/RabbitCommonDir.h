@@ -62,11 +62,16 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
-    static QString OpenFileDialog(QWidget *parent = nullptr,
-                                  const QString &caption = QString(),
-                                  const QString &dir = QString(),
-                                  const QString &filter = QString(),
-                                  QFileDialog::Options options = QFileDialog::Options());
+    static QString GetOpenFileName(QWidget *parent = nullptr,
+                      const QString &caption = QString(),
+                      const QString &dir = QString(),
+                      const QString &filter = QString(),
+                      QFileDialog::Options options = QFileDialog::Options());
+    static QString GetSaveFileName(QWidget *parent = nullptr,
+                      const QString &caption = QString(),
+                      const QString &dir = QString(),
+                      const QString &filter = QString(),
+                      QFileDialog::Options options = QFileDialog::Options());
 private:
     QString m_szDocumentPath;
     QString m_szApplicationDir;
