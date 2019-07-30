@@ -40,12 +40,16 @@ include(RabbitCommon.pri)
 OTHER_FILES += \
     CMakeLists.txt
 
+# Default rules for deployment.
+!android: target.path = $${PREFIX}/bin
+INSTALLS += target
+
 header_files.target = header_files
 header_files.files = $$INSTALL_HEADERS
 !CONFIG(static): win32 {
     header_files.path = $$system_path($${PREFIX})/include/RabbitCommon
 
-    INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
+    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET))
 
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.files = $$system_path($${DESTDIR}/)
@@ -57,9 +61,6 @@ header_files.files = $$INSTALL_HEADERS
     INSTALLS += Deployment_qtlib
 } else {
     header_files.path = $${PREFIX}/include/RabbitCommon
-    # Default rules for deployment.
-    !android: target.path = $${PREFIX}/bin
 }
 
-INSTALLS += target
 !android: INSTALLS += header_files
