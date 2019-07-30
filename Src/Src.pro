@@ -31,7 +31,6 @@ DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
-    else : unnix : PREFIX = /usr/local
     else : PREFIX = $$OUT_PWD/../install
 }
 
@@ -46,10 +45,11 @@ INSTALLS += target
 
 header_files.target = header_files
 header_files.files = $$INSTALL_HEADERS
-!CONFIG(static): win32 {
-    header_files.path = $$system_path($${PREFIX})/include/RabbitCommon
+header_files.path = $$system_path($${PREFIX}/include/RabbitCommon)
+!android: INSTALLS += header_files
 
-    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET))
+!CONFIG(static): win32 {
+    INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
 
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.files = $$system_path($${DESTDIR}/)
@@ -59,8 +59,4 @@ header_files.files = $$INSTALL_HEADERS
                     --verbose 7 \
                     "$${INSTALL_TARGET}"
     INSTALLS += Deployment_qtlib
-} else {
-    header_files.path = $${PREFIX}/include/RabbitCommon
 }
-
-!android: INSTALLS += header_files
