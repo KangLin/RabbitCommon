@@ -91,17 +91,17 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
      - 增加帮助文件：
 
             isEmpty(PREFIX) {
-            qnx : PREFIX = /tmp
-            else : ios: PREFIX=/
-            else : android : PREFIX = /
-            else : unix : PREFIX = /opt/RabbitCommon
-            else : PREFIX = $$OUT_PWD/install
+                qnx : PREFIX = /tmp
+                else : ios: PREFIX=/
+                else : android : PREFIX = /
+                else : unix : PREFIX = /opt/RabbitCommon
+                else : PREFIX = $$OUT_PWD/install
             }
 
             DISTFILES += Authors.md \
-            Authors_zh_CN.md \
-            ChangeLog.md \
-            License.md
+                Authors_zh_CN.md \
+                ChangeLog.md \
+                License.md
 
             other.files = $$DISTFILES
             android: other.path = $$PREFIX/assets
@@ -172,17 +172,17 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     + 安装 Authors、 License、 ChangeLog 等文件
     
             isEmpty(PREFIX) {
-            qnx : PREFIX = /tmp
-            else : ios: PREFIX=/
-            else : android : PREFIX = /
-            else : unix : PREFIX = /opt/RabbitCommon
-            else : PREFIX = $$OUT_PWD/install
+                qnx : PREFIX = /tmp
+                else : ios: PREFIX=/
+                else : android : PREFIX = /
+                else : unix : PREFIX = /opt/RabbitCommon
+                else : PREFIX = $$OUT_PWD/install
             }
 
             DISTFILES += Authors.md \
-            Authors_zh_CN.md \
-            ChangeLog.md \
-            License.md
+                Authors_zh_CN.md \
+                ChangeLog.md \
+                License.md
 
             other.files = $$DISTFILES
             android: other.path = $$PREFIX/assets
