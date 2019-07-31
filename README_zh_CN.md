@@ -1,105 +1,101 @@
-## Qt common library
+## Qt项目公共库
 
 ================================================
 
-Author：Kang Lin（kl222@126.com)
+作者：康林（kl222@126.com)
 
-- [![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
-- [![Linux status](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
+- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
+- [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
 
-[<img src="https://raw.githubusercontent.com/KangLin/Tasks/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
+[<img src="https://raw.githubusercontent.com/KangLin/Tasks/master/Resource/Image/English.png" alt="英语" title="英语" width="16" height="16" />英语](README.md)
 
-### Functions
+### 功能
 
-Qt common library
+本人Qt项目的一些公共库
 
-- [x] About
-- [x] Updater
-- [x] Tools
-  - [x] Execute the program with administrator privileges
-  - [x] Auto start in boot
-- [x] Cross-platform, support multiple operating systems
-  - [x] Windows
-  - [x] Linux、Unix
-  - [x] Android
-  - [ ] Mac os
-  - [ ] IOS
+- [x] 关于对话框
+- [x] 在线更新
+- [x] 工具
+  + [x] 用管理员权限执行程序
+  + [x] 程序开机自启动
+- 跨平台，支持多操作系统
+  + [x] Windows
+  + [x] Linux、Unix
+  + [x] Android
+  + [ ] Mac os
+  + [ ] IOS
   
-  Mac os and IOS, I don't have the corresponding equipment,
-  please compile and test the students with the corresponding equipment.
-
-### Compile
-- Create and entry build directory
+  Mac os 和 IOS ，本人没有相应设备，请有相应设备的同学自己编译，测试。
+  
+### 编译
+- 建立并进入build目录
 
         git clone --recursive https://github.com/KangLin/RabbitCommon.git
         cd RabbitCommon
         mkdir build
 
-- Compile
-  + Use qmake 
+- 编译
+  + 用 qmake 
 
         cd build
         qmake ../RabbitCommon.pro
         make install
 
-      * Parameter
-        - BUILD_ABOUT=OFF: Off build about
-        - BUILD_UPDATE=OFF: Off build updater
-        - BUILD_ADMINAUTHORISER＝OFF: Off admin authoriser
- 
-  + Use cmake
+      * 参数
+        - BUILD_ABOUT=OFF: 关闭编译关于功能
+        - BUILD_UPDATE=OFF: 关闭编译在线更新功能
+        - BUILD_ADMINAUTHORISER＝OFF: 关闭用管理员权限运行程序
+        
+  + 用 cmake
   
         cd build
         cmake .. -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
-      * Parameter
-        - Qt5_DIR: Qt install position
-        - BUILD_APP: build app
-        - BUILD_ABOUT: build about
-        - BUILD_UPDATE: build updater
-        - BUILD_ADMINAUTHORISER: build admin authoriser
+      * 参数
+        - Qt5_DIR: Qt 位置
+        - BUILD_APP: 编译应用程序
+        - BUILD_ABOUT: 编译关于功能
+        - BUILD_UPDATE: 编译在线更新功能
+        - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
-- Compilation notes:
-    Use Qtcreate compile for android in windows, It may appear that the dependent library could not be found.
+- 编译注意事项：
+    用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。
 
-       Don't find D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
+       找不到 D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
        move libRabbitCommon.so ..\bin\libRabbitCommon.so
        process_begin: CreateProcess(NULL, move libRabbitCommon.so ..\bin\libRabbitCommon.so, ...) failed.
-       make (e=2): The system can not find the file specified。
+       make (e=2): 系统找不到指定的文件。
        make[1]: [..\bin\libRabbitCommon.so] Error 2 (ignored)
 
-    The reason is that the make program under windows cannot convert the \ in the path.
-    Solution: Use a make program that recognizes the \ in the path, for example: mingw32-make.exe.
+    其原因是windows下的make程序不能转换路径中的 \ 。  
+    解决方法：用可以识别路径中的 \ 的 make 程序，例如: mingw32-make.exe。
 
-- Install notes:  
+- 安装注意  
+Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
     + windows
-       If you build app. Qt does not provide openssl dynamic library for copyright reasons, so you must copy the dynamic library of openssl to the installation directory.
-        - If it is 32, you can find the dynamic library of openssl (libeay32.dll, ssleay32.dll) in the Qt installer Tools\QtCreator\bin directory.
-        - If it is 64-bit, you will need to download the binary installation package for openssl yourself.
-
+        - 如果是32的，可以在Qt安装程序Tools\QtCreator\bin目录下，找到openssl的动态库（libeay32.dll、ssleay32.dll）
+        - 如果是64位，则需要自己下载openssl的二进制安装包。
     + linux
 
-     ```
-     sudo apt-get install libssl1.1
-     ```
+        ```
+        sudo apt-get install libssl1.1
+        ```
 
-### Other application use the project
-- Direct source code
-  + QT pro file
-    - submodule：
-      + Add submodule：
+### 其它应用使用本项目
+- 直接用源码
+  + QT工程文件
+    - 子模块方式：
+      + 增加子模块：
       
             git submodule add https://github.com/KangLin/RabbitCommon.git 3th_libs/RabbitCommon
       
-      + Introduce RabbitCommon.pri directly in the project file (.pro)
+      + 在工程文件(.pro)中直接引入 RabbitCommon.pri
 
             include(3th_libs/RabbitCommon/RabbitCommon.pri)
 
-    - No submodule：Specify the location of the RabbitCommon source root 
-      in the environment variable (RabbitCommon_DIR)
-      or QMAKE parameter (RabbitCommon_DIR),
-      then add the following to the main project file (.pro):
+    - 非子模块方式：在环境变量（RabbitCommon_DIR） 或 QMAKE参数 （RabbitCommon_DIR） 
+      中指定 RabbitCommon 源码根目录的位置，然后在主工程文件（.pro）中加入下列：
     
             isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
             !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/RabbitCommon.pri"){
@@ -111,7 +107,7 @@ Qt common library
                 error("2. Then set value RabbitCommon_DIR to download root dirctory")
             }
     
-     - Add about files:
+     - 增加帮助文件：
 
             isEmpty(PREFIX) {
                 qnx : PREFIX = /tmp
@@ -132,23 +128,18 @@ Qt common library
             other.CONFIG += directory no_check_exist 
             INSTALLS += other
 
-    Because this way translation resources will be repeated in the target project.
-    Therefore, generally add the RabbitCommon directory under
-    the target project source root directory,
-    and then link to the project in this directory.
-    Can see ：https://github.com/KangLin/Tasks
-    
-    - Static library
+     因为此种方式翻译资源会在目标项目中重复。所以，一般在目标项目源码根目录下增加RabbitCommon目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
+    - 静态库
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-  + cmake
-    - Submodule
+  + cmake工程
+    - 子模块方式
     
             add_subdirectory(3th_libs/RabbitCommon/Src)
         
-    - No submodule
-      + Introduced to add_subdirectory this directory
+    - 非子模块方式
+      + 引入以 add_subdirectory 本项目录
 
             if(NOT RabbitCommon_DIR)
                 set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
@@ -167,7 +158,7 @@ Qt common library
                 message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
             endif()
 
-      + CMakeLists.txt in the project used
+      + 在使用的工程目录CMakeLists.txt
       
             SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
             if(TARGET RabbitCommon)
@@ -180,27 +171,25 @@ Qt common library
             endif()
             target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
 
-    - Static library
+    - 静态库
 
              target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
 
-- Use in library mode
-  + Qt pro file
+- 以库方式使用使用
+  + Qt 工程文件
   + cmake
-    Cmake parameter RabbitCommon_DIR specifies the installation root directory
+    cmake 参数 RabbitCommon_DIR 指定安装根目录
     
         find_package(RabbitCommon)
 
-- Load resource
+- 加载资源
 
         RabbitCommon::CTools::Instance()->Init();
 
-- [About](Src/DlgAbout/DlgAbout.h)
+- [关于对话框](Src/DlgAbout/DlgAbout.h)
 
-    + Install Authors、 License、 ChangeLog files. File name naming rules:
-      Authors.md、License.md、ChangeLog.md is the default file.
-      The local file naming rule is to add the local name after the default file name.
-      For example: medium file:
+    + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则：
+      Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件：
       Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
     
@@ -223,7 +212,7 @@ Qt common library
             other.CONFIG += directory no_check_exist 
             INSTALLS += other
             
-    + Used in code
+    + 代码中使用
     
             ```
             QApplication a(argc, argv);
@@ -242,9 +231,9 @@ Qt common library
             #endif
             ```
   
-![About](docments/image/about.PNG "About")
+![关于对话框](docments/image/about.PNG "关于对话框")
 
-- [Updater](Src/FrmUpdater/FrmUpdater.h)
+- [在线更新功能](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
@@ -258,17 +247,17 @@ Qt common library
   #endif
   ```
   
-Add Update/update.xml in project source directory
+在目标工程源码目录中增加 Update/update.xml 文件
 
         <?xml version='1.0' encoding='UTF-8'?>
         <REDIRECT>
             <VERSION>0.0.8</VERSION>
         </REDIRECT>
   
-![Updater](docments/image/update.PNG "Updater")
+![在线更新功能](docments/image/update.PNG "在线更新功能")
 
-- [Execute the program with administrator privileges](Src/AdminAuthoriser/adminauthoriser.h)
-    + Internal implementation
+- [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
+    + 内部实现
 
             QString szCmd = "mkdir";
             QStringList paras;
@@ -276,11 +265,11 @@ Add Update/update.xml in project source directory
             qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
                      << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
-    + Public interface:
+    + 公开接口：
 
             RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-- [Program boot from boot](Src/RabbitCommonTools.h)
+- [程序开机自启动](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -290,18 +279,18 @@ Add Update/update.xml in project source directory
         static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
-- [Directory function](Src/RabbitCommonDir.h)
+- [目录功能](Src/RabbitCommonDir.h)
 
-## Use the project of this project
+## 使用本项目的项目
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 
-## Donation
-- Donation(more than the ￥20)：  
-![Donation(more than the ￥20 )](Src/Resource/image/Contribute.png "Donation(more than the ￥20)")
+## 捐赠
+- 捐赠(大于￥20)：  
+![捐赠( 大于 ￥20 )](Src/Resource/image/Contribute.png "捐赠(大于￥20)")
 
-- Donation ￥20  
-![Donation ￥20](Src/Resource/image/Contribute20.png "Donation ￥20")
+- 捐赠￥20  
+![捐赠￥20](Src/Resource/image/Contribute20.png "捐赠￥20")
 
-### [License](License.md "License.md")
+### [许可协议](License.md "License.md")

@@ -26,7 +26,7 @@ isEmpty(PREFIX) {
 
 DISTFILES += Authors.md \
     Authors_zh_CN.md \
-    ChangeLog.md \
+    ChangeLog*.md \
     License.md
 
 other.files = $$DISTFILES
@@ -40,7 +40,7 @@ OTHER_FILES += CMakeLists.txt \
     appveyor.yml \
     ci/* \
     tag.sh \
-    README.md \
+    README*.md \
     cmake/* \
     debian/* \
     build_debpackage.sh
