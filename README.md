@@ -17,7 +17,7 @@ Qt common library
 - [x] Updater
 - [x] Tools
   - [x] Execute the program with administrator privileges
-  - [x] Auto start in boot
+  - [x] The program starts automatically
 - [x] Cross-platform, support multiple operating systems
   - [x] Windows
   - [x] Linux、Unix
@@ -73,7 +73,7 @@ Qt common library
     Solution: Use a make program that recognizes the \ in the path, for example: mingw32-make.exe.
 
 - Install notes:  
-    + windows
+    + windows   
        If you build app. Qt does not provide openssl dynamic library for copyright reasons, so you must copy the dynamic library of openssl to the installation directory.
         - If it is 32, you can find the dynamic library of openssl (libeay32.dll, ssleay32.dll) in the Qt installer Tools\QtCreator\bin directory.
         - If it is 64-bit, you will need to download the binary installation package for openssl yourself.
@@ -133,7 +133,7 @@ Qt common library
             INSTALLS += other
 
     Because this way translation resources will be repeated in the target project.
-    Therefore, generally add the RabbitCommon directory under
+    Therefore, The main pro file is TEMPLATE = subdirs, generally add the RabbitCommon directory under
     the target project source root directory,
     and then link to the project in this directory.
     Can see ：https://github.com/KangLin/Tasks
@@ -197,10 +197,11 @@ Qt common library
 
 - [About](Src/DlgAbout/DlgAbout.h)
 
-    + Install Authors、 License、 ChangeLog files. File name naming rules:
-      Authors.md、License.md、ChangeLog.md is the default file.
-      The local file naming rule is to add the local name after the default file name.
-      For example: medium file:
+    + Install Authors、 License、 ChangeLog files.  
+      File name naming rules:  
+      Authors.md、License.md、ChangeLog.md is the default file.  
+      The local file naming rule is to add the local name after the default file name.  
+      For example: Chinese file:  
       Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
     
@@ -242,7 +243,7 @@ Qt common library
             #endif
             ```
   
-![About](docments/image/about.PNG "About")
+![About](docments/image/about_en.png "About")
 
 - [Updater](Src/FrmUpdater/FrmUpdater.h)
 
@@ -265,7 +266,7 @@ Add Update/update.xml in project source directory
             <VERSION>0.0.8</VERSION>
         </REDIRECT>
   
-![Updater](docments/image/update.PNG "Updater")
+![Updater](docments/image/about_en.png "Updater")
 
 - [Execute the program with administrator privileges](Src/AdminAuthoriser/adminauthoriser.h)
     + Internal implementation
@@ -280,7 +281,7 @@ Add Update/update.xml in project source directory
 
             RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-- [Program boot from boot](Src/RabbitCommonTools.h)
+- [The program starts automatically](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -292,7 +293,7 @@ Add Update/update.xml in project source directory
 
 - [Directory function](Src/RabbitCommonDir.h)
 
-## Use the project of this project
+## Other projects using this project
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)

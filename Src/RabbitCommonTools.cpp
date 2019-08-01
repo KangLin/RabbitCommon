@@ -43,16 +43,30 @@ CTools* CTools::Instance()
     return pTools;
 }
 
-void CTools::Init()
+int CTools::SetLanguage(const QString szLanguage)
 {
-    InitResource();
-    InitTranslator();
+    m_szLanguage = szLanguage;
+    return 0;
 }
 
-void CTools::InitTranslator()
+QString CTools::GetLanguage()
+{
+    if(m_szLanguage.isEmpty())
+        return QLocale::system().name();
+    return m_szLanguage;
+}
+
+void CTools::Init(const QString szLanguage)
+{
+    SetLanguage(szLanguage);
+    InitResource();
+    InitTranslator(szLanguage);
+}
+
+void CTools::InitTranslator(const QString szLanguage)
 {
     m_Translator.load(CDir::Instance()->GetDirTranslations()
-                      + "/RabbitCommon_" + QLocale::system().name() + ".qm");
+                      + "/RabbitCommon_" + szLanguage + ".qm");
     qApp->installTranslator(&m_Translator);
 }
 

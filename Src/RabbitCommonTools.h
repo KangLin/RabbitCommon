@@ -3,6 +3,7 @@
 
 #include <QTranslator>
 #include "rabbitcommon_export.h"
+#include <QLocale>
 
 namespace RabbitCommon {
 
@@ -11,8 +12,10 @@ class RABBITCOMMON_EXPORT CTools
 public:
     static CTools* Instance();
     
-    void Init();
-    void InitTranslator();
+    int SetLanguage(const QString szLanguage);
+    QString GetLanguage();
+    void Init(const QString szLanguage = QLocale::system().name());
+    void InitTranslator(const QString szLanguage = QLocale::system().name());
     void CleanTranslator();
     void InitResource();
     void CleanResource();
@@ -55,6 +58,8 @@ private:
     virtual ~CTools();
     
     QTranslator m_Translator;
+    
+    QString m_szLanguage;
 };
 
 } //namespace RabbitCommon

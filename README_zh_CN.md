@@ -128,7 +128,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             other.CONFIG += directory no_check_exist 
             INSTALLS += other
 
-     因为此种方式翻译资源会在目标项目中重复。所以，一般在目标项目源码根目录下增加RabbitCommon目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
+     因为此种方式翻译资源会在目标项目中重复。所以，主程序工程以 TEMPLATE = subdirs ， 在目标项目源码根目录下增加 RabbitCommon 子目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
     - 静态库
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
@@ -188,8 +188,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 - [关于对话框](Src/DlgAbout/DlgAbout.h)
 
-    + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则：
-      Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件：
+    + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则： 
+      Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件： 
       Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
     

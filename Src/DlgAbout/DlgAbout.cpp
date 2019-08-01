@@ -16,6 +16,7 @@ Abstract:
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 
 #include <QFile>
 #include <QDir>
@@ -106,17 +107,17 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 {
     QString szFileLocation;
 #if defined (Q_OS_ANDROID)
-    szFileLocation = "assets:/" + szFile + "_" + QLocale().system().name() + ".md";
+    szFileLocation = "assets:/" + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     QFile f(szFileLocation);
     if(f.open(QIODevice::ReadOnly))
     {
         f.close();
     } else
         szFileLocation = "assets:/" + szFile + ".md";
-    qCritical() << "CDlgAbout::AppendFile file:" << szFileLocation;
+    //qCritical() << "CDlgAbout::AppendFile file:" << szFileLocation;
 #else
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
-            + szFile + "_" + QLocale().system().name() + ".md";
+            + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     QDir d;
     if(!d.exists(szFileLocation))
         szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot()
