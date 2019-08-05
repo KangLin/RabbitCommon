@@ -10,12 +10,27 @@
 #endif
 #include <QTranslator>
 #include <QDir>
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption noexample(QStringList() << "e" << "no-examples",
+                             "no example",
+                             "no example");
+    parser.addOption(noexample);
+    
+    parser.process(QApplication::arguments());
+    
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommon");
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
@@ -34,6 +49,8 @@ int main(int argc, char *argv[])
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
     update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
+    if(!update.GenerateUpdateXml())
+        return 0;
 #if defined (Q_OS_ANDROID)
     update.showMaximized();
 #else

@@ -11,13 +11,14 @@
 
 ### 功能
 
-本人Qt项目的一些公共库
+本人Qt项目的一些公共库，包括下列功能：
 
-- [x] 关于对话框
-- [x] 在线更新
+- [x] [关于对话框](#关于对话框)
+- [x] [在线更新](#在线更新)
 - [x] 工具
-  + [x] 用管理员权限执行程序
-  + [x] 程序开机自启动
+  + [x] [用管理员权限执行程序](#管理员权限运行程序)
+  + [x] [程序开机自启动](#程序开机自启动)
+  + [x] [目录功能](#目录功能)
 - 跨平台，支持多操作系统
   + [x] Windows
   + [x] Linux、Unix
@@ -186,9 +187,10 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
         RabbitCommon::CTools::Instance()->Init();
 
-- [关于对话框](Src/DlgAbout/DlgAbout.h)
+### 具体功能
+#### [关于对话框](Src/DlgAbout/DlgAbout.h)
 
-    + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则： 
+  + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则： 
       Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件： 
       Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
@@ -212,7 +214,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             other.CONFIG += directory no_check_exist 
             INSTALLS += other
             
-    + 代码中使用
+  + 代码中使用
     
             ```
             QApplication a(argc, argv);
@@ -230,10 +232,11 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 about.exec();
             #endif
             ```
-  
+  + 参见例子： https://github.com/KangLin/LunarCalendar
+    
 ![关于对话框](docments/image/about.PNG "关于对话框")
 
-- [在线更新功能](Src/FrmUpdater/FrmUpdater.h)
+#### [在线更新](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
@@ -247,17 +250,51 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   #endif
   ```
   
-在目标工程源码目录中增加 Update/update.xml 文件
-
-        <?xml version='1.0' encoding='UTF-8'?>
-        <REDIRECT>
-            <VERSION>0.0.8</VERSION>
-        </REDIRECT>
+  + 可以用 CFrmUpdater::GenerateUpdateXml() 产生更新 xml 文件，可用命令行参数 --help 查看支持的命令参数
   
-![在线更新功能](docments/image/update.PNG "在线更新功能")
+            ./TasksApp --help
+            Usage: ./TasksApp [options]
+            
+            Options:
+              -h, --help                       Displays this help.
+              -v, --version                    Displays version information.
+              -f, --file <xml file name>       xml file name
+              --pv <Package version>           Package version
+              -t, --time <Time>                Time
+              -i, --info <Information>         Information
+              -s, --system <Operating system>  Operating system
+              -p, --platform <Platform>        Platform
+              -a, --arch <Architecture>        Architecture
+              -c, --md5 <MD5 checksum>         MD5 checksum
+              -u, --url <Download url>         Package download url
+              --home <Project home url>        Project home url
+              -m, --min <Min update version>   Min update version
 
-- [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
-    + 内部实现
+  + 在目标工程源码目录中增加 Update/update.xml 文件，然后在程序中指定此 xml 文件做为 CFrmUpdater::DownloadFile 的 URL 参数
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <REDIRECT>
+                <VERSION>v0.0.1</VERSION>
+                <WINDOWS>
+                    <URL>url</URL>
+                </WINDOWS>
+                <LINUX>
+                    <URL>url</URL>
+                </LINUX>
+                <LINUX_APPIMAGE>
+                    <URL>url</URL>
+                </LINUX_APPIMAGE>
+                <ANDROID>
+                    <URL>url</URL>
+                </ANDROID>   
+            </REDIRECT>
+  
+  + 参见例子： https://github.com/KangLin/LunarCalendar
+   
+![在线更新](docments/image/update.PNG "在线更新")
+
+#### [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
+  + 内部实现
 
             QString szCmd = "mkdir";
             QStringList paras;
@@ -265,11 +302,11 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
                      << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
-    + 公开接口：
+  + 公开接口：
 
             RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-- [程序开机自启动](Src/RabbitCommonTools.h)
+#### [程序开机自启动](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -279,14 +316,14 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
-- [目录功能](Src/RabbitCommonDir.h)
+#### [目录功能](Src/RabbitCommonDir.h)
 
-## 使用本项目的项目
+### 使用本项目的项目
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 
-## 捐赠
+### 捐赠
 - 捐赠(大于￥20)：  
 ![捐赠( 大于 ￥20 )](Src/Resource/image/Contribute.png "捐赠(大于￥20)")
 

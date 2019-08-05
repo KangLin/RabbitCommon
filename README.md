@@ -11,13 +11,14 @@ Author：Kang Lin（kl222@126.com)
 
 ### Functions
 
-Qt common library
+Qt common library. include follow functions:
 
-- [x] About
-- [x] Updater
+- [x] [About](#About)
+- [x] [Updater](#Updater)
 - [x] Tools
-  - [x] Execute the program with administrator privileges
-  - [x] The program starts automatically
+  - [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
+  - [x] [The program starts automatically](#the-program-starts-automatically)
+  - [x] [Directory functions](#directory-functions)
 - [x] Cross-platform, support multiple operating systems
   - [x] Windows
   - [x] Linux、Unix
@@ -195,9 +196,10 @@ Qt common library
 
         RabbitCommon::CTools::Instance()->Init();
 
-- [About](Src/DlgAbout/DlgAbout.h)
+### Functions
+#### [About](Src/DlgAbout/DlgAbout.h)
 
-    + Install Authors、 License、 ChangeLog files.  
+  + Install Authors、 License、 ChangeLog files.  
       File name naming rules:  
       Authors.md、License.md、ChangeLog.md is the default file.  
       The local file naming rule is to add the local name after the default file name.  
@@ -224,33 +226,35 @@ Qt common library
             other.CONFIG += directory no_check_exist 
             INSTALLS += other
             
-    + Used in code
+  + Used in code
     
             ```
             QApplication a(argc, argv);
             a.setApplicationVersion(BUILD_VERSION);
-            a.setApplicationName("Calendar");
-            a.setApplicationDisplayName(QObject::tr("Calendar"));
+            a.setApplicationName("SerialPortAssistant");
+            a.setApplicationDisplayName(QObject::tr("SerialPortAssistant"));
         
             #ifdef RABBITCOMMON
                 CDlgAbout about(this);
-                about.m_AppIcon = QPixmap(":/image/Calendar");
-                about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
+                about.m_AppIcon = QPixmap(":/icon/SerialPortAssistant");
+                about.m_szHomePage = "https://github.com/KangLin/SerialPortAssistant";
                 #if defined (Q_OS_ANDROID)
                     about.showMaximized();
+                    about.exec();
+                #else
+                    about.exec();
                 #endif
-                about.exec();
             #endif
             ```
-  
+  + See: https://github.com/KangLin/SerialPortAssistant
 ![About](docments/image/about_en.png "About")
 
-- [Updater](Src/FrmUpdater/FrmUpdater.h)
+#### [Updater](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
       CFrmUpdater *fu = new CFrmUpdater();
-      fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
+      fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/SerialPortAssistant"));
       #if defined (Q_OS_ANDROID)
           fu->showMaximized();
       #else
@@ -259,17 +263,51 @@ Qt common library
   #endif
   ```
   
-Add Update/update.xml in project source directory
+  + Use CFrmUpdater::GenerateUpdateXml() to generate update xml file, use --help look up parameter
 
-        <?xml version='1.0' encoding='UTF-8'?>
-        <REDIRECT>
-            <VERSION>0.0.8</VERSION>
-        </REDIRECT>
+          ./TasksApp --help
+          Usage: ./TasksApp [options]
+          
+          Options:
+            -h, --help                       Displays this help.
+            -v, --version                    Displays version information.
+            -f, --file <xml file name>       xml file name
+            --pv <Package version>           Package version
+            -t, --time <Time>                Time
+            -i, --info <Information>         Information
+            -s, --system <Operating system>  Operating system
+            -p, --platform <Platform>        Platform
+            -a, --arch <Architecture>        Architecture
+            -c, --md5 <MD5 checksum>         MD5 checksum
+            -u, --url <Download url>         Package download url
+            --home <Project home url>        Project home url
+            -m, --min <Min update version>   Min update version
+
+  + Add Update/update.xml in project source root direcory, then add the url to CFrmUpdater::DownloadFile.
+
+          <?xml version="1.0" encoding="UTF-8"?>
+          <REDIRECT>
+              <VERSION>v0.0.1</VERSION>
+              <WINDOWS>
+                  <URL>url</URL>
+              </WINDOWS>
+              <LINUX>
+                  <URL>url</URL>
+              </LINUX>
+              <LINUX_APPIMAGE>
+                  <URL>url</URL>
+              </LINUX_APPIMAGE>
+              <ANDROID>
+                  <URL>url</URL>
+              </ANDROID>   
+          </REDIRECT>
   
-![Updater](docments/image/about_en.png "Updater")
+  + See: https://github.com/KangLin/SerialPortAssistant
+  
+![Updater](docments/image/updater_en.png "Updater")
 
-- [Execute the program with administrator privileges](Src/AdminAuthoriser/adminauthoriser.h)
-    + Internal implementation
+#### [Execute the program with administrator privileges](Src/AdminAuthoriser/adminauthoriser.h)
+  + Internal implementation
 
             QString szCmd = "mkdir";
             QStringList paras;
@@ -277,11 +315,11 @@ Add Update/update.xml in project source directory
             qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
                      << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
-    + Public interface:
+  + Public interface:
 
             RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-- [The program starts automatically](Src/RabbitCommonTools.h)
+#### [The program starts automatically](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -291,14 +329,14 @@ Add Update/update.xml in project source directory
         static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
-- [Directory function](Src/RabbitCommonDir.h)
+#### [Directory functions](Src/RabbitCommonDir.h)
 
-## Other projects using this project
+### Other projects using this project
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 
-## Donation
+### Donation
 - Donation(more than the ￥20)：  
 ![Donation(more than the ￥20 )](Src/Resource/image/Contribute.png "Donation(more than the ￥20)")
 
