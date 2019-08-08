@@ -13,7 +13,7 @@ CDir::CDir()
              QStandardPaths::DocumentsLocation) 
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QApplication::applicationName();
-    qDebug() << m_szDocumentPath;
+    qDebug() << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         d.mkpath(m_szDocumentPath);
