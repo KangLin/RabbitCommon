@@ -1,3 +1,7 @@
+- 1.0.1
+  + 增加 data 和 database 目录
+  + 修改程序只读目录（android assert)
+
 - 1.0.0
   + 使用命名空间 RabbitCommon
   + 增加开机自启动

@@ -9,33 +9,41 @@ namespace RabbitCommon {
 
 /*
  * Default directory:
- * 
+ *
  * ApplicationInstallRoot                          GetDirApplicationInstallRoot()
  *       |- bin                                    GetDirApplication()
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
- *       |   |- applicationName.conf               GetApplicationConfigureFile()    
+ *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
- * 
- * 
+ *       |- data                                   GetDirData()
+ *       |   |- db                                 GetDirDatabase()
+ *
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
- * 
- * 
+ *       |    |- db                                GetDirUserDatabase()
+ *
+ *
  * Android:
- *    assets                                       (Only read)
+ *    assets                                       GetDirApplicationInstallRoot()  (Only read)
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
- *       |   |- applicationName.conf               GetApplicationConfigureFile()    
+ *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
+ *       |- data                                   GetDirData()
+ *       |   |- db                                 GetDirDatabase()
  * 
  *    DocumentRoot/Rabbit/applicationName          (Write and read)
- *            |- etc                               GetDirConfig()
- *            |   |- xml                           GetDirApplicationXml()
- *            |   |- applicationName.conf          GetApplicationConfigureFile()    
- * 
+ *       |- root                                 
+ *       |    |- etc                               GetDirConfig()
+ *       |    |   |- xml                           GetDirApplicationXml()
+ *       |    |   |- applicationName.conf          GetApplicationConfigureFile() 
+ *       |    |- data                              GetDirData()
+ *       |    |   |- db                            GetDirDatabase() 
+ *
+ * NOTE: In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
  */
 class RABBITCOMMON_EXPORT CDir
 {
@@ -48,14 +56,17 @@ public:
     int SetDirApplication(const QString &szPath);
     QString GetDirApplicationInstallRoot();
     int SetDirApplicationInstallRoot(const QString &szPath);
-    QString GetDirConfig();
-    QString GetDirApplicationXml();
+    QString GetDirConfig(bool bReadOnly = false);
+    QString GetDirData(bool bReadOnly = false);
+    QString GetDirDatabase(bool bReadOnly = false);
+    QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirTranslations();
-    QString GetFileApplicationConfigure();
+    QString GetFileApplicationConfigure(bool bReadOnly = false);
     
     QString GetDirUserDocument();
     int SetDirUserDocument(QString szPath);
     QString GetDirUserData();
+    QString GetDirUserDatabase();
     QString GetDirUserImage();
     QString GetFileUserConfigure();
    

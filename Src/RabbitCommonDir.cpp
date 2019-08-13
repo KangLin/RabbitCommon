@@ -7,7 +7,7 @@
 namespace RabbitCommon {
 
 CDir::CDir()
-{
+{  
     //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(
              QStandardPaths::DocumentsLocation) 
@@ -19,7 +19,11 @@ CDir::CDir()
         d.mkpath(m_szDocumentPath);
     
     m_szApplicationDir =  qApp->applicationDirPath();
+#if defined (Q_OS_ANDROID)
+    m_szApplicationRootDir = "assets:";
+#else
     m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
+#endif
 }
 
 CDir* CDir::Instance()
@@ -53,17 +57,20 @@ int CDir::SetDirApplicationInstallRoot(const QString &szPath)
     return 0;
 }
 
-QString CDir::GetDirConfig()
+QString CDir::GetDirConfig(bool bReadOnly)
 {
     QString szPath;
 #if defined (Q_OS_ANDROID)
-    szPath = GetDirUserDocument() + QDir::separator() + "etc";
+    if(bReadOnly)
+        return "assets:/etc";
+
+    szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "etc";
     QDir d;
     if(!d.exists(szPath))
     {
         d.mkpath(szPath);
-        //Copy assets:/etc to here.
-        CopyDirectory("assets:/etc", szPath);
+        //Todo: Copy assets:/etc to here.
+        //CopyDirectory("assets:/etc", szPath);
     }
 #else
     szPath = GetDirApplicationInstallRoot() + QDir::separator() + "etc";
@@ -74,9 +81,41 @@ QString CDir::GetDirConfig()
     return szPath;
 }
 
-QString CDir::GetDirApplicationXml()
+QString CDir::GetDirData(bool bReadOnly)
 {
-    QString szPath = GetDirConfig() + QDir::separator() + "xml";
+    QString szPath;
+#if defined (Q_OS_ANDROID)
+    if(bReadOnly)
+        return "assets:/data";
+    szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "data";
+    QDir d;
+    if(!d.exists(szPath))
+    {
+        d.mkpath(szPath);
+        //TODO: Copy assets:/etc to here.
+        //CopyDirectory("assets:/data", szPath);
+    }
+#else
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "data";
+    QDir d;
+    if(!d.exists(szPath))
+        d.mkpath(szPath);
+#endif
+    return szPath;
+}
+
+QString CDir::GetDirDatabase(bool bReadOnly)
+{
+    QString szPath = GetDirData(bReadOnly) + QDir::separator() + "db";
+    QDir d;
+    if(!d.exists(szPath))
+        d.mkpath(szPath);
+    return szPath;
+}
+
+QString CDir::GetDirApplicationXml(bool bReadOnly)
+{
+    QString szPath = GetDirConfig(bReadOnly) + QDir::separator() + "xml";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
@@ -100,12 +139,23 @@ int CDir::SetDirUserDocument(QString szPath)
 QString CDir::GetDirUserData()
 {
     QString szPath = GetDirUserDocument() + QDir::separator() + "data";
+    
+    QDir d;
+    if(!d.exists(szPath))
+    {
+        d.mkpath(szPath);
+    }
+    return szPath;
+}
+
+QString CDir::GetDirUserDatabase()
+{
+    QString szPath = GetDirUserData() + QDir::separator() + "db";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
     return szPath;
 }
-
 QString CDir::GetDirUserImage()
 {
     QString szPath = GetDirUserData() + QDir::separator() + "image";
@@ -119,15 +169,15 @@ QString CDir::GetDirTranslations()
 {
 #if _DEBUG
     return ":/translations";
-#elif defined(Q_OS_ANDROID)
+#elif defined (Q_OS_ANDROID)
     return "assets:/translations";
 #endif
     return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
 }
 
-QString CDir::GetFileApplicationConfigure()
+QString CDir::GetFileApplicationConfigure(bool bReadOnly)
 {
-    return GetDirConfig() + QDir::separator() + QApplication::applicationName() + ".conf";
+    return GetDirConfig(bReadOnly) + QDir::separator() + QApplication::applicationName() + ".conf";
 }
 
 QString CDir::GetFileUserConfigure()

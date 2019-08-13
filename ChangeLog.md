@@ -1,3 +1,7 @@
+- 1.0.1
+  + Modify application directory reade only
+  + Add data and database directory
+
 - 1.0.0
   + Use namespace RabbitCommon
   + Add auto start in boot
