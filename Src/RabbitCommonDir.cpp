@@ -16,7 +16,8 @@ CDir::CDir()
     qDebug() << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
-        d.mkpath(m_szDocumentPath);
+        if(!d.mkpath(m_szDocumentPath))
+            qCritical() << "mkdir doucments dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  qApp->applicationDirPath();
 #if defined (Q_OS_ANDROID)
