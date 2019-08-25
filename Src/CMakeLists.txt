@@ -92,15 +92,19 @@ SET(RCC_FILES
     ${TRANSLATIONS_RESOURCE_FILES}
     )
 
-IF(MSVC)
-    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-ENDIF()
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
 #add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
-set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+IF(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        "$<$<C_COMPILER_ID:MSVC>:/utf-8>" 
+        "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+ENDIF()
 if(BUILD_VERSION)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_VERSION="${BUILD_VERSION}")
     set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
