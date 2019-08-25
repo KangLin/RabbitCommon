@@ -83,8 +83,8 @@ set(SOURCE_FILES
 set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
 
 #翻译
-include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
 #设置资源文件
 SET(RCC_FILES
@@ -139,6 +139,7 @@ INSTALL(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
         )
 export(TARGETS ${PROJECT_NAME}
        APPEND FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake

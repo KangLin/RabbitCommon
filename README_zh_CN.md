@@ -145,7 +145,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             if(NOT RabbitCommon_DIR)
                 set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
                 if(NOT RabbitCommon_DIR)
-                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/..)
+                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
                 endif()
             endif()
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)

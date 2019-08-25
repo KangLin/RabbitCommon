@@ -154,7 +154,7 @@ Qt common library. include follow functions:
             if(NOT RabbitCommon_DIR)
                 set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
                 if(NOT RabbitCommon_DIR)
-                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/..)
+                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
                 endif()
             endif()
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
