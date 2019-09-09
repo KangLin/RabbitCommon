@@ -157,6 +157,16 @@ QString CDir::GetDirUserDatabase()
         d.mkpath(szPath);
     return szPath;
 }
+
+QString CDir::GetDirUserXml()
+{
+    QString szPath = GetDirUserData() + QDir::separator() + "xml";
+    QDir d;
+    if(!d.exists(szPath))
+        d.mkpath(szPath);
+    return szPath;
+}
+
 QString CDir::GetDirUserImage()
 {
     QString szPath = GetDirUserData() + QDir::separator() + "image";

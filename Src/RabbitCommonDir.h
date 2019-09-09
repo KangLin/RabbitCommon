@@ -24,6 +24,7 @@ namespace RabbitCommon {
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  *       |    |- db                                GetDirUserDatabase()
+ *       |    |- xml                               GetDirUserXml()
  *
  *
  * Android:
@@ -34,7 +35,7 @@ namespace RabbitCommon {
  *       |- translations                           GetDirTranslations()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
- * 
+  
  *    DocumentRoot/Rabbit/applicationName          (Write and read)
  *       |- root                                 
  *       |    |- etc                               GetDirConfig()
@@ -67,9 +68,10 @@ public:
     int SetDirUserDocument(QString szPath);
     QString GetDirUserData();
     QString GetDirUserDatabase();
+    QString GetDirUserXml();
     QString GetDirUserImage();
     QString GetFileUserConfigure();
-   
+    
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
