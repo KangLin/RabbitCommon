@@ -61,10 +61,8 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
     
     bool check = false;
-#if defined (Q_OS_ANDROID)   
+#if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
-    check = connect(this, SIGNAL(sigDonationClicked()),
-                    this, SLOT(slotSaveDonation()));
 #else
     ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
     check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -170,7 +168,7 @@ bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
 {
     qDebug() << event->type();
     if(event->type() ==  QEvent::MouseButtonRelease)
-        emit sigDonationClicked();
+        slotSaveDonation();
     return QDialog::eventFilter(watched, event);
 }
 #endif

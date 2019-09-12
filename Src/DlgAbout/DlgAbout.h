@@ -55,8 +55,6 @@ public:
     QPixmap m_DonationIcon;
 
 #if defined(Q_OS_ANDROID)
-Q_SIGNALS:
-    void sigDonationClicked();
 protected:    
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
 #endif
