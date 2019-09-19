@@ -59,16 +59,16 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
-    
-    bool check = false;
+
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
 #else
+    bool check = false;
     ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
     check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
                          this, SLOT(slotDonation(const QPoint &)));
-#endif
     Q_ASSERT(check);
+#endif
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
