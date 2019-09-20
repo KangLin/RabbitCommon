@@ -112,12 +112,27 @@ if [ -n "$GENERATORS" ]; then
     if [ -n "${STATIC}" ]; then
         CONFIG_PARA="-DBUILD_SHARED_LIBS=${STATIC}"
     fi
-    cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
-        -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-        -DCMAKE_VERBOSE=ON \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+
+    if [ "${BUILD_TARGERT}" = "android" ]; then
+	    cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
+		 -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+		 -DCMAKE_VERBOSE=ON \
+		 -DCMAKE_BUILD_TYPE=Release \
+		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 \
+         -DANDROID_PLATFORM=${ANDROID_API} \
+         -DANDROID_ABI="${BUILD_ARCH}" \
+         -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
+    else
+	    cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
+		 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+		 -DCMAKE_VERBOSE=ON \
+		 -DCMAKE_BUILD_TYPE=Release \
+		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+    fi
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
+    if [ "${BUILD_TARGERT}" = "android" ]; then
+        cmake --build . --target APK  
+    fi
 else
     if [ "ON" = "${STATIC}" ]; then
         CONFIG_PARA="CONFIG*=static"

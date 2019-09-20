@@ -7,6 +7,7 @@ set(SOURCE_FILES
 #翻译
 include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/Utils.cmake)
 
 set(RESOURCE_FILES Resource/Resource.qrc
     "${TRANSLATIONS_RESOURCE_FILES}")
@@ -18,7 +19,11 @@ IF(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 ENDIF()
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+if(ANDROID)
+    add_library(${PROJECT_NAME} ${SOURCE_FILES})
+else()
+    add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+endif()
 #add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
 if(BUILD_ABOUT)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DHAVE_ABOUT)
@@ -35,13 +40,21 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE RabbitCommon ${QT_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE
       "${CMAKE_BINARY_DIR}/Src" "${CMAKE_SOURCE_DIR}/Src" )
-# Install target
-INSTALL(TARGETS ${PROJECT_NAME}
+if(ANDROID)
+    # Install target
+    INSTALL(TARGETS ${PROJECT_NAME}
+            RUNTIME DESTINATION "libs/${ANDROID_ABI}"
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+            LIBRARY DESTINATION "libs/${ANDROID_ABI}"
+            )
+else()
+    # Install target
+    INSTALL(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         )
-    
+endif()    
 # Install other files
 INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
 
@@ -66,19 +79,31 @@ IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32)
     
 ENDIF()
 
-#IF(ANDROID)
-#    GENERATED_DEPLOYMENT_SETTINGS()
-#    find_program(ANT NAMES ant) # PATHS  "/usr/bin")
-#    MESSAGE("ant:${ANT}\n")
+IF(ANDROID)
+    Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
+    GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
+        APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PROJECT_NAME}.so")
 
-#    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/libRabbitIm.so ${CMAKE_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
-#        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-#        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-#            --input ${CMAKE_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json
-#            --output ${CMAKE_BINARY_DIR}/android-build
-#            --verbose
-#            #--ant /usr/bin/ant
-#            #--jdk $ENV{JAVA_HOME}
-#    )
-#ENDIF(ANDROID)
+    set(ANDROID_DELOP_PARA --gradle)
+    if(Qt5_VERSION VERSION_LESS 5.8.0)
+        find_program(ANT NAMES ant) # PATHS  "/usr/bin")
+        MESSAGE("ant:${ANT}\n")
+        if(ANT_FOUND)
+            set(ANDROID_DELOP_PARA --ant ${ANT})
+        endif()
+    endif()
+
+    add_custom_target(APK #TARGET ${PROJECT_NAME} POST_BUILD
+        #COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" ${CMAKE_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/$<TARGET_FILE_NAME:${PROJECT_NAME}>
+        #COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/android-build/libs/${ANDROID_ABI}
+        #COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE_DIR:${PROJECT_NAME}>/*" ${CMAKE_BINARY_DIR}/android-build/libs/${ANDROID_ABI}
+        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+            --output ${CMAKE_BINARY_DIR}/android-build
+            --input ${JSON_FILE}
+            --verbose
+            --android-platform ${ANDROID_PLATFORM}
+            ${ANDROID_DELOP_PARA}
+            #--jdk $ENV{JAVA_HOME}
+    )
+ENDIF(ANDROID)
