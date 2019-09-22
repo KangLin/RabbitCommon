@@ -23,6 +23,7 @@ Abstract:
 #include <QDebug>
 #include <QMenu>
 #include <QStandardPaths>
+#include <QtNetwork>
 
 /*
  * Author: KangLin(Email:kl222@126.com)
@@ -60,6 +61,8 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute");
 
+    DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
+
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
 #else
@@ -69,6 +72,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
                          this, SLOT(slotDonation(const QPoint &)));
     Q_ASSERT(check);
 #endif
+
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
@@ -172,3 +176,97 @@ bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
     return QDialog::eventFilter(watched, event);
 }
 #endif
+
+int CDlgAbout::DownloadFile(const QUrl &url)
+{
+    int nRet = 0;
+    QNetworkRequest request(url);
+    //https://blog.csdn.net/itjobtxq/article/details/8244509
+    /*QSslConfiguration config;
+    config.setPeerVerifyMode(QSslSocket::VerifyNone);
+    config.setProtocol(QSsl::AnyProtocol);
+    request.setSslConfiguration(config);
+    */
+    m_pReply = m_NetManager.get(request);
+    if(!m_pReply)
+        return -1;
+    
+    bool check = false;
+    check = connect(m_pReply, SIGNAL(error(QNetworkReply::NetworkError)),
+                    this, SLOT(slotError(QNetworkReply::NetworkError)));
+    Q_ASSERT(check);
+    check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),
+                    this, SLOT(slotSslError(const QList<QSslError>)));
+    check = connect(m_pReply, SIGNAL(finished()),
+                    this, SLOT(slotFinished()));
+    
+    return nRet;
+}
+
+void CDlgAbout::slotFinished()
+{
+    qDebug() << "CFrmUpdater::slotFinished()";
+    
+    QVariant redirectionTarget;
+    if(m_pReply)
+       redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    if(redirectionTarget.isValid())
+    {
+        if(m_pReply)
+        {
+            m_pReply->disconnect();
+            m_pReply->deleteLater();
+            m_pReply = nullptr;
+        }
+        QUrl u = redirectionTarget.toUrl();  
+        if(u.isValid())
+        {
+            qDebug() << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
+            DownloadFile(u);
+        }
+        return;
+    }
+    
+    QByteArray d = m_pReply->readAll();
+    m_DonationIcon.loadFromData(d);
+    ui->lbDonation->setPixmap(m_DonationIcon);
+//    QFile f(RabbitCommon::CDir::Instance()->GetDirUserImage()
+//            + QDir::separator() + "donation.png");
+//    if(f.open(QFile::WriteOnly))
+//    {
+//        f.write(d);
+//        f.close();
+//        m_DonationIcon = QPixmap(RabbitCommon::CDir::Instance()->GetDirUserImage()
+//                                 + QDir::separator() + "donation.png", "png");
+//    }
+    
+    if(m_pReply)
+    {
+        m_pReply->disconnect();
+        m_pReply->deleteLater();
+        m_pReply = nullptr;
+    }
+}
+
+void CDlgAbout::slotError(QNetworkReply::NetworkError e)
+{
+    qDebug() << "CFrmUpdater::slotError: " << e;
+    if(m_pReply)
+    {
+        m_pReply->disconnect();
+        m_pReply->deleteLater();
+        m_pReply = nullptr;
+    }
+}
+
+void CDlgAbout::slotSslError(const QList<QSslError> e)
+{
+    qDebug() << "CFrmUpdater::slotSslError: " << e;
+   
+    if(m_pReply)
+    {
+        m_pReply->disconnect();
+        m_pReply->deleteLater();
+        m_pReply = nullptr;
+    }
+}

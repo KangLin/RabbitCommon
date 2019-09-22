@@ -29,6 +29,8 @@ Abstract:
 #include <QDialog>
 #include <QTextEdit>
 #include "rabbitcommon_export.h"
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
 
 namespace Ui {
 class CDlgAbout;
@@ -59,14 +61,29 @@ protected:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
 #endif
 
-private slots:
+protected Q_SLOTS:
     void on_pushButton_clicked();
     void slotDonation(const QPoint &pos);
     void slotSaveDonation();
     
+    void slotError(QNetworkReply::NetworkError e);
+    void slotSslError(const QList<QSslError> e);
+    void slotFinished();
+    
 private:
     Ui::CDlgAbout *ui;
-        
+
+    QNetworkAccessManager m_NetManager;
+    QNetworkReply *m_pReply;
+    /**
+     * @brief DownloadFile
+     * @param url: Download url
+     * @param bRedirection: true: Is redirection
+     * @param bDownload: true: don't check, download immediately
+     * @return 
+     */
+    int DownloadFile(const QUrl &url);
+    
     int AppendFile(QTextEdit *pEdit, const QString &szFile);
 
 protected:
