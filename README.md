@@ -337,10 +337,6 @@ Qt common library. include follow functions:
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 
 ### Donation
-- Donation(more than the ￥20)：  
-![Donation(more than the ￥20 )](Src/Resource/image/Contribute.png "Donation(more than the ￥20)")
-
-- Donation ￥20  
-![Donation ￥20](Src/Resource/image/Contribute20.png "Donation ￥20")
+![Donation](Src/Resource/image/Contribute.png "Donation")
 
 ### [License](License.md "License.md")

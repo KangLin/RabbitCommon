@@ -58,7 +58,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     
     m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
-    m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute20");
+    m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute");
 
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);

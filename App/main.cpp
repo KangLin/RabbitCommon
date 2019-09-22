@@ -33,18 +33,19 @@ int main(int argc, char *argv[])
     
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommon");
-    a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-
+    
     qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
     qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
     qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
     
-    QTranslator tApp, tTasks;
+    QTranslator tApp;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
               + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
-
     RabbitCommon::CTools::Instance()->Init();
+    
+    a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
+
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
