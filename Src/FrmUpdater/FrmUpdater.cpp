@@ -1162,7 +1162,7 @@ int CFrmUpdater::GenerateUpdateXml()
     QCommandLineOption oMin(QStringList() << "m" << "min",
                              tr("Min update version"),
                              "Min update version",
-                             "0.0.1");      
+                             "v0.0.1");
     parser.addOption(oMin);
 
     parser.process(QApplication::arguments());
