@@ -75,6 +75,10 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
+    static QString GetOpenDirectory(QWidget *parent = nullptr,
+                      const QString &caption = QString(),
+                      const QString &dir = QString(),
+                      QFileDialog::Options options = QFileDialog::Options());
     static QString GetOpenFileName(QWidget *parent = nullptr,
                       const QString &caption = QString(),
                       const QString &dir = QString(),

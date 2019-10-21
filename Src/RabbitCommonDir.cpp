@@ -236,6 +236,34 @@ int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCove
     return true;
 }
 
+QString CDir::GetOpenDirectory(QWidget *parent,
+                               const QString &caption,
+                               const QString &dir,
+                               QFileDialog::Options options)
+{
+    QString szFile;
+#if defined (Q_OS_ANDROID)
+    QString szCaption = caption;
+    if(caption.isEmpty())
+        szCaption = QObject::tr("Open");
+    QFileDialog fd(parent, szCaption, dir);
+    fd.setOptions(options);
+    fd.setFileMode(QFileDialog::Directory);
+    fd.showMaximized();
+    if(QFileDialog::Reject == fd.exec())
+    {
+        return QString();
+    }
+    szFile = fd.selectedFiles().at(0);
+#else
+    szFile = QFileDialog::getExistingDirectory(parent, 
+                                          caption,
+                                          dir,
+                                          options);
+#endif
+    return szFile;
+}
+
 QString CDir::GetOpenFileName(QWidget *parent,
                              const QString &caption,
                              const QString &dir,
