@@ -114,6 +114,13 @@ QString CDir::GetDirDatabase(bool bReadOnly)
     return szPath;
 }
 
+QString CDir::GetDirDatabaseFile(const QString &szFile, bool bReadOnly)
+{
+    if(szFile.isEmpty())
+        return GetDirDatabase(bReadOnly) + QDir::separator() + "database.db";
+    return GetDirDatabase(bReadOnly) + QDir::separator() + szFile;
+}
+
 QString CDir::GetDirApplicationXml(bool bReadOnly)
 {
     QString szPath = GetDirConfig(bReadOnly) + QDir::separator() + "xml";
@@ -156,6 +163,13 @@ QString CDir::GetDirUserDatabase()
     if(!d.exists(szPath))
         d.mkpath(szPath);
     return szPath;
+}
+
+QString CDir::GetDirUserDatabaseFile(const QString &szFile)
+{
+    if(szFile.isEmpty())
+        return GetDirUserDatabase() + QDir::separator() + "database.db";
+    return GetDirUserDatabase() + QDir::separator() + szFile;
 }
 
 QString CDir::GetDirUserXml()

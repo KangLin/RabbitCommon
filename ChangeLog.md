@@ -1,6 +1,7 @@
 - 1.0.1
   + Modify application directory reade only
   + Add data and database directory
+  + Add GetDirDatabaseFile
 
 - 1.0.0
   + Use namespace RabbitCommon

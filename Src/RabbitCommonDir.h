@@ -18,12 +18,14 @@ namespace RabbitCommon {
  *       |- translations                           GetDirTranslations()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
+ *       |       |- database.db                    GetDirDatabaseFile()
  *
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  *       |    |- db                                GetDirUserDatabase()
+ *       |       |- database.db                    GetDirUserDatabaseFile()
  *       |    |- xml                               GetDirUserXml()
  *
  *
@@ -35,6 +37,7 @@ namespace RabbitCommon {
  *       |- translations                           GetDirTranslations()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
+ *       |       |- database.db                    GetDirDatabaseFile()
   
  *    DocumentRoot/Rabbit/applicationName          (Write and read)
  *       |- root                                 
@@ -42,7 +45,8 @@ namespace RabbitCommon {
  *       |    |   |- xml                           GetDirApplicationXml()
  *       |    |   |- applicationName.conf          GetApplicationConfigureFile() 
  *       |    |- data                              GetDirData()
- *       |    |   |- db                            GetDirDatabase() 
+ *       |    |   |- db                            GetDirDatabase()
+ *       |        |- database.db                   GetDirDatabaseFile()
  *
  * NOTE: In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
  */
@@ -60,6 +64,7 @@ public:
     QString GetDirConfig(bool bReadOnly = false);
     QString GetDirData(bool bReadOnly = false);
     QString GetDirDatabase(bool bReadOnly = false);
+    QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirTranslations();
     QString GetFileApplicationConfigure(bool bReadOnly = false);
@@ -68,6 +73,7 @@ public:
     int SetDirUserDocument(QString szPath);
     QString GetDirUserData();
     QString GetDirUserDatabase();
+    QString GetDirUserDatabaseFile(const QString &szFile = QString());
     QString GetDirUserXml();
     QString GetDirUserImage();
     QString GetFileUserConfigure();
