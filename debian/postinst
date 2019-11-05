@@ -25,11 +25,16 @@ case "$1" in
         fi
         echo "/opt/RabbitCommon/lib" > /etc/ld.so.conf.d/RabbitCommon.conf
         echo "/opt/RabbitCommon/bin" >> /etc/ld.so.conf.d/RabbitCommon.conf
-        echo "/opt/qt59/lib" >> /etc/ld.so.conf.d/RabbitCommon.conf
+        export QT_VERSION_DIR=
+        if [ -n "${QT_VERSION_DIR}" ]; then
+            echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/FaceRecognizer.conf
+        fi
         ldconfig
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
+        rm -fr /usr/share/applications/RabbitCommon.desktop
+        rm -fr /etc/ld.so.conf.d/RabbitCommon.conf
     ;;
 
     *)
