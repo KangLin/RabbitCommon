@@ -36,7 +36,13 @@ public:
                      bool bDownload = false);
     int SetVersion(const QString &szVersion);
     int SetArch(const QString &szArch);
-    int SetTitle(QPixmap icon = QPixmap(), const QString &szTitle = QString());
+    /**
+     * @brief SetTitle
+     * @param icon
+     * @param szTitle: default is qApp->applicationDisplayName()
+     * @return 
+     */
+    int SetTitle(QImage icon = QImage(), const QString &szTitle = QString());
 
     /**
      * @brief Update XML file used only to generate programs

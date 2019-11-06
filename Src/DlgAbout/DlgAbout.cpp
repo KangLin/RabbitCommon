@@ -57,9 +57,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szHomePage = "https://github.com/KangLin/RabbitCommon";
     m_szCopyright = tr("KangLin Studio");
     
-    m_AppIcon = QPixmap(":/icon/RabbitCommon/App");
-    m_CopyrightIcon = QPixmap(":/icon/RabbitCommon/CopyRight");
-    m_DonationIcon = QPixmap(":/icon/RabbitCommon/Contribute");
+    m_AppIcon = QImage(":/icon/RabbitCommon/App");
+    m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
+    m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
 
     DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
 
@@ -79,10 +79,10 @@ void CDlgAbout::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
     
-    setWindowIcon(m_AppIcon);
-    ui->lblLogo->setPixmap(m_AppIcon);
-    ui->lbCopyrightIcon->setPixmap(m_CopyrightIcon);
-    ui->lbDonation->setPixmap(m_DonationIcon);
+    setWindowIcon(QIcon(QPixmap::fromImage(m_AppIcon)));
+    ui->lblLogo->setPixmap(QPixmap::fromImage(m_AppIcon));
+    ui->lbCopyrightIcon->setPixmap(QPixmap::fromImage(m_CopyrightIcon));
+    ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
     ui->lblName->setText(m_szAppName);
     ui->lbVersion->setText(tr(" Version: ") + m_szVersion + tr(" Arch:") + m_szArch);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
@@ -229,7 +229,7 @@ void CDlgAbout::slotFinished()
     
     QByteArray d = m_pReply->readAll();
     m_DonationIcon.loadFromData(d);
-    ui->lbDonation->setPixmap(m_DonationIcon);
+    ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
 //    QFile f(RabbitCommon::CDir::Instance()->GetDirUserImage()
 //            + QDir::separator() + "donation.png");
 //    if(f.open(QFile::WriteOnly))

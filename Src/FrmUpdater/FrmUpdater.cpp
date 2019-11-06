@@ -205,14 +205,14 @@ int CFrmUpdater::InitStateMachine()
     return 0;    
 }
 
-int CFrmUpdater::SetTitle(QPixmap icon, const QString &szTitle)
+int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
 {
     QString title = szTitle;
     if(szTitle.isEmpty())
         title = qApp->applicationDisplayName();
     ui->lbTitle->setText(title);
     
-    QPixmap pixmpa = icon;
+    QPixmap pixmpa = QPixmap::fromImage(icon);
     if(pixmpa.isNull())
         pixmpa.load(":/icon/RabbitCommon/App", "PNG");
     ui->lbTitleIcon->setPixmap(pixmpa);

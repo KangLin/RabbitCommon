@@ -236,7 +236,7 @@ Qt common library. include follow functions:
         
             #ifdef RABBITCOMMON
                 CDlgAbout about(this);
-                about.m_AppIcon = QPixmap(":/icon/SerialPortAssistant");
+                about.m_AppIcon = QImage(":/icon/SerialPortAssistant");
                 about.m_szHomePage = "https://github.com/KangLin/SerialPortAssistant";
                 #if defined (Q_OS_ANDROID)
                     about.showMaximized();
@@ -254,7 +254,7 @@ Qt common library. include follow functions:
   ```
   #ifdef RABBITCOMMON
       CFrmUpdater *fu = new CFrmUpdater();
-      fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/SerialPortAssistant"));
+      fu->SetTitle(QImage(":/image/SerialPortAssistant"), qApp->applicationDisplayName());
       #if defined (Q_OS_ANDROID)
           fu->showMaximized();
       #else

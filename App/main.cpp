@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
-    update.SetTitle(QPixmap(":/icon/RabbitCommon/App"));
+    update.SetTitle(QImage(":/icon/RabbitCommon/App"));
     if(!update.GenerateUpdateXml())
         return 0;
 #if defined (Q_OS_ANDROID)

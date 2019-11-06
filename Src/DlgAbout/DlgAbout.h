@@ -52,9 +52,9 @@ public:
     QString m_szAuthor;
     QString m_szHomePage;
     QString m_szCopyright;
-    QPixmap m_AppIcon;
-    QPixmap m_CopyrightIcon;
-    QPixmap m_DonationIcon;
+    QImage m_AppIcon;
+    QImage m_CopyrightIcon;
+    QImage m_DonationIcon;
 
 #if defined(Q_OS_ANDROID)
 protected:    

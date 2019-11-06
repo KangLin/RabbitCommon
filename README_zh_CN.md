@@ -224,7 +224,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         
             #ifdef RABBITCOMMON
                 CDlgAbout about(this);
-                about.m_AppIcon = QPixmap(":/image/Calendar");
+                about.m_AppIcon = QImage(":/image/Calendar");
                 about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
                 #if defined (Q_OS_ANDROID)
                     about.showMaximized();
@@ -241,7 +241,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   ```
   #ifdef RABBITCOMMON
       CFrmUpdater *fu = new CFrmUpdater();
-      fu->SetTitle(qApp->applicationDisplayName(), QPixmap(":/image/Calendar"));
+      fu->SetTitle(QImage(":/image/Calendar"), qApp->applicationDisplayName());
       #if defined (Q_OS_ANDROID)
           fu->showMaximized();
       #else
