@@ -105,9 +105,6 @@ if (BUILD_SHARED_LIBS)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
-# 设置安装前缀
-SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install CACHE PATH "Install path prefix." FORCE)
-
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 include(CheckIncludeFile)

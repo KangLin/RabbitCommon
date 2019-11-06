@@ -2,6 +2,7 @@
   + Modify application directory reade only
   + Add data and database directory
   + Add GetDirDatabaseFile
+  + Modify about and update icon user interface
 
 - 1.0.0
   + Use namespace RabbitCommon

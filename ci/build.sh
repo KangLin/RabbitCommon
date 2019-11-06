@@ -101,7 +101,7 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     fi
     bash build_debpackage.sh ${QT_ROOT}
 
-    if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "512" ]; then
+    if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION}" = "5.12.3" ]; then
        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/debian/rabbitcommon/opt/RabbitCommon/bin
        MD5=`md5sum ../rabbitcommon_*_amd64.deb|awk '{print $1}'`
        echo "MD5:${MD5}"

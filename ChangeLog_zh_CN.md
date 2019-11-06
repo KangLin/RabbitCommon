@@ -2,7 +2,8 @@
   + 增加 data 和 database 目录
   + 修改程序只读目录（android assert)
   + 增加 GetDirDatabaseFile
-
+  + 修改关于和更新对话框中的图标接口
+  
 - 1.0.0
   + 使用命名空间 RabbitCommon
   + 增加开机自启动
