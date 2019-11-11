@@ -40,6 +40,15 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE RabbitCommon ${QT_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE
       "${CMAKE_BINARY_DIR}/Src" "${CMAKE_SOURCE_DIR}/Src" )
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
+if(UNIX AND NOT ANDROID)
+   set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_NAME ${PROJECT_NAME})
+endif()
+  
 if(ANDROID)
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
