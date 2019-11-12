@@ -60,11 +60,13 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         export PKG_CONFIG=/c/msys64/mingw32/bin/pkg-config.exe
-        ANDROID_NDK_HOST=windows-x86_64
-        if [ ! -d $ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST} ]; then
-            ANDROID_NDK_HOST=windows
+        if [ "$BUILD_TARGERT" = "android" ]; then
+            ANDROID_NDK_HOST=windows-x86_64
+            if [ ! -d $ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST} ]; then
+                ANDROID_NDK_HOST=windows
+            fi
+            CONFIG_PARA="${CONFIG_PARA} -DCMAKE_MAKE_PROGRAM=make" #${ANDROID_NDK}/prebuilt/${ANDROID_NDK_HOST}/bin/make.exe"
         fi
-        CONFIG_PARA="${CONFIG_PARA} -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/${ANDROID_NDK_HOST}/bin/make.exe"
         ;;
     Linux* | Unix*)
     ;;

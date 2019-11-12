@@ -16,7 +16,7 @@ else()
 endif()
 
 #需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets)
+SET(QT_COMPONENTS Core Gui Widgets Network Xml)
 if(ANDROID)
     SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
 endif()
@@ -26,8 +26,8 @@ FOREACH(_COMPONENT ${QT_COMPONENTS})
 ENDFOREACH()
 get_filename_component(QT_INSTALL_DIR "${Qt5_DIR}/../../.." ABSOLUTE)
 message("QT_VERSION:${Qt5_VERSION}")
-if(Qt5_VERSION VERSION_LESS 5.9.0)
-    message(FATAL_ERROR "Qt must great 5.9.0")
+if(Qt5_VERSION VERSION_LESS 5.10.0 AND ANDROID)
+    message(FATAL_ERROR "Qt must great 5.10.0")
 endif()
 
 #打开 qt 编译工具

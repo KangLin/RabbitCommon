@@ -61,22 +61,6 @@ if("Debug" STREQUAL CMAKE_BUILD_TYPE)
     add_definitions(-D_DEBUG)
 endif()
 
-#需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets Xml Network)
-find_package(Qt5 COMPONENTS ${QT_COMPONENTS})
-FOREACH(_COMPONENT ${QT_COMPONENTS})
-    SET(QT_LIBRARIES ${QT_LIBRARIES} Qt5::${_COMPONENT})
-ENDFOREACH()
-
-#打开 qt 编译工具
-SET(CMAKE_AUTOUIC ON)
-SET(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTORCC ON)
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_VERBOSE_MAKEFILE ON)
-
-SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
-
 IF(MSVC)
     # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
     OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)

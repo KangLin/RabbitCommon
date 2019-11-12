@@ -7,6 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+android: versionAtMost(QT_VERSION, 5.10.0): error("Qt must greate 5.10.0")
 
 TARGET = RabbitCommon
 TEMPLATE = subdirs
