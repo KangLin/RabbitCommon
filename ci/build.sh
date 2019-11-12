@@ -134,14 +134,13 @@ if [ -n "$GENERATORS" ]; then
     if [ "${BUILD_TARGERT}" = "android" ]; then
         cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
             -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
-            -DCMAKE_VERBOSE=ON \
+            -DCMAKE_VERBOSE_MAKEFILE=TRUE \
             -DCMAKE_BUILD_TYPE=Release \
             -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 \
             -DQt5Core_DIR=${QT_ROOT}/lib/cmake/Qt5Core \
             -DQt5Gui_DIR=${QT_ROOT}/lib/cmake/Qt5Gui \
             -DQt5Widgets_DIR=${QT_ROOT}/lib/cmake/Qt5Widgets \
             -DQt5Xml_DIR=${QT_ROOT}/lib/cmake/Qt5Xml \
-            -DQt5Sql_DIR=${QT_ROOT}/lib/cmake/Qt5Sql \
             -DQt5Network_DIR=${QT_ROOT}/lib/cmake/Qt5Network \
             -DQt5LinguistTools_DIR=${QT_ROOT}/lib/cmake/Qt5LinguistTools \
             -DQt5AndroidExtras_DIR=${QT_ROOT}/lib/cmake/Qt5AndroidExtras \
@@ -152,7 +151,7 @@ if [ -n "$GENERATORS" ]; then
     else
 	    cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
 		 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-		 -DCMAKE_VERBOSE=ON \
+		 -DCMAKE_VERBOSE_MAKEFILE=TRUE \
 		 -DCMAKE_BUILD_TYPE=Release \
 		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     fi
