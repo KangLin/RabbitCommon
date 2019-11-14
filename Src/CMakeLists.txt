@@ -40,7 +40,7 @@ SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 option(BUILD_ABOUT "Set to ON to build about function" ON)
 if(BUILD_ABOUT)
-    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_ABOUT")
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
     set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} DlgAbout/DlgAbout.h)
     set(SOURCE_FILES ${SOURCE_FILES} DlgAbout/DlgAbout.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} DlgAbout/DlgAbout.ui)
@@ -48,14 +48,14 @@ endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
-    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_UPDATE")
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
     set(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES} FrmUpdater/FrmUpdater.h)
     set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
 if(BUILD_ADMINAUTHORISER)
-    set(RabbitCommon_DEFINITIONS "${RabbitCommon_DEFINITIONS} -DHAVE_ADMINAUTHORISER")
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
     set(HEAD_FILES ${INSTALL_HEAD_FILES} AdminAuthoriser/adminauthoriser)
     set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthoriser.cpp)
     SET(HEAD_FILES ${HEAD_FILES} AdminAuthoriser/adminauthorization_p.h)
@@ -100,32 +100,39 @@ SET(RCC_FILES
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
-#add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
-set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
+# Set target properties
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    PUBLIC_HEADER "${INSTALL_HEAD_FILES}" # Install head files
+    )
+if(BUILD_VERSION)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE BUILD_VERSION="${BUILD_VERSION}")
+    set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
+else()
+    message("Please set BUILD_VERSION")
+endif()
 
+target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
+foreach(d ${RabbitCommon_DEFINITIONS})
+    target_compile_definitions(${PROJECT_NAME} PUBLIC ${d})
+    SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
+endforeach()
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    BUILD_ARCH="${BUILD_ARCH}"
+    BUILD_PLATFORM="${BUILD_PLATFORM}")
 IF(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
         "$<$<C_COMPILER_ID:MSVC>:/utf-8>" 
         "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 ENDIF()
-if(BUILD_VERSION)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_VERSION="${BUILD_VERSION}")
-    set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION})
-else()
-    message("Please set BUILD_VERSION")
-endif()
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    -DBUILD_ARCH="${BUILD_ARCH}"
-    -DBUILD_PLATFORM="${BUILD_PLATFORM}")
-#set_target_properties(${PROJECT_NAME} PROPERTIES 
-#    INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}")
+
 # See: http://www.it1352.com/478094.html
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
-#target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+# Generate export header files and export macro
 include(GenerateExportHeader)
 GENERATE_EXPORT_HEADER(${PROJECT_NAME})
 string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
@@ -134,23 +141,18 @@ SET(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES}
 file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
     DESTINATION ${CMAKE_BINARY_DIR})
 
-# Install head files
-#INSTALL(FILES ${INSTALL_HEAD_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-set_property(
-    TARGET
-        ${PROJECT_NAME}
-    PROPERTY
-        PUBLIC_HEADER "${INSTALL_HEAD_FILES}"
-)
-
 if(ANDROID)
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
             EXPORT ${PROJECT_NAME}Config
             RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Runtime
             LIBRARY DESTINATION "libs/${ANDROID_ABI}"
+                COMPONENT Runtime
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Development
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
+                COMPONENT Development
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
             )
 else()
@@ -158,12 +160,20 @@ else()
     INSTALL(TARGETS ${PROJECT_NAME}
             EXPORT ${PROJECT_NAME}Config
             RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Runtime
+                COMPONENT Development
             LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT Runtime
+                COMPONENT Development
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                COMPONENT Development
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
+                COMPONENT Development
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
+                COMPONENT Development
             )
 endif()
+# export build tree configure
 export(TARGETS ${PROJECT_NAME}
        APPEND FILE ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 )
@@ -171,19 +181,25 @@ export(TARGETS ${PROJECT_NAME}
 install(
         EXPORT ${PROJECT_NAME}Config
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+            COMPONENT Development
 )
 write_basic_package_version_file(
     "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${BUILD_VERSION}
     COMPATIBILITY AnyNewerVersion)
-install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
-if(NOT MSVC)
+install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+        COMPONENT Development)
+
+if(UNIX OR MINGW)
     # Install pc files
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
         ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+        COMPONENT Development)
 endif()
+
 IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32 AND BUILD_SHARED_LIBS)
     IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
         #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip

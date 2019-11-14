@@ -160,6 +160,17 @@ set(OTHER_FILES
 
 INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
 
+add_custom_target(install-runtime
+  COMMAND
+     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
+     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
+)
+add_custom_target(install-development
+  COMMAND
+     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Development 
+     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
+)
+
 message("Build app:${BUILD_APP}")
 if(BUILD_APP)
     message("Build about function:${BUILD_ABOUT}")

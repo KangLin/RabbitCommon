@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 #endif    
 
 #ifdef HAVE_ADMINAUTHORISER
-#ifdef defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     QString szCmd = "mkdir";
     QStringList paras;
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";

@@ -29,7 +29,7 @@
 #        |- translations                           GetDirTranslations()
 #        |        |- ${TRANSLATIONS_NAME}_zh_CN.ts
 #        |        |- ${TRANSLATIONS_NAME}_zh_TW.ts
- 
+
 # 其它系统发行模式下，做为文件放在程序的安装目录 Translations 目录下
 # 程序的安装目录：
 #   AppRoot |
@@ -77,10 +77,10 @@ IF(OPTION_TRANSLATIONS)
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
         #qt5_create_translation(QM_FILES ${SOURCES_FILES} ${SOURCE_UI_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
         qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源 .qm 文件
-        
+
         ADD_CUSTOM_TARGET(translations_${TRANSLATIONS_NAME} ALL DEPENDS ${QM_FILES})
         #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
-        
+
         set(RESOURCE_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/translations_${TRANSLATIONS_NAME}.qrc")
         if("Debug" STREQUAL CMAKE_BUILD_TYPE)
             file(WRITE "${RESOURCE_FILE_NAME}"
@@ -101,7 +101,7 @@ IF(OPTION_TRANSLATIONS)
         elseif(ANDROID)
             install(FILES ${QM_FILES} DESTINATION "assets/translations")
         else()
-            install(FILES ${QM_FILES} DESTINATION "translations")
+            install(FILES ${QM_FILES} DESTINATION "translations" )
         endif()
 
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
