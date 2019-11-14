@@ -158,16 +158,16 @@ set(OTHER_FILES
     ChangeLog.md
     )
 
-INSTALL(FILES ${OTHER_FILES} DESTINATION ".")
+# Install other files
+IF(ANDROID)
+    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets" COMPONENT Runtime)
+else()
+    INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
+endif()
 
 add_custom_target(install-runtime
   COMMAND
      "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
-)
-add_custom_target(install-development
-  COMMAND
-     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Development 
      -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
 )
 

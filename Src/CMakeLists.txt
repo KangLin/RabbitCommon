@@ -115,8 +115,8 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${RabbitCommon_DEFINITIONS})
 foreach(d ${RabbitCommon_DEFINITIONS})
-    target_compile_definitions(${PROJECT_NAME} PUBLIC ${d})
     SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
 endforeach()
 
@@ -150,9 +150,7 @@ if(ANDROID)
             LIBRARY DESTINATION "libs/${ANDROID_ABI}"
                 COMPONENT Runtime
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                COMPONENT Development
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
-                COMPONENT Development
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
             )
 else()
@@ -161,16 +159,11 @@ else()
             EXPORT ${PROJECT_NAME}Config
             RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
                 COMPONENT Runtime
-                COMPONENT Development
             LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
                 COMPONENT Runtime
-                COMPONENT Development
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                COMPONENT Development
             PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
-                COMPONENT Development
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/RabbitCommon
-                COMPONENT Development
             )
 endif()
 # export build tree configure
@@ -180,24 +173,20 @@ export(TARGETS ${PROJECT_NAME}
 # Install cmake configure files
 install(
         EXPORT ${PROJECT_NAME}Config
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
-            COMPONENT Development
-)
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 write_basic_package_version_file(
     "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${BUILD_VERSION}
     COMPATIBILITY AnyNewerVersion)
 install(FILES "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
-        COMPONENT Development)
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
 
 if(UNIX OR MINGW)
     # Install pc files
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
         ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-        COMPONENT Development)
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
 
 IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32 AND BUILD_SHARED_LIBS)
