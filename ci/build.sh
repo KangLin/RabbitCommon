@@ -107,18 +107,16 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         cat ${SOURCE_DIR}/debian/preinst
     fi
     bash build_debpackage.sh ${QT_ROOT}
-
-    if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION}" = "5.12.3" ]; then
-       export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/debian/rabbitcommon/opt/RabbitCommon/bin
-       MD5=`md5sum ../rabbitcommon_*_amd64.deb|awk '{print $1}'`
-       echo "MD5:${MD5}"
-       ./debian/rabbitcommon/opt/RabbitCommon/bin/RabbitCommonApp \
-            -f "`pwd`/update_linux.xml" \
-            --md5 ${MD5} 
-       export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
-       #export UPLOADTOOL_PR_BODY=
-       wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-       bash upload.sh ../rabbitcommon_*_amd64.deb update_linux.xml
+    sudo dpkg -i ../rabbitcommon_*_amd64.deb
+    
+    if [ "$TRAVIS_TAG" != "" ]; then
+        cd debian/rabbitcommon/opt
+        rm -fr RabbitCommon/bin
+        tar czvf RabbitCommon_unix_Qt${QT_VERSION}_${VERSION}.tar.gz RabbitCommon
+        export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
+        #export UPLOADTOOL_PR_BODY=
+        wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+        bash upload.sh RabbitCommon_unix_Qt${QT_VERSION}_${VERSION}.tar.gz
     fi
         
     exit 0
@@ -131,9 +129,12 @@ if [ -n "$GENERATORS" ]; then
     if [ -n "${ANDROID_ARM_NEON}" ]; then
         CONFIG_PARA="${CONFIG_PARA} -DANDROID_ARM_NEON=${ANDROID_ARM_NEON}"
     fi
+    if [ "$TRAVIS_TAG" != "" ]; then
+        CONFIG_PARA="${CONFIG_PARA} -DBUILD_APP=OFF"
+    fi
     if [ "${BUILD_TARGERT}" = "android" ]; then
         cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
-            -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+            -DCMAKE_INSTALL_PREFIX=`pwd`/install \
             -DCMAKE_VERBOSE_MAKEFILE=TRUE \
             -DCMAKE_BUILD_TYPE=Release \
             -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 \
@@ -156,8 +157,17 @@ if [ -n "$GENERATORS" ]; then
 		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     fi
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
-    if [ "${BUILD_TARGERT}" = "android" ]; then
-        cmake --build . --target APK  
+    if [ "$TRAVIS_TAG" != "" ]; then
+        mv install RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}
+        tar czvf RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}.tar.gz RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}
+        export UPLOADTOOL_BODY="Release RabbitCommon-${VERSION}"
+        #export UPLOADTOOL_PR_BODY=
+        wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+        bash upload.sh RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}.tar.gz
+    else
+        if [ "${BUILD_TARGERT}" = "android" ]; then
+            cmake --build . --target APK  
+        fi
     fi
 else
     if [ "ON" = "${STATIC}" ]; then

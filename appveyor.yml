@@ -1,15 +1,20 @@
 #TODO: Change version
-version: 'v1.0.0.{build}'
+version: 'v1..{build}'
 
 environment:
   matrix:     
   ##### msvc 2013 ########
   - BUILD_TARGERT: windows_msvc
-    #GENERATORS: "Visual Studio 12 2013"
     TOOLCHAIN_VERSION: 12
     QT_ROOT: C:\Qt\5.6\msvc2013
     BUILD_ARCH: x86
     
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    TOOLCHAIN_VERSION: 12
+    QT_ROOT: C:\Qt\5.6\msvc2013
+    BUILD_ARCH: x86
+  
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013 Win64"
     TOOLCHAIN_VERSION: 12
@@ -17,6 +22,11 @@ environment:
     BUILD_ARCH: x64
 
   ##### msvc 2015 ########
+  - BUILD_TARGERT: windows_msvc
+    TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.10\msvc2015
+    BUILD_ARCH: x86
+    
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
@@ -43,7 +53,14 @@ environment:
 
   ##### msvc 2017 ########
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    #GENERATORS: "Visual Studio 14 2015"
+    BUILD_TARGERT: windows_msvc
+    TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.12\msvc2017
+    BUILD_ARCH: x86
+    STATIC: ON
+    
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATORS: "Visual Studio 14 2015"
     BUILD_TARGERT: windows_msvc
     TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.12\msvc2017
@@ -131,7 +148,7 @@ build_script:
 
 artifacts:
   - path: build_${BUILD_TARGERT}/install
-    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
+    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
 
 test: off
@@ -143,13 +160,10 @@ deploy:
     description: 'Release RabbitCommon $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
-      secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
+      secure: +wHYWKg2S7ggmOYHDVuvI9EQEy0qOyQhbsBgIQ+Jyn6YpEsUsRhGfQlBl1bR06K1
     #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     #draft: true
     #prerelease: true
     on:
       BUILD_TARGERT: windows_msvc
-      TOOLCHAIN_VERSION: 12
-      QT_VERSION: 5.6.3
-      BUILD_ARCH: x86
       appveyor_repo_tag: true        # deploy on tag push only
