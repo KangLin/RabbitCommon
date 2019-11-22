@@ -1,3 +1,6 @@
+- 1.0.2
+  + 修改 unix 下 appimage 安装更新
+
 - 1.0.1
   + 增加 data 和 database 目录
   + 修改程序只读目录（android assert)

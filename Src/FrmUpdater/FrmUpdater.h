@@ -23,7 +23,7 @@ class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
 
 public:
     explicit CFrmUpdater(QString szUrl = QString(), QWidget *parent = nullptr);
-    virtual ~CFrmUpdater();
+    virtual ~CFrmUpdater() override;
 
     /**
      * @brief DownloadFile
@@ -49,6 +49,12 @@ public:
      * @return 
      */
     int GenerateUpdateXml();
+    
+    enum RunType{
+        RUN,
+        RUN_AUTO_STARTUP
+    };
+    int SetRunType(RunType type);
 
 protected Q_SLOTS:
     void slotReadyRead();
@@ -81,9 +87,13 @@ private:
     int CheckRedirectXmlFile();
     int CheckUpdateXmlFile();
     bool CheckPrompt(const QString &szVersion);
-    
+    QString InstallScript(const QString szDownLoadFile,
+                          const QString szApplicationName);
+
 private:
     Ui::CFrmUpdater *ui;
+    RunType m_RunType;
+
     QSystemTrayIcon m_TrayIcon;
     
     QButtonGroup m_ButtonGroup;

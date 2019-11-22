@@ -44,4 +44,5 @@ OTHER_FILES += CMakeLists.txt \
     README*.md \
     cmake/* \
     debian/* \
-    build_debpackage.sh
+    build_debpackage.sh \
+    Install/*

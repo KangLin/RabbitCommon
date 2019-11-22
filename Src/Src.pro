@@ -48,6 +48,8 @@ header_files.files = $$INSTALL_HEADERS
 header_files.path = $$system_path($${PREFIX}/include/RabbitCommon)
 !android: INSTALLS += header_files
 
+OTHER_FILES += $$PWD/../Install/*
+
 !CONFIG(static): win32 {
     INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
 

@@ -16,6 +16,7 @@
 #include <QDir>
 #include <QSsl>
 #include <QDesktopServices>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QMenu>
 #include <QSettings>
@@ -785,28 +786,6 @@ void CFrmUpdater::slotUpdate()
                 }
             }
         } else {
-            bool bRun = false;
-            if(QMessageBox::Yes == QMessageBox::information(this, tr("Run"),
-                                                 tr("Is run after install?"),
-                          QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes))
-                bRun = true;
-                        
-            QString szCmd;
-            szCmd = "#!/bin/bash\n";
-            szCmd += "set -e\n";
-            szCmd += "mkdir -p /opt/" + qApp->applicationName() + "\n";
-            szCmd += "cd /opt/" + qApp->applicationName() + "\n";
-            szCmd += "if [ -f install.sh ]; then\n";
-            szCmd += "    ./install.sh remove\n";
-            //szCmd += "    rm -fr *\n";
-            szCmd += "fi\n";
-            szCmd += "cp " + m_DownloadFile.fileName() + " ." + "\n";
-            szCmd += "tar xvfz " + fi.fileName() + "\n";
-            szCmd += "rm " + fi.fileName() + "\n";
-            szCmd += "./install.sh install ";
-            if(bRun) szCmd += " run"; //See: https://github.com/KangLin/Tasks/blob/master/Install/install.sh
-            szCmd += "\n";
-            
             QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
             QFile f(szInstall);
             if(!f.open(QFile::WriteOnly))
@@ -815,8 +794,10 @@ void CFrmUpdater::slotUpdate()
                 ui->lbState->setText(szErr);
                 break;
             }
+            QString szCmd = InstallScript(m_DownloadFile.fileName(),
+                                          qApp->applicationName());
             f.write(szCmd.toStdString().c_str());
-            //qDebug() << szCmd << szInstall;
+            qDebug() << szCmd << szInstall;
             f.close();
 
             //启动安装程序
@@ -854,6 +835,56 @@ void CFrmUpdater::slotUpdate()
     m_DownloadFile.close();
 
     qApp->quit();
+}
+
+QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
+                                   const QString szApplicationName)
+{
+    QFileInfo fi(szDownLoadFile);
+    QString szCmd;
+    szCmd = "#!/bin/bash\n";
+    szCmd += "set -e\n";
+    szCmd += "mkdir -p /opt/" + szApplicationName + "\n";
+    szCmd += "cd /opt/" + szApplicationName + "\n";
+    szCmd += "if [ -f install.sh ]; then\n";
+    szCmd += "    ./install.sh remove " + szApplicationName + "\n";
+    //szCmd += "    rm -fr *\n";
+    szCmd += "fi\n";
+    szCmd += "cp " + szDownLoadFile + " ." + "\n";
+    szCmd += "tar xvfz " + fi.fileName() + "\n";
+    szCmd += "rm " + fi.fileName() + "\n";
+    
+    //See: Install/install.sh
+    szCmd += "./install1.sh";
+
+    int nRet = 0;
+    switch (m_RunType) {
+    case RUN_AUTO_STARTUP:
+        nRet = QInputDialog::getInt(this, tr("Run"),
+                                    tr("0: install"
+                                       "1: run after install"
+                                       "2: auto run when boot?"));
+        break;
+    default:
+        nRet = QInputDialog::getInt(this, tr("Run"),
+                                    tr("0: install"
+                                       "1: Is run after install?"));
+        break;
+    }
+    
+    switch (nRet) {
+    case 1:
+        szCmd += " install-run "; 
+        break;
+    case 2:
+        szCmd += " install_auto_run ";
+        break;
+    default:
+        szCmd += " install ";
+    }
+
+    szCmd += szApplicationName + "\n";
+    return szCmd;
 }
 
 int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &currentVersion)
@@ -1202,12 +1233,14 @@ int CFrmUpdater::GenerateUpdateXml()
 
 void CFrmUpdater::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
     if(!m_StateMachine.isRunning())
         m_StateMachine.start();
 }
 
 void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)
 {
+    Q_UNUSED(reason)
 #if defined(Q_OS_ANDROID)
     showMaximized();
 #else
@@ -1242,4 +1275,10 @@ void CFrmUpdater::on_cbHomePage_clicked(bool checked)
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Updater/ShowHomePage", checked);
+}
+
+int CFrmUpdater::SetRunType(RunType type)
+{
+    m_RunType = type;
+    return 0;
 }

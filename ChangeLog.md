@@ -1,3 +1,6 @@
+- 1.0.2
+  + Modify updater for appimage in unix
+
 - 1.0.1
   + Modify application directory reade only
   + Add data and database directory

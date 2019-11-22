@@ -83,6 +83,11 @@ HEADERS += $$INSTALL_HEADERS \
 RESOURCES += \
     $$PWD/Resource/ResourceRabbitCommon.qrc
 
+unix_install_script.target = unix_install_script
+unix_install_script.files = $$PWD/../Install/install.sh
+unix_install_script.path = $$system_path($${PREFIX}/install)
+unix: INSTALLS += install_script
+
 TRANSLATIONS_DIR=$$PWD
 TRANSLATIONS_NAME=RabbitCommon
 include($$PWD/../pri/Translations.pri)
