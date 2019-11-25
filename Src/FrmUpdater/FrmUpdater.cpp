@@ -24,6 +24,7 @@
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
+    m_InstallAutoStartupType(false),
     m_ButtonGroup(this),
     m_bDownload(false),
     m_pReply(nullptr),
@@ -809,10 +810,30 @@ void CFrmUpdater::slotUpdate()
                 ui->lbState->setText(szErr);
                 break;
             }
+
+            //启动程序
+            int nRet = QMessageBox::information(this, tr("Run"),
+                                        tr("Run after install"),
+                              QMessageBox::Yes|QMessageBox::No,
+                                             QMessageBox::Yes);
+            if(QMessageBox::No == nRet)
+                break;
+            QString szProgram = "/opt/"
+                    + qApp->applicationName()
+                    + "/install1.sh start "
+                    + qApp->applicationName();
+            QProcess exe;
+            if(!exe.startDetached(szProgram))
+            {
+                QString szErr = tr("Execute program error.%1")
+                        .arg(szProgram);
+                ui->lbState->setText(szErr);
+                break;
+            }
         }
 
         ui->lbState->setText(tr("The installer has started, Please close the application"));
-        
+
         //system(m_DownloadFile.fileName().toStdString().c_str());
         //int nRet = QProcess::execute(m_DownloadFile.fileName());
         //qDebug() << "QProcess::execute return: " << nRet;
@@ -844,10 +865,12 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
     QString szCmd;
     szCmd = "#!/bin/bash\n";
     szCmd += "set -e\n";
-    szCmd += "mkdir -p /opt/" + szApplicationName + "\n";
+    szCmd += "if [ ! -d /opt/" + szApplicationName + " ]; then\n";
+    szCmd += "    mkdir -p /opt/" + szApplicationName + "\n";
+    szCmd += "fi\n";
     szCmd += "cd /opt/" + szApplicationName + "\n";
-    szCmd += "if [ -f install.sh ]; then\n";
-    szCmd += "    ./install.sh remove " + szApplicationName + "\n";
+    szCmd += "if [ -f install1.sh ]; then\n";
+    szCmd += "    ./install1.sh remove " + szApplicationName + "\n";
     //szCmd += "    rm -fr *\n";
     szCmd += "fi\n";
     szCmd += "cp " + szDownLoadFile + " ." + "\n";
@@ -855,35 +878,12 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
     szCmd += "rm " + fi.fileName() + "\n";
     
     //See: Install/install.sh
-    szCmd += "./install1.sh";
-
-    int nRet = 0;
-    switch (m_RunType) {
-    case RUN_AUTO_STARTUP:
-        nRet = QInputDialog::getInt(this, tr("Run"),
-                                    tr("0: install"
-                                       "1: run after install"
-                                       "2: auto run when boot?"));
-        break;
-    default:
-        nRet = QInputDialog::getInt(this, tr("Run"),
-                                    tr("0: install"
-                                       "1: Is run after install?"));
-        break;
-    }
-    
-    switch (nRet) {
-    case 1:
-        szCmd += " install-run "; 
-        break;
-    case 2:
-        szCmd += " install_auto_run ";
-        break;
-    default:
-        szCmd += " install ";
-    }
-
-    szCmd += szApplicationName + "\n";
+    szCmd += "./install1.sh ";
+    if(m_InstallAutoStartupType)
+        szCmd += "install_autostart";
+    else
+        szCmd += "install";
+    szCmd += " " + szApplicationName + "\n";
     return szCmd;
 }
 
@@ -1277,8 +1277,8 @@ void CFrmUpdater::on_cbHomePage_clicked(bool checked)
     set.setValue("Updater/ShowHomePage", checked);
 }
 
-int CFrmUpdater::SetRunType(RunType type)
+int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 {
-    m_RunType = type;
+    m_InstallAutoStartupType = bAutoStart;
     return 0;
 }

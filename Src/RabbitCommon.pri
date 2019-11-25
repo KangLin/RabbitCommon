@@ -9,7 +9,7 @@ win32{
     VERSION=$$split(VERSION, -)
     VERSION=$$first(VERSION)
 }
-
+unix: DEFINES += UNIX
 android{
     DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
 } else {

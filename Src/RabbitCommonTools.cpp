@@ -9,6 +9,11 @@
 #include <QDebug>
 #include <QStandardPaths>
 
+#ifdef UNIX
+    #include <pwd.h>
+    #include <unistd.h>
+#endif
+
 inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
@@ -252,6 +257,17 @@ int CTools::GenerateDesktopFile(const QString &szPath,
     f.write(szContent.toStdString().c_str());
     f.close();
     return nRet;
+}
+
+QString CTools::GetCurrentUser()
+{
+#ifdef UNIX
+    struct passwd *pwd;
+    pwd = getpwuid(getuid());
+    return pwd->pw_name;
+#else
+    return "";
+#endif
 }
 
 } //namespace RabbitCommon

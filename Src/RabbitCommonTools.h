@@ -43,6 +43,8 @@ public:
     static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
     
+    static QString GetCurrentUser();
+    
     /**
      * @brief GenerateDesktopFile: Generate desktop file
      * @param szPath
@@ -52,7 +54,7 @@ public:
      */
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szAppName = QString());
-      
+    
 private:
     CTools();
     virtual ~CTools();

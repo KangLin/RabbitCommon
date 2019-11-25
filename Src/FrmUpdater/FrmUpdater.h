@@ -49,12 +49,8 @@ public:
      * @return 
      */
     int GenerateUpdateXml();
-    
-    enum RunType{
-        RUN,
-        RUN_AUTO_STARTUP
-    };
-    int SetRunType(RunType type);
+
+    int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:
     void slotReadyRead();
@@ -92,7 +88,7 @@ private:
 
 private:
     Ui::CFrmUpdater *ui;
-    RunType m_RunType;
+    bool m_InstallAutoStartupType;
 
     QSystemTrayIcon m_TrayIcon;
     
