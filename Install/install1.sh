@@ -58,13 +58,12 @@ function install()
 function start()
 {
     echo "start ${PROGRAM_NAME}-x86_64.AppImage ......"
-    id=`ps -ef |grep "${PROGRAM_NAME}-x86_64.AppImage"|grep -v grep | awk '{print $2}'`
-    echo "id: $id"
+    #id=`ps -ef |grep "${PROGRAM_NAME}-x86_64.AppImage"|grep -v grep | awk '{print $2}'`
     cd ${PROGRAM_DIR}
     ./${PROGRAM_NAME}-x86_64.AppImage
-    if [ -n "$id" ]; then
-        kill -9 $id
-    fi
+    #if [ -n "$id" ]; then
+    #    kill -9 $id
+    #fi
 }
 
 function stop()

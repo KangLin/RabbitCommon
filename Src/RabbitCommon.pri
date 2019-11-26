@@ -9,6 +9,7 @@ win32{
     VERSION=$$split(VERSION, -)
     VERSION=$$first(VERSION)
 }
+win32: DEFINES += WINDOWS
 unix: DEFINES += UNIX
 android{
     DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
@@ -57,7 +58,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
 
     win32 {
         QT += winextras
-        LIBS += -lAdvapi32 -lOle32 -lShell32
+        LIBS += -lAdvapi32 -lOle32 -lShell32 -lnetapi32
     } else:mac {
         QT += macextras
         LIBS += -framework Security

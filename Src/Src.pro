@@ -36,9 +36,6 @@ isEmpty(PREFIX) {
 
 include(RabbitCommon.pri)
 
-OTHER_FILES += \
-    CMakeLists.txt
-
 # Default rules for deployment.
 !android: target.path = $${PREFIX}/bin
 INSTALLS += target
@@ -48,7 +45,8 @@ header_files.files = $$INSTALL_HEADERS
 header_files.path = $$system_path($${PREFIX}/include/RabbitCommon)
 !android: INSTALLS += header_files
 
-OTHER_FILES += $$PWD/../Install/*
+OTHER_FILES += $$PWD/CMakeLists.txt \
+    $$PWD/../Install/*
 
 !CONFIG(static): win32 {
     INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))

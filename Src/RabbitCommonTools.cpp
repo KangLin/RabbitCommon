@@ -9,7 +9,13 @@
 #include <QDebug>
 #include <QStandardPaths>
 
-#ifdef UNIX
+#ifdef WINDOWS
+    #include <windows.h>
+    #include <tchar.h>
+//    #include <stdio.h>
+    //#include "lm.h"
+    //#pragma comment(lib,"netapi32.lib")
+#elif UNIX
     #include <pwd.h>
     #include <unistd.h>
 #endif
@@ -230,13 +236,13 @@ int CTools::GenerateDesktopFile(const QString &szPath,
     QString szFile = "/usr/share/applications";
     if(!szPath.isEmpty())
         szFile = szPath;
-    
+
     QString szName = qApp->applicationName();
     if(!szAppName.isEmpty())
         szName = szAppName;
-    
+
     szFile += QDir::separator() + szName + ".desktop";
- 
+
     QString szContent;
     szContent = "[Desktop Entry]\n";
     szContent += "Name=" + qApp->applicationName() + "\n";
@@ -248,7 +254,7 @@ int CTools::GenerateDesktopFile(const QString &szPath,
     szContent += "Categories=Application;Development;\n";
     szContent += "Terminal=false\n";
     szContent += "StartupNotify=true\n";
-        
+
     QFile f(szFile);
     if(!f.open(QFile::WriteOnly))
     {
@@ -265,8 +271,13 @@ QString CTools::GetCurrentUser()
     struct passwd *pwd;
     pwd = getpwuid(getuid());
     return pwd->pw_name;
+#elif WINDOWS
+    WCHAR szUserName[MAX_PATH] = {0};
+	DWORD dwSize=MAX_PATH;
+	::GetUserName(szUserName, &dwSize);
+    return QString::fromWCharArray(szUserName, dwSize);
 #else
-    return "";
+    return QDir::home().dirName();
 #endif
 }
 
