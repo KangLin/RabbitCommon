@@ -727,21 +727,21 @@ void CFrmUpdater::slotUpdate()
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
-    qDebug() << "CFrmUpdater::slotUpdate()";
-    if(!m_DownloadFile.open(QIODevice::ReadOnly))
-    {
-        qCritical() << "Download file fail: " << m_DownloadFile.fileName();
-        ui->lbState->setText(tr("Download file fail"));
-        emit sigError();
-        return;
-    }
+    //qDebug() << "CFrmUpdater::slotUpdate()";
 
+    // Check file md5sum
+    bool bSuccess = false;
     do{
+        if(!m_DownloadFile.open(QIODevice::ReadOnly))
+        {
+            qCritical() << "Download file fail: " << m_DownloadFile.fileName();
+            ui->lbState->setText(tr("Download file fail"));
+            break;
+        }
         QCryptographicHash md5sum(QCryptographicHash::Md5);
         if(!md5sum.addData(&m_DownloadFile))
         {
             ui->lbState->setText(tr("Download file fail"));
-            emit sigError();
             break;
         }
         if(md5sum.result().toHex() != m_Info.szMd5sum)
@@ -753,12 +753,21 @@ void CFrmUpdater::slotUpdate()
                     + "\n" + tr("md5sum in Update.xml:")
                     + m_Info.szMd5sum;
             ui->lbState->setText(szFail);
-            emit sigError();
             break;
         }
-
-        m_DownloadFile.close();
-
+        bSuccess = true;
+    }while(0);
+    
+    m_DownloadFile.close();
+    if(!bSuccess)
+    {
+        emit sigError();
+        return;
+    }
+    
+    // Exec download file
+    bSuccess = false;
+    do{
         //修改文件执行权限  
         /*QFileInfo info(m_szDownLoadFile);
         if(!info.permission(QFile::ExeUser))
@@ -769,7 +778,6 @@ void CFrmUpdater::slotUpdate()
             return;
         }*/
 
-                
         QProcess proc;
         QFileInfo fi(m_DownloadFile.fileName());
         if(fi.suffix().compare("gz", Qt::CaseInsensitive))
@@ -812,24 +820,24 @@ void CFrmUpdater::slotUpdate()
             }
 
             //启动程序
-            int nRet = QMessageBox::information(this, tr("Run"),
-                                        tr("Run after install"),
-                              QMessageBox::Yes|QMessageBox::No,
-                                             QMessageBox::Yes);
-            if(QMessageBox::No == nRet)
-                break;
-            QString szProgram = "/opt/"
-                    + qApp->applicationName()
-                    + "/install1.sh start "
-                    + qApp->applicationName();
-            QProcess exe;
-            if(!exe.startDetached(szProgram))
-            {
-                QString szErr = tr("Execute program error.%1")
-                        .arg(szProgram);
-                ui->lbState->setText(szErr);
-                break;
-            }
+//            int nRet = QMessageBox::information(this, tr("Run"),
+//                                        tr("Run after install"),
+//                              QMessageBox::Yes|QMessageBox::No,
+//                                             QMessageBox::Yes);
+//            if(QMessageBox::No == nRet)
+//                break;
+//            QString szProgram = "/opt/"
+//                    + qApp->applicationName()
+//                    + "/install1.sh start "
+//                    + qApp->applicationName();
+//            QProcess exe;
+//            if(!exe.startDetached(szProgram))
+//            {
+//                QString szErr = tr("Execute program error.%1")
+//                        .arg(szProgram);
+//                ui->lbState->setText(szErr);
+//                break;
+//            }
         }
 
         ui->lbState->setText(tr("The installer has started, Please close the application"));
@@ -837,25 +845,28 @@ void CFrmUpdater::slotUpdate()
         //system(m_DownloadFile.fileName().toStdString().c_str());
         //int nRet = QProcess::execute(m_DownloadFile.fileName());
         //qDebug() << "QProcess::execute return: " << nRet;
-        emit sigFinished();
+        
+        bSuccess = true;
     }while(0);
 
     QProcess procHome;
-    if(ui->cbHomePage->isChecked() && !m_Info.szUrlHome.isEmpty())
+    if((!bSuccess || ui->cbHomePage->isChecked()) && !m_Info.szUrlHome.isEmpty())
         if(!procHome.startDetached(m_Info.szUrlHome))
         {
             QUrl url(m_Info.szUrlHome);
             if(!QDesktopServices::openUrl(url))
             {
-                QString szErr = tr("Execute install program error.%1")
-                        .arg(m_DownloadFile.fileName());
+                QString szErr = tr("Open home page fail");
                 ui->lbState->setText(szErr);
             }
         }
-    
-    m_DownloadFile.close();
 
-    qApp->quit();
+    if(bSuccess)
+    {
+        emit sigFinished();
+        qApp->quit();
+    } else
+        emit sigError();
 }
 
 QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
@@ -883,6 +894,15 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
         szCmd += "install_autostart";
     else
         szCmd += "install";
+    //启动程序
+    int nRet = QMessageBox::information(this, tr("Run"),
+                                        tr("Run after install"),
+                                        QMessageBox::Yes|QMessageBox::No,
+                                        QMessageBox::Yes);
+    if(QMessageBox::Yes == nRet)
+    {
+        szCmd += "_run";
+    }
     szCmd += " " + szApplicationName + "\n";
     return szCmd;
 }

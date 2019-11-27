@@ -2,8 +2,8 @@
 
 # Use to install appimage in linux
 # $1: install: install program
-#     install_autostart: install and set auto run on boot 
 #     install_run: install and run program
+#     install_autostart: install and set auto run on boot 
 #     install_autostart_run: install and run program and set auto run on boot 
 #     start: start program
 #     remove: remove program
@@ -11,7 +11,7 @@
 
 PROGRAM_NAME=$2
 if [ -z "$PROGRAM_NAME" ]; then
-    echo "$0 install/install_run/install_auto_run application_name"
+    echo "$0 install/install_autostart/install_run/install_auto_run/start/remove application_name"
     exit -1
 fi
 
