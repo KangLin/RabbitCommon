@@ -11,7 +11,7 @@
 
 PROGRAM_NAME=$2
 if [ -z "$PROGRAM_NAME" ]; then
-    echo "$0 install/install_autostart/install_run/install_auto_run/start/remove application_name"
+    echo "$0 install/install_autostart/install_run/install_autostart_run/start/remove application_name"
     exit -1
 fi
 
@@ -78,9 +78,15 @@ function stop()
 case "$1" in
     remove)
         echo "remove ......"
-        rm -f /usr/share/applications/${PROGRAM_NAME}.desktop
-        rm -f ~/.config/autostart/${PROGRAM_NAME}.desktop
-        rm -f /usr/share/pixmaps/${PROGRAM_NAME}.png
+        if [ -f /usr/share/applications/${PROGRAM_NAME}.desktop ]; then
+            rm -f /usr/share/applications/${PROGRAM_NAME}.desktop
+        fi
+        if [ -f ~/.config/autostart/${PROGRAM_NAME}.desktop ]; then
+            rm -f ~/.config/autostart/${PROGRAM_NAME}.desktop
+        fi
+        if [ -f /usr/share/pixmaps/${PROGRAM_NAME}.png ]; then
+            rm -f /usr/share/pixmaps/${PROGRAM_NAME}.png
+        fi
         ;;
     start)
         start
