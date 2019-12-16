@@ -98,6 +98,7 @@ void CDlgAbout::showEvent(QShowEvent *event)
     AppendFile(ui->txtChange, "ChangeLog");
     AppendFile(ui->txtLicense, "License");
     AppendFile(ui->txtThinks, "Authors");
+    adjustSize();
 }
 
 CDlgAbout::~CDlgAbout()
