@@ -1,5 +1,8 @@
 - 1.0.2
   + Modify updater for appimage in unix
+  + Add getusername interface
+  + Android: Add sign
+  + Fix: about widge size
 
 - 1.0.1
   + Modify application directory reade only

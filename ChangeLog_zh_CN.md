@@ -1,5 +1,8 @@
 - 1.0.2
   + 修改 unix 下 appimage 安装更新
+  + 增加得到当前用户名接口(getusername)
+  + Android: 增加签名
+  + FIX：关于对话框大小
 
 - 1.0.1
   + 增加 data 和 database 目录
