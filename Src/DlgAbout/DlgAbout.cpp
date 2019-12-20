@@ -147,6 +147,7 @@ void CDlgAbout::on_pushButton_clicked()
 
 void CDlgAbout::slotDonation(const QPoint &pos)
 {
+    Q_UNUSED(pos)
     QMenu m;
     m.addAction(QIcon(":/icon/Save"), tr("Save"),
                 this, SLOT(slotSaveDonation()));

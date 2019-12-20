@@ -104,9 +104,9 @@ bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 
 int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool bAllUser)
 {
-    Q_UNUSED(szName);
-    Q_UNUSED(szPath);
-    
+    Q_UNUSED(szName)
+    Q_UNUSED(szPath)
+    Q_UNUSED(bAllUser)
     QString appName = QApplication::applicationName();
     if(!szName.isEmpty())
         appName = szName;
