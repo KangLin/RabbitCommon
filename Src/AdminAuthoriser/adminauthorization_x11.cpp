@@ -80,7 +80,11 @@ bool CAdminAuthorization::hasAdminRights()
 
 bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
 	for(const auto &su : qAsConst(suFontends)) {
+#else
+    for(const auto &su : suFontends) {
+#endif
 		auto command = QStandardPaths::findExecutable(su.first);
 		if(!command.isEmpty()) {
 			auto args = su.second;
