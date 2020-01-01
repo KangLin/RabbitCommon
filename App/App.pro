@@ -11,6 +11,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 TARGET = RabbitCommonApp
 TEMPLATE = app
 
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
+isEmpty(PREFIX) {
+    qnx : PREFIX = /tmp
+    else : android : PREFIX = /.
+    else : PREFIX = $$OUT_PWD/../install
+}
+
 #Get app version use git, please set git path to environment variable PATH
 isEmpty(BUILD_VERSION) {
     isEmpty(GIT) : GIT=$$(GIT)
@@ -65,13 +72,6 @@ INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
-
-isEmpty(PREFIX) {
-    qnx : PREFIX = /tmp
-    else : android : PREFIX = /.
-    else : unnix : PREFIX = /usr/local
-    else : PREFIX = $$OUT_PWD/../install
-}
 
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE

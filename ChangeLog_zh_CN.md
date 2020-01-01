@@ -3,7 +3,7 @@
   + 增加得到当前用户名接口(getusername)
   + Android: 增加签名
   + FIX：关于对话框大小
-
+  + 修改：在 unix 下库存放到 lib 目录下
 - 1.0.1
   + 增加 data 和 database 目录
   + 修改程序只读目录（android assert)

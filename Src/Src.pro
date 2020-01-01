@@ -1,5 +1,6 @@
 TARGET = RabbitCommon
 TEMPLATE = lib
+
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 CONFIG += link_pkgconfig create_prl link_prl
 CONFIG(staticlib): CONFIG*=static
@@ -28,6 +29,7 @@ isEmpty(BUILD_VERSION){
 message("RabbitCommon BUILD_VERSION:$$BUILD_VERSION")
 DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
 
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
@@ -37,7 +39,8 @@ isEmpty(PREFIX) {
 include(RabbitCommon.pri)
 
 # Default rules for deployment.
-!android: target.path = $${PREFIX}/bin
+unix: !android: target.path = $${PREFIX}/lib
+else: target.path = $${PREFIX}/bin
 INSTALLS += target
 
 header_files.target = header_files

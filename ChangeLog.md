@@ -3,6 +3,7 @@
   + Add getusername interface
   + Android: Add sign
   + Fix: about widge size
+  + Modfiy library directory to lib in unix
 
 - 1.0.1
   + Modify application directory reade only

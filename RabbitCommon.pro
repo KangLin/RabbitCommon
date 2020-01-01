@@ -17,11 +17,11 @@ App.depends = lib
 CONFIG *= ordered
 SUBDIRS = lib App
 
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : ios: PREFIX=/
     else : android : PREFIX = /
-    else : unix : PREFIX = /opt/RabbitCommon
     else : PREFIX = $$OUT_PWD/install
 }
 
