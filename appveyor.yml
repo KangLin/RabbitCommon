@@ -1,5 +1,5 @@
 #TODO: Change version
-version: 'v1.0.1.{build}'
+version: 'v1.0.2.{build}'
 
 environment:
   matrix:     
@@ -148,7 +148,7 @@ build_script:
 
 artifacts:
   - path: build_${BUILD_TARGERT}/install
-    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
+    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_Qt$(QT_VERSION)_$(appveyor_build_version)
     type: zip
 
 test: off

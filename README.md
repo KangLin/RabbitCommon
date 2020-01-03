@@ -287,7 +287,7 @@ Qt common library. include follow functions:
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v1.0.1</VERSION>
+              <VERSION>v1.0.2</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>
