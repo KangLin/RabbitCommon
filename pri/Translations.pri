@@ -110,7 +110,7 @@ TRANSLATIONS_TS_FILES = \
     $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_CN.ts \
     $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_rCN.ts \
     $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_TW.ts \
-    $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_rTW.ts 
+    $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_rTW.ts
 
 TRANSLATIONS *= $$TRANSLATIONS_TS_FILES
 

@@ -5,36 +5,52 @@ SOURCE_DIR=`pwd`
 if [ -n "$1" ]; then
     SOURCE_DIR=$1
 fi
-
+TOOLS_DIR=${SOURCE_DIR}/Tools
 cd ${SOURCE_DIR}
+export RabbitCommon_DIR="${SOURCE_DIR}/RabbitCommon"
+
+function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
+function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
+function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
 
 if [ "$BUILD_TARGERT" = "android" ]; then
-    export ANDROID_SDK_ROOT=${SOURCE_DIR}/Tools/android-sdk
-    export ANDROID_NDK_ROOT=${SOURCE_DIR}/Tools/android-ndk
+    export ANDROID_SDK_ROOT=${TOOLS_DIR}/android-sdk
+    export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
     if [ -n "$APPVEYOR" ]; then
-        export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
-        export ANDROID_NDK_ROOT=${SOURCE_DIR}/Tools/android-sdk/ndk-bundle
+        #export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
+        export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-sdk/ndk-bundle
     fi
-    if [ "$TRAVIS" = "true" ]; then
-        export JAVA_HOME=${SOURCE_DIR}/Tools/android-studio/jre
+    #if [ "$TRAVIS" = "true" ]; then
         #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-    fi
-    case $BUILD_ARCH in
-        arm*)
-            export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
+    #fi
+    export JAVA_HOME=${TOOLS_DIR}/android-studio/jre
+    
+    if version_ge $QT_VERSION_DIR 5.14 ; then
+        export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android
+    else
+        case $BUILD_ARCH in
+            arm*)
+                export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
+                ;;
+            x86)
+            export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_x86
             ;;
-        x86)
-        export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_x86
-        ;;
-    esac
-    export PATH=${SOURCE_DIR}/Tools/apache-ant/bin:$JAVA_HOME:$PATH
+        esac
+    fi
+    export PATH=${TOOLS_DIR}/apache-ant/bin:$JAVA_HOME/bin:$PATH
     export ANDROID_SDK=${ANDROID_SDK_ROOT}
     export ANDROID_NDK=${ANDROID_NDK_ROOT}
+    if [ -z "${BUILD_TOOS_VERSION}" ]; then
+        export BUILD_TOOS_VERSION="28.0.3"
+    fi
 fi
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
-    if [ "$DOWNLOAD_QT" = "TRUE" ]; then
-        QT_DIR=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}
+    if [ "$DOWNLOAD_QT" = "APT" ]; then
+        export QT_ROOT=/usr/lib/`uname -m`-linux-gnu/qt5
+    elif [ "$DOWNLOAD_QT" = "TRUE" ]; then
+        QT_DIR=${TOOLS_DIR}/Qt/${QT_VERSION}
         export QT_ROOT=${QT_DIR}/${QT_VERSION}/gcc_64
     else
         #source /opt/qt${QT_VERSION_DIR}/bin/qt${QT_VERSION_DIR}-env.sh
@@ -48,7 +64,7 @@ fi
 if [ "$BUILD_TARGERT" != "windows_msvc" ]; then
     RABBIT_MAKE_JOB_PARA="-j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`"  #make 同时工作进程参数
     if [ "$RABBIT_MAKE_JOB_PARA" = "-j1" ];then
-        RABBIT_MAKE_JOB_PARA="-j2"
+        RABBIT_MAKE_JOB_PARA=""
     fi
 fi
 
@@ -60,6 +76,7 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         export PKG_CONFIG=/c/msys64/mingw32/bin/pkg-config.exe
+        RABBIT_BUILD_HOST="windows"
         if [ "$BUILD_TARGERT" = "android" ]; then
             ANDROID_NDK_HOST=windows-x86_64
             if [ ! -d $ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST} ]; then
@@ -100,7 +117,7 @@ esac
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
-    if [ "${DOWNLOAD_QT}" != "TRUE" ]; then
+    if [ "${DOWNLOAD_QT}" != "TRUE" -a "${DOWNLOAD_QT}" != "APT" ]; then
         sed -i "s/export QT_VERSION_DIR=.*/export QT_VERSION_DIR=${QT_VERSION_DIR}/g" ${SOURCE_DIR}/debian/postinst
         sed -i "s/export QT_VERSION=.*/export QT_VERSION=${QT_VERSION}/g" ${SOURCE_DIR}/debian/preinst
         cat ${SOURCE_DIR}/debian/postinst
@@ -109,7 +126,9 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     bash build_debpackage.sh ${QT_ROOT}
     sudo dpkg -i ../rabbitcommon_*_amd64.deb
     
-    if [ "$TRAVIS_TAG" != "" ]; then
+    if [ "$TRAVIS_TAG" != "" \
+         -a "$DOWNLOAD_QT" = "APT" \
+         -a -z "$GENERATORS" ]; then
         cd debian/rabbitcommon/opt
         rm -fr RabbitCommon/bin
         tar czvf RabbitCommon_unix_Qt${QT_VERSION}_${VERSION}.tar.gz RabbitCommon

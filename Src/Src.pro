@@ -2,7 +2,6 @@ TARGET = RabbitCommon
 TEMPLATE = lib
 
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
-CONFIG += link_pkgconfig create_prl link_prl
 CONFIG(staticlib): CONFIG*=static
 
 #Get app version use git, please set git path to environment variable PATH
