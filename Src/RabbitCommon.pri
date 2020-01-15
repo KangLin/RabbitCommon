@@ -13,18 +13,20 @@ win32: DEFINES += WINDOWS
 unix: DEFINES += UNIX
 android{
     DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
-} else {
+} else: win32 {
     contains(QMAKE_TARGET.arch, x86_64) {
         DEFINES += BUILD_ARCH=\"\\\"x86_64\\\"\"
     } else {
         DEFINES += BUILD_ARCH=\"\\\"x86\\\"\"
     }
+} else {
+    DEFINES += BUILD_ARCH=\"\\\"$$system(uname -p)\\\"\"
 }
 CONFIG(debug, debug|release) : DEFINES += _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
 #Support windows xp
-mingw: DEFINES += "_WIN32_WINNT=0x0501" 
+mingw: DEFINES += "_WIN32_WINNT=0x0501"
 msvc {
     QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01"
     QMAKE_CXXFLAGS += "/utf-8"
@@ -79,7 +81,7 @@ INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
     $$PWD/export/rabbitcommon_export_linux.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/RabbitCommonRegister.h \
+    $$PWD/RabbitCommonRegister.h
 
 RESOURCES += \
     $$PWD/Resource/ResourceRabbitCommon.qrc
