@@ -274,7 +274,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             <?xml version="1.0" encoding="UTF-8"?>
             <REDIRECT>
-                <VERSION>v1.0.2</VERSION>
+                <VERSION>v1.0.3</VERSION>
                 <WINDOWS>
                     <URL>url</URL>
                 </WINDOWS>
@@ -319,9 +319,11 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 #### [目录功能](Src/RabbitCommonDir.h)
 
 ### 使用本项目的项目
-- [Tasks](https://github.com/KangLin/Tasks)
-- [LunarCalendar](https://github.com/KangLin/LunarCalendar)
-- [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
+- [任务](https://github.com/KangLin/Tasks)
+- [农历日历](https://github.com/KangLin/LunarCalendar)
+- [串口助手](https://github.com/KangLin/SerialPortAssistant)
+- [人脸识别](https://github.com/KangLin/FaceRecognizer)
+- [坐标转换](https://github.com/KangLin/TransformCoordinate)
 
 ### 捐赠
 ![捐赠](Src/Resource/image/Contribute.png "捐赠")

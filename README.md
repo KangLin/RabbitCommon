@@ -287,7 +287,7 @@ Qt common library. include follow functions:
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v1.0.2</VERSION>
+              <VERSION>v1.0.3</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>
@@ -335,6 +335,8 @@ Qt common library. include follow functions:
 - [Tasks](https://github.com/KangLin/Tasks)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
+- [FaceRecognizer](https://github.com/KangLin/FaceRecognizer)
+- [TransformCoordinate](https://github.com/KangLin/TransformCoordinate)
 
 ### Donation
 ![Donation](Src/Resource/image/Contribute.png "Donation")

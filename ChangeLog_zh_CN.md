@@ -1,17 +1,20 @@
-- 1.0.2
+- 版本： v1.0.3
+  + BUG：在LINUX下，修改平台架构
+  
+- 版本： v1.0.2
   + 修改 unix 下 appimage 安装更新
   + 增加得到当前用户名接口(getusername)
   + Android: 增加签名
   + FIX：关于对话框大小
   + 修改：在 unix 下库存放到 lib 目录下
   
-- 1.0.1
+- 版本： v1.0.1
   + 增加 data 和 database 目录
   + 修改程序只读目录（android assert)
   + 增加 GetDirDatabaseFile
   + 修改关于和更新对话框中的图标接口
   
-- 1.0.0
+- 版本： v1.0.0
   + 使用命名空间 RabbitCommon
   + 增加开机自启动
   + 增加更新不再提示
@@ -20,18 +23,18 @@
   + Android 翻译资源，放到 assets 下
   + 固定BUG
 
-- 0.0.3
+- 版本： 0.0.3
   + 增加更新时，管理员权限
   + 修改 deb url
   + 增加 CheckRedirectXmlFile
 
-- 0.0.2
+- 版本： 0.0.2
   + 增加ci
   + 修改ANDROID
   + 修改版本比较
   + 修改GlobalDir to RabbitCommonGlobale
   + 修改翻译
 
-- v0.0.1
+- 版本： v0.0.1
   + 关于
   + 更新
