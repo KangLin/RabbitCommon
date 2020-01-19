@@ -10,7 +10,7 @@ CDir::CDir()
 {  
     //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(
-             QStandardPaths::DocumentsLocation) 
+             QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QApplication::applicationName();
     qDebug() << "Document path:" << m_szDocumentPath;
