@@ -222,3 +222,19 @@ IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32 AND BUILD_SHARED_LIBS)
         )
     #INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/" DESTINATION "${CMAKE_INSTALL_BINDIR}")
 ENDIF()
+
+if(ANDROID)
+    find_package(OpenSSL)
+    if(OPENSSL_FOUND)
+        if(ANDROID)
+            install(FILES ${OPENSSL_LIBRARIES}
+                DESTINATION "libs/${ANDROID_ABI}"
+                    COMPONENT Runtime
+                    )
+        else()
+            INSTALL(FILES ${OPENSSL_LIBRARIES}
+                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                        COMPONENT Runtime)
+        endif()
+    endif(OPENSSL_FOUND)
+endif()
