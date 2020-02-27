@@ -6,6 +6,7 @@ if [ -n "$1" ]; then
     SOURCE_DIR=$1
 fi
 TOOLS_DIR=${SOURCE_DIR}/Tools
+ThirdLibs_DIR=${TOOLS_DIR}/ThirdLibs
 cd ${SOURCE_DIR}
 export RabbitCommon_DIR="${SOURCE_DIR}/RabbitCommon"
 

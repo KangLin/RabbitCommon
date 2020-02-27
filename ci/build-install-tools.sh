@@ -1,11 +1,19 @@
 #!/bin/bash 
 #下载工具  
 
+#
+# DOWNLOAD_QT:
+#     APT: Use apt-get install qt
+#     TRUE: install qt from download.qt.io/official_releases/qt
+#     FALSE: Use apt-get install qt from https://launchpad.net/~beineri
+#
+
 set -e
 SOURCE_DIR="`pwd`"
 echo $SOURCE_DIR
 TOOLS_DIR=${SOURCE_DIR}/Tools
 PACKAGE_DIR=${SOURCE_DIR}/Package
+ThirdLibs_DIR=${TOOLS_DIR}/ThirdLibs
 
 if [ ! -d "${TOOLS_DIR}" ]; then
     mkdir ${TOOLS_DIR}
@@ -30,17 +38,29 @@ function function_common()
 {
     cd ${TOOLS_DIR}
     #下载最新cmake程序
-    #if [ "cmake" = "${QMAKE}" ]; then
-    #    if [ ! -d "`pwd`/cmake" ]; then
-    #        wget -nv --no-check-certificate http://www.cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.tar.gz
-    #        tar xzf cmake-3.6.1-Linux-x86_64.tar.gz
-    #        mv cmake-3.6.1-Linux-x86_64 cmake
-    #    fi
-    #fi
+#    if [ "cmake" = "${QMAKE}" ]; then
+#        if [ ! -d "`pwd`/cmake" ]; then
+#            wget -nv --no-check-certificate http://www.cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.tar.gz
+#            tar xzf cmake-3.6.1-Linux-x86_64.tar.gz
+#            mv cmake-3.6.1-Linux-x86_64 cmake
+#        fi
+#    fi
+    
+    # Download third libraries
+    if [ -n "$DOWNLOAD_THIRDLIBS_URL" ]; then
+        if [ ! -d ${ThirdLibs_DIR} ]; then
+            mkdir -p ${ThirdLibs_DIR}
+        fi
+        cd ${ThirdLibs_DIR}
+        ThirdLibs_File=third_libs.tar.gz
+        wget -c -nv --no-check-certificate $DOWNLOAD_THIRDLIBS_URL -O $ThirdLibs_File
+        tar xzf $ThirdLibs_File
+    fi
     
     # Qt qt安装参见：https://github.com/benlau/qtci  
+    cd ${TOOLS_DIR}
     if [ "$DOWNLOAD_QT" = "TRUE" ]; then
-        QT_DIR=`pwd`/Qt/${QT_VERSION}
+        QT_DIR=${TOOLS_DIR}/Qt/${QT_VERSION}
         cd ${PACKAGE_DIR}
         if [ ! -d "${QT_DIR}" ]; then
             if [ "${QT_VERSION}" = "5.6.3" ]; then
@@ -58,6 +78,7 @@ function function_common()
             fi
         fi
     fi
+    cd ${SOURCE_DIR}
 }
 
 function install_android()
@@ -98,7 +119,7 @@ function install_android()
 
 function function_android()
 {
-    cd ${SOURCE_DIR}/Tools
+    cd ${TOOLS_DIR}
     
     sudo apt-get update -y -qq
     #sudo apt-get install -qq -y openjdk-11-jdk
@@ -108,13 +129,13 @@ function function_android()
     #(sleep 5 ; while true ; do sleep 1 ; printf '\r\n' ; done ) | sudo apt install oracle-java11-installer -qq -y
     
     #sudo apt install oracle-java11-set-default -qq -y
-
-    install_android
-    
     #sudo apt-get install ant -qq -y
     sudo apt-get install libicu-dev -qq -y
-    
+    sudo apt-get install -qq -y libxkbcommon-x11-dev libglu1-mesa-dev
+
     function_common
+    install_android
+
     cd ${SOURCE_DIR}
 }
 
@@ -152,10 +173,9 @@ function function_mingw()
 {
     #汇编工具yasm
     #function_install_yasm
-
     cd ${SOURCE_DIR}
-    if [ "true" == "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-        export RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #i586-mingw32msvc
+    if [ "true" == "$RABBIT_BUILD_THIRDLIBRARY" ]; then
+        export RABBIT_BUILD_CROSS_HOST=i686-w64-mingw32 #i586-mingw32msvc
     fi
 
     function_common
