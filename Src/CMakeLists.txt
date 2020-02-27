@@ -229,6 +229,7 @@ if(OPENSSL_FOUND)
     foreach(componet_openssl ${OPENSLL_COMPONENTS})
         if(ANDROID)
             INSTALL(FILES $<TARGET_FILE:OpenSSL::${componet_openssl}>
+                $<TARGET_SONAME_FILE:OpenSSL::${componet_openssl}>
                 DESTINATION "libs/${ANDROID_ABI}"
                 COMPONENT Runtime)
         else()
