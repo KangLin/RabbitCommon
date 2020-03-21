@@ -19,6 +19,7 @@ namespace RabbitCommon {
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
+ *       |- plugs                                  GetDirPlugs()
  *
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
@@ -67,6 +68,7 @@ public:
     QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirTranslations();
+    QString GetDirPlugs();
     QString GetFileApplicationConfigure(bool bReadOnly = false);
     
     QString GetDirUserDocument();

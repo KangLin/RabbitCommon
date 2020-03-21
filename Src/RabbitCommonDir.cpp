@@ -130,6 +130,17 @@ QString CDir::GetDirApplicationXml(bool bReadOnly)
     return szPath;
 }
 
+QString CDir::GetDirPlugs()
+{
+    QString szPath;
+#if defined (Q_OS_ANDROID)
+    szPath = GetDirApplication();
+#else
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "plugs";
+#endif
+    return szPath;
+}
+
 QString CDir::GetDirUserDocument()
 {
     return m_szDocumentPath;
