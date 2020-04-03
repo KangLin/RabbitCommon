@@ -9,6 +9,8 @@
 
 [<img src="https://raw.githubusercontent.com/KangLin/Tasks/master/Resource/Image/English.png" alt="英语" title="英语" width="16" height="16" />英语](README.md)
 
+项目位置: https://github.com/KangLin/RabbitCommon
+
 ### 功能
 
 本人Qt项目的一些公共库，包括下列功能：
