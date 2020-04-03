@@ -9,6 +9,8 @@ Author：Kang Lin（kl222@126.com)
 
 [<img src="https://raw.githubusercontent.com/KangLin/Tasks/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
 
+Project home site: https://github.com/KangLin/RabbitCommon
+
 ### Functions
 
 Qt common library. include follow functions:
