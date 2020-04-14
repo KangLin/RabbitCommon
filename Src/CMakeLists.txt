@@ -223,19 +223,20 @@ IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32 AND BUILD_SHARED_LIBS)
     #INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/" DESTINATION "${CMAKE_INSTALL_BINDIR}")
 ENDIF()
 
-SET(OPENSLL_COMPONENTS Crypto SSL)
 find_package(OpenSSL COMPONENTS Crypto SSL)
 if(OPENSSL_FOUND)
-    foreach(componet_openssl ${OPENSLL_COMPONENTS})
-        if(ANDROID)
-            INSTALL(FILES $<TARGET_FILE:OpenSSL::${componet_openssl}>
-                $<TARGET_SONAME_FILE:OpenSSL::${componet_openssl}>
-                DESTINATION "libs/${ANDROID_ABI}"
-                COMPONENT Runtime)
-        else()
-            INSTALL(FILES $<TARGET_FILE:OpenSSL::${componet_openssl}>
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                COMPONENT Runtime)
-        endif()
-    endforeach()    
+    message("PKG_CONFIG_PATH:$ENV{PKG_CONFIG_PATH}")
+    message("OPENSSL_SSL_LIBRARY:${OPENSSL_SSL_LIBRARY}")
+    message("OPENSSL_CRYPTO_LIBRARY${OPENSSL_CRYPTO_LIBRARY}") 
+    if(ANDROID)
+        INSTALL(FILES ${OPENSSL_SSL_LIBRARY}
+            ${OPENSSL_CRYPTO_LIBRARY}
+            DESTINATION "libs/${ANDROID_ABI}"
+            COMPONENT Runtime)
+    else()
+        INSTALL(FILES ${OPENSSL_SSL_LIBRARY}
+            ${OPENSSL_CRYPTO_LIBRARY}
+            DESTINATION "${CMAKE_INSTALL_BINDIR}"
+            COMPONENT Runtime)
+    endif()
 endif(OPENSSL_FOUND)

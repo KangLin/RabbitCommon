@@ -94,3 +94,8 @@ unix: INSTALLS += install_script
 TRANSLATIONS_DIR=$$PWD
 TRANSLATIONS_NAME=RabbitCommon
 include($$PWD/../pri/Translations.pri)
+
+android{
+    !isEmpty(OPENSSL_ROOT_DIR) : ANDROID_EXTRA_LIBS = $$OPENSSL_ROOT_DIR/lib/libssl.so \
+        $$OPENSSL_ROOT_DIR/lib/libcrypto.so        
+}
