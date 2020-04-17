@@ -509,7 +509,9 @@ int CFrmUpdater::CheckRedirectXmlFile()
     if(!n.isEmpty())
     {
         QDomElement url = n.item(0).firstChildElement("URL");
-        szUrl = url.text();
+        m_Url = url.text();
+        emit sigDownLoadRedireXml();
+        return 0;        
     }
 #elif defined(Q_OS_ANDROID)
     szUrl += "android";
@@ -517,7 +519,9 @@ int CFrmUpdater::CheckRedirectXmlFile()
     if(!n.isEmpty())
     {
         QDomElement url = n.item(0).firstChildElement("URL");
-        szUrl = url.text();
+        m_Url = url.text();
+        emit sigDownLoadRedireXml();
+        return 0;
     }
 #elif defined (Q_OS_LINUX)
     /*QFileInfo f(qApp->applicationFilePath());
@@ -547,7 +551,8 @@ int CFrmUpdater::CheckRedirectXmlFile()
     }
     
 #endif
-    szUrl += ".xml";
+    if(szUrl.right(4) != ".xml")
+        szUrl += ".xml";
     
     m_Url = szUrl;
     emit sigDownLoadRedireXml();
@@ -561,14 +566,16 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <VERSION>v0.0.1</VERSION>
     <TIME>2019-2-24 19:28:50</TIME>
     <INFO>v0.0.1 information</INFO>
+    <HOME>home page</HOME>
+    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
     <FORCE>0</FORCE>
+    
     <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
     <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
-    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a-->
+    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a arm64_v8a-->
     <URL>url</URL>
-    <HOME>home page</HOME>
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
-    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
+    
    </UPDATE>
  */
 int CFrmUpdater::CheckUpdateXmlFile()
