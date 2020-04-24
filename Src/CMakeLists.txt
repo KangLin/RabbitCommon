@@ -100,7 +100,7 @@ SET(RCC_FILES
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
+#target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 # Set target properties
 set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
