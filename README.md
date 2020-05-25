@@ -53,10 +53,11 @@ Qt common library. include follow functions:
   + Use cmake
   
         cd build
-        cmake .. -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+        cmake ..  -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
       * Parameter
+        - CMAKE_BUILD_TYPE: build type(MUST)
         - Qt5_DIR: Qt install position
         - BUILD_APP: build app
         - BUILD_ABOUT: build about

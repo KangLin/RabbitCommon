@@ -52,16 +52,22 @@
   + 用 cmake
   
         cd build
-        cmake .. -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
       * 参数
+        - CMAKE_BUILD_TYPE: 编译类型
         - Qt5_DIR: Qt 位置
         - BUILD_APP: 编译应用程序
         - BUILD_ABOUT: 编译关于功能
         - BUILD_UPDATE: 编译在线更新功能
         - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
+    **注意**：如果使用 MSVC ,则需要加上 -DCMAKE_BUILD_TYPE=Debug ，否则当编译 Debug 时会出现下面错误：
+
+        RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
+        RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
+
 - 编译注意事项：
     用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。
 
