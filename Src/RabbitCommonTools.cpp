@@ -24,6 +24,7 @@ inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
 #if _DEBUG
+    // Must set cmake paramter: -DCMAKE_BUILD_TYPE=Debug
     Q_INIT_RESOURCE(translations_RabbitCommon);
 #endif
 }
