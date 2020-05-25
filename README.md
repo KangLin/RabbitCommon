@@ -339,6 +339,7 @@ Qt common library. include follow functions:
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 - [FaceRecognizer](https://github.com/KangLin/FaceRecognizer)
 - [TransformCoordinate](https://github.com/KangLin/TransformCoordinate)
+- [Chinese chess control](https://github.com/KangLin/ChineseChessControl)
 
 ### Donation
 ![Donation](Src/Resource/image/Contribute.png "Donation")

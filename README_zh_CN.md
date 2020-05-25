@@ -326,6 +326,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 - [串口助手](https://github.com/KangLin/SerialPortAssistant)
 - [人脸识别](https://github.com/KangLin/FaceRecognizer)
 - [坐标转换](https://github.com/KangLin/TransformCoordinate)
+- [中国象棋](https://github.com/KangLin/ChineseChessControl)
 
 ### 捐赠
 ![捐赠](Src/Resource/image/Contribute.png "捐赠")
