@@ -9,6 +9,7 @@
 #    include(../pri/Translations.pri) 
 
 # Add translation resource in source code
+#     Q_INIT_RESOURCE(${TRANSLATIONS_NAME}); // Initial resource
 #     QTranslator translator;
 #     translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
@@ -61,6 +62,7 @@
 #    include(../pri/Translations.pri) 
 
 # 在代码中加载翻译资源
+#     Q_INIT_RESOURCE(${TRANSLATIONS_NAME}); //初始化资源
 #     QTranslator translator;
 #     translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
