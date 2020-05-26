@@ -75,6 +75,12 @@ void CTools::Init(const QString szLanguage)
     InitTranslator(szLanguage);
 }
 
+void CTools::Clean()
+{
+    CleanTranslator();
+    CleanResource();
+}
+
 void CTools::InitTranslator(const QString szLanguage)
 {
     m_Translator.load(CDir::Instance()->GetDirTranslations()
