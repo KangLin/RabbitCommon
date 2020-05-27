@@ -92,15 +92,19 @@ set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
+GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES})
+if("Debug" STREQUAL CMAKE_BUILD_TYPE)
+    LIST(APPEND RCC_FILES
+        ${TRANSLATIONS_RESOURCE_FILES}
+        )
+endif()
 #设置资源文件
-SET(RCC_FILES
+LIST(APPEND RCC_FILES
     Resource/ResourceRabbitCommon.qrc
-    ${TRANSLATIONS_RESOURCE_FILES}
     )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
-#target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 # Set target properties
 set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

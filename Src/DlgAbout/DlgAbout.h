@@ -52,6 +52,8 @@ public:
     QString m_szAuthor;
     QString m_szHomePage;
     QString m_szCopyright;
+    QString m_szCopyrightTime;
+    QString m_szCopyrightOwner;
     QImage m_AppIcon;
     QImage m_CopyrightIcon;
     QImage m_DonationIcon;

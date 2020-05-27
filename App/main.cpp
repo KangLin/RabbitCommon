@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommon");
-    
+
     qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
     qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
     qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();

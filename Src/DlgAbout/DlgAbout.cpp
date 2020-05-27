@@ -3,11 +3,11 @@ Copyright (c) Kang Lin studio, All Rights Reserved
 
 Author:
     Kang Lin(kl222@126.com）
-
+    
 Module Name:
 
     DlgAbout.cpp
-
+    
 Abstract:
 
     This file contains about dialog implement.
@@ -35,11 +35,11 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui(new Ui::CDlgAbout)
 {
     ui->setupUi(this);
-
+    
     setAttribute(Qt::WA_QuitOnClose, false);
     
     m_szAppName = qApp->applicationDisplayName();
-
+    
     m_szVersion = qApp->applicationVersion();
 #ifdef BUILD_VERSION
     if(m_szVersion.isEmpty())
@@ -55,29 +55,30 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     
     m_szAuthor = tr("Author: KangLin\nEmail:kl222@126.com");
     m_szHomePage = "https://github.com/KangLin/RabbitCommon";
-    m_szCopyright = tr("KangLin Studio");
-    
+    m_szCopyrightOwner = tr("Kang Lin Studio");
+    m_szCopyrightTime = tr("2018 - %1 ").arg(
+                QString::number(QDate::currentDate().year()));
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
-
+    
     DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
-
+    
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
 #else
     bool check = false;
     ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
     check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
-                         this, SLOT(slotDonation(const QPoint &)));
+                    this, SLOT(slotDonation(const QPoint &)));
     Q_ASSERT(check);
 #endif
-
+    
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     
     setWindowIcon(QIcon(QPixmap::fromImage(m_AppIcon)));
     ui->lblLogo->setPixmap(QPixmap::fromImage(m_AppIcon));
@@ -88,13 +89,13 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
     ui->lbAuthor->setText(m_szAuthor);
     ui->lbHome->setOpenExternalLinks(true);
-
+    
     ui->lbHome->setText(tr("Home page:") + "<a href=\"" + m_szHomePage + "\">"
                         + m_szHomePage + "</a>");
-    ui->lbCopyright->setText(tr(" Copyright (C) 2018 - %1 %2").arg(
-                                 QString::number(QDate::currentDate().year()),
-                                 m_szCopyright));
-
+    if(m_szCopyright.isEmpty())
+        m_szCopyright = tr("Copyright (C) ") + m_szCopyrightTime + m_szCopyrightOwner;
+    ui->lbCopyright->setText(m_szCopyright);
+    
     AppendFile(ui->txtChange, "ChangeLog");
     AppendFile(ui->txtLicense, "License");
     AppendFile(ui->txtThinks, "Authors");
@@ -109,7 +110,7 @@ CDlgAbout::~CDlgAbout()
 int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 {
     QString szFileLocation;
-
+    
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
             + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     QDir d;
@@ -149,9 +150,9 @@ void CDlgAbout::slotSaveDonation()
     QString szDir = RabbitCommon::CDir::Instance()->GetDirUserImage()
             + QDir::separator() + "donation.png";
     QString szFile = RabbitCommon::CDir::GetSaveFileName(this,
-                                 tr("Save donation picture"),
-                                 szDir,
-                                 tr("Images (*.png *.xpm *.jpg)"));
+                                                         tr("Save donation picture"),
+                                                         szDir,
+                                                         tr("Images (*.png *.xpm *.jpg)"));
     QFileInfo fi(szFile);
     if(fi.suffix().isEmpty())
         szFile += ".png";
@@ -201,7 +202,7 @@ void CDlgAbout::slotFinished()
     
     QVariant redirectionTarget;
     if(m_pReply)
-       redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+        redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
     if(redirectionTarget.isValid())
     {
         if(m_pReply)
@@ -222,15 +223,15 @@ void CDlgAbout::slotFinished()
     QByteArray d = m_pReply->readAll();
     m_DonationIcon.loadFromData(d);
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
-//    QFile f(RabbitCommon::CDir::Instance()->GetDirUserImage()
-//            + QDir::separator() + "donation.png");
-//    if(f.open(QFile::WriteOnly))
-//    {
-//        f.write(d);
-//        f.close();
-//        m_DonationIcon = QPixmap(RabbitCommon::CDir::Instance()->GetDirUserImage()
-//                                 + QDir::separator() + "donation.png", "png");
-//    }
+    //    QFile f(RabbitCommon::CDir::Instance()->GetDirUserImage()
+    //            + QDir::separator() + "donation.png");
+    //    if(f.open(QFile::WriteOnly))
+    //    {
+    //        f.write(d);
+    //        f.close();
+    //        m_DonationIcon = QPixmap(RabbitCommon::CDir::Instance()->GetDirUserImage()
+    //                                 + QDir::separator() + "donation.png", "png");
+    //    }
     
     if(m_pReply)
     {
@@ -254,7 +255,7 @@ void CDlgAbout::slotError(QNetworkReply::NetworkError e)
 void CDlgAbout::slotSslError(const QList<QSslError> e)
 {
     qDebug() << "CFrmUpdater::slotSslError: " << e;
-   
+    
     if(m_pReply)
     {
         m_pReply->disconnect();
