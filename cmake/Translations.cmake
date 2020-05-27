@@ -9,9 +9,10 @@
 #  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。**注意**：翻译资源名为此名字加上前缀 translations_
 #  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #  - UPDATE: 是否更新翻译源文件(.ts)
-#+ 输出值：
-#  - TRANSLATIONS_RESOURCE_FILES: 生成的资源文件(.qrc)。
+#+ 输出值参数：
+#  - OUT_QRC: 生成的资源文件(.qrc) 变量。
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
+#  - OUT_QRC_NAME:资源文件名变量
 #+ 使用：
 #  - 在 CMakeLists.txt加入包含此文件
 
@@ -23,7 +24,7 @@
 #    + [可选] 设置 TSDIR 参数为翻译源文件(.ts)生成的目录。默认值是 ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #    + [可选] 设置 UPDATE 参数，是否更翻译源文件(.ts)
 #  - 如果要使用翻译资源文件，
-#    则把输出值 ${TRANSLATIONS_RESOURCE_FILES} 加入到 add_executable 或 add_library 中。
+#    则把输出参数 OUT_QRC 后的变量值加入到 add_executable 或 add_library 中。
 
 #        add_executable(${PROJECT_NAME} ${TRANSLATIONS_RESOURCE_FILES})
 
@@ -60,12 +61,16 @@
 #  - 完整的例子：
 #    + CMakeLists.txt
   
-#        include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
-#        GENERATED_QT_TRANSLATIONS(UPDATE
-#                SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES})
-#        # 把翻译文件加入到资源文件中
+#        #翻译
+#        include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
+#        include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
+        
+#        GENERATED_QT_TRANSLATIONS(UPDATE SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
+#            OUT_QRC TRANSLATIONS_RESOURCE_FILES)
 #        if("Debug" STREQUAL CMAKE_BUILD_TYPE)
-#            LIST(APPEND QRC_FILE ${TRANSLATIONS_RESOURCE_FILES})
+#            LIST(APPEND QRC_FILE 
+#                ${TRANSLATIONS_RESOURCE_FILES}
+#                )
 #        endif()
 #        add_executable(${PROJECT_NAME} ${QRC_FILE})
 #        # 增加依赖（可选）
@@ -124,7 +129,7 @@
 include (CMakeParseArguments)
 
 function(GENERATED_QT_TRANSLATIONS)
-    cmake_parse_arguments(PARA "UPDATE" "NAME;TSDIR" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "UPDATE" "NAME;TSDIR;OUT_QRC;OUT_QRC_NAME" "SOURCES" ${ARGN})
     
     SET(TRANSLATIONS_NAME ${PROJECT_NAME})
     if(DEFINED PARA_NAME)
@@ -157,13 +162,15 @@ function(GENERATED_QT_TRANSLATIONS)
                 if(PARA_SOURCES)
                     SET(SOURCES_FILES ${PARA_SOURCES})
                 endif()
-                qt5_create_translation(QM_FILES1 ${SOURCES_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
+                qt5_create_translation(QM_FILES ${SOURCES_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
+            else()
+                qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             endif()
-            qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源 .qm 文件
     
             ADD_CUSTOM_TARGET(translations_${TRANSLATIONS_NAME} ALL DEPENDS ${QM_FILES})
             #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
     
+            # 生成资源文件
             set(RESOURCE_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/translations_${TRANSLATIONS_NAME}.qrc")
             file(WRITE "${RESOURCE_FILE_NAME}"
                 "<!DOCTYPE RCC>
@@ -180,6 +187,13 @@ function(GENERATED_QT_TRANSLATIONS)
                 </RCC>
                 ")
             set(TRANSLATIONS_RESOURCE_FILES ${RESOURCE_FILE_NAME} PARENT_SCOPE)
+            if(DEFINED PARA_OUT_QRC)
+                set(${PARA_OUT_QRC} ${${PARA_OUT_QRC}} ${RESOURCE_FILE_NAME} PARENT_SCOPE)
+            endif()
+            if(DEFINED PARA_OUT_QRC_NAME)
+                get_filename_component(OUT_QRC_NAME ${RESOURCE_FILE_NAME} NAME)
+                set(${PARA_OUT_QRC_NAME} ${OUT_QRC_NAME} PARENT_SCOPE)
+            endif()
             if(ANDROID)
                 install(FILES ${QM_FILES} DESTINATION "assets/translations"
                     COMPONENT Runtime)
