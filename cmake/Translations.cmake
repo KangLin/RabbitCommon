@@ -154,10 +154,10 @@ function(GENERATED_QT_TRANSLATIONS)
         ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
             if(PARA_UPDATE)
                 LIST(APPEND SOURCES_FILES ${SOURCE_UI_FILES})
-                if(DEFINED PARA_SOURCES)
+                if(PARA_SOURCES)
                     SET(SOURCES_FILES ${PARA_SOURCES})
                 endif()
-                qt5_create_translation(QM_FILES ${SOURCES_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
+                qt5_create_translation(QM_FILES1 ${SOURCES_FILES} ${TS_FILES}) #生成 .ts 文件与 .qm 文件，仅当没有TS文件的时候用。
             endif()
             qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源 .qm 文件
     
