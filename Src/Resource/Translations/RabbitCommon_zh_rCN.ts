@@ -82,7 +82,7 @@ Email:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="59"/>
-        <source>2018 - %1 </source>
+        <source>2018 - %1</source>
         <translation></translation>
     </message>
     <message>
@@ -107,12 +107,8 @@ Email:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
-        <source>Copyright (C) </source>
+        <source>Copyright (C)</source>
         <translation>版权所有 (C)</translation>
-    </message>
-    <message>
-        <source> Copyright (C) 2018 - %1 %2</source>
-        <translation type="vanished">版权所有 (C) 2018 - %1 %2</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>

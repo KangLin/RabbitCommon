@@ -2,17 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
-    <name>AdminAuthorization</name>
-    <message>
-        <source>Enter Password</source>
-        <translation type="vanished">輸入密碼</translation>
-    </message>
-    <message>
-        <source>Enter your root password to run the program:</source>
-        <translation type="vanished">輸入root密碼，運行程序：</translation>
-    </message>
-</context>
-<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
@@ -87,18 +76,14 @@ Email:kl222@126.com</source>
 郵件:kl222@126.com</translation>
     </message>
     <message>
-        <source>KangLin Studio</source>
-        <translation type="vanished">康林工作室</translation>
-    </message>
-    <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="58"/>
         <source>Kang Lin Studio</source>
-        <translation type="unfinished"></translation>
+        <translation>康林工作室</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="59"/>
-        <source>2018 - %1 </source>
-        <translation type="unfinished"></translation>
+        <source>2018 - %1</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
@@ -122,12 +107,8 @@ Email:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
-        <source>Copyright (C) </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> Copyright (C) 2018 - %1 %2</source>
-        <translation type="vanished">版權 (C) 2018 - %1 %2</translation>
+        <source>Copyright (C)</source>
+        <translation>版權所有 (C)</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>
@@ -354,16 +335,12 @@ Email:kl222@126.com</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="866"/>
         <source>Open home page fail</source>
-        <translation type="unfinished"></translation>
+        <translation>打開主頁失敗</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="905"/>
         <source>Run</source>
         <translation>運行</translation>
-    </message>
-    <message>
-        <source>Is run after install?</source>
-        <translation type="vanished">安裝後運行</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="809"/>
@@ -383,7 +360,7 @@ Email:kl222@126.com</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
         <source>Run after install</source>
-        <translation type="unfinished"></translation>
+        <translation>安裝後運行</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1012"/>
@@ -448,10 +425,6 @@ Email:kl222@126.com</source>
 </context>
 <context>
     <name>QObject</name>
-    <message>
-        <source>Critical</source>
-        <translation type="vanished">錯誤</translation>
-    </message>
     <message>
         <location filename="../../RabbitCommonDir.cpp" line="273"/>
         <location filename="../../RabbitCommonDir.cpp" line="302"/>

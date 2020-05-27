@@ -56,7 +56,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szAuthor = tr("Author: KangLin\nEmail:kl222@126.com");
     m_szHomePage = "https://github.com/KangLin/RabbitCommon";
     m_szCopyrightOwner = tr("Kang Lin Studio");
-    m_szCopyrightTime = tr("2018 - %1 ").arg(
+    m_szCopyrightTime = tr("2018 - %1").arg(
                 QString::number(QDate::currentDate().year()));
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
@@ -93,9 +93,9 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lbHome->setText(tr("Home page:") + "<a href=\"" + m_szHomePage + "\">"
                         + m_szHomePage + "</a>");
     if(m_szCopyright.isEmpty())
-        m_szCopyright = tr("Copyright (C) ") + m_szCopyrightTime + m_szCopyrightOwner;
+        m_szCopyright = tr("Copyright (C)") + " " + m_szCopyrightTime + " " + m_szCopyrightOwner;
     ui->lbCopyright->setText(m_szCopyright);
-    
+
     AppendFile(ui->txtChange, "ChangeLog");
     AppendFile(ui->txtLicense, "License");
     AppendFile(ui->txtThinks, "Authors");
