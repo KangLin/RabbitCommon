@@ -2,17 +2,18 @@
 #+ 功能：
 #  - 生成或更新翻译源文件(.ts)
 #  - 生成翻译文件(.qm)
-#  - 生成翻译资源文件(.qrc)，并把资源文件设置到变量 TRANSLATIONS_RESOURCE_FILES 中
-#  - 安装翻译文件(.qm)到安装目录
+#  - 生成翻译资源文件(.qrc)，放到参数 OUT_QRC 指定的变量中
+#  - 安装翻译文件(.qm)到安装目录。目录结构详见后面说明
 #+ 参数：
 #  - SOURCES: 要理新的源文件。默认使用变量 SOURCES_FILES 和 SOURCE_UI_FILES 之中的源文件。
-#  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。**注意**：翻译资源名为此名字加上前缀 translations_
+#  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
+#    **注意**：翻译资源名为此名字加上前缀 translations_ ,它也可以由 OUT_QRC_NAME 参数指定的变量得到
 #  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #  - UPDATE: 是否更新翻译源文件(.ts)
 #+ 输出值参数：
 #  - OUT_QRC: 生成的资源文件(.qrc) 变量。
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
-#  - OUT_QRC_NAME:资源文件名变量
+#  - OUT_QRC_NAME: 资源文件名变量
 #+ 使用：
 #  - 在 CMakeLists.txt加入包含此文件
 
@@ -20,12 +21,16 @@
   
 #  - 调用 GENERATED_QT_TRANSLATIONS 函数
 #    + [必选] 设置 SOURCES 参数为要更新的源文件
-#    + [可选] 设置 NAME 参数为翻译源文件(.ts)文件名的前缀，默认值是目标名 ${PROJECT_NAME}。**注意**：翻译资源名为此名字加上前缀 translations_ 。
+#    + [必选] 设置 OUT_QRC 参数为接收资源文件名变量
+#    + [可选] 设置 NAME 参数为翻译源文件(.ts)文件名的前缀，默认值是目标名 ${PROJECT_NAME}。
+#            **注意**：翻译资源名为此名字加上前缀 translations_ 。这个也可以由 OUT_QRC_NAME 参数指定的变量得到
 #    + [可选] 设置 TSDIR 参数为翻译源文件(.ts)生成的目录。默认值是 ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #    + [可选] 设置 UPDATE 参数，是否更翻译源文件(.ts)
 #  - 如果要使用翻译资源文件，
 #    则把输出参数 OUT_QRC 后的变量值加入到 add_executable 或 add_library 中。
 
+#        GENERATED_QT_TRANSLATIONS(UPDATE SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
+#            OUT_QRC TRANSLATIONS_RESOURCE_FILES)
 #        add_executable(${PROJECT_NAME} ${TRANSLATIONS_RESOURCE_FILES})
 
 #    在C++代码 main 中加入下列代码初始化翻译资源：
