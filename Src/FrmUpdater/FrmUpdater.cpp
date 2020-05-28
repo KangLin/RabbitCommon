@@ -1168,7 +1168,7 @@ int CFrmUpdater::GenerateUpdateXml()
     parser.addVersionOption();
 
     QCommandLineOption oFile(QStringList() << "f" << "file",
-                             "xml file name",
+                             tr("xml file name"),
                              "xml file name");
     parser.addOption(oFile);
     QCommandLineOption oPackageVersion("pv",
@@ -1206,6 +1206,10 @@ int CFrmUpdater::GenerateUpdateXml()
                              tr("MD5 checksum"),
                              "MD5 checksum");
     parser.addOption(oMd5);
+    QCommandLineOption oPackageFile("pf",
+                             tr("Package file, Is used to calculate md5sum"),
+                             "Package file");
+    parser.addOption(oPackageFile);
     QCommandLineOption oUrl(QStringList() << "u" << "url",
                              tr("Package download url"),
                              "Download url",
@@ -1239,9 +1243,10 @@ int CFrmUpdater::GenerateUpdateXml()
     info.szMd5sum = parser.value(oMd5);
     if(info.szMd5sum.isEmpty())
     {
-        //TODO: Add package
+        //计算包的 MD5 和
+        QString szFile = parser.value(oPackageFile);
         QCryptographicHash md5sum(QCryptographicHash::Md5);
-        QFile app(qApp->applicationFilePath());
+        QFile app(szFile);
         if(app.open(QIODevice::ReadOnly))
         {
             if(md5sum.addData(&app))
@@ -1249,6 +1254,8 @@ int CFrmUpdater::GenerateUpdateXml()
                 info.szMd5sum = md5sum.result().toHex();
             }
             app.close();
+        } else {
+            qDebug() << "Don't open package file: " << szFile;
         }
     }
     info.szUrl = parser.value(oUrl);

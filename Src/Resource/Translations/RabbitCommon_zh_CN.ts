@@ -373,6 +373,11 @@ Email:kl222@126.com</source>
         <translation>正在更新，是否关闭？</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1171"/>
+        <source>xml file name</source>
+        <translation>xml 文件名</translation>
+    </message>
+    <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1175"/>
         <source>Package version</source>
         <translation>包版本</translation>
@@ -409,16 +414,21 @@ Email:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1210"/>
+        <source>Package file, Is used to calculate md5sum</source>
+        <translation>包文件，用于计算 md5 校验和</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1214"/>
         <source>Package download url</source>
         <translation>包下载URL</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1216"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1220"/>
         <source>Project home url</source>
         <translation>项目主页</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1221"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1225"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
     </message>
