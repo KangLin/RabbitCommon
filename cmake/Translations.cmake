@@ -11,9 +11,10 @@
 #  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #  - UPDATE: 是否更新翻译源文件(.ts)
 #+ 输出值参数：
-#  - OUT_QRC: 生成的资源文件(.qrc) 变量。
+#  - OUT_QRC: 生成的翻译资源文件(.qrc) 变量。
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
-#  - OUT_QRC_NAME: 资源文件名变量
+#  - OUT_QRC_NAME: 翻译资源文件名变量，它用于代码使用库中的资源时，
+#    调用 Q_INIT_RESOURCE 初始化此翻译资源
 #+ 使用：
 #  - 在 CMakeLists.txt加入包含此文件
 
