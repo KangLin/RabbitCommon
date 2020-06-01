@@ -73,7 +73,7 @@
         <source>Author: KangLin
 Email:kl222@126.com</source>
         <translation>作者： 康林
-郵件:kl222@126.com</translation>
+郵箱:kl222@126.com</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="58"/>
