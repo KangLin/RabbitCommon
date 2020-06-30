@@ -98,7 +98,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     if(szUrl.isEmpty())
     {
         szUrl = "https://raw.githubusercontent.com/KangLin/"
-                + qApp->applicationName() +"/master/Update/update.xml";
+                + qApp->applicationName() + "/master/Update/update.xml";
     }
     DownloadFile(QUrl(szUrl));
     

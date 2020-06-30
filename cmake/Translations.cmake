@@ -147,11 +147,11 @@ function(GENERATED_QT_TRANSLATIONS)
     endif()
     
     SET(TS_FILES
-        ${TS_DIR}/${TRANSLATIONS_NAME}_zh.ts
+        #${TS_DIR}/${TRANSLATIONS_NAME}_zh.ts
         ${TS_DIR}/${TRANSLATIONS_NAME}_zh_CN.ts
-        ${TS_DIR}/${TRANSLATIONS_NAME}_zh_rCN.ts
+        #${TS_DIR}/${TRANSLATIONS_NAME}_zh_rCN.ts
         ${TS_DIR}/${TRANSLATIONS_NAME}_zh_TW.ts
-        ${TS_DIR}/${TRANSLATIONS_NAME}_zh_rTW.ts
+        #${TS_DIR}/${TRANSLATIONS_NAME}_zh_rTW.ts
         )
 
     OPTION(OPTION_TRANSLATIONS "Refresh translations on compile" ON)
