@@ -107,6 +107,7 @@ LIST(APPEND RCC_FILES
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${HEAD_FILES}
     ${SOURCE_UI_FILES} ${RCC_FILES})
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 
 # Generate export header files and export macro
 include(GenerateExportHeader)
