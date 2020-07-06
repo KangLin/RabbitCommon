@@ -4,11 +4,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
 isEmpty(BUILD_VERSION): error("Please set BUILD_VERSION")
-VERSION=$$replace(BUILD_VERSION, v,)
-win32{
-    VERSION=$$split(VERSION, -)
-    VERSION=$$first(VERSION)
-}
+#VERSION=$$replace(BUILD_VERSION, v,)
+#win32{
+#    VERSION=$$split(VERSION, -)
+#    VERSION=$$first(VERSION)
+#}
 win32: DEFINES += WINDOWS
 unix: DEFINES += UNIX
 android{
