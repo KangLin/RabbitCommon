@@ -54,7 +54,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szTime = __TIME__;
     
     m_szAuthor = tr("Author: KangLin\nEmail:kl222@126.com");
-    m_szHomePage = "https://github.com/KangLin/RabbitCommon";
+    m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
     m_szCopyrightOwner = tr("Kang Lin Studio");
     m_szCopyrightStartTime = "2018";
     m_szCopyrightTime = tr("%1 - %2").arg(m_szCopyrightStartTime,
