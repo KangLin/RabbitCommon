@@ -53,6 +53,7 @@ public:
     QString m_szHomePage;
     QString m_szCopyright;
     QString m_szCopyrightTime;
+    QString m_szCopyrightStartTime;
     QString m_szCopyrightOwner;
     QImage m_AppIcon;
     QImage m_CopyrightIcon;
