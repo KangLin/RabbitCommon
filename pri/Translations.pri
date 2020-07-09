@@ -9,11 +9,16 @@
 #    include(../pri/Translations.pri) 
 
 # Add translation resource in source code
-#     Q_INIT_RESOURCE(${TRANSLATIONS_NAME}); // Initial resource
+#     Q_INIT_RESOURCE(translations_${TRANSLATIONS_NAME}); // Initial resource
 #     QTranslator translator;
 #     translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
+#               //If is library，the qApp->applicationName() Replace with ${TRANSLATIONS_NAME}
 #     qApp->installTranslator(&translator);
+#
+#     //After use, use the following to release resources
+#     Q_CLEANUP_RESOURCE(translations_${TRANSLATIONS_NAME});//release resources
+#
 # debug translate resources as resource file embed programs
 
 #
@@ -62,11 +67,16 @@
 #    include(../pri/Translations.pri) 
 
 # 在代码中加载翻译资源
-#     Q_INIT_RESOURCE(${TRANSLATIONS_NAME}); //初始化资源
+#     Q_INIT_RESOURCE(translations_${TRANSLATIONS_NAME}); //初始化资源
 #     QTranslator translator;
 #     translator.load(CRabbitCommonGlobalDir::Instance()->GetDirTranslations()
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
+#            //如果是库，qApp->applicationName() 用 ${TRANSLATIONS_NAME} 替换
 #     qApp->installTranslator(&translator);
+#
+#     //使用完成后，用下面释放资源
+#     Q_CLEANUP_RESOURCE(translations_${TRANSLATIONS_NAME});//释放资源
+#
 # debug 翻译资源做为资源文件嵌入程序
 #
 # 其它系统发行模式下，做为文件放在程序的安装目录 Translations 目录下
@@ -106,7 +116,7 @@
 
 isEmpty(TRANSLATIONS_DIR) : TRANSLATIONS_DIR = $$_PRO_FILE_PWD_
 isEmpty(TRANSLATIONS_NAME) : TRANSLATIONS_NAME = $${TARGET}
-
+#message("TRANSLATIONS_DIR:$$TRANSLATIONS_DIR")
 TRANSLATIONS_TS_FILES = \
     $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_CN.ts \
     $$TRANSLATIONS_DIR/Resource/Translations/$${TRANSLATIONS_NAME}_zh_TW.ts 
