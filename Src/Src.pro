@@ -51,10 +51,11 @@ OTHER_FILES += $$PWD/CMakeLists.txt \
     $$PWD/../Install/*
 
 !CONFIG(static): win32 {
+    #message("Install qt library in win32")
     INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))
 
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.files = $$system_path($${DESTDIR}/)
+    #Deployment_qtlib.files = $$system_path($${DESTDIR}/)  #把目录 DESTDIR 安装到下面 path 中,注意要加 / ,否则不包括目录，只复制目录中的文件
     Deployment_qtlib.path = $$system_path($${PREFIX})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
