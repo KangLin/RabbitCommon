@@ -130,13 +130,13 @@ QString CDir::GetDirApplicationXml(bool bReadOnly)
     return szPath;
 }
 
-QString CDir::GetDirPlugs()
+QString CDir::GetDirPlugins()
 {
     QString szPath;
 #if defined (Q_OS_ANDROID)
     szPath = GetDirApplication();
 #else
-    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "plugs";
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "plugins";
 #endif
     return szPath;
 }
