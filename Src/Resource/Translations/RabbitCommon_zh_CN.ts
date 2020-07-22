@@ -81,47 +81,48 @@ Email:kl222@126.com</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="59"/>
-        <source>2018 - %1</source>
-        <translation></translation>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="60"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <source>%1 - %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
         <source> Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
         <source> Arch:</source>
         <translation> 架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="90"/>
         <source>Build date:%1 %2</source>
         <translation>编译日期：%1 %2</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="94"/>
         <source>Home page:</source>
         <translation>主页：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="100"/>
         <source>Copyright (C)</source>
         <translation>版权所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="148"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="153"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="158"/>
         <source>Save donation picture</source>
         <translation>保存捐赠图片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="155"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="160"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>图片(*.png *.xpm *.jpg)</translation>
     </message>

@@ -1,10 +1,8 @@
 TARGET = RabbitCommon
 TEMPLATE = lib
 
-isEmpty(DESTDIR){
-    win32: DESTDIR = $$OUT_PWD/../bin
-    else:  DESTDIR = $$OUT_PWD/../lib
-}
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
+
 CONFIG(staticlib): CONFIG*=static
 
 #Get app version use git, please set git path to environment variable PATH
