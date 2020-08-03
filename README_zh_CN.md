@@ -69,7 +69,8 @@
         RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
 
 - 编译注意事项：
-    用Qtcreate在windows下编译android平台时，可能出现无法找到依赖库。
+    用Qtcreate在windows下编译android平台
+    - qmake。可能出现无法找到依赖库。
 
        找不到 D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
        move libRabbitCommon.so ..\bin\libRabbitCommon.so
@@ -79,6 +80,11 @@
 
     其原因是windows下的make程序不能转换路径中的 \ 。  
     解决方法：用可以识别路径中的 \ 的 make 程序，例如: mingw32-make.exe。
+
+   - cmake
+
+     - 设置 Generator 为 "Unix Makefiles"
+     - 设置 CMAKE_MAKE_PROGRAM 为 ${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe
 
 - 安装注意  
 Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
@@ -327,7 +333,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 #### [目录功能](Src/RabbitCommonDir.h)
 
 ### 使用本项目的项目
-- [任务](https://github.com/KangLin/Tasks)
+- [玉兔即时通讯](https://github.com/KangLin/RabbitIm)
+- [日历](https://github.com/KangLin/Calendar)
 - [农历日历](https://github.com/KangLin/LunarCalendar)
 - [串口助手](https://github.com/KangLin/SerialPortAssistant)
 - [人脸识别](https://github.com/KangLin/FaceRecognizer)

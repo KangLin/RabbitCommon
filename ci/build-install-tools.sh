@@ -101,8 +101,8 @@ function install_android()
         cp ../sdk-tools-linux-4333796.zip .
         unzip -q sdk-tools-linux-4333796.zip
         echo "Install sdk and ndk ......"
-        if [ -n "${ANDROID_API}" ]; then
-            PLATFORMS="platforms;${ANDROID_API}"
+        if [ -n "${ANDROID_PLATFORM}" ]; then
+            PLATFORMS="platforms;${ANDROID_PLATFORM}"
         else
             PLATFORMS="platforms"
         fi

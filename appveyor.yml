@@ -114,7 +114,7 @@ environment:
     QT_ROOT: NO
     QT_VERSION_DIR: 5.12
     QT_VERSION: 5.12.6
-    ANDROID_API: android-24
+    ANDROID_PLATFORM: android-24
     TOOLCHAIN_VERSION: 4.9
     
 matrix:

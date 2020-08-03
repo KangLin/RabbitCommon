@@ -7,115 +7,19 @@ set(SOURCE_FILES
 #翻译
 include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/Utils.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/RabbitCommonUtils.cmake)
 
-set(RESOURCE_FILES Resource/Resource.qrc
-    "${TRANSLATIONS_RESOURCE_FILES}")
-
-if(WIN32)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-endif()
-IF(MSVC)
-    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-ENDIF()
-if(ANDROID)
-    add_library(${PROJECT_NAME} ${SOURCE_FILES})
-else()
-    add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-endif()
-
-#add_dependencies(${PROJECT_NAME} translations_${TRANSLATIONS_NAME})
-if(MINGW)
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE "-mwindows")
-elseif(MSVC)
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS_RELEASE
-        "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")
-endif()
-target_link_libraries(${PROJECT_NAME} PRIVATE RabbitCommon ${QT_LIBRARIES})
-target_include_directories(${PROJECT_NAME} PRIVATE
-      "${CMAKE_BINARY_DIR}/Src" "${CMAKE_SOURCE_DIR}/Src" )
-  
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    VERSION ${BUILD_VERSION})
-if(UNIX AND NOT ANDROID)
-   set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_NAME ${PROJECT_NAME})
-endif()
-
-# Install target
-if(ANDROID)
-    INSTALL(TARGETS ${PROJECT_NAME}
-            COMPONENT Runtime
-            RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-            LIBRARY DESTINATION "libs/${ANDROID_ABI}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-            )
-elseif(WIN32)
-    INSTALL(TARGETS ${PROJECT_NAME}
-        COMPONENT Runtime
-        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
+    OUT_QRC TRANSLATIONS_QRC_FILES)
+if("Debug" STREQUAL CMAKE_BUILD_TYPE)
+    LIST(APPEND RESOURCE_FILES
+        ${TRANSLATIONS_QRC_FILES}
         )
-else()
-    INSTALL(TARGETS ${PROJECT_NAME}
-        COMPONENT Runtime
-        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        )
-endif()    
+endif()
 
-IF("Release" STREQUAL CMAKE_BUILD_TYPE AND WIN32)
-    SET(RUNTIME_FILE "${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
-    IF(CMAKE_BUILD_TYPE MATCHES Release AND MINGW)
-        #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND strip "$<TARGET_FILE:${PROJECT_NAME}>"
-            )
-    ENDIF()
-
-    #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-        --compiler-runtime
-        --verbose 7
-        "$<TARGET_FILE:${PROJECT_NAME}>"
-        )
-    INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        COMPONENT Runtime)
-
-ENDIF()
-
-IF(ANDROID)
-    Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
-    GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
-        APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PROJECT_NAME}.so")
-
-    set(ANDROID_DELOP_PARA --gradle)
-    if(Qt5_VERSION VERSION_LESS 5.8.0)
-        find_program(ANT NAMES ant) # PATHS  "/usr/bin")
-        MESSAGE("ant:${ANT}\n")
-        if(ANT_FOUND)
-            set(ANDROID_DELOP_PARA --ant ${ANT})
-        endif()
-    endif()
-
-    add_custom_target(APK #TARGET ${PROJECT_NAME} POST_BUILD
-        #COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" ${CMAKE_INSTALL_PREFIX}/libs/${ANDROID_ABI}/$<TARGET_FILE_NAME:${PROJECT_NAME}>
-        #COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/libs/${ANDROID_ABI}
-        #COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE_DIR:${PROJECT_NAME}>/*" ${CMAKE_INSTALL_PREFIX}/libs/${ANDROID_ABI}
-        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-            --output ${CMAKE_INSTALL_PREFIX}
-            --input ${JSON_FILE}
-            --verbose
-            --android-platform ${ANDROID_PLATFORM}
-            ${ANDROID_DELOP_PARA}
-            #--jdk $ENV{JAVA_HOME}
+ADD_TARGET(NAME ${PROJECT_NAME}
+    ISEXE
+    SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES}
+    PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    INCLUDE_DIRS "${CMAKE_BINARY_DIR}/Src" "${CMAKE_SOURCE_DIR}/Src"
     )
-ENDIF(ANDROID)

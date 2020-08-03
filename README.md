@@ -65,7 +65,8 @@ Qt common library. include follow functions:
         - BUILD_ADMINAUTHORISER: build admin authoriser
         
 - Compilation notes:
-    Use Qtcreate compile for android in windows, It may appear that the dependent library could not be found.
+    Use Qtcreate compile for android in windows
+    - qmake. It may appear that the dependent library could not be found.
 
        Don't find D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
        move libRabbitCommon.so ..\bin\libRabbitCommon.so
@@ -75,6 +76,11 @@ Qt common library. include follow functions:
 
     The reason is that the make program under windows cannot convert the \ in the path.
     Solution: Use a make program that recognizes the \ in the path, for example: mingw32-make.exe.
+
+   - cmake
+
+     - Set Generator to "Unix Makefiles"
+     - Set CMAKE_MAKE_PROGRAM to ${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe
 
 - Install notes:  
     + windows   
@@ -335,7 +341,8 @@ Qt common library. include follow functions:
 #### [Directory functions](Src/RabbitCommonDir.h)
 
 ### Other projects using this project
-- [Tasks](https://github.com/KangLin/Tasks)
+- [Rabbit IM](https://github.com/KangLin/RabbitIm)
+- [Calendar](https://github.com/KangLin/Calendar)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)
 - [FaceRecognizer](https://github.com/KangLin/FaceRecognizer)

@@ -17,10 +17,11 @@ function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)"
 
 if [ "$BUILD_TARGERT" = "android" ]; then
     export ANDROID_SDK_ROOT=${TOOLS_DIR}/android-sdk
-    export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
     if [ -n "$APPVEYOR" ]; then
         #export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
         export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-sdk/ndk-bundle
+    else
+        export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
     fi
     #if [ "$TRAVIS" = "true" ]; then
         #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -154,7 +155,7 @@ if [ -n "$GENERATORS" ]; then
     fi
     if [ "${BUILD_TARGERT}" = "android" ]; then
         cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
-            -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+            -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
             -DCMAKE_VERBOSE_MAKEFILE=TRUE \
             -DCMAKE_BUILD_TYPE=Release \
             -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 \
@@ -165,7 +166,7 @@ if [ -n "$GENERATORS" ]; then
             -DQt5Network_DIR=${QT_ROOT}/lib/cmake/Qt5Network \
             -DQt5LinguistTools_DIR=${QT_ROOT}/lib/cmake/Qt5LinguistTools \
             -DQt5AndroidExtras_DIR=${QT_ROOT}/lib/cmake/Qt5AndroidExtras \
-            -DANDROID_PLATFORM=${ANDROID_API} \
+            -DANDROID_PLATFORM=${ANDROID_PLATFORM} \
             -DANDROID_ABI="${BUILD_ARCH}" \
             -DCMAKE_MAKE_PROGRAM=make \
             -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
@@ -176,6 +177,7 @@ if [ -n "$GENERATORS" ]; then
 		 -DCMAKE_BUILD_TYPE=Release \
 		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     fi
+    cmake --build . --config Release -- ${RABBIT_MAKE_JOB_PARA}
     cmake --build . --target install --config Release -- ${RABBIT_MAKE_JOB_PARA}
     if [ "$TRAVIS_TAG" != "" ]; then
         mv install RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}
@@ -203,7 +205,7 @@ else
                        --gradle --verbose \
                        --input `pwd`/App/android-libRabbitCommonApp.so-deployment-settings.json \
                        --output `pwd`/android-build \
-                       --android-platform ${ANDROID_API} 
+                       --android-platform ${ANDROID_PLATFORM}
                        
     else
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
