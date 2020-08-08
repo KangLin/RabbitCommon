@@ -162,20 +162,12 @@ if(UNIX OR MINGW)
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
 
-#find_package(OpenSSL COMPONENTS Crypto SSL)
-#if(OPENSSL_FOUND)
-#    message("PKG_CONFIG_PATH:$ENV{PKG_CONFIG_PATH}")
-#    message("OPENSSL_SSL_LIBRARY:${OPENSSL_SSL_LIBRARY}")
-#    message("OPENSSL_CRYPTO_LIBRARY${OPENSSL_CRYPTO_LIBRARY}") 
-#    if(ANDROID)
-#        INSTALL(FILES ${OPENSSL_SSL_LIBRARY}
-#            ${OPENSSL_CRYPTO_LIBRARY}
-#            DESTINATION "libs/${ANDROID_ABI}"
-#            COMPONENT Runtime)
-#    else()
-#        INSTALL(FILES ${OPENSSL_SSL_LIBRARY}
-#            ${OPENSSL_CRYPTO_LIBRARY}
-#            DESTINATION "${CMAKE_INSTALL_BINDIR}"
-#            COMPONENT Runtime)
-#    endif()
-#endif(OPENSSL_FOUND)
+find_package(OpenSSL)
+IF(OPENSSL_FOUND)
+    IF(BUILD_SHARED_LIBS)
+        INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
+                    $<TARGET_FILE:OpenSSL::Crypto>
+                    DESTINATION "libs/${ANDROID_ABI}"
+                        COMPONENT Runtime)
+    endif()
+ENDIF(OPENSSL_FOUND)
