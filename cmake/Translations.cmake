@@ -9,6 +9,7 @@
 #  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
 #    **注意**：翻译资源名为此名字加上前缀 translations_ ,它也可以由 OUT_QRC_NAME 参数指定的变量得到
 #  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
+#  - QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
 #+ 输出值参数：
 #  - OUT_QRC: 生成的翻译资源文件(.qrc) 变量。
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
@@ -25,6 +26,7 @@
 #    + [可选] 设置 NAME 参数为翻译源文件(.ts)文件名的前缀，默认值是目标名 ${PROJECT_NAME}。
 #            **注意**：翻译资源名为此名字加上前缀 translations_ 。这个也可以由 OUT_QRC_NAME 参数指定的变量得到
 #    + [可选] 设置 TSDIR 参数为翻译源文件(.ts)生成的目录。默认值是 ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
+#    + [可选] 设置 QM_INSTALL_DIR 参数为翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
 #  - 如果要使用翻译资源文件，
 #    则把输出参数 OUT_QRC 后的变量值加入到 add_executable 或 add_library 中。
 
@@ -133,7 +135,7 @@
 include (CMakeParseArguments)
 
 function(GENERATED_QT_TRANSLATIONS)
-    cmake_parse_arguments(PARA "" "NAME;TSDIR;OUT_QRC;OUT_QRC_NAME" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "NAME;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME" "SOURCES" ${ARGN})
     
     SET(TRANSLATIONS_NAME ${PROJECT_NAME})
     if(DEFINED PARA_NAME)
@@ -205,12 +207,18 @@ function(GENERATED_QT_TRANSLATIONS)
                 get_filename_component(OUT_QRC_NAME ${RESOURCE_FILE_NAME} NAME)
                 set(${PARA_OUT_QRC_NAME} ${OUT_QRC_NAME} PARENT_SCOPE)
             endif()
-            if(ANDROID)
-                install(FILES ${QM_FILES} DESTINATION "assets/translations"
+
+            if(DEFINED PARA_QM_INSTALL_DIR)
+                install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
                     COMPONENT Runtime)
             else()
-                install(FILES ${QM_FILES} DESTINATION "translations"
-                    COMPONENT Runtime)
+                if(ANDROID)
+                    install(FILES ${QM_FILES} DESTINATION "assets/translations"
+                        COMPONENT Runtime)
+                else()
+                    install(FILES ${QM_FILES} DESTINATION "translations"
+                        COMPONENT Runtime)
+                endif()
             endif()
             
         ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
