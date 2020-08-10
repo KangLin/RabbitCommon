@@ -106,7 +106,7 @@ embed_translations {
     !isEmpty(QM_FILES_INSTALL_PATH) {
         qm_files.files += $$QM_FILES
         qm_files.path = $$QM_FILES_INSTALL_PATH
-        qm_files.CONFIG = no_check_exist 
+        qm_files.CONFIG = no_check_exist
         INSTALLS += qm_files
     }
 }

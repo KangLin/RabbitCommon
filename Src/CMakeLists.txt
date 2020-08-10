@@ -170,11 +170,6 @@ IF(OPENSSL_FOUND)
                         $<TARGET_FILE:OpenSSL::Crypto>
                     DESTINATION "libs/${ANDROID_ABI}"
                         COMPONENT Runtime)
-        ELSEIF(MSVC OR MINGW)
-            INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
-                    $<TARGET_FILE:OpenSSL::Crypto>
-                DESTINATION "${CMAKE_INSTALL_BINIR}"
-                    COMPONENT Runtime)
         ENDIF()
     ENDIF()
 ENDIF(OPENSSL_FOUND)

@@ -126,8 +126,10 @@ TRANSLATIONS *= $$TRANSLATIONS_TS_FILES
 QM_FILES_RESOURCE_PREFIX = translations
 
 #android : CONFIG *= embed_translations
-android: QM_FILES_INSTALL_PATH = $$PREFIX/assets/translations
-else: QM_FILES_INSTALL_PATH = $$PREFIX/translations
+isEmpty(QM_FILES_INSTALL_PATH){
+    android: QM_FILES_INSTALL_PATH = $$PREFIX/assets/translations
+    else: QM_FILES_INSTALL_PATH = $$PREFIX/translations
+}
 
 CONFIG(debug, debug|release) {
     CONFIG *= embed_translations
