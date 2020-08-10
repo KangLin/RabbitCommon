@@ -165,9 +165,16 @@ endif()
 find_package(OpenSSL)
 IF(OPENSSL_FOUND)
     IF(BUILD_SHARED_LIBS)
-        INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
-                    $<TARGET_FILE:OpenSSL::Crypto>
+        IF(ANDROID)
+            INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
+                        $<TARGET_FILE:OpenSSL::Crypto>
                     DESTINATION "libs/${ANDROID_ABI}"
                         COMPONENT Runtime)
-    endif()
+        ELSEIF(MSVC OR MINGW)
+            INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
+                    $<TARGET_FILE:OpenSSL::Crypto>
+                DESTINATION "${CMAKE_INSTALL_BINIR}"
+                    COMPONENT Runtime)
+        ENDIF()
+    ENDIF()
 ENDIF(OPENSSL_FOUND)
