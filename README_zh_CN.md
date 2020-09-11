@@ -113,10 +113,13 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
       中指定 RabbitCommon 源码根目录的位置，然后在主工程文件（.pro）中加入下列：
     
             isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
-            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/RabbitCommon.pri"){
+            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
+            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
                 DEFINES += RABBITCOMMON
-                include($${RabbitCommon_DIR}/Src/RabbitCommon.pri)
-            } else{
+                # DESTDIR =
+                include($${RabbitCommon_DIR}/Src/Src.pro)
+                LIBS *= -L$${DESTDIR} RabbitCommon
+            } else {
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
                 message("   git clone https://github.com/KangLin/RabbitCommon.git")
                 error("2. Then set value RabbitCommon_DIR to download root dirctory")

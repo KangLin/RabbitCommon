@@ -112,10 +112,14 @@ Qt common library. include follow functions:
       then add the following to the main project file (.pro):
     
             isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
-            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/RabbitCommon.pri"){
+            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
+            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
                 DEFINES += RABBITCOMMON
-                include($${RabbitCommon_DIR}/Src/RabbitCommon.pri)
-            } else{
+                # DESTDIR =
+                include($${RabbitCommon_DIR}/Src/Src.pro)
+                INCLUDEPATH *= $${RabbitCommon_DIR}/Src $${RabbitCommon_DIR}/Src/export
+                LIBS += -lRabbitCommon
+            } else {
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
                 message("   git clone https://github.com/KangLin/RabbitCommon.git")
                 error("2. Then set value RabbitCommon_DIR to download root dirctory")

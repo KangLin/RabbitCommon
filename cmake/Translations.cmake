@@ -5,7 +5,7 @@
 #  - 生成翻译资源文件(.qrc)，放到参数 OUT_QRC 指定的变量中
 #  - 安装翻译文件(.qm)到安装目录。目录结构详见后面说明
 #+ 参数：
-#  - SOURCES: 要理新的源文件。默认使用变量 SOURCES_FILES 和 SOURCE_UI_FILES 之中的源文件。
+#  - SOURCES: 要理新的源文件。默认使用变量 SOURCE_FILES 和 SOURCE_UI_FILES 之中的源文件。
 #  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
 #    **注意**：翻译资源名为此名字加上前缀 translations_ ,它也可以由 OUT_QRC_NAME 参数指定的变量得到
 #  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
@@ -164,15 +164,15 @@ function(GENERATED_QT_TRANSLATIONS)
             MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
         ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
             
-            LIST(APPEND SOURCES_FILES ${SOURCE_UI_FILES})
+            LIST(APPEND SOURCE_FILES ${SOURCE_UI_FILES})
             if(PARA_SOURCES)
-                SET(SOURCES_FILES ${PARA_SOURCES})
+                SET(SOURCE_FILES ${PARA_SOURCES})
             endif()
 
             OPTION(ENABLE_UPDATE_TRANSLATIONS "Use qt5_create_translation" OFF)
             if(ENABLE_UPDATE_TRANSLATIONS)
                 #注：根据 https://bugreports.qt.io/browse/QTBUG-41736 ，qt5_create_translation这个宏会在make clean或rebuild时把全部ts文件都删掉后再重新生成，这意味着已经翻译好的文本会全部丢失，已有的解决方法也已经失效，而Qt官方也没有针对这个问题进行修复，因此不建议再使用这个宏了，还是手动生成ts文件再搭配qt5_add_translation比较保险。
-                qt5_create_translation(QM_FILES_UPDATE ${SOURCES_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
+                qt5_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
                 # 手动执行目标，生成或更新翻译源文件(.ts)
                 ADD_CUSTOM_TARGET(translations_update_${PROJECT_NAME} DEPENDS ${QM_FILES_UPDATE})
             endif()

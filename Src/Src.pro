@@ -2,6 +2,7 @@ TARGET = RabbitCommon
 TEMPLATE = lib
 
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
+message("RabbitCommon:DESTDIR:$$DESTDIR")
 
 CONFIG(staticlib): CONFIG*=static
 

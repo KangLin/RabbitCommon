@@ -149,7 +149,9 @@ file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
     DESTINATION ${CMAKE_BINARY_DIR})
 
 # See: http://www.it1352.com/478094.html
-target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
+target_include_directories(${PROJECT_NAME}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 if(UNIX OR MINGW)
     foreach(d ${RabbitCommon_DEFINITIONS})
