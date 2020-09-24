@@ -98,6 +98,7 @@ endmacro()
 # 增加目标
 # 参数：
 #ISEXE                   是执行程序目标还是库目标
+#WINDOWS                 窗口程序
 #NAME                    目标名
 #OUTPUT_DIR              目标生成目录
 #VERSION                 版本
@@ -127,7 +128,7 @@ function(ADD_TARGET)
         FEATURES                #公有特性
         PRIVATE_FEATURES        #私有特性
         )
-    cmake_parse_arguments(PARA "ISEXE"
+    cmake_parse_arguments(PARA "ISEXE;ISWINDOWS"
         "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR"
         "${MUT_PARAS}"
         ${ARGN})
@@ -136,6 +137,7 @@ function(ADD_TARGET)
             ADD_TARGET
                 [NAME name]
                 [ISEXE]
+                [ISWINDOWS]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
@@ -161,8 +163,11 @@ function(ADD_TARGET)
         if(ANDROID)
             add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
         else()
-            add_executable(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
-
+            if(DEFINED PARA_ISWINDOWS AND WIN32)
+                set(WINDOWS_APP WIN32)
+            endif()    
+            add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            
             if(MINGW)
                 set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS_RELEASE "-mwindows")
             elseif(MSVC)
