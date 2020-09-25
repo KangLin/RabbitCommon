@@ -106,6 +106,7 @@ endmacro()
 #[必须]SOURCE_FILES            源文件（包括头文件，资源文件等）
 #INSTALL_HEADER_FILES    如果是库，要安装的头文件
 #INCLUDE_DIRS            包含目录
+#PRIVATE_INCLUDE_DIRS    私有包含目录
 #LIBS                    公有依赖库
 #PRIVATE_LIBS            私有依赖库
 #DEFINITIONS             公有宏定义
@@ -143,6 +144,7 @@ function(ADD_TARGET)
                 [LIBS lib1 [lib2 ...]]
                 [PRIVATE_LIBS lib1 [lib2 ...]]
                 [INCLUDE_DIRS [include_dir1 ...]]
+                [PRIVATE_INCLUDE_DIRS [include_dir1 ...]]
                 [DEFINITIONS [definition1 ...]]
                 [PRIVATE_DEFINITIONS [defnitions1 ...]]
                 [OUTPUT_DIR output_dir]
@@ -226,9 +228,13 @@ function(ADD_TARGET)
     endif()
 
     if(DEFINED PARA_INCLUDE_DIRS)
-        target_include_directories(${PARA_NAME} PRIVATE ${PARA_INCLUDE_DIRS})
+        target_include_directories(${PARA_NAME} PUBLIC ${PARA_INCLUDE_DIRS})
     endif()
 
+    if(DEFINED PARA_PRIVATE_INCLUDE_DIRS)
+        target_include_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_INCLUDE_DIRS})
+    endif()
+    
     if(DEFINED PARA_OPTIONS)
         target_compile_options(${PARA_NAME} PUBLIC ${PARA_OPTIONS})
     endif()
