@@ -209,6 +209,8 @@ function(ADD_TARGET)
     if(DEFINED PARA_VERSION)
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION})
+    else()
+	    get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
     endif()
     
     if(DEFINED PARA_LIBS)
@@ -341,6 +343,7 @@ function(ADD_TARGET)
         if(DEFINED PARA_VERSION)
             write_basic_package_version_file(
                 "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+				VERSION ${PARA_VERSION}
                 COMPATIBILITY AnyNewerVersion)
             install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                 DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
