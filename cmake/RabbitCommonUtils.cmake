@@ -1,5 +1,6 @@
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
+include(GenerateExportHeader)
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
@@ -160,7 +161,7 @@ function(ADD_TARGET)
     if(NOT DEFINED PARA_NAME)
         set(PARA_NAME ${PROJECT_NAME})
     endif()
-
+    
     if(PARA_ISEXE)
         if(ANDROID)
             add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
@@ -183,7 +184,15 @@ function(ADD_TARGET)
             endif()
         endif()
     else()
+        string(TOLOWER ${PARA_NAME} LOWER_PROJECT_NAME)
+        set(PARA_INSTALL_HEADER_FILES ${PARA_INSTALL_HEADER_FILES} 
+            ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
+        
         add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+        
+        GENERATE_EXPORT_HEADER(${PARA_NAME})
+        file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
+            DESTINATION ${CMAKE_BINARY_DIR})
     endif()
 
     if(DEFINED PARA_OUTPUT_DIR)
