@@ -218,6 +218,8 @@ function(ADD_TARGET)
     if(DEFINED PARA_VERSION)
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION})
+    else()
+	    get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
     endif()
     
     if(DEFINED PARA_LIBS)
@@ -350,7 +352,7 @@ function(ADD_TARGET)
         if(DEFINED PARA_VERSION)
             write_basic_package_version_file(
                 "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                VERSION ${PARA_VERSION}
+				VERSION ${PARA_VERSION}
                 COMPATIBILITY AnyNewerVersion)
             install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                 DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
@@ -358,7 +360,7 @@ function(ADD_TARGET)
     endif()
 
     # 分发
-    IF(WIN32 AND BUILD_SHARED_LIBS)
+    IF(WIN32 AND (BUILD_SHARED_LIBS OR PARA_ISEXE))
         IF(MINGW)
             # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
             add_custom_command(TARGET ${PARA_NAME} POST_BUILD
