@@ -1,6 +1,11 @@
+- Version: v1.0.4
+  + CMake: Add add_target marco
+  + Modify Translations.pri
+  + FIX: don't deploy qt dll when install static library
+
 - Version: v1.0.3
   + BUG： Modify arch in unix
-  
+
 - Version: v1.0.2
   + Modify updater for appimage in unix
   + Add getusername interface
