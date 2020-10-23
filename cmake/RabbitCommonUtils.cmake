@@ -295,6 +295,7 @@ function(ADD_TARGET)
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
         INSTALL_HEADER_FILES    #如果是库，要安装的头文件
         INCLUDE_DIRS            #包含目录
+        PRIVATE_INCLUDE_DIRS    #私有包含目录
         LIBS                    #公有依赖库
         PRIVATE_LIBS            #私有依赖库
         DEFINITIONS             #公有宏定义
@@ -461,6 +462,60 @@ endfunction()
 #  PRIVATE_OPTIONS         私有选项
 #  FEATURES                公有特性
 #  PRIVATE_FEATURES        私有特性
-#function(ADD_PLUGIN_TARGET)
-#    ADD_TARGET()
-#endfunction()
+function(ADD_PLUGIN_TARGET)
+    SET(MUT_PARAS
+        SOURCE_FILES            #源文件（包括头文件，资源文件等）
+        INSTALL_HEADER_FILES    #如果是库，要安装的头文件
+        INCLUDE_DIRS            #包含目录
+        LIBS                    #公有依赖库
+        PRIVATE_LIBS            #私有依赖库
+        DEFINITIONS             #公有宏定义
+        PRIVATE_DEFINITIONS     #私有宏宏义
+        OPTIONS                 #公有选项
+        PRIVATE_OPTIONS         #私有选项
+        FEATURES                #公有特性
+        PRIVATE_FEATURES        #私有特性
+        INSTALL_INCLUDES        #导出包安装的头文件目录
+        )
+    cmake_parse_arguments(PARA ""
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER"
+        "${MUT_PARAS}"
+        ${ARGN})
+    if(NOT DEFINED PARA_SOURCE_FILES)
+        message(FATAL_ERROR "Use:
+            ADD_TARGET
+                [NAME name]
+                SOURCE_FILES source1 [source2 ... header1 ...]]
+                [INSTALL_HEADER_FILES header1 [header2 ...]]
+                [LIBS lib1 [lib2 ...]]
+                [PRIVATE_LIBS lib1 [lib2 ...]]
+                [INCLUDE_DIRS [include_dir1 ...]]
+                [PRIVATE_INCLUDE_DIRS [include_dir1 ...]]
+                [DEFINITIONS [definition1 ...]]
+                [PRIVATE_DEFINITIONS [defnitions1 ...]]
+                [OUTPUT_DIR output_dir]
+                [PRIVATE_OPTIONS option1 [option2 ...]]
+                [OPTIONS option1 [option2 ...]]
+                [FEATURES feature1 [feature2 ...]]
+                [PRIVATE_FEATURES feature1 [feature2 ...]]
+                [VERSION version]
+                [ANDROID_SOURCES_DIR android_source_dir]")
+        return()
+    endif()
+    
+    ADD_TARGET(NAME ${PARA_NAME}
+        OUTPUT_DIR ${PARA_OUTPUT_DIR}
+        VERSION ${PARA_VERSION}
+        ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
+        SOURCE_FILES ${PARA_SOURCE_FILES}
+        LIBS ${PARA_LIBS}
+        PRIVATE_LIBS ${PARA_PRIVATE_LIBS}
+        DEFINITIONS ${PARA_DEFINITIONS}
+        PRIVATE_DEFINITIONS ${PARA_PRIVATE_DEFINITIONS}
+        OPTIONS ${PARA_OPTIONS}
+        PRIVATE_OPTIONS ${PARA_PRIVATE_OPTIONS}
+        FEATURES ${FEATURES}
+        PRIVATE_FEATURES ${PRIVATE_FEATURES}
+        PRIVATE_INCLUDE_DIRS ${PARA_PRIVATE_INCLUDE_DIRS}
+        )
+endfunction()
