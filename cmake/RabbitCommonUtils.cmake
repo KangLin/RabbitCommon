@@ -96,26 +96,200 @@ macro(SUBDIRLIST result curdir)
     set(${result} ${dirlist})
 endmacro()
 
+# 安装指定目标文件
+function(INSTALL_TARGETS)
+    cmake_parse_arguments(PARA "" "" "TARGETS" ${ARGN})
+    if(NOT DEFINED PARA_TARGETS)
+        return()
+    endif()
+
+    foreach(component ${PARA_TARGETS})
+        if(ANDROID)
+            INSTALL(FILES $<TARGET_FILE:${component}>
+                DESTINATION "libs/${ANDROID_ABI}"
+                    COMPONENT Runtime)
+        elseif(WIN32)
+            INSTALL(FILES $<TARGET_FILE:${component}>
+                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                    COMPONENT Runtime)
+        else()
+            INSTALL(FILES $<TARGET_FILE:${component}>
+                DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                    COMPONENT Runtime)
+        endif()
+    endforeach()
+endfunction()
+
+# 安装目标
+#    [必须]NAME              目标名
+#    ISEXE                  是执行程序目标还是库目标
+#    RUNTIME
+#    LIBRARY
+#    ARCHIVE
+#    PUBLIC_HEADER    头文件的安装位置
+#    INCLUDES         导出安装头文件位置
+function(INSTALL_TARGET)
+    cmake_parse_arguments(PARA "ISEXE"
+        "NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;"
+        "INCLUDES"
+        ${ARGN})
+    if(NOT DEFINED PARA_NAME)
+        message(FATAL_ERROR "Use:
+            INSTALL_TARGET
+                NAME name
+                [ISEXE]
+                [RUNTIME ...]
+                [LIBRARY ...]
+                [ARCHIVE ...]
+                [PUBLIC_HEADER ...]
+                [INCLUDES ...]"
+                )
+    endif()
+    
+    # Install target
+    if(ANDROID)
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "libs/${ANDROID_ABI}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "libs/${ANDROID_ABI}")
+        endif()
+        if(NOT DEFINED PARA_ARCHIVE)
+            set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+    elseif(WIN32)
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "${CMAKE_INSTALL_BINDIR}")
+        endif()
+        if(NOT DEFINED PARA_ARCHIVE)
+            set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+    else()
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+        if(NOT DEFINED PARA_ARCHIVE)
+            set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+    endif()
+    
+    if(PARA_ISEXE)
+        INSTALL(TARGETS ${PARA_NAME}
+                COMPONENT Runtime
+                RUNTIME DESTINATION "${PARA_RUNTIME}"
+                LIBRARY DESTINATION "${PARA_LIBRARY}"
+                ARCHIVE DESTINATION "${PARA_ARCHIVE}"
+                )
+            
+        #分发
+        IF(ANDROID)
+            Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
+            GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
+                ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
+                APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
+
+            add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                    COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+                        --output ${CMAKE_INSTALL_PREFIX}
+                        --input ${JSON_FILE}
+                        --verbose
+                        --gradle
+                        --android-platform ${ANDROID_PLATFORM}
+                )
+        ENDIF(ANDROID)
+
+    else()
+        
+        if(NOT DEFINED PARA_PUBLIC_HEADER)
+            set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
+        endif()
+        if(NOT DEFINED PARA_INCLUDES)
+            set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
+        endif()
+        
+        INSTALL(TARGETS ${PARA_NAME}
+                EXPORT ${PARA_NAME}Config
+                RUNTIME DESTINATION "${PARA_RUNTIME}"
+                    COMPONENT Runtime
+                LIBRARY DESTINATION "${PARA_LIBRARY}"
+                    COMPONENT Runtime
+                ARCHIVE DESTINATION "${PARA_ARCHIVE}"
+                PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
+                INCLUDES DESTINATION ${PARA_INCLUDES}
+                )
+            
+        export(TARGETS ${PARA_NAME}
+               APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+        )
+
+        # Install cmake configure files
+        install(EXPORT ${PARA_NAME}Config
+                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+                )
+        # Install cmake version configure file
+        if(DEFINED PARA_VERSION)
+            write_basic_package_version_file(
+                "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+				VERSION ${PARA_VERSION}
+                COMPATIBILITY AnyNewerVersion)
+            install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+        endif()
+    endif()
+
+    # 分发
+    IF(WIN32 AND (BUILD_SHARED_LIBS OR PARA_ISEXE))
+        IF(MINGW)
+            # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
+            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
+                )
+        ENDIF()
+
+        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+        add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+            --compiler-runtime
+            --verbose 7
+            "$<TARGET_FILE:${PARA_NAME}>"
+            )
+
+        if(PARA_ISEXE)
+            INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
+                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                    COMPONENT Runtime)
+        endif()
+    ENDIF()
+endfunction()
+
 # 增加目标
 # 参数：
-#ISEXE                   是执行程序目标还是库目标
-#WINDOWS                 窗口程序
-#NAME                    目标名
-#OUTPUT_DIR              目标生成目录
-#VERSION                 版本
-#ANDROID_SOURCES_DIR     Android 源码文件目录
-#[必须]SOURCE_FILES            源文件（包括头文件，资源文件等）
-#INSTALL_HEADER_FILES    如果是库，要安装的头文件
-#INCLUDE_DIRS            包含目录
-#PRIVATE_INCLUDE_DIRS    私有包含目录
-#LIBS                    公有依赖库
-#PRIVATE_LIBS            私有依赖库
-#DEFINITIONS             公有宏定义
-#PRIVATE_DEFINITIONS     私有宏宏义
-#OPTIONS                 公有选项
-#PRIVATE_OPTIONS         私有选项
-#FEATURES                公有特性
-#PRIVATE_FEATURES        私有特性
+#    ISEXE                   是执行程序目标还是库目标
+#    WINDOWS                 窗口程序
+#    NAME                    目标名
+#    OUTPUT_DIR              目标生成目录
+#    VERSION                 版本
+#    ANDROID_SOURCES_DIR     Android 源码文件目录
+#    [必须]SOURCE_FILES            源文件（包括头文件，资源文件等）
+#    INSTALL_HEADER_FILES    如果是库，要安装的头文件
+#    INCLUDE_DIRS            包含目录
+#    PRIVATE_INCLUDE_DIRS    私有包含目录
+#    LIBS                    公有依赖库
+#    PRIVATE_LIBS            私有依赖库
+#    DEFINITIONS             公有宏定义
+#    PRIVATE_DEFINITIONS     私有宏宏义
+#    OPTIONS                 公有选项
+#    PRIVATE_OPTIONS         私有选项
+#    FEATURES                公有特性
+#    PRIVATE_FEATURES        私有特性
+#    INSTALL_PUBLIC_HEADER   要的头文件安装位置
+#    INSTALL_INCLUDES        包含头文件位置
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -129,9 +303,10 @@ function(ADD_TARGET)
         PRIVATE_OPTIONS         #私有选项
         FEATURES                #公有特性
         PRIVATE_FEATURES        #私有特性
+        INSTALL_INCLUDES        #导出包安装的头文件目录
         )
     cmake_parse_arguments(PARA "ISEXE;ISWINDOWS"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -262,147 +437,30 @@ function(ADD_TARGET)
         target_compile_features(${PARA_NAME} PRIVATE ${PARA_PRIVATE_FEATURES})
     endif()
 
-    # Install target
-    if(PARA_ISEXE)
-        if(ANDROID)
-            INSTALL(TARGETS ${PARA_NAME}
-                    COMPONENT Runtime
-                    RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-                    LIBRARY DESTINATION "libs/${ANDROID_ABI}"
-                    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                    )
-        elseif(WIN32)
-            INSTALL(TARGETS ${PARA_NAME}
-                COMPONENT Runtime
-                RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                )
-        else()
-            INSTALL(TARGETS ${PARA_NAME}
-                COMPONENT Runtime
-                RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                )
-        endif()
-
-        #分发
-        IF(ANDROID)
-            Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
-            GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
-                ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
-                APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
-
-            add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                    COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-                        --output ${CMAKE_INSTALL_PREFIX}
-                        --input ${JSON_FILE}
-                        --verbose
-                        --gradle
-                        --android-platform ${ANDROID_PLATFORM}
-                )
-        ENDIF(ANDROID)
-
-    else()
-        if(ANDROID)
-            INSTALL(TARGETS ${PARA_NAME}
-                    EXPORT ${PARA_NAME}Config
-                    RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-                        COMPONENT Runtime
-                    LIBRARY DESTINATION "libs/${ANDROID_ABI}"
-                        COMPONENT Runtime
-                    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    )
-        elseif(WIN32)
-            INSTALL(TARGETS ${PARA_NAME}
-                    EXPORT ${PARA_NAME}Config
-                    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT Runtime
-                    LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT Runtime
-                    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    )
-        else()
-            INSTALL(TARGETS ${PARA_NAME}
-                    EXPORT ${PARA_NAME}Config
-                    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT Runtime
-                    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                        COMPONENT Runtime
-                    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
-                    )
-        endif()
-
-        export(TARGETS ${PARA_NAME}
-               APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
-        )
-
-        # Install cmake configure files
-        install(EXPORT ${PARA_NAME}Config
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
-                )
-        # Install cmake version configure file
-        if(DEFINED PARA_VERSION)
-            write_basic_package_version_file(
-                "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-				VERSION ${PARA_VERSION}
-                COMPATIBILITY AnyNewerVersion)
-            install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
-        endif()
-    endif()
-
-    # 分发
-    IF(WIN32 AND (BUILD_SHARED_LIBS OR PARA_ISEXE))
-        IF(MINGW)
-            # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
-                )
-        ENDIF()
-
-        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-        add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-            --compiler-runtime
-            --verbose 7
-            "$<TARGET_FILE:${PARA_NAME}>"
-            )
-
-        if(PARA_ISEXE)
-            INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                    COMPONENT Runtime)
-        endif()
-    ENDIF()
+    INSTALL_TARGET(NAME ${PARA_NAME}
+        PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+        INCLUDES ${PARA_INSTALL_INCLUDES})
+    
 endfunction()
 
-function(INSTALL_TARGETS)
-    cmake_parse_arguments(PARA "" "" "TARGETS" ${ARGN})
-    if(NOT DEFINED PARA_TARGETS)
-        return()
-    endif()
-
-    foreach(component ${PARA_TARGETS})
-        if(ANDROID)
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "libs/${ANDROID_ABI}"
-                    COMPONENT Runtime)
-        elseif(WIN32)
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                    COMPONENT Runtime)
-        else()
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-                    COMPONENT Runtime)
-        endif()
-    endforeach()
-endfunction()
+# 增加插件目标
+# 参数：
+#  NAME                    目标名
+#  OUTPUT_DIR              目标生成目录
+#  VERSION                 版本
+#  ANDROID_SOURCES_DIR     Android 源码文件目录
+#  [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
+#  INSTALL_HEADER_FILES    如果是库，要安装的头文件
+#  INCLUDE_DIRS            包含目录
+#  PRIVATE_INCLUDE_DIRS    私有包含目录
+#  LIBS                    公有依赖库
+#  PRIVATE_LIBS            私有依赖库
+#  DEFINITIONS             公有宏定义
+#  PRIVATE_DEFINITIONS     私有宏宏义
+#  OPTIONS                 公有选项
+#  PRIVATE_OPTIONS         私有选项
+#  FEATURES                公有特性
+#  PRIVATE_FEATURES        私有特性
+#function(ADD_PLUGIN_TARGET)
+#    ADD_TARGET()
+#endfunction()
