@@ -2,6 +2,7 @@
   + CMake: 增加 add_target 宏
   + 修改 Translations.pri
   + 静态库不分发 Qt dll
+  + CMake: 增加插件目标
 
 - 版本： v1.0.3
   + BUG：在LINUX下，修改平台架构

@@ -123,13 +123,14 @@ endfunction()
 # 安装目标
 #    [必须]NAME              目标名
 #    ISEXE                  是执行程序目标还是库目标
+#    ISPLUGIN               是插件
 #    RUNTIME
 #    LIBRARY
 #    ARCHIVE
 #    PUBLIC_HEADER    头文件的安装位置
 #    INCLUDES         导出安装头文件位置
 function(INSTALL_TARGET)
-    cmake_parse_arguments(PARA "ISEXE"
+    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
         "NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;"
         "INCLUDES"
         ${ARGN})
@@ -181,7 +182,7 @@ function(INSTALL_TARGET)
     
     if(PARA_ISEXE)
         INSTALL(TARGETS ${PARA_NAME}
-                COMPONENT Runtime
+                    COMPONENT Runtime
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
@@ -205,15 +206,21 @@ function(INSTALL_TARGET)
         ENDIF(ANDROID)
 
     else()
-        
-        if(NOT DEFINED PARA_PUBLIC_HEADER)
-            set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
-        endif()
-        if(NOT DEFINED PARA_INCLUDES)
-            set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
-        endif()
-        
-        INSTALL(TARGETS ${PARA_NAME}
+                
+        if(PARA_ISPLUGIN)
+            INSTALL(TARGETS ${PARA_NAME}
+                LIBRARY DESTINATION "${PARA_LIBRARY}"
+                    COMPONENT Runtime
+                )
+        else()
+            if(NOT DEFINED PARA_PUBLIC_HEADER)
+                set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
+            endif()
+            if(NOT DEFINED PARA_INCLUDES)
+                set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
+            endif()
+            
+            INSTALL(TARGETS ${PARA_NAME}
                 EXPORT ${PARA_NAME}Config
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime
@@ -224,22 +231,23 @@ function(INSTALL_TARGET)
                 INCLUDES DESTINATION ${PARA_INCLUDES}
                 )
             
-        export(TARGETS ${PARA_NAME}
-               APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
-        )
-
-        # Install cmake configure files
-        install(EXPORT ${PARA_NAME}Config
+            export(TARGETS ${PARA_NAME}
+                APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+                )
+            
+            # Install cmake configure files
+            install(EXPORT ${PARA_NAME}Config
                 DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
                 )
-        # Install cmake version configure file
-        if(DEFINED PARA_VERSION)
-            write_basic_package_version_file(
-                "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-				VERSION ${PARA_VERSION}
-                COMPATIBILITY AnyNewerVersion)
-            install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+            # Install cmake version configure file
+            if(DEFINED PARA_VERSION)
+                write_basic_package_version_file(
+                    "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+                    VERSION ${PARA_VERSION}
+                    COMPATIBILITY AnyNewerVersion)
+                install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+                    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+            endif()
         endif()
     endif()
 
@@ -262,7 +270,7 @@ function(INSTALL_TARGET)
 
         if(PARA_ISEXE)
             INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime)
         endif()
     ENDIF()
@@ -271,6 +279,7 @@ endfunction()
 # 增加目标
 # 参数：
 #    ISEXE                   是执行程序目标还是库目标
+#    ISPLUGIN                是插件
 #    WINDOWS                 窗口程序
 #    NAME                    目标名
 #    OUTPUT_DIR              目标生成目录
@@ -290,6 +299,7 @@ endfunction()
 #    PRIVATE_FEATURES        私有特性
 #    INSTALL_PUBLIC_HEADER   要的头文件安装位置
 #    INSTALL_INCLUDES        包含头文件位置
+#    LIBRARY_DIR             库安装位置
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -306,8 +316,8 @@ function(ADD_TARGET)
         PRIVATE_FEATURES        #私有特性
         INSTALL_INCLUDES        #导出包安装的头文件目录
         )
-    cmake_parse_arguments(PARA "ISEXE;ISWINDOWS"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER"
+    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;LIBRARY_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -315,6 +325,7 @@ function(ADD_TARGET)
             ADD_TARGET
                 [NAME name]
                 [ISEXE]
+                [ISPLUGIN]
                 [ISWINDOWS]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
@@ -330,7 +341,8 @@ function(ADD_TARGET)
                 [FEATURES feature1 [feature2 ...]]
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
-                [ANDROID_SOURCES_DIR android_source_dir]")
+                [ANDROID_SOURCES_DIR android_source_dir]
+                [LIBRARY_DIR dir]")
         return()
     endif()
 
@@ -439,8 +451,10 @@ function(ADD_TARGET)
     endif()
 
     INSTALL_TARGET(NAME ${PARA_NAME}
+        ${PARA_ISPLUGIN}
         PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-        INCLUDES ${PARA_INSTALL_INCLUDES})
+        INCLUDES ${PARA_INSTALL_INCLUDES}
+        LIBRARY ${PARA_LIBRARY_DIR})
     
 endfunction()
 
@@ -451,7 +465,6 @@ endfunction()
 #  VERSION                 版本
 #  ANDROID_SOURCES_DIR     Android 源码文件目录
 #  [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
-#  INSTALL_HEADER_FILES    如果是库，要安装的头文件
 #  INCLUDE_DIRS            包含目录
 #  PRIVATE_INCLUDE_DIRS    私有包含目录
 #  LIBS                    公有依赖库
@@ -462,10 +475,10 @@ endfunction()
 #  PRIVATE_OPTIONS         私有选项
 #  FEATURES                公有特性
 #  PRIVATE_FEATURES        私有特性
+#  LIBRARY_DIR             库安装位置
 function(ADD_PLUGIN_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
-        INSTALL_HEADER_FILES    #如果是库，要安装的头文件
         INCLUDE_DIRS            #包含目录
         LIBS                    #公有依赖库
         PRIVATE_LIBS            #私有依赖库
@@ -475,10 +488,9 @@ function(ADD_PLUGIN_TARGET)
         PRIVATE_OPTIONS         #私有选项
         FEATURES                #公有特性
         PRIVATE_FEATURES        #私有特性
-        INSTALL_INCLUDES        #导出包安装的头文件目录
         )
     cmake_parse_arguments(PARA ""
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;LIBRARY_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -486,7 +498,6 @@ function(ADD_PLUGIN_TARGET)
             ADD_TARGET
                 [NAME name]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
-                [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
                 [PRIVATE_LIBS lib1 [lib2 ...]]
                 [INCLUDE_DIRS [include_dir1 ...]]
@@ -504,6 +515,7 @@ function(ADD_PLUGIN_TARGET)
     endif()
     
     ADD_TARGET(NAME ${PARA_NAME}
+        ISPLUGIN
         OUTPUT_DIR ${PARA_OUTPUT_DIR}
         VERSION ${PARA_VERSION}
         ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
@@ -517,5 +529,6 @@ function(ADD_PLUGIN_TARGET)
         FEATURES ${FEATURES}
         PRIVATE_FEATURES ${PRIVATE_FEATURES}
         PRIVATE_INCLUDE_DIRS ${PARA_PRIVATE_INCLUDE_DIRS}
+        LIBRARY_DIR ${PARA_LIBRARY_DIR}
         )
 endfunction()
