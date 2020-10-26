@@ -285,7 +285,7 @@ endfunction()
 #    OUTPUT_DIR              目标生成目录
 #    VERSION                 版本
 #    ANDROID_SOURCES_DIR     Android 源码文件目录
-#    [必须]SOURCE_FILES            源文件（包括头文件，资源文件等）
+#    [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
 #    INSTALL_HEADER_FILES    如果是库，要安装的头文件
 #    INCLUDE_DIRS            包含目录
 #    PRIVATE_INCLUDE_DIRS    私有包含目录
@@ -299,7 +299,7 @@ endfunction()
 #    PRIVATE_FEATURES        私有特性
 #    INSTALL_PUBLIC_HEADER   要的头文件安装位置
 #    INSTALL_INCLUDES        包含头文件位置
-#    LIBRARY_DIR             库安装位置
+#    INSTALL_LIBRARY_DIR     库安装位置
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -317,7 +317,7 @@ function(ADD_TARGET)
         INSTALL_INCLUDES        #导出包安装的头文件目录
         )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;LIBRARY_DIR"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;INSTALL_LIBRARY_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -342,7 +342,7 @@ function(ADD_TARGET)
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
                 [ANDROID_SOURCES_DIR android_source_dir]
-                [LIBRARY_DIR dir]")
+                [INSTALL_LIBRARY_DIR dir]")
         return()
     endif()
 
@@ -454,7 +454,7 @@ function(ADD_TARGET)
         ${PARA_ISPLUGIN}
         PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
         INCLUDES ${PARA_INSTALL_INCLUDES}
-        LIBRARY ${PARA_LIBRARY_DIR})
+        LIBRARY ${PARA_INSTALL_LIBRARY_DIR})
     
 endfunction()
 
@@ -475,7 +475,7 @@ endfunction()
 #  PRIVATE_OPTIONS         私有选项
 #  FEATURES                公有特性
 #  PRIVATE_FEATURES        私有特性
-#  LIBRARY_DIR             库安装位置
+#  INSTALL_DIR             插件库安装目录
 function(ADD_PLUGIN_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -490,7 +490,7 @@ function(ADD_PLUGIN_TARGET)
         PRIVATE_FEATURES        #私有特性
         )
     cmake_parse_arguments(PARA ""
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;LIBRARY_DIR"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -514,6 +514,14 @@ function(ADD_PLUGIN_TARGET)
         return()
     endif()
     
+    if(NOT DEFINED PARA_OUTPUT_DIR)
+        set(PARA_OUTPUT_DIR ${CMAKE_BINARY_DIR}/plugins)
+    endif()
+    
+    if(NOT DEFINED PARA_INSTALL_DIR)
+        set(PARA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/plugins)
+    endif()
+    
     ADD_TARGET(NAME ${PARA_NAME}
         ISPLUGIN
         OUTPUT_DIR ${PARA_OUTPUT_DIR}
@@ -529,6 +537,6 @@ function(ADD_PLUGIN_TARGET)
         FEATURES ${FEATURES}
         PRIVATE_FEATURES ${PRIVATE_FEATURES}
         PRIVATE_INCLUDE_DIRS ${PARA_PRIVATE_INCLUDE_DIRS}
-        LIBRARY_DIR ${PARA_LIBRARY_DIR}
+        INSTALL_DIR ${PARA_INSTALL_DIR}
         )
 endfunction()
