@@ -49,12 +49,12 @@
         <translation>感谢</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="472"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="435"/>
         <source> Copyright (C) 2018 KangLin Studio</source>
         <translation>版权(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="479"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="442"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -64,7 +64,7 @@
         <translation>作者： 康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="414"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="377"/>
         <source>Tasks</source>
         <translation>任务</translation>
     </message>

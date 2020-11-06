@@ -54,7 +54,14 @@
 
 #        // 如果使用了翻译资源文件，则必须加上此步，初始化翻译资源
 #        // 资源文件名为 translations_ 加上 “设置的 NAME”
-#        Q_INIT_RESOURCE(translations_${PROJECT_NAME});
+#        #if defined (_DEBUG)
+#           Q_INIT_RESOURCE(translations_${PROJECT_NAME});
+#        #endif
+
+#        // 如果不再使用翻译资源文件，则需要释放翻译资源
+#        #if defined (_DEBUG)
+#           Q_CLEANUP_RESOURCE(translations_${PROJECT_NAME});
+#        #endif
 
 #    + 安装翻译
 
@@ -63,6 +70,9 @@
 #        translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
 #        qApp->installTranslator(&translator);
+
+#        //结束时释放翻译资源
+#        qApp->removeTranslator(&translator)
 
 #  - 完整的例子：
 #    + CMakeLists.txt
@@ -95,6 +105,13 @@
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
 #        qApp->installTranslator(&translator);
 
+#        ......
+
+#        //结束时释放翻译资源
+#        qApp->removeTranslator(&translator)
+#        #if defined (_DEBUG)
+#           Q_CLEANUP_RESOURCE(translations_${PROJECT_NAME});
+#        #endif
 
 # debug 翻译资源做为资源文件嵌入程序
 
