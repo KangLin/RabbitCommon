@@ -75,6 +75,7 @@ set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
     RabbitCommonTools.h
     RabbitCommonDir.h
+    RabbitCommonStyle.h
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
@@ -86,6 +87,7 @@ set(SOURCE_FILES
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
+    RabbitCommonStyle.cpp
     )
 set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
 
@@ -177,3 +179,10 @@ IF(OPENSSL_FOUND)
         ENDIF()
     ENDIF()
 ENDIF(OPENSSL_FOUND)
+
+# Install style files
+if(ANDROID)
+   INSTALL(DIRECTORY Resource/style/ DESTINATION "assets/data/style" COMPONENT Runtime)
+else()
+   INSTALL(DIRECTORY Resource/style/ DESTINATION "data/style" COMPONENT Runtime)
+endif()

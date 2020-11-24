@@ -448,4 +448,17 @@ Email:kl222@126.com</source>
         <translation>保存</translation>
     </message>
 </context>
+<context>
+    <name>RabbitCommon::CStyle</name>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="66"/>
+        <source>Open sink</source>
+        <translation>打開樣式</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="68"/>
+        <source>Style files(*.qss)</source>
+        <translation>樣式文件(*.qss)</translation>
+    </message>
+</context>
 </TS>

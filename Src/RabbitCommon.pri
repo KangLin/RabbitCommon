@@ -72,13 +72,15 @@ else: DEFINES *= RabbitCommon_EXPORTS
 SOURCES += \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
-    $$PWD/RabbitCommonTools.cpp
+    $$PWD/RabbitCommonTools.cpp \
+    $$PWD/RabbitCommonStyle.cpp
 
 INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
     $$PWD/RabbitCommonDir.h \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
-    $$PWD/export/rabbitcommon_export_linux.h
+    $$PWD/export/rabbitcommon_export_linux.h \
+    $$PWD/RabbitCommonStyle.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h
@@ -99,3 +101,11 @@ android{
     !isEmpty(OPENSSL_ROOT_DIR) : ANDROID_EXTRA_LIBS = $$OPENSSL_ROOT_DIR/lib/libssl.so \
         $$OPENSSL_ROOT_DIR/lib/libcrypto.so        
 }
+
+# Install style files
+style.target = style
+style.files = $$PWD/Resource/style/*
+android: style.path = $$system_path($${PREFIX}/assets/data/style)
+else: style.path = $$system_path($${PREFIX}/data/style)
+style.CONFIG += directory no_check_exist
+INSTALLS += style
