@@ -21,6 +21,9 @@ Qt common library. include follow functions:
   - [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   - [x] [The program starts automatically](#the-program-starts-automatically)
   - [x] [Directory functions](#directory-functions)
+- [x] cmake functions
+  + [x] Translations
+  + [x] Add target, plugin target
 - [x] Cross-platform, support multiple operating systems
   - [x] Windows
   - [x] Linux、Unix
@@ -346,6 +349,7 @@ Qt common library. include follow functions:
 
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitIm)
+- [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)
 - [Calendar](https://github.com/KangLin/Calendar)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)

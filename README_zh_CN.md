@@ -21,6 +21,9 @@
   + [x] [用管理员权限执行程序](#管理员权限运行程序)
   + [x] [程序开机自启动](#程序开机自启动)
   + [x] [目录功能](#目录功能)
+- [x] cmake 函数
+  + [x] 翻译资源
+  + [x] 增加目标；插件目标
 - 跨平台，支持多操作系统
   + [x] Windows
   + [x] Linux、Unix
@@ -337,6 +340,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 ### 使用本项目的项目
 - [玉兔即时通讯](https://github.com/KangLin/RabbitIm)
+- [玉兔远程控制](https://github.com/KangLin/RabbitRemoteControl)
 - [日历](https://github.com/KangLin/Calendar)
 - [农历日历](https://github.com/KangLin/LunarCalendar)
 - [串口助手](https://github.com/KangLin/SerialPortAssistant)
