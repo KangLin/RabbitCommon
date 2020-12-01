@@ -23,7 +23,10 @@ CDir::CDir()
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
-    m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
+    if(m_szApplicationDir.isEmpty())
+        m_szApplicationRootDir = "..";
+    else
+        m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
 }
 
@@ -153,6 +156,18 @@ int CDir::SetDirUserDocument(QString szPath)
     if(!d.exists(szPath))
         d.mkpath(szPath);
     return 0;
+}
+
+QString CDir::GetDirUserConfig()
+{
+    QString szPath = GetDirUserDocument() + QDir::separator() + "etc";
+    
+    QDir d;
+    if(!d.exists(szPath))
+    {
+        d.mkpath(szPath);
+    }
+    return szPath;
 }
 
 QString CDir::GetDirUserData()

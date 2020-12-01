@@ -23,6 +23,7 @@ namespace RabbitCommon {
  *
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
+ *       |- etc                                    GetDirUserConfig()
  *       |- data                                   GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  *       |    |- db                                GetDirUserDatabase()
@@ -73,6 +74,7 @@ public:
     
     QString GetDirUserDocument();
     int SetDirUserDocument(QString szPath);
+    QString GetDirUserConfig();
     QString GetDirUserData();
     QString GetDirUserDatabase();
     QString GetDirUserDatabaseFile(const QString &szFile = QString());
