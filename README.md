@@ -18,9 +18,11 @@ Qt common library. include follow functions:
 - [x] [About](#About)
 - [x] [Updater](#Updater)
 - [x] Tools
-  - [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
-  - [x] [The program starts automatically](#the-program-starts-automatically)
-  - [x] [Directory functions](#directory-functions)
+  + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
+  + [x] [The program starts automatically](#the-program-starts-automatically)
+  + [x] [Directory functions](#directory-functions)
+  + [x] Get system information
+    - [x] Get current login user name
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
