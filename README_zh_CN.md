@@ -23,6 +23,7 @@
   + [x] 得到系统信息
     - [x] 得到当前登录用户
   + [x] [目录功能](#目录功能)
+  + [x] [日志](#日志)
 - [x] cmake 函数
   + [x] 翻译资源
   + [x] 增加目标；插件目标
@@ -339,6 +340,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                            bool bAllUser = false);
 
 #### [目录功能](Src/RabbitCommonDir.h)
+
+#### [日志](Src/RabbitCommonLog.h)
 
 ### 使用本项目的项目
 - [玉兔即时通讯](https://github.com/KangLin/RabbitIm)

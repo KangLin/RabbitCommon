@@ -15,6 +15,9 @@ public:
     int SetLanguage(const QString szLanguage);
     QString GetLanguage();
     // 初始化资源，只在程序开始时调用一次，一般在 main() 函数的开始处
+    // QApplication a(argc, argv);
+    // a.setApplicationName(......);
+    // 之后
     void Init(const QString szLanguage = QLocale::system().name());
     // 释放资源，只在程序结束前调用一次
     void Clean();

@@ -15,7 +15,7 @@ int CStyle::LoadStyle()
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QString szFile = set.value("Sink",
-                  RabbitCommon::CDir::Instance()->GetDirData()
+                  RabbitCommon::CDir::Instance()->GetDirData(true)
                   + QDir::separator()
                   + "style" + QDir::separator()
                   + "black.qss").toString();

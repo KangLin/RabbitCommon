@@ -1,3 +1,6 @@
+- 版本： v1.0.5
+  + 增加日志
+
 - 版本： v1.0.4
   + CMake: 增加 add_target 宏
   + 修改 Translations.pri

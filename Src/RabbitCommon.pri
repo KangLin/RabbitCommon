@@ -69,18 +69,34 @@ else: DEFINES *= RabbitCommon_EXPORTS
         LIBS += -lutil
     }
 }
+
+!isEmpty(log4cplus_DIR){
+    DEFINES *= HAVE_LOG4CPLUS
+    LIBS += -L$$log4cplus -llog4cplus
+
+    # Install log4cplus configure files
+    log4cplus.target = log4cplus
+    log4cplus.files = $$PWD/etc/log4config.conf
+    android: log4cplus.path = $$system_path($${PREFIX}/assets/etc)
+    else: log4cplus.path = $$system_path($${PREFIX}/etc)
+    log4cplus.CONFIG += directory no_check_exist
+    INSTALLS += log4cplus
+}
+
 SOURCES += \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
-    $$PWD/RabbitCommonStyle.cpp
+    $$PWD/RabbitCommonStyle.cpp \
+    $$PWD/RabbitCommonLog.cpp
 
 INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
     $$PWD/RabbitCommonDir.h \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
-    $$PWD/RabbitCommonStyle.h
+    $$PWD/RabbitCommonStyle.h \
+    $$PWD/RabbitCommonLog.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h

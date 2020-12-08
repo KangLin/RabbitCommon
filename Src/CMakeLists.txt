@@ -71,11 +71,32 @@ if(BUILD_ADMINAUTHORISER)
     endif()
 endif(BUILD_ADMINAUTHORISER)
 
+find_package(log4cplus OPTIONAL_COMPONENTS log4cplus)
+message("log4cplus:${log4cplus_FOUND}")
+if(log4cplus_FOUND)
+    #message("Found log4cplugs componts:${log4cplus_FIND_COMPONENTS}")
+    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_LOG4CPLUS)
+    LIST(APPEND RABBIT_COMMON_LIBS log4cplus::log4cplus)
+    # Install log4cplus configure file
+    if(ANDROID)
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/assets/etc/log4config.conf
+            DESTINATION etc
+                COMPONENT Runtime)
+    else()
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
+            DESTINATION etc
+                COMPONENT Runtime)
+    endif()
+else()
+    message("Download log4cplus from https://github.com/log4cplus/log4cplus")
+endif()
+
 set(INSTALL_HEAD_FILES
     ${INSTALL_HEAD_FILES}
     RabbitCommonTools.h
     RabbitCommonDir.h
     RabbitCommonStyle.h
+    RabbitCommonLog.h
     )
 set(HEAD_FILES
     ${INSTALL_HEAD_FILES}
@@ -84,6 +105,7 @@ set(HEAD_FILES
     )
 set(SOURCE_FILES
     ${SOURCE_FILES}
+    RabbitCommonLog.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
@@ -116,7 +138,7 @@ else()
 endif()
 if(WIN32)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS WINDOWS UNICODE)
-    set(LIBS Advapi32 Ole32 Shell32 netapi32)
+    list(APPEND RABBIT_COMMON_LIBS Advapi32 Ole32 Shell32 netapi32)
 elseif(UNIX)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS UNIX)
 endif()
@@ -140,7 +162,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_HEADER_FILES ${INSTALL_HEAD_FILES}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
-    LIBS ${LIBS} ${QT_LIBRARIES}
+    LIBS ${RABBIT_COMMON_LIBS} ${QT_LIBRARIES}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
     VERSION ${BUILD_VERSION})

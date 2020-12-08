@@ -21,6 +21,7 @@ Qt common library. include follow functions:
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   + [x] [The program starts automatically](#the-program-starts-automatically)
   + [x] [Directory functions](#directory-functions)
+  + [x] [Logger](#Logger)
   + [x] Get system information
     - [x] Get current login user name
 - [x] cmake functions
@@ -348,6 +349,8 @@ Qt common library. include follow functions:
                            bool bAllUser = false);
 
 #### [Directory functions](Src/RabbitCommonDir.h)
+
+#### [Logger](Src/RabbitCommonLog.h)
 
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitIm)

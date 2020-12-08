@@ -1,3 +1,6 @@
+- Version: v1.0.5
+  + Add logger
+
 - Version: v1.0.4
   + CMake: Add plugin target marco
   + CMake: Add add_target marco
