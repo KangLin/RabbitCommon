@@ -5,9 +5,11 @@
 #include "log4cplus/log4cplus.h"
 #endif
 
+#include "rabbitcommon_export.h"
+
 namespace RabbitCommon {
 
-class CLog
+class RABBITCOMMON_EXPORT CLog
 {
 public:
     CLog();
