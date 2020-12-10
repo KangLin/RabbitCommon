@@ -47,7 +47,6 @@ public:
 
 #ifdef HAVE_LOG4CPLUS
     #define LOG_ERROR(...) LOG4CPLUS_ERROR_FMT(log4cplus::Logger::getRoot(), __VA_ARGS__)
-    
     #define LOG_WARNING(...) LOG4CPLUS_WARN_FMT(log4cplus::Logger::getRoot(), __VA_ARGS__)
     #define LOG_INFO(...) LOG4CPLUS_INFO_FMT(log4cplus::Logger::getRoot(), __VA_ARGS__)
     
@@ -57,12 +56,10 @@ public:
 #else
     #define LOG_ERROR(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", __VA_ARGS__)
     #define LOG_WARNING(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", __VA_ARGS__)
-    #define LOG_DEBUG(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, "", __VA_ARGS__)
     #define LOG_INFO(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", __VA_ARGS__)
     
     #define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
     #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
-    #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
     #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
 #endif //HAVE_LOG4CPLUS
 
