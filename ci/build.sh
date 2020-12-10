@@ -188,7 +188,7 @@ if [ -n "$GENERATORS" ]; then
         bash upload.sh RabbitCommon_android_${BUILD_ARCH}_Qt${QT_VERSION}_${VERSION}.tar.gz
     else
         if [ "${BUILD_TARGERT}" = "android" ]; then
-            cmake --build . --target APK  
+            cmake --build . --target install
         fi
     fi
 else
