@@ -26,10 +26,11 @@ CONFIG(debug, debug|release) : DEFINES += _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
 #Support windows xp
-mingw: DEFINES += "_WIN32_WINNT=0x0501"
+mingw: DEFINES += "_WIN32_WINNT=0x0501" Q_OS_WIN
 msvc {
     QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01"
     QMAKE_CXXFLAGS += "/utf-8"
+    DEFINES += Q_OS_WIN
 }
 
 INCLUDEPATH += $$PWD $$PWD/export
@@ -84,19 +85,20 @@ else: DEFINES *= RabbitCommon_EXPORTS
 }
 
 SOURCES += \
+    $$PWD/RabbitCommonLog.cpp \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
-    $$PWD/RabbitCommonStyle.cpp \
-    $$PWD/RabbitCommonLog.cpp
+    $$PWD/RabbitCommonStyle.cpp    
 
-INSTALL_HEADERS += $$PWD/RabbitCommonTools.h \
+INSTALL_HEADERS += \
+    $$PWD/RabbitCommonLog.h \
+    $$PWD/RabbitCommonTools.h \
     $$PWD/RabbitCommonDir.h \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
-    $$PWD/RabbitCommonStyle.h \
-    $$PWD/RabbitCommonLog.h
+    $$PWD/RabbitCommonStyle.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h

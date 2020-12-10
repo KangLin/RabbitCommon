@@ -1,11 +1,13 @@
 #ifndef RABBIT_COMMON_LOG_H
 #define RABBIT_COMMON_LOG_H
 
+#pragma once
+
+#include "rabbitcommon_export.h"
+
 #ifdef HAVE_LOG4CPLUS
 #include "log4cplus/log4cplus.h"
 #endif
-
-#include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
 
@@ -17,15 +19,15 @@ public:
     static CLog* Instance();
     
     /**
-     * @brief 日志  
-     * @param pszFile:打印日志处文件名  
-     * @param nLine:打印日志处行号  
-     * @param nLevel:打印日志错误级别  
-     * @param pszModelName:打印日志的模块范围  
-     * @param pFormatString:格式化字符串  
+     * @brief 日志输出
+     * @param pszFile:打印日志处文件名
+     * @param nLine:打印日志处行号
+     * @param nLevel:打印日志错误级别
+     * @param pszModelName:打印日志的模块范围
+     * @param pFormatString:格式化字符串
      * @return 
      */
-    int Log(const char *pszFile, int nLine, int nLevel,
+    int Print(const char *pszFile, int nLine, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
 };
 
@@ -42,8 +44,8 @@ public:
         #define LOG_DEBUG(...) LOG4CPLUS_DEBUG_FMT(log4cplus::Logger::getRoot(), __VA_ARGS__)
         #define LOG_MODEL_DEBUG(model, ...) LOG4CPLUS_DEBUG_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
     #else
-        #define LOG_DEBUG(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, "", __VA_ARGS__)
-        #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
+        #define LOG_DEBUG(...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_DEBUG, "", __VA_ARGS__)
+        #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
     #endif
 #endif //#ifdef DEBUG
 
@@ -56,15 +58,15 @@ public:
     #define LOG_MODEL_WARNING(model, ...) LOG4CPLUS_WARN_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
     #define LOG_MODEL_INFO(model, ...) LOG4CPLUS_INFO_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
 #else
-    #define LOG_ERROR(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", __VA_ARGS__)
-    #define LOG_WARNING(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", __VA_ARGS__)
-    #define LOG_INFO(...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", __VA_ARGS__)
+    #define LOG_ERROR(...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_ERROR, "", __VA_ARGS__)
+    #define LOG_WARNING(...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_WARNING, "", __VA_ARGS__)
+    #define LOG_INFO(...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_INFO, "", __VA_ARGS__)
     
-    #define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
-    #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
-    #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
+    #define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
+    #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
+    #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
 #endif //HAVE_LOG4CPLUS
 
-} // End namespace RabbitCommon 
+} // End namespace RabbitCommon
 
 #endif // RABBIT_COMMON_LOG_H

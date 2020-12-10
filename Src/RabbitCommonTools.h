@@ -1,6 +1,8 @@
 #ifndef RABBITCOMMON_TOOLS_H
 #define RABBITCOMMON_TOOLS_H
 
+#pragma once
+
 #include <QTranslator>
 #include "rabbitcommon_export.h"
 #include <QLocale>

@@ -1,6 +1,8 @@
 #ifndef RABBITCOMM_CGLOBALDIR_H
 #define RABBITCOMM_CGLOBALDIR_H
 
+#pragma once
+
 #include <QString>
 #include <QFileDialog>
 #include "rabbitcommon_export.h"

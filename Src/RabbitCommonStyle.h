@@ -1,6 +1,8 @@
 #ifndef CSTYLE_H
 #define CSTYLE_H
 
+#pragma once
+
 #include <QObject>
 #include "rabbitcommon_export.h"
 

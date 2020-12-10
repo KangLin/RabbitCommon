@@ -1,6 +1,8 @@
 #ifndef RABBITCOMMON_REGISTER_H_KANGLIN_2019_07_05
 #define RABBITCOMMON_REGISTER_H_KANGLIN_2019_07_05
 
+#pragma once
+
 #include "rabbitcommon_export.h"
 
 #include <QString>

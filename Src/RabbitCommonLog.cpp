@@ -18,7 +18,7 @@ CLog* CLog::Instance()
 }
 
 #define LOG_BUFFER_LENGTH 1024
-int CLog::Log(const char *pszFile, int nLine, int nLevel,
+int CLog::Print(const char *pszFile, int nLine, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];
