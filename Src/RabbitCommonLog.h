@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <QObject>
 #include "rabbitcommon_export.h"
 
 #ifdef HAVE_LOG4CPLUS

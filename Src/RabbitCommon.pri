@@ -26,11 +26,10 @@ CONFIG(debug, debug|release) : DEFINES += _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
 #Support windows xp
-mingw: DEFINES += "_WIN32_WINNT=0x0501" Q_OS_WIN
+mingw: DEFINES += "_WIN32_WINNT=0x0501"
 msvc {
     QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01"
     QMAKE_CXXFLAGS += "/utf-8"
-    DEFINES += Q_OS_WIN
 }
 
 INCLUDEPATH += $$PWD $$PWD/export
