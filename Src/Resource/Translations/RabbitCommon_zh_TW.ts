@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<TS version="2.1" language="zh_CN">
+<context>
+    <name>AdminAuthorization</name>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="200"/>
+        <source>Enter Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
+        <source>Enter your root password to run the program:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 <context>
     <name>CDlgAbout</name>
     <message>
@@ -70,59 +83,67 @@
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="56"/>
-        <source>Author: KangLin
-Email:kl222@126.com</source>
-        <translation>作者： 康林
-郵箱:kl222@126.com</translation>
+        <source>KangLin</source>
+        <translation>康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="58"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="59"/>
         <source>Kang Lin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="60"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="61"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="90"/>
         <source> Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="90"/>
         <source> Arch:</source>
         <translation> 架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="90"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
         <source>Build date:%1 %2</source>
         <translation>編譯日期：%1 %2</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="94"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
+        <source>Author: </source>
+        <translation>作者：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
+        <source> Email: </source>
+        <translation> 郵箱：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="97"/>
         <source>Home page:</source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="100"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="103"/>
         <source>Copyright (C)</source>
         <translation>版權所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="148"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="151"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="158"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="161"/>
         <source>Save donation picture</source>
         <translation>保存捐贈圖片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="160"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="163"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
@@ -446,6 +467,12 @@ Email:kl222@126.com</source>
         <location filename="../../RabbitCommonDir.cpp" line="347"/>
         <source>Save</source>
         <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="193"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="228"/>
+        <source>Critical</source>
+        <translation>錯誤</translation>
     </message>
 </context>
 <context>

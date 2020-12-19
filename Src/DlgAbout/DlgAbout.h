@@ -50,6 +50,7 @@ public:
     QString m_szArch;
     QString m_szDate, m_szTime;
     QString m_szAuthor;
+    QString m_szEmail;
     QString m_szHomePage;
     QString m_szCopyright;
     QString m_szCopyrightTime;

@@ -53,7 +53,8 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szDate = __DATE__;
     m_szTime = __TIME__;
     
-    m_szAuthor = tr("Author: KangLin\nEmail:kl222@126.com");
+    m_szAuthor = tr("KangLin");
+    m_szEmail = "kl222@126.com";
     m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
     m_szCopyrightOwner = tr("Kang Lin Studio");
     m_szCopyrightStartTime = "2018";
@@ -88,7 +89,9 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lblName->setText(m_szAppName);
     ui->lbVersion->setText(tr(" Version: ") + m_szVersion + tr(" Arch:") + m_szArch);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
-    ui->lbAuthor->setText(m_szAuthor);
+    ui->lbAuthor->setText(tr("Author: ") + m_szAuthor
+                          + tr(" Email: ") + "<a href=\"" + m_szEmail + "\">"
+                          + m_szEmail + "</a>");
     ui->lbHome->setOpenExternalLinks(true);
     
     ui->lbHome->setText(tr("Home page:") + "<a href=\"" + m_szHomePage + "\">"
