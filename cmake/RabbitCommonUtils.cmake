@@ -130,9 +130,10 @@ endfunction()
 #    ARCHIVE
 #    PUBLIC_HEADER          头文件的安装位置
 #    INCLUDES               导出安装头文件位置
+#    VERSION                版本号
 function(INSTALL_TARGET)
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
-        "NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR"
+        "NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
@@ -146,7 +147,8 @@ function(INSTALL_TARGET)
                 [LIBRARY ...]
                 [ARCHIVE ...]
                 [PUBLIC_HEADER ...]
-                [INCLUDES ...]"
+                [INCLUDES ...]
+                [VERSION verson]"
                 )
     endif()
     
@@ -415,8 +417,6 @@ function(ADD_TARGET)
     if(DEFINED PARA_VERSION)
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION})
-    else()
-	    get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
     endif()
     
     if(DEFINED PARA_LIBS)
