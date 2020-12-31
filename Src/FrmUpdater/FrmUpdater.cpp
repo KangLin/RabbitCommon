@@ -1,6 +1,7 @@
 #include "FrmUpdater.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
+#include "RabbitCommonLog.h"
 #include "AdminAuthoriser/adminauthoriser.h"
 #include "ui_FrmUpdater.h"
 
@@ -1106,8 +1107,9 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     f.setFileName(szFile);
     if(!f.open(QIODevice::WriteOnly))
     {
-        qCritical() << "CFrmUpdater::GenerateUpdateXml file open file fail:"
-                    << f.fileName();
+        LOG_MODEL_ERROR("RabbitCommon",
+                       "CFrmUpdater::GenerateUpdateXml file open file fail: %s",
+                       f.fileName().toStdString().c_str());
         return -1;
     }
     QTextStream stream(&f);
@@ -1255,7 +1257,8 @@ int CFrmUpdater::GenerateUpdateXml()
             }
             app.close();
         } else {
-            qDebug() << "Don't open package file: " << szFile;
+            LOG_MODEL_ERROR("RabbitCommon", "Don't open package file: %s",
+                            szFile.toStdString().c_str());
         }
     }
     info.szUrl = parser.value(oUrl);
