@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 2.8)
 
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
@@ -168,6 +168,7 @@ function(INSTALL_TARGET)
         endif()
     else()
         # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
+        # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
         # Install target
         if(ANDROID)
             if(NOT DEFINED PARA_RUNTIME)
