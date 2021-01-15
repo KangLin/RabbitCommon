@@ -231,9 +231,9 @@ function(INSTALL_TARGET)
             INSTALL(TARGETS ${PARA_NAME}
                 EXPORT ${PARA_NAME}Config
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
-                COMPONENT Runtime
+                    COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
-                COMPONENT Runtime
+                    COMPONENT Runtime
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
                 INCLUDES DESTINATION ${PARA_INCLUDES}
@@ -306,8 +306,8 @@ endfunction()
 #    PRIVATE_OPTIONS         私有选项
 #    FEATURES                公有特性
 #    PRIVATE_FEATURES        私有特性
-#    INSTALL_PUBLIC_HEADER   要的头文件安装位置
-#    INSTALL_INCLUDES        包含头文件位置
+#    INSTALL_PUBLIC_HEADER   头文件安装位置
+#    INSTALL_INCLUDES        导出安装头文件位置
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
 function(ADD_TARGET)
     SET(MUT_PARAS
@@ -406,6 +406,7 @@ function(ADD_TARGET)
             )
     endif()
 
+    # Be will to install header files
     if(DEFINED PARA_INSTALL_HEADER_FILES)
         set_target_properties(${PARA_NAME} PROPERTIES
             PUBLIC_HEADER "${PARA_INSTALL_HEADER_FILES}" # Install head files
