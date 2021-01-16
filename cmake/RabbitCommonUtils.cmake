@@ -295,7 +295,6 @@ endfunction()
 #    VERSION                 版本
 #    ANDROID_SOURCES_DIR     Android 源码文件目录
 #    [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
-#    INSTALL_HEADER_FILES    如果是库，要安装的头文件
 #    INCLUDE_DIRS            包含目录
 #    PRIVATE_INCLUDE_DIRS    私有包含目录
 #    LIBS                    公有依赖库
@@ -306,8 +305,9 @@ endfunction()
 #    PRIVATE_OPTIONS         私有选项
 #    FEATURES                公有特性
 #    PRIVATE_FEATURES        私有特性
-#    INSTALL_PUBLIC_HEADER   头文件安装位置
-#    INSTALL_INCLUDES        导出安装头文件位置
+#    INSTALL_HEADER_FILES           如果是库，要安装的头文件
+#    INSTALL_PUBLIC_HEADER          头文件安装位置
+#    INSTALL_INCLUDES               导出安装头文件位置
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
 function(ADD_TARGET)
     SET(MUT_PARAS
