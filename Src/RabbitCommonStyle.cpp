@@ -18,7 +18,7 @@ int CStyle::LoadStyle()
                   RabbitCommon::CDir::Instance()->GetDirData(true)
                   + QDir::separator()
                   + "style" + QDir::separator()
-                  + "black.qss").toString();
+                  + "black_green.qss").toString();
     qDebug() << "LoadStyle:" << szFile;
     return  LoadStyle(szFile);
 }
@@ -61,12 +61,12 @@ void CStyle::slotStyle()
                   RabbitCommon::CDir::Instance()->GetDirData()
                   + QDir::separator()
                   + "style" + QDir::separator()
-                  + "black.qss").toString();
+                  + "black_green.qss").toString();
     if(szFile.isEmpty())
         szFile = RabbitCommon::CDir::Instance()->GetDirData()
                 + QDir::separator()
                 + "style" + QDir::separator()
-                + "black.qss";
+                + "black_green.qss";
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
                  szFile,

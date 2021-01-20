@@ -15,10 +15,13 @@
 
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonStyle.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationVersion(BUILD_VERSION);
+    a.setApplicationName("RabbitCommonApp");
     
     QCommandLineParser parser;
     parser.addHelpOption();
@@ -30,9 +33,6 @@ int main(int argc, char *argv[])
     parser.addOption(noexample);
     
     parser.process(QApplication::arguments());
-    
-    a.setApplicationVersion(BUILD_VERSION);
-    a.setApplicationName("RabbitCommon");
 
     qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
     qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
@@ -46,6 +46,9 @@ int main(int argc, char *argv[])
     
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 
+    RabbitCommon::CStyle style;
+    style.slotStyle();
+    
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);

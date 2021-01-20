@@ -49,8 +49,15 @@ header_files.files = $$INSTALL_HEADERS
 header_files.path = $$system_path($${PREFIX}/include/RabbitCommon)
 !android: INSTALLS += header_files
 
+style_files.target = style_files
+style_files.files = $$PWD/Resource/style/*
+android: style_files.path = $$system_path($${PREFIX}/assets/data/style)
+else: style_files.path = $$system_path($${PREFIX}/data/style)
+INSTALLS += style_files
+
 OTHER_FILES += $$PWD/CMakeLists.txt \
-    $$PWD/../Install/*
+    $$PWD/../Install/* \
+    $$PWD/Resource/style/*
 
 !CONFIG(static): win32 {
     #message("Install qt library in win32")
