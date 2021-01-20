@@ -6,6 +6,7 @@
 
 - [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
 - [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
+- ![CMake](https://github.com/KangLin/RabbitCommon/workflows/CMake/badge.svg)
 
 [<img src=""https://gitee.com/kl222/Calendar/raw/master/Resource/Image/English.png" alt="英语" title="英语" width="16" height="16" />英语](README.md)
 

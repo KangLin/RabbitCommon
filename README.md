@@ -6,6 +6,7 @@ Author：Kang Lin（kl222@126.com)
 
 - [![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
 - [![Linux status](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
+- ![CMake](https://github.com/KangLin/RabbitCommon/workflows/CMake/badge.svg)
 
 [<img src="https://gitee.com/kl222/Calendar/raw/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
 
