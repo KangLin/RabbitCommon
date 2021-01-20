@@ -1,0 +1,48 @@
+name: CMake
+
+on: [push]
+  
+jobs:
+  use_install_qt:
+    name: use install qt ${{ matrix.os }}-${{ matrix.BUILD_TYPE }}
+  
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            triplet: x64-windows
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: macos-latest
+            triplet: x64-osx
+        BUILD_TYPE: [Release, Debug]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      BUILD_TYPE: ${{ matrix.BUILD_TYPE }}
+  
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: run-vcpkg
+      # You may pin to the exact commit or the version.
+      # uses: lukka/run-vcpkg@a1b6a0046a28c09f4bcc8caa9eecec9a8e512152
+      uses: lukka/run-vcpkg@v6.1
+      with:
+        # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
+        #setupOnly: # optional
+        vcpkgGitCommitId: b60f003ccf5fe8613d029f49f835c8929a66eb61
+        vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
+        vcpkgTriplet: '${{ matrix.triplet }}'
+        vcpkgArguments: 'qt log4cplus'
+
+    - name: Build with CMake
+      uses: lukka/run-cmake@main
+      with:
+        useVcpkgToolchainFile: true
+        buildDirectory: ${{ runner.workspace }}/build
+        cmakeBuildType: ${{ matrix.BUILD_TYPE }}
+        cmakeAppendedArgs: -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/build/install

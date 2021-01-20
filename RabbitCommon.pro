@@ -45,4 +45,6 @@ OTHER_FILES += CMakeLists.txt \
     cmake/* \
     debian/* \
     build_debpackage.sh \
-    Install/*
+    Install/* \
+    .github/* \
+    .github/workflows/*
