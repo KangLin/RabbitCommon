@@ -1,6 +1,7 @@
 - Version: v1.0.5
   + Add logger
   + Add style
+  + CMake: Add uninstall
 
 - Version: v1.0.4
   + CMake: Add plugin target marco
