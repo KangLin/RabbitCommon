@@ -166,6 +166,10 @@ function(INSTALL_TARGET)
                         COMPONENT Runtime
                 )
         endif()
+        INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
+            DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
+                COMPONENT Runtime
+            )
     else()
         # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
         # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
@@ -206,19 +210,19 @@ function(INSTALL_TARGET)
             
             #分发
             IF(ANDROID)
-            Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
-            GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
-                ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
-                APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
-            
-            add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-                --output ${CMAKE_INSTALL_PREFIX}
-                --input ${JSON_FILE}
-                --verbose
-                --gradle
-                --android-platform ${ANDROID_PLATFORM}
-                )
+                Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
+                GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
+                    ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
+                    APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
+                
+                add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                    COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+                    --output ${CMAKE_INSTALL_PREFIX}
+                    --input ${JSON_FILE}
+                    --verbose
+                    --gradle
+                    --android-platform ${ANDROID_PLATFORM}
+                    )
             ENDIF(ANDROID)
         else(PARA_ISEXE)
             if(NOT DEFINED PARA_PUBLIC_HEADER)
@@ -395,8 +399,8 @@ function(ADD_TARGET)
     if(DEFINED PARA_OUTPUT_DIR)
         set_target_properties(${PARA_NAME} PROPERTIES
             LIBRARY_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
-            ARCHIVE_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
             RUNTIME_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
+            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
             )
     else()
         set_target_properties(${PARA_NAME} PROPERTIES
