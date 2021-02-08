@@ -2,6 +2,7 @@
 #include "RabbitCommonDir.h"
 #include "AdminAuthoriser/adminauthoriser.h"
 #include "RabbitCommonRegister.h"
+#include "RabbitCommonLog.h"
 
 #ifdef HAVE_LOG4CPLUS
 #include "log4cplus/log4cplus.h"
@@ -98,9 +99,14 @@ void CTools::Clean()
 
 void CTools::InitTranslator(const QString szLanguage)
 {
-    m_Translator.load(CDir::Instance()->GetDirTranslations()
-                      + "/RabbitCommon_" + szLanguage + ".qm");
-    qApp->installTranslator(&m_Translator);
+    QString szFile = CDir::Instance()->GetDirTranslations()
+            + "/RabbitCommon_" + szLanguage + ".qm";
+    bool ret = m_Translator.load(szFile);
+    if(!ret) LOG_MODEL_ERROR("RabbitCommon", "translator load fail: %s",
+                             szFile.toStdString().c_str());
+    ret = qApp->installTranslator(&m_Translator);
+    if(!ret) LOG_MODEL_ERROR("RabbitCommon", "translator install translator fail: %s",
+                             szFile.toStdString().c_str());    
 }
 
 void CTools::CleanTranslator()

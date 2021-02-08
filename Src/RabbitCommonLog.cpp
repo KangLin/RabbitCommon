@@ -44,7 +44,7 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
     }
     szTemp += ":";
     szTemp += pszModelName;
-    szTemp += ":";
+    szTemp += ": ";
 
     va_list args;
     va_start (args, pFormatString);
