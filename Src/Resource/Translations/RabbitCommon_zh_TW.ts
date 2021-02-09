@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="zh_TW">
+<context>
+    <name>AdminAuthorization</name>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="200"/>
+        <source>Enter Password</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
+        <source>Enter your root password to run the program:</source>
+        <translation></translation>
+    </message>
+</context>
 <context>
     <name>CDlgAbout</name>
     <message>
@@ -14,47 +27,53 @@
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="128"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="150"/>
         <source>Home page: https://github.com/KangLin/Tasks.git</source>
         <translation>主頁： https://github.com/KangLin/Tasks.git</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="87"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="217"/>
         <source>Version: 1.0.0.0</source>
         <translation>版本： 1.0.0.0</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="109"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="198"/>
         <source>Build Date:</source>
         <translation>編譯日期：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="223"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="75"/>
         <source>Donation</source>
         <translation>捐贈</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="247"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="246"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
+        <source>Qt version:</source>
+        <translation>Qt 版本號:</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="257"/>
         <source>License</source>
         <translation>許可協議</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="261"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="271"/>
         <source>Change log</source>
         <translation>修改日誌</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="275"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="285"/>
         <source>Thanks</source>
         <translation>感謝</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="435"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="445"/>
         <source> Copyright (C) 2018 KangLin Studio</source>
         <translation>版權(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="442"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="452"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
@@ -64,7 +83,7 @@
         <translation>作者： 康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="377"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="387"/>
         <source>Tasks</source>
         <translation>任務</translation>
     </message>
@@ -80,7 +99,7 @@
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="61"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="102"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
@@ -95,42 +114,42 @@
         <translation> 架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
         <source>Build date:%1 %2</source>
         <translation>編譯日期：%1 %2</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="94"/>
         <source> Email: </source>
         <translation> 郵箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="97"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
         <source>Home page:</source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="103"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="104"/>
         <source>Copyright (C)</source>
         <translation>版權所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="151"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="152"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="161"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="162"/>
         <source>Save donation picture</source>
         <translation>保存捐贈圖片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="163"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="164"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
@@ -456,8 +475,10 @@
         <translation>保存</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="193"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="228"/>
         <source>Critical</source>
-        <translation type="vanished">錯誤</translation>
+        <translation>錯誤</translation>
     </message>
 </context>
 <context>
