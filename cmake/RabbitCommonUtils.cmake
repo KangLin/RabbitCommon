@@ -396,18 +396,20 @@ function(ADD_TARGET)
             DESTINATION ${CMAKE_BINARY_DIR})
     endif()
 
-    if(DEFINED PARA_OUTPUT_DIR)
-        set_target_properties(${PARA_NAME} PROPERTIES
-            LIBRARY_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
-            RUNTIME_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
-            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-            )
-    else()
-        set_target_properties(${PARA_NAME} PROPERTIES
-            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-            ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-            )
+    if(NOT ANDROID)
+        if(DEFINED PARA_OUTPUT_DIR)
+            set_target_properties(${PARA_NAME} PROPERTIES
+                LIBRARY_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
+                RUNTIME_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
+                ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+                )
+        else()
+            set_target_properties(${PARA_NAME} PROPERTIES
+                LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+                RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+                ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+                )
+        endif()
     endif()
 
     # Be will to install header files
