@@ -2,19 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
-    <name>AdminAuthorization</name>
-    <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="200"/>
-        <source>Enter Password</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
-        <source>Enter your root password to run the program:</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
@@ -475,10 +462,8 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="193"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="228"/>
         <source>Critical</source>
-        <translation>錯誤</translation>
+        <translation type="vanished">錯誤</translation>
     </message>
 </context>
 <context>

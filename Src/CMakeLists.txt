@@ -54,6 +54,26 @@ if(BUILD_UPDATE)
     set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
+
+find_package(OpenSSL)
+IF(OpenSSLL_FOUND)
+    # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
+    # Check https://doc.qt.io/qt/deployment-android.html for more information.
+    # They need to be set before the find_package( ...) calls below.
+    
+    if(ANDROID)
+        #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        if (ANDROID_ABI STREQUAL "armeabi-v7a")
+            set(ANDROID_EXTRA_LIBS
+                $<TARGET_FILE:${OpenSSL::SSL}>
+                $<TARGET_FILE:${OpenSSL::Crypto}>)
+        endif()
+    else()
+        list(APPEND RABBIT_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
+    endif()
+
+ENDIF(OpenSSL_FOUND)
+
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
 if(BUILD_ADMINAUTHORISER)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
@@ -136,6 +156,7 @@ if(BUILD_VERSION)
 else()
     message(WARNING "Please set BUILD_VERSION")
 endif()
+message("RABBIT_COMMON_LIBS:${RABBIT_COMMON_LIBS}")
 if(WIN32)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS WINDOWS UNICODE)
     list(APPEND RABBIT_COMMON_LIBS Advapi32 Ole32 Shell32 netapi32)
@@ -189,18 +210,6 @@ if(UNIX OR MINGW)
     install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
-
-find_package(OpenSSL)
-IF(OPENSSL_FOUND)
-    IF(BUILD_SHARED_LIBS)
-        IF(ANDROID)
-            INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
-                        $<TARGET_FILE:OpenSSL::Crypto>
-                    DESTINATION "libs/${ANDROID_ABI}"
-                        COMPONENT Runtime)
-        ENDIF()
-    ENDIF()
-ENDIF(OPENSSL_FOUND)
 
 # Install style files
 if(ANDROID)
