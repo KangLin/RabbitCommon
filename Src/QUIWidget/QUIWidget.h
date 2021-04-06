@@ -187,7 +187,8 @@ public Q_SLOTS:
     void setAlignment(Qt::Alignment alignment);
 
     //设置主窗体
-    void setMainWidget(QWidget *mainWidget);
+    //参数： bUsed: true, 使用 mainWidget 的标题与图标
+    void setMainWidget(QWidget *mainWidget, bool bUsed = true);
 
 Q_SIGNALS:
     void changeStyle(const QString &qssFile);

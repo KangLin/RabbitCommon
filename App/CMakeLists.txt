@@ -3,7 +3,10 @@ project(RabbitCommonApp)
 set(SOURCE_FILES
     main.cpp
     MainWindow.cpp
+    MainWindow.h
     )
+
+set(SOURCE_UI_FILES MainWindow.ui)
 
 #翻译
 include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)

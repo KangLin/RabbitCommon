@@ -48,14 +48,16 @@ int main(int argc, char *argv[])
     style.LoadStyle();
     
     MainWindow *m = new MainWindow();
+    m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));
+    m->setWindowTitle(a.applicationDisplayName());
     
 #ifdef BUILD_QUIWidget
     QUIWidget quiwidget;
-    quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
-    quiwidget.setTitle(QObject::tr("Rabbit Common - QUIWidget"));
+   // quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
+   // quiwidget.setTitle(QObject::tr("Rabbit Common - QUIWidget"));
+    quiwidget.setMainWidget(m);
     quiwidget.setAlignment(Qt::AlignCenter);
     quiwidget.setVisible(QUIWidget::BtnMenu, true);
-    quiwidget.setMainWidget(m);
     quiwidget.show();
 #else
     m->show();

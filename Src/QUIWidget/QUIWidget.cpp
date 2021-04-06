@@ -609,7 +609,7 @@ void QUIWidget::setAlignment(Qt::Alignment alignment)
     }
 }
 
-void QUIWidget::setMainWidget(QWidget *mainWidget)
+void QUIWidget::setMainWidget(QWidget *mainWidget, bool bUsed)
 {
     //一个QUI窗体对象只能设置一个主窗体
     if (this->mainWidget == 0) {
@@ -620,6 +620,16 @@ void QUIWidget::setMainWidget(QWidget *mainWidget)
 
         this->mainWidget = mainWidget;
         this->mainWidget->installEventFilter(this);
+       
+        if(bUsed)
+        {
+            this->setTitle(mainWidget->windowTitle());
+            QIcon icon = mainWidget->windowIcon();
+            if(!icon.isNull())
+                this->lab_Ico->setPixmap(icon.pixmap(lab_Ico->size()));
+        }
+    } else {
+        Q_ASSERT(0);
     }
 }
 
