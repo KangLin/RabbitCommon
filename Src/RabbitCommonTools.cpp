@@ -33,6 +33,7 @@ inline void g_RabbitCommon_InitResource()
 #if _DEBUG
     // Must set cmake paramter: -DCMAKE_BUILD_TYPE=Debug
     Q_INIT_RESOURCE(translations_RabbitCommon);
+    Q_INIT_RESOURCE(QUIWidgetQss);
 #endif
 }
 
@@ -42,6 +43,7 @@ inline void g_RabbitCommon_CleanResource()
     Q_CLEANUP_RESOURCE(QUIWidget);
 #if _DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitCommon);
+    Q_CLEANUP_RESOURCE(QUIWidgetQss);
 #endif
 }
 

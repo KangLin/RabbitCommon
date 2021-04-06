@@ -22,7 +22,7 @@ android{
 } else {
     DEFINES += BUILD_ARCH=\"\\\"$$system(uname -p)\\\"\"
 }
-CONFIG(debug, debug|release) : DEFINES += _DEBUG
+CONFIG(debug, debug|release): DEFINES += _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
 #Support windows xp
@@ -72,8 +72,8 @@ else: DEFINES *= RabbitCommon_EXPORTS
 !equals(BUILD_QUIWidget, "OFF"){
     SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
     INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
-    RESOURCES += \
-    $$PWD/QUIWidget/Resource/QUIWidget.qrc
+    RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
+    CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
 }
 !isEmpty(log4cplus_DIR){
     DEFINES *= HAVE_LOG4CPLUS
@@ -127,6 +127,7 @@ android{
 # Install style files
 style.target = style
 style.files = $$PWD/Resource/style/*
+CONFIG(release, debug|release): style.files += $$PWD/QUIWidget/Resource/qss/*
 android: style.path = $$system_path($${PREFIX}/assets/data/style)
 else: style.path = $$system_path($${PREFIX}/data/style)
 style.CONFIG += directory no_check_exist

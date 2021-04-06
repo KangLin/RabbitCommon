@@ -32,6 +32,7 @@ QUIWidget::~QUIWidget()
 
 void QUIWidget::setStyle(QUIWidget::Style style)
 {
+#if defined(DEBUG) || defined(_DEBUG)
     QString qssFile = ":/qss/blue.css";
 
     if (style == QUIWidget::Style_Silvery) {
@@ -71,6 +72,7 @@ void QUIWidget::setStyle(QUIWidget::Style style)
         qApp->setStyleSheet(qss);
         file.close();
     }
+#endif
 }
 
 void QUIWidget::setStyle(const QString &qssFile)
@@ -452,7 +454,8 @@ void QUIWidget::initForm()
     //绑定事件过滤器监听鼠标移动
     this->installEventFilter(this);
     this->widget_title->installEventFilter(this);
-
+    
+#if defined(DEBUG) || defined(_DEBUG)
     //添加换肤菜单
     QStringList name;
 //    name << "银色" << "蓝色" << "浅蓝色" << "深蓝色" << "灰色" << "浅灰色" << "深灰色" << "黑色"
@@ -466,6 +469,7 @@ void QUIWidget::initForm()
         this->btnMenu->addAction(action);
         connect(action, SIGNAL(triggered(bool)), this, SLOT(changeStyle()));
     }
+#endif
 }
 
 void QUIWidget::changeStyle()

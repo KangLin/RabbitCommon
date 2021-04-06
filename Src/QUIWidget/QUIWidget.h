@@ -81,8 +81,8 @@ public:
 
 public:
     //设置全局样式
-    static void setStyle(QUIWidget::Style style);
     static void setStyle(const QString &qssFile);
+    static void setStyle(QUIWidget::Style style); // 仅在 DEBUG 下有效
 
     //设置窗体居中显示
     static void setFormInCenter(QWidget *frm);

@@ -33,6 +33,20 @@ int CStyle::LoadStyle(const QString &szFile)
         if(file.open(QFile::ReadOnly))
         {
             QString stylesheet= file.readAll();
+            QString pattern("QPalette\\{background:#[0-9a-fA-F]+;\\}");
+            QRegExp rx(pattern);
+            int pos = rx.indexIn(stylesheet);
+            if(pos > -1)
+            {
+                QString szPalette = rx.cap();
+                QRegExp rxPalette("#[0-9a-fA-F]+");
+                int pos = rxPalette.indexIn(stylesheet);
+                if(pos > -1)
+                {
+                    QString paletteColor =  rxPalette.cap();
+                    qApp->setPalette(QPalette(QColor(paletteColor)));
+                }
+            }
             qApp->setStyleSheet(stylesheet);
             file.close();
         }
