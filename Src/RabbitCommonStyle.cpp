@@ -26,7 +26,10 @@ int CStyle::LoadStyle()
 int CStyle::LoadStyle(const QString &szFile)
 {
     if(szFile.isEmpty())
+    {
+        qApp->setPalette(QPalette());
         qApp->setStyleSheet("");
+    }
     else
     {
         QFile file(szFile);
@@ -63,6 +66,7 @@ int CStyle::SetDefaultStyle()
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Sink", "");
+    qApp->setPalette(QPalette());
     qApp->setStyleSheet("");
     return 0;
 }
