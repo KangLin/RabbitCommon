@@ -1261,3 +1261,21 @@ void IconHelper::setIcon(QAbstractButton *btn, QChar c, quint32 size)
     btn->setFont(iconFont);
     btn->setText(c);
 }
+
+void QUIWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+    if(isFullScreen())
+        widget_title->setVisible(false);
+    else
+        widget_title->setVisible(true);
+}
+
+void QUIWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    if(isFullScreen())
+        widget_title->setVisible(false);
+    else
+        widget_title->setVisible(true);
+}

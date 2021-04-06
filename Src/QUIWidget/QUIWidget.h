@@ -77,7 +77,7 @@ public:
     };
 
     explicit QUIWidget(QWidget *parent = 0, bool bQuitOnClose = false);
-    ~QUIWidget();
+    virtual ~QUIWidget();
 
 public:
     //设置全局样式
@@ -192,6 +192,10 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void changeStyle(const QString &qssFile);
+
+protected:
+    virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void showEvent(QShowEvent *event) override;
 };
 
 
