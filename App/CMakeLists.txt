@@ -2,6 +2,7 @@ project(RabbitCommonApp)
 
 set(SOURCE_FILES
     main.cpp
+    MainWindow.cpp
     )
 
 #翻译
