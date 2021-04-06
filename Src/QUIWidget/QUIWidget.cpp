@@ -228,7 +228,7 @@ bool QUIWidget::eventFilter(QObject *obj, QEvent *evt)
         mousePressed = false;
         return true;
     } else if (event->type() == QEvent::MouseMove) {
-        if (!max && mousePressed && (event->buttons() && Qt::LeftButton)) {
+        if (!max && mousePressed && (event->buttons() & Qt::LeftButton)) {
             this->move(event->globalPos() - mousePoint);
             return true;
         }
