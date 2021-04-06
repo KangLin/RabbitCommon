@@ -86,11 +86,14 @@ LIBS *= "-L$$DESTDIR" -lRabbitCommon
     DEFINES *= BUILD_QUIWidget
 }
 SOURCES += \
+        MainWindow.cpp \
         main.cpp
 
-HEADERS +=
+HEADERS += \
+    MainWindow.h
 
-FORMS +=
+FORMS += \
+    MainWindow.ui
 
 !android: target.path = $$PREFIX/bin
 INSTALLS += target

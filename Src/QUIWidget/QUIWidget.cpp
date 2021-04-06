@@ -88,6 +88,7 @@ void QUIWidget::setStyle(const QString &qssFile)
 
 void QUIWidget::setFormInCenter(QWidget *frm)
 {
+    Q_ASSERT(frm != nullptr);
     int frmX = frm->width();
     int frmY = frm->height();
     QDesktopWidget w;
