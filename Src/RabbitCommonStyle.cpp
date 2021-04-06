@@ -70,7 +70,7 @@ void CStyle::slotStyle()
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
                  szFile,
-                 tr("Style files(*.qss)"));
+                 tr("Style files(*.qss *.css);; All files(*.*)"));
     if(szFile.isEmpty()) return;
     LoadStyle(szFile);
     
