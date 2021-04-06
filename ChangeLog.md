@@ -2,7 +2,8 @@
   + Add logger
   + Add style
   + CMake: Add uninstall
-
+  + Add QUIWidget
+  
 - Version: v1.0.4
   + CMake: Add plugin target marco
   + CMake: Add add_target marco

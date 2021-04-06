@@ -82,6 +82,9 @@ LIBS *= "-L$$DESTDIR" -lRabbitCommon
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
     DEFINES *= HAVE_ADMINAUTHORISER
 }
+!equals(BUILD_QUIWidget, "OFF"){
+    DEFINES *= BUILD_QUIWidget
+}
 SOURCES += \
         main.cpp
 

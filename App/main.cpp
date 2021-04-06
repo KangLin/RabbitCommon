@@ -8,6 +8,9 @@
 #ifdef HAVE_ADMINAUTHORISER
     #include "AdminAuthoriser/adminauthoriser.h"
 #endif
+#ifdef BUILD_QUIWidget
+    #include "QUIWidget/QUIWidget.h"
+#endif
 #include <QTranslator>
 #include <QDir>
 #include <QCommandLineOption>
@@ -49,6 +52,15 @@ int main(int argc, char *argv[])
     RabbitCommon::CStyle style;
     style.slotStyle();
     
+#ifdef BUILD_QUIWidget
+    QUIWidget quiwidget;
+    quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
+    quiwidget.setTitle(QObject::tr("Rabbit Common - QUIWidget"));
+    quiwidget.setAlignment(Qt::AlignCenter);
+    quiwidget.setVisible(QUIWidget::BtnMenu, true);
+    quiwidget.exec();
+#endif
+    
 #ifdef HAVE_UPDATE
     CFrmUpdater update;
     update.setAttribute(Qt::WA_QuitOnClose, true);
@@ -84,6 +96,6 @@ int main(int argc, char *argv[])
     RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 #endif
 #endif
-
+    
     return a.exec();
 }

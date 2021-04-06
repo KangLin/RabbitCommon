@@ -26,6 +26,7 @@
 - [x] [目录功能](#目录功能)
 - [x] [日志](#日志)
 - [x] [样式](#样式)
+- [x] [QUIWidget](#QUIWidget)
 - [x] cmake 函数
   + [x] 翻译资源
   + [x] 增加目标；插件目标
@@ -352,6 +353,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 #### [日志](Src/RabbitCommonLog.h)
 
 #### [样式](Src/RabbitCommonStyle.h)
+
+### [QUIWidget](Src/QUIWidget/QUIWidget.h)
 
 ### 使用本项目的项目
 - [玉兔即时通讯](https://github.com/KangLin/RabbitIm)

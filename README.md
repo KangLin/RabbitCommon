@@ -26,6 +26,7 @@ Qt common library. include follow functions:
     - [x] [Get current login user name](#Get-current-login-user-name)
 - [x] [Logger](#Logger)
 - [x] [Style](#Style)
+- [x] [QUIWidget](#QUIWidget)
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
@@ -361,6 +362,8 @@ Qt common library. include follow functions:
 #### [Logger](Src/RabbitCommonLog.h)
 
 #### [Style](Src/RabbitCommonStyle.h)
+
+### [QUIWidget](Src/QUIWidget/QUIWidget.h)
 
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitIm)

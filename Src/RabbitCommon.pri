@@ -69,7 +69,12 @@ else: DEFINES *= RabbitCommon_EXPORTS
         LIBS += -lutil
     }
 }
-
+!equals(BUILD_QUIWidget, "OFF"){
+    SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
+    INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
+    RESOURCES += \
+    $$PWD/QUIWidget/Resource/QUIWidget.qrc
+}
 !isEmpty(log4cplus_DIR){
     DEFINES *= HAVE_LOG4CPLUS
     LIBS += -L$$log4cplus -llog4cplus

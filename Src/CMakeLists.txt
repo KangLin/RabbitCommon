@@ -60,6 +60,15 @@ if(BUILD_UPDATE)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
 
+option(BUILD_QUIWidget "Set to ON to build QUIWidget" ON)
+if(BUILD_QUIWidget)
+    list(APPEND RabbitCommon_DEFINITIONS BUILD_QUIWidget)
+    list(APPEND INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
+    set(SOURCE_FILES ${SOURCE_FILES} QUIWidget/QUIWidget.cpp)
+    #设置资源文件
+    LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
+endif(BUILD_QUIWidget)
+
 find_package(OpenSSL)
 IF(OpenSSL_FOUND)
     # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
