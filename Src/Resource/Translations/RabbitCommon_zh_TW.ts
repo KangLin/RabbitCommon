@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
+    <name>AdminAuthorization</name>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="200"/>
+        <source>Enter Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
+        <source>Enter your root password to run the program:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
@@ -462,8 +475,147 @@
         <translation>保存</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="193"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="228"/>
         <source>Critical</source>
-        <translation type="vanished">錯誤</translation>
+        <translation>錯誤</translation>
+    </message>
+</context>
+<context>
+    <name>QUIInputBox</name>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1086"/>
+        <source>Input box</source>
+        <translation>輸入框</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1087"/>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1088"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1140"/>
+        <source>Turn off countdown %1 s</source>
+        <translation>關閉倒計時： %1 秒</translation>
+    </message>
+</context>
+<context>
+    <name>QUIMessageBox</name>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="811"/>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="812"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="864"/>
+        <source>Turn off countdown %1 s</source>
+        <translation>關閉倒計時： %1 秒</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="879"/>
+        <source>Prompt</source>
+        <translation>提示</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="882"/>
+        <source>Query</source>
+        <translation>詢問</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="886"/>
+        <source>Error</source>
+        <translation>錯誤</translation>
+    </message>
+</context>
+<context>
+    <name>QUIWidget</name>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="459"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="476"/>
+        <source>Silvery</source>
+        <translation>銀色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="459"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="479"/>
+        <source>Blue</source>
+        <translation>藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="459"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="482"/>
+        <source>Light blue</source>
+        <translation>淺藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="459"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="485"/>
+        <source>Dark blue</source>
+        <translation>深藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="460"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="488"/>
+        <source>Gray</source>
+        <translation>灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="460"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="491"/>
+        <source>Light gray</source>
+        <translation>淺灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="460"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="494"/>
+        <source>Dark gray</source>
+        <translation>深灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="460"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="497"/>
+        <source>Black</source>
+        <translation>黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="461"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="500"/>
+        <source>Light black</source>
+        <translation>淺黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="461"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="506"/>
+        <source>PS black</source>
+        <translation>PS 黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="462"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="509"/>
+        <source>Flat black</source>
+        <translation>黑色扁平</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="462"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="512"/>
+        <source>Flat white</source>
+        <translation>白色扁平</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="461"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="503"/>
+        <source>Dark black</source>
+        <translation>深黑色</translation>
     </message>
 </context>
 <context>

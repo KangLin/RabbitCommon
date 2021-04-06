@@ -454,9 +454,12 @@ void QUIWidget::initForm()
 
     //添加换肤菜单
     QStringList name;
-    name << "银色" << "蓝色" << "浅蓝色" << "深蓝色" << "灰色" << "浅灰色" << "深灰色" << "黑色"
-         << "浅黑色" << "深黑色" << "PS黑色" << "黑色扁平" << "白色扁平";
-
+//    name << "银色" << "蓝色" << "浅蓝色" << "深蓝色" << "灰色" << "浅灰色" << "深灰色" << "黑色"
+//         << "浅黑色" << "深黑色" << "PS黑色" << "黑色扁平" << "白色扁平";
+    name << tr("Silvery") << tr("Blue") << tr("Light blue") << tr("Dark blue")
+         << tr("Gray") << tr("Light gray") << tr("Dark gray") << tr("Black")
+         << tr("Light black") << tr("Dark black") << tr("PS black")
+         << tr("Flat black") << tr("Flat white");
     foreach (QString str, name) {
         QAction *action = new QAction(str, this);
         this->btnMenu->addAction(action);
@@ -470,43 +473,43 @@ void QUIWidget::changeStyle()
     QString name = act->text();
     QString qssFile = ":/qss/blue.css";
 
-    if (name == "银色") {
+    if (name == tr("Silvery")) {
         qssFile = ":/qss/silvery.css";
         setStyle(QUIWidget::Style_Silvery);
-    } else if (name == "蓝色") {
+    } else if (name == tr("Blue")) {
         qssFile = ":/qss/blue.css";
         setStyle(QUIWidget::Style_Blue);
-    } else if (name == "浅蓝色") {
+    } else if (name == tr("Light blue")) {
         qssFile = ":/qss/lightblue.css";
         setStyle(QUIWidget::Style_LightBlue);
-    } else if (name == "深蓝色") {
+    } else if (name == tr("Dark blue")) {
         qssFile = ":/qss/darkblue.css";
         setStyle(QUIWidget::Style_DarkBlue);
-    } else if (name == "灰色") {
+    } else if (name == tr("Gray")) {
         qssFile = ":/qss/gray.css";
         setStyle(QUIWidget::Style_Gray);
-    } else if (name == "浅灰色") {
-        qssFile = ":/qss/lightgray.css";
+    } else if (name == tr("Light gray")) {
+        qssFile = ":/qss/light gray.css";
         setStyle(QUIWidget::Style_LightGray);
-    } else if (name == "深灰色") {
+    } else if (name == tr("Dark gray")) {
         qssFile = ":/qss/darkgray.css";
         setStyle(QUIWidget::Style_DarkGray);
-    } else if (name == "黑色") {
+    } else if (name == tr("Black")) {
         qssFile = ":/qss/black.css";
         setStyle(QUIWidget::Style_Black);
-    } else if (name == "浅黑色") {
+    } else if (name == tr("Light black")) {
         qssFile = ":/qss/lightblack.css";
         setStyle(QUIWidget::Style_LightBlack);
-    } else if (name == "深黑色") {
+    } else if (name == tr("Dark black")) {
         qssFile = ":/qss/darkblack.css";
         setStyle(QUIWidget::Style_DarkBlack);
-    } else if (name == "PS黑色") {
+    } else if (name == tr("PS black")) {
         qssFile = ":/qss/psblack.css";
         setStyle(QUIWidget::Style_PSBlack);
-    } else if (name == "黑色扁平") {
+    } else if (name == tr("Flat black")) {
         qssFile = ":/qss/flatblack.css";
         setStyle(QUIWidget::Style_FlatBlack);
-    } else if (name == "白色扁平") {
+    } else if (name == tr("Flat white")) {
         qssFile = ":/qss/flatwhite.css";
         setStyle(QUIWidget::Style_FlatWhite);
     }
@@ -805,8 +808,8 @@ void QUIMessageBox::initControl()
     widgetMain->raise();
     frame->raise();
 
-    this->btnOk->setText("确定");
-    this->btnCancel->setText("取消");
+    this->btnOk->setText(tr("OK"));
+    this->btnCancel->setText(tr("Cancel"));
 
     connect(this->btnOk, SIGNAL(clicked()), this, SLOT(on_btnOk_clicked()));
     connect(this->btnMenu_Close, SIGNAL(clicked(bool)), this, SLOT(on_btnMenu_Close_clicked()));
@@ -858,7 +861,7 @@ void QUIMessageBox::checkSec()
         this->close();
     }
 
-    QString str = QString("关闭倒计时 %1 s").arg(closeSec - currentSec + 1);
+    QString str = tr("Turn off countdown %1 s").arg(closeSec - currentSec + 1);
     this->labTime->setText(str);
 }
 
@@ -873,14 +876,14 @@ void QUIMessageBox::setMessage(const QString &msg, int type, int closeSec)
     if (type == 0) {
         this->labIcoMain->setStyleSheet("border-image: url(:/image/msg_info.png);");
         this->btnCancel->setVisible(false);
-        this->lab_Title->setText("提示");
+        this->lab_Title->setText(tr("Prompt"));
     } else if (type == 1) {
         this->labIcoMain->setStyleSheet("border-image: url(:/image/msg_question.png);");
-        this->lab_Title->setText("询问");
+        this->lab_Title->setText(tr("Query"));
     } else if (type == 2) {
         this->labIcoMain->setStyleSheet("border-image: url(:/image/msg_error.png);");
         this->btnCancel->setVisible(false);
-        this->lab_Title->setText("错误");
+        this->lab_Title->setText(tr("Error"));
     }
 
     this->labInfo->setText(msg);
@@ -1080,9 +1083,9 @@ void QUIInputBox::initControl()
     setTabOrder(txtValue, btnOk);
     setTabOrder(btnOk, btnCancel);
 
-    this->lab_Title->setText("输入框");
-    this->btnOk->setText("确定");
-    this->btnCancel->setText("取消");
+    this->lab_Title->setText(tr("Input box"));
+    this->btnOk->setText(tr("OK"));
+    this->btnCancel->setText(tr("Cancel"));
 
     connect(this->btnOk, SIGNAL(clicked()), this, SLOT(on_btnOk_clicked()));
     connect(this->btnMenu_Close, SIGNAL(clicked(bool)), this, SLOT(on_btnMenu_Close_clicked()));
@@ -1134,7 +1137,7 @@ void QUIInputBox::checkSec()
         this->close();
     }
 
-    QString str = QString("关闭倒计时 %1 s").arg(closeSec - currentSec + 1);
+    QString str = tr("Turn off countdown %1 s").arg(closeSec - currentSec + 1);
     this->labTime->setText(str);
 }
 

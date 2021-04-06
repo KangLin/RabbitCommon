@@ -4,9 +4,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="47"/>
+        <location filename="../../main.cpp" line="50"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
+    </message>
+    <message>
+        <location filename="../../main.cpp" line="58"/>
+        <source>Rabbit Common - QUIWidget</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
