@@ -19,8 +19,9 @@
 #include <QDebug>
 #include <QMouseEvent>
 
-QUIWidget::QUIWidget(QWidget *parent) : QDialog(parent)
+QUIWidget::QUIWidget(QWidget *parent, bool bQuitOnClose) : QDialog(parent)
 {
+    setAttribute(Qt::WA_QuitOnClose, bQuitOnClose);
     this->initControl();
     this->initForm();
 }

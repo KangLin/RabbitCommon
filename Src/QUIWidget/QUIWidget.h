@@ -76,7 +76,7 @@ public:
         Style_FlatWhite = 12        //白色扁平样式
     };
 
-    explicit QUIWidget(QWidget *parent = 0);
+    explicit QUIWidget(QWidget *parent = 0, bool bQuitOnClose = false);
     ~QUIWidget();
 
 public:
