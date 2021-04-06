@@ -47,18 +47,23 @@ int main(int argc, char *argv[])
     RabbitCommon::CStyle style;
     style.LoadStyle();
     
-    MainWindow m;
+    MainWindow *m = new MainWindow();
     
 #ifdef BUILD_QUIWidget
-    QUIWidget *quiwidget = new QUIWidget();
-    quiwidget->setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
-    quiwidget->setTitle(QObject::tr("Rabbit Common - QUIWidget"));
-    quiwidget->setAlignment(Qt::AlignCenter);
-    quiwidget->setVisible(QUIWidget::BtnMenu, true);
-    quiwidget->setMainWidget(&m);
-    quiwidget->show();
+    QUIWidget quiwidget;
+    quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
+    quiwidget.setTitle(QObject::tr("Rabbit Common - QUIWidget"));
+    quiwidget.setAlignment(Qt::AlignCenter);
+    quiwidget.setVisible(QUIWidget::BtnMenu, true);
+    quiwidget.setMainWidget(m);
+    quiwidget.show();
 #else
-    m.show();
+    m->show();
 #endif
-    return a.exec();
+     
+    a.exec();
+    
+#ifndef  BUILD_QUIWidget
+     delete m;
+#endif
 }
