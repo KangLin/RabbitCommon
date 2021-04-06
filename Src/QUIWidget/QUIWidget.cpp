@@ -1,22 +1,23 @@
 ﻿//#pragma execution_character_set("utf-8")
 
 #include "QUIWidget.h"
-#include "qlabel.h"
-#include "qpushbutton.h"
-#include "qtoolbutton.h"
-#include "qboxlayout.h"
-#include "qlineedit.h"
-#include "qcombobox.h"
-#include "qaction.h"
-#include "qfile.h"
-#include "qevent.h"
-#include "qtranslator.h"
-#include "qtextcodec.h"
-#include "qfontdatabase.h"
-#include "qapplication.h"
-#include "qdesktopwidget.h"
-#include "qtimer.h"
-#include "qdebug.h"
+#include <QLabel>
+#include <QPushButton>
+#include <QToolButton>
+#include <QBoxLayout>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QAction>
+#include <QFile>
+#include <QEvent>
+#include <QTranslator>
+#include <QTextCodec>
+#include <QFontDatabase>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QTimer>
+#include <QDebug>
+#include <QMouseEvent>
 
 QUIWidget::QUIWidget(QWidget *parent) : QDialog(parent)
 {
