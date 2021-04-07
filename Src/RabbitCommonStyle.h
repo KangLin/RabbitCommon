@@ -38,6 +38,7 @@ public Q_SLOTS:
      * @brief Used to respond to menu events
      */
     void slotStyle();
+    void slotSetDefaultStyle();
 };
 
 } //namespace RabbitCommon

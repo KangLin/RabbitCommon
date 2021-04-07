@@ -71,6 +71,11 @@ int CStyle::SetDefaultStyle()
     return 0;
 }
 
+void CStyle::slotSetDefaultStyle()
+{
+    SetDefaultStyle();
+}
+
 void CStyle::slotStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
