@@ -444,7 +444,7 @@ void QUIWidget::initForm()
     setIcon(QUIWidget::Lab_Ico, 0xf072, 11);
     setIcon(QUIWidget::BtnMenu, 0xf0d7);
     setIcon(QUIWidget::BtnMenu_Min, 0xf068);
-    setIcon(QUIWidget::BtnMenu_Max, 0xf067);
+    setIcon(QUIWidget::BtnMenu_Max, 0xf096); // 0xf067);
     setIcon(QUIWidget::BtnMenu_Close, 0xf00d);
 
     //设置标题及对齐方式
@@ -648,8 +648,10 @@ void QUIWidget::on_btnMenu_Min_clicked()
 void QUIWidget::on_btnMenu_Max_clicked()
 {
     if (max) {
+        setIcon(QUIWidget::BtnMenu_Max, 0xf096); // 0xf067);
         this->setGeometry(location);
     } else {
+        setIcon(BtnMenu_Max, 0xf24d);
         location = this->geometry();
         this->setGeometry(qApp->desktop()->availableGeometry());
     }
