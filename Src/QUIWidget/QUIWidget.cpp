@@ -314,6 +314,7 @@ void QUIWidget::initControl()
     widgetMain = new QWidget(this);
     widgetMain->setObjectName(QString::fromUtf8("widgetMain"));
     widgetMain->setStyleSheet(QString::fromUtf8(""));
+    widgetMain->setFocusPolicy(Qt::NoFocus);
     verticalLayout2 = new QVBoxLayout(widgetMain);
     verticalLayout2->setSpacing(0);
     verticalLayout2->setContentsMargins(11, 11, 11, 11);
@@ -321,6 +322,7 @@ void QUIWidget::initControl()
     verticalLayout2->setContentsMargins(0, 0, 0, 0);
     widget_title = new QWidget(widgetMain);
     widget_title->setObjectName(QString::fromUtf8("widget_title"));
+    widget_title->setFocusPolicy(Qt::NoFocus);
     QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -334,6 +336,7 @@ void QUIWidget::initControl()
     horizontalLayout4->setContentsMargins(0, 0, 0, 0);
     lab_Ico = new QLabel(widget_title);
     lab_Ico->setObjectName(QString::fromUtf8("lab_Ico"));
+    lab_Ico->setFocusPolicy(Qt::NoFocus);
     QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Preferred);
     sizePolicy1.setHorizontalStretch(0);
     sizePolicy1.setVerticalStretch(0);
@@ -351,6 +354,7 @@ void QUIWidget::initControl()
     sizePolicy2.setVerticalStretch(0);
     sizePolicy2.setHeightForWidth(lab_Title->sizePolicy().hasHeightForWidth());
     lab_Title->setSizePolicy(sizePolicy2);
+    lab_Title->setFocusPolicy(Qt::NoFocus);
     lab_Title->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignVCenter);
 
     horizontalLayout4->addWidget(lab_Title);
@@ -359,6 +363,7 @@ void QUIWidget::initControl()
     widget_menu->setObjectName(QString::fromUtf8("widget_menu"));
     sizePolicy1.setHeightForWidth(widget_menu->sizePolicy().hasHeightForWidth());
     widget_menu->setSizePolicy(sizePolicy1);
+    widget_menu->setFocusPolicy(Qt::NoFocus);
     horizontalLayout = new QHBoxLayout(widget_menu);
     horizontalLayout->setSpacing(0);
     horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -418,6 +423,7 @@ void QUIWidget::initControl()
 
     widget = new QWidget(widgetMain);
     widget->setObjectName(QString::fromUtf8("widget"));
+    widget->setFocusPolicy(Qt::NoFocus);
     verticalLayout3 = new QVBoxLayout(widget);
     verticalLayout3->setSpacing(0);
     verticalLayout3->setContentsMargins(11, 11, 11, 11);
