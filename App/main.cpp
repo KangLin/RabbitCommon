@@ -47,8 +47,7 @@ int main(int argc, char *argv[])
     
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 
-    RabbitCommon::CStyle style;
-    style.LoadStyle();
+    RabbitCommon::CStyle::Instance()->LoadStyle();
     
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));
@@ -66,7 +65,7 @@ int main(int argc, char *argv[])
     m->show();
 #endif
      
-    a.exec();
+    int nRet = a.exec();
     
 #ifndef  BUILD_QUIWidget
      delete m;
@@ -75,4 +74,6 @@ int main(int argc, char *argv[])
 #if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
     Q_CLEANUP_RESOURCE(translations_RabbitCommonApp);
 #endif
+    
+    return nRet;
 }

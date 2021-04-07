@@ -15,7 +15,10 @@ class RABBITCOMMON_EXPORT CStyle : public QObject
 {
     Q_OBJECT
 public:
-    explicit CStyle(QWidget *parent = nullptr);
+    static CStyle* Instance();
+    
+    void SetDefaultFile(const QString &file);
+    
     /**
      * @brief Load style from configure file
      * @return 
@@ -27,18 +30,22 @@ public:
      * @return 
      */
     int LoadStyle(const QString &szFile);
-    /**
-     * @brief Set default style
-     * @return 
-     */
-    int SetDefaultStyle();
     
 public Q_SLOTS:
     /**
      * @brief Used to respond to menu events
      */
     void slotStyle();
+    /**
+     * @brief Set default style
+     * @return 
+     */
     void slotSetDefaultStyle();
+    
+private:
+    CStyle(QObject *parent = nullptr);
+    QString m_szDefaultFile;
+    
 };
 
 } //namespace RabbitCommon

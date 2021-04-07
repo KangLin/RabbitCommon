@@ -61,7 +61,6 @@ void MainWindow::on_actionUpdate_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    
 #ifdef HAVE_ADMINAUTHORISER
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     QString szCmd = "mkdir";
@@ -78,6 +77,5 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_actionStype_triggered()
 {
-    RabbitCommon::CStyle style;
-    style.slotStyle();
+    RabbitCommon::CStyle::Instance()->slotStyle();
 }
