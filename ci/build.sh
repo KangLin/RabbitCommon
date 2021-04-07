@@ -33,10 +33,10 @@ if [ "$BUILD_TARGERT" = "android" ]; then
     else
         case $BUILD_ARCH in
             arm*)
-                export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
+                export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/android_armv7
                 ;;
             x86)
-            export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_x86
+            export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/android_x86
             ;;
         esac
     fi
