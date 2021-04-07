@@ -22,7 +22,7 @@ android{
 } else {
     DEFINES += BUILD_ARCH=\"\\\"$$system(uname -p)\\\"\"
 }
-CONFIG(debug, debug|release): DEFINES += _DEBUG
+CONFIG(debug, debug|release): DEFINES *= _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
 #Support windows xp
