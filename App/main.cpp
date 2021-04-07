@@ -17,6 +17,9 @@
 
 int main(int argc, char *argv[])
 {
+#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
+    Q_INIT_RESOURCE(translations_RabbitCommonApp);
+#endif
     QApplication a(argc, argv);
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonApp");
@@ -67,5 +70,9 @@ int main(int argc, char *argv[])
     
 #ifndef  BUILD_QUIWidget
      delete m;
+#endif
+    a.removeTranslator(&tApp);
+#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
+    Q_CLEANUP_RESOURCE(translations_RabbitCommonApp);
 #endif
 }
