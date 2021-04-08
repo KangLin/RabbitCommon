@@ -17,7 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
+#if defined (_DEBUG)
     Q_INIT_RESOURCE(translations_RabbitCommonApp);
 #endif
     QApplication a(argc, argv);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
      delete m;
 #endif
     a.removeTranslator(&tApp);
-#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
+#if defined (_DEBUG)
     Q_CLEANUP_RESOURCE(translations_RabbitCommonApp);
 #endif
     
