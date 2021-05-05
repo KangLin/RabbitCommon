@@ -37,6 +37,12 @@ public:
 #define LM_WARNING 2
 #define LM_ERROR 3
 
+#undef LOG_DEBUG
+#undef LOG_MODEL_DEBUG
+#undef LOG_ERROR
+#undef LOG_WARNING
+#undef LOG_INFO
+
 #ifdef DEBUG
     #define LOG_DEBUG(...) 
     #define LOG_MODEL_DEBUG(model, ...)
