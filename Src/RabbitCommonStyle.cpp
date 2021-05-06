@@ -7,18 +7,31 @@
 
 namespace RabbitCommon {
 
-CStyle::CStyle(QWidget *parent) : QObject(parent)
-{}
+CStyle::CStyle(QObject *parent) : QObject(parent)
+{
+    m_szDefaultFile = RabbitCommon::CDir::Instance()->GetDirData(true)
+            + QDir::separator()
+            + "style" + QDir::separator()
+            + "black_green.qss";
+}
+
+CStyle* CStyle::Instance()
+{
+    static CStyle* p = new CStyle();
+    if(!p) p = new CStyle();
+    return p;
+}
+
+void CStyle::SetDefaultFile(const QString &file)
+{
+    m_szDefaultFile = file;
+}
 
 int CStyle::LoadStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Sink",
-                  RabbitCommon::CDir::Instance()->GetDirData(true)
-                  + QDir::separator()
-                  + "style" + QDir::separator()
-                  + "black_green.qss").toString();
+    QString szFile = set.value("Sink", m_szDefaultFile).toString();
     qDebug() << "LoadStyle:" << szFile;
     return  LoadStyle(szFile);
 }
@@ -26,13 +39,30 @@ int CStyle::LoadStyle()
 int CStyle::LoadStyle(const QString &szFile)
 {
     if(szFile.isEmpty())
+    {
         qApp->setStyleSheet("");
+        //qApp->setPalette(QPalette(QColor(Qt::gray)));
+    }
     else
     {
         QFile file(szFile);
         if(file.open(QFile::ReadOnly))
         {
             QString stylesheet= file.readAll();
+            QString pattern("QPalette\\{background:#[0-9a-fA-F]+;\\}");
+            QRegExp rx(pattern);
+            int pos = rx.indexIn(stylesheet);
+            if(pos > -1)
+            {
+                QString szPalette = rx.cap();
+                QRegExp rxPalette("#[0-9a-fA-F]+");
+                int pos = rxPalette.indexIn(stylesheet);
+                if(pos > -1)
+                {
+                    QString paletteColor =  rxPalette.cap();
+                    qApp->setPalette(QPalette(QColor(paletteColor)));
+                }
+            }
             qApp->setStyleSheet(stylesheet);
             file.close();
         }
@@ -44,33 +74,27 @@ int CStyle::LoadStyle(const QString &szFile)
     return 0;
 }
 
-int CStyle::SetDefaultStyle()
+void CStyle::slotSetDefaultStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Sink", "");
     qApp->setStyleSheet("");
-    return 0;
+    //qApp->setPalette(QPalette(QColor(Qt::gray)));
+    return;
 }
 
 void CStyle::slotStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Sink",
-                  RabbitCommon::CDir::Instance()->GetDirData()
-                  + QDir::separator()
-                  + "style" + QDir::separator()
-                  + "black_green.qss").toString();
+    QString szFile = set.value("Sink", m_szDefaultFile).toString();
     if(szFile.isEmpty())
-        szFile = RabbitCommon::CDir::Instance()->GetDirData()
-                + QDir::separator()
-                + "style" + QDir::separator()
-                + "black_green.qss";
+        szFile = m_szDefaultFile;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
                  szFile,
-                 tr("Style files(*.qss)"));
+                 tr("Style files(*.qss *.css);; All files(*.*)"));
     if(szFile.isEmpty()) return;
     LoadStyle(szFile);
     

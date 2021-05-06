@@ -36,7 +36,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    setAttribute(Qt::WA_QuitOnClose, false);
+    setAttribute(Qt::WA_QuitOnClose, true);
     
     m_szAppName = qApp->applicationDisplayName();
     

@@ -461,22 +461,155 @@
         <source>Save</source>
         <translation>保存</translation>
     </message>
+</context>
+<context>
+    <name>QUIInputBox</name>
     <message>
-        <source>Critical</source>
-        <translation type="vanished">錯誤</translation>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1110"/>
+        <source>Input box</source>
+        <translation>輸入框</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1111"/>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1112"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="1164"/>
+        <source>Turn off countdown %1 s</source>
+        <translation>關閉倒計時： %1 秒</translation>
+    </message>
+</context>
+<context>
+    <name>QUIMessageBox</name>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="835"/>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="836"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="888"/>
+        <source>Turn off countdown %1 s</source>
+        <translation>關閉倒計時： %1 秒</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="903"/>
+        <source>Prompt</source>
+        <translation>提示</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="906"/>
+        <source>Query</source>
+        <translation>詢問</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="910"/>
+        <source>Error</source>
+        <translation>錯誤</translation>
+    </message>
+</context>
+<context>
+    <name>QUIWidget</name>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="470"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="488"/>
+        <source>Silvery</source>
+        <translation>銀色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="470"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="491"/>
+        <source>Blue</source>
+        <translation>藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="470"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="494"/>
+        <source>Light blue</source>
+        <translation>淺藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="470"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="497"/>
+        <source>Dark blue</source>
+        <translation>深藍色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="471"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="500"/>
+        <source>Gray</source>
+        <translation>灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="471"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="503"/>
+        <source>Light gray</source>
+        <translation>淺灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="471"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="506"/>
+        <source>Dark gray</source>
+        <translation>深灰色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="471"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="509"/>
+        <source>Black</source>
+        <translation>黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="472"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="512"/>
+        <source>Light black</source>
+        <translation>淺黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="472"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="518"/>
+        <source>PS black</source>
+        <translation>PS 黑色</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="473"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="521"/>
+        <source>Flat black</source>
+        <translation>黑色扁平</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="473"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="524"/>
+        <source>Flat white</source>
+        <translation>白色扁平</translation>
+    </message>
+    <message>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="472"/>
+        <location filename="../../QUIWidget/QUIWidget.cpp" line="515"/>
+        <source>Dark black</source>
+        <translation>深黑色</translation>
     </message>
 </context>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="71"/>
+        <location filename="../../RabbitCommonStyle.cpp" line="95"/>
         <source>Open sink</source>
         <translation>打開樣式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="73"/>
-        <source>Style files(*.qss)</source>
-        <translation>樣式文件(*.qss)</translation>
+        <location filename="../../RabbitCommonStyle.cpp" line="97"/>
+        <source>Style files(*.qss *.css);; All files(*.*)</source>
+        <translation>樣式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 </TS>

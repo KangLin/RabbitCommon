@@ -60,6 +60,19 @@ if(BUILD_UPDATE)
     set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
 
+option(BUILD_QUIWidget "Set to ON to build QUIWidget" ON)
+if(BUILD_QUIWidget)
+    list(APPEND RabbitCommon_DEFINITIONS BUILD_QUIWidget)
+    list(APPEND INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
+    set(SOURCE_FILES ${SOURCE_FILES} QUIWidget/QUIWidget.cpp)
+    #设置资源文件
+    LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
+    string(TOLOWER "${CMAKE_BUILD_TYPE}" build_type)
+    if("debug" STREQUAL build_type)
+        LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidgetQss.qrc)
+    endif()
+endif(BUILD_QUIWidget)
+
 find_package(OpenSSL)
 IF(OpenSSL_FOUND)
     # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -147,7 +160,8 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
 GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
     OUT_QRC TRANSLATIONS_QRC_FILES)
-if("Debug" STREQUAL CMAKE_BUILD_TYPE)
+string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+if(BUILD_TYPE STREQUAL "debug")
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS _DEBUG)
     LIST(APPEND RCC_FILES 
         ${TRANSLATIONS_QRC_FILES}
@@ -222,6 +236,8 @@ endif()
 # Install style files
 if(ANDROID)
    INSTALL(DIRECTORY Resource/style/ DESTINATION "assets/data/style" COMPONENT Runtime)
+   INSTALL(DIRECTORY QUIWidget/Resource/qss DESTINATION "assets/data/style" COMPONENT Runtime)
 else()
    INSTALL(DIRECTORY Resource/style/ DESTINATION "data/style" COMPONENT Runtime)
+   INSTALL(DIRECTORY QUIWidget/Resource/qss/ DESTINATION "data/style" COMPONENT Runtime)
 endif()

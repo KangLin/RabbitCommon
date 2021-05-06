@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
@@ -424,11 +424,11 @@ function(ADD_TARGET)
             VERSION ${PARA_VERSION})
     endif()
     
-    if(DEFINED PARA_LIBS)
+    if(DEFINED PARA_LIBS AND PARA_LIBS)
         target_link_libraries(${PARA_NAME} PUBLIC ${PARA_LIBS})
     endif()
     
-    if(DEFINED PARA_PRIVATE_LIBS)
+    if(DEFINED PARA_PRIVATE_LIBS AND PARA_PRIVATE_LIBS)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
     endif()
 
@@ -436,15 +436,15 @@ function(ADD_TARGET)
         target_compile_definitions(${PARA_NAME} PUBLIC ${PARA_DEFINITIONS})
     endif()
     
-    if(DEFINED PARA_PRIVATE_DEFINITIONS)
+    if(DEFINED PARA_PRIVATE_DEFINITIONS AND PARA_PRIVATE_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PRIVATE ${PARA_PRIVATE_DEFINITIONS})
     endif()
 
-    if(DEFINED PARA_INCLUDE_DIRS)
+    if(DEFINED PARA_INCLUDE_DIRS AND PARA_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PUBLIC ${PARA_INCLUDE_DIRS})
     endif()
 
-    if(DEFINED PARA_PRIVATE_INCLUDE_DIRS)
+    if(DEFINED PARA_PRIVATE_INCLUDE_DIRS AND PARA_PRIVATE_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_INCLUDE_DIRS})
     endif()
     

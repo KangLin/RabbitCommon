@@ -82,12 +82,18 @@ LIBS *= "-L$$DESTDIR" -lRabbitCommon
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
     DEFINES *= HAVE_ADMINAUTHORISER
 }
+!equals(BUILD_QUIWidget, "OFF"){
+    DEFINES *= BUILD_QUIWidget
+}
 SOURCES += \
+        MainWindow.cpp \
         main.cpp
 
-HEADERS +=
+HEADERS += \
+    MainWindow.h
 
-FORMS +=
+FORMS += \
+    MainWindow.ui
 
 !android: target.path = $$PREFIX/bin
 INSTALLS += target
