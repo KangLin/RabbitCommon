@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Directory operator
+ */
+
 #ifndef RABBITCOMM_CGLOBALDIR_H
 #define RABBITCOMM_CGLOBALDIR_H
 

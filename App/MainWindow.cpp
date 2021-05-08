@@ -1,3 +1,7 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ */
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 

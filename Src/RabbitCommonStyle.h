@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Style load
+ */
+
 #ifndef CSTYLE_H
 #define CSTYLE_H
 

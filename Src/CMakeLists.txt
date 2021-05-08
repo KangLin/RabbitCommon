@@ -1,3 +1,5 @@
+# Author: Kang Lin(kl222@126.com)
+
 project(RabbitCommon)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")

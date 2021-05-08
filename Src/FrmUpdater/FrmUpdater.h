@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Update diaglog
+ */
+
 #ifndef RABBITCOMMON_FRMUPDATER_H
 #define RABBITCOMMON_FRMUPDATER_H
 

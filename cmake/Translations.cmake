@@ -1,3 +1,5 @@
+# Author: Kang Lin(kl222@126.com)
+
 #GENERATED_QT_TRANSLATIONS 函数：生成 qt 翻译
 #+ 功能：
 #  - 生成或更新翻译源文件(.ts)，需要手动执行目标 translations_update_${TRANSLATIONS_NAME} 

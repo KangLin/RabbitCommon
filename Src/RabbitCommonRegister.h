@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Register
+ */
+
 #ifndef RABBITCOMMON_REGISTER_H_KANGLIN_2019_07_05
 #define RABBITCOMMON_REGISTER_H_KANGLIN_2019_07_05
 

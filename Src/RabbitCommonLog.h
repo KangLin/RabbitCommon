@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract log
+ */
+
 #ifndef RABBIT_COMMON_LOG_H
 #define RABBIT_COMMON_LOG_H
 

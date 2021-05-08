@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Admin authorization
+ */
+
 #ifndef RABBITCOMMON_ADMINAUTHORIZATION_P_H
 #define RABBITCOMMON_ADMINAUTHORIZATION_P_H
 

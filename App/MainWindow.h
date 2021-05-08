@@ -1,3 +1,8 @@
+/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  @author Kang Lin(kl222@126.com)
+ *  @abstract Main window
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
