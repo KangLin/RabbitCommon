@@ -4,7 +4,6 @@
 #include "adminauthoriser.h"
 #include "adminauthorization_p.h"
 #include <QFileInfo>
-#include <QApplication>
 #include <QProcess>
 
 RabbitCommon::CAdminAuthoriser::CAdminAuthoriser() = default;
