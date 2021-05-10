@@ -398,6 +398,18 @@ function(ADD_TARGET)
             DESTINATION ${CMAKE_BINARY_DIR})
     endif()
 
+    IF(MSVC)
+        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
+        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
+        MARK_AS_ADVANCED(WIN32_USE_MP)
+        IF(WIN32_USE_MP)
+            #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+            target_compile_options(${PARA_NAME} PRIVATE /MP)
+        ENDIF(WIN32_USE_MP)
+        target_compile_options(${PARA_NAME} PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+        target_compile_options(${PARA_NAME} PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+    ENDIF(MSVC)
+
     if(NOT ANDROID)
         if(DEFINED PARA_OUTPUT_DIR)
             set_target_properties(${PARA_NAME} PROPERTIES
