@@ -19,6 +19,7 @@
 #endif
 #include "RabbitCommonTools.h"
 #include "RabbitCommonStyle.h"
+#include "RabbitCommonService.h"
 
 #include <QDir>
 
@@ -84,4 +85,34 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_actionStype_triggered()
 {
     RabbitCommon::CStyle::Instance()->slotStyle();
+}
+
+void MainWindow::on_pbInstallService_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Install();
+}
+
+void MainWindow::on_pbUninstallService_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Uninstall();
+}
+
+void MainWindow::on_pbStartService_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Start();
+}
+
+void MainWindow::on_pbStop_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Stop();
+}
+
+void MainWindow::on_pbPauseService_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Pause();
+}
+
+void MainWindow::on_pbContinueService_clicked()
+{
+    RabbitCommon::CServiceManage::Instance()->Continue();
 }

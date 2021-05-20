@@ -12,12 +12,40 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QThread>
 
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonStyle.h"
-
+#include "RabbitCommonLog.h"
 #include "MainWindow.h"
+
+#include "RabbitCommonService.h"
+
+class CServiceExample : public RabbitCommon::CService
+{
+public:
+    CServiceExample(){ m_bExit = false; }
+    
+    int Stop() override {
+        m_bExit = true;
+        return 0;
+    }
+    
+    // CService interface
+protected:
+    virtual int OnRun() override {
+        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample run ...");
+        while(!m_bExit)
+            QThread::msleep(500);
+        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample exit");
+        qApp->quit();
+        return 0;
+    }
+    
+private:
+    bool m_bExit;
+};
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +80,9 @@ int main(int argc, char *argv[])
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 
     RabbitCommon::CStyle::Instance()->LoadStyle();
+    
+    RabbitCommon::CServiceManage::Instance(new CServiceExample())->Main(argc, argv);
+    return -1;
     
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));

@@ -29,6 +29,18 @@ private slots:
     
     void on_actionStype_triggered();
     
+    void on_pbInstallService_clicked();
+    
+    void on_pbUninstallService_clicked();
+    
+    void on_pbStartService_clicked();
+    
+    void on_pbStop_clicked();
+    
+    void on_pbPauseService_clicked();
+    
+    void on_pbContinueService_clicked();
+    
 private:
     Ui::MainWindow *ui;
 };

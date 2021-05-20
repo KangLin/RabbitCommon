@@ -142,6 +142,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonDir.h
     RabbitCommonStyle.h
     RabbitCommonLog.h
+    RabbitCommonService.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -153,9 +154,19 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonStyle.cpp
+    RabbitCommonService.cpp
     )
 list(APPEND RABBITCOMMON_SOURCE_UI_FILES
     )
+
+if(WIN32)
+    list(APPEND RABBITCOMMON_HEAD_FILES
+        ServiceWindows.h
+        )
+    list(APPEND RABBITCOMMON_SOURCE_FILES
+        ServiceWindows.cpp
+        )
+endif()
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
