@@ -20,6 +20,8 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonStyle.h"
 
+#include <QDir>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

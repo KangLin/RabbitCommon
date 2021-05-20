@@ -45,28 +45,31 @@ SET(CMAKE_AUTORCC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
-SET(INSTALL_HEAD_FILES "")
+SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
+set(RABBITCOMMON_SOURCE_FILES )
+set(RABBITCOMMON_SOURCE_UI_FILES )
+set(RABBITCOMMON_HEAD_FILES )
 option(BUILD_ABOUT "Set to ON to build about function" ON)
 if(BUILD_ABOUT)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
-    list(APPEND INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
-    set(SOURCE_FILES ${SOURCE_FILES} DlgAbout/DlgAbout.cpp)
-    set(SOURCE_UI_FILES ${SOURCE_UI_FILES} DlgAbout/DlgAbout.ui)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
 endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
-    list(APPEND INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
-    set(SOURCE_FILES ${SOURCE_FILES} FrmUpdater/FrmUpdater.cpp)
-    set(SOURCE_UI_FILES ${SOURCE_UI_FILES} FrmUpdater/FrmUpdater.ui)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
 endif(BUILD_UPDATE)
 
 option(BUILD_QUIWidget "Set to ON to build QUIWidget" ON)
 if(BUILD_QUIWidget)
     list(APPEND RabbitCommon_DEFINITIONS BUILD_QUIWidget)
-    list(APPEND INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
-    set(SOURCE_FILES ${SOURCE_FILES} QUIWidget/QUIWidget.cpp)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES QUIWidget/QUIWidget.cpp)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
     string(TOLOWER "${CMAKE_BUILD_TYPE}" build_type)
@@ -97,17 +100,17 @@ ENDIF()
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
 if(BUILD_ADMINAUTHORISER)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
-    set(HEAD_FILES ${INSTALL_HEAD_FILES} AdminAuthoriser/adminauthoriser)
-    set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthoriser.cpp)
-    SET(HEAD_FILES ${HEAD_FILES} AdminAuthoriser/adminauthorization_p.h)
+    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthoriser)
+    list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthoriser.cpp)
+    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h)
     if(WIN32)
-        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_win.cpp)
+        list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_win.cpp)
     elseif(MAC)
-        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_mac.cpp)
+        list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_mac.cpp)
     elseif(NOT ANDROID AND UINX)
-        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_x11.cpp)
+        list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_x11.cpp)
     else()
-        set(SOURCE_FILES ${SOURCE_FILES} AdminAuthoriser/adminauthorization_dummy.cpp)
+        list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_dummy.cpp)
     endif()
 endif(BUILD_ADMINAUTHORISER)
 
@@ -134,33 +137,31 @@ else()
     message("Download log4cplus from https://github.com/log4cplus/log4cplus")
 endif()
 
-set(INSTALL_HEAD_FILES
-    ${INSTALL_HEAD_FILES}
+list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
     RabbitCommonStyle.h
     RabbitCommonLog.h
     )
-set(HEAD_FILES
-    ${INSTALL_HEAD_FILES}
-    ${HEAD_FILES}
+list(APPEND RABBITCOMMON_HEAD_FILES
+    ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
     )
-set(SOURCE_FILES
-    ${SOURCE_FILES}
+list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonLog.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonStyle.cpp
     )
-set(SOURCE_UI_FILES ${SOURCE_UI_FILES})
+list(APPEND RABBITCOMMON_SOURCE_UI_FILES
+    )
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
-GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
+GENERATED_QT_TRANSLATIONS(SOURCES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES}
     OUT_QRC TRANSLATIONS_QRC_FILES)
 if(CMAKE_BUILD_TYPE)
     string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
@@ -200,13 +201,13 @@ if(MSVC)
 endif()
 
 string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
-SET(INSTALL_HEAD_FILES ${INSTALL_HEAD_FILES}
+list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 ADD_TARGET(NAME ${PROJECT_NAME}
-    SOURCE_FILES ${SOURCE_FILES} ${SOURCE_UI_FILES} ${RCC_FILES} ${HEAD_FILES}
-    INSTALL_HEADER_FILES ${INSTALL_HEAD_FILES}
+    SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
+    INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
     LIBS ${RABBIT_COMMON_LIBS} ${QT_LIBRARIES}
