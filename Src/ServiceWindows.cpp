@@ -27,6 +27,7 @@ CServiceManageWindows::CServiceManageWindows(CService *pService,
 /**
  * @brief CServiceManageWindows::Install
  * 
+ * The function is same follow command：
  * Use command line in windows:
  *        Enter RabbitCommonApp.exe directory, then exec follow command to install service
  *        sc create RabbitCommon %CD%\RabbitCommonApp.exe
@@ -82,6 +83,7 @@ int CServiceManageWindows::Install()
 /**
  * @brief CServiceManageWindows::Uninstall
  *
+ * The function is same follow command：
  * Use command line in windows:
  *        Exec follow command to install service
  *        sc delete RabbitCommon 
@@ -262,7 +264,7 @@ int CServiceManageWindows::Continue()
 bool CServiceManageWindows::IsStoped()
 {
     USES_CONVERSION;
-    bool nRet = 0;
+    bool bRet = false;
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     if(!hSCM)
     {
@@ -292,13 +294,55 @@ bool CServiceManageWindows::IsStoped()
             break;
         }
         if(SERVICE_STOPPED == status.dwCurrentState)
-            nRet = true;
+            bRet = true;
     } while(0);
     
     ::CloseServiceHandle(hService);
     ::CloseServiceHandle(hSCM);
     
-    return nRet;
+    return bRet;
+}
+
+bool CServiceManageWindows::IsRunning()
+{
+    USES_CONVERSION;
+    bool bRet = false;
+    SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+    if(!hSCM)
+    {
+        LOG_MODEL_ERROR("Service",
+                        "OpenSCManager() failed with error code:%d\n",
+                        GetLastError());
+        return false;
+    }
+    
+    SC_HANDLE hService = ::OpenService(hSCM, A2T(Name().toStdString().c_str()),
+                                       SERVICE_STOP | DELETE);
+    do {
+        if(hService == NULL)
+        {
+            LOG_MODEL_ERROR("Service",
+                            "OpenService() failed with error code:%d\n",
+                            GetLastError());
+            break;
+        }
+        
+        SERVICE_STATUS	status = {0};
+        if(!QueryServiceStatus(hService, &status))
+        {
+            LOG_MODEL_ERROR("Service",
+                            "QueryServiceStatus() failed with error code:%d\n",
+                            GetLastError());
+            break;
+        }
+        if(SERVICE_RUNNING == status.dwCurrentState)
+            bRet = true;
+    } while(0);
+    
+    ::CloseServiceHandle(hService);
+    ::CloseServiceHandle(hSCM);
+    
+    return bRet;
 }
 
 qint16 CServiceManageWindows::State()
@@ -407,7 +451,7 @@ int CServiceManageWindows::Main(int argc, char* argv[])
     return nRet;
 }
 
-CServiceWindowsHandler::CServiceWindowsHandler(CService* pService)
+CServiceWindowsHandler::CServiceWindowsHandler(CService* pService) : QObject()
 {
     m_pService = pService;
     m_StatusHandle = NULL;
@@ -422,32 +466,31 @@ CServiceWindowsHandler::CServiceWindowsHandler(CService* pService)
 
 int CServiceWindowsHandler::Main(int argc, LPTSTR *argv)
 {
+    USES_CONVERSION;
     Q_UNUSED(argc);
     Q_UNUSED(argv);
-    int nRet = 0;
-    nRet = Init();
-    if(nRet)
-    {   
-        SetStatus(SERVICE_STOP_PENDING);
-        return nRet;
-    }
-    else
-        SetStatus(SERVICE_RUNNING);
+    int nRet = -1;
+    SetStatus(SERVICE_RUNNING);
     Q_ASSERT(m_pService);
+    
     if(m_pService)
-        return m_pService->Start();
-    LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
-    return -1;
+        nRet = m_pService->Start();
+    else
+        LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
+    SetStatus(SERVICE_STOPPED);
+    return nRet;
 }
 
 int CServiceWindowsHandler::Stop()
 {
     Q_ASSERT(m_pService);
-    SetStatus(SERVICE_STOPPED);
+    int nRet = -1;
     if(m_pService)
-        return m_pService->Stop();
-    LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
-    return -1;
+        nRet = m_pService->Stop();
+    else
+        LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
+    SetStatus(SERVICE_STOPPED);
+    return nRet;
 }
 
 int CServiceWindowsHandler::Pause()
@@ -466,11 +509,6 @@ int CServiceWindowsHandler::Continue()
         return m_pService->Continue();
     LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
     return -1;
-}
-
-int CServiceWindowsHandler::Init()
-{
-    return 0;
 }
 
 int CServiceWindowsHandler::ShutDown()

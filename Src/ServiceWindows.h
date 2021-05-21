@@ -15,14 +15,15 @@
 
 namespace RabbitCommon {
 
-class CServiceWindowsHandler
+class CServiceWindowsHandler : public QObject
 {
+    Q_OBJECT
+    
 public:
     CServiceWindowsHandler(CService* pService);
 
     int Start();
     int Stop();
-    int Init();
     int ShutDown();
     int Pause();
     int SetStatus(DWORD state);
@@ -50,6 +51,7 @@ public:
     virtual int Pause() override;
     virtual int Continue() override;
     virtual bool IsStoped() override;
+    virtual bool IsRunning() override;
     virtual int Main(int argc, char* argv[]) override;
     
     qint16 State();

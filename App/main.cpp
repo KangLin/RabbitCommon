@@ -20,35 +20,9 @@
 #include "RabbitCommonLog.h"
 #include "MainWindow.h"
 
-#include "RabbitCommonService.h"
-
-class CServiceExample : public RabbitCommon::CService
-{
-public:
-    CServiceExample(){ m_bExit = false; }
-    
-    int Stop() override {
-        m_bExit = true;
-        return 0;
-    }
-    
-    // CService interface
-protected:
-    virtual int OnRun() override {
-        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample run ...");
-        while(!m_bExit)
-            QThread::msleep(500);
-        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample exit");
-        qApp->quit();
-        return 0;
-    }
-    
-private:
-    bool m_bExit;
-};
-
 int main(int argc, char *argv[])
 {
+    
 #if defined (_DEBUG)
     Q_INIT_RESOURCE(translations_RabbitCommonApp);
 #endif
@@ -78,11 +52,8 @@ int main(int argc, char *argv[])
     RabbitCommon::CTools::Instance()->Init();
     
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-
-    RabbitCommon::CStyle::Instance()->LoadStyle();
     
-    RabbitCommon::CServiceManage::Instance(new CServiceExample())->Main(argc, argv);
-    return -1;
+    RabbitCommon::CStyle::Instance()->LoadStyle();
     
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));

@@ -16,7 +16,7 @@ namespace RabbitCommon {
 class RABBITCOMMON_EXPORT CService : public QObject
 {
     Q_OBJECT
-    
+
 public:
     explicit CService(const QString &name = QString(),
                       const QString& displayName = QString(),
@@ -31,9 +31,13 @@ public:
 
     QString Name();
     QString DisplayName();
-    
+
 protected:
-    virtual int OnRun() = 0;
+    /**
+     * @brief Derived classes implement this function
+     * @return quit code
+     */
+    virtual int OnRun();
 
 private:
     QString m_szName;
@@ -57,6 +61,7 @@ public:
     virtual int Pause();
     virtual int Continue();
     virtual bool IsStoped() = 0;
+    virtual bool IsRunning() = 0;
 
     virtual int Main(int argc, char* argv[]) = 0;
 

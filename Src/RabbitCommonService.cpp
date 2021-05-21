@@ -5,6 +5,7 @@
 
 #include "ServiceWindows.h"
 #include <QApplication>
+#include <QMessageBox>
 
 namespace RabbitCommon {
 
@@ -36,26 +37,42 @@ QString CService::DisplayName()
 
 int CService::Start()
 {
+    //QMessageBox::information(nullptr, "Service", "Start");
     return OnRun();
+}
+
+int CService::OnRun()
+{
+    //QMessageBox::information(nullptr, "Service", "OnRun");
+    int argc = 0;
+    QApplication a(argc, nullptr);
+    a.setApplicationVersion(BUILD_VERSION);
+    a.setApplicationName("RabbitCommonApp");
+    return QApplication::exec();
 }
 
 int CService::Stop()
 {
-    return 0;
-}
-
-int CService::Pause()
-{
-    return 0;
-}
-
-int CService::Continue()
-{
+    //QMessageBox::information(nullptr, "Service", "Stop");
+    QApplication::quit();
     return 0;
 }
 
 int CService::ShutDown()
 {
+    //QMessageBox::information(nullptr, "Service", "ShutDown");
+    return 0;
+}
+
+int CService::Pause()
+{
+    //QMessageBox::information(nullptr, "Service", "Pause");
+    return 0;
+}
+
+int CService::Continue()
+{
+    //QMessageBox::information(nullptr, "Service", "Continue");
     return 0;
 }
 
