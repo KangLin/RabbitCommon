@@ -65,14 +65,14 @@ int CServiceManageWindows::Install(const QString &path,
         ::GetModuleFileNameA(NULL, szFilePath, _MAX_PATH);
         szPath = szFilePath;
     }
-    SC_HANDLE hService = ::CreateService(hSCM,
-                                         A2T(szName.toStdString().c_str()),
-                                       A2T(szDisplayName.toStdString().c_str()),
+    SC_HANDLE hService = ::CreateServiceW(hSCM,
+                                         (szName.toStdWString().c_str()),
+                                       szDisplayName.toStdWString().c_str(),
                                                              SERVICE_ALL_ACCESS,
                         SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS,
                                          SERVICE_AUTO_START,
                                          SERVICE_ERROR_NORMAL,
-                                         A2T(szPath.toStdString().c_str()),
+                                         (szPath.toStdWString().c_str()),
                                          NULL, NULL, NULL, NULL, NULL);
     
     if(hService)
@@ -122,7 +122,7 @@ int CServiceManageWindows::Uninstall(const QString &name)
     SC_HANDLE hService = NULL;
     do
     {
-        hService = ::OpenService(hSCM, A2T(szName.toStdString().c_str()),
+        hService = ::OpenServiceW(hSCM, szName.toStdWString().c_str(),
                                  SERVICE_STOP | DELETE);
         if(hService == NULL)
         {
@@ -175,8 +175,8 @@ bool CServiceManageWindows::IsInstalled(const QString &name)
     QString szName = name;
     if(szName.isEmpty())
         szName = Name();
-    SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(szName.toStdString().c_str()),
+    SC_HANDLE hService = ::OpenServiceW(hSCM,
+                                       szName.toStdWString().c_str(),
                                        SERVICE_QUERY_CONFIG);
     if(hService)
     {
@@ -205,8 +205,8 @@ int CServiceManageWindows::Start(const QString &name, int argc, const char *argv
     if(szName.isEmpty())
         szName = Name();
     
-	SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(szName.toStdString().c_str()),
+	SC_HANDLE hService = ::OpenServiceW(hSCM,
+                                       szName.toStdWString().c_str(),
                                        SERVICE_START);
     do {
         if(hService == NULL)
@@ -253,8 +253,8 @@ int CServiceManageWindows::ControlService(DWORD dwCode, const QString &name)
     if(szName.isEmpty())
         szName = Name();
     
-	SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(szName.toStdString().c_str()),
+	SC_HANDLE hService = ::OpenServiceW(hSCM,
+                                       szName.toStdWString().c_str(),
                                        SERVICE_STOP);
     do {
         if(hService == NULL)
@@ -319,7 +319,7 @@ bool CServiceManageWindows::IsStoped(const QString &name)
     if(szName.isEmpty())
         szName = Name();
     
-    SC_HANDLE hService = ::OpenService(hSCM, A2T(name.toStdString().c_str()),
+    SC_HANDLE hService = ::OpenServiceW(hSCM, name.toStdWString().c_str(),
                                        SERVICE_STOP | DELETE);
     do {
         if(hService == NULL)
@@ -365,7 +365,7 @@ bool CServiceManageWindows::IsRunning(const QString &name)
     if(szName.isEmpty())
         szName = Name();
     
-    SC_HANDLE hService = ::OpenService(hSCM, A2T(szName.toStdString().c_str()),
+    SC_HANDLE hService = ::OpenServiceW(hSCM, szName.toStdWString().c_str(),
                                        SERVICE_STOP | DELETE);
     do {
         if(hService == NULL)
@@ -407,8 +407,8 @@ qint16 CServiceManageWindows::State(const QString& name)
         szName = Name();
     
     // - Locate the service
-    SC_HANDLE hService = OpenService(hSCM,
-                                     A2T(szName.toStdString().c_str()),
+    SC_HANDLE hService = OpenServiceW(hSCM,
+                                     szName.toStdWString().c_str(),
                                      SERVICE_INTERROGATE);
     if (!hService)
         throw std::exception("unable to open the service", GetLastError());
