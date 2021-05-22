@@ -1,6 +1,45 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
  *  @author Kang Lin(kl222@126.com)
  *  @abstract Service
+ *  @example 
+ * 
+ *
+class CServiceExample : public RabbitCommon::CService
+{
+public:
+    CServiceExample(){ m_bExit = false; }
+    
+    int Stop() override {
+        m_bExit = true;
+        return 0;
+    }
+    
+    // CService interface
+protected:
+    virtual int OnRun(int argc = 0, char* argv[] = nullptr) override {
+        Q_UNUSED(argc);
+        Q_UNUSED(argv);
+        
+        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample run ...");
+        while(!m_bExit)
+        {
+            QThread::msleep(500);
+            LOG_MODEL_DEBUG("CServiceExample", "OnRun ......");
+        }
+        LOG_MODEL_DEBUG("CServiceExample", "CServiceExample exit");
+        return 0;
+    }
+    
+private:
+    bool m_bExit;
+};
+
+int main(int argc, char *argv[])
+{
+    RabbitCommon::CServiceManage::Instance(new RabbitCommon::CService("Name", "DisplayName"))->Main(argc, argv);
+    return -1;
+}
+
  */
 
 #ifndef RABBITCOMMON_SERVICE_KL_2021_05_20
