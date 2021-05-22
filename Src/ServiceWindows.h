@@ -28,7 +28,7 @@ public:
     int Pause();
     int SetStatus(DWORD state);
     int Continue();
-    int Main(int argc, LPTSTR* argv);
+    int Main(int argc, LPSTR* argv);
     
 public:
     SERVICE_STATUS_HANDLE m_StatusHandle;

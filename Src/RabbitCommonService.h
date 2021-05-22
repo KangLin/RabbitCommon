@@ -23,7 +23,7 @@ public:
                       QObject *parent = nullptr);
     virtual ~CService();
 
-    virtual int Start();
+    virtual int Start(int argc = 0, char* argv[] = nullptr);
     virtual int Stop();
     virtual int ShutDown();
     virtual int Pause();
@@ -37,7 +37,7 @@ protected:
      * @brief Derived classes implement this function
      * @return quit code
      */
-    virtual int OnRun();
+    virtual int OnRun(int argc = 0, char* argv[] = nullptr);
 
 private:
     QString m_szName;

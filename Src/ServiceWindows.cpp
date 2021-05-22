@@ -456,7 +456,7 @@ VOID WINAPI serviceHandler(DWORD control) {
     LOG_MODEL_DEBUG("ServerWindows", "cmd: unknown %lu", control);
 }
 
-VOID WINAPI serviceProc(DWORD dwArgc, LPTSTR* lpszArgv) {
+VOID WINAPI serviceProc(DWORD dwArgc, LPSTR* lpszArgv) {
     USES_CONVERSION;
     LOG_MODEL_INFO("ServerWindows", "Registering handler ...");
     CServiceManageWindows* pMg = qobject_cast<CServiceManageWindows*>(CServiceManage::Instance());
@@ -490,13 +490,13 @@ int CServiceManageWindows::Main(int argc, char* argv[])
 
     LOG_MODEL_DEBUG("ServerWindows", "Run Main ...");
     int nRet = 0;
-    SERVICE_TABLE_ENTRY entry[2];
-    entry[0].lpServiceName = A2T(Name().toStdString().c_str());
+    SERVICE_TABLE_ENTRYA entry[2];
+    entry[0].lpServiceName = (LPSTR)Name().toStdString().c_str();
     entry[0].lpServiceProc = serviceProc;
     entry[1].lpServiceName = NULL;
     entry[1].lpServiceProc = NULL;
 
-    if (!StartServiceCtrlDispatcher(entry))
+    if (!StartServiceCtrlDispatcherA(entry))
     {
         nRet = -1;
         LOG_MODEL_ERROR("ServerWindows", "unable to start service. %d", GetLastError());
@@ -517,7 +517,7 @@ CServiceWindowsHandler::CServiceWindowsHandler(CService* pService) : QObject()
     m_Status.dwCurrentState = SERVICE_STOPPED;
 }
 
-int CServiceWindowsHandler::Main(int argc, LPTSTR *argv)
+int CServiceWindowsHandler::Main(int argc, LPSTR *argv)
 {
     USES_CONVERSION;
     Q_UNUSED(argc);
@@ -527,7 +527,7 @@ int CServiceWindowsHandler::Main(int argc, LPTSTR *argv)
     Q_ASSERT(m_pService);
     
     if(m_pService)
-        nRet = m_pService->Start();
+        nRet = m_pService->Start(argc, argv);
     else
         LOG_MODEL_ERROR("CServiceWindowsHandler", "m_pService is null. please set CServiceManage::Instance()");
     SetStatus(SERVICE_STOPPED);

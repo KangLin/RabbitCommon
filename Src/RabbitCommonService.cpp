@@ -35,17 +35,16 @@ QString CService::DisplayName()
     return m_szDisplayName;
 }
 
-int CService::Start()
+int CService::Start(int argc, char *argv[])
 {
     //QMessageBox::information(nullptr, "Service", "Start");
-    return OnRun();
+    return OnRun(argc, argv);
 }
 
-int CService::OnRun()
+int CService::OnRun(int argc, char *argv[])
 {
     //QMessageBox::information(nullptr, "Service", "OnRun");
-    int argc = 0;
-    QApplication a(argc, nullptr);
+    QApplication a(argc, argv);
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonApp");
     return QApplication::exec();
