@@ -86,13 +86,15 @@ CServiceManage::CServiceManage(CService *pServer,
 CServiceManage::~CServiceManage()
 {}
 
-int CServiceManage::Pause()
+int CServiceManage::Pause(const QString &name)
 {
+    Q_UNUSED(name);
     return 0;
 }
 
-int CServiceManage::Continue()
+int CServiceManage::Continue(const QString &name)
 {
+    Q_UNUSED(name);
     return 0;
 }
 

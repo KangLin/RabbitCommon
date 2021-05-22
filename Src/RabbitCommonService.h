@@ -52,16 +52,19 @@ public:
     virtual ~CServiceManage();
 
     // Service manage
-    virtual int Install() = 0;
-    virtual int Uninstall() = 0;
-    virtual bool IsInstalled() = 0;
+    virtual int Install(const QString& path = QString(),
+                        const QString& name = QString(),
+                        const QString& displayName = QString()) = 0;
+    virtual int Uninstall(const QString& name = QString()) = 0;
+    virtual bool IsInstalled(const QString& name = QString()) = 0;
 
-    virtual int Start() = 0;
-    virtual int Stop() = 0;
-    virtual int Pause();
-    virtual int Continue();
-    virtual bool IsStoped() = 0;
-    virtual bool IsRunning() = 0;
+    virtual int Start(const QString& name = QString(),
+                      int argc = 0, const char* argv[] = nullptr) = 0;
+    virtual int Stop(const QString& name = QString()) = 0;
+    virtual int Pause(const QString& name = QString());
+    virtual int Continue(const QString& name = QString());
+    virtual bool IsStoped(const QString& name = QString()) = 0;
+    virtual bool IsRunning(const QString& name = QString()) = 0;
 
     virtual int Main(int argc, char* argv[]) = 0;
 

@@ -3,6 +3,7 @@
   + 增加样式
   + CMAKE: 增加删除安装目标
   + 增加 QUIWidget ： 用 QDialog 模拟主窗口，可以定制主窗口的标题栏
+  + 增加应用服务程序接口
   
 - 版本： v1.0.4
   + CMake: 增加 add_target 宏

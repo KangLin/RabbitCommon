@@ -3,6 +3,7 @@
   + Add style
   + CMake: Add uninstall
   + Add QUIWidget
+  + Add service interface
   
 - Version: v1.0.4
   + CMake: Add plugin target marco

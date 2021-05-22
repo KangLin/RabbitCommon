@@ -43,25 +43,28 @@ class CServiceManageWindows : public CServiceManage
     Q_OBJECT
 
 public:
-    virtual int Install() override;
-    virtual int Uninstall() override;
-    virtual bool IsInstalled() override;
-    virtual int Start() override;
-    virtual int Stop() override;
-    virtual int Pause() override;
-    virtual int Continue() override;
-    virtual bool IsStoped() override;
-    virtual bool IsRunning() override;
+    virtual int Install(const QString& path = QString(),
+                        const QString& name = QString(),
+                        const QString& displayName = QString()) override;
+    virtual int Uninstall(const QString& name = QString()) override;
+    virtual bool IsInstalled(const QString& name = QString()) override;
+    virtual int Start(const QString& name = QString(),
+                      int argc = 0, const char* argv[] = nullptr) override;
+    virtual int Stop(const QString& name = QString()) override;
+    virtual int Pause(const QString& name = QString()) override;
+    virtual int Continue(const QString& name = QString()) override;
+    virtual bool IsStoped(const QString& name = QString()) override;
+    virtual bool IsRunning(const QString& name = QString()) override;
     virtual int Main(int argc, char* argv[]) override;
     
-    qint16 State();
+    qint16 State(const QString& name = QString());
     CServiceWindowsHandler m_Handler;
     
 private:
     CServiceManageWindows(CService* pService,
                     QObject *parent = nullptr);
     
-    int ControlService(DWORD dwCode);
+    int ControlService(DWORD dwCode, const QString& name = QString());
     
     friend class CServiceManage;
 };

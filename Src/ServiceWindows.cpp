@@ -33,11 +33,20 @@ CServiceManageWindows::CServiceManageWindows(CService *pService,
  *        sc create RabbitCommon %CD%\RabbitCommonApp.exe
  * @return 
  */
-int CServiceManageWindows::Install()
+int CServiceManageWindows::Install(const QString &path,
+                                   const QString &name,
+                                   const QString &displayName)
 {
     USES_CONVERSION;
     int nRet = 0;
-    if(IsInstalled())
+    QString szName(name);
+    QString szDisplayName(displayName);
+    if(szName.isEmpty())
+        szName = Name();
+    if(szDisplayName.isEmpty())
+        szDisplayName = DisplayName();
+    
+    if(IsInstalled(szName))
         return 0;
     
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
@@ -49,23 +58,28 @@ int CServiceManageWindows::Install()
         return -1;
     }
     
-    TCHAR szFilePath[_MAX_PATH];
-    ::GetModuleFileName(NULL, szFilePath, _MAX_PATH);
-    
+    QString szPath(path);
+    if(szPath.isEmpty())
+    {
+        char szFilePath[_MAX_PATH];
+        ::GetModuleFileNameA(NULL, szFilePath, _MAX_PATH);
+        szPath = szFilePath;
+    }
     SC_HANDLE hService = ::CreateService(hSCM,
-                                         A2T(Name().toStdString().c_str()),
-                                     A2T(DisplayName().toStdString().c_str()),
+                                         A2T(szName.toStdString().c_str()),
+                                       A2T(szDisplayName.toStdString().c_str()),
                                                              SERVICE_ALL_ACCESS,
                         SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS,
                                          SERVICE_AUTO_START,
                                          SERVICE_ERROR_NORMAL,
-                                         szFilePath,
+                                         A2T(szPath.toStdString().c_str()),
                                          NULL, NULL, NULL, NULL, NULL);
     
     if(hService)
     {
         ::CloseServiceHandle(hService);
-        LOG_MODEL_INFO("Service", "Install service: %s", Name().toStdString().c_str());
+        LOG_MODEL_INFO("Service", "Install service: %s",
+                       szName.toStdString().c_str());
     }
     else
     {
@@ -88,10 +102,14 @@ int CServiceManageWindows::Install()
  *        Exec follow command to install service
  *        sc delete RabbitCommon 
  */
-int CServiceManageWindows::Uninstall()
+int CServiceManageWindows::Uninstall(const QString &name)
 {
     USES_CONVERSION;
-    if(!IsInstalled())
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
+    if(!IsInstalled(szName))
         return 0;
 
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
@@ -104,11 +122,13 @@ int CServiceManageWindows::Uninstall()
     SC_HANDLE hService = NULL;
     do
     {
-        hService = ::OpenService(hSCM, A2T(Name().toStdString().c_str()),
+        hService = ::OpenService(hSCM, A2T(szName.toStdString().c_str()),
                                  SERVICE_STOP | DELETE);
         if(hService == NULL)
         {
-            LOG_MODEL_ERROR("Service", "OpenService() failed with error code:%d\n", GetLastError());
+            LOG_MODEL_ERROR("Service",
+                            "OpenService() failed with error code:%d\n",
+                            GetLastError());
             break;
         }
 
@@ -116,15 +136,18 @@ int CServiceManageWindows::Uninstall()
         if(!::ControlService(hService, SERVICE_CONTROL_STOP, &status))
         {
             LOG_MODEL_ERROR("Service", "Stop server fail: %s",
-                            Name().toStdString().c_str());
+                            szName.toStdString().c_str());
         }
 
         if(!::DeleteService(hService))
         {
-            LOG_MODEL_ERROR("Service", "DeleteService() failed with error code:%d\n", GetLastError());
+            LOG_MODEL_ERROR("Service",
+                            "DeleteService() failed with error code:%d\n",
+                            GetLastError());
             break;
         }
-        LOG_MODEL_INFO("Service", "Unistall service: %s", Name().toStdString().c_str());
+        LOG_MODEL_INFO("Service", "Unistall service: %s",
+                       szName.toStdString().c_str());
     } while(0);
 
     if(hService)
@@ -135,7 +158,7 @@ int CServiceManageWindows::Uninstall()
     return TRUE;
 }
 
-bool CServiceManageWindows::IsInstalled()
+bool CServiceManageWindows::IsInstalled(const QString &name)
 {
     USES_CONVERSION;
     bool bRet = false;
@@ -143,25 +166,31 @@ bool CServiceManageWindows::IsInstalled()
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     if(hSCM == NULL)
     {
-        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d\n", GetLastError());
+        LOG_MODEL_ERROR("Service",
+                        "OpenSCManager() failed with error code:%d\n",
+                        GetLastError());
         return FALSE;
     }
 
+    QString szName = name;
+    if(szName.isEmpty())
+        szName = Name();
     SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(Name().toStdString().c_str()),
+                                       A2T(szName.toStdString().c_str()),
                                        SERVICE_QUERY_CONFIG);
     if(hService)
     {
         bRet = true;
         ::CloseServiceHandle(hService);
-        LOG_MODEL_INFO("Service", "Service: %s is installed", Name().toStdString().c_str());
+        LOG_MODEL_INFO("Service", "Service: %s is installed",
+                       szName.toStdString().c_str());
     }
 
     ::CloseServiceHandle(hSCM);
     return bRet;
 }
 
-int CServiceManageWindows::Start()
+int CServiceManageWindows::Start(const QString &name, int argc, const char *argv[])
 {
     USES_CONVERSION;
     int nRet = 0;
@@ -171,19 +200,25 @@ int CServiceManageWindows::Start()
         LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d\n", GetLastError());
         return -1;
     }
-
+    
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
 	SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(Name().toStdString().c_str()),
+                                       A2T(szName.toStdString().c_str()),
                                        SERVICE_START);
     do {
         if(hService == NULL)
         {
             nRet = -2;
-            LOG_MODEL_ERROR("Service", "OpenService() failed with error code:%d\n", GetLastError());
+            LOG_MODEL_ERROR("Service",
+                            "OpenService() failed with error code:%d\n",
+                            GetLastError());
             break;
         }
-        
-        if(!::StartService(hService, 0, NULL))
+
+        if(!::StartServiceA(hService, argc, argv))
         {
             LOG_MODEL_ERROR("Service",
                             "StartService() failed with error code:%d\n",
@@ -191,7 +226,8 @@ int CServiceManageWindows::Start()
             nRet = -3;
             break;
         }
-        LOG_MODEL_INFO("Service", "Start service: %s", Name().toStdString().c_str());
+        LOG_MODEL_INFO("Service", "Start service: %s",
+                       szName.toStdString().c_str());
     }while(0);
 
     if(hService)
@@ -202,7 +238,7 @@ int CServiceManageWindows::Start()
     return nRet;
 }
 
-int CServiceManageWindows::ControlService(DWORD dwCode)
+int CServiceManageWindows::ControlService(DWORD dwCode, const QString &name)
 {
     USES_CONVERSION;
     int nRet = 0;
@@ -213,8 +249,12 @@ int CServiceManageWindows::ControlService(DWORD dwCode)
         return -1;
     }
 
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
 	SC_HANDLE hService = ::OpenService(hSCM,
-                                       A2T(Name().toStdString().c_str()),
+                                       A2T(szName.toStdString().c_str()),
                                        SERVICE_STOP);
     do {
         if(hService == NULL)
@@ -231,11 +271,12 @@ int CServiceManageWindows::ControlService(DWORD dwCode)
         {
             LOG_MODEL_ERROR("Service",
                             "Stop service failed with error code:%d; %s",
-                            GetLastError(), Name().toStdString().c_str());
+                            GetLastError(), szName.toStdString().c_str());
             nRet = -3;
             break;
         }
-        LOG_MODEL_INFO("Service", "Stop service: %s", Name().toStdString().c_str());
+        LOG_MODEL_INFO("Service", "Stop service: %s",
+                       szName.toStdString().c_str());
     } while(0);
 
     if(hService)
@@ -246,22 +287,22 @@ int CServiceManageWindows::ControlService(DWORD dwCode)
     return nRet;
 }
 
-int CServiceManageWindows::Stop()
+int CServiceManageWindows::Stop(const QString &name)
 {
-    return ControlService(SERVICE_CONTROL_STOP);
+    return ControlService(SERVICE_CONTROL_STOP, name);
 }
 
-int CServiceManageWindows::Pause()
+int CServiceManageWindows::Pause(const QString &name)
 {
-    return ControlService(SERVICE_CONTROL_PAUSE);
+    return ControlService(SERVICE_CONTROL_PAUSE, name);
 }
 
-int CServiceManageWindows::Continue()
+int CServiceManageWindows::Continue(const QString &name)
 {
-    return ControlService(SERVICE_CONTROL_CONTINUE);
+    return ControlService(SERVICE_CONTROL_CONTINUE, name);
 }
 
-bool CServiceManageWindows::IsStoped()
+bool CServiceManageWindows::IsStoped(const QString &name)
 {
     USES_CONVERSION;
     bool bRet = false;
@@ -274,7 +315,11 @@ bool CServiceManageWindows::IsStoped()
         return false;
     }
     
-    SC_HANDLE hService = ::OpenService(hSCM, A2T(Name().toStdString().c_str()),
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
+    SC_HANDLE hService = ::OpenService(hSCM, A2T(name.toStdString().c_str()),
                                        SERVICE_STOP | DELETE);
     do {
         if(hService == NULL)
@@ -303,7 +348,7 @@ bool CServiceManageWindows::IsStoped()
     return bRet;
 }
 
-bool CServiceManageWindows::IsRunning()
+bool CServiceManageWindows::IsRunning(const QString &name)
 {
     USES_CONVERSION;
     bool bRet = false;
@@ -316,7 +361,11 @@ bool CServiceManageWindows::IsRunning()
         return false;
     }
     
-    SC_HANDLE hService = ::OpenService(hSCM, A2T(Name().toStdString().c_str()),
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
+    SC_HANDLE hService = ::OpenService(hSCM, A2T(szName.toStdString().c_str()),
                                        SERVICE_STOP | DELETE);
     do {
         if(hService == NULL)
@@ -345,7 +394,7 @@ bool CServiceManageWindows::IsRunning()
     return bRet;
 }
 
-qint16 CServiceManageWindows::State()
+qint16 CServiceManageWindows::State(const QString& name)
 {
     USES_CONVERSION;
     // - Open the SCM
@@ -353,9 +402,13 @@ qint16 CServiceManageWindows::State()
     if (!hSCM)
         throw std::exception("unable to open Service Control Manager", GetLastError());
     
+    QString szName(name);
+    if(szName.isEmpty())
+        szName = Name();
+    
     // - Locate the service
     SC_HANDLE hService = OpenService(hSCM,
-                                     A2T(Name().toStdString().c_str()),
+                                     A2T(szName.toStdString().c_str()),
                                      SERVICE_INTERROGATE);
     if (!hService)
         throw std::exception("unable to open the service", GetLastError());
