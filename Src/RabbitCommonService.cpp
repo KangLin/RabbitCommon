@@ -123,6 +123,10 @@ CServiceManage* CServiceManage::Instance(CService* pService)
 
 #if defined(Q_OS_WINDOWS)
     if(!p) p = new CServiceManageWindows(pService);
+#elif defined(Q_OS_UNIX)
+    
+#else
+    #error "Don't support "
 #endif
 
     return p;

@@ -50,8 +50,10 @@ class RABBITCOMMON_EXPORT CServiceManage : public QObject
     
 public:
     virtual ~CServiceManage();
-
-    // Service manage
+    
+    static CServiceManage* Instance(CService* pService = nullptr);
+    
+    // Need admin rights
     virtual int Install(const QString& path = QString(),
                         const QString& name = QString(),
                         const QString& displayName = QString()) = 0;
@@ -71,7 +73,6 @@ public:
     virtual QString Name();
     virtual QString DisplayName();
 
-    static CServiceManage* Instance(CService* pService = nullptr);
     CService* GetService();
     
 private:
