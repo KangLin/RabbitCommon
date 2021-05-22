@@ -6,6 +6,7 @@
 #include "ServiceWindows.h"
 #include <QApplication>
 #include <QMessageBox>
+#include "RabbitCommonLog.h"
 
 namespace RabbitCommon {
 
@@ -38,22 +39,49 @@ QString CService::DisplayName()
 int CService::Start(int argc, char *argv[])
 {
     //QMessageBox::information(nullptr, "Service", "Start");
-    return OnRun(argc, argv);
+    int nRet = 0;
+    nRet = OnInit(argc, argv);
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("Service", "OnInit fail: %d", nRet);
+        return nRet;
+    }
+    nRet = OnRun();
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("Service", "OnRun fail: %d", nRet);
+        return nRet;
+    }
+    nRet = OnClean();
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("Service", "OnClean fail: %d", nRet);
+        return nRet;
+    }
+    return nRet;
 }
 
-int CService::OnRun(int argc, char *argv[])
+int CService::OnInit(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    return 0;
+}
+
+int CService::OnRun()
 {
     //QMessageBox::information(nullptr, "Service", "OnRun");
-    QApplication a(argc, argv);
-    a.setApplicationVersion(BUILD_VERSION);
-    a.setApplicationName("RabbitCommonApp");
-    return QApplication::exec();
+    return qApp->exec();
+}
+
+int CService::OnClean()
+{
+    return 0;
 }
 
 int CService::Stop()
 {
     //QMessageBox::information(nullptr, "Service", "Stop");
-    QApplication::quit();
+    qApp->quit();
     return 0;
 }
 

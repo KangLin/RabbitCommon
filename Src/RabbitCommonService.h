@@ -16,10 +16,7 @@ public:
     
     // CService interface
 protected:
-    virtual int OnRun(int argc = 0, char* argv[] = nullptr) override {
-        Q_UNUSED(argc);
-        Q_UNUSED(argv);
-        
+    virtual int OnRun() override {
         LOG_MODEL_DEBUG("CServiceExample", "CServiceExample run ...");
         while(!m_bExit)
         {
@@ -74,9 +71,23 @@ public:
 protected:
     /**
      * @brief Derived classes implement this function
-     * @return quit code
+     * @return 0: success
+     *     other: fail
      */
-    virtual int OnRun(int argc = 0, char* argv[] = nullptr);
+    virtual int OnInit(int argc = 0, char* argv[] = nullptr);
+    /**
+     * @brief Derived classes implement this function
+     * @return quit code
+     *         0: success
+     *     other: fail
+     */
+    virtual int OnRun();
+    /**
+     * @brief Derived classes implement this function
+     * @return 0: success
+     *     other: fail
+     */
+    virtual int OnClean();
 
 private:
     QString m_szName;

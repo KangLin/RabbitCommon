@@ -15,10 +15,7 @@ public:
     
     // CService interface
 protected:
-    virtual int OnRun(int argc = 0, char* argv[] = nullptr) override {
-        Q_UNUSED(argc);
-        Q_UNUSED(argv);
-        
+    virtual int OnRun() override {        
         LOG_MODEL_DEBUG("CServiceExample", "CServiceExample run ...");
         while(!m_bExit)
         {
