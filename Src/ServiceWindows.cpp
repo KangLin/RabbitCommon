@@ -45,6 +45,14 @@ int CServiceManageWindows::Install(const QString &path,
         szName = Name();
     if(szDisplayName.isEmpty())
         szDisplayName = DisplayName();
+    if(szDisplayName.isEmpty())
+        szDisplayName = szName;
+    
+    if(szName.isEmpty())
+    {
+        LOG_MODEL_ERROR("Service", "The service name is empty");
+        return -1;
+    }
     
     if(IsInstalled(szName))
         return 0;
@@ -52,9 +60,13 @@ int CServiceManageWindows::Install(const QString &path,
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
     if(hSCM == NULL)
     {
-        LOG_MODEL_ERROR("Service", 
-                        "OpenSCManager() failed with error code:%d\n",
-                        GetLastError());
+        if(GetLastError() == ERROR_ACCESS_DENIED)
+            LOG_MODEL_ERROR("Service", 
+                            "OpenSCManager() access denied");
+        else
+            LOG_MODEL_ERROR("Service", 
+                            "OpenSCManager() failed with error code:%d",
+                            GetLastError());
         return -1;
     }
     
@@ -74,7 +86,6 @@ int CServiceManageWindows::Install(const QString &path,
                                          SERVICE_ERROR_NORMAL,
                                          (szPath.toStdWString().c_str()),
                                          NULL, NULL, NULL, NULL, NULL);
-    
     if(hService)
     {
         ::CloseServiceHandle(hService);
@@ -84,7 +95,7 @@ int CServiceManageWindows::Install(const QString &path,
     else
     {
         LOG_MODEL_ERROR("Service",
-                        "CreateService() failed with error code:%d\n",
+                        "CreateService() failed with error code:%d",
                         GetLastError());
         nRet = -2;
     }
@@ -109,13 +120,19 @@ int CServiceManageWindows::Uninstall(const QString &name)
     if(szName.isEmpty())
         szName = Name();
     
+    if(szName.isEmpty())
+    {
+        LOG_MODEL_ERROR("Service", "The service name is empty");
+        return -1;
+    }
+    
     if(!IsInstalled(szName))
         return 0;
 
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
     if(hSCM == NULL)
     {
-        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d\n", GetLastError());
+        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d", GetLastError());
         return -1;
     }
 
@@ -127,7 +144,7 @@ int CServiceManageWindows::Uninstall(const QString &name)
         if(hService == NULL)
         {
             LOG_MODEL_ERROR("Service",
-                            "OpenService() failed with error code:%d\n",
+                            "OpenService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -142,7 +159,7 @@ int CServiceManageWindows::Uninstall(const QString &name)
         if(!::DeleteService(hService))
         {
             LOG_MODEL_ERROR("Service",
-                            "DeleteService() failed with error code:%d\n",
+                            "DeleteService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -162,19 +179,25 @@ bool CServiceManageWindows::IsInstalled(const QString &name)
 {
     USES_CONVERSION;
     bool bRet = false;
-
+    
+    QString szName = name;
+    if(szName.isEmpty())
+        szName = Name();
+    if(szName.isEmpty())
+    {
+        LOG_MODEL_ERROR("Service", "The service name is empty");
+        return false;
+    }
+    
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     if(hSCM == NULL)
     {
         LOG_MODEL_ERROR("Service",
-                        "OpenSCManager() failed with error code:%d\n",
+                        "OpenSCManager() failed with error code:%d",
                         GetLastError());
         return FALSE;
     }
 
-    QString szName = name;
-    if(szName.isEmpty())
-        szName = Name();
     SC_HANDLE hService = ::OpenServiceW(hSCM,
                                        szName.toStdWString().c_str(),
                                        SERVICE_QUERY_CONFIG);
@@ -194,17 +217,23 @@ int CServiceManageWindows::Start(const QString &name, int argc, const char *argv
 {
     USES_CONVERSION;
     int nRet = 0;
-    SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
-	if(hSCM == NULL)
+        
+    QString szName = name;
+    if(szName.isEmpty())
+        szName = Name();
+    if(szName.isEmpty())
     {
-        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d\n", GetLastError());
+        LOG_MODEL_ERROR("Service", "The service name is empty");
         return -1;
     }
     
-    QString szName(name);
-    if(szName.isEmpty())
-        szName = Name();
-    
+    SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	if(hSCM == NULL)
+    {
+        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d", GetLastError());
+        return -1;
+    }
+        
 	SC_HANDLE hService = ::OpenServiceW(hSCM,
                                        szName.toStdWString().c_str(),
                                        SERVICE_START);
@@ -213,7 +242,7 @@ int CServiceManageWindows::Start(const QString &name, int argc, const char *argv
         {
             nRet = -2;
             LOG_MODEL_ERROR("Service",
-                            "OpenService() failed with error code:%d\n",
+                            "OpenService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -221,7 +250,7 @@ int CServiceManageWindows::Start(const QString &name, int argc, const char *argv
         if(!::StartServiceA(hService, argc, argv))
         {
             LOG_MODEL_ERROR("Service",
-                            "StartService() failed with error code:%d\n",
+                            "StartService() failed with error code:%d",
                             GetLastError());
             nRet = -3;
             break;
@@ -242,16 +271,23 @@ int CServiceManageWindows::ControlService(DWORD dwCode, const QString &name)
 {
     USES_CONVERSION;
     int nRet = 0;
+    
+    QString szName = name;
+    if(szName.isEmpty())
+        szName = Name();
+    if(szName.isEmpty())
+    {
+        LOG_MODEL_ERROR("Service", "The service name is empty");
+        return -1;
+    }
+    
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if(hSCM == NULL)
     {
-        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d\n", GetLastError());
+        LOG_MODEL_ERROR("Service", "OpenSCManager() failed with error code:%d",
+                        GetLastError());
         return -1;
     }
-
-    QString szName(name);
-    if(szName.isEmpty())
-        szName = Name();
     
 	SC_HANDLE hService = ::OpenServiceW(hSCM,
                                        szName.toStdWString().c_str(),
@@ -261,7 +297,7 @@ int CServiceManageWindows::ControlService(DWORD dwCode, const QString &name)
         {
             nRet = -2;
             LOG_MODEL_ERROR("Service",
-                            "OpenService() failed with error code:%d\n",
+                            "OpenService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -310,7 +346,7 @@ bool CServiceManageWindows::IsStoped(const QString &name)
     if(!hSCM)
     {
         LOG_MODEL_ERROR("Service",
-                        "OpenSCManager() failed with error code:%d\n",
+                        "OpenSCManager() failed with error code:%d",
                         GetLastError());
         return false;
     }
@@ -325,7 +361,7 @@ bool CServiceManageWindows::IsStoped(const QString &name)
         if(hService == NULL)
         {
             LOG_MODEL_ERROR("Service",
-                            "OpenService() failed with error code:%d\n",
+                            "OpenService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -334,7 +370,7 @@ bool CServiceManageWindows::IsStoped(const QString &name)
         if(!QueryServiceStatus(hService, &status))
         {
             LOG_MODEL_ERROR("Service",
-                            "QueryServiceStatus() failed with error code:%d\n",
+                            "QueryServiceStatus() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -356,7 +392,7 @@ bool CServiceManageWindows::IsRunning(const QString &name)
     if(!hSCM)
     {
         LOG_MODEL_ERROR("Service",
-                        "OpenSCManager() failed with error code:%d\n",
+                        "OpenSCManager() failed with error code:%d",
                         GetLastError());
         return false;
     }
@@ -371,7 +407,7 @@ bool CServiceManageWindows::IsRunning(const QString &name)
         if(hService == NULL)
         {
             LOG_MODEL_ERROR("Service",
-                            "OpenService() failed with error code:%d\n",
+                            "OpenService() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -380,7 +416,7 @@ bool CServiceManageWindows::IsRunning(const QString &name)
         if(!QueryServiceStatus(hService, &status))
         {
             LOG_MODEL_ERROR("Service",
-                            "QueryServiceStatus() failed with error code:%d\n",
+                            "QueryServiceStatus() failed with error code:%d",
                             GetLastError());
             break;
         }
@@ -400,7 +436,8 @@ qint16 CServiceManageWindows::State(const QString& name)
     // - Open the SCM
     SC_HANDLE hSCM = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
     if (!hSCM)
-        throw std::exception("unable to open Service Control Manager", GetLastError());
+        throw std::exception("unable to open Service Control Manager",
+                             GetLastError());
     
     QString szName(name);
     if(szName.isEmpty())
@@ -474,11 +511,11 @@ VOID WINAPI serviceProc(DWORD dwArgc, LPSTR* lpszArgv) {
         LOG_MODEL_ERROR("ServerWindows", "failed to register handler: %lu", err);
         return;
     }
-    LOG_MODEL_DEBUG("ServerWindows", "registered handler (%lx)", g_Server->m_StatusHandle);
+    LOG_MODEL_DEBUG("ServerWindows", "registered handler (%lx)", pService->m_StatusHandle);
     pService->SetStatus(SERVICE_START_PENDING);
-    LOG_MODEL_DEBUG("ServerWindows", "entering %s serviceMain", g_Server->Name().toStdString().c_str());
+    LOG_MODEL_DEBUG("ServerWindows", "entering serviceMain");
     pService->m_Status.dwWin32ExitCode = pService->Main(dwArgc, lpszArgv);
-    LOG_MODEL_DEBUG("ServerWindows", "leaving %s serviceMain", g_Server->Name().toStdString().c_str());
+    LOG_MODEL_DEBUG("ServerWindows", "leaving serviceMain");
     pService->SetStatus(SERVICE_STOPPED);
 }
 

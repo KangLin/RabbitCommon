@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 #pragma once
 
 #include <QObject>
+#include <QCommandLineParser>
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
@@ -119,7 +120,8 @@ public:
     virtual bool IsRunning(const QString& name = QString()) = 0;
 
     virtual int Main(int argc, char* argv[]) = 0;
-
+    virtual int ParserCommandLine(QCommandLineParser &parser);
+    
     virtual QString Name();
     virtual QString DisplayName();
 

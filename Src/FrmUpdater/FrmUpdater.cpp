@@ -1124,6 +1124,12 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
 
 int CFrmUpdater::GenerateUpdateXml()
 {
+    QCommandLineParser parser;
+    return GenerateUpdateXml(parser);
+}
+
+int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
+{
     int nRet = -1;
     INFO info;
     
@@ -1167,8 +1173,7 @@ int CFrmUpdater::GenerateUpdateXml()
                 + "_" + m_szCurrentVersion + ".tar.gz";
     }
 #endif
-    
-    QCommandLineParser parser;
+
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -1232,7 +1237,8 @@ int CFrmUpdater::GenerateUpdateXml()
                              m_szCurrentVersion);
     parser.addOption(oMin);
 
-    parser.process(QApplication::arguments());
+    if(!parser.parse(QApplication::arguments()))
+        return -1;
     
     QString szFile = parser.value(oFile);
     if(szFile.isEmpty())

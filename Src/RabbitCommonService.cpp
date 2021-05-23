@@ -6,6 +6,7 @@
 #include "ServiceWindows.h"
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 #include "RabbitCommonLog.h"
 
 namespace RabbitCommon {
@@ -158,6 +159,80 @@ CServiceManage* CServiceManage::Instance(CService* pService)
 #endif
 
     return p;
+}
+
+int CServiceManage::ParserCommandLine(QCommandLineParser &parser)
+{
+    QCommandLineOption oInstall(QStringList() << "install",
+                                tr("Install service: <name>"), "name", Name());
+    parser.addOption(oInstall);
+    
+    QCommandLineOption oPath(QStringList() << "path",
+                             tr("install service path: <path>"), "path",
+                             qApp->applicationFilePath());
+    parser.addOption(oPath);
+    
+    QCommandLineOption oUninstall(QStringList() << "uninstall",
+                                  tr("Uninstall service: <name>"), "name", Name());
+    parser.addOption(oUninstall);
+        
+    QCommandLineOption oStart(QStringList() << "Start",
+                                  tr("Start service: <name>"), "name", Name());
+    parser.addOption(oStart);
+    
+    QCommandLineOption oStop(QStringList() << "Stop",
+                                  tr("Stop service: <name>"), "name", Name());
+    parser.addOption(oStop);
+    
+    QCommandLineOption oPause(QStringList() << "Pause",
+                                  tr("Pause service: <name>"), "name", Name());
+    parser.addOption(oPause);
+    
+    QCommandLineOption oContinue(QStringList() << "Continue",
+                                  tr("Continue service: <name>"), "name", Name());
+    parser.addOption(oContinue);
+    
+    if(!parser.parse(QApplication::arguments()))
+        return -1;
+    
+    QString szName, szPath;
+    szName = parser.value(oInstall);
+    szPath = parser.value(oPath);
+    if(parser.isSet(oInstall))
+    {
+        Install(szPath, szName);
+    }
+    
+    szName = parser.value(oUninstall);
+    if(parser.isSet(oUninstall))
+    {
+        Uninstall(szName);
+    }
+    
+    szName = parser.value(oStart);
+    if(parser.isSet(oStart))
+    {
+        Start(szName);
+    }
+    
+    szName = parser.value(oStop);
+    if(parser.isSet(oStop))
+    {
+        Stop(szName);
+    }
+    
+    szName = parser.value(oPause);
+    if(parser.isSet(oPause))
+    {
+        Pause(szName);
+    }
+    
+    szName = parser.value(oContinue);
+    if(parser.isSet(oContinue))
+    {
+        Continue(szName);
+    }
+    return 0;
 }
 
 } //namespace RabbitCommon

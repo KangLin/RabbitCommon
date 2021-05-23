@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    qApp->quit();
 }
 
 void MainWindow::on_actionAbout_triggered()

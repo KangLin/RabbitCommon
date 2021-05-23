@@ -16,6 +16,7 @@
 #include <QStateMachine>
 #include <QUrl>
 #include <QButtonGroup>
+#include <QCommandLineParser>
 #include "rabbitcommon_export.h"
 
 namespace Ui {
@@ -54,7 +55,8 @@ public:
      * @return 
      */
     int GenerateUpdateXml();
-
+    int GenerateUpdateXml(QCommandLineParser &parser);
+    
     int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:

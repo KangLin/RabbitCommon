@@ -32,6 +32,12 @@ private:
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+    RabbitCommon::CServiceManage::Instance(new RabbitCommon::CService())->ParserCommandLine(parser);
+    parser.process(QApplication::arguments());
     RabbitCommon::CServiceManage::Instance(new RabbitCommon::CService())->Main(argc, argv);
     return -1;
 }

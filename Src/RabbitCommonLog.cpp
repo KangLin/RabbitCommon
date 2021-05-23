@@ -5,6 +5,7 @@
 #include <string>
 #include <stdarg.h>
 #include <QDebug>
+#include <iostream>
 
 namespace RabbitCommon {
 
@@ -27,8 +28,7 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
     char buf[LOG_BUFFER_LENGTH];
     std::string szTemp = pszFile;
     szTemp += "(";
-    sprintf(buf, "%d", nLine);
-    szTemp += buf;
+    szTemp += std::to_string(nLine);
     szTemp += "):";
     switch(nLevel)
     {
@@ -62,8 +62,11 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
         //return nRet;
     }
     szTemp += buf;
-
+    
+    //std::cout << szTemp;
+    
     qDebug() << szTemp.c_str();
+    
     return 0;
 }
 

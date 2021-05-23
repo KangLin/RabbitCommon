@@ -19,6 +19,8 @@
 #include "RabbitCommonStyle.h"
 #include "RabbitCommonLog.h"
 #include "MainWindow.h"
+#include "FrmUpdater/FrmUpdater.h"
+#include "RabbitCommonService.h"
 
 int main(int argc, char *argv[])
 {
@@ -30,17 +32,6 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonApp");
     
-    QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
-
-    QCommandLineOption noexample(QStringList() << "e" << "no-examples",
-                             "no example",
-                             "no example");
-    parser.addOption(noexample);
-    
-    parser.process(QApplication::arguments());
-
     qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
     qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
     qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
@@ -54,6 +45,20 @@ int main(int argc, char *argv[])
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
     
     RabbitCommon::CStyle::Instance()->LoadStyle();
+    
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption noexample(QStringList() << "e" << "no-examples",
+                             "no example",
+                             "no example");
+    parser.addOption(noexample);
+
+    CFrmUpdater updater;
+    updater.GenerateUpdateXml(parser);
+    
+    parser.parse(QApplication::arguments());
     
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));
