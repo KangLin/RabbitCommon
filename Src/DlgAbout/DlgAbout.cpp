@@ -57,7 +57,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szEmail = "kl222@126.com";
     m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
     m_szCopyrightOwner = tr("Kang Lin Studio");
-    m_szCopyrightStartTime = "2018";
+    m_szCopyrightStartTime = "2019";
     m_szCopyrightTime = tr("%1 - %2").arg(m_szCopyrightStartTime,
                 QString::number(QDate::currentDate().year()));
     m_AppIcon = QImage(":/icon/RabbitCommon/App");

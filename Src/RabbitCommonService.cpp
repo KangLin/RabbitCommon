@@ -150,7 +150,7 @@ CServiceManage* CServiceManage::Instance(CService* pService)
     static CServiceManage* p = nullptr;
     //if(!pService && !p) Q_ASSERT(false);
 
-#if defined(Q_OS_WINDOWS)
+#if defined(Q_OS_WIN)
     if(!p) p = new CServiceManageWindows(pService);
 #elif defined(Q_OS_UNIX)
     
