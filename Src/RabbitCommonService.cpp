@@ -3,7 +3,7 @@
  *  @abstract Service
  */
 
-#include "ServiceWindows.h"
+#include "RabbitCommonService.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QDebug>
