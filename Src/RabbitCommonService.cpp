@@ -9,6 +9,10 @@
 #include <QDebug>
 #include "RabbitCommonLog.h"
 
+#if defined(Q_OS_WIN)
+    #include "ServiceWindows.h"
+#endif
+
 namespace RabbitCommon {
 
 CService::CService(const QString &name,
