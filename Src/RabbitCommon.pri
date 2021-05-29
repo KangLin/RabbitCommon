@@ -94,8 +94,7 @@ SOURCES += \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
     $$PWD/RabbitCommonStyle.cpp \
-    $$PWD/RabbitCommonService.cpp \
-    $$PWD/ServiceWindows.cpp
+    $$PWD/RabbitCommonService.cpp 
 
 INSTALL_HEADERS += \
     $$PWD/RabbitCommonLog.h \
@@ -105,8 +104,12 @@ INSTALL_HEADERS += \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
     $$PWD/RabbitCommonStyle.h \
-    $$PWD/ RabbitCommonService.h \
-    $$PWD/ServiceWindows.h
+    $$PWD/RabbitCommonService.h 
+
+WIN32{
+    SOURCES += $$PWD/ServiceWindows.cpp
+    HEADERS += $$PWD/ServiceWindows.h
+}
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h

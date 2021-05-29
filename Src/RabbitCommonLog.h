@@ -23,6 +23,7 @@ public:
     CLog();
 
     static CLog* Instance();
+    int EnablePrintThread(bool bPrint);
     
     /**
      * @brief 日志输出
@@ -35,6 +36,9 @@ public:
      */
     int Print(const char *pszFile, int nLine, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
+    
+private:
+    bool m_bEnablePrintThread;
 };
 
 #define LM_DEBUG 0

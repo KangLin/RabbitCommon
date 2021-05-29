@@ -6,11 +6,15 @@
 #include <stdarg.h>
 #include <QDebug>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <QThread>
 
 namespace RabbitCommon {
 
 CLog::CLog()
 {
+    m_bEnablePrintThread = true;
 }
 
 CLog* CLog::Instance()
@@ -19,6 +23,12 @@ CLog* CLog::Instance()
     if(!p)
         p = new CLog;
     return p;
+}
+
+int CLog::EnablePrintThread(bool bPrint)
+{
+    m_bEnablePrintThread = bPrint;
+    return 0;
 }
 
 #define LOG_BUFFER_LENGTH 1024
@@ -30,6 +40,17 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
     szTemp += "(";
     szTemp += std::to_string(nLine);
     szTemp += "):";
+    if(m_bEnablePrintThread)
+    {
+        szTemp += "[";
+#if defined (Q_OS_WINDOWS)
+        sprintf_s(buf, "0x%X", reinterpret_cast<unsigned long>(QThread::currentThreadId()));
+#else
+        sprintf(buf, "0x%X", (unsigned long)(QThread::currentThreadId()));
+#endif
+        szTemp += buf;
+        szTemp += "]:";
+    }
     switch(nLevel)
     {
     case LM_DEBUG:
