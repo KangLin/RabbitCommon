@@ -106,7 +106,7 @@ INSTALL_HEADERS += \
     $$PWD/RabbitCommonStyle.h \
     $$PWD/RabbitCommonService.h 
 
-WIN32{
+msvc | mingw {
     SOURCES += $$PWD/ServiceWindows.cpp
     HEADERS += $$PWD/ServiceWindows.h
 }
