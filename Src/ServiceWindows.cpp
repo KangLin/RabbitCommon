@@ -7,8 +7,6 @@
 
 #include "ServiceWindows.h"
 
-#include <atlconv.h>
-
 #include <QApplication>
 #include <exception>
 
@@ -37,7 +35,6 @@ int CServiceManageWindows::Install(const QString &path,
                                    const QString &name,
                                    const QString &displayName)
 {
-    USES_CONVERSION;
     int nRet = 0;
     QString szName(name);
     QString szDisplayName(displayName);
@@ -115,7 +112,6 @@ int CServiceManageWindows::Install(const QString &path,
  */
 int CServiceManageWindows::Uninstall(const QString &name)
 {
-    USES_CONVERSION;
     QString szName(name);
     if(szName.isEmpty())
         szName = Name();
@@ -177,7 +173,6 @@ int CServiceManageWindows::Uninstall(const QString &name)
 
 bool CServiceManageWindows::IsInstalled(const QString &name)
 {
-    USES_CONVERSION;
     bool bRet = false;
     
     QString szName = name;
@@ -215,7 +210,6 @@ bool CServiceManageWindows::IsInstalled(const QString &name)
 
 int CServiceManageWindows::Start(const QString &name, int argc, const char *argv[])
 {
-    USES_CONVERSION;
     int nRet = 0;
         
     QString szName = name;
@@ -269,7 +263,6 @@ int CServiceManageWindows::Start(const QString &name, int argc, const char *argv
 
 int CServiceManageWindows::ControlService(DWORD dwCode, const QString &name)
 {
-    USES_CONVERSION;
     int nRet = 0;
     
     QString szName = name;
@@ -340,7 +333,6 @@ int CServiceManageWindows::Continue(const QString &name)
 
 bool CServiceManageWindows::IsStoped(const QString &name)
 {
-    USES_CONVERSION;
     bool bRet = false;
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     if(!hSCM)
@@ -386,7 +378,6 @@ bool CServiceManageWindows::IsStoped(const QString &name)
 
 bool CServiceManageWindows::IsRunning(const QString &name)
 {
-    USES_CONVERSION;
     bool bRet = false;
     SC_HANDLE hSCM = ::OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
     if(!hSCM)
@@ -432,7 +423,6 @@ bool CServiceManageWindows::IsRunning(const QString &name)
 
 qint16 CServiceManageWindows::State(const QString& name)
 {
-    USES_CONVERSION;
     // - Open the SCM
     SC_HANDLE hSCM = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
     if (!hSCM)
@@ -494,7 +484,6 @@ VOID WINAPI serviceHandler(DWORD control) {
 }
 
 VOID WINAPI serviceProc(DWORD dwArgc, LPSTR* lpszArgv) {
-    USES_CONVERSION;
     LOG_MODEL_INFO("ServerWindows", "Registering handler ...");
     CServiceManageWindows* pMg = qobject_cast<CServiceManageWindows*>(CServiceManage::Instance());
     CServiceWindowsHandler* pService = &(pMg->m_Handler);
@@ -503,8 +492,8 @@ VOID WINAPI serviceProc(DWORD dwArgc, LPSTR* lpszArgv) {
         LOG_MODEL_ERROR("ServerWindows", "pServer is null. please set CServiceManage::Instance");
         Q_ASSERT(false);
     }
-    pService->m_StatusHandle = ::RegisterServiceCtrlHandler(
-                A2T(pMg->Name().toStdString().c_str()),
+    pService->m_StatusHandle = ::RegisterServiceCtrlHandlerW(
+                pMg->Name().toStdWString().c_str(),
                 serviceHandler);
     if (!pService->m_StatusHandle) {
         DWORD err = GetLastError();
@@ -521,7 +510,6 @@ VOID WINAPI serviceProc(DWORD dwArgc, LPSTR* lpszArgv) {
 
 int CServiceManageWindows::Main(int argc, char* argv[])
 {
-    USES_CONVERSION;
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
@@ -556,7 +544,6 @@ CServiceWindowsHandler::CServiceWindowsHandler(CService* pService) : QObject()
 
 int CServiceWindowsHandler::Main(int argc, LPSTR *argv)
 {
-    USES_CONVERSION;
     Q_UNUSED(argc);
     Q_UNUSED(argv);
     int nRet = -1;
