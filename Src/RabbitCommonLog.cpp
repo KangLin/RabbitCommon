@@ -44,9 +44,9 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
     {
         szTemp += "[";
 #if defined (Q_OS_WINDOWS)
-        sprintf_s(buf, "0x%08X", reinterpret_cast<unsigned long>(QThread::currentThreadId()));
+        sprintf_s(buf, "0x%08lX", reinterpret_cast<unsigned long>(QThread::currentThreadId()));
 #else
-        sprintf(buf, "0x%08X", (unsigned long)(QThread::currentThreadId()));
+        sprintf(buf, "0x%08lX", (unsigned long)(QThread::currentThreadId()));
 #endif
         szTemp += buf;
         szTemp += "]:";
