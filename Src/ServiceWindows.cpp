@@ -426,9 +426,12 @@ qint16 CServiceManageWindows::State(const QString& name)
     // - Open the SCM
     SC_HANDLE hSCM = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
     if (!hSCM)
+#if defined (Q_CC_MINGW)
+        throw std::runtime_error("unable to open Service Control Manager");
+#else
         throw std::exception("unable to open Service Control Manager",
                              GetLastError());
-    
+#endif
     QString szName(name);
     if(szName.isEmpty())
         szName = Name();
@@ -438,13 +441,19 @@ qint16 CServiceManageWindows::State(const QString& name)
                                      szName.toStdWString().c_str(),
                                      SERVICE_INTERROGATE);
     if (!hService)
+#if defined (Q_CC_MINGW)
+        throw std::runtime_error("unable to open the service");
+#else
         throw std::exception("unable to open the service", GetLastError());
-    
+#endif
     // - Get the service status
     SERVICE_STATUS status;
     if (!::ControlService(hService, SERVICE_CONTROL_INTERROGATE, (SERVICE_STATUS*)&status))
+#if defined (Q_CC_MINGW)
+        throw std::runtime_error("unable to query the service");
+#else
         throw std::exception("unable to query the service", GetLastError());
-    
+#endif
     return status.dwCurrentState;
 }
 
