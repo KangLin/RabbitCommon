@@ -175,7 +175,7 @@
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="197"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="649"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="652"/>
         <source>There is laster version</source>
         <translation>这是最新版本</translation>
     </message>
@@ -216,8 +216,8 @@
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="356"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="189"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="712"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="192"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="715"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -227,223 +227,223 @@
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="180"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="183"/>
         <source>Being download xml file</source>
         <translation>正在下载XML文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="195"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="198"/>
         <source>Being download update file</source>
         <translation>正在下载更新文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="199"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="202"/>
         <source>Being install update</source>
         <translation>正在安装更新</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="228"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="231"/>
         <source>Current archecture: %1</source>
         <translation>当前架构: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="236"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="239"/>
         <source>Current version: %1</source>
         <translation>当前版本: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="362"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="365"/>
         <source>: downloading %1%</source>
         <translation>: 正在下载 %1%</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="371"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="374"/>
         <source>Download network error: </source>
         <translation>下载网络错误：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="388"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="391"/>
         <source>Download fail:</source>
         <translation>下载失败：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="481"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="594"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="484"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="597"/>
         <source>Parse file %1 fail. It isn&apos;t xml file</source>
         <translation>解析文件 %1 失败， 它不是 XML 文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="605"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="608"/>
         <source>Parse file %1 fail. It isn&apos;t update xml file</source>
         <translation>解析文件 %1 失败， 它不是更新 XML 文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="654"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="657"/>
         <source>New version: %1</source>
         <translation>新版本: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="656"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="659"/>
         <source>New architecture: %1</source>
         <translation>新架构: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="662"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="676"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="689"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="665"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="679"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="692"/>
         <source>System is different</source>
         <translation>系统不同</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="669"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="682"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="696"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="672"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="685"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="699"/>
         <source>Architecture is different</source>
         <translation>架构不同</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="702"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="705"/>
         <source>There is a new version, is it updated?</source>
         <translation>有新的版本，是否更新？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="725"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="728"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="726"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="729"/>
         <source>Download ......</source>
         <translation>下载 ……</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="737"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="740"/>
         <source>Being install update ......</source>
         <translation>正在安装更新 ……</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="746"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="752"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="749"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="755"/>
         <source>Download file fail</source>
         <translation>下载文件失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="758"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="761"/>
         <source>Md5sum is different. </source>
         <translation>Md5校验和不同。</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="759"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="762"/>
         <source>Download file md5sum: </source>
         <translation>下载文件的MD5校验和:</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="761"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="764"/>
         <source>md5sum in Update.xml:</source>
         <translation>XML文件中的MD5校验和:</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="799"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="802"/>
         <source>Execute install program error.%1</source>
         <translation>执行安装错误：%1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="867"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="870"/>
         <source>Open home page fail</source>
         <translation>打开主页失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="909"/>
         <source>Run</source>
         <translation>运行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="810"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="813"/>
         <source>Open file %1 fail</source>
         <translation>打开文件 %1 失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="824"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="827"/>
         <source>Execute</source>
         <translation>执行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="851"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="854"/>
         <source>The installer has started, Please close the application</source>
         <translation>开始安装，请先关闭本程序</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="907"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="910"/>
         <source>Run after install</source>
         <translation>安装后运行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1013"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1016"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1014"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1017"/>
         <source>Is updating, be sure to close?</source>
         <translation>正在更新，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1173"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1181"/>
         <source>xml file name</source>
         <translation>xml 文件名</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1177"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1185"/>
         <source>Package version</source>
         <translation>包版本</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1182"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1190"/>
         <source>Time</source>
         <translation>时间</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1187"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1195"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1193"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1201"/>
         <source>Operating system</source>
         <translation>操作系统</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1198"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1206"/>
         <source>Platform</source>
         <translation>平台</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1203"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1211"/>
         <source>Architecture</source>
         <translation>架构</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1208"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1216"/>
         <source>MD5 checksum</source>
         <translation>MD5校验和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1212"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1220"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation>包文件，用于计算 md5 校验和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1216"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1224"/>
         <source>Package download url</source>
         <translation>包下载URL</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1222"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1230"/>
         <source>Project home url</source>
         <translation>项目主页</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1227"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1235"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
     </message>
@@ -451,13 +451,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="288"/>
-        <location filename="../../RabbitCommonDir.cpp" line="317"/>
+        <location filename="../../RabbitCommonDir.cpp" line="291"/>
+        <location filename="../../RabbitCommonDir.cpp" line="320"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="347"/>
+        <location filename="../../RabbitCommonDir.cpp" line="350"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -600,14 +600,67 @@
     </message>
 </context>
 <context>
+    <name>RabbitCommon::CRecentMenu</name>
+    <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="161"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="162"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="163"/>
+        <source>Recent open:</source>
+        <translation>最近打开：</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="166"/>
+        <source>Clear Menu</source>
+        <translation>清除菜单</translation>
+    </message>
+</context>
+<context>
+    <name>RabbitCommon::CServiceManage</name>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="171"/>
+        <source>Install service: &lt;name&gt;</source>
+        <translation>安装服务： &lt;名称&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="175"/>
+        <source>install service path: &lt;path&gt;</source>
+        <translation>安装服务路径： &lt;路径&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="180"/>
+        <source>Uninstall service: &lt;name&gt;</source>
+        <translation>卸载服务： &lt;名称&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="184"/>
+        <source>Start service: &lt;name&gt;</source>
+        <translation>开始服务： &lt;名称&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="188"/>
+        <source>Stop service: &lt;name&gt;</source>
+        <translation>停止服务： &lt;名称&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="192"/>
+        <source>Pause service: &lt;name&gt;</source>
+        <translation>暂停服务： &lt;名称&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonService.cpp" line="196"/>
+        <source>Continue service: &lt;name&gt;</source>
+        <translation>继续服务： &lt;名称&gt;</translation>
+    </message>
+</context>
+<context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="95"/>
+        <location filename="../../RabbitCommonStyle.cpp" line="98"/>
         <source>Open sink</source>
         <translation>打开样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="97"/>
+        <location filename="../../RabbitCommonStyle.cpp" line="100"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>

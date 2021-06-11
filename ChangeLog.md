@@ -4,6 +4,7 @@
   + CMake: Add uninstall
   + Add QUIWidget
   + Add service interface
+  + Recent open menu
   
 - Version: v1.0.4
   + CMake: Add plugin target marco

@@ -21,12 +21,14 @@ Qt common library. include follow functions:
 - [x] Tools
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   + [x] [The program starts automatically](#the-program-starts-automatically)
-  + [x] [Directory functions](#directory-functions)
+  + [x] [Directory functions](Src/RabbitCommonDir.h)
   + [x] [Get system information](#Get-system-information)
     - [x] [Get current login user name](#Get-current-login-user-name)
-- [x] [Logger](#Logger)
-- [x] [Style](#Style)
-- [x] [QUIWidget](#QUIWidget)
+- [x] [Logger](Src/RabbitCommonLog.h)
+- [x] [Style](Src/RabbitCommonStyle.h)
+- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+- [x] [Recent open menu](Src/RabbitRecentMenu.h)
+- [x] [Recent open menu](Src/RabbitRecentMenu.h)
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
@@ -356,14 +358,6 @@ Qt common library. include follow functions:
 ##### Get current login user name
 
         RabbitCommon::CTools::GetCurrentUser
-
-#### [Directory functions](Src/RabbitCommonDir.h)
-
-#### [Logger](Src/RabbitCommonLog.h)
-
-#### [Style](Src/RabbitCommonStyle.h)
-
-### [QUIWidget](Src/QUIWidget/QUIWidget.h)
 
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitIm)

@@ -143,6 +143,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonStyle.h
     RabbitCommonLog.h
     RabbitCommonService.h
+    RabbitRecentMenu.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -155,6 +156,7 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonRegister.cpp
     RabbitCommonStyle.cpp
     RabbitCommonService.cpp
+    RabbitRecentMenu.cpp
     )
 list(APPEND RABBITCOMMON_SOURCE_UI_FILES
     )

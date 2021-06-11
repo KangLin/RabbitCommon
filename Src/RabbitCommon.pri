@@ -94,7 +94,8 @@ SOURCES += \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
     $$PWD/RabbitCommonStyle.cpp \
-    $$PWD/RabbitCommonService.cpp 
+    $$PWD/RabbitCommonService.cpp \
+    $$PWD/RabbitRecentMenu.cpp
 
 INSTALL_HEADERS += \
     $$PWD/RabbitCommonLog.h \
@@ -104,7 +105,8 @@ INSTALL_HEADERS += \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
     $$PWD/RabbitCommonStyle.h \
-    $$PWD/RabbitCommonService.h 
+    $$PWD/RabbitCommonService.h \
+    $$PWD/RabbitRecentMenu.h
 
 msvc | mingw {
     SOURCES += $$PWD/ServiceWindows.cpp
