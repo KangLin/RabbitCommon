@@ -11,6 +11,10 @@
 #include <QObject>
 #include "rabbitcommon_export.h"
 
+//TODO: https://github.com/MEONMedical/Log4Qt
+//https://github.com/orocos-toolchain/log4cpp
+//https://logging.apache.org/log4cxx
+// https://github.com/log4cplus/log4cplus
 #ifdef HAVE_LOG4CPLUS
 #include "log4cplus/log4cplus.h"
 #endif
