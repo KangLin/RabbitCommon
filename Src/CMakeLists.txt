@@ -17,6 +17,16 @@ else()
     set(BUILD_ARCH ${ANDROID_ARCH})
 endif()
 
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i386")
+  message(STATUS "i386 architecture detected")
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "i686")
+  message(STATUS "i686 architecture detected")
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+  message(STATUS "x86_64 architecture detected")
+else()
+  message(STATUS "host processor architecture is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+endif()
+
 #需要的QT组件
 SET(QT_COMPONENTS Core Gui Widgets Network Xml)
 if(ANDROID)
