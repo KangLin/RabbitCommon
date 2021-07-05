@@ -104,6 +104,7 @@ endmacro()
 function(INSTALL_TARGETS)
     cmake_parse_arguments(PARA "" "" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
+        message("Usage: INSTALL_TARGETS(TARGETS ...)")
         return()
     endif()
 
