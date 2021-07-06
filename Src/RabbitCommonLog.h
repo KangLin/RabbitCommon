@@ -11,14 +11,6 @@
 #include <QObject>
 #include "rabbitcommon_export.h"
 
-//TODO: https://github.com/MEONMedical/Log4Qt
-//https://github.com/orocos-toolchain/log4cpp
-//https://logging.apache.org/log4cxx
-// https://github.com/log4cplus/log4cplus
-#ifdef HAVE_LOG4CPLUS
-#include "log4cplus/log4cplus.h"
-#endif
-
 namespace RabbitCommon {
 
 class RABBITCOMMON_EXPORT CLog
@@ -53,22 +45,12 @@ private:
 #ifdef DEBUG
     #define LOG_MODEL_DEBUG(model, ...)
 #else
-    #ifdef HAVE_LOG4CPLUS
-        #define LOG_MODEL_DEBUG(model, ...) LOG4CPLUS_DEBUG_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
-    #else
-        #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
-    #endif
+    #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
 #endif //#ifdef DEBUG
 
-#ifdef HAVE_LOG4CPLUS   
-    #define LOG_MODEL_ERROR(model, ...) LOG4CPLUS_ERROR_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
-    #define LOG_MODEL_WARNING(model, ...) LOG4CPLUS_WARN_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
-    #define LOG_MODEL_INFO(model, ...) LOG4CPLUS_INFO_FMT(log4cplus::Logger::getInstance(model), __VA_ARGS__)
-#else
-    #define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
-    #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
-    #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
-#endif //HAVE_LOG4CPLUS
+#define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
+#define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
+#define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
 
 } // End namespace RabbitCommon
 

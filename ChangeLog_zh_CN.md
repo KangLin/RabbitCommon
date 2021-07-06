@@ -5,6 +5,7 @@
   + 增加 QUIWidget ： 用 QDialog 模拟主窗口，可以定制主窗口的标题栏
   + 增加应用服务程序接口
   + 增加最近打开菜单
+  + 增加 Log4Qt
   
 - 版本： v1.0.4
   + CMake: 增加 add_target 宏

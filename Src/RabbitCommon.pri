@@ -75,9 +75,16 @@ else: DEFINES *= RabbitCommon_EXPORTS
     RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
     CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
 }
+
+!isEmpty(Log4Qt_DIR){
+    DEFINES *= HAVE_LOG4QT
+    LIBS *= -L$${Log4Qt_DIR}/lib -llog4qt
+    INCLUDEPATH *= $${Log4Qt_DIR}/include
+}
+
 !isEmpty(log4cplus_DIR){
     DEFINES *= HAVE_LOG4CPLUS
-    LIBS += -L$$log4cplus -llog4cplus
+    LIBS += -L$${log4cplus_DIR} -llog4cplus
 
     # Install log4cplus configure files
     log4cplus.target = log4cplus

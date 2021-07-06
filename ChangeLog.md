@@ -5,6 +5,7 @@
   + Add QUIWidget
   + Add service interface
   + Recent open menu
+  + Add Log4Qt
   
 - Version: v1.0.4
   + CMake: Add plugin target marco

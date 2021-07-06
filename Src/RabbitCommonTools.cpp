@@ -7,10 +7,6 @@
 #include "RabbitCommonRegister.h"
 #include "RabbitCommonLog.h"
 
-#ifdef HAVE_LOG4CPLUS
-#include "log4cplus/log4cplus.h"
-#endif
-
 #include <QSettings>
 #include <QApplication>
 #include <QLocale>
@@ -91,16 +87,6 @@ QString CTools::GetLanguage()
 
 void CTools::Init(const QString szLanguage)
 {
-#ifdef HAVE_LOG4CPLUS
-    log4cplus::initialize();
-    QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + "log4config.conf";
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                  QSettings::IniFormat);
-    szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
-    log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(szLogConfig.toStdString().c_str()));
-#endif
-    
     SetLanguage(szLanguage);
     InitResource();
     InitTranslator(szLanguage);

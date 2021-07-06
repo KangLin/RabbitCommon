@@ -32,8 +32,10 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonApp");
     
-    qDebug() << "GetDirApplication:" << RabbitCommon::CDir::Instance()->GetDirApplication();
-    qDebug() << "GetDirApplicationInstallRoot:" << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
+    LOG_MODEL_DEBUG("main", "GetDirApplication:",
+                    RabbitCommon::CDir::Instance()->GetDirApplication().toStdString().c_str());
+    LOG_MODEL_DEBUG("main", "GetDirApplicationInstallRoot:",
+                    RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot().toStdString().c_str());
     qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
     
     QTranslator tApp;

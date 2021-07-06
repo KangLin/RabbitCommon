@@ -28,7 +28,7 @@ else()
 endif()
 
 #需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets Network Xml)
+SET(QT_COMPONENTS Core Gui Widgets Network Xml Concurrent)
 if(ANDROID)
     SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
 endif()
@@ -128,6 +128,27 @@ if(BUILD_ADMINAUTHORISER)
     endif()
 endif(BUILD_ADMINAUTHORISER)
 
+find_package(Log4Qt)
+if(Log4Qt_FOUND)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_LOG4QT)
+    LIST(APPEND RABBIT_COMMON_LIBS Log4Qt::log4qt)
+    
+    # Install log4qt.properties configure file
+    if(ANDROID)
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.properties
+            DESTINATION assets/etc
+                COMPONENT Runtime)
+    else()
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.properties
+            DESTINATION etc
+                COMPONENT Runtime)
+    endif()
+else()
+    message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")
+endif()
+
 find_package(log4cplus OPTIONAL_COMPONENTS log4cplus)
 message("log4cplus:${log4cplus_FOUND}")
 if(log4cplus_FOUND)
@@ -139,8 +160,8 @@ if(log4cplus_FOUND)
     LIST(APPEND RABBIT_COMMON_LIBS log4cplus::log4cplus)
     # Install log4cplus configure file
     if(ANDROID)
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/assets/etc/log4config.conf
-            DESTINATION etc
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
+            DESTINATION assets/etc
                 COMPONENT Runtime)
     else()
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
@@ -240,7 +261,8 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     LIBS ${RABBIT_COMMON_LIBS} ${QT_LIBRARIES}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
-    VERSION ${BUILD_VERSION})
+    VERSION ${BUILD_VERSION}
+    INSTALL_EXPORT_NAME ${PROJECT_NAME}Target)
 
 # Generate export header files and export macro
 include(GenerateExportHeader)
@@ -264,6 +286,16 @@ if(UNIX OR MINGW)
     install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
+
+# 因为编译树中已有 export(RabbitCommonConfig.cmake)
+configure_package_config_file(
+      ${CMAKE_SOURCE_DIR}/cmake/RabbitCommonConfig.cmake.in
+      ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake.in
+      INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+      )
+install(FILES ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake.in
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+      RENAME RabbitCommonConfig.cmake)
 
 # Install style files
 if(ANDROID)

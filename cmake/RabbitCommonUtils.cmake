@@ -138,7 +138,7 @@ endfunction()
 #    VERSION                版本号
 function(INSTALL_TARGET)
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
-        "NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
+        "NAME;EXPORT_NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
@@ -153,7 +153,8 @@ function(INSTALL_TARGET)
                 [ARCHIVE ...]
                 [PUBLIC_HEADER ...]
                 [INCLUDES ...]
-                [VERSION verson]"
+                [VERSION verson]
+                [EXPORT_NAME install export configure file name]"
                 )
     endif()
     
@@ -235,8 +236,11 @@ function(INSTALL_TARGET)
                 set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
             endif()
             
+            if(NOT DEFINED PARA_EXPORT_NAME)
+                set(PARA_EXPORT_NAME ${PARA_NAME}Config)
+            endif()
             INSTALL(TARGETS ${PARA_NAME}
-                EXPORT ${PARA_NAME}Config
+                EXPORT ${PARA_EXPORT_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
@@ -251,8 +255,8 @@ function(INSTALL_TARGET)
                 )
             
             # Install cmake configure files
-            install(EXPORT ${PARA_NAME}Config
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+            install(EXPORT ${PARA_EXPORT_NAME}
+                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PARA_NAME}"
                 )
             # Install cmake version configure file
             if(DEFINED PARA_VERSION)
@@ -261,7 +265,7 @@ function(INSTALL_TARGET)
                     VERSION ${PARA_VERSION}
                     COMPATIBILITY AnyNewerVersion)
                 install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake")
+                    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PARA_NAME}")
             endif()
         endif(PARA_ISEXE)
         
@@ -316,6 +320,7 @@ endfunction()
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
 #    INSTALL_INCLUDES               导出安装头文件位置
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
+#    INSTALL_EXPORT_NAME            安装CMAKE配置文件导出名
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -333,7 +338,7 @@ function(ADD_TARGET)
         INSTALL_INCLUDES        #导出包安装的头文件目录
         )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR"
+        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;INSTALL_EXPORT_NAME"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -358,7 +363,8 @@ function(ADD_TARGET)
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
                 [ANDROID_SOURCES_DIR android_source_dir]
-                [INSTALL_PLUGIN_LIBRARY_DIR dir]")
+                [INSTALL_PLUGIN_LIBRARY_DIR dir]
+                [INSTALL_EXPORT_NAME configure_file_name]")
         return()
     endif()
 
@@ -486,8 +492,15 @@ function(ADD_TARGET)
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES}
             INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
+    elseif(DEFINED PARA_ISEXE)
+        INSTALL_TARGET(NAME ${PARA_NAME}
+            ISEXE
+            EXPORT_NAME ${INSTALL_EXPORT_NAME}
+            PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+            INCLUDES ${PARA_INSTALL_INCLUDES})
     else()
         INSTALL_TARGET(NAME ${PARA_NAME}
+            EXPORT_NAME ${INSTALL_EXPORT_NAME}
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES})
     endif()
