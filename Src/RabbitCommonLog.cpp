@@ -175,7 +175,7 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
         break;
     }
     log4cplus::Logger log = log4cplus::Logger::getInstance(LOG4CPLUS_C_STR_TO_TSTRING(pszModelName));
-    log.log(l, buf, pszFile, nLine, NULL);
+    log.log(l, LOG4CPLUS_C_STR_TO_TSTRING(buf), pszFile, nLine, NULL);
     return 0;
 }
 
