@@ -14,6 +14,22 @@
 
 namespace RabbitCommon {
 
+#define LM_DEBUG 0
+#define LM_INFO 1
+#define LM_WARNING 2
+#define LM_ERROR 3
+
+#ifdef DEBUG
+    #define LOG_MODEL_DEBUG(model, ...)
+#else
+    #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_DEBUG, model, __VA_ARGS__)
+#endif //#ifdef DEBUG
+
+#define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_ERROR, model, __VA_ARGS__)
+#define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_WARNING, model, __VA_ARGS__)
+#define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_INFO, model, __VA_ARGS__)
+
+//DON'T USE CLog!!!
 class RABBITCOMMON_EXPORT CLog
 {
 public:
@@ -31,27 +47,12 @@ public:
      * @param pFormatString:格式化字符串
      * @return 
      */
-    int Print(const char *pszFile, int nLine, int nLevel,
+    int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
     
 private:
     bool m_bEnablePrintThread;
 };
-
-#define LM_DEBUG 0
-#define LM_INFO 1
-#define LM_WARNING 2
-#define LM_ERROR 3
-
-#ifdef DEBUG
-    #define LOG_MODEL_DEBUG(model, ...)
-#else
-    #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_DEBUG, model, __VA_ARGS__)
-#endif //#ifdef DEBUG
-
-#define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_ERROR, model, __VA_ARGS__)
-#define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_WARNING, model, __VA_ARGS__)
-#define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, LM_INFO, model, __VA_ARGS__)
 
 } // End namespace RabbitCommon
 

@@ -23,6 +23,16 @@
     #include "log4qt/fileappender.h"
     #include "log4qt/patternlayout.h"
 #endif
+#ifdef HAVE_LOG4CXX
+    #include "log4cxx/logger.h"
+    #include "log4cxx/basicconfigurator.h"
+    #include "log4cxx/propertyconfigurator.h"
+    #include "log4cxx/consoleappender.h"
+    #include "log4cxx/fileappender.h"
+    #include "log4cxx/patternlayout.h"
+    #include "log4cxx/logmanager.h"
+    //#include <log4cxx-qt/messagehandler.h>
+#endif
 //https://github.com/orocos-toolchain/log4cpp
 //https://logging.apache.org/log4cxx
 // https://github.com/log4cplus/log4cplus
@@ -41,7 +51,7 @@ CLog::CLog()
 #ifdef HAVE_LOG4QT
     
     QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + "log4qt.properties";
+            + QDir::separator() + "log4qt.conf";
     configFile = set.value("Log/ConfigFile", configFile).toString();
     if (QFile::exists(configFile))
         Log4Qt::PropertyConfigurator::configureAndWatch(configFile);
@@ -62,11 +72,27 @@ CLog::CLog()
 
     // Enable handling of Qt messages
     Log4Qt::LogManager::setHandleQtMessages(true);
-    
+#elif defined(HAVE_LOG4CXX)
+    //qInstallMessageHandler( log4cxx::qt::messageHandler );
+    QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+            + QDir::separator() + "log4cxx.conf";
+    configFile = set.value("Log/ConfigFile", configFile).toString();
+    if (QFile::exists(configFile))
+        log4cxx::PropertyConfigurator::configure(configFile.toStdString().c_str());
+    else
+    {
+        //log4cxx::BasicConfigurator::configure();
+        log4cxx::LogManager::getLoggerRepository()->setConfigured(true);
+        log4cxx::LoggerPtr root = log4cxx::Logger::getRootLogger();
+        static const log4cxx::LogString TTCC_CONVERSION_PATTERN(LOG4CXX_STR("%r %F(%L) [%t] %p %c %x - %m%n"));
+        log4cxx::LayoutPtr layout(new log4cxx::PatternLayout(TTCC_CONVERSION_PATTERN));
+        log4cxx::AppenderPtr appender(new log4cxx::ConsoleAppender(layout));
+        root->addAppender(appender);
+    }
 #elif defined(HAVE_LOG4CPLUS)
     log4cplus::initialize();
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + "log4config.conf";
+            + QDir::separator() + "log4cplus.conf";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if(QFile::exists(szConfFile))
         log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_STRING_TO_TSTRING(szConfFile.toStdString()));
@@ -102,7 +128,7 @@ int CLog::EnablePrintThread(bool bPrint)
 
 #ifdef HAVE_LOG4QT
 
-int CLog::Print(const char *pszFile, int nLine, int nLevel,
+int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];
@@ -136,13 +162,53 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
         break;
     }
     
-    Log4Qt::Logger::logger(pszModelName)->logWithLocation(l, pszFile, nLine, NULL, buf);
+    Log4Qt::Logger::logger(pszModelName)->logWithLocation(l, pszFile, nLine, pszFunction, buf);
+    return 0;
+}
+
+#elif HAVE_LOG4CXX
+
+int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
+                 const char* pszModelName, const char *pFormatString, ...)
+{
+    char buf[LOG_BUFFER_LENGTH];
+    va_list args;
+    va_start (args, pFormatString);
+    int nRet = vsnprintf(buf, LOG_BUFFER_LENGTH, pFormatString, args);
+    va_end (args);
+    if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
+    {
+        LOG_MODEL_ERROR("Global",
+                        "vsprintf buf is short, %d > %d. Truncated it:%d",
+                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        buf[LOG_BUFFER_LENGTH - 1] = 0;
+        //return nRet;
+    }
+    log4cxx::LevelPtr l = log4cxx::Level::getDebug();
+    switch(nLevel)
+    {
+    case LM_DEBUG:
+        l = log4cxx::Level::getDebug();
+        break;
+    case LM_ERROR:
+        l = log4cxx::Level::getError();
+        break;
+    case LM_INFO:
+        l = log4cxx::Level::getInfo();
+        break;
+    case LM_WARNING:
+        l = log4cxx::Level::getWarn();
+        break;
+    }
+    log4cxx::LoggerPtr log = log4cxx::Logger::getLogger(pszModelName);
+    log4cxx::spi::LocationInfo loc(pszFile, pszFunction, nLine);
+    log->log(l, buf, loc);
     return 0;
 }
 
 #elif HAVE_LOG4CPLUS
 
-int CLog::Print(const char *pszFile, int nLine, int nLevel,
+int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];
@@ -175,13 +241,13 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
         break;
     }
     log4cplus::Logger log = log4cplus::Logger::getInstance(LOG4CPLUS_C_STR_TO_TSTRING(pszModelName));
-    log.log(l, LOG4CPLUS_C_STR_TO_TSTRING(buf), pszFile, nLine, NULL);
+    log.log(l, LOG4CPLUS_C_STR_TO_TSTRING(buf), pszFile, nLine, pszFunction);
     return 0;
 }
 
 #else
 
-int CLog::Print(const char *pszFile, int nLine, int nLevel,
+int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];

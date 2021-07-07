@@ -117,16 +117,37 @@ if(Log4Qt_FOUND)
     LIST(APPEND QT_COMPONENTS Concurrent)
     # Install log4qt.properties configure file
     if(ANDROID)
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.properties
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
             DESTINATION assets/etc
                 COMPONENT Runtime)
     else()
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.properties
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
             DESTINATION etc
                 COMPONENT Runtime)
     endif()
 else()
     message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")
+endif()
+
+find_package(log4cxx)
+if(log4cxx_FOUND)
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CXX)
+    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cxx)
+    # Install log4cplus configure file
+    if(ANDROID)
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
+            DESTINATION assets/etc
+                COMPONENT Runtime)
+    else()
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
+            DESTINATION etc
+                COMPONENT Runtime)
+    endif()
+else()
+    message("Download log4cxx http://gitbox.apache.org/repos/asf/logging-log4cxx.git")
 endif()
 
 find_package(log4cplus OPTIONAL_COMPONENTS log4cplus)
@@ -140,11 +161,11 @@ if(log4cplus_FOUND)
     LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cplus::log4cplus)
     # Install log4cplus configure file
     if(ANDROID)
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
             DESTINATION assets/etc
                 COMPONENT Runtime)
     else()
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
             DESTINATION etc
                 COMPONENT Runtime)
     endif()
