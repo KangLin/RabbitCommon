@@ -256,6 +256,11 @@ endif()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 
+foreach(l ${RABBIT_COMMON_LIBS})
+    if(TARGET ${l})
+        list(APPEND RABBIT_COMMON_LIBS_CONFIG ${l})
+    endif()
+endforeach()
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}

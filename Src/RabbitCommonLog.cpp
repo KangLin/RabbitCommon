@@ -64,13 +64,13 @@ CLog::CLog()
     Log4Qt::LogManager::setHandleQtMessages(true);
     
 #elif defined(HAVE_LOG4CPLUS)
-log4cplus::initialize();
-QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-        + QDir::separator() + "log4config.conf";
-szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
-log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(szLogConfig.toStdString().c_str()));        
+    log4cplus::initialize();
+    QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+            + QDir::separator() + "log4config.conf";
+    szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
+   // log4cplus::PropertyConfigurator::doConfigure(szLogConfig.toStdWString());
 #endif
-    
+
 }
 
 CLog* CLog::Instance()
