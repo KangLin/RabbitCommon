@@ -86,7 +86,7 @@ IF(OpenSSL_FOUND)
                 $<TARGET_FILE:${OpenSSL::Crypto}>)
         endif()
     else()
-        list(APPEND RABBIT_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
+        list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
     endif()
 
 ENDIF()
@@ -112,8 +112,8 @@ find_package(Log4Qt)
 if(Log4Qt_FOUND)
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_LOG4QT)
-    LIST(APPEND RABBIT_COMMON_LIBS Log4Qt::log4qt)
+    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
+    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
     LIST(APPEND QT_COMPONENTS Concurrent)
     # Install log4qt.properties configure file
     if(ANDROID)
@@ -136,8 +136,8 @@ if(log4cplus_FOUND)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
     #message("Found log4cplugs componts:${log4cplus_FIND_COMPONENTS}")
-    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_LOG4CPLUS)
-    LIST(APPEND RABBIT_COMMON_LIBS log4cplus::log4cplus)
+    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CPLUS)
+    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cplus::log4cplus)
     # Install log4cplus configure file
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4config.conf
@@ -268,6 +268,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
     LIBS ${RABBIT_COMMON_LIBS}
+    PRIVATE_LIBS ${RABBIT_PRIVATE_COMMON_LIBS}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
     VERSION ${BUILD_VERSION}
