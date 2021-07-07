@@ -12,7 +12,7 @@
 #include <QThread>
 #include <QSettings>
 #include <QDir>
-//TODO: https://github.com/MEONMedical/Log4Qt
+// https://github.com/MEONMedical/Log4Qt
 #ifdef HAVE_LOG4QT
     #include "log4qt/logger.h"
     #include "log4qt/propertyconfigurator.h"
@@ -65,10 +65,19 @@ CLog::CLog()
     
 #elif defined(HAVE_LOG4CPLUS)
     log4cplus::initialize();
-    QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
             + QDir::separator() + "log4config.conf";
-    szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
-   // log4cplus::PropertyConfigurator::doConfigure(szLogConfig.toStdWString());
+    szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
+    if(QFile::exists(szConfFile))
+        log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_STRING_TO_TSTRING(szConfFile.toStdString()));
+    else {
+        
+        log4cplus::SharedAppenderPtr appender(new log4cplus::ConsoleAppender(true));
+        appender->setName(LOG4CPLUS_TEXT("console"));
+        appender->setLayout(std::unique_ptr<log4cplus::Layout>(
+                                new log4cplus::PatternLayout(LOG4CPLUS_TEXT("%F(%L) [%t] %p: %m%n"))));
+        log4cplus::Logger::getRoot().addAppender(appender);
+    }
 #endif
 
 }
@@ -96,7 +105,6 @@ int CLog::EnablePrintThread(bool bPrint)
 int CLog::Print(const char *pszFile, int nLine, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
-    Log4Qt::Logger* pLog = Log4Qt::Logger::logger(pszModelName);
     char buf[LOG_BUFFER_LENGTH];
     va_list args;
     va_start (args, pFormatString);
@@ -128,7 +136,46 @@ int CLog::Print(const char *pszFile, int nLine, int nLevel,
         break;
     }
     
-    pLog->logWithLocation(l, pszFile, nLine, NULL, buf);
+    Log4Qt::Logger::logger(pszModelName)->logWithLocation(l, pszFile, nLine, NULL, buf);
+    return 0;
+}
+
+#elif HAVE_LOG4CPLUS
+
+int CLog::Print(const char *pszFile, int nLine, int nLevel,
+                 const char* pszModelName, const char *pFormatString, ...)
+{
+    char buf[LOG_BUFFER_LENGTH];
+    va_list args;
+    va_start (args, pFormatString);
+    int nRet = vsnprintf(buf, LOG_BUFFER_LENGTH, pFormatString, args);
+    va_end (args);
+    if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
+    {
+        LOG_MODEL_ERROR("Global",
+                        "vsprintf buf is short, %d > %d. Truncated it:%d",
+                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        buf[LOG_BUFFER_LENGTH - 1] = 0;
+        //return nRet;
+    }
+    log4cplus::LogLevel l = log4cplus::DEBUG_LOG_LEVEL;
+    switch(nLevel)
+    {
+    case LM_DEBUG:
+        l = log4cplus::DEBUG_LOG_LEVEL;
+        break;
+    case LM_ERROR:
+        l = log4cplus::ERROR_LOG_LEVEL;
+        break;
+    case LM_INFO:
+        l = log4cplus::INFO_LOG_LEVEL;
+        break;
+    case LM_WARNING:
+        l = log4cplus::WARN_LOG_LEVEL;
+        break;
+    }
+    log4cplus::Logger log = log4cplus::Logger::getInstance(LOG4CPLUS_C_STR_TO_TSTRING(pszModelName));
+    log.log(l, buf, pszFile, nLine, NULL);
     return 0;
 }
 
