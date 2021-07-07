@@ -27,27 +27,6 @@ else()
   message(STATUS "host processor architecture is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 endif()
 
-#需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets Network Xml Concurrent)
-if(ANDROID)
-    SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
-endif()
-if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets)
-endif()
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
-message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
-    message(FATAL_ERROR "Qt must great 5.10.0")
-endif()
-if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${QT_COMPONENTS})
-        SET(QT_LIBRARIES ${QT_LIBRARIES} Qt${QT_VERSION_MAJOR}::${_COMPONENT})
-    ENDFOREACH()
-endif()
-get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
-message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
-
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
@@ -69,6 +48,7 @@ endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
+    LIST(APPEND QT_COMPONENTS Network Xml)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
     list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
@@ -134,7 +114,7 @@ if(Log4Qt_FOUND)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_LOG4QT)
     LIST(APPEND RABBIT_COMMON_LIBS Log4Qt::log4qt)
-    
+    LIST(APPEND QT_COMPONENTS Concurrent)
     # Install log4qt.properties configure file
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.properties
@@ -252,13 +232,37 @@ string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
+#需要的QT组件
+LIST(APPEND QT_COMPONENTS Core)
+if(BUILD_ABOUT OR BUILD_UPDATE OR BUILD_QUIWidget)
+    LIST(APPEND QT_COMPONENTS Gui Widgets)
+endif()
+if(ANDROID)
+    SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
+endif()
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+endif()
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
+message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
+if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
+    message(FATAL_ERROR "Qt must great 5.10.0")
+endif()
+if(Qt${QT_VERSION_MAJOR}_FOUND)
+    FOREACH(_COMPONENT ${QT_COMPONENTS})
+        LIST(APPEND RABBIT_COMMON_LIBS Qt${QT_VERSION_MAJOR}::${_COMPONENT})
+    ENDFOREACH()
+endif()
+get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
+message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
     INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
-    LIBS ${RABBIT_COMMON_LIBS} ${QT_LIBRARIES}
+    LIBS ${RABBIT_COMMON_LIBS}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
     VERSION ${BUILD_VERSION}
@@ -289,7 +293,7 @@ endif()
 
 # 因为编译树中已有 export(RabbitCommonConfig.cmake)
 configure_package_config_file(
-      ${CMAKE_SOURCE_DIR}/cmake/RabbitCommonConfig.cmake.in
+      ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
       ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake.in
       INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
       )

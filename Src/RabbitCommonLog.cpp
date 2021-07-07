@@ -35,6 +35,42 @@ namespace RabbitCommon {
 CLog::CLog()
 {
     m_bEnablePrintThread = true;
+    
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+#ifdef HAVE_LOG4QT
+    
+    QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+            + QDir::separator() + "log4qt.properties";
+    configFile = set.value("Log/ConfigFile", configFile).toString();
+    if (QFile::exists(configFile))
+        Log4Qt::PropertyConfigurator::configureAndWatch(configFile);
+    else
+    {
+        // Create a layout
+        auto logger = Log4Qt::Logger::rootLogger();
+        auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p: %m%n");
+        layout->setName(QStringLiteral("My Layout"));
+        layout->activateOptions();
+        // Create a console appender
+        Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
+        consoleAppender->setName(QStringLiteral("My Appender"));
+        consoleAppender->activateOptions();
+        // Add appender on root logger
+        logger->addAppender(consoleAppender);
+    }
+
+    // Enable handling of Qt messages
+    Log4Qt::LogManager::setHandleQtMessages(true);
+    
+#elif defined(HAVE_LOG4CPLUS)
+log4cplus::initialize();
+QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+        + QDir::separator() + "log4config.conf";
+szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
+log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(szLogConfig.toStdString().c_str()));        
+#endif
+    
 }
 
 CLog* CLog::Instance()
@@ -42,43 +78,7 @@ CLog* CLog::Instance()
     static CLog* p = NULL;
     if(!p)
     {
-        p = new CLog;
-        
-        QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                      QSettings::IniFormat);
-#ifdef HAVE_LOG4QT
-        
-        QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-                + QDir::separator() + "log4qt.properties";
-        configFile = set.value("Log/ConfigFile", configFile).toString();
-        if (QFile::exists(configFile))
-            Log4Qt::PropertyConfigurator::configureAndWatch(configFile);
-        else
-        {
-            // Create a layout
-            auto logger = Log4Qt::Logger::rootLogger();
-            auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p: %m%n");
-            layout->setName(QStringLiteral("My Layout"));
-            layout->activateOptions();
-            // Create a console appender
-            Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
-            consoleAppender->setName(QStringLiteral("My Appender"));
-            consoleAppender->activateOptions();
-            // Add appender on root logger
-            logger->addAppender(consoleAppender);
-        }
-
-        // Enable handling of Qt messages
-        Log4Qt::LogManager::setHandleQtMessages(true);
-        
-#elif defined(HAVE_LOG4CPLUS)
-    log4cplus::initialize();
-    QString szLogConfig = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + "log4config.conf";
-    szLogConfig = set.value("Log/ConfigFile", szLogConfig).toString();
-    log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(szLogConfig.toStdString().c_str()));        
-#endif
-    
+        p = new CLog();
     }
     return p;
 }

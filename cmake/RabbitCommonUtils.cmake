@@ -203,7 +203,6 @@ function(INSTALL_TARGET)
         if(NOT DEFINED PARA_ARCHIVE)
             set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
         endif()
-        
         if(PARA_ISEXE)
             INSTALL(TARGETS ${PARA_NAME}
                 COMPONENT Runtime
@@ -256,7 +255,7 @@ function(INSTALL_TARGET)
             
             # Install cmake configure files
             install(EXPORT ${PARA_EXPORT_NAME}
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PARA_NAME}"
+                DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAME}"
                 )
             # Install cmake version configure file
             if(DEFINED PARA_VERSION)
@@ -492,15 +491,14 @@ function(ADD_TARGET)
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES}
             INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
-    elseif(DEFINED PARA_ISEXE)
+    elseif(PARA_ISEXE)
         INSTALL_TARGET(NAME ${PARA_NAME}
             ISEXE
-            EXPORT_NAME ${INSTALL_EXPORT_NAME}
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES})
     else()
         INSTALL_TARGET(NAME ${PARA_NAME}
-            EXPORT_NAME ${INSTALL_EXPORT_NAME}
+            EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES})
     endif()

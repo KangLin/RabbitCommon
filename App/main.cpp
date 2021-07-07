@@ -32,9 +32,9 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonApp");
     
-    LOG_MODEL_DEBUG("main", "GetDirApplication:",
+    LOG_MODEL_DEBUG("main", "GetDirApplication:%s",
                     RabbitCommon::CDir::Instance()->GetDirApplication().toStdString().c_str());
-    LOG_MODEL_DEBUG("main", "GetDirApplicationInstallRoot:",
+    LOG_MODEL_DEBUG("main", "GetDirApplicationInstallRoot:%s",
                     RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot().toStdString().c_str());
     qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
     
