@@ -150,7 +150,7 @@ else()
     message("Download log4cxx http://gitbox.apache.org/repos/asf/logging-log4cxx.git")
 endif()
 
-find_package(log4cplus OPTIONAL_COMPONENTS log4cplus)
+find_package(log4cplus)
 message("log4cplus:${log4cplus_FOUND}")
 if(log4cplus_FOUND)
     set(CMAKE_CXX_STANDARD 11)
