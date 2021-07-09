@@ -20,7 +20,6 @@
 #include "RabbitCommonLog.h"
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
-#include "RabbitCommonService.h"
 
 int main(int argc, char *argv[])
 {

@@ -14,10 +14,8 @@ TEMPLATE = subdirs
 
 lib.subdir = Src
 App.depends = lib
-Service.file = $$PWD/App/Service.pro
-Service.depends = lib
 CONFIG *= ordered
-SUBDIRS = lib App Service
+SUBDIRS = lib App 
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
