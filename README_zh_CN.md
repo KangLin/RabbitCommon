@@ -260,6 +260,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 about.exec();
             #endif
             ```
+            
   + 参见例子： https://github.com/KangLin/LunarCalendar
     
 ![关于对话框](docments/image/about.PNG "关于对话框")

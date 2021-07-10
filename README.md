@@ -271,6 +271,7 @@ Qt common library. include follow functions:
                 #endif
             #endif
             ```
+            
   + See: https://github.com/KangLin/SerialPortAssistant
 ![About](docments/image/about_en.png "About")
 
