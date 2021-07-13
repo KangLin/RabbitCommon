@@ -617,39 +617,32 @@
 <context>
     <name>RabbitCommon::CServiceManage</name>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="171"/>
         <source>Install service: &lt;name&gt;</source>
-        <translation>安裝服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">安裝服務： &lt;名稱&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="175"/>
         <source>install service path: &lt;path&gt;</source>
-        <translation>安裝服務路徑： &lt;路徑&gt;</translation>
+        <translation type="vanished">安裝服務路徑： &lt;路徑&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="180"/>
         <source>Uninstall service: &lt;name&gt;</source>
-        <translation>卸載服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">卸載服務： &lt;名稱&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="184"/>
         <source>Start service: &lt;name&gt;</source>
-        <translation>開始服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">開始服務： &lt;名稱&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="188"/>
         <source>Stop service: &lt;name&gt;</source>
-        <translation>停止服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">停止服務： &lt;名稱&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="192"/>
         <source>Pause service: &lt;name&gt;</source>
-        <translation>暫停服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">暫停服務： &lt;名稱&gt;</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonService.cpp" line="196"/>
         <source>Continue service: &lt;name&gt;</source>
-        <translation>繼續服務： &lt;名稱&gt;</translation>
+        <translation type="vanished">繼續服務： &lt;名稱&gt;</translation>
     </message>
 </context>
 <context>
