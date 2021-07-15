@@ -310,4 +310,11 @@ QString CTools::GetCurrentUser()
 #endif
 }
 
+QString CTools::GetHostName()
+{
+    char buf[255];
+    gethostname(buf, sizeof(buf));
+    return buf;
+}
+
 } //namespace RabbitCommon

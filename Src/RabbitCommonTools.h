@@ -57,6 +57,7 @@ public:
                            bool bAllUser = false);
     
     static QString GetCurrentUser();
+    static QString GetHostName();
     
     /**
      * @brief GenerateDesktopFile: Generate desktop file
