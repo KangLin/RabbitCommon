@@ -59,7 +59,7 @@ CLog::CLog()
     {
         // Create a layout
         auto logger = Log4Qt::Logger::rootLogger();
-        auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p: %m%n");
+        auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p %c: %m%n");
         layout->setName(QStringLiteral("My Layout"));
         layout->activateOptions();
         // Create a console appender
@@ -84,7 +84,7 @@ CLog::CLog()
         //log4cxx::BasicConfigurator::configure();
         log4cxx::LogManager::getLoggerRepository()->setConfigured(true);
         log4cxx::LoggerPtr root = log4cxx::Logger::getRootLogger();
-        static const log4cxx::LogString TTCC_CONVERSION_PATTERN(LOG4CXX_STR("%r %F(%L) [%t] %p %c %x - %m%n"));
+        static const log4cxx::LogString TTCC_CONVERSION_PATTERN(LOG4CXX_STR("%r %F(%L) [%t] %p %c - %m%n"));
         log4cxx::LayoutPtr layout(new log4cxx::PatternLayout(TTCC_CONVERSION_PATTERN));
         log4cxx::AppenderPtr appender(new log4cxx::ConsoleAppender(layout));
         root->addAppender(appender);
@@ -101,7 +101,7 @@ CLog::CLog()
         log4cplus::SharedAppenderPtr appender(new log4cplus::ConsoleAppender(true));
         appender->setName(LOG4CPLUS_TEXT("console"));
         appender->setLayout(std::unique_ptr<log4cplus::Layout>(
-                                new log4cplus::PatternLayout(LOG4CPLUS_TEXT("%F(%L) [%t] %p: %m%n"))));
+                                new log4cplus::PatternLayout(LOG4CPLUS_TEXT("%F(%L) [%t] %p %c: %m%n"))));
         log4cplus::Logger::getRoot().addAppender(appender);
     }
 #endif
