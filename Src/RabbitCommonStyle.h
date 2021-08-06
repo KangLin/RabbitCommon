@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract Style load
  */
 
@@ -15,6 +15,7 @@ namespace RabbitCommon {
 
 /**
  * @brief The CStyle class
+ * @ingroup API
  */
 class RABBITCOMMON_EXPORT CStyle : public QObject
 {

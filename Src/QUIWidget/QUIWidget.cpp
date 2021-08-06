@@ -1,4 +1,7 @@
-﻿//#pragma execution_character_set("utf-8")
+﻿// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+
+//#pragma execution_character_set("utf-8")
 
 #include "QUIWidget.h"
 #include <QLabel>

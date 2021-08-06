@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract Update diaglog
  */
 
@@ -23,6 +23,10 @@ namespace Ui {
 class CFrmUpdater;
 }
 
+/**
+ * @brief Update 
+ * @ingroup API
+ */
 class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
 {
     Q_OBJECT

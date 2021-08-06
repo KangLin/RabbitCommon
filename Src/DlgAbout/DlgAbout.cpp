@@ -2,7 +2,7 @@
 Copyright (c) Kang Lin studio, All Rights Reserved
 
 Author:
-    Kang Lin(kl222@126.com）
+    Kang Lin <kl222@126.com>
     
 Module Name:
 
@@ -25,9 +25,6 @@ Abstract:
 #include <QStandardPaths>
 #include <QtNetwork>
 
-/*
- * Author: KangLin(Email:kl222@126.com)
- */
 #include <QDateTime>
 
 CDlgAbout::CDlgAbout(QWidget *parent) :

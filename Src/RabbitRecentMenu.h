@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract Tools
  */
 
@@ -15,6 +15,12 @@
 
 namespace RabbitCommon {
 
+/**
+ * \~chinese 最近打开菜单
+ * 
+ * \~english Recent open menu
+ * \~ \ingroup API
+ */
 class RABBITCOMMON_EXPORT CRecentMenu : public QMenu
 {
     Q_OBJECT

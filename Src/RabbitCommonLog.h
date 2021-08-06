@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract log
  */
 

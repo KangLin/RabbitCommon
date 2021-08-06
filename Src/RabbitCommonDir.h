@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract Directory operator
  */
 
@@ -14,9 +14,10 @@
 
 namespace RabbitCommon {
 
-/*
+/**
+ * 
  * Default directory:
- *
+ * \code
  * ApplicationInstallRoot                          GetDirApplicationInstallRoot()
  *       |- bin                                    GetDirApplication()
  *       |- etc                                    GetDirConfig()
@@ -57,7 +58,11 @@ namespace RabbitCommon {
  *       |    |   |- db                            GetDirDatabase()
  *       |        |- database.db                   GetDirDatabaseFile()
  *
+ * \endcode
+ * 
  * NOTE: In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
+ * 
+ * \ingroup API
  */
 class RABBITCOMMON_EXPORT CDir
 {

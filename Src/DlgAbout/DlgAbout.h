@@ -1,8 +1,8 @@
-/*++
+/*
 Copyright (c) Kang Lin studio, All Rights Reserved
 
 Author:
-    Kang Lin(kl222@126.com）
+    Kang Lin <kl222@126.com>
 
 Module Name:
 
@@ -36,6 +36,36 @@ namespace Ui {
 class CDlgAbout;
 }
 
+/**  
+  \~chinese
+  
+    关于对话框
+    用户必须安装下列文件到安装根目录：
+    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
+    \li License:    License.md or License[_locale].md
+    \li Authors:    Authors.md or Authors[_locale].md
+    
+    locale 是使用的语言。例如:
+    \li 中文: ChangeLog_zh_CN.md     
+    \li 英文: ChangeLog_en.md
+    
+  \~english
+    
+    About dialog
+ 
+    User must install the follow file to install root:
+    
+    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
+    \li License:    License.md or License[_locale].md
+    \li Authors:    Authors.md or Authors[_locale].md
+    
+    locale is the language used. eg:
+    \li Chines language: ChangeLog_zh_CN.md     
+    \li English language: ChangeLog_en.md
+    
+  \~
+  \ingroup API
+ */
 class RABBITCOMMON_EXPORT CDlgAbout : public QDialog
 {
     Q_OBJECT
@@ -95,3 +125,8 @@ protected:
 };
 
 #endif // RABBITCOMMON_DLGABOUT_H
+
+/**
+ * \~english \defgroup API Application interface
+ * \~chinese \defgroup API 应用程序接口
+ */

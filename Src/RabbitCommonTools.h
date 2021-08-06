@@ -1,5 +1,5 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin(kl222@126.com)
+ *  @author Kang Lin <kl222@126.com>
  *  @abstract Tools
  */
 
@@ -14,6 +14,10 @@
 
 namespace RabbitCommon {
 
+/**
+ * @brief Tools
+ * @ingroup API
+ */
 class RABBITCOMMON_EXPORT CTools
 {
 public:

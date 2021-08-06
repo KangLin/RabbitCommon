@@ -1,5 +1,5 @@
-//! @copyright Copyright (c) Kang Lin studio, All Rights Reserved
-//! @author Kang Lin(kl222@126.com)
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
 
 #include "RabbitCommonStyle.h"
 #include "RabbitCommonDir.h"
