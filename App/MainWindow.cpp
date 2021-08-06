@@ -46,7 +46,10 @@ void MainWindow::on_actionAbout_triggered()
     dlg->show();
 #endif
 #endif
+   
+#ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(dlg);
+#endif
 }
 
 void MainWindow::on_actionUpdate_triggered()
@@ -63,7 +66,10 @@ void MainWindow::on_actionUpdate_triggered()
     update->show();
 #endif
 #endif
+    
+#ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(update);
+#endif
 }
 
 void MainWindow::on_pushButton_clicked()

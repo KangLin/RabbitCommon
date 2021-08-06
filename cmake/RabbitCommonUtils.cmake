@@ -102,24 +102,29 @@ endmacro()
 
 # 安装指定目标文件
 function(INSTALL_TARGETS)
-    cmake_parse_arguments(PARA "" "" "TARGETS" ${ARGN})
+    cmake_parse_arguments(PARA "" "DESTINATION" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
-        message("Usage: INSTALL_TARGETS(TARGETS ...)")
+        message("Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ...)")
         return()
     endif()
 
-    foreach(component ${PARA_TARGETS})
+    if(NOT DEFINED DESTINATION)
         if(ANDROID)
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "libs/${ANDROID_ABI}"
-                    COMPONENT Runtime)
+            set(PARA_DESTINATION "libs/${ANDROID_ABI}")
         elseif(WIN32)
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                    COMPONENT Runtime)
+            set(PARA_DESTINATION "${CMAKE_INSTALL_BINDIR}")
         else()
-            INSTALL(FILES $<TARGET_FILE:${component}>
-                DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+            set(PARA_DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+    endif()
+
+    foreach(component ${PARA_TARGETS})
+        INSTALL(FILES $<TARGET_FILE:${component}>
+            DESTINATION "${PARA_DESTINATION}"
+                COMPONENT Runtime)
+        if(NOT ANDROID AND UINX)
+            INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
+                DESTINATION "${PARA_DESTINATION}"
                     COMPONENT Runtime)
         endif()
     endforeach()

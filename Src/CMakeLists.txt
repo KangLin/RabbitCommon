@@ -34,6 +34,8 @@ SET(CMAKE_AUTORCC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
+
 SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
@@ -77,18 +79,19 @@ IF(OpenSSL_FOUND)
     # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
     # Check https://doc.qt.io/qt/deployment-android.html for more information.
     # They need to be set before the find_package( ...) calls below.
-    
     if(ANDROID)
         #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
         if (ANDROID_ABI STREQUAL "armeabi-v7a")
             set(ANDROID_EXTRA_LIBS
-                $<TARGET_FILE:${OpenSSL::SSL}>
-                $<TARGET_FILE:${OpenSSL::Crypto}>)
+                $<TARGET_FILE:OpenSSL::SSL>
+                $<TARGET_FILE:OpenSSL::Crypto>)
         endif()
     else()
         list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
     endif()
-
+    if(WIN32)
+        INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
+    endif()
 ENDIF()
 
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
@@ -115,6 +118,7 @@ if(Log4Qt_FOUND)
     LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
     LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
     LIST(APPEND QT_COMPONENTS Concurrent)
+    INSTALL_TARGETS(TARGETS "Log4Qt::log4qt")
     # Install log4qt.properties configure file
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
