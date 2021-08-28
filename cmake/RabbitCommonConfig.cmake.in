@@ -3,8 +3,10 @@
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/")
 
 include(CMakeFindDependencyMacro)
-foreach(dependens_lib @RABBIT_COMMON_LIBS_CONFIG@)
-    find_dependency(${dependens_lib})
-endforeach()
-
+set(libs @RABBIT_COMMON_LIBS_CONFIG@)
+if(libs)
+    foreach(dependens_lib ${libs})
+        find_dependency(${dependens_lib})
+    endforeach()
+endif()
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonTargets.cmake")
