@@ -3,7 +3,9 @@
 
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
+#ifdef HAVE_ADMINAUTHORISER
 #include "AdminAuthoriser/adminauthoriser.h"
+#endif
 #include "RabbitCommonRegister.h"
 #include "RabbitCommonLog.h"
 
@@ -127,7 +129,11 @@ void CTools::CleanResource()
 
 bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 {
+#ifdef HAVE_ADMINAUTHORISER
     return CAdminAuthoriser::Instance()->execute(program, arguments);
+#else
+    return false;
+#endif
 }
 
 
