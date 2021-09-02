@@ -9,7 +9,6 @@
 #pragma once
 
 #include <QObject>
-#include <QDataStream>
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
