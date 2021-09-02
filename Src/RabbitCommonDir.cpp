@@ -221,7 +221,7 @@ QString CDir::GetDirUserImage()
 
 QString CDir::GetDirTranslations()
 {
-#if _DEBUG
+#if DEBUG
     return ":/translations";
 #elif defined (Q_OS_ANDROID)
     return "assets:/translations";
