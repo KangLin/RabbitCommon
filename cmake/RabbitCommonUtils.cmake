@@ -276,6 +276,21 @@ function(INSTALL_TARGET)
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
                     )
             endif()
+            if(PARA_NAMESPACE OR PARA_EXPORT_NAME)
+                # 因为编译树中已有 export(${PARA_NAME}Config.cmake)
+                if(EXISTS ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in)
+                    configure_package_config_file(
+                        ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in
+                        ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake.in
+                        INSTALL_DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                        )
+                    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake.in
+                        DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                        RENAME ${PARA_NAME}Config.cmake)
+                else()
+                    message(WARNING "Please create file: ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in")
+                endif()
+            endif()
             # Install cmake version configure file
             if(DEFINED PARA_VERSION)
                 write_basic_package_version_file(
