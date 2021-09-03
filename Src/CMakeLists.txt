@@ -287,7 +287,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
     VERSION ${BUILD_VERSION}
-    INSTALL_EXPORT_NAME ${PROJECT_NAME}Target)
+    INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets)
 
 # Generate export header files and export macro
 include(GenerateExportHeader)
