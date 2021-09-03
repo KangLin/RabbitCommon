@@ -23,7 +23,6 @@ Abstract:
 #include <QDebug>
 #include <QMenu>
 #include <QStandardPaths>
-#include <QtNetwork>
 
 #include <QDateTime>
 

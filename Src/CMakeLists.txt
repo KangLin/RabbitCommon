@@ -4,6 +4,8 @@ project(RabbitCommon)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
+set(RabbitCommon_QT_COMPONENTS Core)
+
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
 # ----------------------------------------------------------------------------
@@ -50,7 +52,7 @@ endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
-    LIST(APPEND QT_COMPONENTS Network Xml)
+    LIST(APPEND RabbitCommon_QT_COMPONENTS Network Xml)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
     list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
@@ -117,7 +119,7 @@ if(Log4Qt_FOUND)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
     LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
-    LIST(APPEND QT_COMPONENTS Concurrent)
+    LIST(APPEND RabbitCommon_QT_COMPONENTS Concurrent)
     INSTALL_TARGETS(TARGETS "Log4Qt::log4qt")
     # Install log4qt.properties configure file
     if(ANDROID)
@@ -247,24 +249,21 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 #需要的QT组件
-LIST(APPEND QT_COMPONENTS Core)
-if(BUILD_ABOUT OR BUILD_UPDATE OR BUILD_QUIWidget)
-    LIST(APPEND QT_COMPONENTS Gui Widgets)
-endif()
+LIST(APPEND RabbitCommon_QT_COMPONENTS Gui Widgets)
 if(ANDROID)
-    SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
+    LIST(APPEND RabbitCommon_QT_COMPONENTS AndroidExtras)
 endif()
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${RabbitCommon_QT_COMPONENTS})
 message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
 if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
     message(FATAL_ERROR "Qt must great 5.10.0")
 endif()
 if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${QT_COMPONENTS})
-        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Qt${QT_VERSION_MAJOR}::${_COMPONENT})
+    FOREACH(_COMPONENT ${RabbitCommon_QT_COMPONENTS})
+        LIST(APPEND RABBIT_COMMON_LIBS Qt${QT_VERSION_MAJOR}::${_COMPONENT})
     ENDFOREACH()
 endif()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
