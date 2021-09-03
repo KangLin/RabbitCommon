@@ -311,15 +311,15 @@ if(UNIX OR MINGW)
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 endif()
 
-# 因为编译树中已有 export(RabbitCommonConfig.cmake)
+# 因为编译树中已有 export(${PROJECT_NAME}Config.cmake)
 configure_package_config_file(
-      ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
-      ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake.in
+      ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/${PROJECT_NAME}Config.cmake.in
+      ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake.in
       INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
       )
-install(FILES ${CMAKE_BINARY_DIR}/RabbitCommonConfig.cmake.in
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake.in
       DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-      RENAME RabbitCommonConfig.cmake)
+      RENAME ${PROJECT_NAME}Config.cmake)
 
 # Install style files
 if(ANDROID)

@@ -141,9 +141,11 @@ endfunction()
 #    PUBLIC_HEADER          头文件的安装位置
 #    INCLUDES               导出安装头文件位置
 #    VERSION                版本号
+#    EXPORT_NAME            cmake 配置文件的导出名
+#    NAMESPACE              cmake 配置文件的导出目录 
 function(INSTALL_TARGET)
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
-        "NAME;EXPORT_NAME;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
+        "NAME;EXPORT_NAME;NAMESPACE;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
@@ -243,25 +245,37 @@ function(INSTALL_TARGET)
             if(NOT DEFINED PARA_EXPORT_NAME)
                 set(PARA_EXPORT_NAME ${PARA_NAME}Config)
             endif()
+            
             INSTALL(TARGETS ${PARA_NAME}
                 EXPORT ${PARA_EXPORT_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
-                    COMPONENT Runtime
+                COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
-                    COMPONENT Runtime
+                COMPONENT Runtime
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
                 INCLUDES DESTINATION ${PARA_INCLUDES}
                 )
-            
-            export(TARGETS ${PARA_NAME}
-                APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
-                )
-            
             # Install cmake configure files
-            install(EXPORT ${PARA_EXPORT_NAME}
-                DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAME}"
-                )
+            if(DEFINED PARA_NAMESPACE)
+                export(TARGETS ${PARA_NAME}
+                    APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+                    NAMESPACE ${PARA_NAMESPACE}::
+                    )
+                install(EXPORT ${PARA_EXPORT_NAME}
+                    DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                    NAMESPACE ${PARA_NAMESPACE}::
+                    )
+            else()
+                set(PARA_NAMESPACE ${PARA_NAME})
+                export(TARGETS ${PARA_NAME}
+                    APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+                    )
+                # Install cmake configure files
+                install(EXPORT ${PARA_EXPORT_NAME}
+                    DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                    )
+            endif()
             # Install cmake version configure file
             if(DEFINED PARA_VERSION)
                 write_basic_package_version_file(
@@ -269,7 +283,7 @@ function(INSTALL_TARGET)
                     VERSION ${PARA_VERSION}
                     COMPATIBILITY AnyNewerVersion)
                 install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PARA_NAME}")
+                    DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}")
             endif()
         endif(PARA_ISEXE)
         
@@ -324,7 +338,8 @@ endfunction()
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
 #    INSTALL_INCLUDES               导出安装头文件位置
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
-#    INSTALL_EXPORT_NAME            安装CMAKE配置文件导出名
+#    INSTALL_EXPORT_NAME            安装 CMAKE 配置文件导出名
+#    INSTALL_NAMESPACE       安装 cmake 配置文件的导出目录 
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -341,8 +356,18 @@ function(ADD_TARGET)
         PRIVATE_FEATURES        #私有特性
         INSTALL_INCLUDES        #导出包安装的头文件目录
         )
+    SET(SINGLE_PARAS
+        NAME
+        OUTPUT_DIR
+        VERSION
+        ANDROID_SOURCES_DIR
+        INSTALL_PUBLIC_HEADER
+        INSTALL_PLUGIN_LIBRARY_DIR
+        INSTALL_EXPORT_NAME
+        INSTALL_NAMESPACE
+        )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;INSTALL_EXPORT_NAME"
+        "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -504,6 +529,7 @@ function(ADD_TARGET)
     else()
         INSTALL_TARGET(NAME ${PARA_NAME}
             EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
+            NAMESPACE ${PARA_INSTALL_NAMESPACE}
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
             INCLUDES ${PARA_INSTALL_INCLUDES})
     endif()
