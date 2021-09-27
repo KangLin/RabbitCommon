@@ -331,30 +331,30 @@ endfunction()
 
 # 增加目标
 # 参数：
-#    ISEXE                   是执行程序目标还是库目标
-#    ISPLUGIN                是插件
-#    WINDOWS                 窗口程序
-#    NAME                    目标名
-#    OUTPUT_DIR              目标生成目录
-#    VERSION                 版本
-#    ANDROID_SOURCES_DIR     Android 源码文件目录
-#    [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
-#    INCLUDE_DIRS            包含目录
-#    PRIVATE_INCLUDE_DIRS    私有包含目录
-#    LIBS                    公有依赖库
-#    PRIVATE_LIBS            私有依赖库
-#    DEFINITIONS             公有宏定义
-#    PRIVATE_DEFINITIONS     私有宏宏义
-#    OPTIONS                 公有选项
-#    PRIVATE_OPTIONS         私有选项
-#    FEATURES                公有特性
-#    PRIVATE_FEATURES        私有特性
+#    ISEXE                          是执行程序目标还是库目标
+#    ISPLUGIN                       是插件
+#    WINDOWS                        窗口程序
+#    NAME                           目标名
+#    OUTPUT_DIR                     目标生成目录
+#    VERSION                        版本
+#    ANDROID_SOURCES_DIR            Android 源码文件目录
+#    [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
+#    INCLUDE_DIRS                   包含目录
+#    PRIVATE_INCLUDE_DIRS           私有包含目录
+#    LIBS                           公有依赖库
+#    PRIVATE_LIBS                   私有依赖库
+#    DEFINITIONS                    公有宏定义
+#    PRIVATE_DEFINITIONS            私有宏宏义
+#    OPTIONS                        公有选项
+#    PRIVATE_OPTIONS                私有选项
+#    FEATURES                       公有特性
+#    PRIVATE_FEATURES               私有特性
 #    INSTALL_HEADER_FILES           如果是库，要安装的头文件
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
 #    INSTALL_INCLUDES               导出安装头文件位置
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
 #    INSTALL_EXPORT_NAME            安装 CMAKE 配置文件导出名
-#    INSTALL_NAMESPACE       安装 cmake 配置文件的导出目录 
+#    INSTALL_NAMESPACE              安装 cmake 配置文件的导出目录 
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -438,6 +438,12 @@ function(ADD_TARGET)
             endif()
         endif()
     else()
+        
+        # For debug libs and exes, add "_d" postfix
+        if(NOT (CMAKE_DEBUG_POSTFIX OR PARA_ISPLUGIN))     
+            set(CMAKE_DEBUG_POSTFIX "_d")
+        endif()
+        
         string(TOLOWER ${PARA_NAME} LOWER_PROJECT_NAME)
         set(PARA_INSTALL_HEADER_FILES ${PARA_INSTALL_HEADER_FILES} 
             ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
