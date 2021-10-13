@@ -416,6 +416,27 @@ function(ADD_TARGET)
         set(PARA_NAME ${PROJECT_NAME})
     endif()
     
+    if(ANDROID)
+        set(QM_INSTALL_DIR assets/plugins/translations)
+    else()
+        if(PARA_ISPLUGIN)
+            set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
+        else()
+            set(QM_INSTALL_DIR translations)
+        endif()
+    endif()
+    #翻译资源
+    GENERATED_QT_TRANSLATIONS(NAME ${PARA_NAME}
+        SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
+        OUT_QRC TRANSLATIONS_QRC_FILES
+        QM_INSTALL_DIR ${QM_INSTALL_DIR})
+    if(CMAKE_BUILD_TYPE)
+        string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+    endif()
+    if(BUILD_TYPE STREQUAL "debug")
+        LIST(APPEND PARA_SOURCE_FILES ${TRANSLATIONS_QRC_FILES})
+    endif()
+    
     if(PARA_ISEXE)
         if(ANDROID)
             add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
@@ -438,7 +459,6 @@ function(ADD_TARGET)
             endif()
         endif()
     else()
-        
         # For debug libs and exes, add "_d" postfix
         if(NOT (CMAKE_DEBUG_POSTFIX OR PARA_ISPLUGIN))     
             set(CMAKE_DEBUG_POSTFIX "_d")
@@ -616,7 +636,11 @@ function(ADD_PLUGIN_TARGET)
     endif()
     
     if(NOT DEFINED PARA_INSTALL_DIR)
-        set(PARA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/plugins)
+        if(ANDROID)
+            set(PARA_INSTALL_DIR "libs/${ANDROID_ABI}")
+        else()
+            set(PARA_INSTALL_DIR plugins)
+        endif()
     endif()
     
     ADD_TARGET(NAME ${PARA_NAME}

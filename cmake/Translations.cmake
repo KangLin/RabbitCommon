@@ -1,4 +1,4 @@
-# Author: Kang Lin(kl222@126.com)
+# Author: Kang Lin <kl222@126.com>
 
 #GENERATED_QT_TRANSLATIONS 函数：生成 qt 翻译
 #+ 功能：
@@ -193,23 +193,35 @@ function(GENERATED_QT_TRANSLATIONS)
 
             OPTION(ENABLE_UPDATE_TRANSLATIONS "Use qt5_create_translation. Note: If set to ON, then make clean or rebuild will delete all .ts files" OFF)
             if(ENABLE_UPDATE_TRANSLATIONS)
+                if(TARGET translations_update_${TRANSLATIONS_NAME})
+                    message(WARNING "translations_update_${TRANSLATIONS_NAME} is existed")
+                    return()
+                endif()
+                
                 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
                     qt_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
                 else()
                     #注：根据 https://bugreports.qt.io/browse/QTBUG-41736 ，qt5_create_translation这个宏会在make clean或rebuild时把全部ts文件都删掉后再重新生成，这意味着已经翻译好的文本会全部丢失，已有的解决方法也已经失效，而Qt官方也没有针对这个问题进行修复，因此不建议再使用这个宏了，还是手动生成ts文件再搭配qt5_add_translation比较保险。
                     qt5_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
                 endif()
+                
                 # 手动执行目标，生成或更新翻译源文件(.ts)
-                ADD_CUSTOM_TARGET(translations_update_${PROJECT_NAME} DEPENDS ${QM_FILES_UPDATE})
+                ADD_CUSTOM_TARGET(translations_update_${TRANSLATIONS_NAME} DEPENDS ${QM_FILES_UPDATE})
             endif()
 
+            if(TARGET translations_${TRANSLATIONS_NAME})
+                message(WARNING "translations_${TRANSLATIONS_NAME} is existed")
+                return()
+            endif()
+            
             if(QT_VERSION_MAJOR GREATER_EQUAL 6)
                 qt_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             else()
                 qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             endif()
+            
             # 自动执行目标，生成翻译文件(.qm)
-            ADD_CUSTOM_TARGET(translations_${PROJECT_NAME} ALL DEPENDS ${QM_FILES})
+            ADD_CUSTOM_TARGET(translations_${TRANSLATIONS_NAME} ALL DEPENDS ${QM_FILES})
             
             #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
             
