@@ -635,6 +635,8 @@ function(ADD_PLUGIN_TARGET)
         set(PARA_OUTPUT_DIR ${CMAKE_BINARY_DIR}/plugins)
     endif()
     
+    # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
+    # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
     if(NOT DEFINED PARA_INSTALL_DIR)
         if(ANDROID)
             set(PARA_INSTALL_DIR "libs/${ANDROID_ABI}")

@@ -7,15 +7,15 @@
 #  - 生成翻译资源文件(.qrc)，放到参数 OUT_QRC 指定的变量中
 #  - 安装翻译文件(.qm)到安装目录。目录结构详见后面说明
 #+ 参数：
-#  - SOURCES: 要理新的源文件。默认使用变量 SOURCE_FILES 和 SOURCE_UI_FILES 之中的源文件。
-#  - NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
+#  - [必须] SOURCES: 要理新的源文件。默认使用变量 SOURCE_FILES 和 SOURCE_UI_FILES 之中的源文件。
+#  - [可选] NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
 #    **注意**：翻译资源名为此名字加上前缀 translations_ ,它也可以由 OUT_QRC_NAME 参数指定的变量得到
-#  - TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
-#  - QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
+#  - [可选] TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
+#  - [可选] QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
 #+ 输出值参数：
-#  - OUT_QRC: 生成的翻译资源文件(.qrc) 变量。
+#  - [可选] OUT_QRC: 生成的翻译资源文件(.qrc) 变量。默认为：TRANSLATIONS_RESOURCE_FILES
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
-#  - OUT_QRC_NAME: 翻译资源文件名变量，它用于代码使用库中的资源时，
+#  - [可选] OUT_QRC_NAME: 翻译资源文件名变量，它用于代码使用库中的资源时，
 #    调用 Q_INIT_RESOURCE 初始化此翻译资源
 #+ 使用：
 #  - 在 CMakeLists.txt加入包含此文件
@@ -24,7 +24,7 @@
   
 #  - 调用 GENERATED_QT_TRANSLATIONS 函数
 #    + [必选] 设置 SOURCES 参数为要更新的源文件
-#    + [必选] 设置 OUT_QRC 参数为接收资源文件名变量
+#    + [可选] 设置 OUT_QRC 参数为接收资源文件名变量。默认为：TRANSLATIONS_RESOURCE_FILES
 #    + [可选] 设置 NAME 参数为翻译源文件(.ts)文件名的前缀，默认值是目标名 ${PROJECT_NAME}。
 #            **注意**：翻译资源名为此名字加上前缀 translations_ 。这个也可以由 OUT_QRC_NAME 参数指定的变量得到
 #    + [可选] 设置 TSDIR 参数为翻译源文件(.ts)生成的目录。默认值是 ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
@@ -111,13 +111,13 @@
 
 #        //结束时释放翻译资源
 #        qApp->removeTranslator(&translator)
-#        #if defined (_DEBUG)
+#        #if defined (_DEBUG) || defined (DEBUG)
 #           Q_CLEANUP_RESOURCE(translations_${PROJECT_NAME});
 #        #endif
 
-# debug 翻译资源做为资源文件嵌入程序
+# Debug 翻译资源做为资源文件嵌入程序
 
-# android 翻译 qm 文件放在 assets 中
+# Android 翻译 qm 文件放在 assets 中
 #
 # Android:
 #     assets                                       GetDirApplicationInstallRoot()  (Only read)
