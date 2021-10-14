@@ -334,7 +334,7 @@ endfunction()
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
 #    WINDOWS                        窗口程序
-#    NAME                           目标名
+#    NAME                           目标名。注意：翻译资源文件名最近的 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
 #    ANDROID_SOURCES_DIR            Android 源码文件目录
@@ -426,7 +426,7 @@ function(ADD_TARGET)
         endif()
     endif()
     #翻译资源
-    GENERATED_QT_TRANSLATIONS(NAME ${PARA_NAME}
+    GENERATED_QT_TRANSLATIONS(
         SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
         OUT_QRC TRANSLATIONS_QRC_FILES
         QM_INSTALL_DIR ${QM_INSTALL_DIR})
