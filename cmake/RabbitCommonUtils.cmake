@@ -304,7 +304,7 @@ function(INSTALL_TARGET)
         
         
         # 分发
-        IF(WIN32 AND (BUILD_SHARED_LIBS OR PARA_ISEXE))
+        IF(WIN32 AND BUILD_SHARED_LIBS)
             IF(MINGW)
                 # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
