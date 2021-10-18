@@ -310,7 +310,7 @@ function(INSTALL_TARGET)
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
                     )
-            ENDIF()
+            ENDIF(MINGW)
             
             #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             add_custom_command(TARGET ${PARA_NAME} POST_BUILD
@@ -325,7 +325,7 @@ function(INSTALL_TARGET)
                     DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime)
             endif()
-        ENDIF()
+        ENDIF(WIN32 AND BUILD_SHARED_LIBS)
     endif()
 endfunction()
 
