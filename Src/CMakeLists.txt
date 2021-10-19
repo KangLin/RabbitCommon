@@ -4,6 +4,14 @@ project(RabbitCommon)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+if(BUILD_TYPE STREQUAL "debug")
+    list(APPEND DEFINITIONS DEBUG _DEBUG)
+endif()
+
 set(RabbitCommon_QT_COMPONENTS Core)
 
 # ----------------------------------------------------------------------------
@@ -70,8 +78,7 @@ if(BUILD_QUIWidget)
     list(APPEND RABBITCOMMON_SOURCE_FILES QUIWidget/QUIWidget.cpp)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
-    string(TOLOWER "${CMAKE_BUILD_TYPE}" build_type)
-    if("debug" STREQUAL build_type)
+    if("debug" STREQUAL BUILD_TYPE)
         LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidgetQss.qrc)
     endif()
 endif(BUILD_QUIWidget)
@@ -204,13 +211,6 @@ list(APPEND RABBITCOMMON_SOURCE_UI_FILES
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
-
-if(CMAKE_BUILD_TYPE)
-    string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
-endif()
-if(BUILD_TYPE STREQUAL "debug")
-    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS DEBUG)
-endif()
 
 #设置资源文件
 LIST(APPEND RCC_FILES
