@@ -166,6 +166,7 @@ function(INSTALL_TARGET)
     endif()
     
     if(PARA_ISPLUGIN)
+    
         if(WIN32)
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
@@ -181,7 +182,28 @@ function(INSTALL_TARGET)
             DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                 COMPONENT Runtime
             )
-    else()
+        # 分发
+        IF(WIN32 AND BUILD_SHARED_LIBS)
+            IF(MINGW)
+                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
+                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                    COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
+                    )
+            ENDIF(MINGW)
+
+            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                --compiler-runtime
+                --verbose 7
+                --libdir ${CMAKE_BINARY_DIR}/bin
+                --plugindir ${CMAKE_BINARY_DIR}/bin
+                "$<TARGET_FILE:${PARA_NAME}>"
+                )
+        ENDIF(WIN32 AND BUILD_SHARED_LIBS)
+        
+    else(PARA_ISPLUGIN)
+        
         # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
         # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
         # Install target
@@ -302,7 +324,6 @@ function(INSTALL_TARGET)
             endif()
         endif(PARA_ISEXE)
         
-        
         # 分发
         IF(WIN32 AND BUILD_SHARED_LIBS)
             IF(MINGW)
@@ -326,7 +347,8 @@ function(INSTALL_TARGET)
                     COMPONENT Runtime)
             endif()
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
-    endif()
+        
+    endif(PARA_ISPLUGIN)
 endfunction()
 
 # 增加目标
