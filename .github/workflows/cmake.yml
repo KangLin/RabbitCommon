@@ -11,6 +11,7 @@ jobs:
         BUILD_TYPE: [Release, Debug]
         #os: [windows-2019, windows-2016]
         qt_version: [6.2.0, 5.15.2, 5.12.11]
+        qt_modules: StateMachine
         include:
           - os: windows-2019
             triplet: x64-windows
