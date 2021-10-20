@@ -1,38 +1,22 @@
-name: CMake windows
+name: CMake android
 
 on: [push]
 
 jobs:
   use_install_qt:
-    name: ${{ matrix.os }}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{ matrix.BUILD_TYPE }}
+    name: use install qt ${{ matrix.os }}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{ matrix.BUILD_TYPE }}
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        #os: [windows-2019, windows-2016]
-        qt_version: [6.2.0, 5.15.2, 5.12.11]
-        include:
-          - os: windows-2019
-            triplet: x64-windows
-            qt_version: 6.2.0
-            qt_arch: win64_msvc2019_64
-            GENERATORS: "Visual Studio 16 2019"
-            CMAKE_GENERATOR_PLATFORM: x64
-            
-          - os: windows-2019
-            triplet: x64-windows
-            qt_version: 5.15.2
-            qt_arch: win64_msvc2019_64
-            GENERATORS: "Visual Studio 16 2019"
-            CMAKE_GENERATOR_PLATFORM: x64
-            
-          - os: windows-2016
-            triplet: x86-windows
-            qt_version: 5.12.11
-            qt_arch: win32_msvc2017
-            GENERATORS: "Visual Studio 15 2017"
-            CMAKE_GENERATOR_PLATFORM: Win32
-        
+        os: [Ubuntu-20.04]
+        qt_version: [5.12.11]
+        VCPKG_TARGET_TRIPLET: [arm-android]
+        qt_arch: [android_armv7]
+        ANDROID_ABI: [armeabi-v7a]
+#          - VCPKG_TARGET_TRIPLET: x86-android
+#            qt_arch: android_x86
+
     runs-on: ${{ matrix.os }}
 
     env:
@@ -46,12 +30,24 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: make_directory
+    - name: initial
       run: |
+        echo "ANDROID_NDK_HOME:$ANDROID_NDK_HOME"
+        export VCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
+        export PATH=$ANDROID_NDK_HOME:$ANDROID_NDK_HOME/bin:$PATH
+        echo "PATH:$PATH"
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-      
+        
+    - name: apt helper action
+      uses: ryankurte/action-apt@v0.2.0
+      with:
+        # architectures to pass to dpkg --add-architecture
+        #architectures: # optional
+        # apt packages to install
+        packages: yasm nasm
+
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v7.4
       with:
@@ -63,16 +59,16 @@ jobs:
         # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
         # compute its hash and append this to the computed cache's key.
         appendedCacheKey:  ${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
-        additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-        vcpkgTriplet: '${{ matrix.triplet }}'
-        vcpkgArguments: 'zlib openssl log4cxx'
+        additionalCachedPaths: $VCPKG_ROOT/installed
+        vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
+        vcpkgArguments: 'zlib openssl'
 
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1  # not v2!
       with:
         path: ${{env.TOOSL_DIR}}/qt
-        key: ${{ matrix.os }}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{ matrix.BUILD_TYPE }}-QtCache
+        key: ${{ matrix.os }}-${{matrix.VCPKG_TARGET_TRIPLET}}-QtCache
         
     - name: Install Qt
       # You may pin to the exact commit or the version.
@@ -86,7 +82,7 @@ jobs:
         # Host platform
         #host: linux # optional
         # Target platform for build
-        #target: desktop # optional, default is desktop
+        target: android # optional, default is desktop
         # Architecture for Windows/Android
         arch: ${{matrix.qt_arch}} # optional
         # Whether or not to install Qt dependencies on Linux
@@ -113,18 +109,21 @@ jobs:
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
       run: |
-        git clone "https://github.com/MEONMedical/Log4Qt.git"
+        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
         cd Log4Qt
         cmake -E make_directory build
         cd build
-        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+        cmake ..  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-    
+
     - name: build RabbitCommon
+      env:
+        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
       run: |
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
-        cmake ${{github.workspace}} -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake ${{github.workspace}}  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target APK
