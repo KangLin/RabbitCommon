@@ -234,8 +234,8 @@ function(INSTALL_TARGET)
         endif()
         if(PARA_ISEXE)
             INSTALL(TARGETS ${PARA_NAME}
-                COMPONENT Runtime
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
+                    COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 )
@@ -271,9 +271,9 @@ function(INSTALL_TARGET)
             INSTALL(TARGETS ${PARA_NAME}
                 EXPORT ${PARA_EXPORT_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
-                COMPONENT Runtime
+                    COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
-                COMPONENT Runtime
+                    COMPONENT Runtime
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
                 INCLUDES DESTINATION ${PARA_INCLUDES}
@@ -344,7 +344,7 @@ function(INSTALL_TARGET)
             if(DEFINED PARA_ISEXE)
                 INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
                     DESTINATION "${PARA_RUNTIME}"
-                    COMPONENT Runtime)
+                        COMPONENT Runtime)
             endif()
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
         
