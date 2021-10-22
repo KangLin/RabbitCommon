@@ -12,7 +12,7 @@ if(BUILD_TYPE STREQUAL "debug")
     list(APPEND RabbitCommon_DEFINITIONS DEBUG _DEBUG)
 endif()
 
-set(RabbitCommon_QT_COMPONENTS Core)
+set(_QT_COMPONENTS Core)
 
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
@@ -60,7 +60,7 @@ endif(BUILD_ABOUT)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
-    LIST(APPEND RabbitCommon_QT_COMPONENTS Network Xml)
+    LIST(APPEND _QT_COMPONENTS Network Xml)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
     list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
@@ -126,7 +126,7 @@ if(Log4Qt_FOUND)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
     LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
-    LIST(APPEND RabbitCommon_QT_COMPONENTS Concurrent)
+    LIST(APPEND _QT_COMPONENTS Concurrent)
     INSTALL_TARGETS(TARGETS "Log4Qt::log4qt")
     # Install log4qt.properties configure file
     if(ANDROID)
@@ -244,36 +244,36 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 #需要的QT组件
-LIST(APPEND RabbitCommon_QT_COMPONENTS Gui Widgets)
+LIST(APPEND _QT_COMPONENTS Gui Widgets)
 if(ANDROID)
-    LIST(APPEND RabbitCommon_QT_COMPONENTS AndroidExtras)
+    LIST(APPEND _QT_COMPONENTS AndroidExtras)
 endif()
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${RabbitCommon_QT_COMPONENTS})
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${_QT_COMPONENTS})
 message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
 if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
     message(FATAL_ERROR "Qt must great 5.10.0")
 endif()
 if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${RabbitCommon_QT_COMPONENTS})
+    FOREACH(_COMPONENT ${_QT_COMPONENTS})
         LIST(APPEND RABBIT_COMMON_LIBS Qt${QT_VERSION_MAJOR}::${_COMPONENT})
     ENDFOREACH()
 endif()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 
-foreach(l ${RABBIT_COMMON_LIBS})
-    if(TARGET ${l})
-        list(APPEND RABBIT_COMMON_LIBS_CONFIG ${l})
-    endif()
+foreach(l ${_QT_COMPONENTS})
+    set(RabbitCommon_QT_COMPONENTS "${RabbitCommon_QT_COMPONENTS} ${l}")
 endforeach()
-message("RABBIT_COMMON_LIBS:${RABBIT_COMMON_LIBS}")
+message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
     INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
+    INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
     LIBS ${RABBIT_COMMON_LIBS}
@@ -281,18 +281,9 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
     VERSION ${BUILD_VERSION}
-    INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets)
-
-# Generate export header files and export macro
-include(GenerateExportHeader)
-GENERATE_EXPORT_HEADER(${PROJECT_NAME})
-file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
-    DESTINATION ${CMAKE_BINARY_DIR})
-
-# See: http://www.it1352.com/478094.html
-target_include_directories(${PROJECT_NAME}
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+    INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets
+    INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
+    )
 
 if(UNIX OR MINGW)
     foreach(d ${RabbitCommon_DEFINITIONS})

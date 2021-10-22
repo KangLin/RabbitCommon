@@ -143,9 +143,10 @@ endfunction()
 #    VERSION                版本号
 #    EXPORT_NAME            cmake 配置文件的导出名
 #    NAMESPACE              cmake 配置文件的导出目录 
+#    INSTALL_CMAKE_CONFIG_IN_FILE   ${PROJECT_NAME}Config.cmake.in 位置
 function(INSTALL_TARGET)
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
-        "NAME;EXPORT_NAME;NAMESPACE;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION"
+        "NAME;EXPORT_NAME;NAMESPACE;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION;INSTALL_CMAKE_CONFIG_IN_FILE"
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
@@ -161,7 +162,8 @@ function(INSTALL_TARGET)
                 [PUBLIC_HEADER ...]
                 [INCLUDES ...]
                 [VERSION verson]
-                [EXPORT_NAME install export configure file name]"
+                [EXPORT_NAME install export configure file name]
+                [INSTALL_CMAKE_CONFIG_IN_FILE cmake configure(Config.cmake.in) file]"
                 )
     endif()
     
@@ -298,11 +300,14 @@ function(INSTALL_TARGET)
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
                     )
             endif()
-            if(PARA_NAMESPACE OR PARA_EXPORT_NAME)
+            if(PARA_EXPORT_NAME)
                 # 因为编译树中已有 export(${PARA_NAME}Config.cmake)
-                if(EXISTS ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in)
+                if(NOT DEFINED PARA_INSTALL_CMAKE_CONFIG_IN_FILE)
+                    set(PARA_INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in)
+                endif()
+                if(EXISTS ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
                     configure_package_config_file(
-                        ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in
+                        ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}
                         ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake.in
                         INSTALL_DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
                         )
@@ -310,7 +315,7 @@ function(INSTALL_TARGET)
                         DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
                         RENAME ${PARA_NAME}Config.cmake)
                 else()
-                    message(WARNING "Please create file: ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in")
+                    message(WARNING "Please create file: ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}")
                 endif()
             endif()
             # Install cmake version configure file
@@ -357,7 +362,7 @@ endfunction()
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
 #    WINDOWS                        窗口程序
-#    NAME                           目标名。注意：翻译资源文件名最近的 ${PROJECT_NAME}
+#    NAME                           目标名。注意：翻译资源文件名(.ts)最近的 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
 #    ANDROID_SOURCES_DIR            Android 源码文件目录
@@ -377,6 +382,7 @@ endfunction()
 #    INSTALL_PLUGIN_LIBRARY_DIR     库安装位置
 #    INSTALL_EXPORT_NAME            安装 CMAKE 配置文件导出名
 #    INSTALL_NAMESPACE              安装 cmake 配置文件的导出目录 
+#    INSTALL_CMAKE_CONFIG_IN_FILE   安装 ${PROJECT_NAME}Config.cmake.in 位置
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -402,6 +408,7 @@ function(ADD_TARGET)
         INSTALL_PLUGIN_LIBRARY_DIR
         INSTALL_EXPORT_NAME
         INSTALL_NAMESPACE
+        INSTALL_CMAKE_CONFIG_IN_FILE
         )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
         "${SINGLE_PARAS}"
@@ -430,7 +437,8 @@ function(ADD_TARGET)
                 [VERSION version]
                 [ANDROID_SOURCES_DIR android_source_dir]
                 [INSTALL_PLUGIN_LIBRARY_DIR dir]
-                [INSTALL_EXPORT_NAME configure_file_name]")
+                [INSTALL_EXPORT_NAME configure_file_name]
+                [INSTALL_CMAKE_CONFIG_IN_FILE install cmake config file]")
         return()
     endif()
 
@@ -449,6 +457,7 @@ function(ADD_TARGET)
         endif()
     endif()
     GENERATED_QT_TRANSLATIONS(
+        TARGET ${PARA_NAME}
         SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
         OUT_QRC TRANSLATIONS_QRC_FILES
         QM_INSTALL_DIR ${QM_INSTALL_DIR})
@@ -591,7 +600,8 @@ function(ADD_TARGET)
             EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
             NAMESPACE ${PARA_INSTALL_NAMESPACE}
             PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-            INCLUDES ${PARA_INSTALL_INCLUDES})
+            INCLUDES ${PARA_INSTALL_INCLUDES}
+            INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
     endif()
 endfunction()
 
