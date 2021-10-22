@@ -353,6 +353,7 @@ endfunction()
 
 # 增加目标
 # 参数：
+#    [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
 #    WINDOWS                        窗口程序
@@ -360,7 +361,6 @@ endfunction()
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
 #    ANDROID_SOURCES_DIR            Android 源码文件目录
-#    [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
 #    INCLUDE_DIRS                   包含目录
 #    PRIVATE_INCLUDE_DIRS           私有包含目录
 #    LIBS                           公有依赖库
@@ -437,7 +437,8 @@ function(ADD_TARGET)
     if(NOT DEFINED PARA_NAME)
         set(PARA_NAME ${PROJECT_NAME})
     endif()
-    
+
+    #翻译资源    
     if(ANDROID)
         set(QM_INSTALL_DIR assets/plugins/translations)
     else()
@@ -447,7 +448,6 @@ function(ADD_TARGET)
             set(QM_INSTALL_DIR translations)
         endif()
     endif()
-    #翻译资源
     GENERATED_QT_TRANSLATIONS(
         SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
         OUT_QRC TRANSLATIONS_QRC_FILES
@@ -469,7 +469,7 @@ function(ADD_TARGET)
             add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             
             if(MINGW)
-                set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS_RELEASE "-mwindows")
+                set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS "-mwindows")
             elseif(MSVC)
                 if(Qt5_VERSION VERSION_LESS "5.7.0")
                     set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS
@@ -480,9 +480,9 @@ function(ADD_TARGET)
                 endif()
             endif()
         endif()
-    else()
+    else(PARA_ISEXE)
         # For debug libs and exes, add "_d" postfix
-        if(NOT (CMAKE_DEBUG_POSTFIX OR PARA_ISPLUGIN))     
+        if(NOT CMAKE_DEBUG_POSTFIX)     
             set(CMAKE_DEBUG_POSTFIX "_d")
         endif()
         
@@ -495,14 +495,13 @@ function(ADD_TARGET)
         GENERATE_EXPORT_HEADER(${PARA_NAME})
         file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
             DESTINATION ${CMAKE_BINARY_DIR})
-    endif()
+    endif(PARA_ISEXE)
 
     IF(MSVC)
         # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
         OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
         MARK_AS_ADVANCED(WIN32_USE_MP)
         IF(WIN32_USE_MP)
-            #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
             target_compile_options(${PARA_NAME} PRIVATE /MP)
         ENDIF(WIN32_USE_MP)
         target_compile_options(${PARA_NAME} PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
