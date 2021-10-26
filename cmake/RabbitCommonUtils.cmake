@@ -239,6 +239,7 @@ function(INSTALL_TARGET)
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
+                    COMPONENT Runtime
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 )
             
