@@ -250,14 +250,35 @@ function(INSTALL_TARGET)
                     ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
                     APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
                 
-                add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                    COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-                    --output ${CMAKE_INSTALL_PREFIX}
-                    --input ${JSON_FILE}
-                    --verbose
-                    --gradle
-                    --android-platform ${ANDROID_PLATFORM}
-                    )
+                if(CMAKE_BUILD_TYPE)
+                    string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+                endif()
+                if(BUILD_TYPE STREQUAL "release")
+                    if(NOT DEFINED STOREPASS)
+                        set(STOREPASS $ENV{STOREPASS})
+                    endif()
+                    add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+                            --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：install-release-signed.apk
+                            --input ${JSON_FILE}
+                            --verbose
+                            --gradle
+                            --release
+                            --android-platform ${ANDROID_PLATFORM}
+                            --sign ${RabbitCommon_DIR}/RabbitCommon.keystore rabbitcommon 
+                            --storepass ${STOREPASS}
+                        )
+                else()
+                    add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
+                            --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：install-debug.apk
+                            --input ${JSON_FILE}
+                            --verbose
+                            --gradle
+                            --android-platform ${ANDROID_PLATFORM}
+                        )
+                endif()
+                
             ENDIF(ANDROID)
         else(PARA_ISEXE)
             if(NOT DEFINED PARA_PUBLIC_HEADER)
