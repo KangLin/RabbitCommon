@@ -27,7 +27,7 @@ Abstract:
 #define RABBITCOMMON_DLGABOUT_H
 
 #include <QDialog>
-#include <QTextEdit>
+
 #include "rabbitcommon_export.h"
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -118,7 +118,10 @@ private:
      */
     int DownloadFile(const QUrl &url);
     
-    int AppendFile(QTextEdit *pEdit, const QString &szFile);
+    QWidget* m_pLicense;
+    QWidget* m_pChangeLog;
+    QWidget* m_pThanks;
+    int AppendFile(QWidget *pWidget, const QString &szFile);
 
 protected:
     virtual void showEvent(QShowEvent *event) override;

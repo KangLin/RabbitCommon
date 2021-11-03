@@ -12,6 +12,9 @@ if(RABBITCOMMON_BUILD_TYPE STREQUAL "debug")
     list(APPEND RabbitCommon_DEFINITIONS DEBUG _DEBUG)
 endif()
 
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+endif()
 set(_QT_COMPONENTS Core)
 
 # ----------------------------------------------------------------------------
@@ -44,7 +47,9 @@ SET(CMAKE_AUTORCC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
+include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 
 SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )
@@ -57,6 +62,43 @@ if(BUILD_ABOUT)
     list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
 endif(BUILD_ABOUT)
+
+cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
+    BUILD_ABOUT OFF)
+if(WITH_CMARK)
+    find_package(cmark)
+    if(cmark_FOUND)
+        INSTALL_TARGETS(TARGETS cmark::cmark)
+    else()
+        SET(CMARK_VERSION 0.30.2)
+        message("Suggest use cmark: https://github.com/commonmark/cmark. to support Markdown. will download cmark ...")
+        DOWNLOAD(FILENAME "cmark"
+            HASH d3f527fe8451dd9b58974b52c27302a8
+            URL "https://github.com/commonmark/cmark/archive/refs/tags/${CMARK_VERSION}.tar.gz"
+            DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
+            STATUS retval
+            UNPACK
+            SHOW_PROGRESS)
+        message("Download cmark:${retval}")
+        if(retval)
+    #            if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/cmark)
+    #                file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cmark)
+    #            endif()
+            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${CMARK_VERSION}"
+                ${CMAKE_CURRENT_BINARY_DIR}/cmark)
+            SET(cmark_FOUND TRUE)
+        endif()
+    endif()
+    if(cmark_FOUND)
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK)
+        list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark)
+        find_package(Qt${QT_VERSION_MAJOR}WebEngineWidgets)
+        if(Qt${QT_VERSION_MAJOR}WebEngineWidgets_FOUND)
+            list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebEngineWidgets)
+            LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
+        endif()
+    endif()
+endif(WITH_CMARK)
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
@@ -247,9 +289,6 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
 LIST(APPEND _QT_COMPONENTS Gui Widgets)
 if(ANDROID)
     LIST(APPEND _QT_COMPONENTS AndroidExtras)
-endif()
-if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${_QT_COMPONENTS})
 message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")

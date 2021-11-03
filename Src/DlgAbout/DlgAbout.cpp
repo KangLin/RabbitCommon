@@ -18,6 +18,10 @@ Abstract:
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
 
+#ifdef HAVE_WebEngineWidgets
+    #include <QWebEngineView>
+#endif
+#include <QTextEdit>
 #include <QFile>
 #include <QDir>
 #include <QDebug>
@@ -25,6 +29,10 @@ Abstract:
 #include <QStandardPaths>
 
 #include <QDateTime>
+
+#ifdef HAVE_CMARK
+    #include "cmark.h"
+#endif
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
@@ -61,6 +69,25 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
     
     DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
+    
+#if defined(HAVE_CMARK) && defined(HAVE_WebEngineWidgets)
+    m_pLicense = new QWebEngineView(ui->tabWidget);
+    ui->tabWidget->addTab(m_pLicense, tr("License"));
+    m_pChangeLog = new QWebEngineView(ui->tabWidget);
+    ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
+    m_pThanks = new QWebEngineView(ui->tabWidget);
+    ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
+#else
+    m_pLicense = new QTextEdit(ui->tabWidget);
+    qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
+    ui->tabWidget->addTab(m_pLicense, tr("License"));
+    m_pChangeLog = new QTextEdit(ui->tabWidget);
+    qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
+    ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
+    m_pThanks = new QTextEdit(ui->tabWidget);
+    qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
+    ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
+#endif
     
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
@@ -101,9 +128,9 @@ void CDlgAbout::showEvent(QShowEvent *event)
     }
     ui->lbCopyright->setText(m_szCopyright);
 
-    AppendFile(ui->txtChange, "ChangeLog");
-    AppendFile(ui->txtLicense, "License");
-    AppendFile(ui->txtThinks, "Authors");
+    AppendFile(m_pChangeLog, "ChangeLog");
+    AppendFile(m_pLicense, "License");
+    AppendFile(m_pThanks, "Authors");
     adjustSize();
 }
 
@@ -112,7 +139,7 @@ CDlgAbout::~CDlgAbout()
     delete ui;
 }
 
-int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
+int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
 {
     QString szFileLocation;
     
@@ -126,11 +153,26 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     QFile readme(szFileLocation);
     if(readme.open(QFile::ReadOnly))
     {
-        pEdit->append(readme.readAll());
+        QByteArray text;
+        text = readme.readAll();
+#if defined(HAVE_CMARK) && defined(HAVE_WebEngineWidgets)
+        QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
+        char* pHtml = cmark_markdown_to_html(text.toStdString().c_str(),
+                                             text.toStdString().length(),
+                                             0);
+        if(pHtml)
+        {
+            pEdit->setHtml(pHtml);
+            free(pHtml);
+        }
+#else
+        QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
+        pEdit->append(text);
         //把光标移动文档开始处  
-        QTextCursor cursor =   pEdit->textCursor();
+        QTextCursor cursor = pEdit->textCursor();
         cursor.movePosition(QTextCursor::Start);
         pEdit->setTextCursor(cursor);
+#endif
         readme.close();
     }
     return 0;

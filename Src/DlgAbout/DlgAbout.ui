@@ -252,48 +252,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="License">
-      <attribute name="title">
-       <string>License</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QTextEdit" name="txtLicense">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="ChangeLog">
-      <attribute name="title">
-       <string>Change log</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QTextEdit" name="txtChange">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="Thinks">
-      <attribute name="title">
-       <string>Thanks</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QTextEdit" name="txtThinks">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
     </widget>
    </item>
    <item row="3" column="1">
@@ -384,7 +342,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Tasks</string>
+        <string>RabbitCommon</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

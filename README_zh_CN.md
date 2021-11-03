@@ -42,6 +42,8 @@
   Mac os 和 IOS ，本人没有相应设备，请有相应设备的同学自己编译，测试。
   
 ### 编译
+- 依赖
+  + [cmark](https://github.com/commonmark/cmark): 用于解析 MarkDown 语法
 - 建立并进入build目录
 
         git clone --recursive https://github.com/KangLin/RabbitCommon.git
