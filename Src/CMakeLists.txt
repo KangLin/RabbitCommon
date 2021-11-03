@@ -70,11 +70,11 @@ if(WITH_CMARK)
     if(cmark_FOUND)
         INSTALL_TARGETS(TARGETS cmark::cmark)
     else()
-        SET(CMARK_VERSION 0.30.2)
+        SET(_CMARK_VERSION 0.30.2)
         message("Suggest use cmark: https://github.com/commonmark/cmark. to support Markdown. will download cmark ...")
         DOWNLOAD(FILENAME "cmark"
             HASH d3f527fe8451dd9b58974b52c27302a8
-            URL "https://github.com/commonmark/cmark/archive/refs/tags/${CMARK_VERSION}.tar.gz"
+            URL "https://github.com/commonmark/cmark/archive/refs/tags/${_CMARK_VERSION}.tar.gz"
             DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
             STATUS retval
             UNPACK
@@ -84,7 +84,7 @@ if(WITH_CMARK)
     #            if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/cmark)
     #                file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cmark)
     #            endif()
-            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${CMARK_VERSION}"
+            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION}"
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark)
             SET(cmark_FOUND TRUE)
         endif()

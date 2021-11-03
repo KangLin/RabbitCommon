@@ -6,6 +6,7 @@
   + 增加应用服务程序接口
   + 增加最近打开菜单
   + 增加 Log4Qt
+  + 增加 cmark 支持 MarkDown 语法
   
 - 版本： v1.0.4
   + CMake: 增加 add_target 宏
