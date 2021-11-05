@@ -55,6 +55,7 @@ SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
 set(RABBITCOMMON_HEAD_FILES )
+
 option(BUILD_ABOUT "Set to ON to build about function" ON)
 if(BUILD_ABOUT)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
@@ -63,16 +64,60 @@ if(BUILD_ABOUT)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
 endif(BUILD_ABOUT)
 
-cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
+cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
     BUILD_ABOUT OFF)
+if(WITH_CMARK_GFM)
+    SET(_CMARK_VERSION 0.29.0.gfm.2)
+    find_package(cmark-gfm)
+    if(NOT cmark-gfm_FOUND)
+        if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}")
+            DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_VERSION}"
+                HASH a4e58a2fef0269f3a4fe4224963a4dbc
+                URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_VERSION}.tar.gz"
+                DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
+                STATUS retval
+                UNPACK
+                #SHOW_PROGRESS
+                )
+            if(NOT retval)
+                FILE(REMOVE "${CMAKE_CURRENT_SOURCE_DIR}/cmark")
+            endif()
+            message("Download cmark-gfm:${retval}")
+        endif()
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}")
+            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}"
+                ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
+            SET(cmark-gfm_FOUND TRUE)
+        endif()
+        if(cmark-gfm_FOUND)
+            list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
+            find_package(libcmark-gfm-extensions)
+            if(libcmark-gfm-extensions_FOUND)
+                list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static)
+                #list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions)
+            endif()
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static libcmark-gfm_static)
+            #list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm)
+            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}/src>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}/extensions>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
+        endif()
+    endif(NOT cmark-gfm_FOUND)
+endif(WITH_CMARK_GFM)
+
+cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
+    "BUILD_ABOUT;NOT WITH_CMARK_GFM" OFF)
 if(WITH_CMARK)
+
     find_package(cmark)
     if(NOT cmark_FOUND)
         #message("Suggest use cmark: https://github.com/commonmark/cmark. to support Markdown. will download cmark ...")
         
         SET(_CMARK_VERSION 0.30.2)
         if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION}")
-            DOWNLOAD(FILENAME "cmark"
+            DOWNLOAD(FILENAME "cmark-${_CMARK_VERSION}"
                 HASH d3f527fe8451dd9b58974b52c27302a8
                 URL "https://github.com/commonmark/cmark/archive/refs/tags/${_CMARK_VERSION}.tar.gz"
                 DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
@@ -95,13 +140,16 @@ if(WITH_CMARK)
     if(cmark_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK)
         list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark_static)
-        find_package(Qt${QT_VERSION_MAJOR}WebEngineWidgets)
-        if(Qt${QT_VERSION_MAJOR}WebEngineWidgets_FOUND)
-            list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebEngineWidgets)
-            LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
-        endif()
     endif()
 endif(WITH_CMARK)
+
+if(cmark_FOUND OR cmark-gfm_FOUND)
+    find_package(Qt${QT_VERSION_MAJOR}WebEngineWidgets)
+    if(Qt${QT_VERSION_MAJOR}WebEngineWidgets_FOUND)
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebEngineWidgets)
+        LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
+    endif()
+endif()
 
 option(BUILD_UPDATE "Set to ON to build update function" ON)
 if(BUILD_UPDATE)
@@ -316,6 +364,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    PRIVATE_INCLUDE_DIRS ${RABBITCOMMON_PRIVATE_INCLUDE_DIRS}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
     LIBS ${RABBIT_COMMON_LIBS}

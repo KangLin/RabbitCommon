@@ -122,6 +122,7 @@ private:
     QWidget* m_pChangeLog;
     QWidget* m_pThanks;
     int AppendFile(QWidget *pWidget, const QString &szFile);
+    QString MarkDownToHtml(const QString &szText);
 
 protected:
     virtual void showEvent(QShowEvent *event) override;

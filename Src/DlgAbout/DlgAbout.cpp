@@ -17,6 +17,7 @@ Abstract:
 #include "ui_DlgAbout.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
+#include "RabbitCommonLog.h"
 
 #ifdef HAVE_WebEngineWidgets
     #include <QWebEngineView>
@@ -33,11 +34,23 @@ Abstract:
 #ifdef HAVE_CMARK
     #include "cmark.h"
 #endif
+#ifdef HAVE_CMARK_GFM
+    #include "cmark-gfm.h"
+    #include "cmark-gfm-core-extensions.h"
+    #include "registry.h"
+    #include "parser.h"
+#endif
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgAbout)
 {
+#ifdef HAVE_CMARK_GFM
+    cmark_gfm_core_extensions_ensure_registered();
+    // free extensions at application exit (cmark-gfm is not able to register/unregister more than once)
+    std::atexit(cmark_release_plugins);
+#endif
+
     ui->setupUi(this);
     
     setAttribute(Qt::WA_QuitOnClose, true);
@@ -70,7 +83,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     
     DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
     
-#if defined(HAVE_CMARK) && defined(HAVE_WebEngineWidgets)
+#if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     m_pLicense = new QWebEngineView(ui->tabWidget);
     ui->tabWidget->addTab(m_pLicense, tr("License"));
     m_pChangeLog = new QWebEngineView(ui->tabWidget);
@@ -155,16 +168,12 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
     {
         QByteArray text;
         text = readme.readAll();
-#if defined(HAVE_CMARK) && defined(HAVE_WebEngineWidgets)
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
         QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
-        char* pHtml = cmark_markdown_to_html(text.toStdString().c_str(),
-                                             text.toStdString().length(),
-                                             0);
-        if(pHtml)
-        {
-            pEdit->setHtml(pHtml);
-            free(pHtml);
-        }
+        QString szText = MarkDownToHtml(text);
+        if(szText.isEmpty())
+            szText = text;
+        pEdit->setHtml(szText);
 #else
         QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
         pEdit->append(text);
@@ -176,6 +185,51 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
         readme.close();
     }
     return 0;
+}
+
+QString CDlgAbout::MarkDownToHtml(const QString &szText)
+{
+    QString szRetureText;
+
+#ifdef HAVE_CMARK_GFM
+
+    // TODO make this method which takes input and provides output: cmark_to_html()
+    cmark_mem* mem = cmark_get_default_mem_allocator();
+    // TODO control which extensions to use in MindForger config
+    cmark_llist* syntax_extensions = cmark_list_syntax_extensions(mem);
+    // TODO parse options
+    cmark_parser* parser = cmark_parser_new(CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE);
+    for (cmark_llist* tmp = syntax_extensions; tmp; tmp = tmp->next) {
+        cmark_parser_attach_syntax_extension(parser, (cmark_syntax_extension*)tmp->data);
+    }
+    cmark_parser_feed(parser, szText.toStdString().c_str(), szText.toStdString().length());
+
+    //cmark_node* doc = cmark_parse_document (markdown->c_str(), markdown->size(), CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE);
+    cmark_node* doc = cmark_parser_finish(parser);
+    if(doc) {
+        char *rendered_html = cmark_render_html_with_mem(doc, CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE, parser->syntax_extensions, mem);
+        if (rendered_html) {
+            szRetureText = rendered_html;
+            free(rendered_html);
+        }
+        cmark_node_free(doc);
+    }
+    cmark_llist_free(mem, syntax_extensions);
+    cmark_parser_free(parser);
+
+#elif HAVE_CMARK
+
+    char* pHtml = cmark_markdown_to_html(text.toStdString().c_str(),
+                                         text.toStdString().length(),
+                                         0);
+    if(pHtml)
+    {
+        szRetureText = pHtml;
+        free(pHtml);
+    }
+
+#endif
+    return szRetureText;
 }
 
 void CDlgAbout::on_pushButton_clicked()
