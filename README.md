@@ -6,7 +6,14 @@ Author：Kang Lin（kl222@126.com)
 
 - [![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
 - [![Linux status](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
-- ![CMake](https://github.com/KangLin/RabbitCommon/workflows/CMake/badge.svg)
+
+
+|     | master  | develop  |
+|:---:|:-----------:|:------------:|
+|Linux|[![Linux status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Linux status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+|Windows|[![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_windows.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+|Android|[![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+
 
 [<img src="https://gitee.com/kl222/Calendar/raw/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
 
@@ -365,7 +372,7 @@ Qt common library. include follow functions:
         RabbitCommon::CTools::GetCurrentUser
 
 ### Other projects using this project
-- [Rabbit IM](https://github.com/KangLin/RabbitIm)
+- [Rabbit IM](https://github.com/KangLin/RabbitCommon)
 - [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)
 - [Calendar](https://github.com/KangLin/Calendar)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)

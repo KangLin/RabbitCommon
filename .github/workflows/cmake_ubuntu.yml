@@ -19,7 +19,8 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      
+      RabbitIm_VERSION: v0.1.0
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -30,44 +31,20 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-              
+
     - name: apt helper action
       uses: ryankurte/action-apt@v0.2.0
       with:
         # architectures to pass to dpkg --add-architecture
         #architectures: # optional
         # apt packages to install
-        packages: cmake build-essential liblog4cxx-dev debhelper fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtwebengine5-dev 
-
-    - name: Cache installed
-      uses: actions/cache@v2
-      id: cache-installed
-      with:
-        path: |
-          ${{env.INSTALL_DIR}}
-        key: cache-installed-ubuntu-${{matrix.os}}-${{matrix.BUILD_TYPE}}
-
-    - name: build cmark
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        if [ ! -d ${{env.INSTALL_DIR}}/lib/cmake/cmark ]; then
-            git clone https://github.com/commonmark/cmark.git 
-            cd ${{env.SOURCE_DIR}}/cmark
-            cmake -E make_directory build
-            cd build
-            cmake .. -DCMARK_TESTS=OFF \
-                -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-                -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }}
-            cmake --build . --config ${{ matrix.BUILD_TYPE }}
-            cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
-        fi
-      
+        packages: |
+            cmake build-essential liblog4cxx-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev qtwebengine5-dev
+    
     - name: build_debpackage.sh
       working-directory: ${{github.workspace}}
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        GENERATORS: "\"Unix Makefiles\""
         THIRD_LIBRARY_PATH: ${{env.INSTALL_DIR}}
       run: |
         ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-        cp ../rabbitim_0.1.0_amd64.deb .

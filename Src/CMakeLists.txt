@@ -67,44 +67,48 @@ endif(BUILD_ABOUT)
 cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
     BUILD_ABOUT OFF)
 if(WITH_CMARK_GFM)
-    SET(_CMARK_VERSION 0.29.0.gfm.2)
+
     find_package(cmark-gfm)
     if(NOT cmark-gfm_FOUND)
-        if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}")
-            DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_VERSION}"
+        SET(_CMARK_GFM_VERSION 0.29.0.gfm.2)
+        set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
+        if(NOT EXISTS "${CMARK_GFM_DIR}")
+            DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_GFM_VERSION}"
                 HASH a4e58a2fef0269f3a4fe4224963a4dbc
-                URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_VERSION}.tar.gz"
+                URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_GFM_VERSION}.tar.gz"
                 DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
                 STATUS retval
                 UNPACK
                 #SHOW_PROGRESS
                 )
             if(NOT retval)
-                FILE(REMOVE "${CMAKE_CURRENT_SOURCE_DIR}/cmark")
+                FILE(REMOVE "${CMARK_GFM_DIR}")
             endif()
             message("Download cmark-gfm:${retval}")
         endif()
-        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}")
-            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}"
+        if(EXISTS "${CMARK_GFM_DIR}")
+            add_subdirectory("${CMARK_GFM_DIR}"
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
             SET(cmark-gfm_FOUND TRUE)
         endif()
-        if(cmark-gfm_FOUND)
-            list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
-            find_package(libcmark-gfm-extensions)
-            if(libcmark-gfm-extensions_FOUND)
-                list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static)
-                #list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions)
-            endif()
-            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static libcmark-gfm_static)
-            #list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm)
-            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}/src>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_VERSION}/extensions>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
-        endif()
     endif(NOT cmark-gfm_FOUND)
+    if(cmark-gfm_FOUND)
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
+        if(CMARK_SHARED)
+            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake paramters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
+        elseif(CMARK_STATIC)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static libcmark-gfm_static)
+        elseif(TARGET libcmark-gfm)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
+        endif()
+        list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
+            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
+    endif()
+    
 endif(WITH_CMARK_GFM)
 
 cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
@@ -116,7 +120,8 @@ if(WITH_CMARK)
         #message("Suggest use cmark: https://github.com/commonmark/cmark. to support Markdown. will download cmark ...")
         
         SET(_CMARK_VERSION 0.30.2)
-        if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION}")
+        set(CMARK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION})
+        if(NOT EXISTS "${CMARK_DIR}")
             DOWNLOAD(FILENAME "cmark-${_CMARK_VERSION}"
                 HASH d3f527fe8451dd9b58974b52c27302a8
                 URL "https://github.com/commonmark/cmark/archive/refs/tags/${_CMARK_VERSION}.tar.gz"
@@ -126,12 +131,12 @@ if(WITH_CMARK)
                 #SHOW_PROGRESS
                 )
             if(NOT retval)
-                FILE(REMOVE "${CMAKE_CURRENT_SOURCE_DIR}/cmark")
+                FILE(REMOVE "${CMARK_DIR}")
             endif()
             message("Download cmark:${retval}")
         endif()
-        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION}")
-            add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION}"
+        if(EXISTS "${CMARK_DIR}")
+            add_subdirectory("${CMARK_DIR}"
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark)
             SET(cmark_FOUND TRUE)
         endif()
@@ -139,7 +144,15 @@ if(WITH_CMARK)
     endif()
     if(cmark_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK)
-        list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark_static)
+        if(CMARK_SHARED)
+            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake paramters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark)
+        elseif(CMARK_STATIC)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark_static)
+        elseif(TARGET cmark::cmark)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark)
+        endif()
+        
     endif()
 endif(WITH_CMARK)
 
@@ -225,11 +238,11 @@ if(Log4Qt_FOUND)
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
             DESTINATION assets/etc
-                COMPONENT Runtime)
+            COMPONENT Runtime)
     else()
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
             DESTINATION etc
-                COMPONENT Runtime)
+            COMPONENT Runtime)
     endif()
 else()
     message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")

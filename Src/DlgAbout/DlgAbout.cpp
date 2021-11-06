@@ -189,7 +189,7 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
 
 QString CDlgAbout::MarkDownToHtml(const QString &szText)
 {
-    QString szRetureText;
+    QString szRetureText = szText;
 
 #ifdef HAVE_CMARK_GFM
 
@@ -219,8 +219,8 @@ QString CDlgAbout::MarkDownToHtml(const QString &szText)
 
 #elif HAVE_CMARK
 
-    char* pHtml = cmark_markdown_to_html(text.toStdString().c_str(),
-                                         text.toStdString().length(),
+    char* pHtml = cmark_markdown_to_html(szText.toStdString().c_str(),
+                                         szText.toStdString().length(),
                                          0);
     if(pHtml)
     {
