@@ -136,7 +136,7 @@ QString CDir::GetDirApplicationXml(bool bReadOnly)
     return szPath;
 }
 
-QString CDir::GetDirPlugins()
+QString CDir::GetDirPlugins(const QString &szDir)
 {
     QString szPath;
 #if defined (Q_OS_ANDROID)
@@ -144,6 +144,8 @@ QString CDir::GetDirPlugins()
 #else
     szPath = GetDirApplicationInstallRoot() + QDir::separator() + "plugins";
 #endif
+    if(!szDir.isEmpty())
+        szPath += QDir::separator() + szDir;
     return szPath;
 }
 
@@ -227,6 +229,18 @@ QString CDir::GetDirTranslations()
     return "assets:/translations";
 #endif
     return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
+}
+
+QString CDir::GetDirPluginsTranslation(QString szDir)
+{
+#if defined(_DEBUG) || defined(DEBUG)
+    return ":/" + szDir + "/translations";
+#elif defined (Q_OS_ANDROID)
+    return "assets:/" + szDir + "/translations";
+#endif
+    
+    return GetDirApplicationInstallRoot() + QDir::separator()
+            + szDir + QDir::separator() + "translations";
 }
 
 QString CDir::GetFileApplicationConfigure(bool bReadOnly)

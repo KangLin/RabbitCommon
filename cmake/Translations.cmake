@@ -124,19 +124,37 @@
 # Android:
 #     assets                                       GetDirApplicationInstallRoot()  (Only read)
 #        |- translations                           GetDirTranslations()
-#        |        |- ${TRANSLATIONS_NAME}_zh_CN.ts
-#        |        |- ${TRANSLATIONS_NAME}_zh_TW.ts
-
+#        |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#        |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#        |- plugins
+#             |- translations                      GetDirPluginsTranslation()
+#             |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#             |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#             |- type
+#                 |- plugin1
+#                     |- translation               GetDirPluginsTranslation("plugins/type/plugin1")
+#                     |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#                     |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#
 # 其它系统发行模式下，做为文件放在程序的安装目录 translations 目录下
 # 程序的安装目录：
-#   AppRoot |
+#   AppRoot |                                        GetDirApplicationInstallRoot()  (Only read)
 #           |- bin
 #           |   |- App.exe
 #           |- lib
 #           |
-#           |- translations
-#                 |- ${TRANSLATIONS_NAME}_zh_CN.qm
-#                 |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#           |- translations                          GetDirTranslations()
+#           |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#           |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#           |- plugins
+#               |- translations                      GetDirPluginsTranslation()
+#               |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#               |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#               |- type
+#                   |- plugin1
+#                       |- translation               GetDirPluginsTranslation("plugins/type/plugin1")
+#                       |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#                       |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
 #
 # 源码目录：
 #   SourceRoot |
@@ -148,15 +166,26 @@
 #              |- cmake
 #              |   |- Translations.cmake
 #              |- Src
-#                  |- Resource
-#                       |-Translations
-#                            |- ${TRANSLATIONS_NAME}_zh_CN.ts
-#                            |- ${TRANSLATIONS_NAME}_zh_TW.ts
+#              |   |- Resource
+#              |         |-Translations
+#              |              |- ${TRANSLATIONS_NAME}_zh_CN.ts
+#              |              |- ${TRANSLATIONS_NAME}_zh_TW.ts
+#              |- plugins
+#                   |- translations
+#                   |   |- ${TRANSLATIONS_NAME}_zh_CN.ts
+#                   |   |- ${TRANSLATIONS_NAME}_zh_TW.ts
+#                   |- type
+#                       |- plugin1
+#                           |- translation
+#                           |   |- ${TRANSLATIONS_NAME}_zh_CN.ts
+#                           |   |- ${TRANSLATIONS_NAME}_zh_TW.ts
 
 include (CMakeParseArguments)
 
 function(GENERATED_QT_TRANSLATIONS)
-    cmake_parse_arguments(PARA "" "NAME;TARGET;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA ""
+        "NAME;TARGET;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME;RESOUCE_PREFIX"
+        "SOURCES" ${ARGN})
 
     SET(TRANSLATIONS_NAME ${PROJECT_NAME})
     if(DEFINED PARA_NAME)
@@ -232,12 +261,18 @@ function(GENERATED_QT_TRANSLATIONS)
             
             #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
             
+            if(DEFINED PARA_QM_INSTALL_DIR)
+                set(RESOUCE_PREFIX "/${PARA_QM_INSTALL_DIR}")
+            else()
+                set(RESOUCE_PREFIX "/translations")
+            endif()
+            
             # 生成资源文件
             set(RESOURCE_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/translations_${TRANSLATIONS_NAME}.qrc")
             file(WRITE "${RESOURCE_FILE_NAME}"
                 "<!DOCTYPE RCC>
                 <RCC version=\"1.0\">
-                <qresource prefix=\"/translations\">
+                <qresource prefix=\"${RESOUCE_PREFIX}\">
                 ")
             foreach(qm ${QM_FILES})
                 get_filename_component(qm_name ${qm} NAME)

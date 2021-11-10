@@ -174,6 +174,13 @@ function(INSTALL_TARGET)
                 RUNTIME DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                         COMPONENT Runtime
                 )
+        elseif(ANDROID)
+            # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
+            # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
+            INSTALL(TARGETS ${PARA_NAME}
+                LIBRARY DESTINATION "libs/${ANDROID_ABI}"
+                        COMPONENT Runtime
+                )
         else()
             INSTALL(TARGETS ${PARA_NAME}
                 LIBRARY DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
@@ -493,7 +500,11 @@ function(ADD_TARGET)
 
     #翻译资源    
     if(ANDROID)
-        set(QM_INSTALL_DIR assets/plugins/translations)
+        if(PARA_ISPLUGIN)
+            set(QM_INSTALL_DIR assets/${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
+        else()
+            set(QM_INSTALL_DIR assets/translations)
+        endif()
     else()
         if(PARA_ISPLUGIN)
             set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
@@ -667,7 +678,8 @@ endfunction()
 #  PRIVATE_OPTIONS         私有选项
 #  FEATURES                公有特性
 #  PRIVATE_FEATURES        私有特性
-#  INSTALL_DIR             插件库安装目录
+#  INSTALL_DIR             插件库安装目录，默认：plugins 。
+#                          注意：只接受相对路径。绝对路径时，翻译资源前缀会有问题。
 function(ADD_PLUGIN_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -711,14 +723,8 @@ function(ADD_PLUGIN_TARGET)
         set(PARA_OUTPUT_DIR ${CMAKE_BINARY_DIR}/plugins)
     endif()
     
-    # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
-    # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
     if(NOT DEFINED PARA_INSTALL_DIR)
-        if(ANDROID)
-            set(PARA_INSTALL_DIR "libs/${ANDROID_ABI}")
-        else()
-            set(PARA_INSTALL_DIR plugins)
-        endif()
+        set(PARA_INSTALL_DIR plugins)
     endif()
     
     ADD_TARGET(NAME ${PARA_NAME}
