@@ -233,7 +233,7 @@ if(Log4Qt_FOUND)
     LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
     LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
     LIST(APPEND _QT_COMPONENTS Concurrent)
-    INSTALL_TARGETS(TARGETS "Log4Qt::log4qt")
+    INSTALL_TARGETS(TARGETS Log4Qt::log4qt)
     # Install log4qt.properties configure file
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
