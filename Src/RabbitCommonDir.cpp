@@ -23,6 +23,7 @@ CDir::CDir()
             qCritical() << "mkdir doucments dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  qApp->applicationDirPath();
+    qDebug() << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
