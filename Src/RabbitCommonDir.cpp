@@ -31,6 +31,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
+    qDebug() << "Application root dir:" << m_szApplicationDir;
 }
 
 CDir* CDir::Instance()
