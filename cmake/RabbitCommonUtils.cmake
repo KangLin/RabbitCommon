@@ -413,6 +413,7 @@ endfunction()
 #    [必须]SOURCE_FILES             源文件（包括头文件，资源文件等）
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
+#    NO_TRANSLATION                 不产生翻译资源
 #    WINDOWS                        窗口程序
 #    NAME                           目标名。注意：翻译资源文件名(.ts)最近的 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
@@ -462,7 +463,7 @@ function(ADD_TARGET)
         INSTALL_NAMESPACE
         INSTALL_CMAKE_CONFIG_IN_FILE
         )
-    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS"
+    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -473,6 +474,7 @@ function(ADD_TARGET)
                 [ISEXE]
                 [ISPLUGIN]
                 [ISWINDOWS]
+                [NO_TRANSLATION]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
@@ -498,31 +500,33 @@ function(ADD_TARGET)
         set(PARA_NAME ${PROJECT_NAME})
     endif()
 
-    #翻译资源    
-    if(ANDROID)
-        if(PARA_ISPLUGIN)
-            set(QM_INSTALL_DIR assets/${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
+    if(NOT PARA_NO_TRANSLATION)
+        #翻译资源    
+        if(ANDROID)
+            if(PARA_ISPLUGIN)
+                set(QM_INSTALL_DIR assets/${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
+            else()
+                set(QM_INSTALL_DIR assets/translations)
+            endif()
         else()
-            set(QM_INSTALL_DIR assets/translations)
+            if(PARA_ISPLUGIN)
+                set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
+            else()
+                set(QM_INSTALL_DIR translations)
+            endif()
         endif()
-    else()
-        if(PARA_ISPLUGIN)
-            set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
-        else()
-            set(QM_INSTALL_DIR translations)
+        GENERATED_QT_TRANSLATIONS(
+            TARGET ${PARA_NAME}
+            SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
+            OUT_QRC TRANSLATIONS_QRC_FILES
+            QM_INSTALL_DIR ${QM_INSTALL_DIR})
+        if(CMAKE_BUILD_TYPE)
+            string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
         endif()
-    endif()
-    GENERATED_QT_TRANSLATIONS(
-        TARGET ${PARA_NAME}
-        SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
-        OUT_QRC TRANSLATIONS_QRC_FILES
-        QM_INSTALL_DIR ${QM_INSTALL_DIR})
-    if(CMAKE_BUILD_TYPE)
-        string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
-    endif()
-    if(BUILD_TYPE STREQUAL "debug")
-        LIST(APPEND PARA_SOURCE_FILES ${TRANSLATIONS_QRC_FILES})
-    endif()
+        if(BUILD_TYPE STREQUAL "debug")
+            LIST(APPEND PARA_SOURCE_FILES ${TRANSLATIONS_QRC_FILES})
+        endif()
+    endif(NOT PARA_NO_TRANSLATION)
     
     if(PARA_ISEXE)
         if(ANDROID)
