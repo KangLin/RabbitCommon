@@ -8,6 +8,7 @@ include(GenerateExportHeader)
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
+# ANDROID_SOURCES_DIR: Android 源码文件目录。默认为：${CMAKE_CURRENT_SOURCE_DIR}/android
 function(GENERATED_DEPLOYMENT_SETTINGS)
     cmake_parse_arguments(PARA "" "NAME;APPLACTION;ANDROID_SOURCES_DIR" "" ${ARGN})
 
@@ -74,7 +75,7 @@ function(GENERATED_DEPLOYMENT_SETTINGS)
     IF(DEFINED PARA_ANDROID_SOURCES_DIR)
         FILE(APPEND ${_file_name} "\"android-package-source-directory\":\"${PARA_ANDROID_SOURCES_DIR}\",\n")
     else()
-        FILE(APPEND ${_file_name} "\"android-package-source-directory\":\"${PROJECT_SOURCE_DIR}/android\",\n")
+        FILE(APPEND ${_file_name} "\"android-package-source-directory\":\"${CMAKE_CURRENT_SOURCE_DIR}/android\",\n")
     endif()
     IF(ANDROID_EXTRA_LIBS)
         FILE(APPEND ${_file_name} "\"android-extra-libs\":\"${ANDROID_EXTRA_LIBS}\",\n")
@@ -281,7 +282,7 @@ function(INSTALL_TARGET)
                         message(WARNING "Please set camke paramter or environment value STOREPASS, will use debug deploy ......")
                         add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-                                --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-release-signed.apk
+                                --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-debug.apk
                                 --input ${JSON_FILE}
                                 --verbose
                                 --gradle
