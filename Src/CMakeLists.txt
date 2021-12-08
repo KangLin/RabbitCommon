@@ -196,7 +196,7 @@ if(BUILD_QUIWidget)
     list(APPEND RABBITCOMMON_SOURCE_FILES QUIWidget/QUIWidget.cpp)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
-    if("debug" STREQUAL BUILD_TYPE)
+    if("debug" STREQUAL RABBITCOMMON_BUILD_TYPE)
         LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidgetQss.qrc)
     endif()
 endif(BUILD_QUIWidget)
