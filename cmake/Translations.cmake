@@ -204,11 +204,42 @@ function(GENERATED_QT_TRANSLATIONS)
     endif()
     
     SET(TS_FILES
-        #${TS_DIR}/${TRANSLATIONS_NAME}_zh.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ar.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ca.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_cs.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_da.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_de.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_el.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_en.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_en_GB.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_es.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_et.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_fi.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_fr.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_gd.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_gl.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_hu.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_it.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ko.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ja.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_nb.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_nn.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ne.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_nl.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_oc.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_pl.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_pt_BR.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_pt_PT.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ro.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_ru.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_sk.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_sl.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_sv.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_th.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_tr.ts
+        ${TS_DIR}/${TRANSLATIONS_NAME}_uk.ts
         ${TS_DIR}/${TRANSLATIONS_NAME}_zh_CN.ts
-        #${TS_DIR}/${TRANSLATIONS_NAME}_zh_rCN.ts
         ${TS_DIR}/${TRANSLATIONS_NAME}_zh_TW.ts
-        #${TS_DIR}/${TRANSLATIONS_NAME}_zh_rTW.ts
         )
 
     if(NOT DEFINED QT_VERSION_MAJOR)

@@ -2,16 +2,49 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>QObject</name>
+    <name>MainWindow</name>
     <message>
-        <location filename="../../main.cpp" line="50"/>
-        <source>RabbitCommon</source>
-        <translation>玉兔公共库</translation>
+        <location filename="../../MainWindow.ui" line="14"/>
+        <source>MainWindow</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="58"/>
-        <source>Rabbit Common - QUIWidget</source>
+        <location filename="../../MainWindow.ui" line="27"/>
+        <source>Exec program use root</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="42"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="49"/>
+        <source>Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="59"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="64"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="69"/>
+        <source>Stype</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../main.cpp" line="46"/>
+        <source>RabbitCommon</source>
+        <translation>玉兔公共库</translation>
     </message>
 </context>
 </TS>
