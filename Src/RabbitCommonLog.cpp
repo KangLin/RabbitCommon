@@ -22,6 +22,7 @@
     #include "log4qt/logmanager.h"
     #include "log4qt/fileappender.h"
     #include "log4qt/patternlayout.h"
+    #include "log4qt/basicconfigurator.h"
 #endif
 #ifdef HAVE_LOG4CXX
     #include "log4cxx/logger.h"
@@ -54,7 +55,10 @@ CLog::CLog()
             + QDir::separator() + "log4qt.conf";
     configFile = set.value("Log/ConfigFile", configFile).toString();
     if (QFile::exists(configFile))
-        Log4Qt::PropertyConfigurator::configureAndWatch(configFile);
+    {
+        if(!Log4Qt::PropertyConfigurator::configureAndWatch(configFile))
+            Log4Qt::BasicConfigurator::configure();
+    }
     else
     {
         // Create a layout
@@ -63,11 +67,14 @@ CLog::CLog()
         layout->setName(QStringLiteral("My Layout"));
         layout->activateOptions();
         // Create a console appender
-        Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
+        Log4Qt::ConsoleAppender *consoleAppender =
+                new Log4Qt::ConsoleAppender(layout,
+                                        Log4Qt::ConsoleAppender::STDOUT_TARGET);
         consoleAppender->setName(QStringLiteral("My Appender"));
         consoleAppender->activateOptions();
         // Add appender on root logger
         logger->addAppender(consoleAppender);
+        //logger->setLevel(Log4Qt::Level::DEBUG_INT);
     }
 
     // Enable handling of Qt messages

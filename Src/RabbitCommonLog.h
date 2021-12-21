@@ -19,9 +19,9 @@ namespace RabbitCommon {
 #define LM_ERROR 3
 
 #ifdef DEBUG
-    #define LOG_MODEL_DEBUG(model, ...)
-#else
     #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_DEBUG, model, __VA_ARGS__)
+#else
+    #define LOG_MODEL_DEBUG(model, ...)
 #endif //#ifdef DEBUG
 
 #define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_ERROR, model, __VA_ARGS__)
