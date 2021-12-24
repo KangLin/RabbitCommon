@@ -42,7 +42,7 @@ int CEncrypt::SetPassword(const char* pszPassword)
     memcpy(&m_szPassword[0], Key, PASSWORD_LENGTH);
     for(int i = 0; i < nLen; i++)
     {
-        m_szPassword[i] ^= Key[i];
+        m_szPassword[i] ^= pszPassword[i];
     }
         
     return 0;
