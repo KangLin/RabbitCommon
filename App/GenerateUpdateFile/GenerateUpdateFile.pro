@@ -1,21 +1,17 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2019-04-11T09:59:18
-#
-#-------------------------------------------------
+QT *= core xml
+QT -= gui
 
-QT     *= core gui xml
-CONFIG *= c++11 link_pkgconfig link_prl
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
+CONFIG *= c++11 console
+CONFIG -= app_bundle
 
-TARGET = RabbitCommonTests
+TARGET = GenerateUpdateFile
 TEMPLATE = app
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
-    else : PREFIX = $$OUT_PWD/../install
+    else : PREFIX = $$OUT_PWD/../../install
 }
 
 #Get app version use git, please set git path to environment variable PATH
@@ -45,15 +41,28 @@ CONFIG(debug, debug|release): DEFINES *= _DEBUG
 CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
+android{
+    DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
+} else: win32 {
+    contains(QMAKE_TARGET.arch, x86_64) {
+        DEFINES += BUILD_ARCH=\"\\\"x86_64\\\"\"
+    } else {
+        DEFINES += BUILD_ARCH=\"\\\"x86\\\"\"
+    }
+} else {
+    DEFINES += BUILD_ARCH=\"\\\"$$system(uname -p)\\\"\"
+}
+CONFIG(debug, debug|release): DEFINES *= _DEBUG
+DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# You can also make your code fail to compile if you use deprecated APIs.
+# You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 #Support windows xp
@@ -63,36 +72,19 @@ msvc {
     QMAKE_CXXFLAGS += "/utf-8"
 }
 
-include($$PWD/../pri/Translations.pri)
+include($$PWD/../../pri/Translations.pri)
 
 #VERSION=$$BUILD_VERSION
-INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
-isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
+INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src $$_PRO_FILE_PWD_/../../Src/export
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
-!equals(BUILD_UPDATE, "OFF"){
-    DEFINES *= HAVE_UPDATE
-}
-!equals(BUILD_ABOUT, "OFF"){
-    DEFINES *= HAVE_ABOUT
-}
-!equals(BUILD_ADMINAUTHORISER, "OFF"){
-    DEFINES *= HAVE_ADMINAUTHORISER
-}
-!equals(BUILD_QUIWidget, "OFF"){
-    DEFINES *= BUILD_QUIWidget
-}
 SOURCES += \
-        MainWindow.cpp \
+        GenerateUpdateFile.cpp \
         main.cpp
 
-HEADERS += \
-    MainWindow.h
-
-FORMS += \
-    MainWindow.ui
-
+# Default rules for deployment.
 !android: target.path = $$PREFIX/bin
 INSTALLS += target
 
@@ -112,16 +104,5 @@ win32 : equals(QMAKE_HOST.os, Windows){
 
 OTHER_FILES += CMakeLists.txt
 
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew \
-    android/gradlew.bat \
-    android/res/values/libs.xml
-
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/android
-}
+HEADERS += \
+    GenerateUpdateFile.h

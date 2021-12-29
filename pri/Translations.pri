@@ -6,7 +6,7 @@
 # Include this file into the project file (.pro)
 #    TRANSLATIONS_DIR =
 #    TRANSLATIONS_NAME = 
-#    include(../pri/Translations.pri) 
+#    include(Translations.pri) 
 
 # Add translation resource in source code
 #     Q_INIT_RESOURCE(translations_${TRANSLATIONS_NAME}); // Initial resource
@@ -64,7 +64,7 @@
 # 把此文件包含进入工程文件中(.pro)
 #    TRANSLATIONS_DIR =
 #    TRANSLATIONS_NAME = 
-#    include(../pri/Translations.pri) 
+#    include(Translations.pri) 
 
 # 在代码中加载翻译资源
 #     Q_INIT_RESOURCE(translations_${TRANSLATIONS_NAME}); //初始化资源

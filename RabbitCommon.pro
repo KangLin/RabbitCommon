@@ -15,7 +15,7 @@ TEMPLATE = subdirs
 lib.subdir = Src
 Tests.depends = lib
 CONFIG *= ordered
-SUBDIRS = lib Tests 
+SUBDIRS = lib Tests App
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
