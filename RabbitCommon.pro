@@ -13,9 +13,9 @@ TARGET = RabbitCommon
 TEMPLATE = subdirs
 
 lib.subdir = Src
-App.depends = lib
+Tests.depends = lib
 CONFIG *= ordered
-SUBDIRS = lib App 
+SUBDIRS = lib Tests 
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {

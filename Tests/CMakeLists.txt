@@ -1,6 +1,6 @@
 # Author: Kang Lin(kl222@126.com)
 
-project(RabbitCommonApp)
+project(RabbitCommonTests)
 
 set(SOURCE_FILES
     main.cpp

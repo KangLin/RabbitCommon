@@ -203,7 +203,7 @@ endif(BUILD_QUIWidget)
 
 find_package(OpenSSL)
 IF(OpenSSL_FOUND)
-    list(APPEND RabbitCommon_DEFINITIONS BUILD_OPENSSL)
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_OPENSSL)
     # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
     # Check https://doc.qt.io/qt/deployment-android.html for more information.
     # They need to be set before the find_package( ...) calls below.

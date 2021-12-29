@@ -8,7 +8,7 @@ QT       += core gui xml
 CONFIG *= c++11 link_pkgconfig link_prl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
-TARGET = RabbitCommonApp
+TARGET = RabbitCommonTests
 TEMPLATE = app
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT

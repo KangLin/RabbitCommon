@@ -25,11 +25,11 @@ int main(int argc, char *argv[])
 {
     
 #if defined (_DEBUG)
-    Q_INIT_RESOURCE(translations_RabbitCommonApp);
+    Q_INIT_RESOURCE(translations_RabbitCommonTests);
 #endif
     QApplication a(argc, argv);
     a.setApplicationVersion(BUILD_VERSION);
-    a.setApplicationName("RabbitCommonApp");
+    a.setApplicationName("RabbitCommonTests");
     
     LOG_MODEL_DEBUG("main", "GetDirApplication:%s",
                     RabbitCommon::CDir::Instance()->GetDirApplication().toStdString().c_str());
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     
     QTranslator tApp;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-              + "/RabbitCommonApp_" + QLocale::system().name() + ".qm");
+              + "/RabbitCommonTests_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
     RabbitCommon::CTools::Instance()->Init();
     
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 #endif
     a.removeTranslator(&tApp);
 #if defined (_DEBUG)
-    Q_CLEANUP_RESOURCE(translations_RabbitCommonApp);
+    Q_CLEANUP_RESOURCE(translations_RabbitCommonTests);
 #endif
     
     return nRet;

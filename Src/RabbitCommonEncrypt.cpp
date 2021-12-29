@@ -5,13 +5,13 @@
 
 #include <string.h>
 
-#if defined (BUILD_OPENSSL)
+#if defined (HAVE_OPENSSL)
 #include "openssl/aes.h"
 #endif
 
 namespace RabbitCommon {
 
-#if defined (BUILD_OPENSSL)
+#if defined (HAVE_OPENSSL)
     #define PASSWORD_LENGTH AES_BLOCK_SIZE
 #else
     #define PASSWORD_LENGTH 16
@@ -51,7 +51,7 @@ int CEncrypt::SetPassword(const char* pszPassword)
 int CEncrypt::Encode(const char* pIn, const int& inLen, char** pOut, int& outLen)
 {
     int nRet = 0;
-#if defined (BUILD_OPENSSL)
+#if defined (HAVE_OPENSSL)
     AES_KEY k;
     nRet = AES_set_encrypt_key((const unsigned char*)m_szPassword.c_str(), m_szPassword.size() * 8, &k);
     if(nRet < 0)
@@ -127,7 +127,7 @@ int CEncrypt::Dencode(const QByteArray &szIn, QString &szOut)
 int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLen)
 {
     int nRet = 0;
-#if defined (BUILD_OPENSSL)
+#if defined (HAVE_OPENSSL)
     AES_KEY k;
     nRet = AES_set_decrypt_key((const unsigned char*)m_szPassword.c_str(), m_szPassword.size() * 8, &k);
     if(nRet < 0)

@@ -69,11 +69,11 @@ else: DEFINES *= RabbitCommon_EXPORTS
         LIBS += -lutil
     }
 }
-!equals(BUILD_Encrypt, "OFF"){
-    isEmpty(OpenSSL_DIR): error("Please set OpenSSL_DIR")
-    DEFINES *= HAVE_ENCRYPT
-    SOURCES += $$PWD/RabbitCommonEncrypt.cpp
-    INSTALL_HEADERS += $$PWD/RabbitCommonEncrypt.h
+isEmpty(OpenSSL_DIR): warning("Please set OpenSSL_DIR")
+else {
+    DEFINES *= HAVE_OPENSSL
+    SOURCES += 
+    INSTALL_HEADERS += 
     LIBS += $$OpenSSL_DIR/lib/libssl.so \
         $$OpenSSL_DIR/lib/libcrypto.so 
 }
@@ -109,7 +109,8 @@ SOURCES += \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
     $$PWD/RabbitCommonStyle.cpp \
-    $$PWD/RabbitRecentMenu.cpp
+    $$PWD/RabbitRecentMenu.cpp \
+    $$PWD/RabbitCommonEncrypt.cpp
 
 INSTALL_HEADERS += \
     $$PWD/RabbitCommonLog.h \
@@ -119,7 +120,8 @@ INSTALL_HEADERS += \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
     $$PWD/RabbitCommonStyle.h \
-    $$PWD/RabbitRecentMenu.h
+    $$PWD/RabbitRecentMenu.h \
+    $$PWD/RabbitCommonEncrypt.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h

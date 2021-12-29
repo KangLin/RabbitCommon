@@ -153,10 +153,10 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 add_subdirectory(Src)
-option(BUILD_APP "Set to ON to build applaction" ON)
-if(BUILD_APP)    
-    add_subdirectory(App)
-endif(BUILD_APP)
+option(BUILD_TESTS "Set to ON to build tests" ON)
+if(BUILD_TESTS)    
+    add_subdirectory(Tests)
+endif(BUILD_TESTS)
 
 set(OTHER_FILES
     License.md
