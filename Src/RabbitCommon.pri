@@ -69,6 +69,14 @@ else: DEFINES *= RabbitCommon_EXPORTS
         LIBS += -lutil
     }
 }
+!equals(BUILD_Encrypt, "OFF"){
+    isEmpty(OpenSSL_DIR): error("Please set OpenSSL_DIR")
+    DEFINES *= HAVE_ENCRYPT
+    SOURCES += $$PWD/RabbitCommonEncrypt.cpp
+    INSTALL_HEADERS += $$PWD/RabbitCommonEncrypt.h
+    LIBS += $$OpenSSL_DIR/lib/libssl.so \
+        $$OpenSSL_DIR/lib/libcrypto.so 
+}
 !equals(BUILD_QUIWidget, "OFF"){
     SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
     INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
@@ -129,8 +137,8 @@ TRANSLATIONS_NAME=RabbitCommon
 include($$PWD/../pri/Translations.pri)
 
 android{
-    !isEmpty(OPENSSL_ROOT_DIR) : ANDROID_EXTRA_LIBS = $$OPENSSL_ROOT_DIR/lib/libssl.so \
-        $$OPENSSL_ROOT_DIR/lib/libcrypto.so        
+    !isEmpty(OpenSSL_DIR) : ANDROID_EXTRA_LIBS = $$OpenSSL_DIR/lib/libssl.so \
+        $$OpenSSL_DIR/lib/libcrypto.so        
 }
 
 # Install style files
