@@ -10,6 +10,7 @@
 + 增加 cmark 支持 MarkDown 语法
 + 增加 cmark_gfm 支持 GitHub MarkDown 语法
 + CMake: 为 android 增加安装目标 INSTALL_APK
++ 增加加密库
 
 ### 版本： v1.0.4
 + CMake: 增加 add_target 宏

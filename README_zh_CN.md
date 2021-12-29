@@ -10,9 +10,9 @@
 
 |     | master  | develop  |
 |:---:|:-----------:|:------------:|
-|Linux|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
-|Windows|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_windows.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
-|Android|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+|Linux|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+|Windows|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
+|Android|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
 
 
 [<img src=""https://gitee.com/kl222/Calendar/raw/master/Resource/Image/English.png" alt="英语" title="英语" width="16" height="16" />英语](README.md)

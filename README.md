@@ -6,9 +6,9 @@ Author：Kang Lin（kl222@126.com)
 
 [![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
 [![Linux status](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
-[![Linux status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
-[![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
-[![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
+[![Linux status](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
+[![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
+[![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
 
 
 [<img src="https://gitee.com/kl222/Calendar/raw/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
