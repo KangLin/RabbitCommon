@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QDateTime>
+#include <QFileInfo>
 #include "RabbitCommonLog.h"
 
 CGenerateUpdateFile::CGenerateUpdateFile()
@@ -20,12 +21,16 @@ CGenerateUpdateFile::CGenerateUpdateFile()
 #endif
         
     QString szVerion = qApp->applicationVersion();
-#ifdef BUILD_VERSION
+
     if(szVerion.isEmpty())
+    {
+#ifdef BUILD_VERSION
         szVerion = BUILD_VERSION;
 #else
-    szVerion = "0.0.1";
+        szVerion = "0.0.1";
 #endif
+    }
+
     SetVersion(szVerion);
 }
 

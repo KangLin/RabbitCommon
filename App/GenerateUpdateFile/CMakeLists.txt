@@ -19,9 +19,14 @@ endif()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 
+message("BUILD_VERSION ${PROJECT_NAME}:${BUILD_VERSION}")
+
 set(SOURCE_FILES
     main.cpp
     GenerateUpdateFile.cpp
+    )
+set(HEADER_FILES
+    GenerateUpdateFile.h
     )
 
 #翻译
@@ -31,7 +36,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/RabbitCommonUtils.cmake)
 
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
-    SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
+    SOURCE_FILES ${SOURCE_FILES} ${HEADER_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
