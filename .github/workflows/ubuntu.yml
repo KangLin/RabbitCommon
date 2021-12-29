@@ -49,6 +49,11 @@ jobs:
       run: |
         ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
         cp ../rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+        sudo dpkg -i rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+        /opt/RabbitCommon/bin/GenerateUpdateFile \
+            -f "update_linux.xml" \
+            --pf rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb \
+            -m "${{env.RabbitCommon_VERSION}}"
 
     - name: update 
       uses: actions/upload-artifact@v2
@@ -56,6 +61,7 @@ jobs:
           name: rabbitcommon_${{ matrix.os }}
           path: |
             rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+            update_linux.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }} 
 
     - name: Upload To Github Release
@@ -69,3 +75,4 @@ jobs:
            [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
         files: |
             ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+            update_linux.xml

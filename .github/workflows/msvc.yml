@@ -168,6 +168,10 @@ jobs:
         copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
         copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
         7z a RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip .\install\*
+        ${{github.workspace}}\build\install\bin\GenerateUpdateFile.exe ^
+            -f "update_windows.xml" ^
+            --pf RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip ^
+            -m "${{env.RabbitCommon_VERSION}}"
 
     - name: update 
       uses: actions/upload-artifact@v2
@@ -175,6 +179,7 @@ jobs:
         name: RabbitCommon_${{ matrix.os }}
         path: |
           ${{github.workspace}}\build\RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip
+          ${{github.workspace}}\build\update_windows.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
             
     - name: Upload To Github Release
@@ -188,3 +193,4 @@ jobs:
            [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
         files: |
           ${{github.workspace}}\build\RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip
+          ${{github.workspace}}\build\update_windows.xml
