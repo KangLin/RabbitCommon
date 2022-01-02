@@ -27,7 +27,7 @@ case "$1" in
         echo "/opt/RabbitCommon/bin" >> /etc/ld.so.conf.d/RabbitCommon.conf
         export QT_VERSION_DIR=
         if [ -n "${QT_VERSION_DIR}" ]; then
-            echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/FaceRecognizer.conf
+            echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/RabbitCommon.conf
         fi
         ldconfig
     ;;
