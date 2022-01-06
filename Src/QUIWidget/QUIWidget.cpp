@@ -252,7 +252,7 @@ bool QUIWidget::eventFilter(QObject *obj, QEvent *evt)
         }
     }
 
-    return QWidget::eventFilter(obj, evt);
+    return QDialog::eventFilter(obj, evt);
 }
 
 QLabel *QUIWidget::getLabIco() const
@@ -621,6 +621,7 @@ void QUIWidget::setAlignment(Qt::Alignment alignment)
 
 void QUIWidget::setMainWidget(QWidget *mainWidget, bool bUsed)
 {
+    Q_ASSERT(mainWidget);
     //一个QUI窗体对象只能设置一个主窗体
     if (this->mainWidget == 0) {
         //将子窗体添加到布局
@@ -630,7 +631,7 @@ void QUIWidget::setMainWidget(QWidget *mainWidget, bool bUsed)
 
         this->mainWidget = mainWidget;
         this->mainWidget->installEventFilter(this);
-       
+
         if(bUsed)
         {
             this->setTitle(mainWidget->windowTitle());
@@ -664,10 +665,33 @@ void QUIWidget::on_btnMenu_Max_clicked()
 
 void QUIWidget::on_btnMenu_Close_clicked()
 {
-    close();
+    bool bClose = false;
+    if(mainWidget)
+        bClose = mainWidget->close();
+    if(bClose)
+        close();
 }
 
+void QUIWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+    if(isFullScreen())
+        widget_title->setVisible(false);
+    else
+        widget_title->setVisible(true);
+    QDialog::resizeEvent(event);
+}
 
+void QUIWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+    if(isFullScreen())
+        widget_title->setVisible(false);
+    else
+        widget_title->setVisible(true);
+    
+    QDialog::showEvent(event);  
+}
 
 QUIMessageBox *QUIMessageBox::self = 0;
 QUIMessageBox::QUIMessageBox(QWidget *parent) : QDialog(parent)
@@ -1271,22 +1295,4 @@ void IconHelper::setIcon(QAbstractButton *btn, QChar c, quint32 size)
     iconFont.setPointSize(size);
     btn->setFont(iconFont);
     btn->setText(c);
-}
-
-void QUIWidget::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event)
-    if(isFullScreen())
-        widget_title->setVisible(false);
-    else
-        widget_title->setVisible(true);
-}
-
-void QUIWidget::showEvent(QShowEvent *event)
-{
-    Q_UNUSED(event)
-    if(isFullScreen())
-        widget_title->setVisible(false);
-    else
-        widget_title->setVisible(true);
 }
