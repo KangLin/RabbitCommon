@@ -11,7 +11,7 @@ Author：Kang Lin（kl222@126.com)
 [![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
 
 
-[<img src="https://gitee.com/kl222/Calendar/raw/master/Resource/Image/china.png" alt="Chinese" title="Chinese" width="16" height="16" />Chinese](README_zh_CN.md)
+[:cn: Chinese](README_zh_CN.md)
 
 Project home site: https://github.com/KangLin/RabbitCommon
 
