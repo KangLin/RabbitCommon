@@ -286,7 +286,12 @@ int CDlgAbout::DownloadFile(const QUrl &url)
         return -1;
     
     bool check = false;
-    check = connect(m_pReply, SIGNAL(error(QNetworkReply::NetworkError)),
+    check = connect(m_pReply,
+                #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+                    SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
+                #else
+                    SIGNAL(error(QNetworkReply::NetworkError)),
+                #endif
                     this, SLOT(slotError(QNetworkReply::NetworkError)));
     Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),

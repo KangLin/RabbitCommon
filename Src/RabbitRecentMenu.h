@@ -97,12 +97,12 @@ private:
             m_szTitle = title;
             m_szFile = file;
         }
+        
         _Content(const _Content& c) {
             m_szTitle = c.m_szTitle;
             m_szFile = c.m_szFile;
         }
-        
-        bool operator==(const _Content& c){
+        bool operator==(const _Content& c) const {
             if(m_szFile == c.m_szFile && m_szTitle == c.m_szTitle)
                 return true;
             return false;

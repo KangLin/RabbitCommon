@@ -171,6 +171,9 @@ if [ -n "$GENERATORS" ]; then
             -DCMAKE_MAKE_PROGRAM=make \
             -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
     else
+        if [ "$BUILD_ARCH" == "x64" -a $TOOLCHAIN_VERSION -gt 15 ]; then
+            CONFIG_PARA="${CONFIG_PARA} -DCMAKE_GENERATOR_PLATFORM=$BUILD_ARCH"
+        fi
 	    cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
 		 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
 		 -DCMAKE_VERBOSE_MAKEFILE=TRUE \

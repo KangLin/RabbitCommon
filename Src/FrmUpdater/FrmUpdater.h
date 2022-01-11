@@ -70,7 +70,6 @@ protected Q_SLOTS:
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void slotFinished();
     void slotButtonClickd(int id);
-
     void slotCheck();
     void slotDownloadXmlFile();
     virtual void slotCheckXmlFile();

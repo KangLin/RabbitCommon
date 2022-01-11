@@ -13,5 +13,6 @@ int main(int argc, char *argv[])
     CGenerateUpdateFile update;
     update.GenerateUpdateXml();
 
-    return a.exec();
+    a.exec();
+    return 0;
 }

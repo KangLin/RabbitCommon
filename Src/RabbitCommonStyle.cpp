@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QDebug>
 #include <QApplication>
+#include <QRegularExpression>
 
 namespace RabbitCommon {
 
@@ -53,6 +54,23 @@ int CStyle::LoadStyle(const QString &szFile)
         {
             QString stylesheet= file.readAll();
             QString pattern("QPalette\\{background:#[0-9a-fA-F]+;\\}");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            QRegularExpression re(pattern);
+            QRegularExpressionMatch match = re.match(stylesheet);
+            if (match.hasMatch()) {
+                QString matched = match.captured(0);
+                if(!matched.isEmpty())
+                {
+                    QRegularExpression rePalette("#[0-9a-fA-F]+");
+                    match = rePalette.match(matched);
+                    if(match.hasMatch())
+                    {
+                        QString paletteColor = match.captured(0);
+                        qApp->setPalette(QPalette(QColor(paletteColor)));
+                    }
+                }            
+            }
+#else
             QRegExp rx(pattern);
             int pos = rx.indexIn(stylesheet);
             if(pos > -1)
@@ -66,6 +84,7 @@ int CStyle::LoadStyle(const QString &szFile)
                     qApp->setPalette(QPalette(QColor(paletteColor)));
                 }
             }
+#endif
             qApp->setStyleSheet(stylesheet);
             file.close();
         }

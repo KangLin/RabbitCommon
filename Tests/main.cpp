@@ -23,10 +23,6 @@
 
 int main(int argc, char *argv[])
 {
-    
-#if defined (_DEBUG)
-    Q_INIT_RESOURCE(translations_RabbitCommonTests);
-#endif
     QApplication a(argc, argv);
     a.setApplicationVersion(BUILD_VERSION);
     a.setApplicationName("RabbitCommonTests");
@@ -83,9 +79,6 @@ int main(int argc, char *argv[])
      delete m;
 #endif
     a.removeTranslator(&tApp);
-#if defined (_DEBUG)
-    Q_CLEANUP_RESOURCE(translations_RabbitCommonTests);
-#endif
     
     return nRet;
 }

@@ -63,7 +63,12 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     m_ButtonGroup.addButton(ui->rbEveryWeek);
     m_ButtonGroup.addButton(ui->rbEveryMonth);
     m_ButtonGroup.button(id)->setChecked(true);
-    check = connect(&m_ButtonGroup, SIGNAL(buttonClicked(int)),
+    check = connect(&m_ButtonGroup,
+                #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+                    SIGNAL(idClicked(int)),
+                #else
+                    SIGNAL(buttonClicked(int)),
+                #endif
                     this, SLOT(slotButtonClickd(int)));
     Q_ASSERT(check);
     SetTitle();
@@ -302,7 +307,12 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
     check = connect(m_pReply, SIGNAL(downloadProgress(qint64, qint64)),
                     this, SLOT(slotDownloadProgress(qint64, qint64)));
     Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(error(QNetworkReply::NetworkError)),
+    check = connect(m_pReply, 
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+                        SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
+                    #else
+                        SIGNAL(error(QNetworkReply::NetworkError)),
+                    #endif
                     this, SLOT(slotError(QNetworkReply::NetworkError)));
     Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),
@@ -1120,7 +1130,9 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
         return -1;
     }
     QTextStream stream(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec("UTF-8");
+#endif
     doc.save(stream, 4);
     f.close();
     return 0;

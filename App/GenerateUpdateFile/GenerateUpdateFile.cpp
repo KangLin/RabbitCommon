@@ -286,7 +286,9 @@ int CGenerateUpdateFile::GenerateUpdateXmlFile(const QString &szFile, const INFO
         return -1;
     }
     QTextStream stream(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec("UTF-8");
+#endif
     doc.save(stream, 4);
     f.close();
     return 0;
