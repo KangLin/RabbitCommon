@@ -56,14 +56,6 @@ set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
 set(RABBITCOMMON_HEAD_FILES )
 
-option(BUILD_ABOUT "Set to ON to build about function" ON)
-if(BUILD_ABOUT)
-    list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
-    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
-    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
-    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
-endif(BUILD_ABOUT)
-
 cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
     BUILD_ABOUT OFF)
 if(WITH_CMARK_GFM)
@@ -175,6 +167,14 @@ if(cmark_FOUND OR cmark-gfm_FOUND)
         LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
     endif()
 endif()
+
+option(BUILD_ABOUT "Set to ON to build about function" ON)
+if(BUILD_ABOUT)
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
+endif(BUILD_ABOUT)
 
 if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR}StateMachine)
@@ -370,7 +370,9 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 #需要的QT组件
-LIST(APPEND _QT_COMPONENTS Gui Widgets)
+if(BUILD_ABOUT OR BUILD_UPDATE OR BUILD_QUIWidget)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets)
+endif()
 if(ANDROID)
     LIST(APPEND _QT_COMPONENTS AndroidExtras)
 endif()
