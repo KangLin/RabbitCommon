@@ -28,7 +28,7 @@ Abstract:
 #include <QDebug>
 #include <QMenu>
 #include <QStandardPaths>
-
+#include <QSslError>
 #include <QDateTime>
 
 #ifdef HAVE_CMARK
@@ -294,8 +294,8 @@ int CDlgAbout::DownloadFile(const QUrl &url)
                 #endif
                     this, SLOT(slotError(QNetworkReply::NetworkError)));
     Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),
-                    this, SLOT(slotSslError(const QList<QSslError>)));
+    check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>&)),
+                    this, SLOT(slotSslError(const QList<QSslError>&)));
     check = connect(m_pReply, SIGNAL(finished()),
                     this, SLOT(slotFinished()));
     
@@ -358,7 +358,7 @@ void CDlgAbout::slotError(QNetworkReply::NetworkError e)
     }
 }
 
-void CDlgAbout::slotSslError(const QList<QSslError> e)
+void CDlgAbout::slotSslError(const QList<QSslError> &e)
 {
     qDebug() << "CFrmUpdater::slotSslError: " << e;
     

@@ -187,7 +187,7 @@ if(BUILD_UPDATE)
         set(Qt${QT_VERSION_MAJOR}StateMachine_FOUND ON)
     endif()
     if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
-        LIST(APPEND _QT_COMPONENTS Network Xml)
+        LIST(APPEND _QT_COMPONENTS Xml)
         list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
         list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
         list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
@@ -371,7 +371,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
 
 #需要的QT组件
 if(BUILD_ABOUT OR BUILD_UPDATE OR BUILD_QUIWidget)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets Network)
 endif()
 if(ANDROID)
     LIST(APPEND _QT_COMPONENTS AndroidExtras)

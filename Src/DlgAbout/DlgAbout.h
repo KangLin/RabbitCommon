@@ -101,7 +101,7 @@ protected Q_SLOTS:
     void slotSaveDonation();
     
     void slotError(QNetworkReply::NetworkError e);
-    void slotSslError(const QList<QSslError> e);
+    void slotSslError(const QList<QSslError>& e);
     void slotFinished();
     
 private:
