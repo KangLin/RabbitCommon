@@ -45,7 +45,7 @@ class RABBITCOMMON_EXPORT QUIWidget : public QDialog
 
 {
     Q_OBJECT
-    Q_ENUMS(Style)
+
     Q_PROPERTY(QString title READ getTitle WRITE setTitle)
     Q_PROPERTY(Qt::Alignment alignment READ getAlignment WRITE setAlignment)
 
@@ -75,6 +75,7 @@ public:
         Style_FlatBlack = 11,       //黑色扁平样式
         Style_FlatWhite = 12        //白色扁平样式
     };
+    Q_ENUM(Style)
 
     explicit QUIWidget(QWidget *parent = 0, bool bQuitOnClose = false);
     virtual ~QUIWidget();
@@ -115,7 +116,7 @@ public:
                                 QString defaultValue = QString(), bool pwd = false);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *evt);
+    bool eventFilter(QObject *obj, QEvent *evt) override;
 
 private:
     QVBoxLayout *verticalLayout1;
@@ -154,8 +155,8 @@ public:
     QString getTitle()              const;
     Qt::Alignment getAlignment()    const;
 
-    QSize sizeHint()                const;
-    QSize minimumSizeHint()         const;
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
 
 private slots:
     void initControl();             //初始化控件
@@ -191,7 +192,7 @@ public Q_SLOTS:
     void setMainWidget(QWidget *mainWidget, bool bUsed = true);
 
 Q_SIGNALS:
-    void changeStyle(const QString &qssFile);
+    void sigChangeStyle(const QString &qssFile);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
@@ -199,7 +200,7 @@ protected:
 };
 
 
-class QUIMessageBox : public QDialog
+class RABBITCOMMON_EXPORT QUIMessageBox : public QDialog
 {
     Q_OBJECT
 
@@ -269,7 +270,7 @@ public:
 };
 
 
-class QUIInputBox : public QDialog
+class RABBITCOMMON_EXPORT QUIInputBox : public QDialog
 {
     Q_OBJECT
 
@@ -343,8 +344,9 @@ public:
 };
 
 
-class IconHelper : public QObject
+class RABBITCOMMON_EXPORT IconHelper : public QObject
 {
+    Q_OBJECT
 public:
     explicit IconHelper(QObject *parent = 0);
     static IconHelper *Instance()

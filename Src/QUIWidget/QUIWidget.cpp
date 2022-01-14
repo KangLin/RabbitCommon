@@ -14,10 +14,14 @@
 #include <QFile>
 #include <QEvent>
 #include <QTranslator>
-#include <QTextCodec>
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+    #include <QScreen>
+#else
+    #include <QTextCodec>
+    #include <QDesktopWidget>
+#endif
 #include <QFontDatabase>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QTimer>
 #include <QDebug>
 #include <QMouseEvent>
@@ -97,9 +101,16 @@ void QUIWidget::setFormInCenter(QWidget *frm)
     Q_ASSERT(frm != nullptr);
     int frmX = frm->width();
     int frmY = frm->height();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QDesktopWidget w;
     int deskWidth = w.availableGeometry().width();
     int deskHeight = w.availableGeometry().height();
+#else
+    QScreen* pScreen = qApp->primaryScreen();
+    if(!pScreen) return;
+    int deskWidth = pScreen->availableGeometry().width();
+    int deskHeight = pScreen->availableGeometry().height();
+#endif
     QPoint movePoint(deskWidth / 2 - frmX / 2, deskHeight / 2 - frmY / 2);
     frm->move(movePoint);
 }
@@ -177,15 +188,15 @@ void QUIWidget::setTranslator(const QString &qmFile)
 void QUIWidget::setCode()
 {
 #if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
-#if _MSC_VER
-    QTextCodec *codec = QTextCodec::codecForName("gbk");
-#else
-    QTextCodec *codec = QTextCodec::codecForName("utf-8");
-#endif
-    QTextCodec::setCodecForLocale(codec);
-    QTextCodec::setCodecForCStrings(codec);
-    QTextCodec::setCodecForTr(codec);
-#else
+    #if _MSC_VER
+        QTextCodec *codec = QTextCodec::codecForName("gbk");
+    #else
+        QTextCodec *codec = QTextCodec::codecForName("utf-8");
+    #endif
+        QTextCodec::setCodecForLocale(codec);
+        QTextCodec::setCodecForCStrings(codec);
+        QTextCodec::setCodecForTr(codec);
+#elif (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 #endif
@@ -444,11 +455,11 @@ void QUIWidget::initControl()
 void QUIWidget::initForm()
 {
     //设置图形字体
-    setIcon(QUIWidget::Lab_Ico, 0xf072, 11);
-    setIcon(QUIWidget::BtnMenu, 0xf0d7);
-    setIcon(QUIWidget::BtnMenu_Min, 0xf068);
-    setIcon(QUIWidget::BtnMenu_Max, 0xf096); // 0xf067);
-    setIcon(QUIWidget::BtnMenu_Close, 0xf00d);
+    setIcon(QUIWidget::Lab_Ico, QChar(0xf072), 11);
+    setIcon(QUIWidget::BtnMenu, QChar(0xf0d7));
+    setIcon(QUIWidget::BtnMenu_Min, QChar(0xf068));
+    setIcon(QUIWidget::BtnMenu_Max, QChar(0xf096)); // 0xf067);
+    setIcon(QUIWidget::BtnMenu_Close, QChar(0xf00d));
 
     //设置标题及对齐方式
     setTitle("QUI Demo");
@@ -529,7 +540,7 @@ void QUIWidget::changeStyle()
         setStyle(QUIWidget::Style_FlatWhite);
     }
 
-    emit changeStyle(qssFile);
+    emit sigChangeStyle(qssFile);
 }
 
 void QUIWidget::setIcon(QUIWidget::Widget widget, QChar str, quint32 size)
@@ -652,12 +663,16 @@ void QUIWidget::on_btnMenu_Min_clicked()
 void QUIWidget::on_btnMenu_Max_clicked()
 {
     if (max) {
-        setIcon(QUIWidget::BtnMenu_Max, 0xf096); // 0xf067);
+        setIcon(QUIWidget::BtnMenu_Max, QChar(0xf096)); // 0xf067);
         this->setGeometry(location);
     } else {
-        setIcon(BtnMenu_Max, 0xf24d);
+        setIcon(BtnMenu_Max, QChar(0xf24d));
         location = this->geometry();
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+        this->setGeometry(qApp->primaryScreen()->availableGeometry());
+#else
         this->setGeometry(qApp->desktop()->availableGeometry());
+#endif
     }
 
     max = !max;
