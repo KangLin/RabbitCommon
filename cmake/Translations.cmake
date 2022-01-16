@@ -249,8 +249,8 @@ function(GENERATED_QT_TRANSLATIONS)
     MESSAGE("Refresh translations on compile: ${OPTION_TRANSLATIONS}\n")
     IF(OPTION_TRANSLATIONS)
         FIND_PACKAGE(Qt${QT_VERSION_MAJOR} COMPONENTS LinguistTools REQUIRED) #语言工具
-        IF(NOT Qt${QT_VERSION_MAJOR}_LRELEASE_EXECUTABLE)
-            MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
+        IF(NOT Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
+            MESSAGE(WARNING "Could not find LinguistTools. Your build won't contain translations.")
         ELSE()
             
             LIST(APPEND SOURCE_FILES ${SOURCE_UI_FILES})
@@ -258,7 +258,7 @@ function(GENERATED_QT_TRANSLATIONS)
                 SET(SOURCE_FILES ${PARA_SOURCES})
             endif()
 
-            OPTION(ENABLE_UPDATE_TRANSLATIONS "Use qt5_create_translation. Note: If set to ON, then make clean or rebuild will delete all .ts files" OFF)
+            OPTION(ENABLE_UPDATE_TRANSLATIONS "Use Qt${QT_VERSION_MAJOR}_create_translation. Note: If set to ON, then make clean or rebuild will delete all .ts files" OFF)
             if(ENABLE_UPDATE_TRANSLATIONS)
                 if(TARGET translations_update_${PARA_TARGET})
                     message(WARNING "translations_update_${PARA_TARGET} is existed")
@@ -266,7 +266,7 @@ function(GENERATED_QT_TRANSLATIONS)
                 endif()
                 
                 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
-                    qt_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
+                    qt6_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
                 else()
                     #注：根据 https://bugreports.qt.io/browse/QTBUG-41736 ，qt5_create_translation这个宏会在make clean或rebuild时把全部ts文件都删掉后再重新生成，这意味着已经翻译好的文本会全部丢失，已有的解决方法也已经失效，而Qt官方也没有针对这个问题进行修复，因此不建议再使用这个宏了，还是手动生成ts文件再搭配qt5_add_translation比较保险。
                     qt5_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
@@ -282,7 +282,7 @@ function(GENERATED_QT_TRANSLATIONS)
             endif()
             
             if(QT_VERSION_MAJOR GREATER_EQUAL 6)
-                qt_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
+                qt6_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             else()
                 qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             endif()
