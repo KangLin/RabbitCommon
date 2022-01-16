@@ -11,6 +11,8 @@
 + Add cmark-gfm in order to support Github MarkDown
 + CMake: add INSTALL_APK target for android
 + Add encrypt
++ Add support Qt6
++ Add generate update file application
 
 ### Version: v1.0.4
 + CMake: Add plugin target marco
