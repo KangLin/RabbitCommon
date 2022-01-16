@@ -173,6 +173,8 @@ if(cmark_FOUND OR cmark-gfm_FOUND)
     if(Qt${QT_VERSION_MAJOR}WebEngineWidgets_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebEngineWidgets)
         LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
+    else()
+        message("Don't find Qt${QT_VERSION_MAJOR}WebEngineWidgets")
     endif()
 endif()
 
