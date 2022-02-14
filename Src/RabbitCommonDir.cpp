@@ -4,7 +4,7 @@
 #include "RabbitCommonDir.h"
 #include <QStandardPaths>
 #include <QDir>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDebug>
 
 namespace RabbitCommon {
@@ -15,7 +15,7 @@ CDir::CDir()
     m_szDocumentPath =  QStandardPaths::writableLocation(
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
-             + QDir::separator() + QApplication::applicationName();
+             + QDir::separator() + QCoreApplication::applicationName();
     qDebug() << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
@@ -247,12 +247,14 @@ QString CDir::GetDirPluginsTranslation(QString szDir)
 
 QString CDir::GetFileApplicationConfigure(bool bReadOnly)
 {
-    return GetDirConfig(bReadOnly) + QDir::separator() + QApplication::applicationName() + ".conf";
+    return GetDirConfig(bReadOnly) + QDir::separator()
+            + QCoreApplication::applicationName() + ".conf";
 }
 
 QString CDir::GetFileUserConfigure()
 {
-    QString szName = GetDirUserDocument() + QDir::separator() + QApplication::applicationName() + ".conf";
+    QString szName = GetDirUserDocument() + QDir::separator()
+            + QCoreApplication::applicationName() + ".conf";
     return szName;
 }
 
@@ -295,6 +297,7 @@ int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCove
     return true;
 }
 
+#ifdef HAVE_GUI
 QString CDir::GetOpenDirectory(QWidget *parent,
                                const QString &caption,
                                const QString &dir,
@@ -382,5 +385,6 @@ QString CDir::GetSaveFileName(QWidget *parent,
 #endif
     return szFile;
 }
+#endif //HAVE_GUI
 
 } //namespace RabbitCommon

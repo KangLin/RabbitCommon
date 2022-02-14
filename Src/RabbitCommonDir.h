@@ -9,7 +9,9 @@
 #pragma once
 
 #include <QString>
+#if HAVE_GUI
 #include <QFileDialog>
+#endif
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
@@ -101,6 +103,7 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
+#ifdef HAVE_GUI
     static QString GetOpenDirectory(QWidget *parent = nullptr,
                       const QString &caption = QString(),
                       const QString &dir = QString(),
@@ -115,6 +118,8 @@ public:
                       const QString &dir = QString(),
                       const QString &filter = QString(),
                       QFileDialog::Options options = QFileDialog::Options());
+#endif //HAVE_GUI
+
 private:
     QString m_szDocumentPath;
     QString m_szApplicationDir;

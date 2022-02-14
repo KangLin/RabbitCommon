@@ -38,18 +38,29 @@ CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 else: DEFINES *= RabbitCommon_EXPORTS
 
+!equals(WITH_GUI, "OFF") {
+    DEFINES *= HAVE_GUI
+    SOURCES += $$PWD/RabbitCommonStyle.cpp \
+        $$PWD/RabbitRecentMenu.cpp
+    INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
+        $$PWD/RabbitRecentMenu.h
+}
+
 !equals(BUILD_UPDATE, "OFF"){
+    DEFINES *= HAVE_UPDATE
     SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
     INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
     FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
     BUILD_ADMINAUTHORISER = ON
 }
 !equals(BUILD_ABOUT, "OFF"){
+    DEFINES *= HAVE_ABOUT
     SOURCES += $$PWD/DlgAbout/DlgAbout.cpp
     INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
 }
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
+    DEFINES *= HAVE_ADMINAUTHORISER
     SOURCES += $$PWD/AdminAuthoriser/adminauthoriser.cpp
     HEADERS += $$PWD/AdminAuthoriser/adminauthoriser.h \
                $$PWD/AdminAuthoriser/adminauthorization_p.h
@@ -108,8 +119,6 @@ SOURCES += \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
-    $$PWD/RabbitCommonStyle.cpp \
-    $$PWD/RabbitRecentMenu.cpp \
     $$PWD/RabbitCommonEncrypt.cpp
 
 INSTALL_HEADERS += \
@@ -119,8 +128,6 @@ INSTALL_HEADERS += \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
-    $$PWD/RabbitCommonStyle.h \
-    $$PWD/RabbitRecentMenu.h \
     $$PWD/RabbitCommonEncrypt.h
 
 HEADERS += $$INSTALL_HEADERS \

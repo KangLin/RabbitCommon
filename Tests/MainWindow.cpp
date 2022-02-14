@@ -21,6 +21,7 @@
 #include "RabbitCommonStyle.h"
 
 #include <QDir>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -90,5 +91,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_actionStype_triggered()
 {
+#ifdef HAVE_GUI
     RabbitCommon::CStyle::Instance()->slotStyle();
+#endif
 }

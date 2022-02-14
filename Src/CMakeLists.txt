@@ -12,11 +12,6 @@ if(RABBITCOMMON_BUILD_TYPE STREQUAL "debug")
     list(APPEND RabbitCommon_DEFINITIONS DEBUG _DEBUG)
 endif()
 
-if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-endif()
-set(_QT_COMPONENTS Core)
-
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
 # ----------------------------------------------------------------------------
@@ -56,7 +51,27 @@ set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
 set(RABBITCOMMON_HEAD_FILES )
 
-option(BUILD_ABOUT "Set to ON to build about function" ON)
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+endif()
+set(_QT_COMPONENTS Core)
+option(WITH_GUI "Set ON to with gui" ON)
+if(WITH_GUI)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets)
+    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_GUI)
+    
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
+        RabbitRecentMenu.h
+        RabbitCommonStyle.h
+        )
+    list(APPEND RABBITCOMMON_SOURCE_FILES
+        RabbitRecentMenu.cpp
+        RabbitCommonStyle.cpp
+        )
+endif()
+
+cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
+    WITH_GUI OFF)
 if(BUILD_ABOUT)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
@@ -178,8 +193,10 @@ if(cmark_FOUND OR cmark-gfm_FOUND)
     endif()
 endif()
 
-option(BUILD_UPDATE "Set to ON to build update function" ON)
+cmake_dependent_option(BUILD_UPDATE "Set to ON to build update function" ON
+    WITH_GUI OFF)
 if(BUILD_UPDATE)
+    LIST(APPEND _QT_COMPONENTS Network)
     if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
         find_package(Qt${QT_VERSION_MAJOR}StateMachine)
         if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
@@ -197,7 +214,8 @@ if(BUILD_UPDATE)
     endif()
 endif()
 
-option(BUILD_QUIWidget "Set to ON to build QUIWidget" OFF)
+cmake_dependent_option(BUILD_QUIWidget "Set to ON to build QUIWidget" OFF
+    WITH_GUI OFF)
 if(BUILD_QUIWidget)
     list(APPEND RabbitCommon_DEFINITIONS BUILD_QUIWidget)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
@@ -315,9 +333,7 @@ endif()
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
-    RabbitCommonStyle.h
     RabbitCommonLog.h
-    RabbitRecentMenu.h
     RabbitCommonEncrypt.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
@@ -329,8 +345,6 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
-    RabbitCommonStyle.cpp
-    RabbitRecentMenu.cpp
     RabbitCommonEncrypt.cpp
     )
 list(APPEND RABBITCOMMON_SOURCE_UI_FILES
@@ -372,9 +386,6 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 #需要的QT组件
-if(BUILD_ABOUT OR BUILD_UPDATE OR BUILD_QUIWidget)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Network)
-endif()
 if(ANDROID)
     LIST(APPEND _QT_COMPONENTS AndroidExtras)
 endif()

@@ -13,6 +13,7 @@
 + Add encrypt
 + Add support Qt6
 + Add generate update file application
++ Add compile WITH_GUI
 
 ### Version: v1.0.4
 + CMake: Add plugin target marco

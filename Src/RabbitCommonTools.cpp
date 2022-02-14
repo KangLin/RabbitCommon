@@ -10,7 +10,11 @@
 #include "RabbitCommonLog.h"
 
 #include <QSettings>
+#ifdef HAVE_GUI
 #include <QApplication>
+#else
+#include <QCoreApplication>
+#endif
 #include <QLocale>
 #include <QDir>
 #include <QDebug>
@@ -143,7 +147,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     Q_UNUSED(szName)
     Q_UNUSED(szPath)
     Q_UNUSED(bAllUser)
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
     if(!szName.isEmpty())
         appName = szName;
 #if defined (Q_OS_WIN)
@@ -193,7 +197,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
 int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
 {
     Q_UNUSED(szName);
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
     if(!szName.isEmpty())
         appName = szName;
 #if defined (Q_OS_WIN)
@@ -231,7 +235,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
 bool CTools::IsStartRun(const QString &szName, bool bAllUser)
 {
     Q_UNUSED(szName);
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
     if(!szName.isEmpty())
         appName = szName;
 
@@ -283,8 +287,13 @@ int CTools::GenerateDesktopFile(const QString &szPath,
     szContent = "[Desktop Entry]\n";
     szContent += "Name=" + qApp->applicationName() + "\n";
     szContent += "Comment=" + qApp->applicationName() + "\n";
+#ifdef HAVE_GUI
     szContent += "Name[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
     szContent += "Comment[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
+#else
+    szContent += "Name[" + QLocale::system().name() + "]=" + qApp->applicationName() + "\n";
+    szContent += "Comment[" + QLocale::system().name() + "]=" + qApp->applicationName() + "\n";
+#endif
     szContent += "Icon=" + qApp->applicationName() + "\n";
     szContent += "Exec=" + qApp->applicationFilePath() + "\n";
     szContent += "Categories=Application;Development;\n";

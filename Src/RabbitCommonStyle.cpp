@@ -8,6 +8,9 @@
 #include <QDebug>
 #include <QApplication>
 #include <QRegularExpression>
+#include <QDir>
+#include <QColor>
+#include <QPalette>
 
 namespace RabbitCommon {
 

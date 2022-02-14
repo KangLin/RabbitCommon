@@ -40,8 +40,9 @@ int main(int argc, char *argv[])
     RabbitCommon::CTools::Instance()->Init();
     
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-    
+#ifdef HAVE_GUI
     RabbitCommon::CStyle::Instance()->LoadStyle();
+#endif
     
     QCommandLineParser parser;
     parser.addHelpOption();
@@ -52,9 +53,10 @@ int main(int argc, char *argv[])
                              "no example");
     parser.addOption(noexample);
 
+#ifdef HAVE_UPDATE
     CFrmUpdater updater;
     updater.GenerateUpdateXml(parser);
-    
+#endif
     parser.parse(QApplication::arguments());
     
     MainWindow *m = new MainWindow();

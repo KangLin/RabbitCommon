@@ -4,7 +4,7 @@
 #include "RabbitCommonRegister.h"
 
 #include <QSettings>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QDebug>
 
@@ -152,9 +152,9 @@ int CRegister::InstallStartRun(const QString &szReg, const QString &szName, cons
     Q_UNUSED(szName);
     Q_UNUSED(szPath);
     
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
 #if defined (Q_OS_WIN)
-    QString appPath = QApplication::applicationFilePath();
+    QString appPath = QCoreApplication::applicationFilePath();
     if(!szName.isEmpty())
         appName = szName;
     if(!szPath.isEmpty())
@@ -181,7 +181,7 @@ int CRegister::RemoveStartRun(const QString &szReg, const QString &szName)
 {
     Q_UNUSED(szReg);
     Q_UNUSED(szName);
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
 #if defined (Q_OS_WIN)
     if(!szName.isEmpty())
         appName = szName;
@@ -201,7 +201,7 @@ bool CRegister::IsStartRun(const QString &szReg, const QString &szName)
 {
     Q_UNUSED(szReg);
     Q_UNUSED(szName);
-    QString appName = QApplication::applicationName();
+    QString appName = QCoreApplication::applicationName();
 #if defined (Q_OS_WIN)
     if(!szName.isEmpty())
         appName = szName;
