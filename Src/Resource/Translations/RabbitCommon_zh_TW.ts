@@ -1,350 +1,454 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.1" language="zh_TW">
 <context>
     <name>CDlgAbout</name>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
         <source>About</source>
-        <translation type="vanished">关于</translation>
+        <translation>關於</translation>
     </message>
     <message>
-        <source>Informatioin</source>
-        <translation type="vanished">信息</translation>
-    </message>
-    <message>
-        <source>Home page: https://github.com/KangLin/Tasks.git</source>
-        <translation type="vanished">主页： https://github.com/KangLin/Tasks.git</translation>
-    </message>
-    <message>
-        <source>Version: 1.0.0.0</source>
-        <translation type="vanished">版本： 1.0.0.0</translation>
-    </message>
-    <message>
-        <source>RabbitCommon</source>
-        <translation type="vanished">玉兔公共库</translation>
-    </message>
-    <message>
-        <source>Build Date:</source>
-        <translation type="vanished">编译日期：</translation>
-    </message>
-    <message>
-        <source>Donation</source>
-        <translation type="vanished">捐赠</translation>
-    </message>
-    <message>
-        <source>Qt version:</source>
-        <translation type="vanished">Qt 版本号:</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="vanished">许可协议</translation>
-    </message>
-    <message>
-        <source>Change log</source>
-        <translation type="vanished">修改日志</translation>
-    </message>
-    <message>
-        <source>Thanks</source>
-        <translation type="vanished">感谢</translation>
-    </message>
-    <message>
-        <source> Copyright (C) 2018 KangLin Studio</source>
-        <translation type="vanished">版权(C) 2018 康林工作室</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
-    </message>
-    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="30"/>
         <source>Author:KangLin</source>
-        <translation type="vanished">作者： 康林</translation>
+        <translation>作者： 康林</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="62"/>
+        <source>Informatioin</source>
+        <translation>信息</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="75"/>
+        <source>Donation</source>
+        <translation>捐贈</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="150"/>
+        <source>Home page: https://github.com/KangLin/Tasks.git</source>
+        <translation>主頁： https://github.com/KangLin/Tasks.git</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="198"/>
+        <source>Build Date:</source>
+        <translation>編譯日期：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="217"/>
+        <source>Version: 1.0.0.0</source>
+        <translation>版本： 1.0.0.0</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="246"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="127"/>
+        <source>Qt version:</source>
+        <translation>Qt 版本:</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="345"/>
+        <source>RabbitCommon</source>
+        <translation>玉兔公共庫</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="403"/>
+        <source> Copyright (C) 2018 KangLin Studio</source>
+        <translation>版權(C) 2018 康林工作室</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="410"/>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="73"/>
         <source>KangLin</source>
-        <translation type="vanished">康林</translation>
+        <translation>康林</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="76"/>
         <source>Kang Lin Studio</source>
-        <translation type="vanished">康林工作室</translation>
+        <translation>康林工作室</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="78"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
+        <source>%1 - %2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
+        <source>License</source>
+        <translation>許可協議</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="90"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="99"/>
+        <source>Change log</source>
+        <translation>修改日誌</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="102"/>
+        <source>Thanks</source>
+        <translation>感謝</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
         <source> Version: </source>
-        <translation type="vanished">版本：</translation>
+        <translation> 版本： </translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
         <source> Arch:</source>
-        <translation type="vanished"> 架构：</translation>
+        <translation>架構：</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
         <source>Build date:%1 %2</source>
-        <translation type="vanished">编译日期：%1 %2</translation>
+        <translation>編譯日期：%1 %2</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
         <source>Author: </source>
-        <translation type="vanished">作者：</translation>
+        <translation>作者：</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="130"/>
         <source> Email: </source>
-        <translation type="vanished"> 邮箱：</translation>
+        <translation> 郵箱：</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
         <source>Home page:</source>
-        <translation type="vanished">主页：</translation>
+        <translation>主頁：</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="140"/>
         <source>Copyright (C)</source>
-        <translation type="vanished">版权所有 (C)</translation>
+        <translation>版權所有 (C)</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="244"/>
         <source>Save</source>
-        <translation type="vanished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="254"/>
         <source>Save donation picture</source>
-        <translation type="vanished">保存捐赠图片</translation>
+        <translation>保存捐贈圖片</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
         <source>Images (*.png *.xpm *.jpg)</source>
-        <translation type="vanished">图片(*.png *.xpm *.jpg)</translation>
+        <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
 </context>
 <context>
     <name>CFrmUpdater</name>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="14"/>
         <source>Updater</source>
-        <translation type="vanished">更新</translation>
+        <translation>更新</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="73"/>
         <source>Title</source>
-        <translation type="vanished">标题</translation>
+        <translation>標題</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="118"/>
         <source>New version:</source>
-        <translation type="vanished">新版本：</translation>
+        <translation>新版本：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="134"/>
         <source>New architecture:</source>
-        <translation type="vanished">新架构</translation>
+        <translation>新架構：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="154"/>
         <source>Current version：</source>
-        <translation type="vanished">当前版本</translation>
+        <translation>當前版本：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="170"/>
         <source>Current architecture：</source>
-        <translation type="vanished">当前架构</translation>
+        <translation>當前架構：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="197"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="666"/>
         <source>There is laster version</source>
-        <translation type="vanished">这是最新版本</translation>
+        <translation>這是最新版本</translation>
     </message>
     <message>
-        <source>Do not prompt again</source>
-        <translation type="vanished">不再提示</translation>
-    </message>
-    <message>
-        <source>Show home page</source>
-        <translation type="vanished">显示主页</translation>
-    </message>
-    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="230"/>
         <source>Settings</source>
-        <translation type="vanished">设置</translation>
+        <translation>設置</translation>
     </message>
     <message>
-        <source>Every time</source>
-        <translation type="vanished">每次</translation>
-    </message>
-    <message>
-        <source>Every date</source>
-        <translation type="vanished">每天</translation>
-    </message>
-    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="244"/>
         <source>Every week</source>
-        <translation type="vanished">每周</translation>
+        <translation>每周</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="257"/>
         <source>Every Month</source>
-        <translation type="vanished">每月</translation>
+        <translation>每月</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="274"/>
+        <source>Every time</source>
+        <translation>每次</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="290"/>
+        <source>Every date</source>
+        <translation>每天</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="302"/>
+        <source>Do not prompt again</source>
+        <translation>不再提示</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="312"/>
+        <source>Show home page</source>
+        <translation>顯示主頁</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="356"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="201"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="729"/>
         <source>OK(&amp;O)</source>
-        <translation type="vanished">确定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.ui" line="369"/>
         <source>Close(&amp;C)</source>
-        <translation type="vanished">关闭(&amp;C)</translation>
+        <translation>關閉(&amp;C)</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="192"/>
         <source>Being download xml file</source>
-        <translation type="vanished">正在下载XML文件</translation>
+        <translation>正在下載 XML 文件</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="207"/>
         <source>Being download update file</source>
-        <translation type="vanished">正在下载更新文件</translation>
+        <translation>正在下載更新文件</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="211"/>
         <source>Being install update</source>
-        <translation type="vanished">正在安装更新</translation>
+        <translation>正在安裝更新</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="240"/>
         <source>Current archecture: %1</source>
-        <translation type="vanished">当前架构: %1</translation>
+        <translation>當前架構: %1</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="248"/>
         <source>Current version: %1</source>
-        <translation type="vanished">当前版本: %1</translation>
+        <translation>當前版本: %1</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="379"/>
         <source>: downloading %1%</source>
-        <translation type="vanished">: 正在下载 %1%</translation>
+        <translation>: 正在下載 %1%</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="388"/>
         <source>Download network error: </source>
-        <translation type="vanished">下载网络错误：</translation>
+        <translation>下載網絡錯誤：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="405"/>
         <source>Download fail:</source>
-        <translation type="vanished">下载失败：</translation>
+        <translation>下載失敗：</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="498"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="611"/>
         <source>Parse file %1 fail. It isn&apos;t xml file</source>
-        <translation type="vanished">解析文件 %1 失败， 它不是 XML 文件</translation>
+        <translation>解析文件 %1 失敗， 它不是 XML 文件</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="622"/>
         <source>Parse file %1 fail. It isn&apos;t update xml file</source>
-        <translation type="vanished">解析文件 %1 失败， 它不是更新 XML 文件</translation>
+        <translation>解析文件 %1 失敗， 它不是更新 XML 文件</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="671"/>
         <source>New version: %1</source>
-        <translation type="vanished">新版本: %1</translation>
+        <translation>新版本: %1</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="673"/>
         <source>New architecture: %1</source>
-        <translation type="vanished">新架构: %1</translation>
+        <translation>新架構: %1</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="679"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="693"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="706"/>
         <source>System is different</source>
-        <translation type="vanished">系统不同</translation>
+        <translation >系統不同</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="686"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="699"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="713"/>
         <source>Architecture is different</source>
-        <translation type="vanished">架构不同</translation>
+        <translation >架構不同</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="719"/>
         <source>There is a new version, is it updated?</source>
-        <translation type="vanished">有新的版本，是否更新？</translation>
+        <translation>有新的版本，是否更新？</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="742"/>
         <source>Hide</source>
-        <translation type="vanished">隐藏</translation>
+        <translation>隱藏</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="743"/>
         <source>Download ......</source>
-        <translation type="vanished">下载 ……</translation>
+        <translation>下載 ……</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="754"/>
         <source>Being install update ......</source>
-        <translation type="vanished">正在安装更新 ……</translation>
+        <translation>正在安裝更新 ……</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="763"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="769"/>
         <source>Download file fail</source>
-        <translation type="vanished">下载文件失败</translation>
+        <translation>下載文件失敗</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="775"/>
         <source>Md5sum is different. </source>
-        <translation type="vanished">Md5校验和不同。</translation>
+        <translation>Md5 校驗和不同。</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="776"/>
         <source>Download file md5sum: </source>
-        <translation type="vanished">下载文件的MD5校验和:</translation>
+        <translation>下載文件的 MD5 校驗和:</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="778"/>
         <source>md5sum in Update.xml:</source>
-        <translation type="vanished">XML文件中的MD5校验和:</translation>
+        <translation>Update.xml 文件中的 MD5 校驗和:</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="816"/>
         <source>Execute install program error.%1</source>
-        <translation type="vanished">执行安装错误：%1</translation>
+        <translation>執行安裝錯誤：%1</translation>
     </message>
     <message>
-        <source>Open home page fail</source>
-        <translation type="vanished">打开主页失败</translation>
-    </message>
-    <message>
-        <source>Run</source>
-        <translation type="vanished">运行</translation>
-    </message>
-    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="827"/>
         <source>Open file %1 fail</source>
-        <translation type="vanished">打开文件 %1 失败</translation>
+        <translation>打開文件 %1 失敗</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="841"/>
         <source>Execute</source>
-        <translation type="vanished">执行</translation>
+        <translation>執行</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="868"/>
         <source>The installer has started, Please close the application</source>
-        <translation type="vanished">开始安装，请先关闭本程序</translation>
+        <translation>開始安裝，請先關閉本程序</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="884"/>
+        <source>Open home page fail</source>
+        <translation>打開主頁失敗</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="923"/>
+        <source>Run</source>
+        <translation>運行</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="924"/>
         <source>Run after install</source>
-        <translation type="vanished">安装后运行</translation>
+        <translation>安裝後運行</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1030"/>
         <source>Close</source>
-        <translation type="vanished">关闭</translation>
+        <translation>關閉</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1031"/>
         <source>Is updating, be sure to close?</source>
-        <translation type="vanished">正在更新，是否关闭？</translation>
+        <translation>正在更新，是否關閉？</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1197"/>
         <source>xml file name</source>
-        <translation type="vanished">xml 文件名</translation>
+        <translation>xml 文件名</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1201"/>
         <source>Package version</source>
-        <translation type="vanished">包版本</translation>
+        <translation>包版本</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1206"/>
         <source>Time</source>
-        <translation type="vanished">时间</translation>
+        <translation>時間</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1211"/>
         <source>Information</source>
-        <translation type="vanished">信息</translation>
+        <translation>信息</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1217"/>
         <source>Operating system</source>
-        <translation type="vanished">操作系统</translation>
+        <translation>操作系統</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1222"/>
         <source>Platform</source>
-        <translation type="vanished">平台</translation>
+        <translation>平臺</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1227"/>
         <source>Architecture</source>
-        <translation type="vanished">架构</translation>
+        <translation>架構</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1232"/>
         <source>MD5 checksum</source>
-        <translation type="vanished">MD5校验和</translation>
+        <translation>MD5 校驗和</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1236"/>
         <source>Package file, Is used to calculate md5sum</source>
-        <translation type="vanished">包文件，用于计算 md5 校验和</translation>
+        <translation>包文件，用於計算 md5 校驗和</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1240"/>
         <source>Package download url</source>
-        <translation type="vanished">包下载URL</translation>
+        <translation>包下載 URL</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1246"/>
         <source>Project home url</source>
-        <translation type="vanished">项目主页</translation>
+        <translation>項目主頁</translation>
     </message>
     <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1251"/>
         <source>Min update version</source>
-        <translation type="vanished">最小更新版本</translation>
+        <translation>最小更新版本</translation>
     </message>
 </context>
 <context>
@@ -353,7 +457,7 @@
         <location filename="../../RabbitCommonDir.cpp" line="310"/>
         <location filename="../../RabbitCommonDir.cpp" line="339"/>
         <source>Open</source>
-        <translation>打开</translation>
+        <translation>打開</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonDir.cpp" line="369"/>
@@ -362,126 +466,31 @@
     </message>
 </context>
 <context>
-    <name>QUIInputBox</name>
-    <message>
-        <source>Input box</source>
-        <translation type="vanished">输入框</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-    <message>
-        <source>Turn off countdown %1 s</source>
-        <translation type="vanished">关闭倒计时： %1 秒</translation>
-    </message>
-</context>
-<context>
-    <name>QUIMessageBox</name>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
-    </message>
-    <message>
-        <source>Turn off countdown %1 s</source>
-        <translation type="vanished">关闭倒计时： %1 秒</translation>
-    </message>
-    <message>
-        <source>Prompt</source>
-        <translation type="vanished">提示</translation>
-    </message>
-    <message>
-        <source>Query</source>
-        <translation type="vanished">询问</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="vanished">错误</translation>
-    </message>
-</context>
-<context>
-    <name>QUIWidget</name>
-    <message>
-        <source>Silvery</source>
-        <translation type="vanished">银色</translation>
-    </message>
-    <message>
-        <source>Blue</source>
-        <translation type="vanished">蓝色</translation>
-    </message>
-    <message>
-        <source>Light blue</source>
-        <translation type="vanished">浅蓝色</translation>
-    </message>
-    <message>
-        <source>Dark blue</source>
-        <translation type="vanished">深蓝色</translation>
-    </message>
-    <message>
-        <source>Gray</source>
-        <translation type="vanished">灰色</translation>
-    </message>
-    <message>
-        <source>Light gray</source>
-        <translation type="vanished">浅灰色</translation>
-    </message>
-    <message>
-        <source>Dark gray</source>
-        <translation type="vanished">深灰色</translation>
-    </message>
-    <message>
-        <source>Black</source>
-        <translation type="vanished">黑色</translation>
-    </message>
-    <message>
-        <source>Light black</source>
-        <translation type="vanished">浅黑色</translation>
-    </message>
-    <message>
-        <source>PS black</source>
-        <translation type="vanished">PS 黑色</translation>
-    </message>
-    <message>
-        <source>Flat black</source>
-        <translation type="vanished">黑色扁平</translation>
-    </message>
-    <message>
-        <source>Flat white</source>
-        <translation type="vanished">白色扁平</translation>
-    </message>
-    <message>
-        <source>Dark black</source>
-        <translation type="vanished">深黑色</translation>
-    </message>
-</context>
-<context>
     <name>RabbitCommon::CRecentMenu</name>
     <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="161"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="162"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="163"/>
         <source>Recent open:</source>
-        <translation type="vanished">最近打开：</translation>
+        <translation>最近打開：</translation>
     </message>
     <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="166"/>
         <source>Clear Menu</source>
-        <translation type="vanished">清除菜单</translation>
+        <translation>清除菜單</translation>
     </message>
 </context>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="120"/>
         <source>Open sink</source>
-        <translation type="vanished">打开样式</translation>
+        <translation>打開樣式</translation>
     </message>
     <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="122"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
-        <translation type="vanished">样式文件(*.qss *.css);; All files(*.*)</translation>
+        <translation>樣式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 </TS>
