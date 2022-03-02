@@ -79,6 +79,9 @@ if(BUILD_ABOUT)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
 endif(BUILD_ABOUT)
 
+set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
+set(CMARK_STATIC ON CACHE BOOL "Set cmark static library")
+set(CMARK_TESTS OFF CACHE BOOL "Set cmark tests")
 cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
     BUILD_ABOUT OFF)
 if(WITH_CMARK_GFM)
