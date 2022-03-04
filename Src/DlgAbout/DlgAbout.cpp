@@ -123,7 +123,7 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lbCopyrightIcon->setPixmap(QPixmap::fromImage(m_CopyrightIcon));
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
     ui->lblName->setText(m_szAppName);
-    ui->lbVersion->setText(tr(" Version: ") + m_szVersion + tr(" Arch:") + m_szArch);
+    ui->lbVersion->setText(tr("Version: %1 Arch: %2").arg(m_szVersion, m_szArch));
     ui->lbQtVersion->setText(tr("Qt version:") + QT_VERSION_STR);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
     ui->lbAuthor->setText(tr("Author: ") + m_szAuthor

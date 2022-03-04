@@ -95,13 +95,8 @@
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
-        <source> Version: </source>
-        <translation> 版本： </translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
-        <source> Arch:</source>
-        <translation>架構：</translation>
+        <source>Version: %1 Arch: %2</source>
+        <translation>版本：%1 架構：%2</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
@@ -295,14 +290,14 @@
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="693"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="706"/>
         <source>System is different</source>
-        <translation >系統不同</translation>
+        <translation>系統不同</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="686"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="699"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="713"/>
         <source>Architecture is different</source>
-        <translation >架構不同</translation>
+        <translation>架構不同</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="719"/>
