@@ -57,53 +57,56 @@
         mkdir build
 
 - 编译
-  + 用 qmake 
-
-        cd build
-        qmake ../RabbitCommon.pro
-        make install
-
-      * 参数
-        - BUILD_ABOUT=OFF: 关闭编译关于功能
-        - BUILD_UPDATE=OFF: 关闭编译在线更新功能
-        - BUILD_ADMINAUTHORISER＝OFF: 关闭用管理员权限运行程序
-        
   + 用 cmake
   
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
-      * 参数
-        - CMAKE_BUILD_TYPE: 编译类型
-        - Qt5_DIR: Qt 位置
-        - BUILD_APP: 编译应用程序
-        - BUILD_ABOUT: 编译关于功能
-        - BUILD_UPDATE: 编译在线更新功能
-        - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
+    * 参数
+      - CMAKE_BUILD_TYPE: 编译类型
+      - Qt5_DIR: Qt 位置
+      - BUILD_APP: 编译应用程序
+      - BUILD_ABOUT: 编译关于功能
+      - BUILD_UPDATE: 编译在线更新功能
+      - BUILD_ADMINAUTHORISER: 用管理员权限运行程序
         
     **注意**：如果使用 MSVC ,则需要加上 -DCMAKE_BUILD_TYPE=Debug ，否则当编译 Debug 时会出现下面错误：
 
         RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
         RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
 
+
+  + 用 qmake (已废弃，新程序请用 CMake)
+
+        cd build
+        qmake ../RabbitCommon.pro
+        make install
+
+    * 参数
+      - BUILD_ABOUT=OFF: 关闭编译关于功能
+      - BUILD_UPDATE=OFF: 关闭编译在线更新功能
+      - BUILD_ADMINAUTHORISER＝OFF: 关闭用管理员权限运行程序
+
+
 - 编译注意事项：
-    用Qtcreate在windows下编译android平台
-    - qmake。可能出现无法找到依赖库。
+    用 Qtcreate 在 windows 下编译 android 平台
 
-       找不到 D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
-       move libRabbitCommon.so ..\bin\libRabbitCommon.so
-       process_begin: CreateProcess(NULL, move libRabbitCommon.so ..\bin\libRabbitCommon.so, ...) failed.
-       make (e=2): 系统找不到指定的文件。
-       make[1]: [..\bin\libRabbitCommon.so] Error 2 (ignored)
-
-    其原因是windows下的make程序不能转换路径中的 \ 。  
-    解决方法：用可以识别路径中的 \ 的 make 程序，例如: mingw32-make.exe。
-
-   - cmake
+  + cmake
 
      - 设置 Generator 为 "Unix Makefiles"
      - 设置 CMAKE_MAKE_PROGRAM 为 ${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe
+
+  + qmake。可能出现无法找到依赖库。(已废弃，新程序请用 CMake)
+
+   找不到 D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
+   move libRabbitCommon.so ..\bin\libRabbitCommon.so
+   process_begin: CreateProcess(NULL, move libRabbitCommon.so ..\bin\libRabbitCommon.so, ...) failed.
+   make (e=2): 系统找不到指定的文件。
+   make[1]: [..\bin\libRabbitCommon.so] Error 2 (ignored)
+
+其原因是 windows 下的 make 程序不能转换路径中的 \ 。  
+解决方法：用可以识别路径中的 \ 的 make 程序，例如: mingw32-make.exe。
 
 - 安装注意  
 Qt因为版权原因，没有提供openssl动态库，所以必须自己复制openssl的动态库到安装目录下。
@@ -118,7 +121,52 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 ### 其它应用使用本项目
 - 直接用源码
-  + QT工程文件
+  + cmake工程
+    - 子模块方式
+    
+          add_subdirectory(3th_libs/RabbitCommon/Src)
+        
+    - 非子模块方式
+      + 引入以 add_subdirectory 本项目录
+
+            if(NOT RabbitCommon_DIR)
+                set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
+                if(NOT RabbitCommon_DIR)
+                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
+                endif()
+            endif()
+            if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
+                list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
+                include(${RabbitCommon_DIR}/cmake/Translations.cmake)
+                include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
+            else()
+                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                message("   ag:")
+                message("       git clone https://github.com/KangLin/RabbitCommon.git")
+                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+                message("   ag:")
+                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+            endif()
+
+      + 在使用的工程目录CMakeLists.txt
+      
+            SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+            if(TARGET RabbitCommon)
+                target_compile_definitions(${PROJECT_NAME}
+                                PRIVATE -DRABBITCOMMON)
+                target_include_directories(${PROJECT_NAME}
+                                PRIVATE ${RabbitCommon_DIR}/Src
+                                        ${CMAKE_BINARY_DIR})
+                set(APP_LIBS ${APP_LIBS} RabbitCommon)
+            endif()
+            target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+
+    - 静态库
+
+             target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
+             
+  + QT工程文件。(已废弃，新程序请用 CMake)
     - 子模块方式：
       + 增加子模块：
       
@@ -170,53 +218,8 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-  + cmake工程
-    - 子模块方式
-    
-            add_subdirectory(3th_libs/RabbitCommon/Src)
-        
-    - 非子模块方式
-      + 引入以 add_subdirectory 本项目录
-
-            if(NOT RabbitCommon_DIR)
-                set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
-                if(NOT RabbitCommon_DIR)
-                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
-                endif()
-            endif()
-            if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-                list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
-                include(${RabbitCommon_DIR}/cmake/Translations.cmake)
-                include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
-            else()
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
-                message("   ag:")
-                message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
-                message("   ag:")
-                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
-            endif()
-
-      + 在使用的工程目录CMakeLists.txt
-      
-            SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
-            if(TARGET RabbitCommon)
-                target_compile_definitions(${PROJECT_NAME}
-                                PRIVATE -DRABBITCOMMON)
-                target_include_directories(${PROJECT_NAME}
-                                PRIVATE ${RabbitCommon_DIR}/Src
-                                        ${CMAKE_BINARY_DIR})
-                set(APP_LIBS ${APP_LIBS} RabbitCommon)
-            endif()
-            target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
-
-    - 静态库
-
-             target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
-
 - 以库方式使用使用
-  + Qt 工程文件
+  + Qt 工程文件。(已废弃，新程序请用 CMake)
   + cmake
     cmake 参数 RabbitCommon_DIR 指定安装根目录
     
@@ -334,17 +337,18 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 ![在线更新](docments/image/update.PNG "在线更新")
 
 #### [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
-  + 内部实现
 
-            QString szCmd = "mkdir";
-            QStringList paras;
-            paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-            qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
-                     << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
++ 内部实现
 
-  + 公开接口：
+      QString szCmd = "mkdir";
+      QStringList paras;
+      paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
+      qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
+          << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
-            RabbitCommon::CTools::executeByRoot("regedit", QStringList());
++ 公开接口：
+
+      RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
 #### [程序开机自启动](Src/RabbitCommonTools.h)
 
@@ -357,9 +361,13 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                            bool bAllUser = false);
 
 #### 得到系统信息
-##### 得到当前登录用户
+- 得到当前登录用户
 
-        RabbitCommon::CTools::GetCurrentUser
+        RabbitCommon::CTools::GetCurrentUser();
+        
+- 得到主机名
+
+        RabbitCommon::CTools::GetHostName();
         
 ### 使用本项目的项目
 - [玉兔即时通讯](https://github.com/KangLin/RabbitIm)

@@ -55,17 +55,6 @@ Qt common library. include follow functions:
         mkdir build
 
 - Compile
-  + Use qmake 
-
-        cd build
-        qmake ../RabbitCommon.pro
-        make install
-
-      * Parameter
-        - BUILD_ABOUT=OFF: Off build about
-        - BUILD_UPDATE=OFF: Off build updater
-        - BUILD_ADMINAUTHORISER＝OFF: Off admin authoriser
- 
   + Use cmake
   
         cd build
@@ -79,10 +68,21 @@ Qt common library. include follow functions:
         - BUILD_ABOUT: build about
         - BUILD_UPDATE: build updater
         - BUILD_ADMINAUTHORISER: build admin authoriser
-        
+
+  + Use qmake. (Deprecated, please use CMake for new programs)
+
+        cd build
+        qmake ../RabbitCommon.pro
+        make install
+
+    * Parameter
+      - BUILD_ABOUT=OFF: Off build about
+      - BUILD_UPDATE=OFF: Off build updater
+      - BUILD_ADMINAUTHORISER＝OFF: Off admin authoriser
+
 - Compilation notes:
     Use Qtcreate compile for android in windows
-    - qmake. It may appear that the dependent library could not be found.
+    - qmake. It may appear that the dependent library could not be found. (Deprecated, please use CMake for new programs)
 
        Don't find D:\Source\build-RabbitCommon-Android_for_armeabi_v7a_Clang_Qt_5_12_4_for_Android_ARMv7-Debug\bin\libRabbitCommon.so
        move libRabbitCommon.so ..\bin\libRabbitCommon.so
@@ -112,7 +112,52 @@ Qt common library. include follow functions:
 
 ### Other application use the project
 - Direct source code
-  + QT pro file
+  + cmake
+    - Submodule
+      
+          add_subdirectory(3th_libs/RabbitCommon/Src)
+          
+    - No submodule
+      + Introduced to add_subdirectory this directory
+    
+              if(NOT RabbitCommon_DIR)
+                  set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
+                  if(NOT RabbitCommon_DIR)
+                      set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
+                  endif()
+              endif()
+              if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+                  add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
+                  list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
+                  include(${RabbitCommon_DIR}/cmake/Translations.cmake)
+                  include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
+              else()
+                  message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                  message("   ag:")
+                  message("       git clone https://github.com/KangLin/RabbitCommon.git")
+                  message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+                  message("   ag:")
+                  message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+              endif()
+    
+      + CMakeLists.txt in the project used
+        
+              SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+              if(TARGET RabbitCommon)
+                  target_compile_definitions(${PROJECT_NAME}
+                                  PRIVATE -DRABBITCOMMON)
+                  target_include_directories(${PROJECT_NAME}
+                                  PRIVATE ${RabbitCommon_DIR}/Src
+                                          ${CMAKE_BINARY_DIR})
+                  set(APP_LIBS ${APP_LIBS} RabbitCommon)
+              endif()
+              target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+    
+    - Static library
+    
+          target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
+           
+  + QT pro file. (Deprecated, please use CMake for new programs)
     - submodule：
       + Add submodule：
       
@@ -172,58 +217,13 @@ Qt common library. include follow functions:
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-  + cmake
-    - Submodule
-    
-            add_subdirectory(3th_libs/RabbitCommon/Src)
-        
-    - No submodule
-      + Introduced to add_subdirectory this directory
-
-            if(NOT RabbitCommon_DIR)
-                set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
-                if(NOT RabbitCommon_DIR)
-                    set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
-                endif()
-            endif()
-            if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-                list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
-                include(${RabbitCommon_DIR}/cmake/Translations.cmake)
-                include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
-            else()
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
-                message("   ag:")
-                message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
-                message("   ag:")
-                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
-            endif()
-
-      + CMakeLists.txt in the project used
-      
-            SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
-            if(TARGET RabbitCommon)
-                target_compile_definitions(${PROJECT_NAME}
-                                PRIVATE -DRABBITCOMMON)
-                target_include_directories(${PROJECT_NAME}
-                                PRIVATE ${RabbitCommon_DIR}/Src
-                                        ${CMAKE_BINARY_DIR})
-                set(APP_LIBS ${APP_LIBS} RabbitCommon)
-            endif()
-            target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
-
-    - Static library
-
-             target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
-
 - Use in library mode
-  + Qt pro file
   + cmake
     Cmake parameter RabbitCommon_DIR specifies the installation root directory
     
         find_package(RabbitCommon)
-
+  + Qt pro file.(Deprecated, please use CMake for new programs)
+  
 - Load resource
 
         RabbitCommon::CTools::Instance()->Init();
@@ -363,10 +363,14 @@ Qt common library. include follow functions:
                            bool bAllUser = false);
 
 #### Get system information
-##### Get current login user name
+- Get current login user name:
 
-        RabbitCommon::CTools::GetCurrentUser
+      RabbitCommon::CTools::GetCurrentUser();
 
+- Get host name:
+
+      RabbitCommon::CTools::GetHostName();
+      
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitCommon)
 - [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)
