@@ -19,7 +19,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitCommon_VERSION: 1.0.4
+      RabbitCommon_VERSION: 1.0.5
 
     steps:
     - uses: actions/checkout@v2
