@@ -184,7 +184,7 @@ include (CMakeParseArguments)
 
 function(GENERATED_QT_TRANSLATIONS)
     cmake_parse_arguments(PARA ""
-        "NAME;TARGET;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME;RESOUCE_PREFIX"
+        "NAME;TARGET;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME;RESOUCE_PREFIX;INSTALL_COMPONENT"
         "SOURCES" ${ARGN})
 
     SET(TRANSLATIONS_NAME ${PROJECT_NAME})
@@ -323,16 +323,19 @@ function(GENERATED_QT_TRANSLATIONS)
                 set(${PARA_OUT_QRC_NAME} ${OUT_QRC_NAME} PARENT_SCOPE)
             endif()
 
+            if(NOT DEFINED INSTALL_COMPONENT)
+                set(PARA_INSTALL_COMPONENT Runtime)
+            endif()
             if(DEFINED PARA_QM_INSTALL_DIR)
                 install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
-                    COMPONENT Runtime)
+                    COMPONENT ${PARA_INSTALL_COMPONENT})
             else()
                 if(ANDROID)
                     install(FILES ${QM_FILES} DESTINATION "assets/translations"
-                        COMPONENT Runtime)
+                        COMPONENT ${PARA_INSTALL_COMPONENT})
                 else()
                     install(FILES ${QM_FILES} DESTINATION "translations"
-                        COMPONENT Runtime)
+                        COMPONENT ${PARA_INSTALL_COMPONENT})
                 endif()
             endif()
             
