@@ -20,9 +20,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
-      SOURCE_DIR:  ${{github.workspace}}/source
-      TOOSL_DIR:   ${{github.workspace}}/tools
-      INSTALL_DIR: ${{github.workspace}}/install
+      SOURCE_DIR:  ${{github.workspace}}\.cache\source
+      TOOSL_DIR:   ${{github.workspace}}\.cache\tools
+      INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
 
     steps:
     - uses: actions/checkout@v2
