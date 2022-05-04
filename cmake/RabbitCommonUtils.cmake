@@ -6,6 +6,26 @@ include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
 
+include(CPackComponent)
+
+SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
+include(InstallRequiredSystemLibraries)
+
+cpack_add_component(Development
+    DISPLAY_NAME  "Development"
+    DESCRIPTION   "Development"
+	DEPENDS Runtime
+	GROUP Libraries
+    )
+
+cpack_add_component(Runtime
+    DISPLAY_NAME  "Runtime"
+    DESCRIPTION   "Runtime"
+	GROUP Libraries
+    )
+
+cpack_add_component_group(Libraries)
+
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
 # ANDROID_SOURCES_DIR: Android 源码文件目录。默认为：${CMAKE_CURRENT_SOURCE_DIR}/android
