@@ -330,7 +330,9 @@ function(INSTALL_TARGET)
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
                     COMPONENT Runtime
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
+                    COMPONENT Development
                 PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
+                    COMPONENT Development
                 INCLUDES DESTINATION ${PARA_INCLUDES}
                 )
             # Install cmake configure files
@@ -341,6 +343,7 @@ function(INSTALL_TARGET)
                     )
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                        COMPONENT Development
                     NAMESPACE ${PARA_NAMESPACE}::
                     )
             else()
@@ -351,6 +354,7 @@ function(INSTALL_TARGET)
                 # Install cmake configure files
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                        COMPONENT Development
                     )
             endif()
             if(PARA_EXPORT_NAME)
@@ -366,6 +370,7 @@ function(INSTALL_TARGET)
                         )
                     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake.in
                         DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                            COMPONENT Development
                         RENAME ${PARA_NAME}Config.cmake)
                 else()
                     message(WARNING "Please create file: ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}")
@@ -378,7 +383,8 @@ function(INSTALL_TARGET)
                     VERSION ${PARA_VERSION}
                     COMPATIBILITY AnyNewerVersion)
                 install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
-                    DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}")
+                    DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
+                        COMPONENT Development)
             endif()
         endif(PARA_ISEXE)
         
@@ -396,6 +402,7 @@ function(INSTALL_TARGET)
                 COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --verbose 7
+               #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>/qt/bin"
                 "$<TARGET_FILE:${PARA_NAME}>"
                 )
             
@@ -411,12 +418,12 @@ endfunction()
 
 # 增加目标
 # 参数：
-#    [必须]SOURCE_FILES             源文件（包括头文件，资源文件等）
+#    [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
 #    NO_TRANSLATION                 不产生翻译资源
 #    WINDOWS                        窗口程序
-#    NAME                           目标名。注意：翻译资源文件名(.ts)最近的 ${PROJECT_NAME}
+#    NAME                           目标名。注意：翻译资源文件名(.ts)默认是 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
 #    ANDROID_SOURCES_DIR            Android 源码文件目录
@@ -430,6 +437,7 @@ endfunction()
 #    PRIVATE_OPTIONS                私有选项
 #    FEATURES                       公有特性
 #    PRIVATE_FEATURES               私有特性
+#    NO_INSTALL                     不安装
 #    INSTALL_HEADER_FILES           如果是库，要安装的头文件
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
 #    INSTALL_INCLUDES               导出安装头文件位置
@@ -464,7 +472,8 @@ function(ADD_TARGET)
         INSTALL_NAMESPACE
         INSTALL_CMAKE_CONFIG_IN_FILE
         )
-    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION"
+    cmake_parse_arguments(PARA
+        "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -476,6 +485,7 @@ function(ADD_TARGET)
                 [ISPLUGIN]
                 [ISWINDOWS]
                 [NO_TRANSLATION]
+                [NO_INSTALL]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
@@ -550,7 +560,7 @@ function(ADD_TARGET)
                 endif()
             endif()
         endif()
-    else(PARA_ISEXE)
+    else(PARA_ISEXE) # Is library
         # For debug libs and exes, add "_d" postfix
         if(NOT CMAKE_DEBUG_POSTFIX)     
             set(CMAKE_DEBUG_POSTFIX "_d")
@@ -644,25 +654,27 @@ function(ADD_TARGET)
         target_compile_features(${PARA_NAME} PRIVATE ${PARA_PRIVATE_FEATURES})
     endif()
     
-    # Install target
-    if(PARA_ISPLUGIN)
-        INSTALL_TARGET(NAME ${PARA_NAME}
-            ISPLUGIN
-            PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-            INCLUDES ${PARA_INSTALL_INCLUDES}
-            INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
-    elseif(PARA_ISEXE)
-        INSTALL_TARGET(NAME ${PARA_NAME}
-            ISEXE
-            PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-            INCLUDES ${PARA_INSTALL_INCLUDES})
-    else()
-        INSTALL_TARGET(NAME ${PARA_NAME}
-            EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
-            NAMESPACE ${PARA_INSTALL_NAMESPACE}
-            PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-            INCLUDES ${PARA_INSTALL_INCLUDES}
-            INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
+    if(NOT PARA_NO_INSTALL)
+        # Install target
+        if(PARA_ISPLUGIN)
+            INSTALL_TARGET(NAME ${PARA_NAME}
+                ISPLUGIN
+                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                INCLUDES ${PARA_INSTALL_INCLUDES}
+                INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
+        elseif(PARA_ISEXE)
+            INSTALL_TARGET(NAME ${PARA_NAME}
+                ISEXE
+                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                INCLUDES ${PARA_INSTALL_INCLUDES})
+        else()
+            INSTALL_TARGET(NAME ${PARA_NAME}
+                EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
+                NAMESPACE ${PARA_INSTALL_NAMESPACE}
+                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                INCLUDES ${PARA_INSTALL_INCLUDES}
+                INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
+        endif()
     endif()
 endfunction()
 
