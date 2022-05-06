@@ -1,4 +1,4 @@
-# Author: Kang Lin(kl222@126.com)
+# Author: Kang Lin <kl222@126.com>
 
 cmake_minimum_required(VERSION 2.8.12)
 
@@ -226,6 +226,7 @@ function(INSTALL_TARGET)
                 COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --verbose 7
+                --dir ${CMAKE_BINARY_DIR}/bin
                 --libdir ${CMAKE_BINARY_DIR}/bin
                 --plugindir ${CMAKE_BINARY_DIR}/bin
                 "$<TARGET_FILE:${PARA_NAME}>"

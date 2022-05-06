@@ -2,6 +2,8 @@
 
 project(RabbitCommon)
 
+set(CMAKE_CXX_STANDARD 11)
+
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
@@ -434,7 +436,8 @@ if(UNIX OR MINGW)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
         ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
     install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+            COMPONENT Development)
 endif()
 
 # Install style files
