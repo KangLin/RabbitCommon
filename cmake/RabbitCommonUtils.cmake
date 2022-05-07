@@ -15,16 +15,12 @@ cpack_add_component(Development
     DISPLAY_NAME  "Development"
     DESCRIPTION   "Development"
 	DEPENDS Runtime
-	GROUP Libraries
     )
 
 cpack_add_component(Runtime
     DISPLAY_NAME  "Runtime"
     DESCRIPTION   "Runtime"
-	GROUP Libraries
     )
-
-cpack_add_component_group(Libraries)
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
@@ -332,7 +328,7 @@ function(INSTALL_TARGET)
                 endif()
                 
             ENDIF(ANDROID)
-        else(PARA_ISEXE)
+        else(PARA_ISEXE) # Is library
             if(NOT DEFINED PARA_PUBLIC_HEADER)
                 set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
             endif()
