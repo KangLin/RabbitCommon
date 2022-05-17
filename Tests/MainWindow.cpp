@@ -19,6 +19,7 @@
 #endif
 #include "RabbitCommonTools.h"
 #include "RabbitCommonStyle.h"
+#include "RabbitCommonEncrypt.h"
 
 #include <QDir>
 #include <QDebug>
@@ -95,3 +96,19 @@ void MainWindow::on_actionStype_triggered()
     RabbitCommon::CStyle::Instance()->slotStyle();
 #endif
 }
+
+void MainWindow::on_pbEncrypt_clicked()
+{
+    RabbitCommon::CEncrypt e;
+    e.SetPassword(ui->lePassword->text().toStdString().c_str());
+    QByteArray out;
+    int nRet = e.Encode(ui->teInput->toPlainText(), out);
+    if(!nRet)
+    {
+        QString szOut;
+        nRet = e.Dencode(out, szOut);
+        szOut = tr("Encrypt:") + QString(out) + "\n" + tr("Source:") + szOut;
+        ui->teOutput->setPlainText(szOut);
+    }
+}
+

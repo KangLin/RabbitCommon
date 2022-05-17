@@ -25,7 +25,8 @@ private slots:
     void on_actionUpdate_triggered();
     void on_pushButton_clicked();
     void on_actionStype_triggered();
-    
+    void on_pbEncrypt_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

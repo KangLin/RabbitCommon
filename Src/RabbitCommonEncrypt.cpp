@@ -6,16 +6,12 @@
 #include <string.h>
 
 #if defined (HAVE_OPENSSL)
-#include "openssl/aes.h"
+#include "EvpAES.h"
 #endif
 
 namespace RabbitCommon {
 
-#if defined (HAVE_OPENSSL)
-    #define PASSWORD_LENGTH AES_BLOCK_SIZE
-#else
-    #define PASSWORD_LENGTH 16
-#endif
+#define PASSWORD_LENGTH 16
 
 static const unsigned char Key[] =
 {
@@ -38,7 +34,7 @@ int CEncrypt::SetPassword(const char* pszPassword)
     if(nLen > strlen(pszPassword))
         nLen = strlen(pszPassword);
 
-    m_szPassword.resize(PASSWORD_LENGTH);
+    m_szPassword.resize(PASSWORD_LENGTH, 0);
     memcpy(&m_szPassword[0], Key, PASSWORD_LENGTH);
     for(int i = 0; i < nLen; i++)
     {
@@ -51,113 +47,65 @@ int CEncrypt::SetPassword(const char* pszPassword)
 int CEncrypt::Encode(const char* pIn, const int& inLen, char** pOut, int& outLen)
 {
     int nRet = 0;
-#if defined (HAVE_OPENSSL)
-    AES_KEY k;
-    nRet = AES_set_encrypt_key((const unsigned char*)m_szPassword.c_str(), m_szPassword.size() * 8, &k);
-    if(nRet < 0)
-    {
-        LOG_MODEL_ERROR("Encrypt", "Unable to set encryption key in AES:nRet=%d\n", nRet);
-        return nRet;
-    }
-    
-    char *pI = (char*)pIn;
-    char *pO = NULL;
-    int nBlock = inLen / PASSWORD_LENGTH;
-    int nFill = PASSWORD_LENGTH - inLen % PASSWORD_LENGTH;
-    if(nFill)
-        outLen = nBlock + 1;
-    else
-        outLen = nBlock;
-    outLen *= PASSWORD_LENGTH;
-    pO = new char[outLen];
-    if(!pO)
-    {
-        LOG_MODEL_ERROR("Encrypt", "Hasn't buffer\n");
-        return -1;
-    }
-    
-    *pOut = pO;
-    
-    for(int i = 0; i < nBlock; i++)
-    {
-        AES_encrypt((const unsigned char*)pI, (unsigned char*)pO, &k);
-        pI += PASSWORD_LENGTH;
-        pO += PASSWORD_LENGTH;
-    }
-    
-    //最后一块
-    if(nFill)
-    {
-        char buf[PASSWORD_LENGTH];
-        memset(buf, 0, PASSWORD_LENGTH);
-        memcpy(buf, pI, PASSWORD_LENGTH);
-        AES_encrypt((const unsigned char*)buf, (unsigned char*)pO, &k);
-    }
-#else
-    memmove(*pOut, pIn, outLen);
-#endif
-    
+    QString szIn = QString::fromStdString(std::string(pIn, inLen));
+    QByteArray szOut;
+    nRet = Encode(szIn, szOut);
+    if(nRet) return nRet;
+    outLen = szOut.length();
+    *pOut = new char[outLen];
+    memcpy(*pOut, szOut.data(), outLen);
     return nRet;
 }
 
 int CEncrypt::Encode(const QString& szIn, QByteArray& szOut)
 {
     int nRet = 0;
+#if defined (HAVE_OPENSSL)
+    EvpAES aes;
     QByteArray in = szIn.toUtf8();
-    int len = 0;
-    char *pOut = NULL;
-    nRet = Encode(in.data(), in.length(), &pOut, len);
-    if(!nRet)
-        szOut.setRawData(pOut, len);
+    bool b = aes.cbc_encrypt(in, szOut,
+                    QByteArray::fromStdString(m_szPassword),
+                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH));
+    if(b) return 0;
+    else return -1;
+#else
+    szOut = szIn.toUtf8();
+#endif
     return nRet;
 }
 
 int CEncrypt::Dencode(const QByteArray &szIn, QString &szOut)
 {
     int nRet = 0;
-    char* pOut = NULL;
-    int len = 0;
-    std::string out;
-    nRet = Dencode(szIn.data(), szIn.length(), out);
-    if(!nRet)
-        szOut = out.c_str();
+#if defined (HAVE_OPENSSL)
+    EvpAES aes;
+    QByteArray out;
+    bool b = aes.cbc_encrypt(szIn, out,
+                    QByteArray::fromStdString(m_szPassword),
+                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH),
+                             false);
+    if(b)
+    {
+        szOut = out;
+        return 0;
+    } else
+        return -1;
+#else
+    szOut = szIn;
+#endif
     return nRet;
 }
 
 int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLen)
 {
     int nRet = 0;
-#if defined (HAVE_OPENSSL)
-    AES_KEY k;
-    nRet = AES_set_decrypt_key((const unsigned char*)m_szPassword.c_str(), m_szPassword.size() * 8, &k);
-    if(nRet < 0)
-    {
-        LOG_MODEL_ERROR("Encrypt", "Unable to set dencryption key in AES:nRet=%d\n", nRet);
-        return nRet;
-    }
-    
-    char *pI = (char*)pIn;
-    char *pO = NULL;
-    outLen = inLen;
-    pO = new char[outLen];
-    if(!pO)
-    {
-        LOG_MODEL_ERROR("Encrypt", "Hasn't buffer\n");
-        return -1;
-    }
-    
-    memset(pO, 0, outLen);
-    *pOut = pO;
-    int nBlock = inLen / PASSWORD_LENGTH;
-    for(int i = 0; i < nBlock; i++)
-    {
-        AES_decrypt((const unsigned char*)pI, (unsigned char*)pO, &k);
-        pI += PASSWORD_LENGTH;
-        pO += PASSWORD_LENGTH;
-    }
-#else
-    memmove(*pOut, pIn, outLen);
-#endif
+    QByteArray in(pIn, inLen);
+    QString out;
+    nRet = Dencode(in, out);
+    if(nRet) return nRet;
+    outLen = out.length();
+    *pOut = new char[outLen];
+    memcpy(*pOut, out.data(), outLen);
     return nRet;
 }
 
