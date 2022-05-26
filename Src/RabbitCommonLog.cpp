@@ -266,7 +266,9 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     {
         szTemp += "[";
 #if defined (Q_OS_WINDOWS)
-        sprintf_s(buf, "0x%08lX", (unsigned long)(QThread::currentThreadId()));
+    #ifndef MINGW
+        sprintf_s(buf, "0x%08lX", reinterpret_cast<unsigned long>(QThread::currentThreadId()));
+    #endif
 #else
         sprintf(buf, "0x%08lX", (unsigned long)(QThread::currentThreadId()));
 #endif
