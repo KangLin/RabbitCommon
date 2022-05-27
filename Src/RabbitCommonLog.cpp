@@ -12,6 +12,10 @@
 #include <QThread>
 #include <QSettings>
 #include <QDir>
+#include <QFileInfo>
+#include <QDesktopServices>
+#include <QUrl>
+
 // https://github.com/MEONMedical/Log4Qt
 #ifdef HAVE_LOG4QT
     #include "log4qt/logger.h"
@@ -173,6 +177,18 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     return 0;
 }
 
+QString CLog::GetLogFile()
+{
+    auto logger = Log4Qt::Logger::rootLogger();
+    auto appenders = logger->appenders();
+    for (auto &&a : qAsConst(appenders))
+    {
+        auto f = qobject_cast<Log4Qt::FileAppender*>(a);
+        if(f) return f->file();
+    }
+    return QString();
+}
+
 #elif HAVE_LOG4CXX
 
 int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
@@ -213,6 +229,19 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     return 0;
 }
 
+QString CLog::GetLogFile()
+{
+    auto logger = log4cxx::Logger::getRootLogger();
+    auto appenders = logger->getAllAppenders();
+    for (auto &&a : appenders)
+    {
+        auto f = dynamic_cast<log4cxx::FileAppender*>(a.get());
+        if(f) return QString::fromStdWString(f->getFile());
+    }
+
+    return QString();
+}
+
 #elif HAVE_LOG4CPLUS
 
 int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
@@ -250,6 +279,11 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     log4cplus::Logger log = log4cplus::Logger::getInstance(LOG4CPLUS_C_STR_TO_TSTRING(pszModelName));
     log.log(l, LOG4CPLUS_C_STR_TO_TSTRING(buf), pszFile, nLine, pszFunction);
     return 0;
+}
+
+QString CLog::GetLogFile()
+{
+    return QString();
 }
 
 #else
@@ -313,6 +347,40 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     qDebug() << szTemp.c_str();
     
     return 0;
+}
+
+QString CLog::GetLogFile()
+{
+    return QString();
+}
+
+#endif
+
+QString CLog::GetLogDir()
+{
+    QString f = GetLogFile();
+    if(f.isEmpty()) return f;
+    
+    QFileInfo fi(f);
+    return fi.absolutePath();
+}
+
+#ifdef HAVE_GUI
+
+void OpenLogFile()
+{
+    QString d = LOG_DIRECTORY();
+    if(d.isEmpty())
+        return;
+    QDesktopServices::openUrl(d);
+}
+
+void OpenLogDirectory()
+{
+    QString f = LOG_FILE();
+    if(f.isEmpty())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile(f));
 }
 
 #endif

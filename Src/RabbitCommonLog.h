@@ -1,13 +1,13 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
  *  @author Kang Lin <kl222@126.com>
  *  @abstract log
+ *  The log interface is deprecated. Please use qDebug and log4Qt instead.
  */
 
 #ifndef RABBIT_COMMON_LOG_H
 #define RABBIT_COMMON_LOG_H
 
 #pragma once
-
 #include <QObject>
 #include "rabbitcommon_export.h"
 
@@ -28,15 +28,28 @@ namespace RabbitCommon {
 #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_WARNING, model, __VA_ARGS__)
 #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_INFO, model, __VA_ARGS__)
 
-//DON'T USE CLog!!!
-class RABBITCOMMON_EXPORT CLog
+#define LOG_FILE() RabbitCommon::CLog::Instance()->GetLogFile()
+#define LOG_DIRECTORY() RabbitCommon::CLog::Instance()->GetLogDir()
+
+#ifdef HAVE_GUI
+    RABBITCOMMON_EXPORT void OpenLogFile();
+    RABBITCOMMON_EXPORT void OpenLogDirectory();
+#endif
+
+/*!
+ * \note USER DON'T USE CLog!!!
+ */
+class RABBITCOMMON_EXPORT CLog 
 {
 public:
     CLog();
 
     static CLog* Instance();
     int EnablePrintThread(bool bPrint);
-    
+
+    QString GetLogFile();
+    QString GetLogDir();
+
     /**
      * @brief 日志输出
      * @param pszFile:打印日志处文件名
@@ -46,6 +59,7 @@ public:
      * @param pFormatString:格式化字符串
      * @return 
      */
+    //Q_DECL_DEPRECATED_X("Please use qDebug and log4Qt instead.")
     int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
     
