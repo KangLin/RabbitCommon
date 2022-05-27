@@ -222,6 +222,7 @@ function(INSTALL_TARGET)
                 COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --verbose 7
+                --no-translations
                 --dir ${CMAKE_BINARY_DIR}/bin
                 --libdir ${CMAKE_BINARY_DIR}/bin
                 --plugindir ${CMAKE_BINARY_DIR}/bin
@@ -412,17 +413,26 @@ function(INSTALL_TARGET)
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
                     )
+                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                    COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    --compiler-runtime
+                    --verbose 7
+                    --no-translations
+                    "$<TARGET_FILE:${PARA_NAME}>"
+                    )
+            ELSE(MINGW)
+                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                    COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    --compiler-runtime
+                    --verbose 7
+                    #--no-translations
+                    #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>"
+                    "$<TARGET_FILE:${PARA_NAME}>"
+                    )
             ENDIF(MINGW)
-            
-            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
-                --verbose 7
-               #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>/qt/bin"
-                "$<TARGET_FILE:${PARA_NAME}>"
-                )
-            
+
             if(DEFINED PARA_ISEXE)
                 INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
                     DESTINATION "${PARA_RUNTIME}"
