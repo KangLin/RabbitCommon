@@ -83,7 +83,8 @@ else: DEFINES *= RabbitCommon_EXPORTS
 isEmpty(OpenSSL_DIR): warning("Please set OpenSSL_DIR")
 else {
     DEFINES *= HAVE_OPENSSL
-    SOURCES += 
+    SOURCES += EvpAES.cpp
+    HEADERS += EvpAES.h
     INSTALL_HEADERS += 
     LIBS += $$OpenSSL_DIR/lib/libssl.so \
         $$OpenSSL_DIR/lib/libcrypto.so 

@@ -63,9 +63,12 @@ int CEncrypt::Encode(const QString& szIn, QByteArray& szOut)
 #if defined (HAVE_OPENSSL)
     EvpAES aes;
     QByteArray in = szIn.toUtf8();
-    bool b = aes.cbc_encrypt(in, szOut,
-                    QByteArray::fromStdString(m_szPassword),
-                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH));
+        bool b = aes.ecb_encrypt(in, szOut,
+                        QByteArray::fromStdString(m_szPassword));
+    
+//    bool b = aes.cbc_encrypt(in, szOut,
+//                    QByteArray::fromStdString(m_szPassword),
+//                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH));
     if(b) return 0;
     else return -1;
 #else
@@ -80,10 +83,13 @@ int CEncrypt::Dencode(const QByteArray &szIn, QString &szOut)
 #if defined (HAVE_OPENSSL)
     EvpAES aes;
     QByteArray out;
-    bool b = aes.cbc_encrypt(szIn, out,
+    bool b = aes.ecb_encrypt(szIn, out,
                     QByteArray::fromStdString(m_szPassword),
-                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH),
                              false);
+//    bool b = aes.cbc_encrypt(szIn, out,
+//                    QByteArray::fromStdString(m_szPassword),
+//                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH),
+//                             false);
     if(b)
     {
         szOut = out;
