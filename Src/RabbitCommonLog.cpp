@@ -369,7 +369,7 @@ QString CLog::GetLogDir()
 
 void OpenLogFile()
 {
-    QString d = LOG_DIRECTORY();
+    QString d = LOG_FILE();
     if(d.isEmpty())
         return;
     QDesktopServices::openUrl(d);
@@ -377,7 +377,7 @@ void OpenLogFile()
 
 void OpenLogDirectory()
 {
-    QString f = LOG_FILE();
+    QString f = LOG_DIRECTORY();
     if(f.isEmpty())
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
