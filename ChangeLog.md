@@ -1,3 +1,8 @@
+### Version: v1.0.6
+
++ Add CEvpAES class
++ add GetLogFile()
+
 ### Version: v1.0.5
 + Add logger
 + Add style
