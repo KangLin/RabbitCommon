@@ -55,12 +55,13 @@ CLog::CLog()
                   QSettings::IniFormat);
 #ifdef HAVE_LOG4QT
     
-    QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
             + QDir::separator() + "log4qt.conf";
-    configFile = set.value("Log/ConfigFile", configFile).toString();
-    if (QFile::exists(configFile))
+    szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
+    if (QFile::exists(szConfFile))
     {
-        if(!Log4Qt::PropertyConfigurator::configureAndWatch(configFile))
+        m_szConfigureFile = szConfFile;
+        if(!Log4Qt::PropertyConfigurator::configureAndWatch(szConfFile))
             Log4Qt::BasicConfigurator::configure();
     }
     else
@@ -85,13 +86,14 @@ CLog::CLog()
     Log4Qt::LogManager::setHandleQtMessages(true);
 #elif defined(HAVE_LOG4CXX)
     //qInstallMessageHandler( log4cxx::qt::messageHandler );
-    QString configFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
+    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
             + QDir::separator() + "log4cxx.conf";
-    configFile = set.value("Log/ConfigFile", configFile).toString();
-    if (QFile::exists(configFile))
-        log4cxx::PropertyConfigurator::configure(configFile.toStdString().c_str());
-    else
+    szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
+    if (QFile::exists(szConfFile))
     {
+        m_szConfigureFile = szConfFile;
+        log4cxx::PropertyConfigurator::configure(szConfFile.toStdString().c_str());
+    } else {
         //log4cxx::BasicConfigurator::configure();
         log4cxx::LogManager::getLoggerRepository()->setConfigured(true);
         log4cxx::LoggerPtr root = log4cxx::Logger::getRootLogger();
@@ -106,9 +108,10 @@ CLog::CLog()
             + QDir::separator() + "log4cplus.conf";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if(QFile::exists(szConfFile))
+    {
+        m_szConfigureFile = szConfFile;
         log4cplus::PropertyConfigurator::doConfigure(LOG4CPLUS_STRING_TO_TSTRING(szConfFile.toStdString()));
-    else {
-        
+    } else {
         log4cplus::SharedAppenderPtr appender(new log4cplus::ConsoleAppender(true));
         appender->setName(LOG4CPLUS_TEXT("console"));
         appender->setLayout(std::unique_ptr<log4cplus::Layout>(
@@ -356,6 +359,11 @@ QString CLog::GetLogFile()
 
 #endif
 
+QString CLog::OpenLogConfigureFile()
+{
+    return m_szConfigureFile;
+}
+
 QString CLog::GetLogDir()
 {
     QString f = GetLogFile();
@@ -367,17 +375,25 @@ QString CLog::GetLogDir()
 
 #ifdef HAVE_GUI
 
+void OpenLogConfigureFile()
+{
+    QString f = RabbitCommon::CLog::Instance()->OpenLogConfigureFile();
+    if(f.isEmpty())
+        return;
+    QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+}
+
 void OpenLogFile()
 {
-    QString d = LOG_FILE();
+    QString d = RabbitCommon::CLog::Instance()->GetLogFile();
     if(d.isEmpty())
         return;
     QDesktopServices::openUrl(d);
 }
 
-void OpenLogDirectory()
+void OpenLogFolder()
 {
-    QString f = LOG_DIRECTORY();
+    QString f = RabbitCommon::CLog::Instance()->GetLogDir();
     if(f.isEmpty())
         return;
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
@@ -385,4 +401,4 @@ void OpenLogDirectory()
 
 #endif
 
-} // namespace RabbitCommon 
+} // namespace RabbitCommon

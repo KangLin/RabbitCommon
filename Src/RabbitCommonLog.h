@@ -28,12 +28,10 @@ namespace RabbitCommon {
 #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_WARNING, model, __VA_ARGS__)
 #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_INFO, model, __VA_ARGS__)
 
-#define LOG_FILE() RabbitCommon::CLog::Instance()->GetLogFile()
-#define LOG_DIRECTORY() RabbitCommon::CLog::Instance()->GetLogDir()
-
 #ifdef HAVE_GUI
+    RABBITCOMMON_EXPORT void OpenLogConfigureFile();
     RABBITCOMMON_EXPORT void OpenLogFile();
-    RABBITCOMMON_EXPORT void OpenLogDirectory();
+    RABBITCOMMON_EXPORT void OpenLogFolder();
 #endif
 
 /*!
@@ -47,6 +45,7 @@ public:
     static CLog* Instance();
     int EnablePrintThread(bool bPrint);
 
+    QString OpenLogConfigureFile();
     QString GetLogFile();
     QString GetLogDir();
 
@@ -65,6 +64,7 @@ public:
     
 private:
     bool m_bEnablePrintThread;
+    QString m_szConfigureFile;
 };
 
 } // End namespace RabbitCommon

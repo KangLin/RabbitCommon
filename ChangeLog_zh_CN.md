@@ -1,7 +1,10 @@
 ### 版本： v1.0.6
 
 + 增加 CEvpAES
-+ 增加 GetLogFile()
++ 增加日志
+  - 增加 OpenLogConfigureFile()
+  - 增加 GetLogFile()
+  - 增加 OpenLogFolder()
 
 ### 版本： v1.0.5
 + 增加日志

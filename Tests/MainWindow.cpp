@@ -20,6 +20,7 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonStyle.h"
 #include "RabbitCommonEncrypt.h"
+#include "RabbitCommonLog.h"
 
 #include <QDir>
 #include <QDebug>
@@ -107,8 +108,25 @@ void MainWindow::on_pbEncrypt_clicked()
     {
         QString szOut;
         nRet = e.Dencode(out, szOut);
-        szOut = tr("Encrypt:") + QString(out) + "\n" + tr("Source:") + szOut;
-        ui->teOutput->setPlainText(szOut);
+        if(nRet)
+        {
+            szOut = tr("Encrypt:") + QString(out) + "\n" + tr("Source:") + szOut;
+            ui->teOutput->setPlainText(szOut);
+        }
     }
 }
 
+void MainWindow::on_actionOpen_log_configure_triggered()
+{
+    RabbitCommon::OpenLogConfigureFile();
+}
+
+void MainWindow::on_actionOpen_log_file_triggered()
+{
+    RabbitCommon::OpenLogFile();
+}
+
+void MainWindow::on_actionOpen_log_folder_triggered()
+{
+    RabbitCommon::OpenLogFolder();
+}

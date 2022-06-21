@@ -1,7 +1,10 @@
 ### Version: v1.0.6
 
 + Add CEvpAES class
-+ add GetLogFile()
++ Log
+  - Add OpenLogConfigureFile()
+  - Add GetLogFile()
+  - Add OpenLogFolder()
 
 ### Version: v1.0.5
 + Add logger
