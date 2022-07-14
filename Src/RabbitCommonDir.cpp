@@ -16,14 +16,14 @@ CDir::CDir()
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
-    qDebug() << "Document path:" << m_szDocumentPath;
+    qInfo() << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
             qCritical() << "mkdir doucments dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  qApp->applicationDirPath();
-    qDebug() << "Application dir:" << m_szApplicationDir;
+    qInfo() << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
@@ -32,7 +32,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
-    qDebug() << "Application root dir:" << m_szApplicationDir;
+    qInfo() << "Application root dir:" << m_szApplicationDir;
 }
 
 CDir* CDir::Instance()
