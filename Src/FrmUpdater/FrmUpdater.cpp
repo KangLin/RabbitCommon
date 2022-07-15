@@ -82,9 +82,9 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
 #endif
         
     QString szVerion = qApp->applicationVersion();
-#ifdef BUILD_VERSION
+#ifdef RabbitCommon_VERSION
     if(szVerion.isEmpty())
-        szVerion = BUILD_VERSION;
+        szVerion = RabbitCommon_VERSION;
 #else
     szVerion = "0.0.1";
 #endif

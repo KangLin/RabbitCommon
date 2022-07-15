@@ -28,13 +28,14 @@ if [ -z "$VERSION" ]; then
     VERSION=`git rev-parse --short HEAD`
 fi
 
-sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
+sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
+sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
 sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/ci/build.sh
 sed -i "s/^version: '.*{build}'/version: '${VERSION}.{build}'/g" ${SOURCE_DIR}/appveyor.yml
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 
-sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
-sed -i "s/^\    BUILD_VERSION=.*/\    BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
 #sed -i "s/^\  - export VERSION=.*/\  - export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
 

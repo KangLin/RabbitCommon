@@ -19,28 +19,28 @@ isEmpty(PREFIX) {
 }
 
 #Get app version use git, please set git path to environment variable PATH
-isEmpty(BUILD_VERSION) {
+isEmpty(RabbitCommon_VERSION) {
     isEmpty(GIT) : GIT=$$(GIT)
     isEmpty(GIT) : GIT=git
     isEmpty(GIT_DESCRIBE) {
         GIT_DESCRIBE = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT describe --tags)
-        isEmpty(BUILD_VERSION) {
-            BUILD_VERSION = $$GIT_DESCRIBE
+        isEmpty(RabbitCommon_VERSION) {
+            RabbitCommon_VERSION = $$GIT_DESCRIBE
         }
     }
-    isEmpty(BUILD_VERSION) {
-        BUILD_VERSION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT rev-parse --short HEAD)
+    isEmpty(RabbitCommon_VERSION) {
+        RabbitCommon_VERSION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT rev-parse --short HEAD)
     }
     
-    isEmpty(BUILD_VERSION){
-        warning("Built without git, please add BUILD_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
+    isEmpty(RabbitCommon_VERSION){
+        warning("Built without git, please add RabbitCommon_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
     }
 }
-isEmpty(BUILD_VERSION){
-    BUILD_VERSION="v1.0.4"
+isEmpty(RabbitCommon_VERSION){
+    RabbitCommon_VERSION="v1.0.4"
 }
-message("BUILD_VERSION:$$BUILD_VERSION")
-DEFINES += BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
+message("RabbitCommon_VERSION:$$RabbitCommon_VERSION")
+DEFINES += RabbitCommon_VERSION=\"\\\"$$quote($$RabbitCommon_VERSION)\\\"\"
 CONFIG(debug, debug|release): DEFINES *= _DEBUG
 CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
@@ -65,7 +65,7 @@ msvc {
 
 include($$PWD/../pri/Translations.pri)
 
-#VERSION=$$BUILD_VERSION
+#VERSION=$$RabbitCommon_VERSION
 INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR

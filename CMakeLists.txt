@@ -10,7 +10,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-SET(BUILD_VERSION "v1.0.5")
+SET(RabbitCommon_VERSION "v1.0.5")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -32,11 +32,11 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
                 OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
             )
         endif()
-        SET(BUILD_VERSION ${GIT_VERSION})
+        SET(RabbitCommon_VERSION ${GIT_VERSION})
     ENDIF()
 ENDIF()
-message("BUILD_VERSION ${PROJECT_NAME}:${BUILD_VERSION}")
-set(VERSION ${BUILD_VERSION})
+message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
+set(VERSION ${RabbitCommon_VERSION})
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
 # ----------------------------------------------------------------------------
@@ -52,7 +52,7 @@ else()
     set(BUILD_ARCH ${ANDROID_ARCH})
 endif()
 
-add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
+add_definitions(-DRabbitCommon_VERSION="${RabbitCommon_VERSION}")
 add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
 add_definitions(-DBUILD_PLATFORM="${BUILD_PLATFORM}")
 

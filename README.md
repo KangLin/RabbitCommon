@@ -262,7 +262,7 @@ Qt common library. include follow functions:
     
             ```
             QApplication a(argc, argv);
-            a.setApplicationVersion(BUILD_VERSION);
+            a.setApplicationVersion(RabbitCommon_VERSION);
             a.setApplicationName("SerialPortAssistant");
             a.setApplicationDisplayName(QObject::tr("SerialPortAssistant"));
         

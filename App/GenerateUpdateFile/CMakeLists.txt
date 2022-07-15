@@ -19,7 +19,7 @@ endif()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 
-message("BUILD_VERSION ${PROJECT_NAME}:${BUILD_VERSION}")
+message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
 
 set(SOURCE_FILES
     main.cpp

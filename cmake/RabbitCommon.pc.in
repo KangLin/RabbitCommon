@@ -4,7 +4,7 @@ includedir=${prefix}/include/RabbitCommon
 
 Name: @PROJECT_NAME@
 Description: Rabbit common C++ library
-Version: @BUILD_VERSION@
+Version: @RabbitCommon_VERSION@
 Libs: -L${libdir} -lRabbitCommon
 Cflags: -I${includedir} @RabbitCommon_DEFINITIONS_PC@
 

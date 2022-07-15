@@ -4,6 +4,35 @@ project(RabbitCommon)
 
 set(CMAKE_CXX_STANDARD 11)
 
+SET(RabbitCommon_VERSION "v1.0.5")
+SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+# Find Git Version Patch
+IF(EXISTS "${RABBITCOMMON_SOURCE_DIR}/.git")
+    if(NOT GIT)
+        SET(GIT $ENV{GIT})
+    endif()
+    if(NOT GIT)
+        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+    endif()
+    IF(GIT)
+        EXECUTE_PROCESS(
+            WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
+            COMMAND ${GIT} describe --tags
+            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        if(NOT GIT_VERSION)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        endif()
+        SET(RabbitCommon_VERSION ${GIT_VERSION})
+    ENDIF()
+ENDIF()
+message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
+set(VERSION ${RabbitCommon_VERSION})
+
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
@@ -368,10 +397,10 @@ LIST(APPEND RCC_FILES
     Resource/ResourceRabbitCommon.qrc
     )
 
-if(BUILD_VERSION)
-    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS BUILD_VERSION="${BUILD_VERSION}")
+if(RabbitCommon_VERSION)
+    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
 else()
-    message(WARNING "Please set BUILD_VERSION")
+    message(WARNING "Please set RabbitCommon_VERSION")
 endif()
 
 if(MINGW)
@@ -429,7 +458,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_LIBS ${RABBIT_PRIVATE_COMMON_LIBS}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
     FEATURES cxx_std_11
-    VERSION ${BUILD_VERSION}
+    VERSION ${RabbitCommon_VERSION}
     INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )

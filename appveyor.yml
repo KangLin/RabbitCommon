@@ -136,7 +136,7 @@ matrix:
   fast_finish: false
 
 init:
-  - set BUILD_VERSION=%APPVEYOR_BUILD_VERSION%
+  - set RabbitCommon_VERSION=%APPVEYOR_RabbitCommon_VERSION%
   - set varch=%BUILD_ARCH%
   - if "%BUILD_ARCH%" == "x64" set varch=amd64
   - if "%BUILD_TARGERT%" == "windows_msvc" if %TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %varch%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\%VC_DIR%\Community\VC\Auxiliary\Build\vcvarsall.bat" %varch%)  
@@ -164,7 +164,7 @@ build_script:
 
 artifacts:
   - path: build_${BUILD_TARGERT}/install
-    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_Qt$(QT_VERSION)_$(appveyor_build_version)
+    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_Qt$(QT_VERSION)_$(appveyor_RabbitCommon_VERSION)
     type: zip
 
 test: off
@@ -172,12 +172,12 @@ test: off
 #See:https://www.appveyor.com/docs/deployment/github/
 deploy:
   - provider: GitHub
-    #release: RabbitCommon_$(appveyor_build_version)
+    #release: RabbitCommon_$(appveyor_RabbitCommon_VERSION)
     description: 'Release RabbitCommon $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
       secure: +wHYWKg2S7ggmOYHDVuvI9EQEy0qOyQhbsBgIQ+Jyn6YpEsUsRhGfQlBl1bR06K1
-    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
+    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_RabbitCommon_VERSION)
     #draft: true
     #prerelease: true
     on:

@@ -5,8 +5,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-#ifdef BUILD_VERSION
-    a.setApplicationVersion(BUILD_VERSION);
+#ifdef RabbitCommon_VERSION
+    a.setApplicationVersion(RabbitCommon_VERSION);
 #endif
     a.setApplicationName("GenerateUpdateFile");
 

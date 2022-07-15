@@ -24,8 +24,8 @@ CGenerateUpdateFile::CGenerateUpdateFile()
 
     if(szVerion.isEmpty())
     {
-#ifdef BUILD_VERSION
-        szVerion = BUILD_VERSION;
+#ifdef RabbitCommon_VERSION
+        szVerion = RabbitCommon_VERSION;
 #else
         szVerion = "0.0.1";
 #endif

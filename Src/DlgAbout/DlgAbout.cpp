@@ -58,9 +58,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szAppName = qApp->applicationDisplayName();
     
     m_szVersion = qApp->applicationVersion();
-#ifdef BUILD_VERSION
+#ifdef RabbitCommon_VERSION
     if(m_szVersion.isEmpty())
-        m_szVersion = BUILD_VERSION;
+        m_szVersion = RabbitCommon_VERSION;
 #endif
     
 #ifdef BUILD_ARCH
