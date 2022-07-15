@@ -90,22 +90,22 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
 #endif
     SetVersion(szVerion);
 
-    if(!QSslSocket::supportsSsl())
+    if(QSslSocket::supportsSsl())
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        LOG_MODEL_ERROR("FrmUpdater",
-                        "Please install openssl first. openssl build version:%s",
-                        QSslSocket::sslLibraryBuildVersionString().toStdString().c_str());
-#endif
-    } else {
         QString szMsg;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
         szMsg += " Version: " + QSslSocket::sslLibraryVersionString();
-        LOG_MODEL_ERROR("FrmUpdater", "Support ssl: %d; %s",
+        LOG_MODEL_INFO("FrmUpdater", "Support ssl: %d; %s",
                         QSslSocket::supportsSsl(),
                         szMsg.toStdString().c_str());
+    } else {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        LOG_MODEL_ERROR("FrmUpdater",
+              "Please install openssl first. openssl build version:%s",
+              QSslSocket::sslLibraryBuildVersionString().toStdString().c_str());
+#endif
     }
 
     if(szUrl.isEmpty())

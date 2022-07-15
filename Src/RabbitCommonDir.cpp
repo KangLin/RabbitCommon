@@ -45,7 +45,7 @@ CDir* CDir::Instance()
 
 QString CDir::GetDirApplication()
 {
-    qDebug() << "GetDirApplication:" << qApp->applicationDirPath();
+    //qDebug() << "GetDirApplication:" << qApp->applicationDirPath();
     return m_szApplicationDir;
 }
 
