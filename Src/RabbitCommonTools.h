@@ -38,6 +38,13 @@ public:
     void CleanResource();
     
     /**
+     * @brief Enable core dump
+     * @param bEnable
+     * @return
+     */
+    static bool EnableCoreDump(bool bEnable = true);
+
+    /**
      * @brief executeByRoot: Run with administrator privileges
      * @param program
      * @param arguments

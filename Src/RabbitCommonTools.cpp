@@ -31,6 +31,10 @@
     #include <unistd.h>
 #endif
 
+#ifdef Q_OS_WIN
+    #include "CoreDump/MiniDumper.h"
+#endif
+
 inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
@@ -130,6 +134,16 @@ void CTools::InitResource()
 void CTools::CleanResource()
 {
     g_RabbitCommon_CleanResource();
+}
+
+bool CTools::EnableCoreDump(bool bEnable)
+{
+#ifdef Q_OS_WIN
+    static RabbitCommon::CMiniDumper dumper(bEnable);
+    //RabbitCommon::EnableMiniDumper();
+    return true;
+#endif
+    return false;
 }
 
 bool CTools::executeByRoot(const QString &program, const QStringList &arguments)

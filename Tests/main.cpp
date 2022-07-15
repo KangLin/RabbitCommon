@@ -20,9 +20,12 @@
 #include "RabbitCommonLog.h"
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
+#include <string>
 
 int main(int argc, char *argv[])
 {
+    RabbitCommon::CTools::EnableCoreDump(true);
+
     QApplication a(argc, argv);
 #ifdef RabbitCommon_VERSION
     a.setApplicationVersion(RabbitCommon_VERSION);
@@ -40,12 +43,12 @@ int main(int argc, char *argv[])
               + "/RabbitCommonTests_" + QLocale::system().name() + ".qm");
     a.installTranslator(&tApp);
     RabbitCommon::CTools::Instance()->Init();
-    
+
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 #ifdef HAVE_GUI
     RabbitCommon::CStyle::Instance()->LoadStyle();
 #endif
-    
+
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();

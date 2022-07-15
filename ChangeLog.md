@@ -6,6 +6,7 @@
   - Add GetLogFile()
   - Add OpenLogFolder()
 + Add version suffix to Windows dynamic library
++ Add windows core dumper
 
 ### Version: v1.0.5
 + Add logger

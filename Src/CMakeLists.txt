@@ -368,6 +368,14 @@ else()
     message("Download log4cplus from https://github.com/log4cplus/log4cplus")
 endif()
 
+if(WIN32)
+    list(APPEND RABBITCOMMON_HEAD_FILES CoreDump/MiniDumper.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES CoreDump/MiniDumper.cpp
+        CoreDump/QMiniDumper.cpp)
+    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS _UNICODE UNICODE)
+    list(APPEND RABBIT_PRIVATE_COMMON_LIBS Dbghelp)
+endif()
+
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
