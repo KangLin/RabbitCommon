@@ -145,7 +145,7 @@ CFrmUpdater::~CFrmUpdater()
  *   |      |                       |   |                  |
  *   |      | sigFinished           |   |                  |
  *   |      |                       |   |                  |
- *   |      V         sigDownLoadXml|   |                  |
+ *   |      V   sigDownLoadRedireXml|   |                  |
  *   |  |--------------------|      |   |                  |
  *   |  |Check xml file      |      |   |                  |
  *   |  |(sCheckXmlFile)     |------|   |                  |
