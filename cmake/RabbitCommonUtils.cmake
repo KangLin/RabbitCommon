@@ -588,11 +588,19 @@ function(ADD_TARGET)
             endif()
         endif()
     else(PARA_ISEXE) # Is library
+
         # For debug libs and exes, add "_d" postfix
-        if(NOT CMAKE_DEBUG_POSTFIX)     
+        if(NOT CMAKE_DEBUG_POSTFIX)
             set(CMAKE_DEBUG_POSTFIX "_d")
         endif()
-        
+        if(WIN32)
+            if(NOT DEFINED PARA_VERSION)
+                get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
+            endif()
+            string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_CMAKE_BUILD_TYPE)
+            SET(CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX "${CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX}_${PARA_VERSION}")
+        endif()
+
         string(TOLOWER ${PARA_NAME} LOWER_PROJECT_NAME)
         set(PARA_INSTALL_HEADER_FILES ${PARA_INSTALL_HEADER_FILES} 
             ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)

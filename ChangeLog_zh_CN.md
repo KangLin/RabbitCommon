@@ -5,6 +5,7 @@
   - 增加 OpenLogConfigureFile()
   - 增加 GetLogFile()
   - 增加 OpenLogFolder()
++ 为 Windows 动态库增加版本后缀
 
 ### 版本： v1.0.5
 + 增加日志

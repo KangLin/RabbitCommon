@@ -5,6 +5,7 @@
   - Add OpenLogConfigureFile()
   - Add GetLogFile()
   - Add OpenLogFolder()
++ Add version suffix to Windows dynamic library
 
 ### Version: v1.0.5
 + Add logger
