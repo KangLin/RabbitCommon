@@ -96,16 +96,18 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
-        szMsg += " Version: " + QSslSocket::sslLibraryVersionString();
-        LOG_MODEL_INFO("FrmUpdater", "Support ssl: %d; %s",
-                        QSslSocket::supportsSsl(),
+        szMsg += "; Installed Version: " + QSslSocket::sslLibraryVersionString();
+        LOG_MODEL_INFO("FrmUpdater", "QSslSocket support ssl: %s",
                         szMsg.toStdString().c_str());
     } else {
+        QString szMsg;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        LOG_MODEL_ERROR("FrmUpdater",
-              "Please install openssl first. openssl build version:%s",
-              QSslSocket::sslLibraryBuildVersionString().toStdString().c_str());
+        szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
+        LOG_MODEL_ERROR("FrmUpdater",
+              "QSslSocket is not support ssl. The system is not install the OPENSSL dynamic library[%s]."
+              " Please install OPENSSL dynamic library [%s]",
+              szMsg.toStdString().c_str(), szMsg.toStdString().c_str());
     }
 
     if(szUrl.isEmpty())
@@ -317,9 +319,11 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
     Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),
                     this, SLOT(slotSslError(const QList<QSslError>)));
+    Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(finished()),
                     this, SLOT(slotFinished()));
-    
+    Q_ASSERT(check);
+
     ui->progressBar->show();
     return nRet;
 }
