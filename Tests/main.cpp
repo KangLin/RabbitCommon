@@ -20,11 +20,10 @@
 #include "RabbitCommonLog.h"
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
-#include <string>
 
 int main(int argc, char *argv[])
 {
-    RabbitCommon::CTools::EnableCoreDump(true);
+    RabbitCommon::CTools::EnableCoreDump();
 
     QApplication a(argc, argv);
 #ifdef RabbitCommon_VERSION

@@ -13,9 +13,7 @@
 //#include <tchar.h>
 #include <dbghelp.h>
 #include "MiniDumper.h"
-#include <TCHAR.h>
 #include "RabbitCommonLog.h"
-#include <QMessageBox>
 
 namespace RabbitCommon {
 

@@ -136,11 +136,11 @@ void CTools::CleanResource()
     g_RabbitCommon_CleanResource();
 }
 
-bool CTools::EnableCoreDump(bool bEnable)
+bool CTools::EnableCoreDump(bool bPrompt)
 {
 #ifdef Q_OS_WIN
-    static RabbitCommon::CMiniDumper dumper(bEnable);
-    //RabbitCommon::EnableMiniDumper();
+    //static RabbitCommon::CMiniDumper dumper(bPrompt);
+    RabbitCommon::EnableMiniDumper();
     return true;
 #endif
     return false;

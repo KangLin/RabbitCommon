@@ -94,7 +94,7 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     {
         QString szMsg;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
+        szMsg = "Build Version: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
         szMsg += "; Installed Version: " + QSslSocket::sslLibraryVersionString();
         LOG_MODEL_INFO("FrmUpdater", "QSslSocket support ssl: %s",

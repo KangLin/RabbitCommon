@@ -39,10 +39,10 @@ public:
     
     /**
      * @brief Enable core dump
-     * @param bEnable
+     * @param bPrompt: prompt
      * @return
      */
-    static bool EnableCoreDump(bool bEnable = true);
+    static bool EnableCoreDump(bool bPrompt = true);
 
     /**
      * @brief executeByRoot: Run with administrator privileges
