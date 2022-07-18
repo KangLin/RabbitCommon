@@ -8,6 +8,7 @@
 + 为 Windows 动态库增加版本后缀
 + 增加 windows core dumper
 + 增加 InstallRequiredSystemLibraries
++ 修复除 0 程序崩溃错误
 
 ### 版本： v1.0.5
 + 增加日志

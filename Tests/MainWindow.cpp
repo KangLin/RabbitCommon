@@ -130,3 +130,9 @@ void MainWindow::on_actionOpen_log_folder_triggered()
 {
     RabbitCommon::OpenLogFolder();
 }
+
+void MainWindow::on_pbGenerateCoreFile_clicked()
+{
+strcpy(0,0);
+}
+

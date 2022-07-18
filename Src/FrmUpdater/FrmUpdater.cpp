@@ -378,7 +378,8 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
-    m_TrayIcon.setToolTip(windowTitle() + " - "
+    if(bytesTotal > 0)
+        m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName()
                           + tr(": downloading %1%").arg(
                             QString::number(bytesReceived * 100 / bytesTotal)));

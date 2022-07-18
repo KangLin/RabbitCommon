@@ -24,47 +24,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="89"/>
+        <location filename="../../MainWindow.ui" line="87"/>
+        <source>Generate core file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="102"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="96"/>
+        <location filename="../../MainWindow.ui" line="109"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="100"/>
+        <location filename="../../MainWindow.ui" line="113"/>
         <source>Open log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="115"/>
+        <location filename="../../MainWindow.ui" line="128"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="120"/>
+        <location filename="../../MainWindow.ui" line="133"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="125"/>
+        <location filename="../../MainWindow.ui" line="138"/>
         <source>Stype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="130"/>
+        <location filename="../../MainWindow.ui" line="143"/>
         <source>Open log configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="135"/>
+        <location filename="../../MainWindow.ui" line="148"/>
         <source>Open log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="140"/>
+        <location filename="../../MainWindow.ui" line="153"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>

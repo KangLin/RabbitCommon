@@ -29,6 +29,7 @@ private slots:
     void on_actionOpen_log_configure_triggered();
     void on_actionOpen_log_file_triggered();
     void on_actionOpen_log_folder_triggered();
+    void on_pbGenerateCoreFile_clicked();
     
 private:
     Ui::MainWindow *ui;

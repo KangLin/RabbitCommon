@@ -8,6 +8,7 @@
 + Add version suffix to Windows dynamic library
 + Add windows core dumper
 + CMAKE: add InstallRequiredSystemLibraries
++ Fix divide by 0 program crash bug
 
 ### Version: v1.0.5
 + Add logger
