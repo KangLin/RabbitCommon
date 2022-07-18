@@ -9,8 +9,8 @@
 #include <assert.h>
 #include <time.h>
 #include <stdlib.h>
+#include <tchar.h>
 #include <strsafe.h>
-//#include <tchar.h>
 #include <dbghelp.h>
 #include "MiniDumper.h"
 #include "RabbitCommonLog.h"
