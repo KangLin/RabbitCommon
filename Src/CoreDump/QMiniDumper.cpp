@@ -25,7 +25,7 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 
 	QString dumpName = QDir::toNativeSeparators(
 	    QCoreApplication::applicationDirPath() + QDir::separator()
-                + QString("pie-%1-%2-%3.dmp")
+               + qApp->applicationName() + QString("_%1_%2_%3.dmp")
 		.arg(QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss"))
 		.arg(GetCurrentProcessId())
 		.arg(GetCurrentThreadId())
