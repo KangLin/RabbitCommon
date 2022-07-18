@@ -7,6 +7,7 @@
   - Add OpenLogFolder()
 + Add version suffix to Windows dynamic library
 + Add windows core dumper
++ CMAKE: add InstallRequiredSystemLibraries
 
 ### Version: v1.0.5
 + Add logger

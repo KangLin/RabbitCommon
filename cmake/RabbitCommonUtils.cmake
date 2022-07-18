@@ -9,6 +9,15 @@ include(GenerateExportHeader)
 include(CPackComponent)
 
 SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
+if(CMAKE_MFC_FLAG)
+    set(CMAKE_INSTALL_MFC_LIBRARIES TRUE)
+endif()
+if(CMAKE_BUILD_TYPE)
+    string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+endif()
+if(BUILD_TYPE STREQUAL "debug")
+    set(CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
+endif()
 include(InstallRequiredSystemLibraries)
 
 cpack_add_component(Development
@@ -220,7 +229,7 @@ function(INSTALL_TARGET)
             #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                 COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
+                # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                 --verbose 7
                 --no-translations
                 --dir ${CMAKE_BINARY_DIR}/bin
@@ -261,6 +270,7 @@ function(INSTALL_TARGET)
             set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
         endif()
         if(PARA_ISEXE)
+            set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${PARA_RUNTIME}")
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT Runtime
@@ -406,7 +416,7 @@ function(INSTALL_TARGET)
             endif()
         endif(PARA_ISEXE)
         
-        # 分发
+        # Windows 下分发
         IF(WIN32 AND BUILD_SHARED_LIBS)
             IF(MINGW)
                 # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
@@ -416,7 +426,7 @@ function(INSTALL_TARGET)
                 #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    --compiler-runtime
+                    # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     --no-translations
                     "$<TARGET_FILE:${PARA_NAME}>"
@@ -425,7 +435,7 @@ function(INSTALL_TARGET)
                 #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    --compiler-runtime
+                    # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     #--no-translations
                     #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>"

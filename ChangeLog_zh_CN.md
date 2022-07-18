@@ -7,6 +7,7 @@
   - 增加 OpenLogFolder()
 + 为 Windows 动态库增加版本后缀
 + 增加 windows core dumper
++ 增加 InstallRequiredSystemLibraries
 
 ### 版本： v1.0.5
 + 增加日志
