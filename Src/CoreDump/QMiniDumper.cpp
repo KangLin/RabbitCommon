@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QTranslator>
+#include <QCoreApplication>
 #include "MiniDumper.h"
 
 //#pragma comment( lib, "Dbghelp.lib" )
@@ -23,7 +24,8 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 	}
 
 	QString dumpName = QDir::toNativeSeparators(
-		QString("logs\\pie-%1-%2-%3.dmp")
+	    QCoreApplication::applicationDirPath() + QDir::separator()
+                + QString("pie-%1-%2-%3.dmp")
 		.arg(QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss"))
 		.arg(GetCurrentProcessId())
 		.arg(GetCurrentThreadId())
