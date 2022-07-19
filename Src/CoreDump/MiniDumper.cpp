@@ -13,7 +13,6 @@
 #include <strsafe.h>
 #include <dbghelp.h>
 #include "MiniDumper.h"
-#include "RabbitCommonLog.h"
 
 namespace RabbitCommon {
 

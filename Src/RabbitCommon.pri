@@ -59,7 +59,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
     INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
     FORMS += $$PWD/DlgAbout/DlgAbout.ui
 }
-!equals(BUILD_ADMINAUTHORISER, "OFF"){
+!equals(BUILD_ADMINAUTHORISER, "OFF") {
     DEFINES *= HAVE_ADMINAUTHORISER
     SOURCES += $$PWD/AdminAuthoriser/adminauthoriser.cpp
     HEADERS += $$PWD/AdminAuthoriser/adminauthoriser.h \
@@ -115,6 +115,14 @@ else {
     INSTALLS += log4cplus
 }
 
+win32 {
+    SOURCES += \
+        $$PWD/CoreDump/MiniDumper.cpp \
+        $$PWD/CoreDump/QMiniDumper.cpp
+    HEADERS += $$PWD/CoreDump/MiniDumper.h
+    LIBS += -lDbghelp -luser32
+}
+    
 SOURCES += \
     $$PWD/RabbitCommonLog.cpp \
     $$PWD/RabbitCommonDir.cpp \

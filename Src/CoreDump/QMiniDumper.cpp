@@ -15,7 +15,6 @@
 
 namespace RabbitCommon {
 
-
 LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 {
 	if (!QDir("logs").exists())

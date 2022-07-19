@@ -1,5 +1,5 @@
-#ifndef COREDUMP_H
-#define COREDUMP_H
+#ifndef __MiniDumper_H_KL_2022_07_19__
+#define __MiniDumper_H_KL_2022_07_19__
 
 #include <windows.h>
 
@@ -38,4 +38,4 @@ void EnableMiniDumper();
 
 } //namespace RabbitCommon
 
-#endif // COREDUMP_H
+#endif // __MiniDumper_H_KL_2022_07_19__
