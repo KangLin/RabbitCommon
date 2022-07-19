@@ -18,6 +18,10 @@
 [:us: 英语](README.md)
 
 项目位置: https://github.com/KangLin/RabbitCommon
+镜像位置：
+- https://sourceforge.net/projects/rabbitcommon/
+- https://launchpad.net/rabbitcommon
+- https://gitlab.com/kl222/RabbitCommon
 
 ### 功能
 

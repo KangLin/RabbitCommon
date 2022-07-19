@@ -14,6 +14,10 @@ Author：Kang Lin（kl222@126.com)
 [:cn: Chinese](README_zh_CN.md)
 
 Project home site: https://github.com/KangLin/RabbitCommon
+Mirror:
+- https://sourceforge.net/projects/rabbitcommon/
+- https://launchpad.net/rabbitcommon
+- https://gitlab.com/kl222/RabbitCommon
 
 ### Functions
 
