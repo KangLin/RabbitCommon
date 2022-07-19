@@ -229,7 +229,7 @@ function(INSTALL_TARGET)
             #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                 COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                 --verbose 7
                 --no-translations
                 --dir ${CMAKE_BINARY_DIR}/bin
@@ -426,7 +426,7 @@ function(INSTALL_TARGET)
                 #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                    --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     --no-translations
                     "$<TARGET_FILE:${PARA_NAME}>"
@@ -435,7 +435,7 @@ function(INSTALL_TARGET)
                 #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    # --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                    --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     #--no-translations
                     #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>"
