@@ -35,15 +35,7 @@ set(VERSION ${RabbitCommon_VERSION})
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
-if(NOT DEFINED CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
-if(CMAKE_BUILD_TYPE)
-    string(TOLOWER ${CMAKE_BUILD_TYPE} RABBITCOMMON_BUILD_TYPE)
-    if(RABBITCOMMON_BUILD_TYPE STREQUAL "debug")
-        list(APPEND RabbitCommon_DEFINITIONS DEBUG _DEBUG)
-    endif()
-endif()
+list(APPEND RabbitCommon_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
 
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
@@ -258,9 +250,7 @@ if(BUILD_QUIWidget)
     list(APPEND RABBITCOMMON_SOURCE_FILES QUIWidget/QUIWidget.cpp)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
-    if("debug" STREQUAL RABBITCOMMON_BUILD_TYPE)
-        LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidgetQss.qrc)
-    endif()
+    LIST(APPEND RCC_FILES $<$<CONFIG:Debug>:QUIWidget/Resource/QUIWidgetQss.qrc>)
 endif(BUILD_QUIWidget)
 
 find_package(OpenSSL)
