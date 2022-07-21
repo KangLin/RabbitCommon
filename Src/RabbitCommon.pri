@@ -120,6 +120,7 @@ win32 {
         $$PWD/CoreDump/MiniDumper.cpp \
         $$PWD/CoreDump/QMiniDumper.cpp
     HEADERS += $$PWD/CoreDump/MiniDumper.h
+    DEFINES += _UNICODE UNICODE STRSAFE_NO_DEPRECATE
     LIBS += -lDbghelp -luser32
 }
     

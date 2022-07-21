@@ -121,7 +121,7 @@ if(WITH_CMARK_GFM)
 
     find_package(cmark-gfm)
     if(NOT cmark-gfm_FOUND)
-        SET(_CMARK_GFM_VERSION 0.29.0.gfm.2)
+        SET(_CMARK_GFM_VERSION 0.29.0.gfm.4)
         set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
         if(NOT EXISTS "${CMARK_GFM_DIR}")
             DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_GFM_VERSION}"
