@@ -460,12 +460,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="49"/>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="48"/>
         <source>Application Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="50"/>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="49"/>
         <source>I&apos;m Sorry, Application is Crash! The path: </source>
         <translation type="unfinished"></translation>
     </message>

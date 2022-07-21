@@ -261,9 +261,7 @@ bool EvpAES::xts_encrypt(const QByteArray &in, QByteArray &out,
 bool EvpAES::ocb_encrypt(const QByteArray &in, QByteArray &out,
                         const QByteArray &key, const QByteArray &ivec, bool enc)
 {
-#if OPENSSL_VERSION_MAJOR >= 3
-    return false;
-#else
+#ifndef OPENSSL_NO_OCB
 
     // 检查密钥合法性(只能是16、24、32字节)
     Q_ASSERT(key.size() == KEY_SIZE_16B
@@ -289,6 +287,7 @@ bool EvpAES::ocb_encrypt(const QByteArray &in, QByteArray &out,
     return encrypt(in, out, key, ivec, cipher, enc);
 
 #endif
+    return false;
 }
 
 bool EvpAES::encrypt(const QByteArray &in, QByteArray &out,
