@@ -261,31 +261,33 @@ bool EvpAES::xts_encrypt(const QByteArray &in, QByteArray &out,
 bool EvpAES::ocb_encrypt(const QByteArray &in, QByteArray &out,
                         const QByteArray &key, const QByteArray &ivec, bool enc)
 {
-#ifndef OPENSSL_NO_OCB
+#if OPENSSL_VERSION_NUMBER >= 0x3000000fL
+    #ifndef OPENSSL_NO_OCB
 
-    // 检查密钥合法性(只能是16、24、32字节)
-    Q_ASSERT(key.size() == KEY_SIZE_16B
-             || key.size() == KEY_SIZE_24B || key.size() == KEY_SIZE_32B);
-    Q_ASSERT(ivec.size() == KEY_SIZE_16B); // 初始向量为16字节
+        // 检查密钥合法性(只能是16、24、32字节)
+        Q_ASSERT(key.size() == KEY_SIZE_16B
+                 || key.size() == KEY_SIZE_24B || key.size() == KEY_SIZE_32B);
+        Q_ASSERT(ivec.size() == KEY_SIZE_16B); // 初始向量为16字节
 
-    // 根据key大小创建EVP_CIPHER
-    const EVP_CIPHER * cipher = nullptr;
-    if (key.size() == KEY_SIZE_16B)
-    {
-        cipher = EVP_aes_128_ocb();
-    }
-    else if (key.size() == KEY_SIZE_24B)
-    {
-        cipher = EVP_aes_192_ocb();
-    }
-    else
-    {
-        cipher = EVP_aes_256_ocb();
-    }
+        // 根据key大小创建EVP_CIPHER
+        const EVP_CIPHER * cipher = nullptr;
+        if (key.size() == KEY_SIZE_16B)
+        {
+            cipher = EVP_aes_128_ocb();
+        }
+        else if (key.size() == KEY_SIZE_24B)
+        {
+            cipher = EVP_aes_192_ocb();
+        }
+        else
+        {
+            cipher = EVP_aes_256_ocb();
+        }
 
-    // 执行加解密
-    return encrypt(in, out, key, ivec, cipher, enc);
+        // 执行加解密
+        return encrypt(in, out, key, ivec, cipher, enc);
 
+    #endif
 #endif
     return false;
 }
