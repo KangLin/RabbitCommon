@@ -114,16 +114,37 @@ void CTools::InitTranslator(const QString szLanguage)
     QString szFile = CDir::Instance()->GetDirTranslations()
             + "/RabbitCommon_" + szLanguage + ".qm";
     bool ret = m_Translator.load(szFile);
-    if(!ret) LOG_MODEL_ERROR("RabbitCommon", "translator load fail: %s",
-                             szFile.toStdString().c_str());
-    ret = qApp->installTranslator(&m_Translator);
-    if(!ret) LOG_MODEL_ERROR("RabbitCommon", "translator install translator fail: %s",
-                             szFile.toStdString().c_str());    
+    if(ret)
+    {
+        ret = qApp->installTranslator(&m_Translator);
+        if(!ret)
+            LOG_MODEL_ERROR("RabbitCommon",
+                            "translator install translator fail: %s",
+                            szFile.toStdString().c_str());
+    } else
+        LOG_MODEL_ERROR("RabbitCommon", "translator load fail: %s",
+                                     szFile.toStdString().c_str());
+
+    szFile = CDir::Instance()->GetDirApplication()
+            + QDir::separator() + "translations"
+            + QDir::separator() + "qt_" + szLanguage + ".qm";
+    ret = m_TranslatorQt.load(szFile);
+    if(ret)
+    {
+        ret = qApp->installTranslator(&m_TranslatorQt);
+        if(!ret)
+            LOG_MODEL_ERROR("RabbitCommon",
+                            "Qt translator install translator fail: %s",
+                            szFile.toStdString().c_str());
+    } else
+        LOG_MODEL_ERROR("RabbitCommon", "Qt translator load fail: %s",
+                                     szFile.toStdString().c_str());
 }
 
 void CTools::CleanTranslator()
 {
-    qApp->removeTranslator(&m_Translator);    
+    qApp->removeTranslator(&m_TranslatorQt);
+    qApp->removeTranslator(&m_Translator);
 }
 
 void CTools::InitResource()

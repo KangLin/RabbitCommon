@@ -84,7 +84,7 @@ private:
     CTools();
     virtual ~CTools();
     
-    QTranslator m_Translator;
+    QTranslator m_Translator, m_TranslatorQt;
     
     QString m_szLanguage;
 };
