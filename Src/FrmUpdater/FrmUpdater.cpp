@@ -1273,12 +1273,12 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     info.szPlatform = parser.value(oPlatform);
     info.szArchitecture = parser.value(oArch);
     info.szMd5sum = parser.value(oMd5);
-    if(info.szMd5sum.isEmpty())
+    QString szPackageFile = parser.value(oPackageFile);
+    if(info.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
     {
         //计算包的 MD5 和
-        QString szFile = parser.value(oPackageFile);
         QCryptographicHash md5sum(QCryptographicHash::Md5);
-        QFile app(szFile);
+        QFile app(szPackageFile);
         if(app.open(QIODevice::ReadOnly))
         {
             if(md5sum.addData(&app))
@@ -1288,7 +1288,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
             app.close();
         } else {
             LOG_MODEL_ERROR("RabbitCommon", "Don't open package file: %s",
-                            szFile.toStdString().c_str());
+                            szPackageFile.toStdString().c_str());
         }
     }
     info.szUrl = parser.value(oUrl);
