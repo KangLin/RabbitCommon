@@ -122,6 +122,19 @@ CLog::CLog()
 
 }
 
+CLog::~CLog()
+{
+#ifdef HAVE_LOG4QT
+    auto logger = Log4Qt::Logger::rootLogger();
+    logger->removeAllAppenders();
+    logger->loggerRepository()->shutdown();
+#elif defined(HAVE_LOG4CXX)
+    log4cxx::LoggerPtr root = log4cxx::Logger::getRootLogger();
+    logger->removeAllAppenders();
+    logger->loggerRepository()->shutdown();
+#endif
+}
+
 CLog* CLog::Instance()
 {
     static CLog* p = NULL;

@@ -41,7 +41,8 @@ class RABBITCOMMON_EXPORT CLog
 {
 public:
     CLog();
-
+    virtual ~CLog();
+    
     static CLog* Instance();
     int EnablePrintThread(bool bPrint);
 
