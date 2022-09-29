@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
                     RabbitCommon::CDir::Instance()->GetDirApplication().toStdString().c_str());
     LOG_MODEL_DEBUG("main", "GetDirApplicationInstallRoot:%s",
                     RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot().toStdString().c_str());
-    qDebug() << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
+    qCInfo(RabbitCommon::Logger) << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
     
     QTranslator tApp;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()

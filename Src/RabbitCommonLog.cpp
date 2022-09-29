@@ -47,6 +47,8 @@
 
 namespace RabbitCommon {
 
+QLoggingCategory Logger("RabbitCommon.Logger");
+
 CLog::CLog()
 {
     m_bEnablePrintThread = true;
@@ -392,7 +394,10 @@ void OpenLogConfigureFile()
 {
     QString f = RabbitCommon::CLog::Instance()->OpenLogConfigureFile();
     if(f.isEmpty())
+    {
+        qCCritical(Logger) << "Configure file is empty";
         return;
+    }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
 }
 
@@ -400,7 +405,10 @@ void OpenLogFile()
 {
     QString d = RabbitCommon::CLog::Instance()->GetLogFile();
     if(d.isEmpty())
+    {
+        qCCritical(Logger) << "Log file is empty";
         return;
+    }
     QDesktopServices::openUrl(d);
 }
 
@@ -408,7 +416,10 @@ void OpenLogFolder()
 {
     QString f = RabbitCommon::CLog::Instance()->GetLogDir();
     if(f.isEmpty())
+    {
+        qCCritical(Logger) << "Log folder is empty";
         return;
+    }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
 }
 

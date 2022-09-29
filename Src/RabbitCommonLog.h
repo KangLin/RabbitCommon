@@ -1,7 +1,8 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
  *  @author Kang Lin <kl222@126.com>
  *  @abstract log
- *  The log interface is deprecated. Please use qDebug and log4Qt instead.
+ *  The log interface is deprecated.
+ *  Please use qDebug or qCDebug and QLoggingCategory instead.
  */
 
 #ifndef RABBIT_COMMON_LOG_H
@@ -9,6 +10,7 @@
 
 #pragma once
 #include <QObject>
+#include <QLoggingCategory>
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
@@ -67,6 +69,8 @@ private:
     bool m_bEnablePrintThread;
     QString m_szConfigureFile;
 };
+
+extern RABBITCOMMON_EXPORT QLoggingCategory Logger;
 
 } // End namespace RabbitCommon
 
