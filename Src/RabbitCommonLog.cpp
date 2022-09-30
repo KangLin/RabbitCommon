@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QCoreApplication>
 
 // https://github.com/MEONMedical/Log4Qt
 #ifdef HAVE_LOG4QT
@@ -56,9 +57,9 @@ CLog::CLog()
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
 #ifdef HAVE_LOG4QT
-    
+
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + "log4qt.conf";
+            + QDir::separator() + qApp->applicationName() + ".conf";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if (QFile::exists(szConfFile))
     {
