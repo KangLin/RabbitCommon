@@ -25,7 +25,6 @@ Abstract:
 #include <QTextEdit>
 #include <QFile>
 #include <QDir>
-#include <QDebug>
 #include <QMenu>
 #include <QStandardPaths>
 #include <QSslError>
@@ -284,7 +283,7 @@ int CDlgAbout::DownloadFile(const QUrl &url)
     m_pReply = m_NetManager.get(request);
     if(!m_pReply)
         return -1;
-    
+
     bool check = false;
     check = connect(m_pReply,
                 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -298,14 +297,14 @@ int CDlgAbout::DownloadFile(const QUrl &url)
                     this, SLOT(slotSslError(const QList<QSslError>&)));
     check = connect(m_pReply, SIGNAL(finished()),
                     this, SLOT(slotFinished()));
-    
+
     return nRet;
 }
 
 void CDlgAbout::slotFinished()
 {
-    qDebug() << "CFrmUpdater::slotFinished()";
-    
+    qDebug(RabbitCommon::Logger) << "CDlgAbout::slotFinished()";
+
     QVariant redirectionTarget;
     if(m_pReply)
         redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
@@ -320,12 +319,13 @@ void CDlgAbout::slotFinished()
         QUrl u = redirectionTarget.toUrl();  
         if(u.isValid())
         {
-            qDebug() << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
+            qDebug(RabbitCommon::Logger)
+                    << "CDlgAbout::slotFinished():redirectionTarget:url:" << u;
             DownloadFile(u);
         }
         return;
     }
-    
+
     QByteArray d = m_pReply->readAll();
     m_DonationIcon.loadFromData(d);
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
@@ -338,7 +338,7 @@ void CDlgAbout::slotFinished()
     //        m_DonationIcon = QPixmap(RabbitCommon::CDir::Instance()->GetDirUserImage()
     //                                 + QDir::separator() + "donation.png", "png");
     //    }
-    
+
     if(m_pReply)
     {
         m_pReply->disconnect();
@@ -349,7 +349,7 @@ void CDlgAbout::slotFinished()
 
 void CDlgAbout::slotError(QNetworkReply::NetworkError e)
 {
-    qDebug() << "CFrmUpdater::slotError: " << e;
+    qDebug(RabbitCommon::Logger) << "CFrmUpdater::slotError: " << e;
     if(m_pReply)
     {
         m_pReply->disconnect();
@@ -360,8 +360,7 @@ void CDlgAbout::slotError(QNetworkReply::NetworkError e)
 
 void CDlgAbout::slotSslError(const QList<QSslError> &e)
 {
-    qDebug() << "CFrmUpdater::slotSslError: " << e;
-    
+    qDebug(RabbitCommon::Logger) << "CFrmUpdater::slotSslError: " << e;
     if(m_pReply)
     {
         m_pReply->disconnect();

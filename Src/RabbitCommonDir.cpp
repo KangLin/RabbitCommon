@@ -1,6 +1,7 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
+#include "RabbitCommonLog.h"
 #include "RabbitCommonDir.h"
 #include <QStandardPaths>
 #include <QDir>
@@ -16,14 +17,14 @@ CDir::CDir()
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
-    qInfo() << "Document path:" << m_szDocumentPath;
+    qInfo(Logger) << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
-            qCritical() << "mkdir doucments dir fail:" << m_szDocumentPath;
+            qCritical(Logger) << "mkdir doucments dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  qApp->applicationDirPath();
-    qInfo() << "Application dir:" << m_szApplicationDir;
+    qInfo(Logger) << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
@@ -32,7 +33,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
-    qInfo() << "Application root dir:" << m_szApplicationDir;
+    qInfo(Logger) << "Application root dir:" << m_szApplicationDir;
 }
 
 CDir* CDir::Instance()
@@ -45,7 +46,7 @@ CDir* CDir::Instance()
 
 QString CDir::GetDirApplication()
 {
-    //qDebug() << "GetDirApplication:" << qApp->applicationDirPath();
+    //qDebug(Logger) << "GetDirApplication:" << qApp->applicationDirPath();
     return m_szApplicationDir;
 }
 

@@ -1,7 +1,6 @@
 #include "EvpAES.h"
 #include <openssl/evp.h>
 #include <openssl/aes.h>
-#include <QDebug>
 
 #define KEY_SIZE_16B            16
 #define KEY_SIZE_24B            24

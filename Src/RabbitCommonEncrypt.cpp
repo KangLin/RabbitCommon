@@ -123,7 +123,7 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
     nRet = Dencode(pIn, inLen, &pOut, nOutLen);
     if(nRet)
     {
-        LOG_MODEL_ERROR("Encrypt", "Dencode error\n");
+        qCritical(Logger) << "Dencode error";
         return nRet;
     }
 

@@ -1,6 +1,7 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
+#include "RabbitCommonLog.h"
 #include "RabbitCommonStyle.h"
 #include "RabbitCommonDir.h"
 
@@ -39,7 +40,7 @@ int CStyle::LoadStyle()
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QString szFile = set.value("Sink", m_szDefaultFile).toString();
-    qDebug() << "LoadStyle:" << szFile;
+    qDebug(Logger) << "LoadStyle:" << szFile;
     return  LoadStyle(szFile);
 }
 
@@ -93,7 +94,7 @@ int CStyle::LoadStyle(const QString &szFile)
         }
         else
         {
-            qDebug() << "file open file fail:" << szFile;                       
+            qDebug(Logger) << "file open file fail:" << szFile;                       
         }
     }
     return 0;

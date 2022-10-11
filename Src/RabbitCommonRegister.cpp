@@ -1,12 +1,12 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
+#include "RabbitCommonLog.h"
 #include "RabbitCommonRegister.h"
 
 #include <QSettings>
 #include <QCoreApplication>
 #include <QDir>
-#include <QDebug>
 
 namespace RabbitCommon {
 
@@ -170,7 +170,7 @@ int CRegister::InstallStartRun(const QString &szReg, const QString &szName, cons
     bool ret = f.link("/etc/xdg/autostart/" + appName + ".desktop");
     if(!ret)
     {
-        qDebug() << "file link " << f.fileName() << "to /etc/xdg/autostart/" + appName + ".desktop:" << f.error();
+        qDebug(Logger) << "file link " << f.fileName() << "to /etc/xdg/autostart/" + appName + ".desktop:" << f.error();
         return -1;
     }
     return 0;

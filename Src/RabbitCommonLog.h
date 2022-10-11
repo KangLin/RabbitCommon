@@ -2,7 +2,7 @@
  *  @author Kang Lin <kl222@126.com>
  *  @abstract log
  *  The log interface is deprecated.
- *  Please use qDebug or qCDebug and QLoggingCategory instead.
+ *  Please use qDebug or qDebug and QLoggingCategory instead.
  */
 
 #ifndef RABBIT_COMMON_LOG_H

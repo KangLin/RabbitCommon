@@ -10,7 +10,6 @@
 
 #include <QtNetwork>
 #include <QUrl>
-#include <QDebug>
 #include <QStandardPaths>
 #include <QFinalState>
 #include <QDomDocument>
@@ -25,6 +24,7 @@
 #include <QMenu>
 #include <QSettings>
 
+Q_LOGGING_CATEGORY(FrmUpdater, "RabbitCommon.Updater")
 CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
@@ -97,17 +97,15 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
         szMsg = "Build Version: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
         szMsg += "; Installed Version: " + QSslSocket::sslLibraryVersionString();
-        LOG_MODEL_INFO("FrmUpdater", "QSslSocket support ssl: %s",
-                        szMsg.toStdString().c_str());
+        qInfo(FrmUpdater) << "QSslSocket support ssl:" << szMsg;
     } else {
         QString szMsg;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
-        LOG_MODEL_ERROR("FrmUpdater",
-              "QSslSocket is not support ssl. The system is not install the OPENSSL dynamic library[%s]."
-              " Please install OPENSSL dynamic library [%s]",
-              szMsg.toStdString().c_str(), szMsg.toStdString().c_str());
+        qCritical(FrmUpdater) <<
+              "QSslSocket is not support ssl. The system is not install the OPENSSL dynamic library[" << szMsg << "]."
+              " Please install OPENSSL dynamic library [" << szMsg << "]";
     }
 
     if(szUrl.isEmpty())
@@ -255,7 +253,8 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
 int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload)
 {
     int nRet = 0;
-    qDebug() << "CFrmUpdater::DownloadFile:" << url << bRedirection << bDownload;
+    qDebug(FrmUpdater) << "CFrmUpdater::DownloadFile:"
+           << url << bRedirection << bDownload;
     if(!m_StateMachine.isRunning())
     {
         m_bDownload = bDownload;        
@@ -282,13 +281,13 @@ int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload
         QString szPath = url.path();   
         QString szFile = szTmp + szPath.mid(szPath.lastIndexOf("/"));
         m_DownloadFile.setFileName(szFile);
-        qDebug() << "CFrmUpdater download file: " << m_DownloadFile.fileName();
+        qDebug(FrmUpdater) << "CFrmUpdater download file: " << m_DownloadFile.fileName();
         
     }
 
     if(!m_DownloadFile.open(QIODevice::WriteOnly))
     {
-        qDebug() << "Open file fail: " << m_DownloadFile.fileName();
+        qDebug(FrmUpdater) << "Open file fail: " << m_DownloadFile.fileName();
         return -1;
     }
     
@@ -341,7 +340,7 @@ void CFrmUpdater::slotReadyRead()
 
 void CFrmUpdater::slotFinished()
 {
-    qDebug() << "CFrmUpdater::slotFinished()";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotFinished()";
     
     QVariant redirectionTarget;
     if(m_pReply)
@@ -357,7 +356,7 @@ void CFrmUpdater::slotFinished()
         QUrl u = redirectionTarget.toUrl();  
         if(u.isValid())
         {
-            qDebug() << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
+            qDebug(FrmUpdater) << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
             DownloadFile(u, true);
         }
         return;
@@ -387,7 +386,7 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
 {
-    qDebug() << "CFrmUpdater::slotError: " << e;
+    qDebug(FrmUpdater) << "CFrmUpdater::slotError: " << e;
     if(m_pReply)
     {
         ui->lbState->setText(tr("Download network error: ")
@@ -403,7 +402,7 @@ void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
 
 void CFrmUpdater::slotSslError(const QList<QSslError> e)
 {
-    qDebug() << "CFrmUpdater::slotSslError: " << e;
+    qDebug(FrmUpdater) << "CFrmUpdater::slotSslError: " << e;
     QString sErr;
     foreach(QSslError s, e)
         sErr += s.errorString() + " ";
@@ -427,7 +426,7 @@ void CFrmUpdater::slotStateFinished()
 
 void CFrmUpdater::slotCheck()
 {
-    qDebug() << "CFrmUpdater::slotCheck()";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotCheck()";
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QDateTime d = set.value("Update/DateTime").toDateTime();
@@ -454,7 +453,7 @@ void CFrmUpdater::slotCheck()
 
 void CFrmUpdater::slotDownloadXmlFile()
 {
-    qDebug() << "CFrmUpdater::slotDownloadXmlFile";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadXmlFile";
     if(m_Url.isValid())
         DownloadFile(m_Url);
 }
@@ -463,7 +462,7 @@ void CFrmUpdater::slotCheckXmlFile()
 {
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
-    qDebug() << "CFrmUpdater::slotCheckXmlFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile()";
     if(CheckRedirectXmlFile() <= 0)
         return;
     
@@ -490,10 +489,11 @@ void CFrmUpdater::slotCheckXmlFile()
  */
 int CFrmUpdater::CheckRedirectXmlFile()
 {
-    qDebug() << "CFrmUpdater::CheckRedirectXmlFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectXmlFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qCritical() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
+        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
+                              << m_DownloadFile.fileName();
         emit sigError();
         return -1;
     }
@@ -503,7 +503,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
         QString szError = tr("Parse file %1 fail. It isn't xml file")
                 .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
-        qDebug() << "CFrmUpdater::slotCheckXmlFile:" << szError;
+        qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
         return -2;
@@ -603,10 +603,11 @@ int CFrmUpdater::CheckRedirectXmlFile()
  */
 int CFrmUpdater::CheckUpdateXmlFile()
 {
-    qDebug() << "CFrmUpdater::CheckUpdateXmlFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateXmlFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qCritical() << "CFrmUpdater::slotCheckXmlFile: open file fail:" << m_DownloadFile.fileName();
+        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
+                              << m_DownloadFile.fileName();
         emit sigError();
         return -1;
     }
@@ -616,7 +617,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
         QString szError = tr("Parse file %1 fail. It isn't xml file")
                 .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
-        qDebug() << "CFrmUpdater::slotCheckXmlFile:" << szError;
+        qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
         return -2;
@@ -657,7 +658,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
         else if(node.nodeName() == "MIN_UPDATE_VERSION")
             m_Info.szMinUpdateVersion = node.text();
     }
-    qDebug() << "version: " << m_Info.szVerion
+    qDebug(FrmUpdater) << "version: " << m_Info.szVerion
              << "time: " << m_Info.szTime
              << "bForce: " << m_Info.bForce
              << "system: " << m_Info.szSystem
@@ -724,7 +725,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
     ui->lbState->setText(tr("There is a new version, is it updated?"));
     if(m_Info.bForce)
     {
-        qDebug() << "Force update";
+        qDebug(FrmUpdater) << "Force update";
         emit sigFinished();
     }
     else
@@ -743,7 +744,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
 
 void CFrmUpdater::slotDownloadSetupFile()
 {
-    qDebug() << "CFrmUpdater::slotDownloadSetupFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadSetupFile()";
     ui->pbOK->setText(tr("Hide"));
     ui->lbState->setText(tr("Download ......"));
     if(IsDownLoad())
@@ -757,14 +758,15 @@ void CFrmUpdater::slotUpdate()
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
-    //qDebug() << "CFrmUpdater::slotUpdate()";
+    //qDebug(FrmUpdater) << "CFrmUpdater::slotUpdate()";
 
     // Check file md5sum
     bool bSuccess = false;
     do{
         if(!m_DownloadFile.open(QIODevice::ReadOnly))
         {
-            qCritical() << "Download file fail: " << m_DownloadFile.fileName();
+            qCritical(FrmUpdater) << "Download file fail: "
+                                  << m_DownloadFile.fileName();
             ui->lbState->setText(tr("Download file fail"));
             break;
         }
@@ -836,7 +838,7 @@ void CFrmUpdater::slotUpdate()
             QString szCmd = InstallScript(m_DownloadFile.fileName(),
                                           qApp->applicationName());
             f.write(szCmd.toStdString().c_str());
-            qDebug() << szCmd << szInstall;
+            qDebug(FrmUpdater) << szCmd << szInstall;
             f.close();
 
             //启动安装程序
@@ -874,7 +876,7 @@ void CFrmUpdater::slotUpdate()
 
         //system(m_DownloadFile.fileName().toStdString().c_str());
         //int nRet = QProcess::execute(m_DownloadFile.fileName());
-        //qDebug() << "QProcess::execute return: " << nRet;
+        //qDebug(FrmUpdater) << "QProcess::execute return: " << nRet;
         
         bSuccess = true;
     }while(0);
@@ -1020,7 +1022,7 @@ bool CFrmUpdater::IsDownLoad()
 
 void CFrmUpdater::on_pbOK_clicked()
 {
-    qDebug() << "CFrmUpdater::on_pbOK_clicked()";
+    qDebug(FrmUpdater) << "CFrmUpdater::on_pbOK_clicked()";
     if(!m_pStateDownloadSetupFile->active())
         return;
     
@@ -1129,9 +1131,9 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     f.setFileName(szFile);
     if(!f.open(QIODevice::WriteOnly))
     {
-        LOG_MODEL_ERROR("RabbitCommon",
-                       "CFrmUpdater::GenerateUpdateXml file open file fail: %s",
-                       f.fileName().toStdString().c_str());
+        qCritical(FrmUpdater)
+                << "CFrmUpdater::GenerateUpdateXml file open file fail:"
+                << f.fileName();
         return -1;
     }
     QTextStream stream(&f);
@@ -1287,14 +1289,13 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
             }
             app.close();
         } else {
-            LOG_MODEL_ERROR("RabbitCommon", "Don't open package file: %s",
-                            szPackageFile.toStdString().c_str());
+            qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
         }
     }
     info.szUrl = parser.value(oUrl);
     info.szUrlHome = parser.value(oUrlHome);
     info.szMinUpdateVersion = parser.value(oMin);
-   
+
     return GenerateUpdateXmlFile(szFile, info);
 }
 

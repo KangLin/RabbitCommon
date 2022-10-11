@@ -2,6 +2,7 @@
  *  @author Kang Lin(kl222@126.com)
  */
 
+#include <QLoggingCategory>
 #include <QApplication>
 
 #ifdef BUILD_QUIWidget
@@ -17,9 +18,10 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonStyle.h"
-#include "RabbitCommonLog.h"
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
+
+Q_LOGGING_CATEGORY(mainLog, "main")
 
 int main(int argc, char *argv[])
 {
@@ -31,11 +33,12 @@ int main(int argc, char *argv[])
 #endif
     a.setApplicationName("RabbitCommonTests");
     
-    LOG_MODEL_DEBUG("main", "GetDirApplication:%s",
-                    RabbitCommon::CDir::Instance()->GetDirApplication().toStdString().c_str());
-    LOG_MODEL_DEBUG("main", "GetDirApplicationInstallRoot:%s",
-                    RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot().toStdString().c_str());
-    qCInfo(RabbitCommon::Logger) << "GetDirUserDocument" << RabbitCommon::CDir::Instance()->GetDirUserDocument();
+    qDebug(mainLog) << "GetDirApplication:"
+                    << RabbitCommon::CDir::Instance()->GetDirApplication();
+    qDebug(mainLog) << "GetDirApplicationInstallRoot:%s"
+              << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
+    qInfo(mainLog) << "GetDirUserDocument"
+                   << RabbitCommon::CDir::Instance()->GetDirUserDocument();
     
     QTranslator tApp;
     tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()

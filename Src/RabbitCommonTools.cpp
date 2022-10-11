@@ -17,7 +17,6 @@
 #endif
 #include <QLocale>
 #include <QDir>
-#include <QDebug>
 #include <QStandardPaths>
 
 #ifdef WINDOWS
@@ -118,12 +117,9 @@ void CTools::InitTranslator(const QString szLanguage)
     {
         ret = qApp->installTranslator(&m_Translator);
         if(!ret)
-            LOG_MODEL_ERROR("RabbitCommon",
-                            "translator install translator fail: %s",
-                            szFile.toStdString().c_str());
+            qCritical(Logger) << "translator install translator fail:" << szFile;
     } else
-        LOG_MODEL_ERROR("RabbitCommon", "translator load fail: %s",
-                                     szFile.toStdString().c_str());
+        qCritical(Logger) << "translator load fail: %s" << szFile;
 
     szFile = CDir::Instance()->GetDirApplication()
             + QDir::separator() + "translations"
@@ -133,12 +129,9 @@ void CTools::InitTranslator(const QString szLanguage)
     {
         ret = qApp->installTranslator(&m_TranslatorQt);
         if(!ret)
-            LOG_MODEL_ERROR("RabbitCommon",
-                            "Qt translator install translator fail: %s",
-                            szFile.toStdString().c_str());
+            qCritical(Logger) << "Qt translator install translator fail:" << szFile;
     } else
-        LOG_MODEL_ERROR("RabbitCommon", "Qt translator load fail: %s",
-                                     szFile.toStdString().c_str());
+        qCritical(Logger) << "Qt translator load fail: %s" << szFile;
 }
 
 void CTools::CleanTranslator()
@@ -222,7 +215,8 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     {
         QString szCmd = "ln -s " + szDesktop + " " + szLink;
         if(!executeByRoot(szCmd))
-            qCritical() << "CTools::InstallStartRun: file link " << f.fileName() << "to " << szLink << f.error();
+            qCritical(Logger) << "CTools::InstallStartRun: file link"
+                              << f.fileName() << " to " << szLink << f.error();
         return -1;
     }
     return 0;
@@ -260,7 +254,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
 
         QString szCmd = "rm " + szLink;
         if(!executeByRoot(szCmd))
-            qCritical() << "CTools::RemoveStartRun: Remove" << szLink << "fail";
+            qCritical(Logger) << "CTools::RemoveStartRun: Remove" << szLink << "fail";
         return -1;
     }
     return 0;
@@ -299,7 +293,7 @@ bool CTools::IsStartRun(const QString &szName, bool bAllUser)
         return true;
     }
     
-    //qDebug() << "CTools::IsStartRun: Open" << f.fileName() <<  "file fail" << f.error() << f.errorString();
+    //qDebug(Logger) << "CTools::IsStartRun: Open" << f.fileName() <<  "file fail" << f.error() << f.errorString();
     return false;
 #endif
 }

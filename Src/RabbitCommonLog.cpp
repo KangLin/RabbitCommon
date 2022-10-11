@@ -168,9 +168,9 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global",
-                        "vsprintf buf is short, %d > %d. Truncated it:%d",
-                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        qCritical(Logger) << "vsprintf buf is short,"
+                          << nRet << ">" << LOG_BUFFER_LENGTH
+                          << ". Truncated it:" << nRet - LOG_BUFFER_LENGTH;
         buf[LOG_BUFFER_LENGTH - 1] = 0;
         //return nRet;
     }
@@ -220,9 +220,9 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global",
-                        "vsprintf buf is short, %d > %d. Truncated it:%d",
-                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        qCritical(Logger) << "vsprintf buf is short,"
+                          << nRet << ">" << LOG_BUFFER_LENGTH
+                          << ". Truncated it:" << nRet - LOG_BUFFER_LENGTH;
         buf[LOG_BUFFER_LENGTH - 1] = 0;
         //return nRet;
     }
@@ -273,9 +273,9 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global",
-                        "vsprintf buf is short, %d > %d. Truncated it:%d",
-                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        qCritical(Logger) << "vsprintf buf is short,"
+                          << nRet << ">" << LOG_BUFFER_LENGTH
+                          << ". Truncated it:" << nRet - LOG_BUFFER_LENGTH;
         buf[LOG_BUFFER_LENGTH - 1] = 0;
         //return nRet;
     }
@@ -353,9 +353,9 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global",
-                        "vsprintf buf is short, %d > %d. Truncated it:%d",
-                        nRet, LOG_BUFFER_LENGTH, nRet - LOG_BUFFER_LENGTH);
+        qCritical(Logger) << "vsprintf buf is short,"
+                          << nRet << ">" << LOG_BUFFER_LENGTH
+                          << ". Truncated it:" << nRet - LOG_BUFFER_LENGTH;
         buf[LOG_BUFFER_LENGTH - 1] = 0;
         //return nRet;
     }
@@ -396,7 +396,7 @@ void OpenLogConfigureFile()
     QString f = RabbitCommon::CLog::Instance()->OpenLogConfigureFile();
     if(f.isEmpty())
     {
-        qCCritical(Logger) << "Configure file is empty";
+        qCritical(Logger) << "Configure file is empty";
         return;
     }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
@@ -407,7 +407,7 @@ void OpenLogFile()
     QString d = RabbitCommon::CLog::Instance()->GetLogFile();
     if(d.isEmpty())
     {
-        qCCritical(Logger) << "Log file is empty";
+        qCritical(Logger) << "Log file is empty";
         return;
     }
     QDesktopServices::openUrl(d);
@@ -418,7 +418,7 @@ void OpenLogFolder()
     QString f = RabbitCommon::CLog::Instance()->GetLogDir();
     if(f.isEmpty())
     {
-        qCCritical(Logger) << "Log folder is empty";
+        qCritical(Logger) << "Log folder is empty";
         return;
     }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
