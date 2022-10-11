@@ -2,6 +2,7 @@
 
 + Add CEvpAES class
 + Log
+  - Use qDebug and QLoggingCategory
   - Add OpenLogConfigureFile()
   - Add GetLogFile()
   - Add OpenLogFolder()

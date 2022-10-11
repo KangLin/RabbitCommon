@@ -25,7 +25,7 @@ isEmpty(RabbitCommon_VERSION) {
     }
 }
 isEmpty(RabbitCommon_VERSION){
-    RabbitCommon_VERSION="v1.0.5"
+    RabbitCommon_VERSION="v1.0.6"
 }
 message("RabbitCommon RabbitCommon_VERSION:$$RabbitCommon_VERSION")
 DEFINES += RabbitCommon_VERSION=\"\\\"$$quote($$RabbitCommon_VERSION)\\\"\"

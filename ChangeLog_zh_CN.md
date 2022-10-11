@@ -2,6 +2,7 @@
 
 + 增加 CEvpAES
 + 增加日志
+  - 使用 qDebug 和 QLoggingCategory 
   - 增加 OpenLogConfigureFile()
   - 增加 GetLogFile()
   - 增加 OpenLogFolder()
