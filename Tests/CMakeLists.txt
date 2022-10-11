@@ -22,3 +22,9 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
     )
+
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
+    configure_file(${CMAKE_SOURCE_DIR}/Src/etc/log4qt.conf
+        ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
+        COPYONLY)
+endif()

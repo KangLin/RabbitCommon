@@ -48,7 +48,7 @@
 
 namespace RabbitCommon {
 
-QLoggingCategory Logger("RabbitCommon.Logger");
+QLoggingCategory Logger("RabbitCommon");
 
 CLog::CLog()
 {
@@ -58,6 +58,8 @@ CLog::CLog()
                   QSettings::IniFormat);
 #ifdef HAVE_LOG4QT
 
+    // Enable handling of Qt messages
+    Log4Qt::LogManager::setHandleQtMessages(true);
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
             + QDir::separator() + qApp->applicationName() + ".conf";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
@@ -66,9 +68,12 @@ CLog::CLog()
         m_szConfigureFile = szConfFile;
         if(!Log4Qt::PropertyConfigurator::configureAndWatch(szConfFile))
             Log4Qt::BasicConfigurator::configure();
+        else
+            qInfo(Logger) << "Configure file:" << szConfFile;
     }
     else
     {
+        qWarning(Logger) << "Load configure file is not exist:" << szConfFile;
         // Create a layout
         auto logger = Log4Qt::Logger::rootLogger();
         auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p %c: %m%n");
@@ -85,8 +90,6 @@ CLog::CLog()
         //logger->setLevel(Log4Qt::Level::DEBUG_INT);
     }
 
-    // Enable handling of Qt messages
-    Log4Qt::LogManager::setHandleQtMessages(true);
 #elif defined(HAVE_LOG4CXX)
     //qInstallMessageHandler( log4cxx::qt::messageHandler );
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)

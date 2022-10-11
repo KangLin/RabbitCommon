@@ -10,21 +10,22 @@
 
 namespace RabbitCommon {
 
+Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
 CDir::CDir()
-{  
+{
     //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
-    qInfo(Logger) << "Document path:" << m_szDocumentPath;
+    qInfo(dirLog) << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
-            qCritical(Logger) << "mkdir doucments dir fail:" << m_szDocumentPath;
+            qCritical(dirLog) << "mkdir doucments dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  qApp->applicationDirPath();
-    qInfo(Logger) << "Application dir:" << m_szApplicationDir;
+    qInfo(dirLog) << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
@@ -33,7 +34,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
-    qInfo(Logger) << "Application root dir:" << m_szApplicationDir;
+    qInfo(dirLog) << "Application root dir:" << m_szApplicationDir;
 }
 
 CDir* CDir::Instance()
@@ -46,7 +47,7 @@ CDir* CDir::Instance()
 
 QString CDir::GetDirApplication()
 {
-    //qDebug(Logger) << "GetDirApplication:" << qApp->applicationDirPath();
+    //qDebug(dirLog) << "GetDirApplication:" << qApp->applicationDirPath();
     return m_szApplicationDir;
 }
 

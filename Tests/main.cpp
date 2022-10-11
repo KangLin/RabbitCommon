@@ -32,19 +32,19 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(RabbitCommon_VERSION);
 #endif
     a.setApplicationName("RabbitCommonTests");
-    
+
+    RabbitCommon::CTools::Instance()->Init();
+    QTranslator tApp;
+    tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+              + "/RabbitCommonTests_" + QLocale::system().name() + ".qm");
+    a.installTranslator(&tApp);
+
     qDebug(mainLog) << "GetDirApplication:"
                     << RabbitCommon::CDir::Instance()->GetDirApplication();
     qDebug(mainLog) << "GetDirApplicationInstallRoot:%s"
               << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
     qInfo(mainLog) << "GetDirUserDocument"
                    << RabbitCommon::CDir::Instance()->GetDirUserDocument();
-    
-    QTranslator tApp;
-    tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-              + "/RabbitCommonTests_" + QLocale::system().name() + ".qm");
-    a.installTranslator(&tApp);
-    RabbitCommon::CTools::Instance()->Init();
 
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 #ifdef HAVE_GUI

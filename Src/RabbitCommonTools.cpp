@@ -98,6 +98,7 @@ QString CTools::GetLanguage()
 void CTools::Init(const QString szLanguage)
 {
     SetLanguage(szLanguage);
+    RabbitCommon::CLog::Instance();
     InitResource();
     InitTranslator(szLanguage);
 }
