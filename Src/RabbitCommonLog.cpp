@@ -69,11 +69,12 @@ CLog::CLog()
         if(!Log4Qt::PropertyConfigurator::configureAndWatch(szConfFile))
             Log4Qt::BasicConfigurator::configure();
         else
-            qInfo(Logger) << "Configure file:" << szConfFile;
+            qInfo(Logger) << "Log configure file:" << szConfFile;
     }
     else
     {
-        qWarning(Logger) << "Load configure file is not exist:" << szConfFile;
+        qWarning(Logger) << "Log configure file is not exist:" << szConfFile
+                         << ". Use default.";
         // Create a layout
         auto logger = Log4Qt::Logger::rootLogger();
         auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p %c: %m%n");
