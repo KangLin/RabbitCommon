@@ -127,4 +127,9 @@ void CStyle::slotStyle()
     set.setValue("Sink", szFile);
 }
 
+QString CStyle::GetStyleFile()
+{
+    return m_szDefaultFile;
+}
+
 } //namespace RabbitCommon

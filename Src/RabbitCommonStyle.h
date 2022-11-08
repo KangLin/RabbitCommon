@@ -36,7 +36,8 @@ public:
      * @return 
      */
     int LoadStyle(const QString &szFile);
-    
+    QString GetStyleFile();
+
 public Q_SLOTS:
     /**
      * @brief Used to respond to menu events
