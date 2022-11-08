@@ -21,6 +21,7 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
             + QDir::separator()
             + "style" + QDir::separator()
             + "black_green.qss";
+    m_szFile = m_szDefaultFile;
 }
 
 CStyle* CStyle::Instance()
@@ -39,7 +40,7 @@ int CStyle::LoadStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Sink", m_szDefaultFile).toString();
+    QString szFile = set.value("Style/File", m_szDefaultFile).toString();
     qDebug(Logger) << "LoadStyle:" << szFile;
     return  LoadStyle(szFile);
 }
@@ -49,6 +50,7 @@ int CStyle::LoadStyle(const QString &szFile)
     if(szFile.isEmpty())
     {
         qApp->setStyleSheet("");
+        m_szFile = szFile;
         //qApp->setPalette(QPalette(QColor(Qt::gray)));
     }
     else
@@ -91,6 +93,7 @@ int CStyle::LoadStyle(const QString &szFile)
 #endif
             qApp->setStyleSheet(stylesheet);
             file.close();
+            m_szFile = szFile;
         }
         else
         {
@@ -104,8 +107,9 @@ void CStyle::slotSetDefaultStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    set.setValue("Sink", "");
+    set.setValue("Style/File", "");
     qApp->setStyleSheet("");
+    m_szFile = "";
     //qApp->setPalette(QPalette(QColor(Qt::gray)));
     return;
 }
@@ -114,7 +118,7 @@ void CStyle::slotStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Sink", m_szDefaultFile).toString();
+    QString szFile = set.value("Style/File", m_szDefaultFile).toString();
     if(szFile.isEmpty())
         szFile = m_szDefaultFile;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
@@ -124,12 +128,16 @@ void CStyle::slotStyle()
     if(szFile.isEmpty()) return;
     LoadStyle(szFile);
     
-    set.setValue("Sink", szFile);
+    set.setValue("Style/File", szFile);
+    m_szFile = szFile;
 }
 
 QString CStyle::GetStyleFile()
 {
-    return m_szDefaultFile;
+    if(!m_szFile.isEmpty())
+        if(!QFile::exists(m_szFile))
+            return "";
+    return m_szFile;
 }
 
 } //namespace RabbitCommon

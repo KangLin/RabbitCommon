@@ -52,6 +52,7 @@ public Q_SLOTS:
 private:
     CStyle(QObject *parent = nullptr);
     QString m_szDefaultFile;
+    QString m_szFile;
     
 };
 
