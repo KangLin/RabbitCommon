@@ -26,6 +26,7 @@ namespace RabbitCommon {
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
+ *       |- icons                                  GetDirIcons()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -50,6 +51,7 @@ namespace RabbitCommon {
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
+ *       |- icons                                  GetDirIcons()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -85,6 +87,7 @@ public:
     QString GetDirDatabase(bool bReadOnly = false);
     QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
+    QString GetDirIcons();
     QString GetDirTranslations();
     QString GetDirPluginsTranslation(QString szDir = "plugins");
     QString GetDirPlugins(const QString &szDir = "");

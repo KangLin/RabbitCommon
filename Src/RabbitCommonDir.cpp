@@ -34,7 +34,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
-    qInfo(dirLog) << "Application root dir:" << m_szApplicationDir;
+    qInfo(dirLog) << "Application root dir:" << m_szApplicationRootDir;
 }
 
 CDir* CDir::Instance()
@@ -233,6 +233,14 @@ QString CDir::GetDirTranslations()
     return "assets:/translations";
 #endif
     return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
+}
+
+QString CDir::GetDirIcons()
+{
+#if defined (Q_OS_ANDROID)
+    return "assets:/icons";
+#endif
+    return GetDirApplicationInstallRoot() + QDir::separator() + "icons";
 }
 
 QString CDir::GetDirPluginsTranslation(QString szDir)
