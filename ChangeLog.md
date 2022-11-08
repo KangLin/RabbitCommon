@@ -1,3 +1,8 @@
+### 版本： v1.0.7
+
++ Modify style save data
++ Modify CDir, add interface: QString CStyle::GetStyleFile()
+
 ### Version: v1.0.6
 
 + Add CEvpAES class

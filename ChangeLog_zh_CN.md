@@ -1,3 +1,8 @@
+### 版本： v1.0.7
+
++ 修改样式保存数据
++ 修改CDir,增加接口：QString CStyle::GetStyleFile()
+
 ### 版本： v1.0.6
 
 + 增加 CEvpAES
