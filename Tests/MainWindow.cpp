@@ -18,7 +18,7 @@
     #include "QUIWidget/QUIWidget.h"
 #endif
 #include "RabbitCommonTools.h"
-#include "RabbitCommonStyle.h"
+#include "FrmStyle/FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
 
@@ -94,7 +94,8 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_actionStype_triggered()
 {
 #ifdef HAVE_GUI
-    RabbitCommon::CStyle::Instance()->slotStyle();
+    CFrmStyle* s = new CFrmStyle();
+    s->show();
 #endif
 }
 

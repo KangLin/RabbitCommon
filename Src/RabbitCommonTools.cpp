@@ -12,6 +12,8 @@
 #include <QSettings>
 #ifdef HAVE_GUI
 #include <QApplication>
+#include <QIcon>
+#include "RabbitCommonStyle.h"
 #else
 #include <QCoreApplication>
 #endif
@@ -101,6 +103,10 @@ void CTools::Init(const QString szLanguage)
     RabbitCommon::CLog::Instance();
     InitResource();
     InitTranslator(szLanguage);
+    
+#ifdef HAVE_GUI
+    CStyle::Instance()->LoadStyle();
+#endif //HAVE_GUI
 }
 
 void CTools::Clean()

@@ -1,7 +1,11 @@
-### 版本： v1.0.7
+### Version： v1.0.7
 
-+ Modify style save data
-+ Modify CDir, add interface: QString CStyle::GetStyleFile()
++ Style
+  + Add CFrmStyle
+  + Add Icon theme
+  + Modify style save data, CStyle is not interface.
++ Modify CStyle, add interface: QString CStyle::GetStyleFile()
++ Modify CDir, add interface: QString CDir::GetDirIcons()
 
 ### Version: v1.0.6
 

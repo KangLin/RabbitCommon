@@ -240,7 +240,7 @@ void CDlgAbout::slotDonation(const QPoint &pos)
 {
     Q_UNUSED(pos)
     QMenu m;
-    m.addAction(QIcon(":/icon/Save"), tr("Save"),
+    m.addAction(QIcon::fromTheme("document-save"), tr("Save"),
                 this, SLOT(slotSaveDonation()));
     m.exec(QCursor::pos());
 }

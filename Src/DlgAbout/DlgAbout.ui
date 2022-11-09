@@ -20,8 +20,7 @@
    <string>About</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resource/ResourceRabbitCommon.qrc">
-    <normaloff>:/icon/RabbitCommon/App</normaloff>:/icon/RabbitCommon/App</iconset>
+   <iconset theme="help-about"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="1">
@@ -67,7 +66,6 @@
          <property name="font">
           <font>
            <pointsize>20</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>

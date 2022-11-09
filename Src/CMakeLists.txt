@@ -88,11 +88,17 @@ if(WITH_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
         RabbitCommonStyle.h
+        FrmStyle/FrmStyle.h
+        )
+    list(APPEND RABBITCOMMON_HEAD_FILES
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
         RabbitCommonStyle.cpp
+        FrmStyle/FrmStyle.cpp
         )
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES
+        FrmStyle/FrmStyle.ui)
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
@@ -493,3 +499,6 @@ else()
    INSTALL(DIRECTORY Resource/style/ DESTINATION "data/style" COMPONENT Runtime)
    INSTALL(DIRECTORY QUIWidget/Resource/qss/ DESTINATION "data/style" COMPONENT Runtime)
 endif()
+
+# Install QIcon theme
+INSTALL_ICON_THEME()

@@ -31,7 +31,10 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 		);
 
 	QString msg;
-	HANDLE hDumpFile = CreateFileW(dumpName.toStdWString().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, 0, CREATE_ALWAYS, 0, 0);
+	HANDLE hDumpFile = CreateFileW(dumpName.toStdWString().c_str(),
+                                   GENERIC_READ | GENERIC_WRITE,
+                                   FILE_SHARE_WRITE | FILE_SHARE_READ,
+                                   0, CREATE_ALWAYS, 0, 0);
 	if (hDumpFile != INVALID_HANDLE_VALUE)
 	{
 		MINIDUMP_EXCEPTION_INFORMATION ExpParam;
@@ -40,7 +43,9 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 		ExpParam.ClientPointers = TRUE;
 
 		// 创建Dump文件
-		MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpWithDataSegs, ExceptionInfo ? &ExpParam : nullptr, nullptr, nullptr);
+		MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(),
+                          hDumpFile, MiniDumpWithDataSegs,
+                          ExceptionInfo ? &ExpParam : nullptr, nullptr, nullptr);
 		CloseHandle(hDumpFile);
 	}
 

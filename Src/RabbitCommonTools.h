@@ -29,6 +29,9 @@ public:
      * QApplication a(argc, argv);
      * a.setApplicationName(......);
      * 之后
+     * 如果放到 QApplication a(argc, argv); 之前，
+     * 则需要先调用 CDir::Instance()->SetDirApplication()
+     * 和 CDir::Instance()->SetDirApplicationInstallRoot()
      */
     void Init(const QString szLanguage = QLocale::system().name());
     //! NOTE: 释放资源，只在程序结束前调用一次

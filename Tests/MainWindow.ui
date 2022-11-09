@@ -94,7 +94,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -124,31 +124,54 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset theme="help-about">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
   </action>
   <action name="actionUpdate">
+   <property name="icon">
+    <iconset theme="system-software-update"/>
+   </property>
    <property name="text">
     <string>Update</string>
    </property>
   </action>
   <action name="actionStype">
+   <property name="icon">
+    <iconset theme="style">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Stype</string>
    </property>
   </action>
   <action name="actionOpen_log_configure">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Open log configure</string>
    </property>
   </action>
   <action name="actionOpen_log_file">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Open log file</string>
    </property>
   </action>
   <action name="actionOpen_log_folder">
+   <property name="icon">
+    <iconset theme="folder-open">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Open log folder</string>
    </property>

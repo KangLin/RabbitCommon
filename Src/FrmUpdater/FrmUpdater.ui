@@ -14,8 +14,7 @@
    <string>Updater</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resource/ResourceRabbitCommon.qrc">
-    <normaloff>:/icon/RabbitCommon/Download</normaloff>:/icon/RabbitCommon/Download</iconset>
+   <iconset theme="system-software-update"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="2">

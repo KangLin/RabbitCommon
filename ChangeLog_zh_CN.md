@@ -1,7 +1,11 @@
 ### 版本： v1.0.7
 
-+ 修改样式保存数据
-+ 修改CDir,增加接口：QString CStyle::GetStyleFile()
++ 样式
+  + 增加 CFrmStyle
+  + 增加图标主题设置
+  + 修改样式保存数据，CStyle 不再是对外接口
++ 修改CStyle, 增加接口：QString CStyle::GetStyleFile()
++ 修改CDir, 增加 QString CDir::GetDirIcons()
 
 ### 版本： v1.0.6
 

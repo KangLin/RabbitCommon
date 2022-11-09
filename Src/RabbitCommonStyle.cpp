@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QColor>
 #include <QPalette>
+#include <QIcon>
 
 namespace RabbitCommon {
 
@@ -20,8 +21,19 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
     m_szDefaultFile = RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style" + QDir::separator()
-            + "black_green.qss";
+            + "dark.qss"; //TODO: can modify default style
     m_szFile = m_szDefaultFile;
+    m_szDefaultIconTheme = QIcon::themeName();
+    
+    if(m_szDefaultIconTheme.isEmpty())
+        m_szDefaultIconTheme = "white"; //TODO: can modify default icon theme
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
+    if(!QIcon::fallbackThemeName().isEmpty())
+        m_szDefaultFallbackIconTheme = QIcon::fallbackThemeName();
+    if(m_szDefaultFallbackIconTheme.isEmpty())
+        m_szDefaultFallbackIconTheme = "white"; //TODO: can modify default fallback icon theme
+#endif
 }
 
 CStyle* CStyle::Instance()
@@ -38,19 +50,47 @@ void CStyle::SetDefaultFile(const QString &file)
 
 int CStyle::LoadStyle()
 {
+    // Load icons theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Style/File", m_szDefaultFile).toString();
-    qDebug(Logger) << "LoadStyle:" << szFile;
+    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths()
+                               << RabbitCommon::CDir::Instance()->GetDirIcons());
+    QString szThemeName = QIcon::themeName();
+    if(szThemeName.isEmpty())
+        szThemeName = m_szDefaultIconTheme;
+    QIcon::setThemeName(set.value("Style/Icon/Theme",
+                                  szThemeName).toString());
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
+    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
+                                  << RabbitCommon::CDir::Instance()->GetDirIcons());
+    QString szFallbackThemeName = QIcon::fallbackThemeName();
+    if(szFallbackThemeName.isEmpty())
+        szFallbackThemeName = m_szDefaultFallbackIconTheme;
+    QIcon::setFallbackThemeName(set.value("Style/Icon/Theme/Fallback",
+                                          szFallbackThemeName).toString());
+#endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    
+    qDebug(Logger) << "Icon theme search paths:" << QIcon::themeSearchPaths()
+                   << "Icon theme name:" << QIcon::themeName()
+                  #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                   << "Fallback search paths:" << QIcon::fallbackSearchPaths()
+                  #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                  #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                   << "Fallback theme name:" << QIcon::fallbackThemeName()
+                  #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                      ;
+
+    QString szFile = set.value("Style/File", m_szFile).toString();
     return  LoadStyle(szFile);
 }
 
 int CStyle::LoadStyle(const QString &szFile)
 {
+    m_szFile = szFile;
     if(szFile.isEmpty())
     {
         qApp->setStyleSheet("");
-        m_szFile = szFile;
         //qApp->setPalette(QPalette(QColor(Qt::gray)));
     }
     else
@@ -58,6 +98,7 @@ int CStyle::LoadStyle(const QString &szFile)
         QFile file(szFile);
         if(file.open(QFile::ReadOnly))
         {
+            qInfo(Logger) << "Load style file:" << szFile;
             QString stylesheet= file.readAll();
             QString pattern("QPalette\\{background:#[0-9a-fA-F]+;\\}");
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -93,7 +134,6 @@ int CStyle::LoadStyle(const QString &szFile)
 #endif
             qApp->setStyleSheet(stylesheet);
             file.close();
-            m_szFile = szFile;
         }
         else
         {
@@ -107,9 +147,8 @@ void CStyle::slotSetDefaultStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    set.setValue("Style/File", "");
-    qApp->setStyleSheet("");
-    m_szFile = "";
+    set.setValue("Style/File", m_szDefaultFile);
+    LoadStyle(m_szDefaultFile);
     //qApp->setPalette(QPalette(QColor(Qt::gray)));
     return;
 }
@@ -118,7 +157,7 @@ void CStyle::slotStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Style/File", m_szDefaultFile).toString();
+    QString szFile = set.value("Style/File", m_szFile).toString();
     if(szFile.isEmpty())
         szFile = m_szDefaultFile;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
@@ -129,7 +168,6 @@ void CStyle::slotStyle()
     LoadStyle(szFile);
     
     set.setValue("Style/File", szFile);
-    m_szFile = szFile;
 }
 
 QString CStyle::GetStyleFile()
