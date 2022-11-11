@@ -128,7 +128,7 @@ endmacro()
 
 # Install QIcon theme
 # SOURCES: Default is Resource/icons/
-# DESTINATION: Default is icons
+# DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/icons
 option(INSTALL_ICONS_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
