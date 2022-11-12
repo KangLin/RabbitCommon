@@ -21,12 +21,12 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
     m_szDefaultFile = RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style" + QDir::separator()
-            + "dark.qss"; //TODO: can modify default style
+            + "white.qss"; //TODO: can modify default style
     m_szFile = m_szDefaultFile;
     m_szDefaultIconTheme = QIcon::themeName();
     
     if(m_szDefaultIconTheme.isEmpty())
-        m_szDefaultIconTheme = "white"; //TODO: can modify default icon theme
+        m_szDefaultIconTheme = "black"; //TODO: can modify default icon theme
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
     if(!QIcon::fallbackThemeName().isEmpty())
