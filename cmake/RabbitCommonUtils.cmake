@@ -309,7 +309,7 @@ function(INSTALL_TARGET)
                 )
             
             #分发
-            IF(ANDROID)
+            IF(ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6)
                 Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
                 GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
                     ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
@@ -607,13 +607,21 @@ function(ADD_TARGET)
     
     if(PARA_ISEXE)
         if(ANDROID)
-            add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+                qt_add_executable(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            else()
+                add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            endif()
         else()
             if(DEFINED PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
-            endif()    
-            add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
-            
+            endif()
+            if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+                qt_add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            else()
+                add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            endif()
+        
             if(MINGW)
                 set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS "-mwindows")
             elseif(MSVC)
@@ -660,8 +668,11 @@ function(ADD_TARGET)
         set(PARA_INSTALL_HEADER_FILES ${PARA_INSTALL_HEADER_FILES} 
             ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
         
-        add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
-        
+        if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+            qt_add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+        else()
+            add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+        endif()
         GENERATE_EXPORT_HEADER(${PARA_NAME})
         file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
             DESTINATION ${CMAKE_BINARY_DIR})
@@ -753,10 +764,12 @@ function(ADD_TARGET)
                 INCLUDES ${PARA_INSTALL_INCLUDES}
                 INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
         elseif(PARA_ISEXE)
-            INSTALL_TARGET(NAME ${PARA_NAME}
-                ISEXE
-                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-                INCLUDES ${PARA_INSTALL_INCLUDES})
+            if(ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6)
+                INSTALL_TARGET(NAME ${PARA_NAME}
+                    ISEXE
+                    PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                    INCLUDES ${PARA_INSTALL_INCLUDES})
+            endif()
         else()
             INSTALL_TARGET(NAME ${PARA_NAME}
                 EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}

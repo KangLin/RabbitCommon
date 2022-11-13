@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+if(ANDROID)
+    cmake_minimum_required(VERSION 3.19)
+else()
+    cmake_minimum_required(VERSION 2.8)
+endif()
 
 project(RabbitCommon)
 
