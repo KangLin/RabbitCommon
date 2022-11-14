@@ -32,7 +32,7 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
     if(!QIcon::fallbackThemeName().isEmpty())
         m_szDefaultFallbackIconTheme = QIcon::fallbackThemeName();
     if(m_szDefaultFallbackIconTheme.isEmpty())
-        m_szDefaultFallbackIconTheme = "white"; //TODO: can modify default fallback icon theme
+        m_szDefaultFallbackIconTheme = "black"; //TODO: can modify default fallback icon theme
 #endif
 }
 
