@@ -1,6 +1,6 @@
 # Author: Kang Lin <kl222@126.com>
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.19)
 
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
@@ -488,7 +488,7 @@ endfunction()
 #    ISEXE                          是执行程序目标还是库目标
 #    ISPLUGIN                       是插件
 #    NO_TRANSLATION                 不产生翻译资源
-#    WINDOWS                        窗口程序
+#    ISWINDOWS                      窗口程序
 #    NAME                           目标名。注意：翻译资源文件名(.ts)默认是 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
@@ -604,7 +604,7 @@ function(ADD_TARGET)
             LIST(APPEND PARA_SOURCE_FILES ${TRANSLATIONS_QRC_FILES})
         endif()
     endif(NOT PARA_NO_TRANSLATION)
-    
+
     if(PARA_ISEXE)
         if(ANDROID)
             if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
@@ -613,7 +613,7 @@ function(ADD_TARGET)
                 add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             endif()
         else()
-            if(DEFINED PARA_ISWINDOWS AND WIN32)
+            if(PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
             endif()
             if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
@@ -621,7 +621,7 @@ function(ADD_TARGET)
             else()
                 add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             endif()
-        
+
             if(MINGW)
                 set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS "-mwindows")
             elseif(MSVC)
