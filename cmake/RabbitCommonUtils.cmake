@@ -764,19 +764,23 @@ function(ADD_TARGET)
                 INCLUDES ${PARA_INSTALL_INCLUDES}
                 INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
         elseif(PARA_ISEXE)
-            if(ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6)
+            if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
                 INSTALL_TARGET(NAME ${PARA_NAME}
                     ISEXE
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                     INCLUDES ${PARA_INSTALL_INCLUDES})
             endif()
         else()
-            INSTALL_TARGET(NAME ${PARA_NAME}
-                EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
-                NAMESPACE ${PARA_INSTALL_NAMESPACE}
-                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-                INCLUDES ${PARA_INSTALL_INCLUDES}
-                INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
+
+            if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
+                INSTALL_TARGET(NAME ${PARA_NAME}
+                    EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
+                    NAMESPACE ${PARA_INSTALL_NAMESPACE}
+                    PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                    INCLUDES ${PARA_INSTALL_INCLUDES}
+                    INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
+            endif()
+
         endif()
     endif()
 endfunction()
