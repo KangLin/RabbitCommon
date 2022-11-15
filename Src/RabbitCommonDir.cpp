@@ -235,12 +235,9 @@ QString CDir::GetDirTranslations()
     return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
 }
 
-QString CDir::GetDirIcons()
+QString CDir::GetDirIcons(bool bReadOnly)
 {
-#if defined (Q_OS_ANDROID)
-    return "assets:/icons";
-#endif
-    return GetDirApplicationInstallRoot() + QDir::separator() + "icons";
+    return GetDirData(bReadOnly) + QDir::separator() + "icons";
 }
 
 QString CDir::GetDirPluginsTranslation(QString szDir)

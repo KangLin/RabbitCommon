@@ -63,7 +63,7 @@ function(GENERATED_DEPLOYMENT_SETTINGS)
     if(NOT DEFINED BUILD_TOOS_VERSION)
         set(BUILD_TOOS_VERSION "28.0.3")
     endif()
-    
+
     if(DEFINED PARA_NAME)
         set(_file_name ${PARA_NAME})
         #message("file_name:${PARA_NAME}")
@@ -128,19 +128,19 @@ endmacro()
 
 # Install QIcon theme
 # SOURCES: Default is Resource/icons/
-# DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/icons
-option(INSTALL_ICONS_TO_BUILD_PATH "Install icons to build path" ON)
+# DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+option(INSTALL_STYLE_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
-    
+
     if(NOT DEFINED SOURCES)
         set(PARA_SOURCES Resource/icons/)
     endif()
     if(NOT DEFINED DESTINATION)
         if(ANDROID)
-            set(PARA_DESTINATION assets/icons)
+            set(PARA_DESTINATION assets/data/icons)
         else()
-            set(PARA_DESTINATION icons)
+            set(PARA_DESTINATION data/icons)
         endif()
     endif()
 
@@ -149,8 +149,8 @@ function(INSTALL_ICON_THEME)
         COMPONENT Runtime)
 
     if(NOT ANDROID)
-        if(INSTALL_ICONS_TO_BUILD_PATH)
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/icons)
+        if(INSTALL_STYLE_TO_BUILD_PATH)
+            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/data/icons)
         endif()
     endif()
 endfunction()

@@ -13,9 +13,10 @@ class CFrmStyle;
  * \details
  * - 如果你的工程有自己的图标主题。那么请在 CMakeLists 中调用 INSTALL_ICON_THEME() 安装。
  * \code
+ * # in CMakeLists.txt
+ *
  * # Install QIcon theme
  * INSTALL_ICON_THEME()
- * \endcode
  *
  * - 使用：
  * Usge:
@@ -37,6 +38,7 @@ class CFrmStyle;
  * If you has your icon theme.
  * then call INSTALL_ICON_THEME() in CMakeLists.txt
  * \code
+ * # in CMakeLists.txt
  * # Install QIcon theme
  * INSTALL_ICON_THEME()
  * \endcode
