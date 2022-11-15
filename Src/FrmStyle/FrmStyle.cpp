@@ -5,6 +5,8 @@
 #include "RabbitCommonDir.h"
 #include <QSettings>
 
+
+
 CFrmStyle::CFrmStyle(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmStyle)
@@ -14,7 +16,7 @@ CFrmStyle::CFrmStyle(QWidget *parent) :
 
     ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());
     // Icon theme
-    qDebug(RabbitCommon::Logger) << "Icon theme search paths:" << QIcon::themeSearchPaths()
+    qDebug(RabbitCommon::LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths()
                    << "Icon theme name:" << QIcon::themeName()
                   #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
                    << "Fallback search paths:" << QIcon::fallbackSearchPaths()
@@ -32,13 +34,13 @@ CFrmStyle::CFrmStyle(QWidget *parent) :
 #endif
         foreach(auto themeName, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
         {
-            qDebug(RabbitCommon::Logger) << "Path:" << dir.absolutePath()
+            qDebug(RabbitCommon::LoggerStyle) << "Path:" << dir.absolutePath()
                         << "Theme dir:" << themeName;
             QFileInfo fi(dir.absolutePath() + QDir::separator()
                          + themeName + QDir::separator() + "index.theme");
             if(!fi.exists())
                 continue;
-            qDebug(RabbitCommon::Logger) << "Theme:" << themeName;
+            qDebug(RabbitCommon::LoggerStyle) << "Theme:" << themeName;
             ui->cbIconTheme->addItem(themeName);
         }
     }
@@ -52,13 +54,13 @@ CFrmStyle::CFrmStyle(QWidget *parent) :
     {
         foreach(auto themeName, fallbackDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
         {
-            qDebug(RabbitCommon::Logger) << "fallbackDir:" << fallbackDir.absolutePath()
+            qDebug(RabbitCommon::LoggerStyle) << "fallbackDir:" << fallbackDir.absolutePath()
                         << "Theme dir:" << themeName;
             QFileInfo fi(fallbackDir.absolutePath() + QDir::separator()
                          + themeName + QDir::separator() + "index.theme");
             if(!fi.exists())
                 continue;
-            qDebug(RabbitCommon::Logger) << "fallback Theme:" << themeName;
+            qDebug(RabbitCommon::LoggerStyle) << "fallback Theme:" << themeName;
             ui->cbFallbackTheme->addItem(themeName);
         }
     }

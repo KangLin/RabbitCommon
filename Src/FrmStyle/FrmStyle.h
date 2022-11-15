@@ -60,7 +60,7 @@ private Q_SLOTS:
     void on_pbCancel_clicked();
     void on_pbBrower_clicked();
     void on_pbDefault_clicked();
-    
+
 private:
     Ui::CFrmStyle *ui;
 };

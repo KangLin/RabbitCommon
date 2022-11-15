@@ -12,6 +12,7 @@
 #include "rabbitcommon_export.h"
 
 #include "FrmStyle/FrmStyle.h"
+#include <QLoggingCategory>
 
 namespace RabbitCommon {
 
@@ -61,7 +62,10 @@ private:
     QString m_szDefaultFallbackIconTheme;
 
     friend CFrmStyle;
+
 };
+
+Q_DECLARE_LOGGING_CATEGORY(LoggerStyle);
 
 } //namespace RabbitCommon
 
