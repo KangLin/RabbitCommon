@@ -21,6 +21,9 @@ if [ -n "$1" ]; then
         exit 0
     fi
     git tag -a $1 -m "Release $1"
+else
+    echo "$0 version"
+    exit -1
 fi
 
 VERSION=`git describe --tags`
