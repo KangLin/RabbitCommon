@@ -367,7 +367,7 @@ function(INSTALL_TARGET)
                         )
                 endif()
                 
-            ENDIF(ANDROID)
+            ENDIF() # ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6
         else(PARA_ISEXE) # Is library
             if(NOT DEFINED PARA_PUBLIC_HEADER)
                 set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
