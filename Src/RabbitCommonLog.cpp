@@ -77,14 +77,14 @@ CLog::CLog()
                          << ". Use default.";
         // Create a layout
         auto logger = Log4Qt::Logger::rootLogger();
-        auto *layout = new Log4Qt::PatternLayout("%F(%L) [%t] %p %c: %m%n");
+        auto *layout = new Log4Qt::PatternLayout("%d %F(%L) [%t] %p %c: %m%n");
         layout->setName(QStringLiteral("My Layout"));
         layout->activateOptions();
         // Create a console appender
         Log4Qt::ConsoleAppender *consoleAppender =
                 new Log4Qt::ConsoleAppender(layout,
                                         Log4Qt::ConsoleAppender::STDOUT_TARGET);
-        consoleAppender->setName(QStringLiteral("My Appender"));
+        consoleAppender->setName(QStringLiteral("RabbitCommon Appender"));
         consoleAppender->activateOptions();
         // Add appender on root logger
         logger->addAppender(consoleAppender);
