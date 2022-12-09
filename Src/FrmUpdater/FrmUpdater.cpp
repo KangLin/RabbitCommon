@@ -4,7 +4,6 @@
 #include "FrmUpdater.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "RabbitCommonLog.h"
 #include "AdminAuthoriser/adminauthoriser.h"
 #include "ui_FrmUpdater.h"
 
@@ -303,10 +302,11 @@ void CFrmUpdater::slotCheck()
 
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
+    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadError:" << nErr << szError;
     emit sigError();
 }
 
-void CFrmUpdater::slotDownloadFile(const QString szFile)
+void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 {
     if(m_DownloadFile.isOpen())
         m_DownloadFile.close();
@@ -320,21 +320,27 @@ void CFrmUpdater::slotDownloadFile(const QString szFile)
 
     QFile::rename(szFile, f);
     m_DownloadFile.setFileName(f);
+
+    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished: rename"
+                       << szFile << "to" << f;
     emit sigFinished();
 }
 
 void CFrmUpdater::slotDownloadFile()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadXmlFile";
+    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFile";
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
                     new RabbitCommon::CDownloadFile(m_Urls));
         bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
-                this, SLOT(slotDownloadFile(const QString)));
+                this, SLOT(slotDownloadFileFinished(const QString)));
         Q_ASSERT(check);
         check = connect(m_Download.data(), SIGNAL(sigError(int, const QString)),
                         this, SLOT(slotDownloadError(int, const QString)));
+        Q_ASSERT(check);
+        check = connect(m_Download.data(), SIGNAL(sigDownloadProgress(qint64, qint64)),
+                        this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
     }
 }
@@ -455,6 +461,9 @@ int CFrmUpdater::CheckRedirectXmlFile()
                          + szVersion + "/update_windows.xml/download");
         m_Urls.push_back(sourceforge);
     }
+
+    qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
+
     emit sigDownLoadRedireXml();
 
     return 0;
@@ -530,7 +539,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
         else if(node.nodeName() == "ARCHITECTURE")
             m_Info.szArchitecture = node.text();
         else if(node.nodeName() == "FILENAME")
-            m_Info.szPackageFile = node.text();
+            m_Info.szFileName = node.text();
         else if(node.nodeName() == "URL")
             m_Info.urls.push_back(QUrl(node.text()));
         else if(node.nodeName() == "HOME")
@@ -879,14 +888,14 @@ bool CFrmUpdater::IsDownLoad()
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
 
-    QString szFile = szTmp + QDir::separator() + m_Info.szPackageFile;
+    QString szFile = szTmp + QDir::separator() + m_Info.szFileName;
 
     QFile f(szFile);
     if(!f.open(QIODevice::ReadOnly))
         return false;
 
     m_DownloadFile.setFileName(szFile);
-    do{
+    do {
         QCryptographicHash md5sum(QCryptographicHash::Md5);
         if(!md5sum.addData(&f))
         {
@@ -903,7 +912,7 @@ bool CFrmUpdater::IsDownLoad()
             bRet = true;
             break;
         }
-    }while(0);
+    } while(0);
     f.close();
     return bRet;
 }
@@ -998,7 +1007,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     root.appendChild(eMd5);
     
     QDomText fileName = doc.createTextNode("FILENAME");
-    fileName.setData(info.szPackageFile);
+    fileName.setData(info.szFileName);
     QDomElement eFileName = doc.createElement("FILENAME");
     eFileName.appendChild(fileName);
     root.appendChild(eFileName);
@@ -1173,7 +1182,8 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     info.szArchitecture = parser.value(oArch);
     info.szMd5sum = parser.value(oMd5);
     QString szPackageFile = parser.value(oPackageFile);
-    info.szPackageFile = szPackageFile;
+    QFileInfo fi(szPackageFile);
+    info.szFileName = fi.fileName();
     if(info.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
     {
         //计算包的 MD5 和

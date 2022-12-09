@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 #ifdef RabbitCommon_VERSION
     a.setApplicationVersion(RabbitCommon_VERSION);
 #endif
-    a.setApplicationName("RabbitCommonTests");
+    a.setApplicationName("RabbitCommon");
 
     RabbitCommon::CTools::Instance()->Init();
     QTranslator tApp;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
     qDebug(mainLog) << "GetDirApplication:"
                     << RabbitCommon::CDir::Instance()->GetDirApplication();
-    qDebug(mainLog) << "GetDirApplicationInstallRoot:%s"
+    qDebug(mainLog) << "GetDirApplicationInstallRoot:"
               << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
     qInfo(mainLog) << "GetDirUserDocument"
                    << RabbitCommon::CDir::Instance()->GetDirUserDocument();

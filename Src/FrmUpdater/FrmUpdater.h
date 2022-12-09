@@ -57,7 +57,7 @@ public:
 
 protected Q_SLOTS:
     void slotDownloadError(int nErr, const QString szError);
-    void slotDownloadFile(const QString szFile);
+    void slotDownloadFileFinished(const QString szFile);
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void slotButtonClickd(int id);
@@ -115,7 +115,7 @@ private:
         QString szSystem;
         QString szPlatform;
         QString szArchitecture;
-        QString szPackageFile;
+        QString szFileName;
         QVector<QUrl> urls;
         QString szUrlHome;
         QString szMd5sum;
@@ -127,7 +127,7 @@ private:
     // QWidget interface
 protected:
     virtual void showEvent(QShowEvent *event) override;
-private slots:
+private Q_SLOTS:
     void on_cbPrompt_clicked(bool checked);
     void on_cbHomePage_clicked(bool checked);
 };

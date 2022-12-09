@@ -144,8 +144,8 @@ int CGenerateUpdateFile::GenerateUpdateXml(QCommandLineParser &parser)
                              QObject::tr("Package file, Is used to calculate md5sum"),
                              "Package file");
     parser.addOption(oPackageFile);
-    QCommandLineOption oUrl(QStringList() << "u" << "url",
-                             QObject::tr("Package download url"),
+    QCommandLineOption oUrl(QStringList() << "u" << "urls",
+                             QObject::tr("Package download urls"),
                              "Download url",
                              szUrl);
     parser.addOption(oUrl);
