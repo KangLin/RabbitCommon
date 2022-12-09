@@ -118,12 +118,12 @@ jobs:
         vcpkgArguments: 'zlib openssl'
 
     - name: Cache installed
-          uses: actions/cache@v2
-          id: cache-installed
-          with:
-            path: |
-              ${{env.INSTALL_DIR}}
-            key: RabbitCommon_msvc_cache-installed-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+      uses: actions/cache@v2
+      id: cache-installed
+      with:
+        path: |
+          ${{env.INSTALL_DIR}}
+        key: RabbitCommon_msvc_cache-installed-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
