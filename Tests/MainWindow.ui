@@ -77,8 +77,8 @@
    <widget class="QPushButton" name="pbGenerateCoreFile">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>350</y>
+      <x>180</x>
+      <y>10</y>
       <width>231</width>
       <height>20</height>
      </rect>
@@ -87,6 +87,46 @@
      <string>Generate core file</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>421</width>
+      <height>98</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Download file</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QComboBox" name="cmbDownloadFiles">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QPushButton" name="pbAddFile">
+         <property name="text">
+          <string>Add file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbDownload">
+         <property name="text">
+          <string>Download</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -94,7 +134,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -134,7 +174,8 @@
   </action>
   <action name="actionUpdate">
    <property name="icon">
-    <iconset theme="system-software-update"/>
+    <iconset theme="system-software-update">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Update</string>

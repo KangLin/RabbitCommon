@@ -24,10 +24,14 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QDesktopServices>
+
+Q_LOGGING_CATEGORY(windowLog, "RabbitCommon.MainWindow")
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_pDownload(nullptr)
 {
     ui->setupUi(this);
 }
@@ -134,6 +138,39 @@ void MainWindow::on_actionOpen_log_folder_triggered()
 
 void MainWindow::on_pbGenerateCoreFile_clicked()
 {
-strcpy(0,0);
+    strcpy(0,0);
 }
 
+void MainWindow::on_pbAddFile_clicked()
+{
+    ui->cmbDownloadFiles->addItem(ui->cmbDownloadFiles->currentText());
+}
+
+void MainWindow::on_pbDownload_clicked()
+{
+    if(m_pDownload)
+        m_pDownload->deleteLater();
+    QVector<QUrl> urls;
+    for(int i = 0; i < ui->cmbDownloadFiles->count(); i++)
+    {
+        urls.push_back(QUrl(ui->cmbDownloadFiles->itemText(i)));
+    }
+    m_pDownload = new RabbitCommon::CDownloadFile(urls);
+    bool check = connect(m_pDownload, SIGNAL(sigFinished(const QString)),
+            this, SLOT(slotDownloadFile(const QString)));
+    Q_ASSERT(check);
+    check = connect(m_pDownload, SIGNAL(sigError(int, const QString)),
+                    this, SLOT(slotDownloadError(int, QString)));
+    Q_ASSERT(check);
+}
+
+void MainWindow::slotDownloadFile(const QString szFile)
+{
+    qDebug(windowLog) << "Download file:" << szFile;
+    QDesktopServices::openUrl(QUrl::fromLocalFile(szFile));
+}
+
+void MainWindow::slotDownloadError(int nErr, QString szErr)
+{
+    qDebug(windowLog) << "Download file error:" << nErr << szErr;
+}

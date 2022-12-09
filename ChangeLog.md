@@ -6,6 +6,7 @@
   + Modify style save data, CStyle is not interface.
 + Modify CStyle, add interface: QString CStyle::GetStyleFile()
 + Modify CDir, add interface: QString CDir::GetDirIcons()
++ Add download the same file from multiple URLs
 
 ### Version: v1.0.6
 

@@ -21,7 +21,7 @@
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
 
-Q_LOGGING_CATEGORY(mainLog, "main")
+Q_LOGGING_CATEGORY(mainLog, "RabbitCommon.main")
 
 int main(int argc, char *argv[])
 {

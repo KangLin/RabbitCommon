@@ -6,6 +6,7 @@
   + 修改样式保存数据，CStyle 不再是对外接口
 + 修改CStyle, 增加接口：QString CStyle::GetStyleFile()
 + 修改CDir, 增加 QString CDir::GetDirIcons()
++ 增加从多个 URLS 下载同一个文件
 
 ### 版本： v1.0.6
 

@@ -393,6 +393,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonDir.h
     RabbitCommonLog.h
     RabbitCommonEncrypt.h
+    DownloadFile.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -404,12 +405,11 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonEncrypt.cpp
-    )
-list(APPEND RABBITCOMMON_SOURCE_UI_FILES
+    DownloadFile.cpp
     )
 
 #翻译
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
+#include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
 #设置资源文件

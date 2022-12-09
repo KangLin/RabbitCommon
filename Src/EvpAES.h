@@ -5,7 +5,6 @@
 #define EVPAES_H
 
 #include <QByteArray>
-#include "rabbitcommon_export.h"
 
 struct evp_cipher_ctx_st;
 typedef struct evp_cipher_ctx_st EVP_CIPHER_CTX;
@@ -13,7 +12,11 @@ typedef struct evp_cipher_ctx_st EVP_CIPHER_CTX;
 struct evp_cipher_st;
 typedef struct evp_cipher_st EVP_CIPHER;
 
-class RABBITCOMMON_EXPORT EvpAES
+/*!
+ * \brief The EvpAES class
+ * \note This class is intended for internal use only
+ */
+class EvpAES
 {
 public:
     EvpAES();

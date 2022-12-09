@@ -8,6 +8,8 @@
 
 #include <QMainWindow>
 
+#include "DownloadFile.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,8 +33,15 @@ private slots:
     void on_actionOpen_log_folder_triggered();
     void on_pbGenerateCoreFile_clicked();
     
+    void on_pbAddFile_clicked();
+    void on_pbDownload_clicked();
+    void slotDownloadFile(const QString szFile);
+    void slotDownloadError(int nErr, QString szErr);
+    
 private:
     Ui::MainWindow *ui;
+    
+    RabbitCommon::CDownloadFile* m_pDownload;
 };
 
 #endif // MAINWINDOW_H
