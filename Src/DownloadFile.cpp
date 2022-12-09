@@ -293,7 +293,12 @@ void CDownloadFile::slotError(QNetworkReply::NetworkError e)
     }
 
     if(m_Reply.empty())
+    {
+        if(m_szError.isEmpty())
+            m_szError = "Download file error: from " + m_Url[nIndex].toString()
+                    + " to " + file->fileName();
         emit sigError(e, m_szError);
+    }
 }
 
 void CDownloadFile::slotSslError(const QList<QSslError> e)
@@ -332,7 +337,12 @@ void CDownloadFile::slotSslError(const QList<QSslError> e)
     }
 
     if(m_Reply.empty())
+    {
+        if(m_szError.isEmpty())
+            m_szError = "Download file error: from " + m_Url[nIndex].toString()
+                    + " to " + file->fileName();
         emit sigError(-1, m_szError);
+    }
 }
 
 void CDownloadFile::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)

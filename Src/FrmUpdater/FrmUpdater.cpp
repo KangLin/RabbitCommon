@@ -303,6 +303,9 @@ void CFrmUpdater::slotCheck()
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadError:" << nErr << szError;
+    QString szMsg = szError;
+    if(szMsg.isEmpty()) szMsg = tr("Download file error");
+    ui->lbState->setText(szMsg);
     emit sigError();
 }
 
