@@ -320,12 +320,18 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
             + QDir::separator() + qApp->applicationName();
 
     QString f = szTmp + szFile.mid(szFile.lastIndexOf("/"));
-
-    QFile::rename(szFile, f);
-    m_DownloadFile.setFileName(f);
-
-    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished: rename"
-                       << szFile << "to" << f;
+    
+    if(QFile::rename(szFile, f))
+    {
+        m_DownloadFile.setFileName(f);
+        
+        qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished: rename"
+                           << szFile << "to" << f;
+    } else {
+        qCritical(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished fail: rename"
+                           << szFile << "to" << f;
+        m_DownloadFile.setFileName(szFile);
+    }
     emit sigFinished();
 }
 
