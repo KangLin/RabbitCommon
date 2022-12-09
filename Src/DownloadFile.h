@@ -46,6 +46,7 @@ public:
 signals:
     void sigFinished(const QString szFile);
     void sigError(int nErr, const QString szErr);
+    void sigDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     /**
@@ -72,6 +73,7 @@ private:
     bool m_bDownload;
     QNetworkAccessManager m_NetManager;
     QMap<QNetworkReply*, int> m_Reply;
+    qint64 m_nBytesReceived;
     QString m_szError;
 };
 
