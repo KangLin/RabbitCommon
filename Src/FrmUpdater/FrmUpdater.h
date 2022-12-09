@@ -8,8 +8,6 @@
 
 #include <QSystemTrayIcon>
 #include <QWidget>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
 #include <QFile>
 #include <QPixmap>
 #include <QApplication>
@@ -18,6 +16,8 @@
 #include <QButtonGroup>
 #include <QCommandLineParser>
 #include "rabbitcommon_export.h"
+
+#include "DownloadFile.h"
 
 namespace Ui {
 class CFrmUpdater;
@@ -32,18 +32,10 @@ class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
     Q_OBJECT
 
 public:
-    explicit CFrmUpdater(QString szUrl = QString(), QWidget *parent = nullptr);
+    explicit CFrmUpdater(QWidget *parent);
+    explicit CFrmUpdater(QVector<QUrl> urls = QVector<QUrl>(), QWidget *parent = nullptr);
     virtual ~CFrmUpdater() override;
 
-    /**
-     * @brief DownloadFile
-     * @param url: Download url
-     * @param bRedirection: true: Is redirection
-     * @param bDownload: true: don't check, download immediately
-     * @return 
-     */
-    int DownloadFile(const QUrl &url, bool bRedirection = false,
-                     bool bDownload = false);
     int SetVersion(const QString &szVersion);
     int SetArch(const QString &szArch);
     /**
@@ -64,14 +56,13 @@ public:
     int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:
-    void slotReadyRead();
-    void slotError(QNetworkReply::NetworkError e);
-    void slotSslError(const QList<QSslError> e);
+    void slotDownloadError(int nErr, const QString szError);
+    void slotDownloadFile(const QString szFile);
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    void slotFinished();
+
     void slotButtonClickd(int id);
     void slotCheck();
-    void slotDownloadXmlFile();
+    void slotDownloadFile();
     virtual void slotCheckXmlFile();
     void slotDownloadSetupFile();
     void slotUpdate();
@@ -108,12 +99,11 @@ private:
     QString m_szCurrentArch;
     QString m_szPlatform;
 
-    QUrl m_Url;
     QFile m_DownloadFile;
     bool m_bDownload;
-    QNetworkAccessManager m_NetManager;
-    QNetworkReply *m_pReply;
-
+    QVector<QUrl> m_Urls;
+    QSharedPointer<RabbitCommon::CDownloadFile> m_Download;
+    
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;
     
@@ -125,7 +115,8 @@ private:
         QString szSystem;
         QString szPlatform;
         QString szArchitecture;
-        QString szUrl;
+        QString szPackageFile;
+        QVector<QUrl> urls;
         QString szUrlHome;
         QString szMd5sum;
         QString szMinUpdateVersion;

@@ -160,7 +160,7 @@ void MainWindow::on_pbDownload_clicked()
             this, SLOT(slotDownloadFile(const QString)));
     Q_ASSERT(check);
     check = connect(m_pDownload, SIGNAL(sigError(int, const QString)),
-                    this, SLOT(slotDownloadError(int, QString)));
+                    this, SLOT(slotDownloadError(int, const QString)));
     Q_ASSERT(check);
 }
 
@@ -170,7 +170,7 @@ void MainWindow::slotDownloadFile(const QString szFile)
     QDesktopServices::openUrl(QUrl::fromLocalFile(szFile));
 }
 
-void MainWindow::slotDownloadError(int nErr, QString szErr)
+void MainWindow::slotDownloadError(int nErr, const QString szErr)
 {
     qDebug(windowLog) << "Download file error:" << nErr << szErr;
 }

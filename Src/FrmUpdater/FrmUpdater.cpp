@@ -8,7 +8,6 @@
 #include "AdminAuthoriser/adminauthoriser.h"
 #include "ui_FrmUpdater.h"
 
-#include <QtNetwork>
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFinalState>
@@ -25,13 +24,12 @@
 #include <QSettings>
 
 Q_LOGGING_CATEGORY(FrmUpdater, "RabbitCommon.Updater")
-CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
+CFrmUpdater::CFrmUpdater(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
     m_InstallAutoStartupType(false),
     m_ButtonGroup(this),
     m_bDownload(false),
-    m_pReply(nullptr),
     m_pStateDownloadSetupFile(nullptr)
 {
     bool check = false;
@@ -107,14 +105,23 @@ CFrmUpdater::CFrmUpdater(QString szUrl, QWidget *parent) :
               "QSslSocket is not support ssl. The system is not install the OPENSSL dynamic library[" << szMsg << "]."
               " Please install OPENSSL dynamic library [" << szMsg << "]";
     }
+}
 
-    if(szUrl.isEmpty())
+CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(parent)
+{
+    if(urls.isEmpty())
     {
-        szUrl = "https://raw.githubusercontent.com/KangLin/"
-                + qApp->applicationName() + "/master/Update/update.xml";
+        QUrl github("https://github.com/KangLin/"
+                + qApp->applicationName() + "/raw/master/Update/update.xml");
+        QUrl gitlab("https://gitlab.com/kl222/"
+                + qApp->applicationName() + "/-/raw/master/Update/update.xml");
+        QUrl gitee("https://gitee.com/kl222/"
+                + qApp->applicationName() + "/raw/master/Update/update.xml");
+        m_Urls << github << gitlab << gitee;
+    } else {
+        m_Urls = urls;
     }
-    DownloadFile(QUrl(szUrl));
-    
+
     InitStateMachine();
 }
 
@@ -162,7 +169,7 @@ CFrmUpdater::~CFrmUpdater()
  *   |      | sigFinished               |
  *   |      V                           |
  *   |  |--------------------|          |
- *   |  |update(sUpdate)     |          | 
+ *   |  |update(sUpdate)     |          |
  *   |  |--------------------|          |
  *   |----------------------------------|
  */
@@ -192,7 +199,7 @@ int CFrmUpdater::InitStateMachine()
     sDownloadXmlFile->assignProperty(ui->lbState, "text", tr("Being download xml file"));
     sDownloadXmlFile->addTransition(this, SIGNAL(sigFinished()), sCheckXmlFile);
     check = connect(sDownloadXmlFile, SIGNAL(entered()),
-                     this, SLOT(slotDownloadXmlFile()));
+                     this, SLOT(slotDownloadFile()));
     Q_ASSERT(check);
     
     sCheckXmlFile->addTransition(this, SIGNAL(sigDownLoadRedireXml()), sDownloadXmlFile);
@@ -250,129 +257,6 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
     return 0;
 }
 
-int CFrmUpdater::DownloadFile(const QUrl &url, bool bRedirection, bool bDownload)
-{
-    int nRet = 0;
-    qDebug(FrmUpdater) << "CFrmUpdater::DownloadFile:"
-           << url << bRedirection << bDownload;
-    if(!m_StateMachine.isRunning())
-    {
-        m_bDownload = bDownload;        
-        m_Url = url;
-        return 0;
-    }
-    m_DownloadFile.close();
-    if(url.isLocalFile())
-    {
-        m_DownloadFile.setFileName(url.toLocalFile());
-        emit sigFinished();
-        return 0;
-    }
-
-    if(!bRedirection)
-    {
-        QString szTmp
-                = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-        szTmp = szTmp + QDir::separator() + "Rabbit"
-                + QDir::separator() + qApp->applicationName();
-        QDir d;
-        if(!d.exists(szTmp))
-            d.mkpath(szTmp);
-        QString szPath = url.path();   
-        QString szFile = szTmp + szPath.mid(szPath.lastIndexOf("/"));
-        m_DownloadFile.setFileName(szFile);
-        qDebug(FrmUpdater) << "CFrmUpdater download file: " << m_DownloadFile.fileName();
-        
-    }
-
-    if(!m_DownloadFile.open(QIODevice::WriteOnly))
-    {
-        qDebug(FrmUpdater) << "Open file fail: " << m_DownloadFile.fileName();
-        return -1;
-    }
-    
-    QNetworkRequest request(url);
-    //https://blog.csdn.net/itjobtxq/article/details/8244509
-    /*QSslConfiguration config;
-    config.setPeerVerifyMode(QSslSocket::VerifyNone);
-    config.setProtocol(QSsl::AnyProtocol);
-    request.setSslConfiguration(config);
-    */
-    m_pReply = m_NetManager.get(request);
-    if(!m_pReply)
-        return -1;
-    
-    bool check = false;
-    check = connect(m_pReply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-    Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(downloadProgress(qint64, qint64)),
-                    this, SLOT(slotDownloadProgress(qint64, qint64)));
-    Q_ASSERT(check);
-    check = connect(m_pReply, 
-                    #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-                        SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
-                    #else
-                        SIGNAL(error(QNetworkReply::NetworkError)),
-                    #endif
-                    this, SLOT(slotError(QNetworkReply::NetworkError)));
-    Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>)),
-                    this, SLOT(slotSslError(const QList<QSslError>)));
-    Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(finished()),
-                    this, SLOT(slotFinished()));
-    Q_ASSERT(check);
-
-    ui->progressBar->show();
-    return nRet;
-}
-
-void CFrmUpdater::slotReadyRead()
-{
-    //qDebug() << "CFrmUpdater::slotReadyRead()";
-    if(m_DownloadFile.isOpen() && m_pReply)
-    {
-        QByteArray d = m_pReply->readAll();
-        //qDebug() << d;
-        m_DownloadFile.write(d);
-    }
-}
-
-void CFrmUpdater::slotFinished()
-{
-    qDebug(FrmUpdater) << "CFrmUpdater::slotFinished()";
-    
-    QVariant redirectionTarget;
-    if(m_pReply)
-       redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if(redirectionTarget.isValid())
-    {
-        if(m_pReply)
-        {
-            m_pReply->disconnect();
-            m_pReply->deleteLater();
-            m_pReply = nullptr;
-        }
-        QUrl u = redirectionTarget.toUrl();  
-        if(u.isValid())
-        {
-            qDebug(FrmUpdater) << "CFrmUpdater::slotFinished():redirectionTarget:url:" << u;
-            DownloadFile(u, true);
-        }
-        return;
-    }
-    
-    if(m_pReply)
-    {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
-    m_DownloadFile.close();
-    ui->progressBar->hide();
-    emit sigFinished();
-}
-
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
@@ -384,44 +268,10 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
                             QString::number(bytesReceived * 100 / bytesTotal)));
 }
 
-void CFrmUpdater::slotError(QNetworkReply::NetworkError e)
-{
-    qDebug(FrmUpdater) << "CFrmUpdater::slotError: " << e;
-    if(m_pReply)
-    {
-        ui->lbState->setText(tr("Download network error: ")
-                             + m_pReply->errorString());
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
-    ui->progressBar->hide();
-    m_DownloadFile.close();
-    emit sigError();
-}
-
-void CFrmUpdater::slotSslError(const QList<QSslError> e)
-{
-    qDebug(FrmUpdater) << "CFrmUpdater::slotSslError: " << e;
-    QString sErr;
-    foreach(QSslError s, e)
-        sErr += s.errorString() + " ";
-    ui->lbState->setText(tr("Download fail:") + sErr);
-    if(m_pReply)
-    {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
-    ui->progressBar->hide();
-    m_DownloadFile.close();
-    emit sigError();
-}
-
 void CFrmUpdater::slotStateFinished()
 {
-    if(m_pReply)
-        m_pReply->abort();
+    if(m_Download)
+        m_Download.reset();
 }
 
 void CFrmUpdater::slotCheck()
@@ -451,11 +301,42 @@ void CFrmUpdater::slotCheck()
         emit sigError();
 }
 
-void CFrmUpdater::slotDownloadXmlFile()
+void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
+{
+    emit sigError();
+}
+
+void CFrmUpdater::slotDownloadFile(const QString szFile)
+{
+    if(m_DownloadFile.isOpen())
+        m_DownloadFile.close();
+
+    QString szTmp
+            = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    szTmp = szTmp + QDir::separator() + "Rabbit"
+            + QDir::separator() + qApp->applicationName();
+
+    QString f = szTmp + szFile.mid(szFile.lastIndexOf("/"));
+
+    QFile::rename(szFile, f);
+    m_DownloadFile.setFileName(f);
+    emit sigFinished();
+}
+
+void CFrmUpdater::slotDownloadFile()
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadXmlFile";
-    if(m_Url.isValid())
-        DownloadFile(m_Url);
+    if(!m_Urls.isEmpty())
+    {
+        m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
+                    new RabbitCommon::CDownloadFile(m_Urls));
+        bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
+                this, SLOT(slotDownloadFile(const QString)));
+        Q_ASSERT(check);
+        check = connect(m_Download.data(), SIGNAL(sigError(int, const QString)),
+                        this, SLOT(slotDownloadError(int, const QString)));
+        Q_ASSERT(check);
+    }
 }
 
 void CFrmUpdater::slotCheckXmlFile()
@@ -474,16 +355,24 @@ void CFrmUpdater::slotCheckXmlFile()
    <REDIRECT>
        <VERSION>v0.0.1</VERSION>
        <WINDOWS>
-           <URL>url</URL>
+           <URL>url1</URL>
+           <URL>url2</URL>
+           <URL>...</URL>
        </WINDOWS>
        <LINUX>
-           <URL>url</URL>
+           <URL>url1</URL>
+           <URL>url2</URL>
+           <URL>...</URL>
        </LINUX>
        <LINUX_APPIMAGE>
-           <URL>url</URL>
+           <URL>url1</URL>
+           <URL>url2</URL>
+           <URL>...</URL>
        </LINUX_APPIMAGE>
        <ANDROID>
-           <URL>url</URL>
+           <URL>url1</URL>
+           <URL>url2</URL>
+           <URL>...</URL>
        </ANDROID>   
    </REDIRECT>
  */
@@ -512,7 +401,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
     if(doc.elementsByTagName("REDIRECT").isEmpty())
         return 1;
 
-    QString szUrl;
+    QString szOS;
     QString szVersion;
     QDomNodeList versionNode = doc.documentElement().elementsByTagName("VERSION");
     if(versionNode.isEmpty())
@@ -523,61 +412,49 @@ int CFrmUpdater::CheckRedirectXmlFile()
 
     QDomElement node = versionNode.item(0).toElement();
     szVersion = node.text();
-    szUrl = "https://github.com/KangLin/" 
-            + qApp->applicationName() + "/releases/download/"
-            + szVersion + "/update_";
+    QDomNodeList n;
 #if defined (Q_OS_WIN)
-    szUrl += "windows";
-    QDomNodeList n = doc.documentElement().elementsByTagName("WINDOWS");
-    if(!n.isEmpty())
-    {
-        QDomElement url = n.item(0).firstChildElement("URL");
-        m_Url = url.text();
-        emit sigDownLoadRedireXml();
-        return 0;        
-    }
+    szOS = "windows";
+    n = doc.documentElement().elementsByTagName("WINDOWS");
 #elif defined(Q_OS_ANDROID)
-    szUrl += "android";
-    QDomNodeList n = doc.documentElement().elementsByTagName("ANDROID");
-    if(!n.isEmpty())
-    {
-        QDomElement url = n.item(0).firstChildElement("URL");
-        m_Url = url.text();
-        emit sigDownLoadRedireXml();
-        return 0;
-    }
+    szOS = "android";
+    n = doc.documentElement().elementsByTagName("ANDROID");
 #elif defined (Q_OS_LINUX)
     /*QFileInfo f(qApp->applicationFilePath());
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {   
-        szUrl += "linux";
-        QDomNodeList n = doc.documentElement().elementsByTagName("LINUX");
-        if(!n.isEmpty())
-        {
-            QDomElement url = n.item(0).firstChildElement("URL");
-            m_Url = url.text();
-            emit sigDownLoadRedireXml();
-            return 0;
-        }
+        szOS = "linux";
+        n = doc.documentElement().elementsByTagName("LINUX");
     }
     else*/
     {
-        szUrl += "linux_appimage";
-        QDomNodeList n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
-        if(!n.isEmpty())
+        szOS = "linux_appimage";
+        n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
+    }
+#endif
+
+    m_Urls.clear();
+    if(!n.isEmpty())
+    {
+        QDomElement url = n.item(0).firstChildElement("URL");
+        while(!url.isNull())
         {
-            QDomElement url = n.item(0).firstChildElement("URL");
-            m_Url = url.text();
-            emit sigDownLoadRedireXml();
-            return 0;
+            m_Urls.push_back(QUrl(url.text()));
+            url = n.item(0).nextSiblingElement("URL");
         }
     }
-    
-#endif
-    if(szUrl.right(4) != ".xml")
-        szUrl += ".xml";
-    
-    m_Url = szUrl;
+
+    if(m_Urls.isEmpty())
+    {
+        QUrl github("https://github.com/KangLin/"
+                   + qApp->applicationName() + "/releases/download/"
+                   + szVersion + "/update_" + szOS + ".xml");
+        m_Urls.push_back(github);
+        QUrl sourceforge("https://sourceforge.net/projects/"
+                         + qApp->applicationName() +"/files/"
+                         + szVersion + "/update_windows.xml/download");
+        m_Urls.push_back(sourceforge);
+    }
     emit sigDownLoadRedireXml();
 
     return 0;
@@ -596,7 +473,10 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
     <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
     <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a arm64_v8a-->
-    <URL>url</URL>
+    <FILENAME>File name</FILENAME>
+    <URL>url1</URL>
+    <URL>url2</URL>
+    <URL>...</URL>
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
     
    </UPDATE>
@@ -649,8 +529,10 @@ int CFrmUpdater::CheckUpdateXmlFile()
             m_Info.szPlatform = node.text();
         else if(node.nodeName() == "ARCHITECTURE")
             m_Info.szArchitecture = node.text();
+        else if(node.nodeName() == "FILENAME")
+            m_Info.szPackageFile = node.text();
         else if(node.nodeName() == "URL")
-            m_Info.szUrl = node.text();
+            m_Info.urls.push_back(QUrl(node.text()));
         else if(node.nodeName() == "HOME")
             m_Info.szUrlHome = node.text();
         else if(node.nodeName() == "MD5SUM")
@@ -664,7 +546,7 @@ int CFrmUpdater::CheckUpdateXmlFile()
              << "system: " << m_Info.szSystem
              << "Platform: " << m_Info.szPlatform
              << "Arch: " << m_Info.szArchitecture
-             << "url: " << m_Info.szUrl
+             << "url: " << m_Info.urls
              << "md5: " << m_Info.szMd5sum
              << "minUpdateVersion: " << m_Info.szMinUpdateVersion;
     if(CompareVersion(m_Info.szVerion, m_szCurrentVersion) <= 0)
@@ -750,7 +632,10 @@ void CFrmUpdater::slotDownloadSetupFile()
     if(IsDownLoad())
         emit sigFinished();
     else
-        DownloadFile(m_Info.szUrl);
+    {
+        m_Urls = m_Info.urls;
+        slotDownloadFile();
+    }
 }
 
 void CFrmUpdater::slotUpdate()
@@ -982,6 +867,10 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     return nRet;
 }
 
+/*!
+ * \brief Check file is exist
+ * \return 
+ */
 bool CFrmUpdater::IsDownLoad()
 {
     bool bRet = false;
@@ -990,13 +879,12 @@ bool CFrmUpdater::IsDownLoad()
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
 
-    QString szPath = QUrl(m_Info.szUrl).path();   
-    QString szFile = szTmp + szPath.mid(szPath.lastIndexOf("/"));
-    
+    QString szFile = szTmp + QDir::separator() + m_Info.szPackageFile;
+
     QFile f(szFile);
     if(!f.open(QIODevice::ReadOnly))
         return false;
-    
+
     m_DownloadFile.setFileName(szFile);
     do{
         QCryptographicHash md5sum(QCryptographicHash::Md5);
@@ -1109,12 +997,21 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     eMd5.appendChild(md5);
     root.appendChild(eMd5);
     
-    QDomText url = doc.createTextNode("URL");
-    url.setData(info.szUrl);
-    QDomElement eUrl = doc.createElement("URL");
-    eUrl.appendChild(url);
-    root.appendChild(eUrl);
+    QDomText fileName = doc.createTextNode("FILENAME");
+    fileName.setData(info.szPackageFile);
+    QDomElement eFileName = doc.createElement("FILENAME");
+    eFileName.appendChild(fileName);
+    root.appendChild(eFileName);
     
+    foreach(auto u, info.urls)
+    {
+        QDomText url = doc.createTextNode("URL");
+        url.setData(u.toString());
+        QDomElement eUrl = doc.createElement("URL");
+        eUrl.appendChild(url);
+        root.appendChild(eUrl);
+    }
+
     QDomText urlHome = doc.createTextNode("HOME");
     urlHome.setData(info.szUrlHome);
     QDomElement eUrlHome = doc.createElement("HOME");
@@ -1243,9 +1140,9 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
                              tr("Package file, Is used to calculate md5sum"),
                              "Package file");
     parser.addOption(oPackageFile);
-    QCommandLineOption oUrl(QStringList() << "u" << "url",
-                             tr("Package download url"),
-                             "Download url",
+    QCommandLineOption oUrl(QStringList() << "u" << "urls",
+                             tr("Package download urls"),
+                             "Download urls",
                              szUrl);
     parser.addOption(oUrl);
     QString szHome = "https://github.com/KangLin/" + qApp->applicationName();
@@ -1276,6 +1173,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     info.szArchitecture = parser.value(oArch);
     info.szMd5sum = parser.value(oMd5);
     QString szPackageFile = parser.value(oPackageFile);
+    info.szPackageFile = szPackageFile;
     if(info.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
     {
         //计算包的 MD5 和
@@ -1292,7 +1190,13 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
             qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
         }
     }
-    info.szUrl = parser.value(oUrl);
+
+    QString szUrls = parser.value(oUrl);
+    foreach(auto u, szUrls.split(";"))
+    {
+        info.urls.push_back(QUrl(u));
+    }
+
     info.szUrlHome = parser.value(oUrlHome);
     info.szMinUpdateVersion = parser.value(oMin);
 
