@@ -320,7 +320,8 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
             + QDir::separator() + qApp->applicationName();
 
     QString f = szTmp + szFile.mid(szFile.lastIndexOf("/"));
-    
+    if(QFile::exists(f))
+        QFile::remove(f);
     if(QFile::rename(szFile, f))
     {
         m_DownloadFile.setFileName(f);
@@ -328,7 +329,7 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
         qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished: rename"
                            << szFile << "to" << f;
     } else {
-        qCritical(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished fail: rename"
+        qCritical(FrmUpdater) << "CFrmUpdater::slotDownloadFileFinished. rename fail from"
                            << szFile << "to" << f;
         m_DownloadFile.setFileName(szFile);
     }
@@ -558,12 +559,16 @@ int CFrmUpdater::CheckUpdateXmlFile()
         else if(node.nodeName() == "MIN_UPDATE_VERSION")
             m_Info.szMinUpdateVersion = node.text();
     }
-    qDebug(FrmUpdater) << "version: " << m_Info.szVerion
+    qDebug(FrmUpdater) << "Current version:"
+             << m_szCurrentVersion
+             << "\nParse xml file:\n"
+             << "version: " << m_Info.szVerion
              << "time: " << m_Info.szTime
              << "bForce: " << m_Info.bForce
              << "system: " << m_Info.szSystem
              << "Platform: " << m_Info.szPlatform
              << "Arch: " << m_Info.szArchitecture
+             << "FileName:" << m_Info.szFileName
              << "url: " << m_Info.urls
              << "md5: " << m_Info.szMd5sum
              << "minUpdateVersion: " << m_Info.szMinUpdateVersion;
