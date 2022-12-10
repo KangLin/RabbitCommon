@@ -39,7 +39,7 @@ namespace RabbitCommon {
 /*!
  * \note USER DON'T USE CLog!!!
  */
-class RABBITCOMMON_EXPORT CLog 
+class Q_DECL_DEPRECATED_X("Please use qDebug instead")  RABBITCOMMON_EXPORT CLog 
 {
 public:
     CLog();
@@ -61,7 +61,7 @@ public:
      * @param pFormatString:格式化字符串
      * @return 
      */
-    //Q_DECL_DEPRECATED_X("Please use qDebug and log4Qt instead.")
+    Q_DECL_DEPRECATED_X("Please use qDebug and log4Qt instead.")
     int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
     

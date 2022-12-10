@@ -9,6 +9,7 @@
 #pragma once
 
 #include <QObject>
+#include <QtGlobal>
 #include "rabbitcommon_export.h"
 
 #include "FrmStyle/FrmStyle.h"
@@ -20,7 +21,7 @@ namespace RabbitCommon {
  * @brief The CStyle class
  * @note When major version >= 2, The class is an inner class. please use CFrmStyle
  */
-class RABBITCOMMON_EXPORT CStyle : public QObject
+class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead") RABBITCOMMON_EXPORT CStyle : public QObject
 {
     Q_OBJECT
 public:
