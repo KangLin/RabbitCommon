@@ -127,14 +127,14 @@ macro(SUBDIRLIST result curdir)
 endmacro()
 
 # Install QIcon theme
-# SOURCES: Default is Resource/icons/
+# SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
 # DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
 option(INSTALL_STYLE_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT DEFINED SOURCES)
-        set(PARA_SOURCES Resource/icons/)
+        set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/)
     endif()
     if(NOT DEFINED DESTINATION)
         if(ANDROID)

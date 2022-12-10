@@ -24,7 +24,7 @@ class CFrmUpdater;
 }
 
 /**
- * @brief Update 
+ * @brief Updater
  * @ingroup API
  */
 class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
@@ -52,13 +52,20 @@ public:
      */
     int GenerateUpdateXml();
     int GenerateUpdateXml(QCommandLineParser &parser);
-    
+
+    /*!
+     * \brief Set install and automation startup
+     * \param bAutoStart
+     * \return 
+     */
     int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:
+    //! [Add the slot functions of RabbitCommon::CDownloadFile]
     void slotDownloadError(int nErr, const QString szError);
     void slotDownloadFileFinished(const QString szFile);
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    //! [Add the slot functions of RabbitCommon::CDownloadFile]
 
     void slotButtonClickd(int id);
     void slotCheck();
@@ -71,7 +78,7 @@ protected Q_SLOTS:
     void on_pbOK_clicked();
     void on_pbClose_clicked();
     void slotShowWindow(QSystemTrayIcon::ActivationReason reason);
-    
+
 Q_SIGNALS:
     void sigError();
     void sigFinished();
@@ -92,9 +99,9 @@ private:
     bool m_InstallAutoStartupType;
 
     QSystemTrayIcon m_TrayIcon;
-    
+
     QButtonGroup m_ButtonGroup;
-    
+
     QString m_szCurrentVersion;
     QString m_szCurrentArch;
     QString m_szPlatform;
@@ -102,11 +109,13 @@ private:
     QFile m_DownloadFile;
     bool m_bDownload;
     QVector<QUrl> m_Urls;
+    //! [Instantiate the object of RabbitCommon::CDownloadFile]
     QSharedPointer<RabbitCommon::CDownloadFile> m_Download;
-    
+    //! [Instantiate the object of RabbitCommon::CDownloadFile]
+
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;
-    
+
     struct INFO{
         QString szVerion;
         QString szInfomation;
@@ -121,9 +130,9 @@ private:
         QString szMd5sum;
         QString szMinUpdateVersion;
     } m_Info;
-    
+
     int GenerateUpdateXmlFile(const QString &szFile, const INFO &info);
-    
+
     // QWidget interface
 protected:
     virtual void showEvent(QShowEvent *event) override;

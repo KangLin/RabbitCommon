@@ -17,28 +17,37 @@
 
 [:us: 英语](README.md)
 
-项目位置: https://github.com/KangLin/RabbitCommon
-镜像位置：
-- https://sourceforge.net/projects/rabbitcommon/
-- https://launchpad.net/rabbitcommon
-- https://gitlab.com/kl222/RabbitCommon
+- 项目位置: https://github.com/KangLin/RabbitCommon
+- 镜像位置：
+  - https://sourceforge.net/projects/rabbitcommon/
+  - https://gitlab.com/kl222/RabbitCommon
+  - https://launchpad.net/rabbitcommon
+
+### 开发文档
+
+[开发文档](https://kanglin.github.io/RabbitCommon/Chinese/html/index.html)
 
 ### 功能
+
+详见：[应用程序接口](https://kanglin.github.io/RabbitCommon/Chinese/html/group__API.html)
 
 本人Qt项目的一些公共库，包括下列功能：
 
 - [x] [关于对话框](#关于对话框)
   + [cmark](https://github.com/commonmark/cmark): 用于解析 MarkDown 语法
 - [x] [在线更新](#在线更新)
-- [x] 工具
+- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+- [x] [从多个 URLs 下载同一文件](Src/DownloadFile.h)
+- [x] [目录功能](Src/RabbitCommonDir.h)
+- [x] [加解密](Src/RabbitCommonEncrypt.h)
+- [x] [注册表](Src/RabbitCommonRegister.h))
+- [x] [样式](Src/FrmStyle.h)
+- [x] [工具](Src/RabbitCommonTools.h)
   + [x] [用管理员权限执行程序](#管理员权限运行程序)
   + [x] [程序开机自启动](#程序开机自启动)
   + [x] 得到系统信息
     - [x] 得到当前登录用户
-- [x] [目录功能](Src/RabbitCommonDir.h)
-- [x] [日志](Src/RabbitCommonLog.h)
-- [x] [样式](Src/RabbitCommonStyle.h)
-- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+  + [x] 允许 core dump
 - [x] [最近打开菜单](Src/RabbitRecentMenu.h)
 - [x] cmake 函数
   + [x] 翻译资源
@@ -233,8 +242,13 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
         RabbitCommon::CTools::Instance()->Init();
 
-### 具体功能
-#### [关于对话框](Src/DlgAbout/DlgAbout.h)
+### 功能
+
+[在线开发文档](https://kanglin.github.io/RabbitCommon/Chinese/html/group__API.html)
+
+#### 关于对话框
+
+[DlgAbout.h](Src/DlgAbout/DlgAbout.h)
 
   + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则： 
       Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件： 
@@ -283,7 +297,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     
 ![关于对话框](docments/image/about.PNG "关于对话框")
 
-#### [在线更新](Src/FrmUpdater/FrmUpdater.h)
+#### 在线更新
+
+[FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
@@ -340,7 +356,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
    
 ![在线更新](docments/image/update.PNG "在线更新")
 
-#### [管理员权限运行程序](Src/AdminAuthoriser/adminauthoriser.h)
+#### 管理员权限运行程序
+
+[adminauthoriser.h](Src/AdminAuthoriser/adminauthoriser.h)
 
 + 内部实现
 
@@ -354,7 +372,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
       RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-#### [程序开机自启动](Src/RabbitCommonTools.h)
+#### 程序开机自启动
+
+[程序开机自启动](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -384,6 +404,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 - [中国象棋](https://github.com/KangLin/ChineseChessControl)
 
 ### 捐赠
+
 ![捐赠](Src/Resource/image/Contribute.png "捐赠")
 
-### [许可协议](License.md "License.md")
+### 许可协议
+
+[许可协议](License.md "License.md")

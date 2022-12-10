@@ -4,9 +4,11 @@
   + 增加 CFrmStyle
   + 增加图标主题设置
   + 修改样式保存数据，CStyle 不再是对外接口
-+ 修改CStyle, 增加接口：QString CStyle::GetStyleFile()
++ 修改 CStyle, 增加接口：QString CStyle::GetStyleFile()
 + 修改CDir, 增加 QString CDir::GetDirIcons()
 + 增加从多个 URLS 下载同一个文件
++ 废弃 CStyle，用 CFrmStyle 代替
++ 废弃 LOG_MODEL_DEBUG 等日志输出 , 用 qDebug 等 代替
 
 ### 版本： v1.0.6
 

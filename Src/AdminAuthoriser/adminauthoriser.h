@@ -3,13 +3,19 @@
 
 #include <QtCore/qstring.h>
 #include <QtCore/qstringlist.h>
-#include "rabbitcommon_export.h"
 
 namespace RabbitCommon
 {
 
-//! An interface to run programs with elevated rights
-class RABBITCOMMON_EXPORT CAdminAuthoriser
+/*!
+ * 
+ * \~chinese 使用提升的权限运行程序的接口
+ * \note 此类仅内部使用
+ *
+ * \~english An interface to run programs with elevated rights
+ * \note This class is intended for internal use only
+ */
+class CAdminAuthoriser
 {
     Q_DISABLE_COPY(CAdminAuthoriser)
 public:

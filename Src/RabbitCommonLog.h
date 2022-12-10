@@ -1,8 +1,9 @@
-/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin <kl222@126.com>
- *  @abstract log
+/** \copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ *  \author Kang Lin <kl222@126.com>
+ *  \abstract log
  *  The log interface is deprecated.
- *  Please use qDebug or qDebug and QLoggingCategory instead.
+ *  The file whill be deleleted from version 2.0.0
+ *  Please use qDebug etc instead
  */
 
 #ifndef RABBIT_COMMON_LOG_H

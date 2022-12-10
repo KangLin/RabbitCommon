@@ -16,10 +16,13 @@ class CFrmStyle;
  * # in CMakeLists.txt
  *
  * # Install QIcon theme
+ * # param SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+ * # param DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
  * INSTALL_ICON_THEME()
+ * \endcode
  *
  * - 使用：
- * Usge:
+ *
  * \code
  * CFrmStyle* s = new CFrmStyle();
  * s->show();
@@ -30,6 +33,7 @@ class CFrmStyle;
  * \details
  *
  * Usge:
+ *
  * \code
  * CFrmStyle* s = new CFrmStyle();
  * s->show();
@@ -40,6 +44,8 @@ class CFrmStyle;
  * \code
  * # in CMakeLists.txt
  * # Install QIcon theme
+ * # param SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+ * # param DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
  * INSTALL_ICON_THEME()
  * \endcode
  *

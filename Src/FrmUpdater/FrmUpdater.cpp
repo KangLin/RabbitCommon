@@ -256,17 +256,6 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
     return 0;
 }
 
-void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-{
-    ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
-    ui->progressBar->setValue(static_cast<int>(bytesReceived));
-    if(bytesTotal > 0)
-        m_TrayIcon.setToolTip(windowTitle() + " - "
-                          + qApp->applicationDisplayName()
-                          + tr(": downloading %1%").arg(
-                            QString::number(bytesReceived * 100 / bytesTotal)));
-}
-
 void CFrmUpdater::slotStateFinished()
 {
     if(m_Download)
@@ -300,6 +289,7 @@ void CFrmUpdater::slotCheck()
         emit sigError();
 }
 
+//! [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadError:" << nErr << szError;
@@ -336,9 +326,22 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     emit sigFinished();
 }
 
+void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
+    ui->progressBar->setValue(static_cast<int>(bytesReceived));
+    if(bytesTotal > 0)
+        m_TrayIcon.setToolTip(windowTitle() + " - "
+                          + qApp->applicationDisplayName()
+                          + tr(": downloading %1%").arg(
+                            QString::number(bytesReceived * 100 / bytesTotal)));
+}
+//! [Process the signals of RabbitCommon::CDownloadFile]
+
 void CFrmUpdater::slotDownloadFile()
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFile";
+    //! [Use RabbitCommon::CDownloadFile download file]
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
@@ -353,6 +356,7 @@ void CFrmUpdater::slotDownloadFile()
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
     }
+    //! [Use RabbitCommon::CDownloadFile download file]
 }
 
 void CFrmUpdater::slotCheckXmlFile()

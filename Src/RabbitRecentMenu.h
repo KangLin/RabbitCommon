@@ -19,7 +19,9 @@ namespace RabbitCommon {
  * \~chinese 最近打开菜单
  * 
  * \~english Recent open menu
- * \~ \ingroup API
+ *
+ * \~
+ * \ingroup API
  */
 class RABBITCOMMON_EXPORT CRecentMenu : public QMenu
 {
@@ -37,7 +39,7 @@ public:
     //! Returns the maximum number of entries in the menu.
     int maxCount() const;
     
-    /** This property holds the string used to generate the item text.
+    /*! This property holds the string used to generate the item text.
      * %d is replaced by the item number
      * %s is replaced by the item text
      * The default value is "%d %s".
@@ -50,7 +52,7 @@ public:
     //! Default enable save state
     bool disableSaveState(bool disable);
     
-    /** Saves the state of the recent entries.
+    /*! Saves the state of the recent entries.
      * Typically this is used in conjunction with QSettings to remember entries
      * for a future session. A version number is stored as part of the data.
      * Here is an example:
@@ -59,7 +61,7 @@ public:
      */
     QByteArray saveState() const;
     
-    /** Restores the recent entries to the state specified.
+    /*! Restores the recent entries to the state specified.
      * Typically this is used in conjunction with QSettings to restore entries from a past session.
      * Returns false if there are errors.
      * Here is an example:

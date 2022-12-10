@@ -32,39 +32,40 @@ Abstract:
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
+/*!
+ * \~english \defgroup API Application interface
+ * \~chinese \defgroup API 应用程序接口
+ */
+
 namespace Ui {
 class CDlgAbout;
 }
 
-/**  
-  \~chinese
-  
-    关于对话框
-    用户必须安装下列文件到安装根目录：
-    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
-    \li License:    License.md or License[_locale].md
-    \li Authors:    Authors.md or Authors[_locale].md
-    
-    locale 是使用的语言。例如:
-    \li 中文: ChangeLog_zh_CN.md     
-    \li 英文: ChangeLog_en.md
-    
-  \~english
-    
-    About dialog
- 
-    User must install the follow file to install root:
-    
-    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
-    \li License:    License.md or License[_locale].md
-    \li Authors:    Authors.md or Authors[_locale].md
-    
-    locale is the language used. eg:
-    \li Chines language: ChangeLog_zh_CN.md     
-    \li English language: ChangeLog_en.md
-    
-  \~
-  \ingroup API
+/*!
+ * \~chinese
+ * \brief 关于对话框
+ * \details
+ *     用户必须安装下列文件到安装根目录：
+ *     \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
+ *     \li License:    License.md or License[_locale].md
+ *     \li Authors:    Authors.md or Authors[_locale].md
+ *
+ *    locale 是使用的语言。例如:
+ *    \li 中文: ChangeLog_zh_CN.md
+ *    \li 英文: ChangeLog_en.md
+ *
+ * \~english
+ * \brief About dialog
+ * \details User must install the follow file to install root:
+ *    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
+ *    \li License:    License.md or License[_locale].md
+ *    \li Authors:    Authors.md or Authors[_locale].md
+ *
+ *    locale is the language used. eg:
+ *       \li Chines language: ChangeLog_zh_CN.md
+ *       \li English language: ChangeLog_en.md
+ * \~
+ * \ingroup API
  */
 class RABBITCOMMON_EXPORT CDlgAbout : public QDialog
 {
@@ -76,6 +77,7 @@ public:
 
 public:
     QString m_szAppName;
+    QImage m_AppIcon;
     QString m_szVersion;
     QString m_szArch;
     QString m_szDate, m_szTime;
@@ -83,11 +85,10 @@ public:
     QString m_szEmail;
     QString m_szHomePage;
     QString m_szCopyright;
+    QImage m_CopyrightIcon;
     QString m_szCopyrightTime;
     QString m_szCopyrightStartTime;
     QString m_szCopyrightOwner;
-    QImage m_AppIcon;
-    QImage m_CopyrightIcon;
     QImage m_DonationIcon;
 
 #if defined(Q_OS_ANDROID)
@@ -129,8 +130,3 @@ protected:
 };
 
 #endif // RABBITCOMMON_DLGABOUT_H
-
-/**
- * \~english \defgroup API Application interface
- * \~chinese \defgroup API 应用程序接口
- */

@@ -5,8 +5,9 @@
 
 namespace RabbitCommon {
 
-/*
- * Windows core dumper
+/*!
+ * \brief Windows core dumper
+ * \note This class is intended for internal use only
  */
 class CMiniDumper
 {

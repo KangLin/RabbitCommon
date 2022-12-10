@@ -17,11 +17,14 @@
 
 namespace RabbitCommon {
 
-/**
- * @brief The CStyle class
- * @note When major version >= 2, The class is an inner class. please use CFrmStyle
+/*!
+ * \brief The CStyle class
+ * \note When major version >= 2.0.0, The class is an inner class.
+ *       please use CFrmStyle instead.
+ *       The class wwill be removed from API after version 3.0.0
  */
-class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead") RABBITCOMMON_EXPORT CStyle : public QObject
+class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead. It will remove from API after version 3.0.0")
+      RABBITCOMMON_EXPORT CStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -29,27 +32,24 @@ public:
     //TODO:  When major version >= 2, the function is remove.
     void SetDefaultFile(const QString &file);
 
-    /**
-     * @brief Load style from configure file
-     * @return 
+    /*!
+     * \brief Load style from configure file
      */
     int LoadStyle();
-    /**
-     * @brief Load style from the file
-     * @param szFile: style file(*.qss)
-     * @return 
+    /*!
+     * \brief Load style from the file
+     * \param szFile: style file(*.qss)
      */
     int LoadStyle(const QString &szFile);
     QString GetStyleFile();
 
 public Q_SLOTS:
-    /**
-     * @brief Used to respond to menu events, open select style diaglog
+    /*!
+     * \brief Used to respond to menu events, open select style diaglog
      */
     void slotStyle();
-    /**
-     * @brief Set default style
-     * @return 
+    /*!
+     * \brief Set default style
      */
     void slotSetDefaultStyle();
 
@@ -63,7 +63,6 @@ private:
     QString m_szDefaultFallbackIconTheme;
 
     friend CFrmStyle;
-
 };
 
 Q_DECLARE_LOGGING_CATEGORY(LoggerStyle);

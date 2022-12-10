@@ -14,6 +14,10 @@
 
 namespace RabbitCommon {
 
+/*!
+ * \brief The encrypt class
+ * \ingroup API
+ */
 class RABBITCOMMON_EXPORT CEncrypt
 {
 public:

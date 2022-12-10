@@ -7,6 +7,8 @@
 + Modify CStyle, add interface: QString CStyle::GetStyleFile()
 + Modify CDir, add interface: QString CDir::GetDirIcons()
 + Add download the same file from multiple URLs
++ Deprecated CStyle, use CFrmStyle instead
++ Deprecated LOG_MODEL_DEBUG etc log functions, use qDebug etc instead
 
 ### Version: v1.0.6
 

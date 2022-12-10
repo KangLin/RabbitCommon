@@ -10,32 +10,39 @@ Author：Kang Lin（kl222@126.com)
 [![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
 [![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
 
-
 [:cn: Chinese](README_zh_CN.md)
 
-Project home site: https://github.com/KangLin/RabbitCommon
-Mirror:
-- https://sourceforge.net/projects/rabbitcommon/
-- https://launchpad.net/rabbitcommon
-- https://gitlab.com/kl222/RabbitCommon
+- Project home site: https://github.com/KangLin/RabbitCommon
+- Mirror:
+  - https://sourceforge.net/projects/rabbitcommon/
+  - https://launchpad.net/rabbitcommon
+  - https://gitlab.com/kl222/RabbitCommon
+
+### Developer documetns
+
+Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
 
 ### Functions
+
+[API](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
 
 Qt common library. include follow functions:
 
 - [x] [About](#About)
   + [cmark](https://github.com/commonmark/cmark): support MarkDown
 - [x] [Updater](#Updater)
+- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+- [x] [Download the same file from multiple URLs](Src/DownloadFile.h)
+- [x] [Directory functions](Src/RabbitCommonDir.h)
+- [x] [Encrypt](Src/RabbitCommonEncrypt.h)
+- [x] [Register](Src/RabbitCommonRegister.h))
+- [x] [Style](Src/FrmStyle/FrmStyle.h)
 - [x] Tools
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   + [x] [The program starts automatically](#the-program-starts-automatically)
   + [x] [Directory functions](Src/RabbitCommonDir.h)
   + [x] [Get system information](#Get-system-information)
     - [x] [Get current login user name](#Get-current-login-user-name)
-- [x] [Logger](Src/RabbitCommonLog.h)
-- [x] [Style](Src/RabbitCommonStyle.h)
-- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
-- [x] [Recent open menu](Src/RabbitRecentMenu.h)
 - [x] [Recent open menu](Src/RabbitRecentMenu.h)
 - [x] cmake functions
   + [x] Translations
@@ -233,6 +240,9 @@ Qt common library. include follow functions:
         RabbitCommon::CTools::Instance()->Init();
 
 ### Functions
+
+[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
+
 #### [About](Src/DlgAbout/DlgAbout.h)
 
   + Install Authors、 License、 ChangeLog files.  
@@ -286,7 +296,9 @@ Qt common library. include follow functions:
   + See: https://github.com/KangLin/SerialPortAssistant
 ![About](docments/image/about_en.png "About")
 
-#### [Updater](Src/FrmUpdater/FrmUpdater.h)
+#### Updateer
+
+See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
   ```
   #ifdef RABBITCOMMON
@@ -343,7 +355,10 @@ Qt common library. include follow functions:
   
 ![Updater](docments/image/updater_en.png "Updater")
 
-#### [Execute the program with administrator privileges](Src/AdminAuthoriser/adminauthoriser.h)
+#### Execute the program with administrator privileges
+
+[adminauthoriser.h](Src/AdminAuthoriser/adminauthoriser.h)
+
   + Internal implementation
 
             QString szCmd = "mkdir";
@@ -356,7 +371,9 @@ Qt common library. include follow functions:
 
             RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
-#### [The program starts automatically](Src/RabbitCommonTools.h)
+#### The program starts automatically
+
+[The program starts automatically](Src/RabbitCommonTools.h)
 
         static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -374,7 +391,7 @@ Qt common library. include follow functions:
 - Get host name:
 
       RabbitCommon::CTools::GetHostName();
-      
+
 ### Other projects using this project
 - [Rabbit IM](https://github.com/KangLin/RabbitCommon)
 - [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)
@@ -386,6 +403,9 @@ Qt common library. include follow functions:
 - [Chinese chess control](https://github.com/KangLin/ChineseChessControl)
 
 ### Donation
+
 ![Donation](Src/Resource/image/Contribute.png "Donation")
 
-### [License](License.md "License.md")
+### License
+
+[License](License.md "License.md")
