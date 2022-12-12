@@ -28,7 +28,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitCommon_VERSION: v1.0.6
+      RabbitCommon_VERSION: v1.0.7
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       qt_modules: qtwebengine
       

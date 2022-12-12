@@ -9,7 +9,7 @@ project(RabbitCommon)
 
 set(CMAKE_CXX_STANDARD 11)
 
-SET(RabbitCommon_VERSION "v1.0.6")
+SET(RabbitCommon_VERSION "v1.0.7")
 SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 # Find Git Version Patch
 IF(EXISTS "${RABBITCOMMON_SOURCE_DIR}/.git")
