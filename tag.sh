@@ -44,6 +44,7 @@ sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"
 sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
 
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
+sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/android.yml
 
@@ -60,9 +61,8 @@ sed -i "s/android:versionCode=.*android/android:versionCode=\"${MAJOR_VERSION}\"
 if [ -n "$1" ]; then
     git add .
     git commit -m "Release $1"
-    git push
     git tag -d $1
     git tag -a $1 -m "Release $1"
-    git push origin :refs/tags/$1
+    git push
     git push origin $1
 fi

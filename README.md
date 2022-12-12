@@ -20,7 +20,7 @@ Author：Kang Lin（kl222@126.com)
 
 ### Developer documetns
 
-Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
+[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
 
 ### Functions
 

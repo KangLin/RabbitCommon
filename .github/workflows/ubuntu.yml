@@ -39,7 +39,7 @@ jobs:
         #architectures: # optional
         # apt packages to install
         packages: |
-            cmake build-essential liblog4cxx-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev qtwebengine5-dev
+            cmake build-essential xvfb xpra libglu1-mesa-dev libpulse-mainloop-glib0 liblog4cxx-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev qtwebengine5-dev
     
     - name: build_debpackage.sh
       working-directory: ${{github.workspace}}
@@ -50,10 +50,8 @@ jobs:
         ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
         cp ../rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
         sudo dpkg -i rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
-        /opt/RabbitCommon/bin/GenerateUpdateFile \
-            -f "update_linux.xml" \
-            --pf rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb \
-            -m "${{env.RabbitCommon_VERSION}}"
+        sudo Xvfb :999 -ac &
+        export DISPLAY=:999.0
 
     - name: update 
       uses: actions/upload-artifact@v2
