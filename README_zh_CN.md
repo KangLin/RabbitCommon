@@ -40,7 +40,7 @@
 - [x] [从多个 URLs 下载同一文件](Src/DownloadFile.h)
 - [x] [目录功能](Src/RabbitCommonDir.h)
 - [x] [加解密](Src/RabbitCommonEncrypt.h)
-- [x] [注册表](Src/RabbitCommonRegister.h))
+- [x] [注册表](Src/RabbitCommonRegister.h)
 - [x] [样式](Src/FrmStyle.h)
 - [x] [工具](Src/RabbitCommonTools.h)
   + [x] [用管理员权限执行程序](#管理员权限运行程序)

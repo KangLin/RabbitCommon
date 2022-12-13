@@ -1,7 +1,5 @@
 #-------------------------------------------------
-#
-# Project created by QtCreator 2019-04-11T09:59:18
-#
+# The file is deprecated
 #-------------------------------------------------
 
 QT       += core gui
@@ -33,7 +31,7 @@ DISTFILES += Authors.md \
 other.files = $$DISTFILES
 android: other.path = $$PREFIX/assets
 else: other.path = $$PREFIX
-other.CONFIG += directory no_check_exist 
+other.CONFIG += directory no_check_exist
 INSTALLS += other
 
 OTHER_FILES += CMakeLists.txt \

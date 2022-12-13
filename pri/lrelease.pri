@@ -1,3 +1,7 @@
+#-------------------------------------------------
+# The file is deprecated
+#-------------------------------------------------
+
 # Automatically generate .qm files out of .ts files in TRANSLATIONS and
 # EXTRA_TRANSLATIONS.
 #

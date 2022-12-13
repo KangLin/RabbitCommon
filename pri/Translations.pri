@@ -1,3 +1,7 @@
+#-------------------------------------------------
+# The file is deprecated
+#-------------------------------------------------
+
 # For autocompiling qm-files.
 # qthelp://org.qt-project.qmake.5120/qmake/qmake-variable-reference.html
 

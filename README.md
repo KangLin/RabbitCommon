@@ -35,7 +35,7 @@ Qt common library. include follow functions:
 - [x] [Download the same file from multiple URLs](Src/DownloadFile.h)
 - [x] [Directory functions](Src/RabbitCommonDir.h)
 - [x] [Encrypt](Src/RabbitCommonEncrypt.h)
-- [x] [Register](Src/RabbitCommonRegister.h))
+- [x] [Register](Src/RabbitCommonRegister.h)
 - [x] [Style](Src/FrmStyle/FrmStyle.h)
 - [x] Tools
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
