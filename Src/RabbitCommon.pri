@@ -13,8 +13,9 @@ isEmpty(RabbitCommon_VERSION): error("Please set RabbitCommon_VERSION")
 #    VERSION=$$split(VERSION, -)
 #    VERSION=$$first(VERSION)
 #}
-win32: DEFINES += WINDOWS
-unix: DEFINES += UNIX
+win32: DEFINES *= WINDOWS
+mingw: DEFINES *= MINGW
+unix: DEFINES *= UNIX
 android{
     DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
 } else: win32 {
@@ -45,9 +46,12 @@ else: DEFINES *= RabbitCommon_EXPORTS
 !equals(WITH_GUI, "OFF") {
     DEFINES *= HAVE_GUI
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
+        $$PWD/FrmStyle/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp
     INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
+        $$PWD/FrmStyle/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h
+    FORMS += $$PWD/FrmStyle/FrmStyle.ui
 }
 
 !equals(BUILD_UPDATE, "OFF"){
@@ -127,13 +131,14 @@ win32 {
     DEFINES += _UNICODE UNICODE STRSAFE_NO_DEPRECATE
     LIBS += -lDbghelp -luser32
 }
-    
+
 SOURCES += \
     $$PWD/RabbitCommonLog.cpp \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
-    $$PWD/RabbitCommonEncrypt.cpp
+    $$PWD/RabbitCommonEncrypt.cpp \
+    $$PWD/DownloadFile.cpp
 
 INSTALL_HEADERS += \
     $$PWD/RabbitCommonLog.h \
@@ -142,7 +147,8 @@ INSTALL_HEADERS += \
     $$PWD/export/rabbitcommon_export.h \
     $$PWD/export/rabbitcommon_export_windows.h \
     $$PWD/export/rabbitcommon_export_linux.h \
-    $$PWD/RabbitCommonEncrypt.h
+    $$PWD/RabbitCommonEncrypt.h \
+    $$PWD/DownloadFile.h
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/RabbitCommonRegister.h
@@ -161,7 +167,7 @@ include($$PWD/../pri/Translations.pri)
 
 android{
     !isEmpty(OpenSSL_DIR) : ANDROID_EXTRA_LIBS = $$OpenSSL_DIR/lib/libssl.so \
-        $$OpenSSL_DIR/lib/libcrypto.so        
+        $$OpenSSL_DIR/lib/libcrypto.so
 }
 
 # Install style files

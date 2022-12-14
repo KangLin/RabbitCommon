@@ -57,7 +57,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 #Support windows xp
-mingw : DEFINES += "_WIN32_WINNT=0x0501" 
+mingw : DEFINES += "_WIN32_WINNT=0x0501"
 msvc {
     QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01"
     QMAKE_CXXFLAGS += "/utf-8"
@@ -71,6 +71,9 @@ isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
+!equals(WITH_GUI, "OFF"){
+    DEFINES *= HAVE_GUI
+}
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE
 }

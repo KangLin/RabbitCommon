@@ -4,11 +4,10 @@
 
 作者：康林（kl222@126.com)
 
-- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp/branch/master?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon/branch/master)
+- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
 - [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
 
-
-|     | master  | develop  |
+|     |    master   |    develop   |
 |:---:|:-----------:|:------------:|
 |Linux|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
 |Windows|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
@@ -79,6 +78,7 @@
     * 参数
       - CMAKE_BUILD_TYPE: 编译类型
       - Qt5_DIR: Qt 位置
+      - BUILD_DOCS: 编译 doxygen 文档
       - BUILD_APP: 编译应用程序
       - BUILD_ABOUT: 编译关于功能
       - BUILD_UPDATE: 编译在线更新功能
@@ -97,6 +97,7 @@
         make install
 
     * 参数
+      - BUILD_DOCS: 编译 doxygen 文档
       - BUILD_ABOUT=OFF: 关闭编译关于功能
       - BUILD_UPDATE=OFF: 关闭编译在线更新功能
       - BUILD_ADMINAUTHORISER＝OFF: 关闭用管理员权限运行程序
@@ -150,9 +151,6 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             endif()
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-                list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
-                include(${RabbitCommon_DIR}/cmake/Translations.cmake)
-                include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
             else()
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")

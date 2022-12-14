@@ -122,21 +122,21 @@ environment:
     BUILD_ARCH: x64
   
   ##### android ########
-  - BUILD_TARGERT: android
-    GENERATORS: "MSYS Makefiles"
-    BUILD_ARCH: "armeabi-v7a"
-    ANDROID_ARM_NEON: ON
-    QT_ROOT: NO
-    QT_VERSION_DIR: 5.12
-    QT_VERSION: 5.12.6
-    ANDROID_PLATFORM: android-24
-    TOOLCHAIN_VERSION: 4.9
+#  - BUILD_TARGERT: android
+#    GENERATORS: "MSYS Makefiles"
+#    BUILD_ARCH: "armeabi-v7a"
+#    ANDROID_ARM_NEON: ON
+#    QT_ROOT: NO
+#    QT_VERSION_DIR: 5.12
+#    QT_VERSION: 5.12.6
+#    ANDROID_PLATFORM: android-24
+#    TOOLCHAIN_VERSION: 4.9
     
 matrix:
   fast_finish: false
 
 init:
-  - set RabbitCommon_VERSION=%APPVEYOR_RabbitCommon_VERSION%
+  - set RabbitCommon_VERSION=%APPVEYOR_VERSION%
   - set varch=%BUILD_ARCH%
   - if "%BUILD_ARCH%" == "x64" set varch=amd64
   - if "%BUILD_TARGERT%" == "windows_msvc" if %TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %varch%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\%VC_DIR%\Community\VC\Auxiliary\Build\vcvarsall.bat" %varch%)  
@@ -153,6 +153,12 @@ install:
   #- if "%BUILD_TARGERT%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%TOOLCHAIN_VERSION%_32\bin;%PATH%
   - if "%BUILD_TARGERT%" == "windows_mingw" set MSYSTEM=MINGW32  #设置编译系统为MINGW32
 
+  - cd %APPVEYOR_BUILD_FOLDER%\Tools
+  - set CMAKE_VERSION=3.25.0
+  - if not exist cmake-%CMAKE_VERSION%-windows-i386 (curl -fsSL -o cmake-%CMAKE_VERSION%-windows-i386.zip https://github.com/Kitware/CMake/releases/download/v%CMAKE_VERSION%/cmake-%CMAKE_VERSION%-windows-i386.zip && 7z x cmake-%CMAKE_VERSION%-windows-i386.zip)
+  - cd cmake-%CMAKE_VERSION%-windows-i386
+  - set PATH="%CD%/bin";%PATH%
+
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
   - git submodule update --init --recursive
@@ -164,7 +170,7 @@ build_script:
 
 artifacts:
   - path: build_${BUILD_TARGERT}/install
-    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_Qt$(QT_VERSION)_$(appveyor_RabbitCommon_VERSION)
+    name: RabbitCommon_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(GENERATORS)_$(BUILD_ARCH)_Qt$(QT_VERSION)_$(RabbitCommon_VERSION)
     type: zip
 
 test: off
@@ -172,12 +178,12 @@ test: off
 #See:https://www.appveyor.com/docs/deployment/github/
 deploy:
   - provider: GitHub
-    #release: RabbitCommon_$(appveyor_RabbitCommon_VERSION)
+    #release: RabbitCommon_$(RabbitCommon_VERSION)
     description: 'Release RabbitCommon $(APPVEYOR_REPO_TAG_NAME) on windows'
     #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
     auth_token:
       secure: +wHYWKg2S7ggmOYHDVuvI9EQEy0qOyQhbsBgIQ+Jyn6YpEsUsRhGfQlBl1bR06K1
-    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_RabbitCommon_VERSION)
+    #artifact: RabbitCommon$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(RabbitCommon_VERSION)
     #draft: true
     #prerelease: true
     on:
