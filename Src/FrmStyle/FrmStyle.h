@@ -22,22 +22,32 @@ class CFrmStyle;
  * \endcode
  *
  * - 使用：
+ *  - 初始化。在程序开始处加入下面代码：
+ *  \code
+ *  RabbitCommon::CTools::Instance()->Init();
+ *  \endcode
  *
- * \code
- * CFrmStyle* s = new CFrmStyle();
- * s->show();
- * \endcode
+ *  - 设置样式。在程序需要打开设置样式对话框：
+ *   \code
+ *   CFrmStyle* s = new CFrmStyle();
+ *   s->show();
+ *   \endcode
  *
  * \~english
  * \brief Set style and icon theme form
  * \details
  *
  * Usge:
+ * -Initialize. Add the following code at the beginning of the program:
+ *  \code
+ *  RabbitCommon::CTools::Instance()->Init();
+ *  \endcode
  *
- * \code
- * CFrmStyle* s = new CFrmStyle();
- * s->show();
- * \endcode
+ * - Set the style. In the program you need to open the Set Style dialog box:
+ *   \code
+ *   CFrmStyle* s = new CFrmStyle();
+ *   s->show();
+ *   \endcode
  *
  * If you has your icon theme.
  * then call INSTALL_ICON_THEME() in CMakeLists.txt
