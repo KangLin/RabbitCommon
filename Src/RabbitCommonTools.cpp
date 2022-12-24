@@ -176,7 +176,6 @@ bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 #endif
 }
 
-
 int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool bAllUser)
 {
     Q_UNUSED(szName)
@@ -367,6 +366,27 @@ QString CTools::GetHostName()
     char buf[255];
     gethostname(buf, sizeof(buf));
     return buf;
+}
+
+void CTools::OpenLogConfigureFile()
+{
+#ifdef HAVE_GUI
+    RabbitCommon::OpenLogConfigureFile();
+#endif
+}
+
+void CTools::OpenLogFile()
+{
+#ifdef HAVE_GUI
+    RabbitCommon::OpenLogFile();
+#endif
+}
+
+void CTools::OpenLogFolder()
+{
+#ifdef HAVE_GUI
+    RabbitCommon::OpenLogFolder();
+#endif
 }
 
 } //namespace RabbitCommon

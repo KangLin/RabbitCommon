@@ -1,3 +1,7 @@
+### Version: v1.0.8
+
++ CTools: add open log file
+
 ### Version： v1.0.7
 
 + Style

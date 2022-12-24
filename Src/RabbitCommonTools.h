@@ -84,6 +84,10 @@ public:
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szAppName = QString());
     
+    static void OpenLogConfigureFile();
+    static void OpenLogFile();
+    static void OpenLogFolder();
+
 private:
     CTools();
     virtual ~CTools();
