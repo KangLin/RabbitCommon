@@ -967,7 +967,7 @@ void CFrmUpdater::slotButtonClickd(int id)
 }
 
 int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
-{    
+{
     QDomDocument doc;
     QDomProcessingInstruction ins;
     //<?xml version='1.0' encoding='UTF-8'?>
@@ -1184,9 +1184,11 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
                              m_szCurrentVersion);
     parser.addOption(oMin);
 
+    //parser.process(QApplication::arguments());
+    //*
     if(!parser.parse(QApplication::arguments()))
         return -1;
-    
+    //*/
     QString szFile = parser.value(oFile);
     if(szFile.isEmpty())
         return nRet;

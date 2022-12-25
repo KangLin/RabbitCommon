@@ -23,7 +23,7 @@ namespace RabbitCommon {
  *       please use CFrmStyle instead.
  *       The class wwill be removed from API after version 3.0.0
  */
-class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead. It will remove from API after version 3.0.0")
+class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead. It will remove from API after version 2.0.0")
       RABBITCOMMON_EXPORT CStyle : public QObject
 {
     Q_OBJECT
