@@ -33,6 +33,11 @@ class CFrmStyle;
  *   s->show();
  *   \endcode
  *
+ *  - 在需要使用图标的地方调用 QIcon::fromTheme
+ *   \code
+ *    m_pSignalStatus->setIcon(QIcon::fromTheme("newwork-wired"));
+ *   \endcode
+ *
  * \~english
  * \brief Set style and icon theme form
  * \details
@@ -47,6 +52,11 @@ class CFrmStyle;
  *   \code
  *   CFrmStyle* s = new CFrmStyle();
  *   s->show();
+ *   \endcode
+ *
+ *  - Call QIcon::fromTheme where you need to use the icon
+ *   \code
+ *    m_pSignalStatus->setIcon(QIcon::fromTheme("newwork-wired"));
  *   \endcode
  *
  * If you has your icon theme.

@@ -1,11 +1,10 @@
+// See: https://github.com/KangLin/Documents/blob/master/qt/theme.md
+
 #include "FrmStyle.h"
 #include "ui_FrmStyle.h"
 #include "RabbitCommonStyle.h"
-#include "RabbitCommonLog.h"
 #include "RabbitCommonDir.h"
 #include <QSettings>
-
-
 
 CFrmStyle::CFrmStyle(QWidget *parent) :
     QWidget(parent),
