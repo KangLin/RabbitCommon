@@ -1088,7 +1088,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
             + "/releases/download/"
             + m_szCurrentVersion + "/"
             + qApp->applicationName()
-            + "-Setup-"
+            + "_Setup_"
             + m_szCurrentVersion + ".exe";
 #elif defined(Q_OS_ANDROID)
     szSystem = "Android";
