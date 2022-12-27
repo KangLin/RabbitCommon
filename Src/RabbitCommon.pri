@@ -78,7 +78,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
     else: SOURCES += $$PWD/AdminAuthoriser/adminauthorization_dummy.cpp
 
     win32 {
-        QT += winextras
+        #QT += winextras
         LIBS += -lAdvapi32 -lOle32 -lShell32 -lnetapi32 -lWs2_32
     } else:mac {
         QT += macextras
