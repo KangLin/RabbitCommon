@@ -44,7 +44,7 @@ public:
     /**
      * @brief Enable core dump
      * @param bPrompt: prompt
-     * @return
+     * @note It must be called first in the main function
      */
     static bool EnableCoreDump(bool bPrompt = true);
 
