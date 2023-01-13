@@ -24,8 +24,8 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
             + "style" + QDir::separator()
             + "white.qss"; //TODO: can modify default style
     m_szFile = m_szDefaultFile;
+
     m_szDefaultIconTheme = QIcon::themeName();
-    
     if(m_szDefaultIconTheme.isEmpty())
         m_szDefaultIconTheme = "black"; //TODO: can modify default icon theme
 
@@ -35,6 +35,7 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
     if(m_szDefaultFallbackIconTheme.isEmpty())
         m_szDefaultFallbackIconTheme = "black"; //TODO: can modify default fallback icon theme
 #endif
+
 }
 
 CStyle* CStyle::Instance()
@@ -54,36 +55,39 @@ int CStyle::LoadStyle()
     // Load icons theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths()
-                               << RabbitCommon::CDir::Instance()->GetDirIcons());
-    QString szThemeName = QIcon::themeName();
-    if(szThemeName.isEmpty())
-        szThemeName = m_szDefaultIconTheme;
-    QIcon::setThemeName(set.value("Style/Icon/Theme",
-                                  szThemeName).toString());
-
+    bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
+    if(bIconTheme) {
+        QIcon::setThemeSearchPaths(QIcon::themeSearchPaths()
+                                   << RabbitCommon::CDir::Instance()->GetDirIcons());
+        QString szThemeName = QIcon::themeName();
+        if(szThemeName.isEmpty())
+            szThemeName = m_szDefaultIconTheme;
+        QIcon::setThemeName(set.value("Style/Icon/Theme",
+                                      szThemeName).toString());
+        
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
-    QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                                  << RabbitCommon::CDir::Instance()->GetDirIcons());
-    QString szFallbackThemeName = QIcon::fallbackThemeName();
-    if(szFallbackThemeName.isEmpty())
-        szFallbackThemeName = m_szDefaultFallbackIconTheme;
-    QIcon::setFallbackThemeName(set.value("Style/Icon/Theme/Fallback",
-                                          szFallbackThemeName).toString());
+        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
+                                      << RabbitCommon::CDir::Instance()->GetDirIcons());
+        QString szFallbackThemeName = QIcon::fallbackThemeName();
+        if(szFallbackThemeName.isEmpty())
+            szFallbackThemeName = m_szDefaultFallbackIconTheme;
+        QIcon::setFallbackThemeName(set.value("Style/Icon/Theme/Fallback",
+                                              szFallbackThemeName).toString());
 #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        
+        qDebug(LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths()
+                            << "Icon theme name:" << QIcon::themeName()
+                       #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                            << "Fallback search paths:" << QIcon::fallbackSearchPaths()
+                       #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                       #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                            << "Fallback theme name:" << QIcon::fallbackThemeName()
+                       #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                               ;
+    }
     
-    qDebug(LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths()
-                   << "Icon theme name:" << QIcon::themeName()
-                  #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                   << "Fallback search paths:" << QIcon::fallbackSearchPaths()
-                  #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                  #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                   << "Fallback theme name:" << QIcon::fallbackThemeName()
-                  #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                      ;
-
     QString szFile = set.value("Style/File", m_szFile).toString();
-    return  LoadStyle(szFile);
+    return LoadStyle(szFile);
 }
 
 int CStyle::LoadStyle(const QString &szFile)

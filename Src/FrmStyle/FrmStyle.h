@@ -78,17 +78,20 @@ class RABBITCOMMON_EXPORT CFrmStyle : public QWidget
     Q_OBJECT
     
 public:
-    explicit CFrmStyle(QWidget *parent = nullptr);
-    ~CFrmStyle();
+    explicit CFrmStyle(bool bShowIconTheme = true, QWidget *parent = nullptr);
+    virtual ~CFrmStyle();
     
 private Q_SLOTS:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
     void on_pbBrower_clicked();
     void on_pbDefault_clicked();
-
+    
+    void on_gpIconTheme_clicked();
+    
 private:
     Ui::CFrmStyle *ui;
+    bool m_bShowIconTheme;
 };
 
 #endif // CFRMSTYLE_H
