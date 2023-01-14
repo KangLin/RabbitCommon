@@ -48,9 +48,10 @@ else: DEFINES *= RabbitCommon_EXPORTS
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp
-    INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
+    HEADERS += $$PWD/RabbitCommonStyle.h
+    INSTALL_HEADERS += \
         $$PWD/FrmStyle/FrmStyle.h \
-        $$PWD/RabbitRecentMenu.h
+        $$PWD/RabbitRecentMenu.h    
     FORMS += $$PWD/FrmStyle/FrmStyle.ui
 }
 
@@ -141,7 +142,6 @@ SOURCES += \
     $$PWD/DownloadFile.cpp
 
 INSTALL_HEADERS += \
-    $$PWD/RabbitCommonLog.h \
     $$PWD/RabbitCommonTools.h \
     $$PWD/RabbitCommonDir.h \
     $$PWD/export/rabbitcommon_export.h \
@@ -151,6 +151,7 @@ INSTALL_HEADERS += \
     $$PWD/DownloadFile.h
 
 HEADERS += $$INSTALL_HEADERS \
+    $$PWD/RabbitCommonLog.h \
     $$PWD/RabbitCommonRegister.h
 
 RESOURCES += \

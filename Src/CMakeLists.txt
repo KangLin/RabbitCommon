@@ -95,10 +95,10 @@ if(WITH_GUI)
     
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
-        RabbitCommonStyle.h
         FrmStyle/FrmStyle.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
+        RabbitCommonStyle.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
@@ -394,13 +394,13 @@ endif()
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
-    RabbitCommonLog.h
     RabbitCommonEncrypt.h
     DownloadFile.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
+    RabbitCommonLog.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonLog.cpp
