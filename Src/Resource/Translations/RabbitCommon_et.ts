@@ -157,7 +157,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="152"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="165"/>
         <source>Default(&amp;D)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -168,28 +168,37 @@
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="54"/>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="62"/>
+        <source>Icon theme: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="65"/>
         <source>Icon theme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="81"/>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="89"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="84"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="92"/>
         <source>Fallback theme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="108"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="111"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="159"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="124"/>
+        <source>You need to restart the programe after the icon theme checked is changed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="172"/>
         <source>Ok(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="166"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="179"/>
         <source>Cancel(&amp;C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -497,19 +506,6 @@
     </message>
 </context>
 <context>
-    <name>CStyle</name>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="165"/>
-        <source>Open sink</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="167"/>
-        <source>Style files(*.qss *.css);; All files(*.*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../../RabbitCommonDir.cpp" line="317"/>
@@ -520,16 +516,6 @@
     <message>
         <location filename="../../RabbitCommonDir.cpp" line="376"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="53"/>
-        <source>Application Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="54"/>
-        <source>I&apos;m Sorry, Application is Crash! The path: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -553,6 +539,19 @@
     <message>
         <location filename="../../RabbitRecentMenu.cpp" line="166"/>
         <source>Clear Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RabbitCommon::CStyle</name>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="169"/>
+        <source>Open sink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="171"/>
+        <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

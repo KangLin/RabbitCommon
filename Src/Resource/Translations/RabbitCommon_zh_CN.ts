@@ -157,7 +157,7 @@
         <translation>样式名：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="152"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="165"/>
         <source>Default(&amp;D)</source>
         <translation>默认(&amp;D)</translation>
     </message>
@@ -168,28 +168,37 @@
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="54"/>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="62"/>
+        <source>Icon theme: </source>
+        <translation>图标主题：</translation>
+    </message>
+    <message>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="65"/>
         <source>Icon theme:</source>
         <translation>图标主题：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="81"/>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="89"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="84"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="92"/>
         <source>Fallback theme:</source>
         <translation>后备主题：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="108"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="111"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation>后备主题改变需要重启程序。</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="159"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="124"/>
+        <source>You need to restart the programe after the icon theme checked is changed.</source>
+        <translation>图标主题选择改变后,需要重启程序.</translation>
+    </message>
+    <message>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="172"/>
         <source>Ok(&amp;O)</source>
         <translation>确认(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="166"/>
+        <location filename="../../FrmStyle/FrmStyle.ui" line="179"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -307,20 +316,12 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="297"/>
         <source>Download file error</source>
-        <translation type="unfinished"></translation>
+        <translation>下载文件错误</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="336"/>
         <source>: downloading %1%</source>
         <translation>: 正在下载 %1%</translation>
-    </message>
-    <message>
-        <source>Download network error: </source>
-        <translation type="vanished">下载网络错误：</translation>
-    </message>
-    <message>
-        <source>Download fail:</source>
-        <translation type="vanished">下载失败：</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="412"/>
@@ -491,11 +492,7 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1171"/>
         <source>Package download urls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Package download url</source>
-        <translation type="vanished">包下载 URL</translation>
+        <translation>包下载 URLS</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1177"/>
@@ -506,19 +503,6 @@
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1182"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
-    </message>
-</context>
-<context>
-    <name>CStyle</name>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="165"/>
-        <source>Open sink</source>
-        <translation type="unfinished">打开样式</translation>
-    </message>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="167"/>
-        <source>Style files(*.qss *.css);; All files(*.*)</source>
-        <translation type="unfinished">样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 <context>
@@ -534,23 +518,13 @@
         <source>Save</source>
         <translation>保存</translation>
     </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="53"/>
-        <source>Application Error</source>
-        <translation>程序错误</translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="54"/>
-        <source>I&apos;m Sorry, Application is Crash! The path: </source>
-        <translation>程序崩溃！路径：</translation>
-    </message>
 </context>
 <context>
     <name>RabbitCommon::CDownloadFile</name>
     <message>
         <location filename="../../DownloadFile.cpp" line="373"/>
         <source>: downloading %1%</source>
-        <translation type="unfinished">: 正在下载 %1%</translation>
+        <translation>: 正在下载 %1%</translation>
     </message>
 </context>
 <context>
@@ -571,12 +545,14 @@
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="169"/>
         <source>Open sink</source>
-        <translation type="vanished">打开样式</translation>
+        <translation>打开样式</translation>
     </message>
     <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="171"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
-        <translation type="vanished">样式文件(*.qss *.css);; All files(*.*)</translation>
+        <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 </TS>
