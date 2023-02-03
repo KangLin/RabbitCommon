@@ -530,14 +530,17 @@
 <context>
     <name>RabbitCommon::CRecentMenu</name>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="161"/>
-        <location filename="../../RabbitRecentMenu.cpp" line="162"/>
-        <location filename="../../RabbitRecentMenu.cpp" line="163"/>
-        <source>Recent open:</source>
+        <location filename="../../RabbitRecentMenu.cpp" line="178"/>
+        <source>Recent open: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="166"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="180"/>
+        <source>The file is not exists. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="186"/>
         <source>Clear Menu</source>
         <translation type="unfinished"></translation>
     </message>

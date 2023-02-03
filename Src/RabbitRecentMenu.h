@@ -28,30 +28,31 @@ class RABBITCOMMON_EXPORT CRecentMenu : public QMenu
     Q_OBJECT
     Q_PROPERTY(int maxCount READ maxCount WRITE setMaxCount)
     Q_PROPERTY(QString format READ format WRITE setFormat)
-    
+
 public:
     //! Constructs a menu with parent parent.
-    CRecentMenu(QWidget * parent = 0 );
-    
+    CRecentMenu(QWidget * parent = 0);
     //! Constructs a menu with a title and a parent.
-    CRecentMenu(const QString & title, QWidget * parent = 0 );
-    
+    CRecentMenu(const QString & title, QWidget * parent = 0);
+    //! Constructs a menu with a title, icon and a parent.
+    CRecentMenu(const QString & title, const QIcon& icon, QWidget * parent = 0);
+
     //! Returns the maximum number of entries in the menu.
     int maxCount() const;
-    
+
     /*! This property holds the string used to generate the item text.
      * %d is replaced by the item number
      * %s is replaced by the item text
      * The default value is "%d %s".
      */
     void setFormat(const QString &format);
-    
+
     //! Returns the current format. /sa setFormat
     const QString & format() const;
-    
+
     //! Default enable save state
     bool disableSaveState(bool disable);
-    
+
     /*! Saves the state of the recent entries.
      * Typically this is used in conjunction with QSettings to remember entries
      * for a future session. A version number is stored as part of the data.
@@ -60,7 +61,7 @@ public:
      * settings.setValue("recentFiles", recentFilesMenu->saveState());
      */
     QByteArray saveState() const;
-    
+
     /*! Restores the recent entries to the state specified.
      * Typically this is used in conjunction with QSettings to restore entries from a past session.
      * Returns false if there are errors.
@@ -69,7 +70,7 @@ public:
      * recentFilesMenu->restoreState(settings.value("recentFiles").toByteArray());
      */
     bool restoreState(const QByteArray &state);
-    
+
 public slots:
     //!
     void addRecentFile(const QString &fileName, const QString& title = QString());
@@ -79,6 +80,7 @@ public slots:
     
     //! Sets the maximum number of entries int he menu.
     void setMaxCount(int);
+
 signals:
     //! This signal is emitted when a recent file in this menu is triggered.
     void recentFileTriggered(const QString & filename);
@@ -86,7 +88,11 @@ signals:
 private slots:
     void menuTriggered(QAction*);
     void updateRecentFileActions();
-    
+    void slotSaveState();
+
+signals:
+    void sigSaveState();
+
 private:
     int m_maxCount;
     QString m_format;
@@ -120,6 +126,7 @@ private:
     QList<_Content> m_OpenContent;
     
     bool m_DisableSaveState;
+    bool m_bUpdate;
 };
 
 } //namespace RabbitCommon 

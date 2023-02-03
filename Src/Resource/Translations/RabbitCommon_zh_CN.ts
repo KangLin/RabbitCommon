@@ -530,14 +530,17 @@
 <context>
     <name>RabbitCommon::CRecentMenu</name>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="161"/>
-        <location filename="../../RabbitRecentMenu.cpp" line="162"/>
-        <location filename="../../RabbitRecentMenu.cpp" line="163"/>
-        <source>Recent open:</source>
+        <location filename="../../RabbitRecentMenu.cpp" line="178"/>
+        <source>Recent open: </source>
         <translation>最近打开：</translation>
     </message>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="166"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="180"/>
+        <source>The file is not exists. </source>
+        <translation>此文件不存在</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitRecentMenu.cpp" line="186"/>
         <source>Clear Menu</source>
         <translation>清除菜单</translation>
     </message>
