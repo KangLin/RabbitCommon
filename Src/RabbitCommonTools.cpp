@@ -159,6 +159,7 @@ void CTools::CleanResource()
 
 bool CTools::EnableCoreDump(bool bPrompt)
 {
+    Q_UNUSED(bPrompt);
 #ifdef Q_OS_WIN
     //static RabbitCommon::CMiniDumper dumper(bPrompt);
     RabbitCommon::EnableMiniDumper();

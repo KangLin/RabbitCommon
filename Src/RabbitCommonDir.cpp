@@ -70,6 +70,7 @@ int CDir::SetDirApplicationInstallRoot(const QString &szPath)
 
 QString CDir::GetDirConfig(bool bReadOnly)
 {
+    Q_UNUSED(bReadOnly)
     QString szPath;
 #if defined (Q_OS_ANDROID)
     if(bReadOnly)
@@ -95,6 +96,7 @@ QString CDir::GetDirConfig(bool bReadOnly)
 QString CDir::GetDirData(bool bReadOnly)
 {
     QString szPath;
+    Q_UNUSED(bReadOnly);
 #if defined (Q_OS_ANDROID)
     if(bReadOnly)
         return "assets:/data";
