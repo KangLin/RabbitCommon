@@ -3,7 +3,7 @@
 #-------------------------------------------------
 
 QT += core gui xml
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
+greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
 
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
@@ -55,6 +55,8 @@ else: DEFINES *= RabbitCommon_EXPORTS
 }
 
 !equals(BUILD_UPDATE, "OFF"){
+    greaterThan(QT_MAJOR_VERSION, 5): QT *= statemachine
+    QT *= network
     DEFINES *= HAVE_UPDATE
     SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
     INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
