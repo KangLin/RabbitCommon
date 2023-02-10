@@ -65,10 +65,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 #ifdef BUILD_ARCH
     m_szArch = BUILD_ARCH;
 #endif
-    
-    m_szDate = __DATE__;
-    m_szTime = __TIME__;
-    
+
     m_szAuthor = tr("KangLin");
     m_szEmail = "kl222@126.com";
     m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
@@ -124,7 +121,7 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lblName->setText(m_szAppName);
     ui->lbVersion->setText(tr("Version: %1 Arch: %2").arg(m_szVersion, m_szArch));
     ui->lbQtVersion->setText(tr("Qt version:") + QT_VERSION_STR);
-    ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
+    ui->lbDate->setText(tr("Build date: ") + BuildTime());
     ui->lbAuthor->setText(tr("Author: ") + m_szAuthor
                           + tr(" Email: ") + "<a href=\"" + m_szEmail + "\">"
                           + m_szEmail + "</a>");
@@ -295,10 +292,16 @@ int CDlgAbout::DownloadFile(const QUrl &url)
     Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>&)),
                     this, SLOT(slotSslError(const QList<QSslError>&)));
+    Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(finished()),
                     this, SLOT(slotFinished()));
-
+    Q_ASSERT(check);
     return nRet;
+}
+
+QString CDlgAbout::BuildTime()
+{
+    return QString(__DATE__) + " " + __TIME__;
 }
 
 void CDlgAbout::slotFinished()

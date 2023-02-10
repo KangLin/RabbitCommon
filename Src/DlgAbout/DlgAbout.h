@@ -80,7 +80,6 @@ public:
     QImage m_AppIcon;
     QString m_szVersion;
     QString m_szArch;
-    QString m_szDate, m_szTime;
     QString m_szAuthor;
     QString m_szEmail;
     QString m_szHomePage;
@@ -118,7 +117,9 @@ private:
      * @return 
      */
     int DownloadFile(const QUrl &url);
-    
+
+    QString BuildTime();
+
     QWidget* m_pLicense;
     QWidget* m_pChangeLog;
     QWidget* m_pThanks;
