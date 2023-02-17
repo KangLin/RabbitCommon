@@ -314,6 +314,7 @@ QString CLog::GetLogFile()
 int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
                  const char* pszModelName, const char *pFormatString, ...)
 {
+    Q_UNUSED(pszFunction);
     char buf[LOG_BUFFER_LENGTH];
     std::string szTemp = pszFile;
     szTemp += "(";

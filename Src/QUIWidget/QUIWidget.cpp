@@ -181,8 +181,8 @@ void QUIWidget::getQssColor(const QString &qss, QString &textColor, QString &pan
 void QUIWidget::setTranslator(const QString &qmFile)
 {
     QTranslator *translator = new QTranslator(qApp);
-    translator->load(qmFile);
-    qApp->installTranslator(translator);
+    if(translator->load(qmFile))
+        qApp->installTranslator(translator);
 }
 
 void QUIWidget::setCode()
