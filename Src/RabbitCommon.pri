@@ -99,7 +99,7 @@ else {
     LIBS += $$OpenSSL_DIR/lib/libssl.so \
         $$OpenSSL_DIR/lib/libcrypto.so 
 }
-!equals(BUILD_QUIWidget, "OFF"){
+equals(BUILD_QUIWidget, "ON"){
     SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
     INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
     RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
