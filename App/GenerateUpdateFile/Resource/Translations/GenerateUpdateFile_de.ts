@@ -50,7 +50,7 @@
     </message>
     <message>
         <location filename="../../GenerateUpdateFile.cpp" line="148"/>
-        <source>Package download url</source>
+        <source>Package download urls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

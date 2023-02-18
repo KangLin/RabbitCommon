@@ -20,7 +20,8 @@
    <string>About</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="help-about"/>
+   <iconset theme="help-about">
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="1">
@@ -215,7 +216,7 @@
           <string>Version: 1.0.0.0</string>
          </property>
          <property name="textFormat">
-          <enum>Qt::PlainText</enum>
+          <enum>Qt::AutoText</enum>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

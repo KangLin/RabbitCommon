@@ -9,132 +9,148 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="29"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="30"/>
         <source>Author:KangLin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="61"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="62"/>
         <source>Informatioin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="73"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="74"/>
         <source>Donation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="148"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="149"/>
         <source>Home page: https://github.com/KangLin/Tasks.git</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="196"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="197"/>
         <source>Build Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="215"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="216"/>
         <source>Version: 1.0.0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="244"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="245"/>
         <source>Qt version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="343"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="344"/>
         <source>RabbitCommon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="401"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="402"/>
         <source> Copyright (C) 2018 KangLin Studio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="408"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="409"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="69"/>
         <source>KangLin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
         <source>Kang Lin Studio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="77"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="137"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="74"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="150"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="86"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
-        <source>Version: %1 Arch: %2</source>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="132"/>
+        <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="127"/>
-        <source>Build date:%1 %2</source>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
+        <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
-        <source>Author: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
-        <source> Email: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
-        <source>Home page:</source>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="132"/>
+        <source> (From revision: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="139"/>
+        <source>Qt version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="140"/>
+        <source>Build date: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="141"/>
+        <source>Author: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="142"/>
+        <source> Email: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="146"/>
+        <source>Home page: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="152"/>
         <source>Copyright (C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="243"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="253"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="266"/>
         <source>Save donation picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="255"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="268"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -508,13 +524,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="317"/>
-        <location filename="../../RabbitCommonDir.cpp" line="346"/>
+        <location filename="../../RabbitCommonDir.cpp" line="319"/>
+        <location filename="../../RabbitCommonDir.cpp" line="348"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="376"/>
+        <location filename="../../RabbitCommonDir.cpp" line="378"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>

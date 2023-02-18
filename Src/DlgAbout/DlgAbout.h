@@ -79,6 +79,8 @@ public:
     QString m_szAppName;
     QImage m_AppIcon;
     QString m_szVersion;
+    QString m_szVersionRevision;
+    QString m_szVersionRevisionUrl;
     QString m_szArch;
     QString m_szAuthor;
     QString m_szEmail;

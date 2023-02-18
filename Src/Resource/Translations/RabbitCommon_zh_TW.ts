@@ -6,135 +6,151 @@
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
         <source>About</source>
-        <translation>關於</translation>
+        <translation>關于</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="29"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="30"/>
         <source>Author:KangLin</source>
         <translation>作者： 康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="61"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="62"/>
         <source>Informatioin</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="73"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="74"/>
         <source>Donation</source>
         <translation>捐贈</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="148"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="149"/>
         <source>Home page: https://github.com/KangLin/Tasks.git</source>
         <translation>主頁： https://github.com/KangLin/Tasks.git</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="196"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="197"/>
         <source>Build Date:</source>
         <translation>編譯日期：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="215"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="216"/>
         <source>Version: 1.0.0.0</source>
         <translation>版本： 1.0.0.0</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="244"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="245"/>
         <source>Qt version:</source>
         <translation>Qt 版本:</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="343"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="344"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共庫</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="401"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="402"/>
         <source> Copyright (C) 2018 KangLin Studio</source>
         <translation>版權(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="408"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="409"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="69"/>
         <source>KangLin</source>
         <translation>康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
         <source>Kang Lin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="77"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="137"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="74"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="150"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
         <source>License</source>
         <translation>許可協議</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="86"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
         <source>Change log</source>
-        <translation>修改日誌</translation>
+        <translation>修改日志</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
         <source>Thanks</source>
         <translation>感謝</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
-        <source>Version: %1 Arch: %2</source>
-        <translation>版本：%1 架構：%2</translation>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="132"/>
+        <source>Version: </source>
+        <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="127"/>
-        <source>Build date:%1 %2</source>
-        <translation>編譯日期：%1 %2</translation>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
+        <source>Arch: </source>
+        <translation>架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="132"/>
+        <source> (From revision: </source>
+        <translation>(校訂版本： </translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="139"/>
+        <source>Qt version: </source>
+        <translation>Qt版本： </translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="140"/>
+        <source>Build date: </source>
+        <translation>編譯日期：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="141"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="142"/>
         <source> Email: </source>
         <translation> 郵箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
-        <source>Home page:</source>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="146"/>
+        <source>Home page: </source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="139"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="152"/>
         <source>Copyright (C)</source>
         <translation>版權所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="243"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="253"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="266"/>
         <source>Save donation picture</source>
         <translation>保存捐贈圖片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="255"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="268"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
@@ -164,7 +180,7 @@
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="42"/>
         <source>Brower(&amp;B)</source>
-        <translation>瀏覽(&amp;B)</translation>
+        <translation>浏覽(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="54"/>
@@ -185,12 +201,12 @@
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="111"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
-        <translation>後備主題改變需要重啟程序。</translation>
+        <translation>後備主題改變需要重啓程序。</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="124"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
-        <translation>圖標主題選擇改變後,需要重啟程序.</translation>
+        <translation>圖標主題選擇改變後,需要重啓程序.</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="172"/>
@@ -472,7 +488,7 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1153"/>
         <source>Platform</source>
-        <translation>平臺</translation>
+        <translation>平台</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1158"/>
@@ -487,7 +503,7 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1167"/>
         <source>Package file, Is used to calculate md5sum</source>
-        <translation>包文件，用於計算 md5 校驗和</translation>
+        <translation>包文件，用于計算 md5 校驗和</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1171"/>
@@ -508,15 +524,23 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="317"/>
-        <location filename="../../RabbitCommonDir.cpp" line="346"/>
+        <location filename="../../RabbitCommonDir.cpp" line="319"/>
+        <location filename="../../RabbitCommonDir.cpp" line="348"/>
         <source>Open</source>
         <translation>打開</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonDir.cpp" line="376"/>
+        <location filename="../../RabbitCommonDir.cpp" line="378"/>
         <source>Save</source>
         <translation>保存</translation>
+    </message>
+    <message>
+        <source>Application Error</source>
+        <translation type="vanished">應用錯誤</translation>
+    </message>
+    <message>
+        <source>I&apos;m Sorry, Application is Crash! The path: </source>
+        <translation type="vanished">程序崩潰！轉儲文件：</translation>
     </message>
 </context>
 <context>
