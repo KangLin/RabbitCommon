@@ -13,6 +13,7 @@
 #ifdef HAVE_GUI
 #include <QApplication>
 #include <QIcon>
+#include <QMainWindow>
 #include "RabbitCommonStyle.h"
 #else
 #include <QCoreApplication>
@@ -389,5 +390,39 @@ void CTools::OpenLogFolder()
     RabbitCommon::OpenLogFolder();
 #endif
 }
+
+#ifdef HAVE_GUI
+int CTools::RestoreWidget(QWidget *pWidget)
+{
+    int nRet = 0;
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    QByteArray geometry
+            = set.value("MainWindow/Status/Geometry").toByteArray();
+    if(!geometry.isEmpty())
+        pWidget->restoreGeometry(geometry);
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
+    if(pMainWindow) {
+        QByteArray state = set.value("MainWindow/Status/State").toByteArray();
+        if(!state.isEmpty())
+            pMainWindow->restoreState(state);
+    }
+    return nRet;
+}
+
+int CTools::SaveWidget(QWidget *pWidget)
+{
+    int nRet = 0;
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+
+    set.setValue("MainWindow/Status/Geometry", pWidget->saveGeometry());
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
+    if(pMainWindow) {
+        set.setValue("MainWindow/Status/State", pMainWindow->saveState());
+    }
+    return nRet;
+}
+#endif
 
 } //namespace RabbitCommon

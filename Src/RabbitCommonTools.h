@@ -87,6 +87,11 @@ public:
     static void OpenLogConfigureFile();
     static void OpenLogFile();
     static void OpenLogFolder();
+    
+#ifdef HAVE_GUI
+    static int RestoreWidget(QWidget* pWidget);
+    static int SaveWidget(QWidget* pWidget);
+#endif
 
 private:
     CTools();
