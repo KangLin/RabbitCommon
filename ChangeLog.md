@@ -1,6 +1,8 @@
 ### Version: v1.0.8
 
 + CTools: add open log file
++ Support Qt6 statemachine
++ Add qt log file
 
 ### Version： v1.0.7
 

@@ -106,25 +106,6 @@ equals(BUILD_QUIWidget, "ON"){
     CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
 }
 
-!isEmpty(Log4Qt_DIR){
-    DEFINES *= HAVE_LOG4QT
-    LIBS *= -L$${Log4Qt_DIR}/lib -llog4qt
-    INCLUDEPATH *= $${Log4Qt_DIR}/include
-}
-
-!isEmpty(log4cplus_DIR){
-    DEFINES *= HAVE_LOG4CPLUS
-    LIBS += -L$${log4cplus_DIR} -llog4cplus
-
-    # Install log4cplus configure files
-    log4cplus.target = log4cplus
-    log4cplus.files = $$PWD/etc/log4config.conf
-    android: log4cplus.path = $$system_path($${PREFIX}/assets/etc)
-    else: log4cplus.path = $$system_path($${PREFIX}/etc)
-    log4cplus.CONFIG += directory no_check_exist
-    INSTALLS += log4cplus
-}
-
 win32 {
     SOURCES += \
         $$PWD/CoreDump/MiniDumper.cpp \

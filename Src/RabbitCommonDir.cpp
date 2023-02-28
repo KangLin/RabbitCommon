@@ -14,7 +14,7 @@ Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
 CDir::CDir()
 {
     //注意这个必须的在最前  
-    m_szDocumentPath =  QStandardPaths::writableLocation(
+    m_szDocumentPath = QStandardPaths::writableLocation(
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();

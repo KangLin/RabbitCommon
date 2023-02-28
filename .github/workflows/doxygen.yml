@@ -17,7 +17,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
-      RabbitCommon_VERSION: v1.0.7
+      RabbitCommon_VERSION: v1.0.8
       DOXYGEN_VERSION: 1.9.5
 
     steps:

@@ -12,6 +12,11 @@
 #pragma once
 #include <QObject>
 #include <QLoggingCategory>
+#include <QMutex>
+#include <QFile>
+#include <QTextStream>
+#include <QTimer>
+
 #include "rabbitcommon_export.h"
 
 namespace RabbitCommon {
@@ -40,12 +45,12 @@ namespace RabbitCommon {
 /*!
  * \note USER DON'T USE CLog!!!
  */
-class Q_DECL_DEPRECATED_X("Please use qDebug instead")  RABBITCOMMON_EXPORT CLog 
+
+class Q_DECL_DEPRECATED_X("Please use qDebug instead")  RABBITCOMMON_EXPORT CLog : QObject
 {
+    Q_OBJECT
+
 public:
-    CLog();
-    virtual ~CLog();
-    
     static CLog* Instance();
     int EnablePrintThread(bool bPrint);
 
@@ -65,10 +70,34 @@ public:
     Q_DECL_DEPRECATED_X("Please use qDebug and log4Qt instead.")
     int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
-    
+
 private:
+    CLog();
+    virtual ~CLog();
+
     bool m_bEnablePrintThread;
     QString m_szConfigureFile;
+
+    QString m_szPath;
+    QString m_szFileFormat;
+    QFile m_File;
+    QMutex m_Mutex;
+    quint64 m_nLength;   // Unit: byte
+    quint64 m_nCount;
+    QTimer m_Timer;
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+        static void myMessageOutput(QtMsgType type,
+                                const QMessageLogContext &context,
+                                const QString &msg);
+    #else
+        static void myMessageOutput(QtMsgType, const char *);
+    #endif
+    void checkFileCount();
+    int checkFileLength();
+    QString getFileName();
+    QString getNextFileName(const QString szFile);
+private Q_SLOTS:
+    void slotTimeout();
 };
 
 extern RABBITCOMMON_EXPORT QLoggingCategory Logger;

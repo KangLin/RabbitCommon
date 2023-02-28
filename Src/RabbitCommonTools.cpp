@@ -127,7 +127,7 @@ void CTools::InitTranslator(const QString szLanguage)
         if(!ret)
             qCritical(Logger) << "translator install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "translator load fail: %s" << szFile;
+        qCritical(Logger) << "translator load fail:" << szFile;
 
     szFile = CDir::Instance()->GetDirApplication()
             + QDir::separator() + "translations"
@@ -139,7 +139,7 @@ void CTools::InitTranslator(const QString szLanguage)
         if(!ret)
             qCritical(Logger) << "Qt translator install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "Qt translator load fail: %s" << szFile;
+        qCritical(Logger) << "Qt translator load fail:" << szFile;
 }
 
 void CTools::CleanTranslator()
