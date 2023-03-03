@@ -574,17 +574,17 @@ void CLog::checkFileCount()
 
     if(lstFiles.first().lastModified() < lstFiles.back().lastModified())
     {
-        if(d.remove(lstFiles.first().fileName()))
-            qInfo(Logger) << "Remove file:" << lstFiles.first().fileName();
+        if(d.remove(lstFiles.first().absoluteFilePath()))
+            qInfo(Logger) << "Remove file:" << lstFiles.first().absoluteFilePath();
         else
             qCritical(Logger) << "Remove file fail:"
-                              << lstFiles.first().fileName();
+                              << lstFiles.first().absoluteFilePath();
     } else {
-        if(d.remove(lstFiles.back().fileName()))
-            qInfo(Logger) << "Remove file:" << lstFiles.back().fileName();
+        if(d.remove(lstFiles.back().absoluteFilePath()))
+            qInfo(Logger) << "Remove file:" << lstFiles.back().absoluteFilePath();
         else
             qCritical(Logger) << "Remove file fail:"
-                              << lstFiles.back().fileName();
+                              << lstFiles.back().absoluteFilePath();
     }
 }
 
@@ -607,7 +607,7 @@ QString CLog::getFileName()
     if(lstFiles.isEmpty())
         szFile = m_szPath + QDir::separator() + szName + szSep + szNo + ".log";
     else
-        szFile = lstFiles.back().filePath();
+        szFile = lstFiles.back().absoluteFilePath();
 
     return szFile;
 }
@@ -648,7 +648,11 @@ int CLog::checkFileLength()
     if(m_File.fileName().isEmpty()) return 0;
 
     QFileInfo fi(m_File.fileName());
-    if(fi.size() < m_nLength) return 0;
+    if(fi.exists()) {
+        if(fi.size() < m_nLength) return 0;
+    } else {
+        return 0;
+    }
 
     return 1;
 }
@@ -672,10 +676,8 @@ void CLog::slotTimeout()
 
         m_Mutex.lock();
         if(m_File.isOpen())
-        {
-            m_File.flush();
             m_File.close();
-        }
+
         m_File.setFileName(szFile);
         if(!m_File.open(QFile::WriteOnly | QFile::Append))
         {
