@@ -2,8 +2,7 @@
 # The file is deprecated
 #-------------------------------------------------
 
-QT += core gui xml
-greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
+QT += core xml
 
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
@@ -44,6 +43,8 @@ CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 else: DEFINES *= RabbitCommon_EXPORTS
 
 !equals(WITH_GUI, "OFF") {
+    QT *= gui
+    greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
     DEFINES *= HAVE_GUI
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
@@ -52,23 +53,43 @@ else: DEFINES *= RabbitCommon_EXPORTS
         $$PWD/FrmStyle/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h
     FORMS += $$PWD/FrmStyle/FrmStyle.ui
+    
+    equals(BUILD_QUIWidget, "ON"){
+        SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
+        INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
+        RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
+        CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
+    }
+
+    !equals(BUILD_UPDATE, "OFF"){
+        greaterThan(QT_MAJOR_VERSION, 5): qtHaveModule(statemachine): QT *= statemachine
+        QT *= network
+        DEFINES *= HAVE_UPDATE
+        SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
+        INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
+        FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
+        BUILD_ADMINAUTHORISER = ON
+    }
+
+    !equals(BUILD_ABOUT, "OFF"){
+        qtHaveModule(webenginewidgets): QT *= webenginewidgets
+        DEFINES *= HAVE_ABOUT HAVE_WebEngineWidgets
+        SOURCES += $$PWD/DlgAbout/DlgAbout.cpp
+        INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
+        FORMS += $$PWD/DlgAbout/DlgAbout.ui
+        
+        equals(WITH_CMARK_GFM, "ON"){
+            # You need to set the environment variable: PKG_CONFIG_PATH
+            packagesExist(libcmark-gfm) {
+                pkg_config = $$pkgConfigExecutable()
+                DEFINES *= HAVE_CMARK_GFM
+                INCLUDEPATH *= $$system($$pkg_config --variable=includedir libcmark-gfm)
+                LIBS *= $$system($$pkg_config --libs libcmark-gfm)
+            }
+        }
+    }
 }
 
-!equals(BUILD_UPDATE, "OFF"){
-    greaterThan(QT_MAJOR_VERSION, 5): QT *= statemachine
-    QT *= network
-    DEFINES *= HAVE_UPDATE
-    SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
-    INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
-    FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
-    BUILD_ADMINAUTHORISER = ON
-}
-!equals(BUILD_ABOUT, "OFF"){
-    DEFINES *= HAVE_ABOUT
-    SOURCES += $$PWD/DlgAbout/DlgAbout.cpp
-    INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
-    FORMS += $$PWD/DlgAbout/DlgAbout.ui
-}
 !equals(BUILD_ADMINAUTHORISER, "OFF") {
     DEFINES *= HAVE_ADMINAUTHORISER
     SOURCES += $$PWD/AdminAuthoriser/adminauthoriser.cpp
@@ -90,6 +111,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
         LIBS += -lutil
     }
 }
+
 isEmpty(OpenSSL_DIR): warning("Please set OpenSSL_DIR")
 else {
     DEFINES *= HAVE_OPENSSL
@@ -98,12 +120,6 @@ else {
     INSTALL_HEADERS += 
     LIBS += $$OpenSSL_DIR/lib/libssl.so \
         $$OpenSSL_DIR/lib/libcrypto.so 
-}
-equals(BUILD_QUIWidget, "ON"){
-    SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
-    INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
-    RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
-    CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
 }
 
 win32 {
