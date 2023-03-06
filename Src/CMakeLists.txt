@@ -9,35 +9,6 @@ project(RabbitCommon)
 
 set(CMAKE_CXX_STANDARD 11)
 
-SET(RabbitCommon_VERSION "v1.0.8")
-SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
-# Find Git Version Patch
-IF(EXISTS "${RABBITCOMMON_SOURCE_DIR}/.git")
-    if(NOT GIT)
-        SET(GIT $ENV{GIT})
-    endif()
-    if(NOT GIT)
-        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
-    endif()
-    IF(GIT)
-        EXECUTE_PROCESS(
-            WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
-            COMMAND ${GIT} describe --tags
-            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        if(NOT GIT_VERSION)
-            EXECUTE_PROCESS(
-                WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
-                COMMAND ${GIT} rev-parse --short HEAD
-                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
-        endif()
-        SET(RabbitCommon_VERSION ${GIT_VERSION})
-    ENDIF()
-ENDIF()
-message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
-set(VERSION ${RabbitCommon_VERSION})
-
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
 list(APPEND RabbitCommon_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
@@ -78,6 +49,13 @@ SET(CMAKE_AUTORCC ON)
 include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
+
+SET(RabbitCommon_VERSION "v1.0.8")
+SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
+    OUT_VERSION RabbitCommon_VERSION)
+message("RabbitCommon_VERSION: ${RabbitCommon_VERSION}")
+set(VERSION ${RabbitCommon_VERSION})
 
 SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )

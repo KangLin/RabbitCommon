@@ -126,6 +126,47 @@ macro(SUBDIRLIST result curdir)
     set(${result} ${dirlist})
 endmacro()
 
+function(GET_VERSION)
+    cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
+    # Find Git Version Patch
+
+    if(NOT DEFINED PARA_SOURCE_DIR)
+        set(PARA_SOURCE_DIR "${CMAKE_SOURCE_DIR}")
+    endif()
+
+    IF(EXISTS "${PARA_SOURCE_DIR}/.git")
+        if(NOT GIT)
+            SET(GIT $ENV{GIT})
+        endif()
+        if(NOT GIT)
+            FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+        endif()
+        IF(GIT)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${PARA_SOURCE_DIR}
+                COMMAND ${GIT} describe --tags
+                OUTPUT_VARIABLE _OUT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${PARA_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE _OUT_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            IF(NOT _OUT_VERSION)
+                SET(_OUT_VERSION ${_OUT_REVISION})
+            ENDIF()
+            IF(DEFINED PARA_OUT_VERSION)
+                SET(${PARA_OUT_VERSION} ${_OUT_VERSION} PARENT_SCOPE)
+            ENDIF()
+            IF(DEFINED PARA_OUT_REVISION)
+                SET(${PARA_OUT_REVISION} ${_OUT_REVISION} PARENT_SCOPE)
+            ENDIF()
+        ELSE()
+            message("Git is not exist. please set the value GIT to git")
+        ENDIF()
+    ENDIF()
+endfunction()
+
 # Install QIcon theme
 # SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
 # DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
@@ -133,10 +174,10 @@ option(INSTALL_STYLE_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
 
-    if(NOT DEFINED SOURCES)
+    if(NOT DEFINED PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/)
     endif()
-    if(NOT DEFINED DESTINATION)
+    if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION assets/data/icons)
         else()
@@ -163,7 +204,7 @@ function(INSTALL_TARGETS)
         return()
     endif()
 
-    if(NOT DEFINED DESTINATION)
+    if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION "libs/${ANDROID_ABI}")
         elseif(WIN32)
