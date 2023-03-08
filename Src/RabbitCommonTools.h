@@ -78,11 +78,10 @@ public:
      * @brief GenerateDesktopFile: Generate desktop file
      * @param szPath
      * @param szAppName
-     * @param szUrl
      * @return 
      */
     static int GenerateDesktopFile(const QString &szPath = QString(),
-                                   const QString &szAppName = QString());
+                                   const QString &szName = QString());
     
     static void OpenLogConfigureFile();
     static void OpenLogFile();
