@@ -431,7 +431,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
         QString szError = tr("Parse file %1 fail. It isn't xml file")
                 .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
-        qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
+        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
         return -2;
