@@ -126,6 +126,12 @@ macro(SUBDIRLIST result curdir)
     set(${result} ${dirlist})
 endmacro()
 
+# 得到 GIT 库的版本
+# 输入参数：
+#   SOURCE_DIR: 库的根目录。默认：${CMAKE_SOURCE_DIR}
+# 输出参数：
+#   OUT_VERSION：版本号
+#   OUT_REVISION: 版本修正号
 function(GET_VERSION)
     cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
     # Find Git Version Patch
@@ -213,16 +219,16 @@ function(INSTALL_TARGETS)
             set(PARA_DESTINATION "${CMAKE_INSTALL_LIBDIR}")
         endif()
     endif()
-
+    
     foreach(component ${PARA_TARGETS})
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT Runtime)
-        if(NOT ANDROID AND UINX)
+        IF(NOT ANDROID AND UNIX)
             INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT Runtime)
-        endif()
+        ENDIF()
     endforeach()
 endfunction()
 
