@@ -110,12 +110,14 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
 {
     if(urls.isEmpty())
     {
+        //! [Redirect xml file default urls]
         QUrl github("https://github.com/KangLin/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
         QUrl gitlab("https://gitlab.com/kl222/"
                 + qApp->applicationName() + "/-/raw/master/Update/update.xml");
         QUrl gitee("https://gitee.com/kl222/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
+        //! [Redirect xml file default urls]
         m_Urls << github << gitlab << gitee;
     } else {
         m_Urls = urls;
@@ -130,9 +132,15 @@ CFrmUpdater::~CFrmUpdater()
     delete ui;
 }
 
-/**
- * @brief CFrmUpdater::InitStateMachine
- * @return 
+/*!
+ * \~chinese 初始化状态机
+ * \~english
+ * \brief Initialization state machine
+ * 
+ * \~
+ * \details
+ * \code
+ *
  *               ________
  * start o ----->|sCheck|----------------------------------|
  *               --------                                  |
@@ -171,6 +179,9 @@ CFrmUpdater::~CFrmUpdater()
  *   |  |update(sUpdate)     |          |
  *   |  |--------------------|          |
  *   |----------------------------------|
+ *
+ *
+ * \endcode
  */
 int CFrmUpdater::InitStateMachine()
 {
@@ -370,7 +381,13 @@ void CFrmUpdater::slotCheckXmlFile()
     CheckUpdateXmlFile();
 }
 
-/*
+/*!
+ * \brief 检查重定向配置文件
+ * \details
+ * 重定向配置文件格式：
+ * 
+ * \code
+ 
    <?xml version="1.0" encoding="UTF-8"?>
    <REDIRECT>
        <VERSION>v0.0.1</VERSION>
@@ -395,6 +412,8 @@ void CFrmUpdater::slotCheckXmlFile()
            <URL>...</URL>
        </ANDROID>   
    </REDIRECT>
+   
+ * \endcode
  */
 int CFrmUpdater::CheckRedirectXmlFile()
 {
@@ -440,14 +459,12 @@ int CFrmUpdater::CheckRedirectXmlFile()
     szOS = "android";
     n = doc.documentElement().elementsByTagName("ANDROID");
 #elif defined (Q_OS_LINUX)
-    /*QFileInfo f(qApp->applicationFilePath());
+    QFileInfo f(qApp->applicationFilePath());
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {   
         szOS = "linux";
         n = doc.documentElement().elementsByTagName("LINUX");
-    }
-    else*/
-    {
+    } else {
         szOS = "linux_appimage";
         n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
     }
@@ -466,14 +483,16 @@ int CFrmUpdater::CheckRedirectXmlFile()
 
     if(m_Urls.isEmpty())
     {
+        //! [Update xml file default urls]
         QUrl github("https://github.com/KangLin/"
                    + qApp->applicationName() + "/releases/download/"
                    + szVersion + "/update_" + szOS + ".xml");
         m_Urls.push_back(github);
         QUrl sourceforge("https://sourceforge.net/projects/"
                          + qApp->applicationName() +"/files/"
-                         + szVersion + "/update_windows.xml/download");
+                         + szVersion + "/update_" + szOS + ".xml/download");
         m_Urls.push_back(sourceforge);
+        //! [Update xml file default urls]
     }
 
     qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
@@ -483,7 +502,12 @@ int CFrmUpdater::CheckRedirectXmlFile()
     return 0;
 }
 
-/*
+/*!
+ * \brief 检查更新配置文件
+ * \details
+ * 
+ * \code
+ 
    <?xml version="1.0" encoding="UTF-8"?>
    <UPDATE>
     <VERSION>v0.0.1</VERSION>
@@ -503,6 +527,8 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
     
    </UPDATE>
+   
+ * \endcode
  */
 int CFrmUpdater::CheckUpdateXmlFile()
 {

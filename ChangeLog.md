@@ -3,6 +3,7 @@
 + CTools: add open log file
 + Support Qt6 statemachine
 + Add qt log file
++ Modify start run
 
 ### Version： v1.0.7
 

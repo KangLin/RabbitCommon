@@ -23,9 +23,42 @@ namespace Ui {
 class CFrmUpdater;
 }
 
-/**
- * @brief Updater
- * @ingroup API
+/*!
+ * \~chinese 更新软件
+ *
+ * \details
+ * - 原理：
+ *   - 状态机图：详见： \ref InitStateMachine
+ *
+ * - 使用：
+ *   - 生成配置文件
+ *     - [必选] 生成更新配置文件(update_XXX.xml)。 格式详见： \ref CheckUpdateXmlFile \n
+ *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
+ *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectXmlFile \n
+ *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
+ *   - 在应用程序中使用 CFrmUpdater:
+ *     \snippet Tests\MainWindow.cpp Use CFrmUpdater
+ * 
+ * \~english Updater
+ *
+ * \details
+ * - Principle:
+ *   - State machine. See: \ref InitStateMachine
+ *
+ * - Usage:
+ *   - Generate configuration file
+ *     - [MUST] Generate update configuration file(update_XXX.xml).
+ *              Format see: \ref CheckUpdateXmlFile \n
+ *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
+ *     - [OPTION] Gernerate redirect configure file(update.xml).
+ *             Format see: \ref CheckRedirectXmlFile \n
+ *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
+ *   - Used by application CFrmUpdater:
+ *     \snippet Tests\MainWindow.cpp Use CFrmUpdater
+ *     
+ * \~
+ * \see RabbitCommon::CDownloadFile
+ * \ingroup API
  */
 class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
 {
@@ -33,6 +66,11 @@ class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
 
 public:
     explicit CFrmUpdater(QWidget *parent);
+    /*!
+     * \brief CFrmUpdater
+     * \param urls: 重定向配置文件或下载配置文件的下载地址
+     * \param parent
+     */
     explicit CFrmUpdater(QVector<QUrl> urls = QVector<QUrl>(), QWidget *parent = nullptr);
     virtual ~CFrmUpdater() override;
 

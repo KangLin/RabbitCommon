@@ -61,19 +61,24 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-#ifdef HAVE_UPDATE
-    CFrmUpdater *update = new CFrmUpdater();
-    update->setAttribute(Qt::WA_QuitOnClose, true);
-    update->SetTitle(QImage(":/icon/RabbitCommon/App"));
-    if(!update->GenerateUpdateXml())
-        return;
-#if defined (Q_OS_ANDROID)
-    update->showMaximized();
-#else
-    update->show();
+    //! [Use CFrmUpdater]
+#ifdef RABBITCOMMON
+    CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
+    QIcon icon = windowIcon();
+    if(icon.isNull()) return;
+    auto sizeList = icon.availableSizes();
+    if(sizeList.isEmpty()) return;
+    QPixmap p = icon.pixmap(*sizeList.begin());
+    m_pfrmUpdater->SetTitle(p.toImage());
+    m_pfrmUpdater->SetInstallAutoStartup();
+    #if defined (Q_OS_ANDROID)
+        m_pfrmUpdater->showMaximized();
+    #else
+        m_pfrmUpdater->show();
+    #endif
 #endif
-#endif
-    
+    //! [Use CFrmUpdater]
+
 #ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(update);
 #endif
