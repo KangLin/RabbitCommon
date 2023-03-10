@@ -65,7 +65,6 @@ class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
     Q_OBJECT
 
 public:
-    explicit CFrmUpdater(QWidget *parent);
     /*!
      * \brief CFrmUpdater
      * \param urls: 重定向配置文件或下载配置文件的下载地址
@@ -123,6 +122,7 @@ Q_SIGNALS:
     void sigDownLoadRedireXml();
 
 private:
+    CFrmUpdater(QWidget *parent);
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
     bool IsDownLoad();

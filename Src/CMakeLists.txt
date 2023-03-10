@@ -272,7 +272,8 @@ option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON
 if(BUILD_ADMINAUTHORISER)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
     list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthoriser.cpp)
-    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h)
+    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h
+        AdminAuthoriser/adminauthoriser.h)
     if(WIN32)
         list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_win.cpp)
     elseif(MAC)

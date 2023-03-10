@@ -17,24 +17,30 @@ set -e
 # for details, see https://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+INSTALL_ROOT=/opt/RabbitCommon
 
 case "$1" in
     configure)
-        if [ ! -f /usr/share/applications/RabbitCommon.desktop ]; then
-            ln -s /opt/RabbitCommon/share/applications/RabbitCommon.desktop /usr/share/applications/RabbitCommon.desktop
+        mkdir -p $INSTALL_ROOT/log
+        chmod 777 $INSTALL_ROOT/log
+        if [ ! -d $INSTALL_ROOT/bin/log ]; then
+            ln -s $INSTALL_ROOT/log $INSTALL_ROOT/bin/log
         fi
-        echo "/opt/RabbitCommon/lib" > /etc/ld.so.conf.d/RabbitCommon.conf
-        echo "/opt/RabbitCommon/bin" >> /etc/ld.so.conf.d/RabbitCommon.conf
-        export QT_VERSION_DIR=
-        if [ -n "${QT_VERSION_DIR}" ]; then
-            echo "/opt/qt${QT_VERSION_DIR}/lib" >> /etc/ld.so.conf.d/RabbitCommon.conf
+        if [ ! -f /usr/share/applications/org.Rabbit.RabbitCommon.desktop ]; then
+            ln -s ${INSTALL_ROOT}/share/applications/org.Rabbit.RabbitCommon.desktop /usr/share/applications/org.Rabbit.RabbitCommon.desktop
         fi
-        ldconfig
+        if [ ! -f /usr/share/pixmaps/RabbitCommon.png ]; then
+            if [ ! -d /usr/share/pixmaps ]; then
+                mkdir -p /usr/share/pixmaps
+            fi
+            ln -s ${INSTALL_ROOT}/share/pixmaps/App.png /usr/share/pixmaps/RabbitCommon.png
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
-        rm -fr /usr/share/applications/RabbitCommon.desktop
-        rm -fr /etc/ld.so.conf.d/RabbitCommon.conf
+        rm -fr $INSTALL_ROOT/log $INSTALL_ROOT/bin/log
+        rm -fr /usr/share/applications/org.Rabbit.RabbitCommon.desktop
+        rm -fr /usr/share/pixmaps/RabbitCommon.png
     ;;
 
     *)

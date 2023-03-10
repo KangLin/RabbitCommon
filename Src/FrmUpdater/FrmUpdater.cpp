@@ -752,9 +752,17 @@ void CFrmUpdater::slotUpdate()
         QFileInfo fi(m_DownloadFile.fileName());
         if(fi.suffix().compare("gz", Qt::CaseInsensitive))
         {
-            //启动安装程序  
-            if(!proc.startDetached(m_DownloadFile.fileName()))
+            QString szCmd;
+            szCmd = m_DownloadFile.fileName();
+            //启动安装程序
+            qInfo(FrmUpdater) << "Start"
+                              << szCmd
+                              << "in a new process, and detaches from it.";
+            if(!proc.startDetached(szCmd))
             {
+                qInfo(FrmUpdater) << "Start new process fial."
+                                  << "Use system installer to install"
+                                  << m_DownloadFile.fileName();
                 QUrl url(m_DownloadFile.fileName());
                 if(!QDesktopServices::openUrl(url))
                 {

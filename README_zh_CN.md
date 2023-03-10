@@ -162,14 +162,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
       + 在使用的工程目录CMakeLists.txt
       
-            SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+            SET(APP_LIBS ${QT_LIBRARIES})
             if(TARGET RabbitCommon)
-                target_compile_definitions(${PROJECT_NAME}
-                                PRIVATE -DRABBITCOMMON)
-                target_include_directories(${PROJECT_NAME}
-                                PRIVATE ${RabbitCommon_DIR}/Src
-                                        ${CMAKE_BINARY_DIR})
-                set(APP_LIBS ${APP_LIBS} RabbitCommon)
+                list(APPEND APP_LIBS RabbitCommon)
             endif()
             target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
 
