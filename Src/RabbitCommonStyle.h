@@ -22,6 +22,7 @@ namespace RabbitCommon {
  * \note When major version >= 2.0.0, The class is an inner class.
  *       please use CFrmStyle instead.
  *       The class wwill be removed from API after version 3.0.0
+ * \ingroup INTERNAL_API
  */
 class Q_DECL_DEPRECATED_X("Please use CFrmStyle instead. It will remove from API after version 2.0.0")
       RABBITCOMMON_EXPORT CStyle : public QObject

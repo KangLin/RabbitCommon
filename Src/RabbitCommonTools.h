@@ -41,27 +41,27 @@ public:
     void InitResource();
     void CleanResource();
     
-    /**
-     * @brief Enable core dump
-     * @param bPrompt: prompt
-     * @note It must be called first in the main function
+    /*!
+     * \brief Enable core dump
+     * \param bPrompt: prompt
+     * \note It must be called first in the main function
      */
     static bool EnableCoreDump(bool bPrompt = true);
 
-    /**
-     * @brief executeByRoot: Run with administrator privileges
-     * @param program
-     * @param arguments
-     * @return 
+    /*!
+     * \brief executeByRoot: Run with administrator privileges
+     * \param program
+     * \param arguments
      */
     static bool executeByRoot(const QString &program, const QStringList &arguments = QStringList());
 
-    /**
-     * @brief InstallStartRun: auto run when startup
-     * @param szName
-     * @param szPath
-     * @param bAllUser
-     * @return
+    /*!
+     * \brief InstallStartRun: auto run when startup
+     * \param szName
+     * \param szPath
+     * \param bAllUser:
+     *          - true: all user
+     *          - false: current user
      */
     static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
@@ -70,15 +70,15 @@ public:
                               bool bAllUser = false);
     static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
-    
+
     static QString GetCurrentUser();
     static QString GetHostName();
     
-    /**
-     * @brief GenerateDesktopFile: Generate desktop file
-     * @param szPath
-     * @param szAppName
-     * @return 
+    /*!
+     * \brief GenerateDesktopFile: Generate desktop file
+     * \param szPath: the path of desktop file.
+     * \param szName: the name of desktop file.
+     *            Default: "org.Rabbit." + qApp->applicationName() + ".desktop"
      */
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szName = QString());

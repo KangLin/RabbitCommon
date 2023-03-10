@@ -14,9 +14,9 @@
 
 namespace RabbitCommon {
 
-/**
- * @brief Start run application on reboot
- * @ingroup API
+/*!
+ * \brief Start run application on system boot
+ * \ingroup INTERNAL_API
  */
 class CRegister
 {
@@ -69,8 +69,22 @@ public:
     static int RemoveRegister(const QString &reg, const QString &name);
     static bool IsRegister(const QString &reg, const QString &name);
     
+    /*!
+     * \brief Generate the name of desktop file
+     * \param szPath: the path of desktop file.
+     * \param szName: the name of desktop file.
+     *            Default: "org.Rabbit." + qApp->applicationName() + ".desktop"
+     */
     static QString GetDesktopFileName(const QString &szPath = QString(),
                                       const QString &szName = QString());
+    /*!
+     * \brief GetDesktopFileLink
+     * \param szName: the link of desktop file.
+     *            Default: "org.Rabbit." + qApp->applicationName() + ".desktop"
+     * \param bAllUser:
+     *          - true: all user
+     *          - false: current user
+     */
     static QString GetDesktopFileLink(const QString &szName = QString(),
                                       bool bAllUser = false);
 };

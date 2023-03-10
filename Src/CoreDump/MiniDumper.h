@@ -8,6 +8,8 @@ namespace RabbitCommon {
 /*!
  * \brief Windows core dumper
  * \note This class is intended for internal use only
+ * 
+ * \ingroup INTERNAL_API
  */
 class CMiniDumper
 {
