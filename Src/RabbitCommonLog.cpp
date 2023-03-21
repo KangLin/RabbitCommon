@@ -146,7 +146,7 @@ CLog::CLog() : QObject(),
 
 #else
 
-    QString szPattern = "%{time hh:mm:ss.zzz} %{threadid} %{type} %{category}: %{message} [%{file}:%{line}, %{function}]";
+    QString szPattern = "%{time hh:mm:ss.zzz} %{threadid} [%{type}] [%{category}] - %{message} [%{file}:%{line}, %{function}]";
     QString szFilterRules;
     quint64 nInterval = 60; // Unit: second
 #if !(defined(DEBUG) || defined(_DEBUG))
@@ -210,7 +210,8 @@ CLog::CLog() : QObject(),
                    << "\n    szPattern:" << szPattern
                    << "\n    Interval:" << nInterval
                    << "\n    Count:" << m_nCount
-                   << "\n    Length:" << m_nLength;
+                   << "\n    Length:" << m_nLength
+                   << "\n    Rules:" << szFilterRules;
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
