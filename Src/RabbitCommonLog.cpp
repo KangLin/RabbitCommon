@@ -146,7 +146,7 @@ CLog::CLog() : QObject(),
 
 #else
 
-    QString szPattern = "%{time hh:mm:ss.zzz} %{threadid} [%{type}] [%{category}] - %{message} [%{file}:%{line}, %{function}]";
+    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{type} [%{category}] - %{message} [%{file}:%{line}, %{function}]";
     QString szFilterRules;
     quint64 nInterval = 60; // Unit: second
 #if !(defined(DEBUG) || defined(_DEBUG))
@@ -191,14 +191,17 @@ CLog::CLog() : QObject(),
                 m_nLength = len;
             }
         }
-        
+        set.endGroup();
+
         set.beginGroup("Rules");
         auto keys = set.childKeys();
+        //qDebug(Logger) << "keys" << keys;
         szFilterRules.clear();
         foreach(auto k, keys) {
             QString v = set.value(k).toString();
             szFilterRules += k + "=" + v + "\n";
         }
+        set.endGroup();
     } else {
         qWarning(Logger) << "Log configure file is not exist:" << szConfFile
                          << ". Use default.";
