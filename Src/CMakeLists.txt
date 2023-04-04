@@ -11,8 +11,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
-list(APPEND RabbitCommon_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
-
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
 # ----------------------------------------------------------------------------
@@ -477,6 +475,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_INCLUDE_DIRS ${RABBITCOMMON_PRIVATE_INCLUDE_DIRS}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
+        $<$<CONFIG:Debug>:DEBUG _DEBUG>
     LIBS ${RABBIT_COMMON_LIBS}
     PRIVATE_LIBS ${RABBIT_PRIVATE_COMMON_LIBS}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}
