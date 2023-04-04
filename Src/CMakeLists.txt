@@ -372,11 +372,11 @@ endif()
 if(INSTALL_LOG_CONFIG_FILE AND
         NOT (WITH_LOG4QT OR WITH_LOG4CXX OR WITH_LOG4CPLUS) )
     if(ANDROID)
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.conf
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
             DESTINATION assets/etc
             COMPONENT Runtime)
     else()
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.conf
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
             DESTINATION etc
             COMPONENT Runtime)
     endif()

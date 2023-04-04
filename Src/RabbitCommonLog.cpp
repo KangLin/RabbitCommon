@@ -155,7 +155,7 @@ CLog::CLog() : QObject(),
     m_szPath = CDir::Instance()->GetDirApplicationInstallRoot()
             + QDir::separator() + "log";
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
-            + QDir::separator() + qApp->applicationName() + "_logqt.conf";
+            + QDir::separator() + qApp->applicationName() + "_logqt.ini";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if (QFile::exists(szConfFile))
     {
@@ -204,7 +204,7 @@ CLog::CLog() : QObject(),
         set.endGroup();
     } else {
         qWarning(Logger) << "Log configure file is not exist:" << szConfFile
-                         << ". Use default.";
+                         << ". Use default settings.";
     }
 
     qDebug(Logger) << "Log configure:"
