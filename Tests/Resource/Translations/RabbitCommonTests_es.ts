@@ -89,12 +89,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="118"/>
+        <location filename="../../MainWindow.cpp" line="123"/>
         <source>Encrypt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="118"/>
+        <location filename="../../MainWindow.cpp" line="123"/>
         <source>Source:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -672,6 +672,7 @@ function(ADD_TARGET)
             if(MINGW)
                 set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS "-mwindows")
             elseif(MSVC)
+                # 程序以windows方式启动，不出现控制台窗口
                 if(Qt5_VERSION VERSION_LESS "5.7.0")
                     set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS
                         "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")

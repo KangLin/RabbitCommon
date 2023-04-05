@@ -253,7 +253,7 @@
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="196"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="581"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="607"/>
         <source>There is laster version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -294,8 +294,8 @@
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="355"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="207"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="644"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="218"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="670"/>
         <source>OK(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,219 +305,232 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="198"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="209"/>
         <source>Being download xml file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="213"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="224"/>
         <source>Being download update file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="217"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="228"/>
         <source>Being install update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="246"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="257"/>
         <source>Current archecture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="254"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="265"/>
         <source>Current version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="297"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="308"/>
         <source>Download file error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="336"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="347"/>
         <source>: downloading %1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="412"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="520"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="431"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="546"/>
         <source>Parse file %1 fail. It isn&apos;t xml file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="531"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="557"/>
         <source>Parse file %1 fail. It isn&apos;t update xml file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="586"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="612"/>
         <source>New version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="588"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="614"/>
         <source>New architecture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="594"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="608"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="621"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="620"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="634"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="647"/>
         <source>System is different</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="601"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="614"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="628"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="627"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="640"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="654"/>
         <source>Architecture is different</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="634"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="660"/>
         <source>There is a new version, is it updated?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="657"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="683"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="658"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="684"/>
         <source>Download ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="672"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="698"/>
         <source>Being install update ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="682"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="688"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="708"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="714"/>
         <source>Download file fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="694"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="720"/>
         <source>Md5sum is different. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="695"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="721"/>
         <source>Download file md5sum: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="697"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="723"/>
         <source>md5sum in Update.xml:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="735"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="769"/>
         <source>Execute install program error.%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="746"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="780"/>
         <source>Open file %1 fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="760"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="794"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="787"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="821"/>
         <source>The installer has started, Please close the application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="803"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="837"/>
         <source>Open home page fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="842"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="876"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="843"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="877"/>
         <source>Run after install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="952"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="986"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="953"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="987"/>
         <source>Is updating, be sure to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1128"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1162"/>
         <source>xml file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1132"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1166"/>
         <source>Package version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1137"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1171"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1142"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1176"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1148"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1182"/>
         <source>Operating system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1153"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1187"/>
         <source>Platform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1158"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1192"/>
         <source>Architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1163"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1197"/>
         <source>MD5 checksum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1167"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1201"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1171"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1205"/>
         <source>Package download urls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1177"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1211"/>
         <source>Project home url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1182"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1216"/>
         <source>Min update version</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CStyle</name>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="169"/>
+        <source>Open sink</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonStyle.cpp" line="171"/>
+        <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -534,11 +547,21 @@
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="53"/>
+        <source>Application Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="54"/>
+        <source>I&apos;m Sorry, Application is Crash! The path: </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RabbitCommon::CDownloadFile</name>
     <message>
-        <location filename="../../DownloadFile.cpp" line="373"/>
+        <location filename="../../DownloadFile.cpp" line="374"/>
         <source>: downloading %1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -558,19 +581,6 @@
     <message>
         <location filename="../../RabbitRecentMenu.cpp" line="186"/>
         <source>Clear Menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RabbitCommon::CStyle</name>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="169"/>
-        <source>Open sink</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="171"/>
-        <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
