@@ -726,17 +726,6 @@ function(ADD_TARGET)
             DESTINATION ${CMAKE_BINARY_DIR})
     endif(PARA_ISEXE)
 
-    IF(MSVC)
-        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
-        MARK_AS_ADVANCED(WIN32_USE_MP)
-        IF(WIN32_USE_MP)
-            target_compile_options(${PARA_NAME} PRIVATE /MP)
-        ENDIF(WIN32_USE_MP)
-        target_compile_options(${PARA_NAME} PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-        target_compile_options(${PARA_NAME} PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-    ENDIF(MSVC)
-
     if(DEFINED PARA_OUTPUT_DIR)
         set_target_properties(${PARA_NAME} PROPERTIES
             LIBRARY_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
@@ -771,30 +760,51 @@ function(ADD_TARGET)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
     endif()
 
+    # Target compile definitions
+    target_compile_definitions(${PARA_NAME} PRIVATE
+        $<$<CONFIG:Debug>:_DEBUG DEBUG>
+        )
     if(DEFINED PARA_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PUBLIC ${PARA_DEFINITIONS})
     endif()
-    
     if(DEFINED PARA_PRIVATE_DEFINITIONS AND PARA_PRIVATE_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PRIVATE ${PARA_PRIVATE_DEFINITIONS})
     endif()
 
+    # Target include directories
     if(DEFINED PARA_INCLUDE_DIRS AND PARA_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PUBLIC ${PARA_INCLUDE_DIRS})
     endif()
-
     if(DEFINED PARA_PRIVATE_INCLUDE_DIRS AND PARA_PRIVATE_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_INCLUDE_DIRS})
     endif()
     
+    # Target compile options
+    IF(MSVC)
+        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
+        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
+        MARK_AS_ADVANCED(WIN32_USE_MP)
+        IF(WIN32_USE_MP)
+            target_compile_options(${PARA_NAME} PRIVATE /MP)
+        ENDIF(WIN32_USE_MP)
+    ENDIF(MSVC)
+    target_compile_options(${PARA_NAME} PRIVATE
+        "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
+        "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+        $<$<CXX_COMPILER_ID:GNU,Clang>:$<IF:$<CONFIG:Debug>, -g -ggdb, -O3>>)
+    if(NOT MINGW)
+        target_compile_options(${PARA_NAME} PRIVATE
+            $<$<CXX_COMPILER_ID:GNU,Clang>:-fPIC>
+        )
+    endif()
     if(DEFINED PARA_OPTIONS)
         target_compile_options(${PARA_NAME} PUBLIC ${PARA_OPTIONS})
     endif()
-
     if(DEFINED PARA_PRIVATE_OPTIONS)
         target_compile_options(${PARA_NAME} PRIVATE ${PARA_PRIVATE_OPTIONS})
     endif()
 
+    # Target compile features
     if(DEFINED PARA_FEATURES)
         target_compile_features(${PARA_NAME} PUBLIC ${PARA_FEATURES})
     endif()
