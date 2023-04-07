@@ -7,6 +7,7 @@ include(CMakeParseArguments)
 include(GenerateExportHeader)
 
 include(CPackComponent)
+#include(CPack) 需要的项目的 CMakeLists.txt 中加入此行
 
 SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
 if(CMAKE_MFC_FLAG)
@@ -18,7 +19,13 @@ endif()
 if(LOWER_BUILD_TYPE STREQUAL "debug")
     set(CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
 endif()
+set(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT DependLibraries)
 include(InstallRequiredSystemLibraries)
+
+cpack_add_component(DependLibraries
+    DISPLAY_NAME  "DependLibraries"
+    DESCRIPTION   "Depend Libraries"
+    )
 
 cpack_add_component(Development
     DISPLAY_NAME  "Development"
@@ -29,6 +36,7 @@ cpack_add_component(Development
 cpack_add_component(Runtime
     DISPLAY_NAME  "Runtime"
     DESCRIPTION   "Runtime"
+    DEPENDS DependLibraries
     )
 
 # 产生android平台分发设置
@@ -308,9 +316,9 @@ function(INSTALL_TARGET)
                 --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                 --verbose 7
                 --no-translations
-                --dir ${CMAKE_BINARY_DIR}/bin
-                --libdir ${CMAKE_BINARY_DIR}/bin
-                --plugindir ${CMAKE_BINARY_DIR}/bin
+                --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                 "$<TARGET_FILE:${PARA_NAME}>"
                 )
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
@@ -505,6 +513,9 @@ function(INSTALL_TARGET)
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     --no-translations
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                     "$<TARGET_FILE:${PARA_NAME}>"
                     )
             ELSE(MINGW)
@@ -513,16 +524,18 @@ function(INSTALL_TARGET)
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
-                    #--no-translations
-                    #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>"
+                    --no-translations
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                     "$<TARGET_FILE:${PARA_NAME}>"
                     )
             ENDIF(MINGW)
 
             if(DEFINED PARA_ISEXE)
-                INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-                    DESTINATION "${PARA_RUNTIME}"
-                        COMPONENT Runtime)
+                INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
+                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                        COMPONENT DependLibraries)
             endif()
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
         
