@@ -73,6 +73,7 @@ if(WITH_GUI)
         RabbitRecentMenu.h
         RabbitCommonStyle.h
         FrmStyle/FrmStyle.h
+        TitleBar.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         )
@@ -80,6 +81,7 @@ if(WITH_GUI)
         RabbitRecentMenu.cpp
         RabbitCommonStyle.cpp
         FrmStyle/FrmStyle.cpp
+        TitleBar.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         FrmStyle/FrmStyle.ui)

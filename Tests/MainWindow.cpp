@@ -21,10 +21,12 @@
 #include "FrmStyle/FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
+#include "TitleBar.h"
 
 #include <QDir>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QDockWidget>
 
 Q_LOGGING_CATEGORY(windowLog, "RabbitCommon.MainWindow")
 
@@ -34,6 +36,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
+
+    QDockWidget* pDock = new QDockWidget(tr("CTitleBar"), this);
+    addDockWidget(Qt::LeftDockWidgetArea, pDock);
+    RabbitCommon::CTitleBar* pTitleBar = new RabbitCommon::CTitleBar(pDock);
+    pDock->setTitleBarWidget(pTitleBar);
 }
 
 MainWindow::~MainWindow()

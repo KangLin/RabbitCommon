@@ -48,10 +48,12 @@ else: DEFINES *= RabbitCommon_EXPORTS
     DEFINES *= HAVE_GUI
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
-        $$PWD/RabbitRecentMenu.cpp
+        $$PWD/RabbitRecentMenu.cpp \
+        $$PWD/TitleBar.cpp
     INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
         $$PWD/FrmStyle/FrmStyle.h \
-        $$PWD/RabbitRecentMenu.h
+        $$PWD/RabbitRecentMenu.h \
+        $$PWD/TitleBar.h
     FORMS += $$PWD/FrmStyle/FrmStyle.ui
     
     equals(BUILD_QUIWidget, "ON"){
