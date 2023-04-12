@@ -37,7 +37,7 @@ class CFrmUpdater;
  *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectXmlFile \n
  *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
  *   - 在应用程序中使用 CFrmUpdater:
- *     \snippet Tests\MainWindow.cpp Use CFrmUpdater
+ *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
  * 
  * \~english Updater
  *
@@ -54,7 +54,7 @@ class CFrmUpdater;
  *             Format see: \ref CheckRedirectXmlFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
  *   - Used by application CFrmUpdater:
- *     \snippet Tests\MainWindow.cpp Use CFrmUpdater
+ *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
  *     
  * \~
  * \see RabbitCommon::CDownloadFile
@@ -98,11 +98,11 @@ public:
     int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:
-    //! [Add the slot functions of RabbitCommon::CDownloadFile]
+    // [Add the slot functions of RabbitCommon::CDownloadFile]
     void slotDownloadError(int nErr, const QString szError);
     void slotDownloadFileFinished(const QString szFile);
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    //! [Add the slot functions of RabbitCommon::CDownloadFile]
+    // [Add the slot functions of RabbitCommon::CDownloadFile]
 
     void slotButtonClickd(int id);
     void slotCheck();
@@ -147,9 +147,9 @@ private:
     QFile m_DownloadFile;
     bool m_bDownload;
     QVector<QUrl> m_Urls;
-    //! [Instantiate the object of RabbitCommon::CDownloadFile]
+    // [Instantiate the object of RabbitCommon::CDownloadFile]
     QSharedPointer<RabbitCommon::CDownloadFile> m_Download;
-    //! [Instantiate the object of RabbitCommon::CDownloadFile]
+    // [Instantiate the object of RabbitCommon::CDownloadFile]
 
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;

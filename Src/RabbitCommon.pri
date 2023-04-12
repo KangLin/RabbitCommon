@@ -49,11 +49,13 @@ else: DEFINES *= RabbitCommon_EXPORTS
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp \
-        $$PWD/TitleBar.cpp
+        $$PWD/TitleBar.cpp \
+        $$PWD/FolderBrowser/FolderBrowser.cpp
     INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
         $$PWD/FrmStyle/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
-        $$PWD/TitleBar.h
+        $$PWD/TitleBar.h \
+        $$PWD/FolderBrowser/FolderBrowser.h
     FORMS += $$PWD/FrmStyle/FrmStyle.ui
     
     equals(BUILD_QUIWidget, "ON"){

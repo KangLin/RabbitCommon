@@ -4,6 +4,7 @@
 + 支持 Qt6 状态机
 + 增加 qt 输出到文件
 + 修改自启动
++ 增加 CBrowseFolder and CTitleBar
 
 ### 版本： v1.0.7
 

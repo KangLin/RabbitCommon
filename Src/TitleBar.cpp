@@ -28,9 +28,12 @@ CTitleBar::CTitleBar(QWidget *parent)
     m_pMaxButton(nullptr),
     m_pMinButton(nullptr)
 {
+    bool check = false;
+
+    // Muse set parent
     Q_ASSERT(parent);
 
-    // title bar horizontal layout
+    // Title bar horizontal layout
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
     // ugly platform dependent layout fix:
@@ -45,10 +48,12 @@ CTitleBar::CTitleBar(QWidget *parent)
     m_pTitle = new QLabel(this);
     Q_ASSERT(m_pTitle);
     m_pTitle->setText(parent->windowTitle());
+    check = connect(parent, SIGNAL(windowTitleChanged(const QString&)),
+                           m_pTitle, SLOT(setText(const QString&)));
+    Q_ASSERT(check);
     m_pTitle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     layout->addWidget(m_pTitle);
 
-    bool check = false;
     m_pMinButton = CreateSmallPushButton(QIcon::fromTheme("window-minimize"), this);
     Q_ASSERT(m_pMinButton);
     m_pMinButton->setToolTip(tr("Minimize"));
@@ -107,20 +112,13 @@ CTitleBar::CTitleBar(QWidget *parent)
     }
 }
 
-int CTitleBar::SetWidgets(QList<QWidget*> pLstWidget)
+int CTitleBar::AddWidgets(QList<QWidget*> pLstWidget)
 {
     QHBoxLayout *layout = qobject_cast<QHBoxLayout*>(this->layout());
     foreach (auto w, pLstWidget) {
         if(layout)
             layout->insertWidget(1, w);
     }
-    return 0;
-}
-
-int CTitleBar::SetTitle(const QString &szTitle)
-{
-    if(m_pTitle)
-        m_pTitle->setText(szTitle);
     return 0;
 }
 

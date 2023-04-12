@@ -17,35 +17,50 @@ namespace RabbitCommon {
 /*!
  * \~english
  * \brief The cursom title bar for QWidget, QDockWidget etc.
- * 
+ *        - The defaul:
+ *          - title lable
+ *          - minimized button
+ *          - maximized button
+ *          - float button
+ *          - close button
+ *        - Add custom buttons with AddWidgets.
+ *        - Usage:
+ *          - If the parent is QDockWidget. use QDockWidget::setTitleBarWidget settings
+ *            - ag: \snippet Src/FolderBrowser/FolderBrowser.cpp Use CTitleBar
+ *
  * \~chinese
- * \brief 自定义窗口标题栏
+ * \brief 自定义窗口标题栏。例如： QWidget, QDockWidget 等
+ *        - 默认有:
+ *          - 标题栏
+ *          - 最小化按钮
+ *          - 最大化按钮
+ *          - 浮动按钮
+ *          - 关闭按钮
+ *        - 用 AddWidgets 增加自定义按钮。
+ *        - 用法：
+ *          - 如果要设置的父窗口是 QDockWidget，调用 QDockWidget::setTitleBarWidget 设置
+ *            - 例子：\snippet Src/FolderBrowser/FolderBrowser.cpp Use CTitleBar
+ *
+ * \~
+ * \ingroup API
  */
 class RABBITCOMMON_EXPORT CTitleBar : public QWidget
 {
     Q_OBJECT
-    
+
 public:
-    /*!
-     * \param pLstWidget: Add the list of QWidget* to the title bar
-     * \param bAppend:
-     *           - true: Keep the default QWidgets.
-     *           - false: Disable the default QWidgets.
-     * \param parent
-     */
     explicit CTitleBar(QWidget *parent);
 
     /* The default button */
-    int SetTitle(const QString& szTitle);
     int VisibleTitleButton(bool bVisible);
     int VisibleMaximizeButton(bool bVisible);
     int VisibleMinimizeButton(bool bVisible);
     int VisibleFloatButton(bool bVisible);
     int VisibleCloseButton(bool bVisible);
-    
-    //! Set up user-defined buttons
-    int SetWidgets(QList<QWidget*> pLstWidget);
-    
+
+    //! Add user-defined buttons
+    int AddWidgets(QList<QWidget*> pLstWidget);
+
     static QPushButton* CreateSmallPushButton(QIcon icon, QWidget *parent);
 
 private Q_SLOTS:

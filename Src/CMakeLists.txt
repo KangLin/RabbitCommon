@@ -74,6 +74,7 @@ if(WITH_GUI)
         RabbitCommonStyle.h
         FrmStyle/FrmStyle.h
         TitleBar.h
+        FolderBrowser/FolderBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         )
@@ -82,9 +83,12 @@ if(WITH_GUI)
         RabbitCommonStyle.cpp
         FrmStyle/FrmStyle.cpp
         TitleBar.cpp
+        FolderBrowser/FolderBrowser.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
-        FrmStyle/FrmStyle.ui)
+        FrmStyle/FrmStyle.ui
+        FolderBrowser/FolderBrowser.ui
+        )
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON

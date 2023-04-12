@@ -110,14 +110,14 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
 {
     if(urls.isEmpty())
     {
-        //! [Redirect xml file default urls]
+        // [Redirect xml file default urls]
         QUrl github("https://github.com/KangLin/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
         QUrl gitlab("https://gitlab.com/kl222/"
                 + qApp->applicationName() + "/-/raw/master/Update/update.xml");
         QUrl gitee("https://gitee.com/kl222/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
-        //! [Redirect xml file default urls]
+        // [Redirect xml file default urls]
         m_Urls << github << gitlab << gitee;
     } else {
         m_Urls = urls;
@@ -300,7 +300,7 @@ void CFrmUpdater::slotCheck()
         emit sigError();
 }
 
-//! [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadError:" << nErr << szError;
@@ -347,12 +347,12 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
                           + tr(": downloading %1%").arg(
                             QString::number(bytesReceived * 100 / bytesTotal)));
 }
-//! [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownloadFile]
 
 void CFrmUpdater::slotDownloadFile()
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFile";
-    //! [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownloadFile download file]
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
@@ -367,7 +367,7 @@ void CFrmUpdater::slotDownloadFile()
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
     }
-    //! [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownloadFile download file]
 }
 
 void CFrmUpdater::slotCheckXmlFile()
@@ -483,7 +483,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
 
     if(m_Urls.isEmpty())
     {
-        //! [Update xml file default urls]
+        // [Update xml file default urls]
         QUrl github("https://github.com/KangLin/"
                    + qApp->applicationName() + "/releases/download/"
                    + szVersion + "/update_" + szOS + ".xml");
@@ -492,7 +492,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
                          + qApp->applicationName() +"/files/"
                          + szVersion + "/update_" + szOS + ".xml/download");
         m_Urls.push_back(sourceforge);
-        //! [Update xml file default urls]
+        // [Update xml file default urls]
     }
 
     qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;

@@ -4,6 +4,7 @@
 + Support Qt6 statemachine
 + Add qt log file
 + Modify start run
++ Add CBrowseFolder and CTitleBar
 
 ### Version： v1.0.7
 

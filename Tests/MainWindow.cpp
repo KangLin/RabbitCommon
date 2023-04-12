@@ -21,7 +21,7 @@
 #include "FrmStyle/FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
-#include "TitleBar.h"
+#include "FolderBrowser/FolderBrowser.h"
 
 #include <QDir>
 #include <QDebug>
@@ -37,16 +37,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QDockWidget* pDock = new QDockWidget(tr("CTitleBar"), this);
+    // [Use CFolderBrowser]
+    CFolderBrowser* pDock = new CFolderBrowser(tr("Folder browser"), this);
     addDockWidget(Qt::LeftDockWidgetArea, pDock);
-    RabbitCommon::CTitleBar* pTitleBar = new RabbitCommon::CTitleBar(pDock);
-    pDock->setTitleBarWidget(pTitleBar);
+    // Add the action of dock to menu
+    ui->menuTools->addAction(pDock->toggleViewAction());
+    // [Use CFolderBrowser]
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     qApp->quit();
+    delete ui;
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -68,8 +70,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-    //! [Use CFrmUpdater]
-#ifdef RABBITCOMMON
+    // [Use CFrmUpdater]
     CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
     QIcon icon = windowIcon();
     if(icon.isNull()) return;
@@ -83,8 +84,7 @@ void MainWindow::on_actionUpdate_triggered()
     #else
         m_pfrmUpdater->show();
     #endif
-#endif
-    //! [Use CFrmUpdater]
+    // [Use CFrmUpdater]
 
 #ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(update);
