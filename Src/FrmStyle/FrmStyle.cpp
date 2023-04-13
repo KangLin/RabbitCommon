@@ -109,6 +109,7 @@ void CFrmStyle::on_pbOK_clicked()
 #endif
     }
 
+    RabbitCommon::CStyle::Instance()->SetFile(ui->leStyleName->text());
     close();
 }
 
@@ -119,14 +120,12 @@ void CFrmStyle::on_pbCancel_clicked()
 
 void CFrmStyle::on_pbBrower_clicked()
 {
-    RabbitCommon::CStyle::Instance()->slotStyle();
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());
+    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->slotStyle());
 }
 
 void CFrmStyle::on_pbDefault_clicked()
 {
-    RabbitCommon::CStyle::Instance()->slotSetDefaultStyle();
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());
+    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->slotSetDefaultStyle());
 
     if(ui->gpIconTheme->isChecked()) {
         ui->cbIconTheme->setCurrentText(RabbitCommon::CStyle::Instance()->m_szDefaultIconTheme);

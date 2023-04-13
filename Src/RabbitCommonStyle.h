@@ -29,6 +29,7 @@ public:
     static CStyle* Instance();
     //TODO:  When major version >= 2, the function is remove.
     void SetDefaultFile(const QString &file);
+    void SetFile(const QString& file);
 
     /*!
      * \brief Load style from configure file
@@ -45,11 +46,11 @@ public Q_SLOTS:
     /*!
      * \brief Used to respond to menu events, open select style diaglog
      */
-    void slotStyle();
+    QString slotStyle();
     /*!
      * \brief Set default style
      */
-    void slotSetDefaultStyle();
+    QString slotSetDefaultStyle();
 
 private:
     CStyle(QObject *parent = nullptr);

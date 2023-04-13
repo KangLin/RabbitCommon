@@ -50,6 +50,16 @@ void CStyle::SetDefaultFile(const QString &file)
     m_szDefaultFile = file;
 }
 
+void CStyle::SetFile(const QString &file)
+{
+    m_szFile = file;
+    
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    set.setValue("Style/File", m_szFile);
+    LoadStyle(m_szFile);
+}
+
 int CStyle::LoadStyle()
 {
     // Load icons theme
@@ -148,17 +158,17 @@ int CStyle::LoadStyle(const QString &szFile)
     return 0;
 }
 
-void CStyle::slotSetDefaultStyle()
+QString CStyle::slotSetDefaultStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Style/File", m_szDefaultFile);
     LoadStyle(m_szDefaultFile);
     //qApp->setPalette(QPalette(QColor(Qt::gray)));
-    return;
+    return m_szDefaultFile;
 }
 
-void CStyle::slotStyle()
+QString CStyle::slotStyle()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -169,10 +179,10 @@ void CStyle::slotStyle()
     szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
                  szFile,
                  tr("Style files(*.qss *.css);; All files(*.*)"));
-    if(szFile.isEmpty()) return;
+    if(szFile.isEmpty()) return QString();
     LoadStyle(szFile);
-    
-    set.setValue("Style/File", szFile);
+
+    return szFile;
 }
 
 QString CStyle::GetStyleFile()
