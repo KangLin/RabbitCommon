@@ -6,7 +6,7 @@
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
         <source>About</source>
-        <translation>關于</translation>
+        <translation>關於</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="30"/>
@@ -84,7 +84,7 @@
         <location filename="../../DlgAbout/DlgAbout.cpp" line="86"/>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
         <source>Change log</source>
-        <translation>修改日志</translation>
+        <translation>修改日誌</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
@@ -156,6 +156,45 @@
     </message>
 </context>
 <context>
+    <name>CFolderBrowser</name>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="45"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="48"/>
+        <source>Filter</source>
+        <translation>過濾器</translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="63"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="76"/>
+        <source>Don&apos;t show hidden files</source>
+        <translation>不顯示隱藏的文件</translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="65"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="73"/>
+        <source>Show hidden files</source>
+        <translation>顯示隱藏的文件</translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="84"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="100"/>
+        <source>Show brief</source>
+        <translation>簡單信息</translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="89"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="105"/>
+        <source>Show details</source>
+        <translation>詳細信息</translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.ui" line="14"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="117"/>
+        <source>Folder browser</source>
+        <translation>文件夾瀏覽器</translation>
+    </message>
+</context>
+<context>
     <name>CFrmStyle</name>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="14"/>
@@ -180,7 +219,7 @@
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="42"/>
         <source>Brower(&amp;B)</source>
-        <translation>浏覽(&amp;B)</translation>
+        <translation>瀏覽(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="54"/>
@@ -201,12 +240,12 @@
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="111"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
-        <translation>後備主題改變需要重啓程序。</translation>
+        <translation>後備主題改變需要重啟程序。</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="124"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
-        <translation>圖標主題選擇改變後,需要重啓程序.</translation>
+        <translation>圖標主題選擇改變後,需要重啟程序.</translation>
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="172"/>
@@ -488,7 +527,7 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1187"/>
         <source>Platform</source>
-        <translation>平台</translation>
+        <translation>平臺</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1192"/>
@@ -503,7 +542,7 @@
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1201"/>
         <source>Package file, Is used to calculate md5sum</source>
-        <translation>包文件，用于計算 md5 校驗和</translation>
+        <translation>包文件，用於計算 md5 校驗和</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1205"/>
@@ -593,6 +632,29 @@
     <message>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation type="vanished">樣式文件(*.qss *.css);; All files(*.*)</translation>
+    </message>
+</context>
+<context>
+    <name>RabbitCommon::CTitleBar</name>
+    <message>
+        <location filename="../../TitleBar.cpp" line="59"/>
+        <source>Minimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="67"/>
+        <source>Maximize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="75"/>
+        <source>Floating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="84"/>
+        <source>Close</source>
+        <translation type="unfinished">關閉</translation>
     </message>
 </context>
 </TS>
