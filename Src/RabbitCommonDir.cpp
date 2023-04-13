@@ -14,7 +14,7 @@ Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
 CDir::CDir()
 {
     //注意这个必须的在最前  
-    m_szDocumentPath =  QStandardPaths::writableLocation(
+    m_szDocumentPath = QStandardPaths::writableLocation(
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
@@ -70,6 +70,7 @@ int CDir::SetDirApplicationInstallRoot(const QString &szPath)
 
 QString CDir::GetDirConfig(bool bReadOnly)
 {
+    Q_UNUSED(bReadOnly)
     QString szPath;
 #if defined (Q_OS_ANDROID)
     if(bReadOnly)
@@ -95,6 +96,7 @@ QString CDir::GetDirConfig(bool bReadOnly)
 QString CDir::GetDirData(bool bReadOnly)
 {
     QString szPath;
+    Q_UNUSED(bReadOnly);
 #if defined (Q_OS_ANDROID)
     if(bReadOnly)
         return "assets:/data";

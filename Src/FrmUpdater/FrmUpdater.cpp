@@ -110,12 +110,14 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
 {
     if(urls.isEmpty())
     {
+        // [Redirect xml file default urls]
         QUrl github("https://github.com/KangLin/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
         QUrl gitlab("https://gitlab.com/kl222/"
                 + qApp->applicationName() + "/-/raw/master/Update/update.xml");
         QUrl gitee("https://gitee.com/kl222/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
+        // [Redirect xml file default urls]
         m_Urls << github << gitlab << gitee;
     } else {
         m_Urls = urls;
@@ -130,9 +132,15 @@ CFrmUpdater::~CFrmUpdater()
     delete ui;
 }
 
-/**
- * @brief CFrmUpdater::InitStateMachine
- * @return 
+/*!
+ * \~chinese 初始化状态机
+ * \~english
+ * \brief Initialization state machine
+ * 
+ * \~
+ * \details
+ * \code
+ *
  *               ________
  * start o ----->|sCheck|----------------------------------|
  *               --------                                  |
@@ -171,6 +179,9 @@ CFrmUpdater::~CFrmUpdater()
  *   |  |update(sUpdate)     |          |
  *   |  |--------------------|          |
  *   |----------------------------------|
+ *
+ *
+ * \endcode
  */
 int CFrmUpdater::InitStateMachine()
 {
@@ -289,7 +300,7 @@ void CFrmUpdater::slotCheck()
         emit sigError();
 }
 
-//! [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadError:" << nErr << szError;
@@ -336,12 +347,12 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
                           + tr(": downloading %1%").arg(
                             QString::number(bytesReceived * 100 / bytesTotal)));
 }
-//! [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownloadFile]
 
 void CFrmUpdater::slotDownloadFile()
 {
     qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFile";
-    //! [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownloadFile download file]
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
@@ -356,7 +367,7 @@ void CFrmUpdater::slotDownloadFile()
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
     }
-    //! [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownloadFile download file]
 }
 
 void CFrmUpdater::slotCheckXmlFile()
@@ -370,7 +381,13 @@ void CFrmUpdater::slotCheckXmlFile()
     CheckUpdateXmlFile();
 }
 
-/*
+/*!
+ * \brief 检查重定向配置文件
+ * \details
+ * 重定向配置文件格式：
+ * 
+ * \code
+ 
    <?xml version="1.0" encoding="UTF-8"?>
    <REDIRECT>
        <VERSION>v0.0.1</VERSION>
@@ -395,6 +412,8 @@ void CFrmUpdater::slotCheckXmlFile()
            <URL>...</URL>
        </ANDROID>   
    </REDIRECT>
+   
+ * \endcode
  */
 int CFrmUpdater::CheckRedirectXmlFile()
 {
@@ -412,7 +431,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
         QString szError = tr("Parse file %1 fail. It isn't xml file")
                 .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
-        qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
+        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
         m_DownloadFile.close();
         emit sigError();
         return -2;
@@ -440,14 +459,12 @@ int CFrmUpdater::CheckRedirectXmlFile()
     szOS = "android";
     n = doc.documentElement().elementsByTagName("ANDROID");
 #elif defined (Q_OS_LINUX)
-    /*QFileInfo f(qApp->applicationFilePath());
+    QFileInfo f(qApp->applicationFilePath());
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {   
         szOS = "linux";
         n = doc.documentElement().elementsByTagName("LINUX");
-    }
-    else*/
-    {
+    } else {
         szOS = "linux_appimage";
         n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
     }
@@ -466,14 +483,16 @@ int CFrmUpdater::CheckRedirectXmlFile()
 
     if(m_Urls.isEmpty())
     {
+        // [Update xml file default urls]
         QUrl github("https://github.com/KangLin/"
                    + qApp->applicationName() + "/releases/download/"
                    + szVersion + "/update_" + szOS + ".xml");
         m_Urls.push_back(github);
         QUrl sourceforge("https://sourceforge.net/projects/"
                          + qApp->applicationName() +"/files/"
-                         + szVersion + "/update_windows.xml/download");
+                         + szVersion + "/update_" + szOS + ".xml/download");
         m_Urls.push_back(sourceforge);
+        // [Update xml file default urls]
     }
 
     qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
@@ -483,7 +502,12 @@ int CFrmUpdater::CheckRedirectXmlFile()
     return 0;
 }
 
-/*
+/*!
+ * \brief 检查更新配置文件
+ * \details
+ * 
+ * \code
+ 
    <?xml version="1.0" encoding="UTF-8"?>
    <UPDATE>
     <VERSION>v0.0.1</VERSION>
@@ -503,6 +527,8 @@ int CFrmUpdater::CheckRedirectXmlFile()
     <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
     
    </UPDATE>
+   
+ * \endcode
  */
 int CFrmUpdater::CheckUpdateXmlFile()
 {
@@ -726,9 +752,17 @@ void CFrmUpdater::slotUpdate()
         QFileInfo fi(m_DownloadFile.fileName());
         if(fi.suffix().compare("gz", Qt::CaseInsensitive))
         {
-            //启动安装程序  
-            if(!proc.startDetached(m_DownloadFile.fileName()))
+            QString szCmd;
+            szCmd = m_DownloadFile.fileName();
+            //启动安装程序
+            qInfo(FrmUpdater) << "Start"
+                              << szCmd
+                              << "in a new process, and detaches from it.";
+            if(!proc.startDetached(szCmd))
             {
+                qInfo(FrmUpdater) << "Start new process fial."
+                                  << "Use system installer to install"
+                                  << m_DownloadFile.fileName();
                 QUrl url(m_DownloadFile.fileName());
                 if(!QDesktopServices::openUrl(url))
                 {

@@ -65,10 +65,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 #ifdef BUILD_ARCH
     m_szArch = BUILD_ARCH;
 #endif
-    
-    m_szDate = __DATE__;
-    m_szTime = __TIME__;
-    
+
     m_szAuthor = tr("KangLin");
     m_szEmail = "kl222@126.com";
     m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
@@ -122,15 +119,31 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lbCopyrightIcon->setPixmap(QPixmap::fromImage(m_CopyrightIcon));
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
     ui->lblName->setText(m_szAppName);
-    ui->lbVersion->setText(tr("Version: %1 Arch: %2").arg(m_szVersion, m_szArch));
-    ui->lbQtVersion->setText(tr("Qt version:") + QT_VERSION_STR);
-    ui->lbDate->setText(tr("Build date:%1 %2").arg(m_szDate, m_szTime));
+    QString szVersion;
+    if(m_szVersionRevision.isEmpty())
+    {
+        szVersion = tr("Version: ") + m_szVersion + tr("Arch: ") + m_szArch;
+    } else {
+        if(m_szVersionRevisionUrl.isEmpty())
+        {
+            m_szVersionRevisionUrl =
+                    m_szHomePage + "/tree/" + m_szVersionRevision;
+        }
+        szVersion = tr("Version: ") + m_szVersion + tr(" (From revision: ")
+                + "<a href=\"" + m_szVersionRevisionUrl + "\">"
+                + m_szVersionRevision + "</a>) " + tr("Arch: ")
+                + m_szArch;
+    }
+    ui->lbVersion->setText(szVersion);
+    ui->lbVersion->setOpenExternalLinks(true);
+    ui->lbQtVersion->setText(tr("Qt version: ") + QT_VERSION_STR);
+    ui->lbDate->setText(tr("Build date: ") + BuildTime());
     ui->lbAuthor->setText(tr("Author: ") + m_szAuthor
                           + tr(" Email: ") + "<a href=\"" + m_szEmail + "\">"
                           + m_szEmail + "</a>");
+    ui->lbAuthor->setOpenExternalLinks(true);
     ui->lbHome->setOpenExternalLinks(true);
-    
-    ui->lbHome->setText(tr("Home page:") + "<a href=\"" + m_szHomePage + "\">"
+    ui->lbHome->setText(tr("Home page: ") + "<a href=\"" + m_szHomePage + "\">"
                         + m_szHomePage + "</a>");
     if(m_szCopyright.isEmpty())
     {
@@ -295,10 +308,16 @@ int CDlgAbout::DownloadFile(const QUrl &url)
     Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>&)),
                     this, SLOT(slotSslError(const QList<QSslError>&)));
+    Q_ASSERT(check);
     check = connect(m_pReply, SIGNAL(finished()),
                     this, SLOT(slotFinished()));
-
+    Q_ASSERT(check);
     return nRet;
+}
+
+QString CDlgAbout::BuildTime()
+{
+    return QString(__DATE__) + " " + __TIME__;
 }
 
 void CDlgAbout::slotFinished()

@@ -7,6 +7,7 @@ include(CMakeParseArguments)
 include(GenerateExportHeader)
 
 include(CPackComponent)
+#include(CPack) 需要的项目的 CMakeLists.txt 中加入此行
 
 SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
 if(CMAKE_MFC_FLAG)
@@ -18,7 +19,13 @@ endif()
 if(LOWER_BUILD_TYPE STREQUAL "debug")
     set(CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
 endif()
+set(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT DependLibraries)
 include(InstallRequiredSystemLibraries)
+
+cpack_add_component(DependLibraries
+    DISPLAY_NAME  "DependLibraries"
+    DESCRIPTION   "Depend Libraries"
+    )
 
 cpack_add_component(Development
     DISPLAY_NAME  "Development"
@@ -29,6 +36,7 @@ cpack_add_component(Development
 cpack_add_component(Runtime
     DISPLAY_NAME  "Runtime"
     DESCRIPTION   "Runtime"
+    DEPENDS DependLibraries
     )
 
 # 产生android平台分发设置
@@ -126,6 +134,53 @@ macro(SUBDIRLIST result curdir)
     set(${result} ${dirlist})
 endmacro()
 
+# 得到 GIT 库的版本
+# 输入参数：
+#   SOURCE_DIR: 库的根目录。默认：${CMAKE_SOURCE_DIR}
+# 输出参数：
+#   OUT_VERSION：版本号
+#   OUT_REVISION: 版本修正号
+function(GET_VERSION)
+    cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
+    # Find Git Version Patch
+
+    if(NOT DEFINED PARA_SOURCE_DIR)
+        set(PARA_SOURCE_DIR "${CMAKE_SOURCE_DIR}")
+    endif()
+
+    IF(EXISTS "${PARA_SOURCE_DIR}/.git")
+        if(NOT GIT)
+            SET(GIT $ENV{GIT})
+        endif()
+        if(NOT GIT)
+            FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+        endif()
+        IF(GIT)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${PARA_SOURCE_DIR}
+                COMMAND ${GIT} describe --tags
+                OUTPUT_VARIABLE _OUT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${PARA_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE _OUT_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            IF(NOT _OUT_VERSION)
+                SET(_OUT_VERSION ${_OUT_REVISION})
+            ENDIF()
+            IF(DEFINED PARA_OUT_VERSION)
+                SET(${PARA_OUT_VERSION} ${_OUT_VERSION} PARENT_SCOPE)
+            ENDIF()
+            IF(DEFINED PARA_OUT_REVISION)
+                SET(${PARA_OUT_REVISION} ${_OUT_REVISION} PARENT_SCOPE)
+            ENDIF()
+        ELSE()
+            message("Git is not exist. please set the value GIT to git")
+        ENDIF()
+    ENDIF()
+endfunction()
+
 # Install QIcon theme
 # SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
 # DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
@@ -133,10 +188,10 @@ option(INSTALL_STYLE_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
 
-    if(NOT DEFINED SOURCES)
+    if(NOT DEFINED PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/)
     endif()
-    if(NOT DEFINED DESTINATION)
+    if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION assets/data/icons)
         else()
@@ -163,7 +218,7 @@ function(INSTALL_TARGETS)
         return()
     endif()
 
-    if(NOT DEFINED DESTINATION)
+    if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION "libs/${ANDROID_ABI}")
         elseif(WIN32)
@@ -172,16 +227,16 @@ function(INSTALL_TARGETS)
             set(PARA_DESTINATION "${CMAKE_INSTALL_LIBDIR}")
         endif()
     endif()
-
+    
     foreach(component ${PARA_TARGETS})
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT Runtime)
-        if(NOT ANDROID AND UINX)
+        IF(NOT ANDROID AND UNIX)
             INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT Runtime)
-        endif()
+        ENDIF()
     endforeach()
 endfunction()
 
@@ -261,9 +316,9 @@ function(INSTALL_TARGET)
                 --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                 --verbose 7
                 --no-translations
-                --dir ${CMAKE_BINARY_DIR}/bin
-                --libdir ${CMAKE_BINARY_DIR}/bin
-                --plugindir ${CMAKE_BINARY_DIR}/bin
+                --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                 "$<TARGET_FILE:${PARA_NAME}>"
                 )
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
@@ -458,6 +513,9 @@ function(INSTALL_TARGET)
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
                     --no-translations
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                     "$<TARGET_FILE:${PARA_NAME}>"
                     )
             ELSE(MINGW)
@@ -466,16 +524,18 @@ function(INSTALL_TARGET)
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
-                    #--no-translations
-                    #--dir "$<TARGET_FILE_DIR:${PARA_NAME}>"
+                    --no-translations
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                     "$<TARGET_FILE:${PARA_NAME}>"
                     )
             ENDIF(MINGW)
 
             if(DEFINED PARA_ISEXE)
-                INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-                    DESTINATION "${PARA_RUNTIME}"
-                        COMPONENT Runtime)
+                INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
+                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                        COMPONENT DependLibraries)
             endif()
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
         
@@ -625,6 +685,7 @@ function(ADD_TARGET)
             if(MINGW)
                 set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS "-mwindows")
             elseif(MSVC)
+                # 程序以windows方式启动，不出现控制台窗口
                 if(Qt5_VERSION VERSION_LESS "5.7.0")
                     set_target_properties(${PARA_NAME} PROPERTIES LINK_FLAGS
                         "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")
@@ -678,17 +739,6 @@ function(ADD_TARGET)
             DESTINATION ${CMAKE_BINARY_DIR})
     endif(PARA_ISEXE)
 
-    IF(MSVC)
-        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
-        MARK_AS_ADVANCED(WIN32_USE_MP)
-        IF(WIN32_USE_MP)
-            target_compile_options(${PARA_NAME} PRIVATE /MP)
-        ENDIF(WIN32_USE_MP)
-        target_compile_options(${PARA_NAME} PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-        target_compile_options(${PARA_NAME} PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-    ENDIF(MSVC)
-
     if(DEFINED PARA_OUTPUT_DIR)
         set_target_properties(${PARA_NAME} PROPERTIES
             LIBRARY_OUTPUT_DIRECTORY ${PARA_OUTPUT_DIR}
@@ -723,30 +773,51 @@ function(ADD_TARGET)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
     endif()
 
+    # Target compile definitions
+    target_compile_definitions(${PARA_NAME} PRIVATE
+        $<$<CONFIG:Debug>:_DEBUG DEBUG>
+        )
     if(DEFINED PARA_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PUBLIC ${PARA_DEFINITIONS})
     endif()
-    
     if(DEFINED PARA_PRIVATE_DEFINITIONS AND PARA_PRIVATE_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PRIVATE ${PARA_PRIVATE_DEFINITIONS})
     endif()
 
+    # Target include directories
     if(DEFINED PARA_INCLUDE_DIRS AND PARA_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PUBLIC ${PARA_INCLUDE_DIRS})
     endif()
-
     if(DEFINED PARA_PRIVATE_INCLUDE_DIRS AND PARA_PRIVATE_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_INCLUDE_DIRS})
     endif()
     
+    # Target compile options
+    IF(MSVC)
+        # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
+        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
+        MARK_AS_ADVANCED(WIN32_USE_MP)
+        IF(WIN32_USE_MP)
+            target_compile_options(${PARA_NAME} PRIVATE /MP)
+        ENDIF(WIN32_USE_MP)
+    ENDIF(MSVC)
+    target_compile_options(${PARA_NAME} PRIVATE
+        "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
+        "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+        $<$<CXX_COMPILER_ID:GNU,Clang>:$<IF:$<CONFIG:Debug>, -g -ggdb, -O3>>)
+    if(NOT MINGW)
+        target_compile_options(${PARA_NAME} PRIVATE
+            $<$<CXX_COMPILER_ID:GNU,Clang>:-fPIC>
+        )
+    endif()
     if(DEFINED PARA_OPTIONS)
         target_compile_options(${PARA_NAME} PUBLIC ${PARA_OPTIONS})
     endif()
-
     if(DEFINED PARA_PRIVATE_OPTIONS)
         target_compile_options(${PARA_NAME} PRIVATE ${PARA_PRIVATE_OPTIONS})
     endif()
 
+    # Target compile features
     if(DEFINED PARA_FEATURES)
         target_compile_features(${PARA_NAME} PUBLIC ${PARA_FEATURES})
     endif()

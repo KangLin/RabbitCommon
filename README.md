@@ -152,14 +152,9 @@ Qt common library. include follow functions:
 
       + CMakeLists.txt in the project used
 
-              SET(APP_LIBS ${PROJECT_NAME} ${QT_LIBRARIES})
+              SET(APP_LIBS ${QT_LIBRARIES})
               if(TARGET RabbitCommon)
-                  target_compile_definitions(${PROJECT_NAME}
-                                  PRIVATE -DRABBITCOMMON)
-                  target_include_directories(${PROJECT_NAME}
-                                  PRIVATE ${RabbitCommon_DIR}/Src
-                                          ${CMAKE_BINARY_DIR})
-                  set(APP_LIBS ${APP_LIBS} RabbitCommon)
+                  list(APPEND APP_LIBS RabbitCommon)
               endif()
               target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
 
@@ -335,7 +330,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v1.0.7</VERSION>
+              <VERSION>v1.0.8</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>

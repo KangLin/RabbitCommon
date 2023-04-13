@@ -74,8 +74,6 @@ namespace RabbitCommon {
 class RABBITCOMMON_EXPORT CDir
 {
 public:
-    CDir();
-    
     static CDir* Instance();
      
     QString GetDirApplication();
@@ -124,6 +122,8 @@ public:
 #endif //HAVE_GUI
 
 private:
+    CDir();
+
     QString m_szDocumentPath;
     QString m_szApplicationDir;
     QString m_szApplicationRootDir;

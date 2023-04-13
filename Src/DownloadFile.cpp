@@ -62,6 +62,7 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
 {
     int nRet = 0;
 
+    m_nBytesReceived = 0;
     QSharedPointer<QFile> file;
     if(bRedirection)
     {

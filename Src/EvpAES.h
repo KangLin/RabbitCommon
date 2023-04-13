@@ -15,6 +15,7 @@ typedef struct evp_cipher_st EVP_CIPHER;
 /*!
  * \brief The EvpAES class
  * \note This class is intended for internal use only
+ * \ingroup INTERNAL_API
  */
 class EvpAES
 {

@@ -33,8 +33,13 @@ Abstract:
 #include <QtNetwork/QNetworkReply>
 
 /*!
- * \~english \defgroup API Application interface
- * \~chinese \defgroup API 应用程序接口
+ * \~english
+ * \defgroup API Application interface
+ * \defgroup INTERNAL_API Internal API of RabbitCommon
+ * 
+ * \~chinese
+ * \defgroup API 应用程序接口
+ * \defgroup INTERNAL_API RabbitCommon 内部使用接口
  */
 
 namespace Ui {
@@ -79,8 +84,9 @@ public:
     QString m_szAppName;
     QImage m_AppIcon;
     QString m_szVersion;
+    QString m_szVersionRevision;
+    QString m_szVersionRevisionUrl;
     QString m_szArch;
-    QString m_szDate, m_szTime;
     QString m_szAuthor;
     QString m_szEmail;
     QString m_szHomePage;
@@ -118,7 +124,9 @@ private:
      * @return 
      */
     int DownloadFile(const QUrl &url);
-    
+
+    QString BuildTime();
+
     QWidget* m_pLicense;
     QWidget* m_pChangeLog;
     QWidget* m_pThanks;

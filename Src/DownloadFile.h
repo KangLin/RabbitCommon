@@ -26,7 +26,7 @@ namespace RabbitCommon {
  * \~english
  * \brief Download the same file from multiple URLs
  * 
- * - Usge:
+ * - Usage:
  *   - Instantiate the object of RabbitCommon::CDownloadFile:
  *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownloadFile
  *   - Add the slot functions of RabbitCommon::CDownloadFile:

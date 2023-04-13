@@ -14,6 +14,9 @@ namespace RabbitCommon
  *
  * \~english An interface to run programs with elevated rights
  * \note This class is intended for internal use only
+ * 
+ * \~
+ * \ingroup INTERNAL_API
  */
 class CAdminAuthoriser
 {

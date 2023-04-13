@@ -21,10 +21,12 @@
 #include "FrmStyle/FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
+#include "FolderBrowser/FolderBrowser.h"
 
 #include <QDir>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QDockWidget>
 
 Q_LOGGING_CATEGORY(windowLog, "RabbitCommon.MainWindow")
 
@@ -34,12 +36,19 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
+
+    // [Use CFolderBrowser]
+    CFolderBrowser* pDock = new CFolderBrowser(tr("Folder browser"), this);
+    addDockWidget(Qt::LeftDockWidgetArea, pDock);
+    // Add the action of dock to menu
+    ui->menuTools->addAction(pDock->toggleViewAction());
+    // [Use CFolderBrowser]
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     qApp->quit();
+    delete ui;
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -61,19 +70,22 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-#ifdef HAVE_UPDATE
-    CFrmUpdater *update = new CFrmUpdater();
-    update->setAttribute(Qt::WA_QuitOnClose, true);
-    update->SetTitle(QImage(":/icon/RabbitCommon/App"));
-    if(!update->GenerateUpdateXml())
-        return;
-#if defined (Q_OS_ANDROID)
-    update->showMaximized();
-#else
-    update->show();
-#endif
-#endif
-    
+    // [Use CFrmUpdater]
+    CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
+    QIcon icon = windowIcon();
+    if(icon.isNull()) return;
+    auto sizeList = icon.availableSizes();
+    if(sizeList.isEmpty()) return;
+    QPixmap p = icon.pixmap(*sizeList.begin());
+    m_pfrmUpdater->SetTitle(p.toImage());
+    m_pfrmUpdater->SetInstallAutoStartup();
+    #if defined (Q_OS_ANDROID)
+        m_pfrmUpdater->showMaximized();
+    #else
+        m_pfrmUpdater->show();
+    #endif
+    // [Use CFrmUpdater]
+
 #ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(update);
 #endif

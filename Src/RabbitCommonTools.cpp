@@ -13,6 +13,7 @@
 #ifdef HAVE_GUI
 #include <QApplication>
 #include <QIcon>
+#include <QMainWindow>
 #include "RabbitCommonStyle.h"
 #else
 #include <QCoreApplication>
@@ -126,7 +127,7 @@ void CTools::InitTranslator(const QString szLanguage)
         if(!ret)
             qCritical(Logger) << "translator install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "translator load fail: %s" << szFile;
+        qCritical(Logger) << "translator load fail:" << szFile;
 
     szFile = CDir::Instance()->GetDirApplication()
             + QDir::separator() + "translations"
@@ -138,7 +139,7 @@ void CTools::InitTranslator(const QString szLanguage)
         if(!ret)
             qCritical(Logger) << "Qt translator install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "Qt translator load fail: %s" << szFile;
+        qCritical(Logger) << "Qt translator load fail:" << szFile;
 }
 
 void CTools::CleanTranslator()
@@ -159,6 +160,7 @@ void CTools::CleanResource()
 
 bool CTools::EnableCoreDump(bool bPrompt)
 {
+    Q_UNUSED(bPrompt);
 #ifdef Q_OS_WIN
     //static RabbitCommon::CMiniDumper dumper(bPrompt);
     RabbitCommon::EnableMiniDumper();
@@ -181,52 +183,39 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     Q_UNUSED(szName)
     Q_UNUSED(szPath)
     Q_UNUSED(bAllUser)
-    QString appName = QCoreApplication::applicationName();
-    if(!szName.isEmpty())
-        appName = szName;
-#if defined (Q_OS_WIN)
+
     QString appPath = QApplication::applicationFilePath();
     if(!szPath.isEmpty())
         appPath = szPath;
     if(bAllUser)
         return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();
-#elif defined(Q_OS_ANDROID)
-    //TODO: See https://www.cnblogs.com/jetereting/p/4572302.html
-    
-    return 0;
-#elif defined(Q_OS_UNIX)
     //See: debian/postinst and Install/install.sh
     //Ubuntu use gnome-session-properties
-    // ~/.config/autostart 和 /etc/xdg/autostart/
+    // - Current user: ~/.config/autostart
+    // - All user: /etc/xdg/autostart/
     //https://blog.csdn.net/DinnerHowe/article/details/79025282
-    QString szDesktop = "/opt/" + appName + "/share/applications/" + appName +".desktop";
-    QString szLink;
-    if(bAllUser)
-    {
-        szLink = "/etc/xdg";
-    } else {
-        szLink = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
-                    + "/.config";
-    }
-    szLink += "/autostart/" + appName + ".desktop";
+    QString szLink = CRegister::GetDesktopFileLink(szName, bAllUser);
+    if(QFile::exists(szLink))
+        if(RemoveStartRun(szName, bAllUser))
+        {
+            qCCritical(Logger) << "RemoveStartRun" << szName << "fail";
+            return -1;
+        }
 
-    QDir d;
-    if(d.exists(szLink))
-        RemoveStartRun(szName, bAllUser);
-
-    QFile f(szDesktop);
+    appPath = CRegister::GetDesktopFileName(szPath, szName);
+    QFile f(appPath);
     bool ret = f.link(szLink);
     if(!ret)
     {
-        QString szCmd = "ln -s " + szDesktop + " " + szLink;
+        QString szCmd = "ln -s " + appPath + " " + szLink;
         if(!executeByRoot(szCmd))
             qCritical(Logger) << "CTools::InstallStartRun: file link"
                               << f.fileName() << " to " << szLink << f.error();
         return -1;
     }
     return 0;
-#endif
+
 }
 
 int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
@@ -235,88 +224,43 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
     QString appName = QCoreApplication::applicationName();
     if(!szName.isEmpty())
         appName = szName;
-#if defined (Q_OS_WIN)
     if(bAllUser)
         return RabbitCommon::CRegister::RemoveStartRun();
     return RabbitCommon::CRegister::RemoveStartRunCurrentUser();
-#elif defined(Q_OS_ANDROID)
-    
-    return 0;
-#elif defined(Q_OS_UNIX)
-    QString szLink;
-    if(bAllUser)
-    {
-        szLink = "/etc/xdg";
-    } else {
-        szLink = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
-                    + "/.config";
-    }
-    szLink += "/autostart/" + appName + ".desktop";
-    QDir d;
-    if(d.exists(szLink))
-    {
-        if(d.remove(szLink))
-            return 0;
 
-        QString szCmd = "rm " + szLink;
-        if(!executeByRoot(szCmd))
-            qCritical(Logger) << "CTools::RemoveStartRun: Remove" << szLink << "fail";
-        return -1;
-    }
-    return 0;
-#endif
+    QString szLink = CRegister::GetDesktopFileLink(szName, bAllUser);
+    if(!QFile::exists(szLink)) return 0;
+
+    QDir d;
+    if(d.remove(szLink)) return 0;
+    
+    QString szCmd = "rm " + szLink;
+    if(executeByRoot(szCmd)) return 0;
+    qCritical(Logger) << "execute" << szCmd << "fail";
+    return -1;
+
 }
 
 bool CTools::IsStartRun(const QString &szName, bool bAllUser)
 {
     Q_UNUSED(szName);
-    QString appName = QCoreApplication::applicationName();
-    if(!szName.isEmpty())
-        appName = szName;
 
-#if defined (Q_OS_WIN)
     if(bAllUser)
         return RabbitCommon::CRegister::IsStartRun();
     return RabbitCommon::CRegister::IsStartRunCurrentUser();
-#elif defined(Q_OS_ANDROID)
-    
-    return false;
-#elif defined(Q_OS_UNIX)
-    QString szLink;
-    if(bAllUser)
-    {
-        szLink = "/etc/xdg";
-    } else {
-        szLink = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
-                    + "/.config";
-    }
-    szLink += "/autostart/" + appName + ".desktop";
-    QFileInfo fi(szLink);
-    QFile f(fi.absoluteFilePath());
-    if(f.open(QFile::ReadOnly))
-    {
-        f.close();
+
+    QString szLink = CRegister::GetDesktopFileLink(szName, bAllUser);
+    if(QFile::exists(szLink))
         return true;
-    }
-    
-    //qDebug(Logger) << "CTools::IsStartRun: Open" << f.fileName() <<  "file fail" << f.error() << f.errorString();
     return false;
-#endif
 }
 
 int CTools::GenerateDesktopFile(const QString &szPath,
-                                const QString &szAppName)
+                                const QString &szName)
 {
     int nRet = 0;
-    QString szFile = "/usr/share/applications";
-    if(!szPath.isEmpty())
-        szFile = szPath;
 
-    QString szName = qApp->applicationName();
-    if(!szAppName.isEmpty())
-        szName = szAppName;
-
-    szFile += QDir::separator() + szName + ".desktop";
+    QString szFile = CRegister::GetDesktopFileName(szPath, szName);
 
     QString szContent;
     szContent = "[Desktop Entry]\n";
@@ -388,5 +332,39 @@ void CTools::OpenLogFolder()
     RabbitCommon::OpenLogFolder();
 #endif
 }
+
+#ifdef HAVE_GUI
+int CTools::RestoreWidget(QWidget *pWidget)
+{
+    int nRet = 0;
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    QByteArray geometry
+            = set.value("MainWindow/Status/Geometry").toByteArray();
+    if(!geometry.isEmpty())
+        pWidget->restoreGeometry(geometry);
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
+    if(pMainWindow) {
+        QByteArray state = set.value("MainWindow/Status/State").toByteArray();
+        if(!state.isEmpty())
+            pMainWindow->restoreState(state);
+    }
+    return nRet;
+}
+
+int CTools::SaveWidget(QWidget *pWidget)
+{
+    int nRet = 0;
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+
+    set.setValue("MainWindow/Status/Geometry", pWidget->saveGeometry());
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
+    if(pMainWindow) {
+        set.setValue("MainWindow/Status/State", pMainWindow->saveState());
+    }
+    return nRet;
+}
+#endif
 
 } //namespace RabbitCommon

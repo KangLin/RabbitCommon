@@ -28,3 +28,12 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
         ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
         COPYONLY)
 endif()
+
+if(NOT ANDROID AND UNIX)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
+        DESTINATION "share/applications" COMPONENT Runtime)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
+        DESTINATION "share/pixmaps" COMPONENT Runtime)
+    INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonTests.sh
+        DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
+endif()

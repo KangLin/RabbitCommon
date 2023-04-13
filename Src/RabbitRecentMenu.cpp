@@ -13,61 +13,71 @@ namespace RabbitCommon {
 static const qint32 RecentFilesMenuMagic = 0xff;
 
 CRecentMenu::CRecentMenu(QWidget * parent)
-    : QMenu(parent)
-    , m_maxCount(10)
-    , m_format(QLatin1String("%d %s"))
-    , m_DisableSaveState(false)
+    : QMenu(parent),
+    m_maxCount(10),
+    m_format(QLatin1String("%d %s")),
+    m_DisableSaveState(false),
+    m_bUpdate(true)
 {
-    connect(this, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
-    
+    bool check = connect(this, SIGNAL(triggered(QAction*)),
+                         this, SLOT(menuTriggered(QAction*)));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(aboutToShow()),
+                    this, SLOT(updateRecentFileActions()));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(sigSaveState()), this, SLOT(slotSaveState()));
+    Q_ASSERT(check);
+
     setMaxCount(m_maxCount);
     if(!m_DisableSaveState)
     {
-        QSettings settings(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+        QSettings settings(
+                    RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                    QSettings::IniFormat);
         restoreState(settings.value("RecentOpen").toByteArray());
     }
 }
 
 CRecentMenu::CRecentMenu(const QString & title, QWidget * parent)
-    : QMenu(title, parent)
-    , m_maxCount(10)
-    , m_format(QLatin1String("%d %s"))
+    : CRecentMenu(parent)
 {
-    connect(this, SIGNAL(triggered(QAction*)), this, SLOT(menuTriggered(QAction*)));
-    
-    setMaxCount(m_maxCount);
+    setTitle(title);
+}
+
+CRecentMenu::CRecentMenu(const QString& title, const QIcon& icon, QWidget * parent)
+    : CRecentMenu(title, parent)
+{
+    setIcon(icon);
 }
 
 void CRecentMenu::addRecentFile(const QString &fileName, const QString &title)
 {
     _Content content(title, fileName);
-    
+
     m_OpenContent.removeAll(content);
     m_OpenContent.prepend(content);
-    
+
     while (m_OpenContent.size() > maxCount())
         m_OpenContent.removeLast();
-    
-    updateRecentFileActions();
-    
-    if(!m_DisableSaveState)
-    {
-        QSettings settings(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-        settings.setValue("RecentOpen", saveState());
-    }
+
+    m_bUpdate = true;
+
+    emit sigSaveState();
 }
 
 void CRecentMenu::clearMenu()
 {
     m_OpenContent.clear();
-    
-    updateRecentFileActions();
-    
-    if(!m_DisableSaveState)
-    {
-        QSettings settings(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-        settings.setValue("RecentOpen", saveState());
-    }
+    m_bUpdate = true;
+    emit sigSaveState();
+}
+
+void CRecentMenu::setMaxCount(int count)
+{
+    if(m_maxCount == count) return;
+    m_maxCount = count;
+    m_bUpdate = true;
+    emit sigSaveState();
 }
 
 int CRecentMenu::maxCount() const
@@ -77,14 +87,13 @@ int CRecentMenu::maxCount() const
 
 void CRecentMenu::setFormat(const QString &format)
 {
-    if (m_format == format)
-        return;
+    if (m_format == format) return;
     m_format = format;
-    
-    updateRecentFileActions();
+    m_bUpdate = true;
+    emit sigSaveState();
 }
 
-const QString & CRecentMenu::format() const
+const QString& CRecentMenu::format() const
 {
     return m_format;
 }
@@ -97,12 +106,15 @@ bool CRecentMenu::disableSaveState(bool disable)
 
 QByteArray CRecentMenu::saveState() const
 {
-    int version = 0;
+    //TODO: modify version when modify save data
+    int version = 1;
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    
+
     stream << qint32(RecentFilesMenuMagic);
     stream << qint32(version);
+    stream << m_format;
+    stream << m_maxCount;
     stream << m_OpenContent;
     
     return data;
@@ -110,29 +122,27 @@ QByteArray CRecentMenu::saveState() const
 
 bool CRecentMenu::restoreState(const QByteArray &state)
 {
-    int version = 0;
     QByteArray sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
-    qint32 marker;
-    qint32 v;
-    
-    stream >> marker;
-    stream >> v;
-    if (marker != RecentFilesMenuMagic || v != version)
-        return false;
-    
-    stream >> m_OpenContent;
-    
-    updateRecentFileActions();
-    
-    return true;
-}
+    qint32 magic;
+    qint32 version = 1; //TODO: modify version when modify save data
 
-void CRecentMenu::setMaxCount(int count)
-{
-    m_maxCount = count;
-    
-    updateRecentFileActions();
+    stream >> magic;
+    stream >> version;
+    if (magic != RecentFilesMenuMagic)
+        return false;
+
+    //TODO: modify version when modify save data
+    if(version >= 1) {
+        stream >> m_format;
+        stream >> m_maxCount;
+    }
+
+    stream >> m_OpenContent;
+
+    m_bUpdate = true;
+
+    return true;
 }
 
 void CRecentMenu::menuTriggered(QAction* action)
@@ -143,29 +153,50 @@ void CRecentMenu::menuTriggered(QAction* action)
 
 void CRecentMenu::updateRecentFileActions()
 {
+    if(!m_bUpdate) return;
+
     int numRecentFiles = qMin(m_OpenContent.size(), maxCount());
-    
+
     clear();
-    
+
     for (int i = 0; i < numRecentFiles; ++i) {
-        QString strippedName = m_OpenContent[i].m_szTitle;
-        if(strippedName.isEmpty())
-            strippedName = QFileInfo(m_OpenContent[i].m_szFile).fileName();
+        QString szdName = m_OpenContent[i].m_szTitle;
+        QString szFile = m_OpenContent[i].m_szFile;
+        if(szdName.isEmpty())
+            szdName = QFileInfo(szFile).fileName();
         
         QString text = m_format;
         text.replace(QLatin1String("%d"), QString::number(i + 1));
-        text.replace(QLatin1String("%s"), strippedName);
+        text.replace(QLatin1String("%s"), szdName);
         
         QAction* recentFileAct = addAction(text);
-        recentFileAct->setData(m_OpenContent[i].m_szFile);
-        recentFileAct->setToolTip(tr("Recent open:") + m_OpenContent[i].m_szFile);
-        recentFileAct->setStatusTip(tr("Recent open:") + m_OpenContent[i].m_szFile);
-        recentFileAct->setWhatsThis(tr("Recent open:") + m_OpenContent[i].m_szFile);
+        QFileInfo fi(szFile);
+        recentFileAct->setEnabled(fi.exists());
+        recentFileAct->setData(szFile);
+        QString szMsg;
+        if(fi.exists())
+            szMsg = tr("Recent open: ") + szFile;
+        else
+            szMsg = tr("The file is not exists. ") + szFile;
+        recentFileAct->setToolTip(szMsg);
+        recentFileAct->setStatusTip(szMsg);
+        recentFileAct->setWhatsThis(szMsg);
     }
     addSeparator();
     addAction(tr("Clear Menu"), this, SLOT(clearMenu()));
     
     setEnabled(numRecentFiles > 0);
+}
+
+void CRecentMenu::slotSaveState()
+{
+    if(m_DisableSaveState)
+        return;
+
+    QSettings settings(
+                RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                QSettings::IniFormat);
+    settings.setValue("RecentOpen", saveState());
 }
 
 QDataStream& operator<< (QDataStream& d, const CRecentMenu::_Content& c)

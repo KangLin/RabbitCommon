@@ -9,38 +9,7 @@ project(RabbitCommon)
 
 set(CMAKE_CXX_STANDARD 11)
 
-SET(RabbitCommon_VERSION "v1.0.7")
-SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
-# Find Git Version Patch
-IF(EXISTS "${RABBITCOMMON_SOURCE_DIR}/.git")
-    if(NOT GIT)
-        SET(GIT $ENV{GIT})
-    endif()
-    if(NOT GIT)
-        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
-    endif()
-    IF(GIT)
-        EXECUTE_PROCESS(
-            WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
-            COMMAND ${GIT} describe --tags
-            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        if(NOT GIT_VERSION)
-            EXECUTE_PROCESS(
-                WORKING_DIRECTORY ${RABBITCOMMON_SOURCE_DIR}
-                COMMAND ${GIT} rev-parse --short HEAD
-                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
-        endif()
-        SET(RabbitCommon_VERSION ${GIT_VERSION})
-    ENDIF()
-ENDIF()
-message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
-set(VERSION ${RabbitCommon_VERSION})
-
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
-
-list(APPEND RabbitCommon_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
 
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
@@ -79,6 +48,13 @@ include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 
+SET(RabbitCommon_VERSION "v1.0.8")
+SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
+    OUT_VERSION RabbitCommon_VERSION)
+message("RabbitCommon_VERSION: ${RabbitCommon_VERSION}")
+set(VERSION ${RabbitCommon_VERSION})
+
 SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
@@ -96,6 +72,8 @@ if(WITH_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
         FrmStyle/FrmStyle.h
+        TitleBar.h
+        FolderBrowser/FolderBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         RabbitCommonStyle.h
@@ -104,9 +82,13 @@ if(WITH_GUI)
         RabbitRecentMenu.cpp
         RabbitCommonStyle.cpp
         FrmStyle/FrmStyle.cpp
+        TitleBar.cpp
+        FolderBrowser/FolderBrowser.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
-        FrmStyle/FrmStyle.ui)
+        FrmStyle/FrmStyle.ui
+        FolderBrowser/FolderBrowser.ui
+        )
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
@@ -294,7 +276,8 @@ option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON
 if(BUILD_ADMINAUTHORISER)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
     list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthoriser.cpp)
-    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h)
+    list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h
+        AdminAuthoriser/adminauthoriser.h)
     if(WIN32)
         list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_win.cpp)
     elseif(MAC)
@@ -307,81 +290,102 @@ if(BUILD_ADMINAUTHORISER)
 endif(BUILD_ADMINAUTHORISER)
 
 OPTION(INSTALL_LOG_CONFIG_FILE "Install configure files" OFF)
-
-find_package(Log4Qt)
-if(Log4Qt_FOUND)
-    set(CMAKE_CXX_STANDARD 17)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
-    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
-    LIST(APPEND _QT_COMPONENTS Concurrent)
-    INSTALL_TARGETS(TARGETS Log4Qt::log4qt)
-    # Install log4qt.properties configure file
-    if(INSTALL_LOG_CONFIG_FILE)
-        if(ANDROID)
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
-                DESTINATION assets/etc
-                COMPONENT Runtime
-                )
-        else()
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
-                DESTINATION etc
-                COMPONENT Runtime
-                )
+OPTION(WITH_LOG4QT "Use log4qt library" OFF)
+if(WITH_LOG4QT)
+    find_package(Log4Qt)
+    if(Log4Qt_FOUND)
+        set(CMAKE_CXX_STANDARD 17)
+        set(CMAKE_CXX_STANDARD_REQUIRED ON)
+        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
+        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
+        LIST(APPEND _QT_COMPONENTS Concurrent)
+        INSTALL_TARGETS(TARGETS Log4Qt::log4qt)
+        # Install log4qt.properties configure file
+        if(INSTALL_LOG_CONFIG_FILE)
+            if(ANDROID)
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
+                    DESTINATION assets/etc
+                    COMPONENT Runtime
+                    )
+            else()
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
+                    DESTINATION etc
+                    COMPONENT Runtime
+                    )
+            endif()
         endif()
+    else()
+        message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")
     endif()
-else()
-    message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")
 endif()
 
-find_package(log4cxx)
-if(log4cxx_FOUND)
-    set(CMAKE_CXX_STANDARD 11)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+OPTION(WITH_LOG4CXX "Use log4cxx library" OFF)
+if(WITH_LOG4CXX)
+    find_package(log4cxx)
+    if(log4cxx_FOUND)
+        set(CMAKE_CXX_STANDARD 11)
+        set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CXX)
-    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cxx)
-    # Install log4cplus configure file
-    if(INSTALL_LOG_CONFIG_FILE)
-        if(ANDROID)
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
-                DESTINATION assets/etc
+        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CXX)
+        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cxx)
+        # Install log4cplus configure file
+        if(INSTALL_LOG_CONFIG_FILE)
+            if(ANDROID)
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
+                    DESTINATION assets/etc
                     COMPONENT Runtime)
-        else()
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
-                DESTINATION etc
+            else()
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
+                    DESTINATION etc
                     COMPONENT Runtime)
+            endif()
         endif()
+    else()
+        message("Download log4cxx http://gitbox.apache.org/repos/asf/logging-log4cxx.git")
     endif()
-else()
-    message("Download log4cxx http://gitbox.apache.org/repos/asf/logging-log4cxx.git")
 endif()
 
-find_package(log4cplus)
-message("log4cplus:${log4cplus_FOUND}")
-if(log4cplus_FOUND)
-    set(CMAKE_CXX_STANDARD 11)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+OPTION(WITH_LOG4CPLUS "Use log4cplus library" OFF)
+if(WITH_LOG4CPLUS)
+    find_package(log4cplus)
+    message("log4cplus:${log4cplus_FOUND}")
+    if(log4cplus_FOUND)
+        set(CMAKE_CXX_STANDARD 11)
+        set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-    #message("Found log4cplugs componts:${log4cplus_FIND_COMPONENTS}")
-    LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CPLUS)
-    LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cplus::log4cplus)
-    # Install log4cplus configure file
-    if(INSTALL_LOG_CONFIG_FILE)
-        if(ANDROID)
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
-                DESTINATION assets/etc
+        #message("Found log4cplugs componts:${log4cplus_FIND_COMPONENTS}")
+        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CPLUS)
+        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cplus::log4cplus)
+        # Install log4cplus configure file
+        if(INSTALL_LOG_CONFIG_FILE)
+            if(ANDROID)
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
+                    DESTINATION assets/etc
                     COMPONENT Runtime)
-        else()
-            INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
-                DESTINATION etc
+            else()
+                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
+                    DESTINATION etc
                     COMPONENT Runtime)
+            endif()
         endif()
+    else()
+        message("Download log4cplus from https://github.com/log4cplus/log4cplus")
     endif()
-else()
-    message("Download log4cplus from https://github.com/log4cplus/log4cplus")
 endif()
 
+if(INSTALL_LOG_CONFIG_FILE AND
+        NOT (WITH_LOG4QT OR WITH_LOG4CXX OR WITH_LOG4CPLUS) )
+    if(ANDROID)
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
+            DESTINATION assets/etc
+            COMPONENT Runtime)
+    else()
+        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
+            DESTINATION etc
+            COMPONENT Runtime)
+    endif()
+endif()
+    
 if(WIN32)
     list(APPEND RABBITCOMMON_HEAD_FILES CoreDump/MiniDumper.h)
     list(APPEND RABBITCOMMON_SOURCE_FILES CoreDump/MiniDumper.cpp
@@ -468,7 +472,6 @@ get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." AB
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
     INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -477,6 +480,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_INCLUDE_DIRS ${RABBITCOMMON_PRIVATE_INCLUDE_DIRS}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
+        $<$<CONFIG:Debug>:DEBUG _DEBUG>
     LIBS ${RABBIT_COMMON_LIBS}
     PRIVATE_LIBS ${RABBIT_PRIVATE_COMMON_LIBS}
     PRIVATE_OPTIONS ${PRIVATE_OPTIONS}

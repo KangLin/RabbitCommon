@@ -19,8 +19,7 @@ namespace RabbitCommon {
 
 /*!
  * \brief The CStyle class
- * \note Since 2.0.0, The class is an inner class.
- *       please use CFrmStyle instead.
+ * \ingroup INTERNAL_API
  */
 class RABBITCOMMON_EXPORT CStyle : public QObject
 {

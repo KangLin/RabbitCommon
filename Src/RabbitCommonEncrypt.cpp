@@ -30,7 +30,7 @@ CEncrypt::~CEncrypt()
 
 int CEncrypt::SetPassword(const char* pszPassword)
 {
-    int nLen = PASSWORD_LENGTH;
+    size_t nLen = PASSWORD_LENGTH;
     if(nLen > strlen(pszPassword))
         nLen = strlen(pszPassword);
 
