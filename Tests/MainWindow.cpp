@@ -62,7 +62,7 @@ void MainWindow::on_actionAbout_triggered()
     dlg->show();
 #endif
 #endif
-   
+
 #ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(dlg);
 #endif
@@ -87,7 +87,7 @@ void MainWindow::on_actionUpdate_triggered()
     // [Use CFrmUpdater]
 
 #ifdef BUILD_QUIWidget
-    QUIWidget::setFormInCenter(update);
+    QUIWidget::setFormInCenter(m_pfrmUpdater);
 #endif
 }
 

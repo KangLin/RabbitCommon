@@ -57,7 +57,8 @@ else: DEFINES *= RabbitCommon_EXPORTS
         $$PWD/TitleBar.h \
         $$PWD/FolderBrowser/FolderBrowser.h
     HEADERS += $$PWD/RabbitCommonStyle.h $${INSTALL_HEADERS}
-    FORMS += $$PWD/FrmStyle/FrmStyle.ui
+    FORMS += $$PWD/FrmStyle/FrmStyle.ui \
+       $$PWD/FolderBrowser/FolderBrowser.ui
     
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
