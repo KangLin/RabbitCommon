@@ -40,7 +40,7 @@
 - [x] [目录功能](Src/RabbitCommonDir.h)
 - [x] [加解密](Src/RabbitCommonEncrypt.h)
 - [x] [注册表](Src/RabbitCommonRegister.h)
-- [x] [样式](Src/FrmStyle.h)
+- [x] [样式(包括图标主题](Src/FrmStyle.h)
 - [x] [工具](Src/RabbitCommonTools.h)
   + [x] [用管理员权限执行程序](#管理员权限运行程序)
   + [x] [程序开机自启动](#程序开机自启动)
@@ -48,6 +48,8 @@
     - [x] 得到当前登录用户
   + [x] 允许 core dump
 - [x] [最近打开菜单](Src/RabbitRecentMenu.h)
+- [x] [自定义标题栏](Src/TitleBar.h)
+- [x] [文件夹浏览器](Src/FolderBrowser/FolderBrowser.h)
 - [x] cmake 函数
   + [x] 翻译资源
   + [x] 增加目标；插件目标

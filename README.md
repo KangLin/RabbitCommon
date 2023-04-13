@@ -36,7 +36,7 @@ Qt common library. include follow functions:
 - [x] [Directory functions](Src/RabbitCommonDir.h)
 - [x] [Encrypt](Src/RabbitCommonEncrypt.h)
 - [x] [Register](Src/RabbitCommonRegister.h)
-- [x] [Style](Src/FrmStyle/FrmStyle.h)
+- [x] [Style (include icon theme)](Src/FrmStyle/FrmStyle.h)
 - [x] Tools
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   + [x] [The program starts automatically](#the-program-starts-automatically)
@@ -44,6 +44,8 @@ Qt common library. include follow functions:
   + [x] [Get system information](#Get-system-information)
     - [x] [Get current login user name](#Get-current-login-user-name)
 - [x] [Recent open menu](Src/RabbitRecentMenu.h)
+- [x] [Title bar](Src/TitleBar.h)
+- [x] [Folder browser](Src/FolderBrowser/FolderBrowser.h)
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
