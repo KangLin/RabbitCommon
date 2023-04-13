@@ -1,10 +1,15 @@
-name: CMake mingw
+name: build_mingw
 
-on: [push]
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_mingw.outputs.name }}
 
 jobs:
-  build:
-    name: build
+  build_mingw:
+    name: build mingw
 
     strategy:
       matrix:
@@ -23,6 +28,11 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
+      artifact_name: build_mingw
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
 
     steps:
     - uses: actions/checkout@v2
@@ -104,3 +114,21 @@ jobs:
             -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake 
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+
+    - name: Package
+      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+      working-directory: ${{github.workspace}}\build
+      run: |
+        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+        copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
+        copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
+        copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
+        7z a RabbitCommon_mingw_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip .\install\*
+    
+    - name: Update artifact
+      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.artifact_name }}
+        path: |
+          RabbitCommon_mingw_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip

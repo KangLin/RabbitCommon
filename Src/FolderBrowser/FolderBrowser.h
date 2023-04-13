@@ -49,9 +49,7 @@ private:
     Ui::CFolderBrowser *ui;
     
     QFileSystemModel *m_pModel;
-    
-    QAction* m_pHideFile;
-    QAction* m_pDetails;
+
     bool m_bDetails;
 };
 

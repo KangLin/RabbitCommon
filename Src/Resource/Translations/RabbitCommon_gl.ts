@@ -156,6 +156,45 @@
     </message>
 </context>
 <context>
+    <name>CFolderBrowser</name>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="45"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="48"/>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="63"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="76"/>
+        <source>Don&apos;t show hidden files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="65"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="73"/>
+        <source>Show hidden files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="84"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="100"/>
+        <source>Show brief</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="89"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="105"/>
+        <source>Show details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FolderBrowser/FolderBrowser.ui" line="14"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="117"/>
+        <source>Folder browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CFrmStyle</name>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="14"/>
@@ -581,6 +620,29 @@
     <message>
         <location filename="../../RabbitRecentMenu.cpp" line="186"/>
         <source>Clear Menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RabbitCommon::CTitleBar</name>
+    <message>
+        <location filename="../../TitleBar.cpp" line="59"/>
+        <source>Minimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="67"/>
+        <source>Maximize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="75"/>
+        <source>Floating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../TitleBar.cpp" line="84"/>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

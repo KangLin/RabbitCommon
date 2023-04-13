@@ -14,8 +14,6 @@ CFolderBrowser::CFolderBrowser(const QString &title,
     : QDockWidget(title, parent, flags),
       ui(new Ui::CFolderBrowser),
       m_pModel(new QFileSystemModel(this)),
-      m_pHideFile(nullptr),
-      m_pDetails(nullptr),
       m_bDetails(false)
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
@@ -60,19 +58,20 @@ CFolderBrowser::CFolderBrowser(const QString &title,
         m_pModel->setFilter(f);
         if(QDir::Hidden & f)
         {
-            szTitle = tr("Disable hide files");
+            szTitle = tr("Don't show hidden files");
         } else {
-            szTitle = tr("Show hide files");
+            szTitle = tr("Show hidden files");
         }
-        m_pHideFile = pMenu->addAction(szTitle, this, [&](){
-            if(!(m_pHideFile && m_pModel)) return;
+       pMenu->addAction(szTitle, this, [&](){
+            QAction* p = qobject_cast<QAction*>(sender());
+            if(!(p && m_pModel)) return;
             QDir::Filters f = m_pModel->filter();
             if(QDir::Hidden & f)
             {
-                m_pHideFile->setText(tr("Show hide files"));
+                p->setText(tr("Show hidden files"));
                 m_pModel->setFilter(f & (~QDir::Hidden));
             } else {
-                m_pHideFile->setText(tr("Disable hide files"));
+                p->setText(tr("Don't show hidden files"));
                 m_pModel->setFilter(f | QDir::Hidden);
             }
         });
@@ -90,8 +89,9 @@ CFolderBrowser::CFolderBrowser(const QString &title,
             ui->treeView->header()->hideSection(2);
             ui->treeView->header()->hideSection(3);
         }
-        m_pDetails = pMenu->addAction(szTitle, this, [&](){
-            if(!(m_pDetails && m_pModel)) return;
+        pMenu->addAction(szTitle, this, [&](){
+            QAction* p = qobject_cast<QAction*>(sender());
+            if(!(p && m_pModel)) return;
             m_bDetails = !m_bDetails;
             QString szTitle;
             if(m_bDetails) {
@@ -105,14 +105,14 @@ CFolderBrowser::CFolderBrowser(const QString &title,
                 ui->treeView->header()->hideSection(2);
                 ui->treeView->header()->hideSection(3);
             }
-            m_pDetails->setText(szTitle);
+            p->setText(szTitle);
         });
     }
     // [Use CTitleBar]
 }
 
 CFolderBrowser::CFolderBrowser(QWidget *parent, Qt::WindowFlags flags) :
-    CFolderBrowser(tr("Browse folder"), parent, flags)
+    CFolderBrowser(tr("Folder browser"), parent, flags)
 {}
 
 CFolderBrowser::~CFolderBrowser()

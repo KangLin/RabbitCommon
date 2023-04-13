@@ -6,97 +6,102 @@
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="27"/>
         <source>Exec program use root</source>
-        <translation type="unfinished"></translation>
+        <translation>用超级用户权限执行程序</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="45"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="69"/>
         <source>Encrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>加密</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="87"/>
         <source>Generate core file</source>
-        <translation type="unfinished"></translation>
+        <translation>产生崩溃文件</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="100"/>
         <source>Download file</source>
-        <translation type="unfinished"></translation>
+        <translation>下载文件</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="115"/>
         <source>Add file</source>
-        <translation type="unfinished"></translation>
+        <translation>增加文件</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="122"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>下载</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="142"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>帮助</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="149"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>工具</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="153"/>
         <source>Open log</source>
-        <translation type="unfinished"></translation>
+        <translation>打开日志</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="172"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>关于</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="181"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>更新</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="190"/>
         <source>Stype</source>
-        <translation type="unfinished"></translation>
+        <translation>样式</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="199"/>
         <source>Open log configure</source>
-        <translation type="unfinished"></translation>
+        <translation>打开日志配置文件</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="208"/>
         <source>Open log file</source>
-        <translation type="unfinished"></translation>
+        <translation>打开日志文件</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="217"/>
         <source>Open log folder</source>
-        <translation type="unfinished"></translation>
+        <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="123"/>
+        <location filename="../../MainWindow.cpp" line="41"/>
+        <source>Folder browser</source>
+        <translation>文件夹浏览器</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Encrypt:</source>
-        <translation type="unfinished"></translation>
+        <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="123"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Source:</source>
-        <translation type="unfinished"></translation>
+        <translation>源：</translation>
     </message>
 </context>
 <context>
