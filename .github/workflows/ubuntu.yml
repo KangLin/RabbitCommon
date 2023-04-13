@@ -70,15 +70,15 @@ jobs:
           path: |
             ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
 
-    - name: Upload To Github Release
-      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        prerelease: true
-        body: |
-           [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
-        files: |
-            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
-            update_linux.xml
+#    - name: Upload To Github Release
+#      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
+#      uses: softprops/action-gh-release@v1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        prerelease: true
+#        body: |
+#           [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
+#        files: |
+#            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+#            update_linux.xml

@@ -5,10 +5,8 @@
 Author：Kang Lin（kl222@126.com)
 
 [![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
-[![Linux status](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
-[![Linux status](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
-[![Windows status](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
-[![Android status](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)
+[![master status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
+[![develop status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 
 [:cn: Chinese](README_zh_CN.md)
 
@@ -28,24 +26,25 @@ Author：Kang Lin（kl222@126.com)
 
 Qt common library. include follow functions:
 
-- [x] [About](#About)
-  + [cmark](https://github.com/commonmark/cmark): support MarkDown
-- [x] [Updater](#Updater)
-- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+- [x] GUI
+  - [x] [About](#About)
+    + [cmark](https://github.com/commonmark/cmark): support MarkDown
+  - [x] [Updater](#Updater)
+  - [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+  - [x] [Style (include icon theme)](Src/FrmStyle/FrmStyle.h)
+  - [x] [Recent open menu](Src/RabbitRecentMenu.h)
+  - [x] [Title bar](Src/TitleBar.h)
+  - [x] [Folder browser](Src/FolderBrowser/FolderBrowser.h)
 - [x] [Download the same file from multiple URLs](Src/DownloadFile.h)
 - [x] [Directory functions](Src/RabbitCommonDir.h)
 - [x] [Encrypt](Src/RabbitCommonEncrypt.h)
 - [x] [Register](Src/RabbitCommonRegister.h)
-- [x] [Style (include icon theme)](Src/FrmStyle/FrmStyle.h)
 - [x] Tools
   + [x] [Execute the program with administrator privileges](#execute-the-program-with-administrator-privileges)
   + [x] [The program starts automatically](#the-program-starts-automatically)
   + [x] [Directory functions](Src/RabbitCommonDir.h)
   + [x] [Get system information](#Get-system-information)
     - [x] [Get current login user name](#Get-current-login-user-name)
-- [x] [Recent open menu](Src/RabbitRecentMenu.h)
-- [x] [Title bar](Src/TitleBar.h)
-- [x] [Folder browser](Src/FolderBrowser/FolderBrowser.h)
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
