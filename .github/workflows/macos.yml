@@ -99,9 +99,9 @@ jobs:
           modules: ${{env.qt_modules}} # optional
 
       - name: Compile
-        working-directory: ${{github.workspace}}
+        working-directory: ${{github.workspace}}/build
         run: |
-          cmake ${{github.workspace}} 
+          cmake ${{github.workspace}} \
               -DCMARK_SHARED=OFF \
               -DCMARK_TESTS=OFF \
               -DCMARK_STATIC=ON \

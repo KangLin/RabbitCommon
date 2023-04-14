@@ -180,15 +180,15 @@ else()
     INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
 endif()
 
-# Create will be delete files
-CONFIGURE_FILE(
-    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-# Create unistall target
-ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    DEPENDS uninstall-runtime)
+## Create will be delete files
+#CONFIGURE_FILE(
+#    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+#    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+#    IMMEDIATE @ONLY)
+## Create unistall target
+#ADD_CUSTOM_TARGET(uninstall
+#    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+#    DEPENDS uninstall-runtime)
 
 message("Build app:${BUILD_APP}")
 if(BUILD_APP)

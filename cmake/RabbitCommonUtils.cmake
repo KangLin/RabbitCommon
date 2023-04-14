@@ -7,7 +7,7 @@ include(CMakeParseArguments)
 include(GenerateExportHeader)
 
 include(CPackComponent)
-#include(CPack) 需要的项目的 CMakeLists.txt 中加入此行
+include(CPack) #需要的项目的 CMakeLists.txt 中加入此行
 
 SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
 if(CMAKE_MFC_FLAG)
@@ -27,16 +27,28 @@ cpack_add_component(DependLibraries
     DESCRIPTION   "Depend Libraries"
     )
 
+cpack_add_component(Runtime
+    DISPLAY_NAME  "Runtime"
+    DESCRIPTION   "Runtime"
+    DEPENDS DependLibraries
+    )
+
 cpack_add_component(Development
     DISPLAY_NAME  "Development"
     DESCRIPTION   "Development"
 	DEPENDS Runtime
     )
 
-cpack_add_component(Runtime
-    DISPLAY_NAME  "Runtime"
-    DESCRIPTION   "Runtime"
-    DEPENDS DependLibraries
+cpack_add_component(Application
+    DISPLAY_NAME  "Application"
+    DESCRIPTION   "Application"
+	DEPENDS Runtime
+    )
+
+cpack_add_component(Plugin
+    DISPLAY_NAME  "Plugin"
+    DESCRIPTION   "Plugin"
+	DEPENDS Runtime
     )
 
 # 产生android平台分发设置
@@ -211,10 +223,13 @@ function(INSTALL_ICON_THEME)
 endfunction()
 
 # 安装指定目标文件
+# [必须]TARGETS      需要安装的目标
+# [必须]DESTINATION  安装的位置
+# [可选]COMPONENT    组件
 function(INSTALL_TARGETS)
-    cmake_parse_arguments(PARA "" "DESTINATION" "TARGETS" ${ARGN})
+    cmake_parse_arguments(PARA "" "DESTINATION;COMPONENT" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
-        message("Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ...)")
+        message("Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ... [COMPONENT ...])")
         return()
     endif()
 
@@ -228,14 +243,18 @@ function(INSTALL_TARGETS)
         endif()
     endif()
     
+    if(NOT DEFINED PARA_COMPONENT)
+        set(PARA_COMPONENT DependLibraries)
+    endif()
+
     foreach(component ${PARA_TARGETS})
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
-                COMPONENT Runtime)
+                COMPONENT ${PARA_COMPONENT})
         IF(NOT ANDROID AND UNIX)
             INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
-                    COMPONENT Runtime)
+                    COMPONENT ${PARA_COMPONENT})
         ENDIF()
     endforeach()
 endfunction()
@@ -252,11 +271,39 @@ endfunction()
 #    INCLUDES               导出安装头文件位置
 #    VERSION                版本号
 #    EXPORT_NAME            cmake 配置文件的导出名
-#    NAMESPACE              cmake 配置文件的导出目录 
+#    NAMESPACE              cmake 配置文件的导出目录
+#    COMPONENT              组件名。
+#       - 如果未定义。
+#         - 运行库组件名为： Runtime
+#         - 开发库组件名为： Development
+#         - 应用程序组件名为： Appliatoin
+#         - 插件组件名为： Plugin
+#         - Qt 依赖库组件名为： DependLibraries
+#    COMPONENT_PREFIX       组件名前缀。
+#       - 如果定义。
+#         - 运行库组件名为： ${COMPONENT_PREFIX}
+#         - 开发库组件名为： ${COMPONENT_PREFIX}Development
+#         - 应用程序组件名为： ${COMPONENT_PREFIX}Appliatoin
+#         - 插件组件名为： ${COMPONENT_PREFIX}Plugin
+#         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
 #    INSTALL_CMAKE_CONFIG_IN_FILE   ${PROJECT_NAME}Config.cmake.in 位置
 function(INSTALL_TARGET)
+    SET(SINGLE_PARAS
+        NAME
+        EXPORT_NAME
+        NAMESPACE
+        RUNTIME
+        LIBRARY
+        ARCHIVE
+        PUBLIC_HEADER
+        INSTALL_PLUGIN_LIBRARY_DIR
+        VERSION
+        COMPONENT
+        COMPONENT_PREFIX
+        INSTALL_CMAKE_CONFIG_IN_FILE
+        )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
-        "NAME;EXPORT_NAME;NAMESPACE;RUNTIME;LIBRARY;ARCHIVE;PUBLIC_HEADER;INSTALL_PLUGIN_LIBRARY_DIR;VERSION;INSTALL_CMAKE_CONFIG_IN_FILE"
+        "${SINGLE_PARAS}"
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
@@ -273,34 +320,51 @@ function(INSTALL_TARGET)
                 [INCLUDES ...]
                 [VERSION version]
                 [EXPORT_NAME install export configure file name]
+                [COMPONENT ...]
+                [COMPONENT_PREFIX ...]
                 [INSTALL_CMAKE_CONFIG_IN_FILE cmake configure(Config.cmake.in) file]"
                 )
     endif()
-    
+    if(NOT DEFINED PARA_COMPONENT)
+        set(PARA_COMPONENT_DEV ${PARA_COMPONENT_PREFIX}Development)
+        set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT_PREFIX}DependLibraries)
+    else()
+        set(PARA_COMPONENT_DEV ${PARA_COMPONENT})
+        set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT})
+    endif()
+
     if(PARA_ISPLUGIN)
-    
+
+        if(NOT DEFINED PARA_COMPONENT)
+            set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Plugin)
+        endif()
+
         if(WIN32)
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
-                        COMPONENT Runtime
+                        COMPONENT ${PARA_COMPONENT}
                 )
         elseif(ANDROID)
             # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
             # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
             INSTALL(TARGETS ${PARA_NAME}
                 LIBRARY DESTINATION "libs/${ANDROID_ABI}"
-                        COMPONENT Runtime
+                        COMPONENT ${PARA_COMPONENT}
                 )
         else()
             INSTALL(TARGETS ${PARA_NAME}
                 LIBRARY DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
-                        COMPONENT Runtime
+                        COMPONENT ${PARA_COMPONENT}
                 )
         endif()
-        INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-            DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
-                COMPONENT Runtime
-            )
+
+        # TODO: 是否需要安装其它的依赖库？
+        # vcpkg 会把依赖库安装到目标文件夹
+        #INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
+        #    DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
+        #        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY}
+        #    )
+
         # 分发
         IF(WIN32 AND BUILD_SHARED_LIBS)
             IF(MINGW)
@@ -321,9 +385,13 @@ function(INSTALL_TARGET)
                 --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
                 "$<TARGET_FILE:${PARA_NAME}>"
                 )
+            # TODO: Test it
+            INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
+                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
         
-    else(PARA_ISPLUGIN)
+    else(PARA_ISPLUGIN) # Is not plugin
         
         # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
         # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
@@ -353,14 +421,21 @@ function(INSTALL_TARGET)
         if(NOT DEFINED PARA_ARCHIVE)
             set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
         endif()
+
         if(PARA_ISEXE)
+
+            if(NOT DEFINED PARA_COMPONENT)
+                set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Application)
+            endif()
+            
             set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${PARA_RUNTIME}")
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
-                    COMPONENT Runtime
-                LIBRARY DESTINATION "${PARA_LIBRARY}"
-                    COMPONENT Runtime
-                ARCHIVE DESTINATION "${PARA_ARCHIVE}"
+                    COMPONENT ${PARA_COMPONENT}
+                #LIBRARY DESTINATION "${PARA_LIBRARY}"
+                #    COMPONENT ${PARA_COMPONENT}
+                #ARCHIVE DESTINATION "${PARA_ARCHIVE}"
+                #    COMPONENT ${PARA_COMPONENT}
                 )
             
             #分发
@@ -423,7 +498,9 @@ function(INSTALL_TARGET)
                 endif()
                 
             ENDIF() # ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6
+
         else(PARA_ISEXE) # Is library
+
             if(NOT DEFINED PARA_PUBLIC_HEADER)
                 set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
             endif()
@@ -434,17 +511,21 @@ function(INSTALL_TARGET)
             if(NOT DEFINED PARA_EXPORT_NAME)
                 set(PARA_EXPORT_NAME ${PARA_NAME}Config)
             endif()
-            
+
+            if(NOT DEFINED PARA_COMPONENT)
+                set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Runtime)
+            endif()
+
             INSTALL(TARGETS ${PARA_NAME}
                 EXPORT ${PARA_EXPORT_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
-                    COMPONENT Runtime
+                    COMPONENT ${PARA_COMPONENT}
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
-                    COMPONENT Runtime
+                    COMPONENT ${PARA_COMPONENT}
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
-                    COMPONENT Development
+                    COMPONENT ${PARA_COMPONENT_DEV}
                 PUBLIC_HEADER DESTINATION ${PARA_PUBLIC_HEADER}
-                    COMPONENT Development
+                    COMPONENT ${PARA_COMPONENT_DEV}
                 INCLUDES DESTINATION ${PARA_INCLUDES}
                 )
             # Install cmake configure files
@@ -455,7 +536,7 @@ function(INSTALL_TARGET)
                     )
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
-                        COMPONENT Development
+                        COMPONENT ${PARA_COMPONENT_DEV}
                     NAMESPACE ${PARA_NAMESPACE}::
                     )
             else()
@@ -466,7 +547,7 @@ function(INSTALL_TARGET)
                 # Install cmake configure files
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
-                        COMPONENT Development
+                        COMPONENT ${PARA_COMPONENT_DEV}
                     )
             endif()
             if(PARA_EXPORT_NAME)
@@ -482,7 +563,7 @@ function(INSTALL_TARGET)
                         )
                     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake.in
                         DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
-                            COMPONENT Development
+                            COMPONENT ${PARA_COMPONENT_DEV}
                         RENAME ${PARA_NAME}Config.cmake)
                 else()
                     message(WARNING "Please create file: ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}")
@@ -496,7 +577,7 @@ function(INSTALL_TARGET)
                     COMPATIBILITY AnyNewerVersion)
                 install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
-                        COMPONENT Development)
+                        COMPONENT ${PARA_COMPONENT_DEV})
             endif()
         endif(PARA_ISEXE)
         
@@ -535,7 +616,7 @@ function(INSTALL_TARGET)
             if(DEFINED PARA_ISEXE)
                 INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
                     DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT DependLibraries)
+                        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
             endif()
         ENDIF(WIN32 AND BUILD_SHARED_LIBS)
         
@@ -571,6 +652,20 @@ endfunction()
 #    INSTALL_EXPORT_NAME            安装 CMAKE 配置文件导出名
 #    INSTALL_NAMESPACE              安装 cmake 配置文件的导出目录 
 #    INSTALL_CMAKE_CONFIG_IN_FILE   安装 ${PROJECT_NAME}Config.cmake.in 位置
+#    COMPONENT              组件名。
+#       - 如果未定义。
+#         - 运行库组件名为： Runtime
+#         - 开发库组件名为： Development
+#         - 应用程序组件名为： Appliatoin
+#         - 插件组件名为： Plugin
+#         - Qt 依赖库组件名为： DependLibraries
+#    COMPONENT_PREFIX       组件名前缀。
+#       - 如果定义。
+#         - 运行库组件名为： ${COMPONENT_PREFIX}
+#         - 开发库组件名为： ${COMPONENT_PREFIX}Development
+#         - 应用程序组件名为： ${COMPONENT_PREFIX}Appliatoin
+#         - 插件组件名为： ${COMPONENT_PREFIX}Plugin
+#         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -597,6 +692,8 @@ function(ADD_TARGET)
         INSTALL_EXPORT_NAME
         INSTALL_NAMESPACE
         INSTALL_CMAKE_CONFIG_IN_FILE
+        COMPONENT
+        COMPONENT_PREFIX
         )
     cmake_parse_arguments(PARA
         "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL"
@@ -629,7 +726,9 @@ function(ADD_TARGET)
                 [ANDROID_SOURCES_DIR android_source_dir]
                 [INSTALL_PLUGIN_LIBRARY_DIR dir]
                 [INSTALL_EXPORT_NAME configure_file_name]
-                [INSTALL_CMAKE_CONFIG_IN_FILE install cmake config file]")
+                [INSTALL_CMAKE_CONFIG_IN_FILE install cmake config file]
+                [COMPONENT ...]
+                [COMPONENT_PREFIX ...]")
         return()
     endif()
 
@@ -833,15 +932,20 @@ function(ADD_TARGET)
                 ISPLUGIN
                 PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                 INCLUDES ${PARA_INSTALL_INCLUDES}
-                INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR})
+                INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}
+                COMPONENT ${PARA_COMPONENT}
+                COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
+            )
         elseif(PARA_ISEXE)
             if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
                 INSTALL_TARGET(NAME ${PARA_NAME}
                     ISEXE
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-                    INCLUDES ${PARA_INSTALL_INCLUDES})
+                    INCLUDES ${PARA_INSTALL_INCLUDES}
+                    COMPONENT ${PARA_COMPONENT}
+                    COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX})
             endif()
-        else()
+        else() # Is library
 
             if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
                 INSTALL_TARGET(NAME ${PARA_NAME}
@@ -849,6 +953,8 @@ function(ADD_TARGET)
                     NAMESPACE ${PARA_INSTALL_NAMESPACE}
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                     INCLUDES ${PARA_INSTALL_INCLUDES}
+                    COMPONENT ${PARA_COMPONENT}
+                    COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
                     INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
             endif()
 
