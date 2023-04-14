@@ -54,6 +54,32 @@ jobs:
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
 
+      - name: Cache installed
+        uses: actions/cache@v3
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+          key: Cache-macos-installed-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+
+ #     - name: Build cmark-gfm
+ #       working-directory: ${{env.SOURCE_DIR}}
+ #       run: |
+ #         if [ ! -f ${{env.INSTALL_DIR}}/lib/cmake/cmark-gfm.cmake ];
+ #             cmark_version=0.29.0.gfm.6
+ #             git clone -b $cmark_version https://github.com/github/cmark-gfm.git
+ #             cmake -E make_directory build
+ #             cd build
+ #             cmake .. \
+ #                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
+ #                 -DCMAKE_INSTALL_PREFIX="${{env.INSTALL_DIR}}" \
+ #                 -DCMARK_SHARED=OFF \
+ #                 -DCMARK_TESTS=OFF \
+ #                 -DCMARK_STATIC=ON \
+ #             cmake --build . --config ${{matrix.BUILD_TYPE}}
+ #             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+ #        fi
+
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v1  # not v2!
@@ -76,12 +102,13 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           cmake ${{github.workspace}} 
-              -DCMARK_SHARED=OFF ^
-              -DCMARK_TESTS=OFF ^
-              -DCMARK_STATIC=ON ^
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
-              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
-              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake 
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
+              -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Update artifact

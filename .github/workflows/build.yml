@@ -19,6 +19,7 @@ jobs:
 
   macos:
     uses: ./.github/workflows/macos.yml
+    if: false
 
   deploy:
     runs-on: ubuntu-latest

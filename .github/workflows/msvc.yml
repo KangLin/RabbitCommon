@@ -133,7 +133,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: RabbitCommon_msvc_cache-installed-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+          key: msvc_cache-installed-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
       - name: build log4qt
         if: false

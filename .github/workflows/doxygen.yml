@@ -12,7 +12,7 @@ jobs:
       BUILD_TYPE:  Release
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_doxygen
       DOXYGEN_VERSION: 1.9.5
 
     steps:
