@@ -218,7 +218,7 @@
     </message>
     <message>
         <location filename="../../FrmStyle/FrmStyle.ui" line="42"/>
-        <source>Brower(&amp;B)</source>
+        <source>Browse(&amp;B)</source>
         <translation>瀏覽(&amp;B)</translation>
     </message>
     <message>

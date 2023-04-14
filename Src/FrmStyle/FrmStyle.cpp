@@ -117,7 +117,7 @@ void CFrmStyle::on_pbCancel_clicked()
     close();
 }
 
-void CFrmStyle::on_pbBrower_clicked()
+void CFrmStyle::on_pbBrowse_clicked()
 {
     RabbitCommon::CStyle::Instance()->slotStyle();
     ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());

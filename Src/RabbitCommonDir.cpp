@@ -22,7 +22,7 @@ CDir::CDir()
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
-            qCritical(dirLog) << "mkdir doucments dir fail:" << m_szDocumentPath;
+            qCritical(dirLog) << "mkdir documents dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  QCoreApplication::applicationDirPath();
     qInfo(dirLog) << "Application dir:" << m_szApplicationDir;

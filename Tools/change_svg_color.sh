@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -lt 4 ]; then
-    echo "Input paramters[$#] is fail. "
+    echo "Input parameters[$#] is fail. "
     echo "Please using:"
     echo "$0 source_path \"source_color\" destination_path \"destination_color\""
 	echo "ag:"

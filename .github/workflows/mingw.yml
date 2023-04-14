@@ -21,6 +21,7 @@ jobs:
         shell: cmd
         
     runs-on: windows-latest
+
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
@@ -39,7 +40,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Make dirctories
+      - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}

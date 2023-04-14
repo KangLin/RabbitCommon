@@ -18,6 +18,7 @@ jobs:
         BUILD_TYPE: [Release, Debug]
 
     runs-on: ubuntu-latest
+
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
@@ -36,14 +37,14 @@ jobs:
         with:
           submodules: true
     
-      - name: Make dirctories
+      - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
 
-      - name: install apt packages
+      - name: Install apt packages
         run: |
           sudo apt install -y -q cmake build-essential xvfb xpra \
               libglu1-mesa-dev libpulse-mainloop-glib0 \

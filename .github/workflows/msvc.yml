@@ -62,8 +62,9 @@ jobs:
         with:
           submodules: true
 
-      - name: Make dirctories
+      - name: Make directories
         run: |
+          cmake -E make_directory ${{github.workspace}}/build
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
@@ -156,7 +157,6 @@ jobs:
 
       - name: build RabbitCommon
         run: |
-          cmake -E make_directory ${{github.workspace}}/build
           cd ${{github.workspace}}/build
           cmake ${{github.workspace}} ^
               -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
