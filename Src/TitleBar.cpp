@@ -191,7 +191,7 @@ void CTitleBar::slotTopLevelChanged(bool topLevel)
         if(topLevel) {
 #if !defined(Q_OS_UNIX)
             VisibleMaximizeButton(true);
-            VisibleMinimizeButton(true);
+            //VisibleMinimizeButton(true);
 #endif
             m_pFloatButton->setIcon(QIcon::fromTheme("unfloating"));
         } else {
