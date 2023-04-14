@@ -146,7 +146,7 @@ CLog::CLog() : QObject(),
 
 #else
 
-    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{type} [%{category}] - %{message} [%{file}:%{line}, %{function}]";
+    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{if-debug}DEBUG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}ERROR%{endif}%{if-fatal}FATALF%{endif} [%{category}] - %{message} [%{file}:%{line}, %{function}]";
     QString szFilterRules;
     quint64 nInterval = 60; // Unit: second
 #if !(defined(DEBUG) || defined(_DEBUG))

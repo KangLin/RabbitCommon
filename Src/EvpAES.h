@@ -56,7 +56,7 @@ public:
 private:
     bool encrypt(const QByteArray& in, QByteArray& out,
                  const QByteArray& key, const QByteArray& ivec,
-                 const EVP_CIPHER *ciper, bool enc = true);
+                 const EVP_CIPHER *cipher, bool enc = true);
 
 private:
     EVP_CIPHER_CTX *ctx;

@@ -4,15 +4,9 @@
 
 作者：康林（kl222@126.com)
 
-- [![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
-- [![Linux 编译状态](https://travis-ci.org/KangLin/RabbitCommon.svg?branch=master)](https://travis-ci.org/KangLin/RabbitCommon)
-
-|     |    master   |    develop   |
-|:---:|:-----------:|:------------:|
-|Linux|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Linux 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
-|Windows|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Windows 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/msvc.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
-|Android|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/kanglin/RabbitCommon/actions)|[![Android 编译状态](https://github.com/kanglin/RabbitCommon/actions/workflows/android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/RabbitCommon/actions)
-
+[![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
+[![master 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
+[![develop 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 
 [:us: 英语](README.md)
 
@@ -32,24 +26,25 @@
 
 本人Qt项目的一些公共库，包括下列功能：
 
-- [x] [关于对话框](#关于对话框)
-  + [cmark](https://github.com/commonmark/cmark): 用于解析 MarkDown 语法
-- [x] [在线更新](#在线更新)
-- [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+- [x] 图形界面
+  - [x] [关于对话框](#关于对话框)
+    + [cmark](https://github.com/commonmark/cmark): 用于解析 MarkDown 语法
+  - [x] [在线更新](#在线更新)
+  - [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
+  - [x] [样式(包括图标主题](Src/FrmStyle.h)
+  - [x] [最近打开菜单](Src/RabbitRecentMenu.h)
+  - [x] [自定义标题栏](Src/TitleBar.h)
+  - [x] [文件夹浏览器](Src/FolderBrowser/FolderBrowser.h)
 - [x] [从多个 URLs 下载同一文件](Src/DownloadFile.h)
 - [x] [目录功能](Src/RabbitCommonDir.h)
 - [x] [加解密](Src/RabbitCommonEncrypt.h)
 - [x] [注册表](Src/RabbitCommonRegister.h)
-- [x] [样式(包括图标主题](Src/FrmStyle.h)
 - [x] [工具](Src/RabbitCommonTools.h)
   + [x] [用管理员权限执行程序](#管理员权限运行程序)
   + [x] [程序开机自启动](#程序开机自启动)
   + [x] 得到系统信息
     - [x] 得到当前登录用户
   + [x] 允许 core dump
-- [x] [最近打开菜单](Src/RabbitRecentMenu.h)
-- [x] [自定义标题栏](Src/TitleBar.h)
-- [x] [文件夹浏览器](Src/FolderBrowser/FolderBrowser.h)
 - [x] cmake 函数
   + [x] 翻译资源
   + [x] 增加目标；插件目标
@@ -157,7 +152,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")
                 message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
                 message("   ag:")
                 message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
             endif()
@@ -197,7 +192,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             } else {
                 message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
                 message("   git clone https://github.com/KangLin/RabbitCommon.git")
-                error("2. Then set value RabbitCommon_DIR to download root dirctory")
+                error("2. Then set value RabbitCommon_DIR to download root directory")
             }
     
      - 增加帮助文件：

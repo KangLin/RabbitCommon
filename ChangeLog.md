@@ -62,7 +62,7 @@
 + Add getusername interface
 + Android: Add sign
 + Fix: about widge size
-+ Modfiy library directory to lib in unix
++ Modify the library directory in UNIX to the library
 
 ### Version: v1.0.1
 + Modify application directory reade only

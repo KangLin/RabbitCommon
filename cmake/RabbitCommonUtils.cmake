@@ -271,7 +271,7 @@ function(INSTALL_TARGET)
                 [ARCHIVE ...]
                 [PUBLIC_HEADER ...]
                 [INCLUDES ...]
-                [VERSION verson]
+                [VERSION version]
                 [EXPORT_NAME install export configure file name]
                 [INSTALL_CMAKE_CONFIG_IN_FILE cmake configure(Config.cmake.in) file]"
                 )
@@ -391,7 +391,7 @@ function(INSTALL_TARGET)
                                 --storepass ${STOREPASS}
                             )
                     else()
-                        message(WARNING "Please set camke paramter or environment value STOREPASS, will use debug deploy ......")
+                        message(WARNING "Please set camke parameter or environment value STOREPASS, will use debug deploy ......")
                         add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                                 --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-debug.apk

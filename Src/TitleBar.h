@@ -17,8 +17,8 @@ namespace RabbitCommon {
 /*!
  * \~english
  * \brief The cursom title bar for QWidget, QDockWidget etc.
- *        - The defaul:
- *          - title lable
+ *        - The default:
+ *          - title label
  *          - minimized button
  *          - maximized button
  *          - float button

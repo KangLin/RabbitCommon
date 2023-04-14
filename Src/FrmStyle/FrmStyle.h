@@ -84,7 +84,7 @@ public:
 private Q_SLOTS:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
-    void on_pbBrower_clicked();
+    void on_pbBrowse_clicked();
     void on_pbDefault_clicked();
     
     void on_gpIconTheme_clicked();

@@ -2,7 +2,7 @@
  *  \author Kang Lin <kl222@126.com>
  *  \abstract log
  *  The log interface is deprecated.
- *  The file whill be deleleted from version 2.0.0
+ *  The file will be deleted from version 2.0.0
  *  Please use qDebug etc instead
  */
 

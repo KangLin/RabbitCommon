@@ -108,6 +108,7 @@ cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
 if(WITH_CMARK_GFM)
 
     find_package(cmark-gfm)
+    find_package(cmark-gfm-extensions)
     if(NOT cmark-gfm_FOUND)
         SET(_CMARK_GFM_VERSION 0.29.0.gfm.6)
         set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
@@ -128,13 +129,19 @@ if(WITH_CMARK_GFM)
         if(EXISTS "${CMARK_GFM_DIR}")
             add_subdirectory("${CMARK_GFM_DIR}"
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
-            SET(cmark-gfm_FOUND TRUE)
+            SET(cmark-gfm_FOUND ON)
+            set(cmark-gfm-extensions_FOUND ON)
+            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
         endif()
     endif(NOT cmark-gfm_FOUND)
-    if(cmark-gfm_FOUND)
+    if(cmark-gfm_FOUND AND cmark-gfm-extensions_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
         if(CMARK_SHARED)
-            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake paramters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
+            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake parameters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
             list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
             if(ANDROID)
                 INSTALL_TARGETS(TARGETS libcmark-gfm-extensions libcmark-gfm)
@@ -147,11 +154,6 @@ if(WITH_CMARK_GFM)
                 INSTALL_TARGETS(TARGETS libcmark-gfm-extensions libcmark-gfm)
             endif()
         endif()
-        list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
-            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
     endif()
     
 endif(WITH_CMARK_GFM)
@@ -190,7 +192,7 @@ if(WITH_CMARK)
     if(cmark_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK)
         if(CMARK_SHARED)
-            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake paramters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
+            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake parameters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
             list(APPEND RABBIT_PRIVATE_COMMON_LIBS cmark::cmark)
             if(ANDROID)
                 INSTALL_TARGETS(TARGETS cmark::cmark)

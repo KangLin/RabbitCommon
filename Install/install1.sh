@@ -35,7 +35,7 @@ function install_autostart()
 function install()
 {
     echo "install ${PROGRAM_NAME}-x86_64.AppImage ......"
-    # Install destop
+    # Install desktop
     if [ -f /usr/share/applications/${PROGRAM_NAME}.desktop ]; then
         rm /usr/share/applications/${PROGRAM_NAME}.desktop
     fi

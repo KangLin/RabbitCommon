@@ -14,11 +14,11 @@ jobs:
   build_ubuntu:
     strategy:
       matrix:
-        os: [Ubuntu-20.04, Ubuntu-18.04]
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
@@ -37,48 +37,45 @@ jobs:
         with:
           submodules: true
     
-      - name: make_directory
+      - name: Make directories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
-      
-      - name: apt helper action
-        uses: ryankurte/action-apt@v0.2.0
-        with:
-          # architectures to pass to dpkg --add-architecture
-          #architectures: # optional
-          # apt packages to install
-          packages: |
-            cmake build-essential xvfb xpra libglu1-mesa-dev libpulse-mainloop-glib0 debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev qtwebengine5-dev
+
+      - name: Install apt packages
+        run: |
+          sudo apt install -y -q cmake build-essential xvfb xpra \
+              libglu1-mesa-dev libpulse-mainloop-glib0 \
+              debhelper fakeroot \
+              qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
+              qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev \
+              qtpositioning5-dev qtwebengine5-dev \
+              libcmark-gfm-dev libcmark-gfm-extensions-dev
     
       - name: build_debpackage.sh
         working-directory: ${{github.workspace}}
-        env:
-          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-          THIRD_LIBRARY_PATH: ${{env.INSTALL_DIR}}
         run: |
           ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-          cp ../rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+          cp ../rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb
   
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && matrix.os == 'Ubuntu-22.04' }} 
-        uses: actions/upload-artifact@v2
+        if: ${{ matrix.BUILD_TYPE == 'Release' }} 
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
+            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb
 
-    - name: Upload To Github Release
-      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        prerelease: true
-        body: |
-           [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
-        files: |
-            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64_${{ matrix.os }}.deb
-            update_linux.xml
+#    - name: Upload To Github Release
+#      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
+#      uses: softprops/action-gh-release@v1
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        prerelease: true
+#        body: |
+#           [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
+#        files: |
+#            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb

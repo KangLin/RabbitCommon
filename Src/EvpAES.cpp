@@ -293,12 +293,12 @@ bool EvpAES::ocb_encrypt(const QByteArray &in, QByteArray &out,
 
 bool EvpAES::encrypt(const QByteArray &in, QByteArray &out,
                      const QByteArray &key, const QByteArray &ivec,
-                     const EVP_CIPHER *ciper, bool enc)
+                     const EVP_CIPHER *cipher, bool enc)
 {
     if (enc)
     {
         // 指定加密算法及key和iv
-        int ret = EVP_EncryptInit_ex(ctx, ciper, NULL,
+        int ret = EVP_EncryptInit_ex(ctx, cipher, NULL,
                                      (const unsigned char*)key.data(),
                                      (const unsigned char*)ivec.data());
         if(ret != 1)
@@ -330,7 +330,7 @@ bool EvpAES::encrypt(const QByteArray &in, QByteArray &out,
     else
     {
         // 指定解密算法及key和iv
-        int ret = EVP_DecryptInit_ex(ctx, ciper, NULL,
+        int ret = EVP_DecryptInit_ex(ctx, cipher, NULL,
                                      (const unsigned char*)key.data(),
                                      (const unsigned char*)ivec.data());
         if(ret != 1)

@@ -50,7 +50,7 @@ class CFrmUpdater;
  *     - [MUST] Generate update configuration file(update_XXX.xml).
  *              Format see: \ref CheckUpdateXmlFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
- *     - [OPTION] Gernerate redirect configure file(update.xml).
+ *     - [OPTION] Generate redirect configure file(update.xml).
  *             Format see: \ref CheckRedirectXmlFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
  *   - Used by application CFrmUpdater:
