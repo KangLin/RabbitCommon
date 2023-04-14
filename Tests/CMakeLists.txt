@@ -27,6 +27,12 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
     configure_file(${CMAKE_SOURCE_DIR}/Src/etc/log4qt.conf
         ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
         COPYONLY)
+
+endif()
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini)
+    configure_file(${CMAKE_SOURCE_DIR}/Src/etc/logqt.ini
+        ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini
+        COPYONLY)
 endif()
 
 if(NOT ANDROID AND UNIX)

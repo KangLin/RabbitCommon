@@ -47,6 +47,7 @@ sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_D
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/doxygen.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/mingw.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/android.yml
+sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/macos.yml
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
 sed -i "s/rabbitcommon (.*)/rabbitcommon (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog

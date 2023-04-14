@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 #ifdef RabbitCommon_VERSION
     a.setApplicationVersion(RabbitCommon_VERSION);
 #endif
-    a.setApplicationName("RabbitCommon");
+    a.setApplicationName("RabbitCommonTests");
 
     RabbitCommon::CTools::Instance()->Init();
     QTranslator tApp;
