@@ -129,6 +129,11 @@ if(WITH_CMARK_GFM)
             add_subdirectory("${CMARK_GFM_DIR}"
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
             SET(cmark-gfm_FOUND TRUE)
+            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
         endif()
     endif(NOT cmark-gfm_FOUND)
     if(cmark-gfm_FOUND)
@@ -147,11 +152,6 @@ if(WITH_CMARK_GFM)
                 INSTALL_TARGETS(TARGETS libcmark-gfm-extensions libcmark-gfm)
             endif()
         endif()
-        list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
-            "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
     endif()
     
 endif(WITH_CMARK_GFM)

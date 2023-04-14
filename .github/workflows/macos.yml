@@ -1,30 +1,30 @@
-name: build_ubuntu
+name: build_macos
 
 on:
   workflow_call:
     outputs:
       name:
         description: "The artifact name"
-        value: ${{ jobs.build_ubuntu.outputs.name }}
+        value: ${{ jobs.build_macos.outputs.name }}
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
 jobs:
-  build_ubuntu:
+  build_macos:
     strategy:
       matrix:
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
       RabbitCommon_VERSION: 1.0.8
-      artifact_name: build_ubuntu
+      artifact_name: build_macos
 
     # Map the job outputs to step outputs
     outputs:
@@ -43,29 +43,24 @@ jobs:
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
 
-      - name: install apt packages
-        run: |
-          sudo apt install -y -q cmake build-essential xvfb xpra \
-              libglu1-mesa-dev libpulse-mainloop-glib0 \
-              debhelper fakeroot \
-              qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
-              qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev \
-              qtpositioning5-dev qtwebengine5-dev \
-              libcmark-gfm-dev libcmark-gfm-extensions-dev
-    
-      - name: build_debpackage.sh
+      - name: Compile
         working-directory: ${{github.workspace}}
         run: |
-          ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-          cp ../rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb
-  
+          cmake ${{github.workspace}} 
+              -DCMARK_SHARED=OFF ^
+              -DCMARK_TESTS=OFF ^
+              -DCMARK_STATIC=ON ^
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
+              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake 
+          cmake --build . --config ${{ matrix.BUILD_TYPE }}
+
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }} 
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/rabbitcommon_${{env.RabbitCommon_VERSION}}_amd64.deb
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}

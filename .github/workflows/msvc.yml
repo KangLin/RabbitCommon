@@ -9,35 +9,33 @@ on:
 
 jobs:
   build_msvc:
-    name: ${{ matrix.os }}-vc-${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+    #name: qt${{matrix.qt_version}}-${{matrix.triplet}}-${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.BUILD_TYPE}}
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        os: [windows-latest]
-        CMAKE_GENERATOR_PLATFORM: [x64, Win32]
-        # VCPKG_PLATFORM_TOOLSET: [v142, v141, v140]
+        qt_version: [5.15.2, 5.12.12]
         include:
-          - triplet: x64-windows
+#          - qt_version: 6.4.2
+#            triplet: x64-windows
+#            VCPKG_PLATFORM_TOOLSET: v142
+#            qt_arch: win64_msvc2019_64
+#            CMAKE_GENERATOR_PLATFORM: x64
+#            qt_modules: qtscxml qtpositioning
+
+          - qt_version: 5.15.2
+            triplet: x64-windows
             VCPKG_PLATFORM_TOOLSET: v142
-            qt_version: 6.2.2
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
-            qt_modules: qtscxml qtpositioning
 
-          - triplet: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v142
-            qt_version: 5.15.2
-            qt_arch: win64_msvc2019_64
-            CMAKE_GENERATOR_PLATFORM: x64
-
-          - triplet: x86-windows
+          - qt_version: 5.12.12
+            triplet: x86-windows
             VCPKG_PLATFORM_TOOLSET: v141
-            qt_version: 5.12.12
             qt_arch: win32_msvc2017
             CMAKE_GENERATOR_PLATFORM: Win32
 
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     env:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
@@ -46,7 +44,7 @@ jobs:
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitCommon_VERSION: v1.0.8
-      VCPKGGITCOMMITID: 5cf60186a241e84e8232641ee973395d4fde90e1
+      VCPKGGITCOMMITID: 809266d51a238e504acc134e5878c7860d5c179c
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
@@ -64,7 +62,7 @@ jobs:
         with:
           submodules: true
 
-      - name: make directory
+      - name: Make dirctories
         run: |
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
@@ -123,18 +121,18 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
           # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
           # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: RabbitCommon_cache-vcpkg-msvc-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
+          appendedCacheKey: RabbitCommon_cache-vcpkg-msvc-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
           #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
           vcpkgTriplet: '${{matrix.triplet}}'
           vcpkgArguments: 'zlib openssl'
 
       - name: Cache installed
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-installed
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: RabbitCommon_msvc_cache-installed-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+          key: RabbitCommon_msvc_cache-installed-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
       - name: build log4qt
         if: false
@@ -163,11 +161,12 @@ jobs:
           cmake ${{github.workspace}} ^
               -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
               -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-              -DWITH_CMARK_GFM=${{matrix.WITH_CMARK_GFM}} ^
-              -DLog4Qt_DIR=/lib/cmake/Log4Qt ^
+              -DCMARK_SHARED=OFF ^
+              -DCMARK_TESTS=OFF ^
+              -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
-              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} ^
+              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
@@ -179,18 +178,18 @@ jobs:
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          7z a RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip .\install\*
+          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}.zip .\install\*
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip
+            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}.zip
 
 #      - name: Upload To Github Release
-#        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.11' == matrix.qt_version && 'OFF' == matrix.WITH_CMARK_GFM && startsWith(github.ref, 'refs/tags/') }}
+#        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.11' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
 #       uses: softprops/action-gh-release@v1
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -199,5 +198,4 @@ jobs:
 #          body: |
 #             [:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)
 #          files: |
-#            ${{github.workspace}}\build\RabbitCommon_windows_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip
-#           ${{github.workspace}}\build\update_windows.xml
+#            ${{github.workspace}}\build\RabbitCommon_msvc_${{env.RabbitCommon_VERSION}}.zip
