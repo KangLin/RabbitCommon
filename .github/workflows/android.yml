@@ -29,7 +29,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitCommon_VERSION: v1.0.0
+      RabbitCommon_VERSION: v1.0.9
       VCPKGGITCOMMITID: 809266d51a238e504acc134e5878c7860d5c179c
       qt_modules: ${{matrix.qt_modules}}
       ANDROID_PLATFORM: android-28
