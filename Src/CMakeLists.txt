@@ -48,7 +48,7 @@ include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 
-SET(RabbitCommon_VERSION "v1.0.8")
+SET(RabbitCommon_VERSION "v1.0.09")
 SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
     OUT_VERSION RabbitCommon_VERSION)

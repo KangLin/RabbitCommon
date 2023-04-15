@@ -6,51 +6,6 @@ include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
 
-include(CPackComponent)
-include(CPack) #需要的项目的 CMakeLists.txt 中加入此行
-
-SET(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT Runtime)
-if(CMAKE_MFC_FLAG)
-    set(CMAKE_INSTALL_MFC_LIBRARIES TRUE)
-endif()
-if(CMAKE_BUILD_TYPE)
-    string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
-endif()
-if(LOWER_BUILD_TYPE STREQUAL "debug")
-    set(CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
-endif()
-set(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT DependLibraries)
-include(InstallRequiredSystemLibraries)
-
-cpack_add_component(DependLibraries
-    DISPLAY_NAME  "DependLibraries"
-    DESCRIPTION   "Depend Libraries"
-    )
-
-cpack_add_component(Runtime
-    DISPLAY_NAME  "Runtime"
-    DESCRIPTION   "Runtime"
-    DEPENDS DependLibraries
-    )
-
-cpack_add_component(Development
-    DISPLAY_NAME  "Development"
-    DESCRIPTION   "Development"
-	DEPENDS Runtime
-    )
-
-cpack_add_component(Application
-    DISPLAY_NAME  "Application"
-    DESCRIPTION   "Application"
-	DEPENDS Runtime
-    )
-
-cpack_add_component(Plugin
-    DISPLAY_NAME  "Plugin"
-    DESCRIPTION   "Plugin"
-	DEPENDS Runtime
-    )
-
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
 # ANDROID_SOURCES_DIR: Android 源码文件目录。默认为：${CMAKE_CURRENT_SOURCE_DIR}/android

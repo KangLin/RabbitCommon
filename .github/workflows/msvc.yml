@@ -44,7 +44,7 @@ jobs:
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      RabbitCommon_VERSION: v1.0.8
+      RabbitCommon_VERSION: v1.0.09
       VCPKGGITCOMMITID: 809266d51a238e504acc134e5878c7860d5c179c
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
