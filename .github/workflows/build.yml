@@ -22,7 +22,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [ubuntu, mingw, msvc]
+    needs: [ubuntu, mingw, msvc, macos]
     steps:
       - name: Download ubuntu
         uses: actions/download-artifact@v3
@@ -40,6 +40,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ needs.mingw.outputs.name }}
+          path: ${{ env.artifact_path }}
+
+      - name: Download macos
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.macos.outputs.name }}
           path: ${{ env.artifact_path }}
 
       - name: deploy
