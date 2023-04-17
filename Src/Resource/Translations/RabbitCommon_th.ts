@@ -158,38 +158,38 @@
 <context>
     <name>CFolderBrowser</name>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="45"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="48"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="43"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="46"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="63"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="76"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="61"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="74"/>
         <source>Don&apos;t show hidden files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="65"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="73"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="63"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="71"/>
         <source>Show hidden files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="84"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="100"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="82"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="98"/>
         <source>Show brief</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="89"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="105"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="87"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="103"/>
         <source>Show details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../FolderBrowser/FolderBrowser.ui" line="14"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="117"/>
+        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="115"/>
         <source>Folder browser</source>
         <translation type="unfinished"></translation>
     </message>
@@ -584,16 +584,6 @@
     <message>
         <location filename="../../RabbitCommonDir.cpp" line="378"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="53"/>
-        <source>Application Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="54"/>
-        <source>I&apos;m Sorry, Application is Crash! The path: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -327,7 +327,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
             --home <Project home url>        Project home url
             -m, --min <Min update version>   Min update version
 
-  + Add Update/update.xml in project source root direcory, then add the url to CFrmUpdater::DownloadFile.
+  + Add Update/update.xml in project source root directory, then add the url to CFrmUpdater::DownloadFile.
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
