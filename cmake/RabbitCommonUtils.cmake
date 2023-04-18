@@ -409,7 +409,7 @@ function(INSTALL_TARGET)
                     endif()
 
                     if(STOREPASS)
-                        add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                        add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                                 --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-release-signed.apk
                                 --input ${JSON_FILE}
@@ -422,7 +422,7 @@ function(INSTALL_TARGET)
                             )
                     else()
                         message(WARNING "Please set camke parameter or environment value STOREPASS, will use debug deploy ......")
-                        add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                        add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                                 --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-debug.apk
                                 --input ${JSON_FILE}
@@ -433,7 +433,7 @@ function(INSTALL_TARGET)
                     endif()
                     
                 else()
-                    add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                    add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                             --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-debug.apk
                             --input ${JSON_FILE}
@@ -441,7 +441,7 @@ function(INSTALL_TARGET)
                             --gradle
                             --android-platform ${ANDROID_PLATFORM}
                         )
-                    add_custom_target(INSTALL_APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                    add_custom_target(INSTALL_APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                             --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-debug.apk
                             --input ${JSON_FILE}
