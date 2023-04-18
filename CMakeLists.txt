@@ -14,7 +14,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-SET(RabbitCommon_VERSION "v1.0.8")
+SET(RabbitCommon_VERSION "v1.0.9")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -48,13 +48,16 @@ set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 # ----------------------------------------------------------------------------
 if(NOT ANDROID)
     if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(BUILD_ARCH x86_64)
+        set(HOST_ARCH x86_64)
     elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(BUILD_ARCH x86)
+        set(HOST_ARCH x86)
     endif()
 else()
-    set(BUILD_ARCH ${ANDROID_ARCH})
+    set(HOST_ARCH ${ANDROID_ARCH})
 endif()
+message("Host architecture:${HOST_ARCH}")
+message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID:${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}")
+set(BUILD_ARCH ${CMAKE_CXX_COMPILER_ARCHITECTURE_ID})
 
 add_definitions(-DRabbitCommon_VERSION="${RabbitCommon_VERSION}")
 add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
@@ -180,15 +183,15 @@ else()
     INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
 endif()
 
-# Create will be delete files
-CONFIGURE_FILE(
-    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-# Create unistall target
-ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    DEPENDS uninstall-runtime)
+## Create will be delete files
+#CONFIGURE_FILE(
+#    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+#    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+#    IMMEDIATE @ONLY)
+## Create unistall target
+#ADD_CUSTOM_TARGET(uninstall
+#    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+#    DEPENDS uninstall-runtime)
 
 message("Build app:${BUILD_APP}")
 if(BUILD_APP)
@@ -220,4 +223,4 @@ if(BUILD_DOCS)
     endif(DOXYGEN_FOUND)
 endif(BUILD_DOCS)
 
-include(CPack)
+include(cmake/RabbitCommonCPack.cmake)

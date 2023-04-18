@@ -1,10 +1,13 @@
+### Version: v1.0.9
++ Add CBrowseFolder and CTitleBar
++ Add CPack
+
 ### Version: v1.0.8
 
 + CTools: add open log file
 + Support Qt6 statemachine
 + Add qt log file
 + Modify start run
-+ Add CBrowseFolder and CTitleBar
 
 ### Version： v1.0.7
 

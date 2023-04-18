@@ -41,9 +41,10 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}
+      CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      RabbitCommon_VERSION: v1.0.8
+      RabbitCommon_VERSION: v1.0.9
       VCPKGGITCOMMITID: 809266d51a238e504acc134e5878c7860d5c179c
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
@@ -155,7 +156,7 @@ jobs:
               cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
           )
 
-      - name: build RabbitCommon
+      - name: Build RabbitCommon
         run: |
           cd ${{github.workspace}}/build
           cmake ${{github.workspace}} ^
@@ -169,12 +170,13 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
 
       - name: Package
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
@@ -187,6 +189,7 @@ jobs:
           name: ${{ env.artifact_name }}
           path: |
             ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}.zip
+            ${{github.workspace}}\build\RabbitCommon-*.exe
 
 #      - name: Upload To Github Release
 #        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
