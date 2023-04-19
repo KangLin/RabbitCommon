@@ -68,7 +68,10 @@ option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
     LIST(APPEND _QT_COMPONENTS Gui Widgets)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_GUI)
-    
+    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FolderBrowser>"
+        )
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
         Style/FrmStyle.h
@@ -94,10 +97,12 @@ endif()
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
     WITH_GUI OFF)
 if(BUILD_ABOUT)
-    list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
-    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
-    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
-    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
+    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
+    LIST(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
+    LIST(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
+    LIST(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
+    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
 endif(BUILD_ABOUT)
 
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
@@ -233,10 +238,13 @@ if(BUILD_UPDATE)
     endif()
     if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
         LIST(APPEND _QT_COMPONENTS Xml)
-        list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
-        list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
-        list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
-        list(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
+        LIST(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
+        LIST(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
+        LIST(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
+        LIST(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
+        LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmUpdater>"
+            )
     endif()
 endif()
 
@@ -249,6 +257,9 @@ if(BUILD_QUIWidget)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
     LIST(APPEND RCC_FILES $<$<CONFIG:Debug>:QUIWidget/Resource/QUIWidgetQss.qrc>)
+    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>"
+        )
 endif(BUILD_QUIWidget)
 
 find_package(OpenSSL)
@@ -406,10 +417,10 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
-    RabbitCommonLog.h
+    Log.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
-    RabbitCommonLog.cpp
+    Log.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp

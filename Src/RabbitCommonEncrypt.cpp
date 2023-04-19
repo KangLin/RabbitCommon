@@ -1,7 +1,7 @@
 // Author Kang Lin <kl222@126.com>
 
 #include "RabbitCommonEncrypt.h"
-#include "RabbitCommonLog.h"
+#include "Log.h"
 
 #include <string.h>
 

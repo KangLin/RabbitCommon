@@ -17,7 +17,7 @@ Abstract:
 #include "ui_DlgAbout.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "RabbitCommonLog.h"
+#include "Log.h"
 
 #ifdef HAVE_WebEngineWidgets
     #include <QWebEngineView>

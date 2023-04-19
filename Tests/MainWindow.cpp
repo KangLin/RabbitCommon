@@ -18,10 +18,10 @@
     #include "QUIWidget/QUIWidget.h"
 #endif
 #include "RabbitCommonTools.h"
-#include "FrmStyle/FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
-#include "RabbitCommonLog.h"
+#include "Log.h"
 #include "FolderBrowser/FolderBrowser.h"
+#include "Style/FrmStyle.h"
 
 #include <QDir>
 #include <QDebug>
@@ -135,17 +135,17 @@ void MainWindow::on_pbEncrypt_clicked()
 
 void MainWindow::on_actionOpen_log_configure_triggered()
 {
-    RabbitCommon::OpenLogConfigureFile();
+    RabbitCommon::CTools::Instance()->OpenLogConfigureFile();
 }
 
 void MainWindow::on_actionOpen_log_file_triggered()
 {
-    RabbitCommon::OpenLogFile();
+    RabbitCommon::CTools::Instance()->OpenLogFile();
 }
 
 void MainWindow::on_actionOpen_log_folder_triggered()
 {
-    RabbitCommon::OpenLogFolder();
+    RabbitCommon::CTools::Instance()->OpenLogFolder();
 }
 
 void MainWindow::on_pbGenerateCoreFile_clicked()

@@ -1,7 +1,7 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "RabbitCommonLog.h"
+#include "Log.h"
 #include "RabbitCommonDir.h"
 #include <QStandardPaths>
 #include <QDir>

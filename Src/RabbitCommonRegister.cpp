@@ -3,7 +3,7 @@
 
 #include "RabbitCommonRegister.h"
 #include "RabbitCommonDir.h"
-#include "RabbitCommonLog.h"
+#include "Log.h"
 #include "RabbitCommonTools.h"
 
 #include <QSettings>

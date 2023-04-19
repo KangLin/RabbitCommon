@@ -7,14 +7,14 @@
 #include "AdminAuthoriser/adminauthoriser.h"
 #endif
 #include "RabbitCommonRegister.h"
-#include "RabbitCommonLog.h"
+#include "Log.h"
 
 #include <QSettings>
 #ifdef HAVE_GUI
 #include <QApplication>
 #include <QIcon>
 #include <QMainWindow>
-#include "RabbitCommonStyle.h"
+#include "Style.h"
 #else
 #include <QCoreApplication>
 #endif

@@ -17,7 +17,6 @@
 
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
-#include "RabbitCommonStyle.h"
 #include "MainWindow.h"
 #include "FrmUpdater/FrmUpdater.h"
 

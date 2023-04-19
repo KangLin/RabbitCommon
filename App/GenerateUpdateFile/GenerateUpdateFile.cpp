@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QFileInfo>
-#include "RabbitCommonLog.h"
+#include "Log.h"
 
 CGenerateUpdateFile::CGenerateUpdateFile()
 {
@@ -189,8 +189,7 @@ int CGenerateUpdateFile::GenerateUpdateXml(QCommandLineParser &parser)
             }
             app.close();
         } else {
-            LOG_MODEL_ERROR("RabbitCommon", "Don't open package file: %s",
-                            szFile.toStdString().c_str());
+            qCritical() << "Don't open package file:" << szFile;
         }
     }
     info.szUrl = parser.value(oUrl);
@@ -280,9 +279,8 @@ int CGenerateUpdateFile::GenerateUpdateXmlFile(const QString &szFile, const INFO
     f.setFileName(szFile);
     if(!f.open(QIODevice::WriteOnly))
     {
-        LOG_MODEL_ERROR("RabbitCommon",
-                       "CFrmUpdater::GenerateUpdateXml file open file fail: %s",
-                       f.fileName().toStdString().c_str());
+        qCritical() << "CFrmUpdater::GenerateUpdateXml file open file fail:"
+                    << f.fileName();
         return -1;
     }
     QTextStream stream(&f);

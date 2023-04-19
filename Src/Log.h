@@ -17,38 +17,18 @@
 #include <QTextStream>
 #include <QTimer>
 
-#include "rabbitcommon_export.h"
-
 namespace RabbitCommon {
 
-#define LM_DEBUG 0
-#define LM_INFO 1
-#define LM_WARNING 2
-#define LM_ERROR 3
-
-#ifdef DEBUG
-    #define LOG_MODEL_DEBUG(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_DEBUG, model, __VA_ARGS__)
-#else
-    #define LOG_MODEL_DEBUG(model, ...)
-#endif //#ifdef DEBUG
-
-#define LOG_MODEL_ERROR(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_ERROR, model, __VA_ARGS__)
-#define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_WARNING, model, __VA_ARGS__)
-#define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_INFO, model, __VA_ARGS__)
-
 #ifdef HAVE_GUI
-    //Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogConfigureFile instead")
-    RABBITCOMMON_EXPORT void OpenLogConfigureFile();
-    //Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogFile instead")
-    RABBITCOMMON_EXPORT void OpenLogFile();
-    //Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogFolder instead")
-    RABBITCOMMON_EXPORT void OpenLogFolder();
+    void OpenLogConfigureFile();
+    void OpenLogFile();
+    void OpenLogFolder();
 #endif
 
 /*!
  * \note USER DON'T USE CLog!!!
  */
-class RABBITCOMMON_EXPORT CLog : QObject
+class CLog : QObject
 {
     Q_OBJECT
 
@@ -69,7 +49,6 @@ public:
      * @param pFormatString:格式化字符串
      * @return 
      */
-    Q_DECL_DEPRECATED_X("Please use qDebug and log4Qt instead.")
     int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
             const char* pszModelName, const char *pFormatString, ...);
 
@@ -102,7 +81,7 @@ private Q_SLOTS:
     void slotTimeout();
 };
 
-extern RABBITCOMMON_EXPORT QLoggingCategory Logger;
+extern QLoggingCategory Logger;
 
 } // End namespace RabbitCommon
 

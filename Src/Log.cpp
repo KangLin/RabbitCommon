@@ -1,7 +1,7 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "RabbitCommonLog.h"
+#include "Log.h"
 #include "RabbitCommonDir.h"
 #include <string>
 #include <stdarg.h>
@@ -451,21 +451,6 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
         szTemp += "]:";
     }
 #endif
-    switch(nLevel)
-    {
-    case LM_DEBUG:
-        szTemp += "DEBUG";
-        break;
-    case LM_ERROR:
-        szTemp += "ERROR";
-        break;
-    case LM_INFO:
-        szTemp += "INFO";
-        break;
-    case LM_WARNING:
-        szTemp = "WARNING";
-        break;
-    }
     szTemp += ":";
     szTemp += pszModelName;
     szTemp += ": ";
