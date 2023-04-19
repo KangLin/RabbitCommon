@@ -2,7 +2,7 @@
 
 #include "FrmStyle.h"
 #include "ui_FrmStyle.h"
-#include "RabbitCommonStyle.h"
+#include "Style.h"
 #include "RabbitCommonDir.h"
 #include <QSettings>
 
@@ -120,12 +120,12 @@ void CFrmStyle::on_pbCancel_clicked()
 
 void CFrmStyle::on_pbBrowse_clicked()
 {
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->slotStyle());
+    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyle());
 }
 
 void CFrmStyle::on_pbDefault_clicked()
 {
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->slotSetDefaultStyle());
+    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetDefaultStyle());
 
     if(ui->gpIconTheme->isChecked()) {
         ui->cbIconTheme->setCurrentText(RabbitCommon::CStyle::Instance()->m_szDefaultIconTheme);

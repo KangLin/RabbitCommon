@@ -1,7 +1,7 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "RabbitCommonStyle.h"
+#include "Style.h"
 #include "RabbitCommonDir.h"
 
 #include <QSettings>
@@ -19,11 +19,10 @@ Q_LOGGING_CATEGORY(LoggerStyle, "RabbitCommon.Style")
 
 CStyle::CStyle(QObject *parent) : QObject(parent)
 {
-    m_szDefaultFile = RabbitCommon::CDir::Instance()->GetDirData(true)
+    m_szDefaultFile = QString(); /*RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style" + QDir::separator()
-            + "white.qss"; //TODO: can modify default style
-    m_szFile = m_szDefaultFile;
+            + "white.qss"; //TODO: can modify default style //*/
 
     m_szDefaultIconTheme = QIcon::themeName();
     if(m_szDefaultIconTheme.isEmpty())
@@ -45,15 +44,9 @@ CStyle* CStyle::Instance()
     return p;
 }
 
-void CStyle::SetDefaultFile(const QString &file)
-{
-    m_szDefaultFile = file;
-}
-
 void CStyle::SetFile(const QString &file)
 {
     m_szFile = file;
-    
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     set.setValue("Style/File", m_szFile);
@@ -158,30 +151,29 @@ int CStyle::LoadStyle(const QString &szFile)
     return 0;
 }
 
-QString CStyle::slotSetDefaultStyle()
+QString CStyle::GetDefaultStyle()
 {
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                  QSettings::IniFormat);
-    set.setValue("Style/File", m_szDefaultFile);
-    LoadStyle(m_szDefaultFile);
-    //qApp->setPalette(QPalette(QColor(Qt::gray)));
     return m_szDefaultFile;
 }
 
-QString CStyle::slotStyle()
+QString CStyle::GetStyle()
 {
+    QString szFile;
+    szFile = m_szDefaultFile;
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    QString szFile = set.value("Style/File", m_szFile).toString();
-    if(szFile.isEmpty())
-        szFile = m_szDefaultFile;
+    szFile = set.value("Style/File", szFile).toString();
+    QString szPath =  RabbitCommon::CDir::Instance()->GetDirData(true)
+            + QDir::separator()
+            + "style";
+    if(!szFile.isEmpty()) {
+        QFileInfo fi(szFile);
+        szPath = fi.absoluteFilePath();
+    }
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
-                 szFile,
+                 szPath,
                  tr("Style files(*.qss *.css);; All files(*.*)"));
-    if(szFile.isEmpty()) return QString();
-    LoadStyle(szFile);
-
     return szFile;
 }
 

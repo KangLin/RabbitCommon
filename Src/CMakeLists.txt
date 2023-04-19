@@ -71,22 +71,22 @@ if(WITH_GUI)
     
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
-        FrmStyle/FrmStyle.h
+        Style/FrmStyle.h
         TitleBar.h
         FolderBrowser/FolderBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
-        RabbitCommonStyle.h
+        Style/Style.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
-        RabbitCommonStyle.cpp
-        FrmStyle/FrmStyle.cpp
+        Style/Style.cpp
+        Style/FrmStyle.cpp
         TitleBar.cpp
         FolderBrowser/FolderBrowser.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
-        FrmStyle/FrmStyle.ui
+        Style/FrmStyle.ui
         FolderBrowser/FolderBrowser.ui
         )
 endif()

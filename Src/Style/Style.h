@@ -10,9 +10,8 @@
 
 #include <QObject>
 #include <QtGlobal>
-#include "rabbitcommon_export.h"
 
-#include "FrmStyle/FrmStyle.h"
+#include "FrmStyle.h"
 #include <QLoggingCategory>
 
 namespace RabbitCommon {
@@ -21,35 +20,28 @@ namespace RabbitCommon {
  * \brief The CStyle class
  * \ingroup INTERNAL_API
  */
-class RABBITCOMMON_EXPORT CStyle : public QObject
+class CStyle : public QObject
 {
     Q_OBJECT
 public:
     static CStyle* Instance();
-    //TODO:  When major version >= 2, the function is remove.
-    void SetDefaultFile(const QString &file);
-    void SetFile(const QString& file);
 
     /*!
      * \brief Load style from configure file
      */
     int LoadStyle();
+
+private:
+    QString GetStyle();
+    QString GetDefaultStyle();
+
     /*!
      * \brief Load style from the file
      * \param szFile: style file(*.qss)
      */
     int LoadStyle(const QString &szFile);
+    void SetFile(const QString& file);
     QString GetStyleFile();
-
-public Q_SLOTS:
-    /*!
-     * \brief Used to respond to menu events, open select style diaglog
-     */
-    QString slotStyle();
-    /*!
-     * \brief Set default style
-     */
-    QString slotSetDefaultStyle();
 
 private:
     CStyle(QObject *parent = nullptr);

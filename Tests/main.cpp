@@ -47,9 +47,6 @@ int main(int argc, char *argv[])
                    << RabbitCommon::CDir::Instance()->GetDirUserDocument();
 
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-#ifdef HAVE_GUI
-    RabbitCommon::CStyle::Instance()->LoadStyle();
-#endif
 
     QCommandLineParser parser;
     parser.addHelpOption();
