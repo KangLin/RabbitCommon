@@ -1,3 +1,8 @@
+### Version: v1.0.10
++ CI
+  - Add code spell
+  - Add code QL analysis
+
 ### Version: v1.0.9
 + Add CBrowseFolder and CTitleBar
 + Add CPack

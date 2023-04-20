@@ -18,7 +18,7 @@ Author：Kang Lin（kl222@126.com)
 
 ### Developer documetns
 
-[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
+[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
 
 ### Functions
 
@@ -125,6 +125,14 @@ Qt common library. include follow functions:
      ```
 
 ### Other application use the project
+- Use in library mode
+  + cmake
+    Cmake parameter RabbitCommon_DIR specifies the installation root directory
+
+        find_package(RabbitCommon)
+
+  + Qt pro file. (Deprecated, please use CMake for new programs)
+
 - Direct source code
   + cmake
     - Submodule
@@ -223,21 +231,21 @@ Qt common library. include follow functions:
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-- Use in library mode
-  + cmake
-    Cmake parameter RabbitCommon_DIR specifies the installation root directory
 
-        find_package(RabbitCommon)
+- Initialize the library at the beginning of main
 
-  + Qt pro file. (Deprecated, please use CMake for new programs)
-
-- Load resource
-
-        RabbitCommon::CTools::Instance()->Init();
+        int main(int argc, char* argv[])
+        {
+            QApplication a(argc, argv);
+            a.setApplicationName(......);
+            RabbitCommon::CTools::Instance()->Init();
+            
+            ......
+        }
 
 ### Functions
 
-[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
+[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
 
 #### [About](Src/DlgAbout/DlgAbout.h)
 
