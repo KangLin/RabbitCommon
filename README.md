@@ -289,7 +289,7 @@ Qt common library. include follow functions:
             ```
             
   + See: https://github.com/KangLin/SerialPortAssistant
-![About](docments/image/about_en.png "About")
+![About](documents/image/about_en.png "About")
 
 #### Updateer
 
@@ -348,7 +348,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
   
   + See: https://github.com/KangLin/SerialPortAssistant
   
-![Updater](docments/image/updater_en.png "Updater")
+![Updater](documents/image/updater_en.png "Updater")
 
 #### Execute the program with administrator privileges
 

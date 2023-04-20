@@ -285,7 +285,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             
   + 参见例子： https://github.com/KangLin/LunarCalendar
     
-![关于对话框](docments/image/about.PNG "关于对话框")
+![关于对话框](documents/image/about.PNG "关于对话框")
 
 #### 在线更新
 
@@ -344,7 +344,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   
   + 参见例子： https://github.com/KangLin/LunarCalendar
    
-![在线更新](docments/image/update.PNG "在线更新")
+![在线更新](documents/image/update.PNG "在线更新")
 
 #### 管理员权限运行程序
 
