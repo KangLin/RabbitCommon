@@ -1,3 +1,7 @@
+### 版本： v1.0.11
++ 增加版本函数: RabbitCommon::CTools::Version
++ 修复 ADD_TARGET 不产生版本配置文件错误
+
 ### 版本： v1.0.10
 + CI：
   - 增加拼写检查

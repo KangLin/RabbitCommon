@@ -98,6 +98,11 @@ QString CTools::GetLanguage()
     return m_szLanguage;
 }
 
+QString CTools::Version()
+{
+    return RabbitCommon_VERSION;
+}
+
 void CTools::Init(const QString szLanguage)
 {
     SetLanguage(szLanguage);

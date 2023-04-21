@@ -426,7 +426,7 @@ LIST(APPEND RCC_FILES
     )
 
 if(RabbitCommon_VERSION)
-    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
+    list(APPEND RabbitCommon_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
 else()
     message(WARNING "Please set RabbitCommon_VERSION")
 endif()

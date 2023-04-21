@@ -127,89 +127,100 @@
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="409"/>
-        <source>============== Qt ===========
+        <source>=========== RabbitCommon ========
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="410"/>
-        <source>Qt runtime version: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="411"/>
-        <source>Qt compile version: </source>
+        <source>RabbitCommon version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="412"/>
-        <source>Qt library version: </source>
+        <source>============== Qt ===========
+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="413"/>
-        <source>Locale: </source>
+        <source>Qt runtime version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="414"/>
+        <source>Qt compile version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="415"/>
+        <source>Qt library version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="416"/>
+        <source>Locale: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="418"/>
         <source>============== OS ===========
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="416"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="419"/>
         <source>OS: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="417"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="420"/>
         <source>Kernel type: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="418"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="421"/>
         <source>Kernel version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="420"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="423"/>
         <source>Boot Id: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="421"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="424"/>
         <source>Build ABI: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="422"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="425"/>
         <source>CPU: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="423"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="426"/>
         <source>Build CPU: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="425"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="428"/>
         <source>============= Host ==========
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="426"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="429"/>
         <source>Host name: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="427"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="430"/>
         <source>Domain name: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="431"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="434"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>

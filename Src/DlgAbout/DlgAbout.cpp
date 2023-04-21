@@ -396,7 +396,7 @@ void CDlgAbout::slotSslError(const QList<QSslError> &e)
 
 void CDlgAbout::on_pbDetails_clicked()
 {
-    QString szInfo, szApp, szOS, szQt, szHost;
+    QString szInfo, szRabbitCommon, szApp, szOS, szQt, szHost;
 
     szApp  = tr("======= Application  ========\n");
     szApp += QApplication::applicationDisplayName() + " " + Version() + "\n";
@@ -405,6 +405,9 @@ void CDlgAbout::on_pbDetails_clicked()
     szApp += tr("Arguments: ") + qApp->arguments().join(' ') + "\n";
     if(!m_szInfo.isEmpty())
         szApp += m_szInfo;
+    
+    szRabbitCommon += tr("=========== RabbitCommon ========\n");
+    szRabbitCommon += tr("RabbitCommon version:") + RabbitCommon::CTools::Version() + "\n";
 
     szQt += tr("============== Qt ===========\n");
     szQt += tr("Qt runtime version: ") + QString(qVersion()) + "\n";
@@ -426,7 +429,7 @@ void CDlgAbout::on_pbDetails_clicked()
     szHost += tr("Host name: ") + QSysInfo::machineHostName() + "\n";
     szHost += tr("Domain name: ") + QHostInfo::localDomainName();
 
-    szInfo = szApp + "\n" + szQt + "\n" + szOS + "\n" + szHost;
+    szInfo = szApp + "\n" + szRabbitCommon + "\n" + szQt + "\n" + szOS + "\n" + szHost;
     qInfo(RabbitCommon::Logger) << szInfo;
     QMessageBox::information(this, tr("Information"), szInfo);
 

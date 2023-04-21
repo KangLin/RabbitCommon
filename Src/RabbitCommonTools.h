@@ -22,9 +22,7 @@ class RABBITCOMMON_EXPORT CTools
 {
 public:
     static CTools* Instance();
-    
-    int SetLanguage(const QString szLanguage);
-    QString GetLanguage();
+
     /*! NOTE: 初始化资源，只在程序开始时调用一次，一般在 main() 函数的开始处
      * QApplication a(argc, argv);
      * a.setApplicationName(......);
@@ -40,7 +38,13 @@ public:
     void CleanTranslator();
     void InitResource();
     void CleanResource();
-    
+
+    int SetLanguage(const QString szLanguage);
+    QString GetLanguage();
+
+    //! RabbitCommon version
+    static QString Version();
+
     /*!
      * \brief Enable core dump
      * \param bPrompt: prompt
