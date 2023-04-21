@@ -20,6 +20,10 @@
 
 [在线开发文档](https://kanglin.github.io/RabbitCommon/Chinese/html/index.html)
 
+### 最后发行版本
+
+[最后发行版本](https://github.com/KangLin/RabbitCommon/releases/latest)
+
 ### 功能
 
 详见：[应用程序接口](https://kanglin.github.io/RabbitCommon/Chinese/html/group__API.html)
@@ -137,6 +141,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     以 pkg-config 形式查找库。设置 PKG_CONFIG_PATH 为安装路径。
     
   + cmake
+  
     cmake 参数 RabbitCommon_DIR 指定安装根目录
     
         find_package(RabbitCommon)
@@ -337,7 +342,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             <?xml version="1.0" encoding="UTF-8"?>
             <REDIRECT>
-                <VERSION>v1.0.9</VERSION>
+                <VERSION>v1.0.10</VERSION>
                 <WINDOWS>
                     <URL>url</URL>
                 </WINDOWS>

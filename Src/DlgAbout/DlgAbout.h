@@ -87,6 +87,7 @@ public:
     QString m_szVersionRevision;
     QString m_szVersionRevisionUrl;
     QString m_szArch;
+    QString m_szInfo; // Append to details
     QString m_szAuthor;
     QString m_szEmail;
     QString m_szHomePage;
@@ -103,7 +104,8 @@ protected:
 #endif
 
 protected Q_SLOTS:
-    void on_pushButton_clicked();
+    void on_pbOK_clicked();
+    void on_pbDetails_clicked();
     void slotDonation(const QPoint &pos);
     void slotSaveDonation();
     
@@ -126,6 +128,7 @@ private:
     int DownloadFile(const QUrl &url);
 
     QString BuildTime();
+    QString Version();
 
     QWidget* m_pLicense;
     QWidget* m_pChangeLog;

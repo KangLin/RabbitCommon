@@ -26,7 +26,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
-      RabbitCommon_VERSION: v1.0.9
+      RabbitCommon_VERSION: v1.0.10
       artifact_name: build_mingw
 
     # Map the job outputs to step outputs
@@ -106,5 +106,5 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw.zip
+            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64.zip
             

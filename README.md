@@ -20,6 +20,10 @@ Author：Kang Lin（kl222@126.com)
 
 [Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
 
+### Latest release
+
+[Latest release](https://github.com/KangLin/RabbitCommon/releases/latest)
+
 ### Functions
 
 [API](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
@@ -127,13 +131,14 @@ Qt common library. include follow functions:
 ### Other application use the project
 - Use in library mode
   + cmake
-    Cmake parameter RabbitCommon_DIR specifies the installation root directory
+
+    Set RabbitCommon_DIR to specify the root directory of the installed RabbitCommon
 
         find_package(RabbitCommon)
 
   + Qt pro file. (Deprecated, please use CMake for new programs)
 
-- Direct source code
+- Use the source code directly
   + cmake
     - Submodule
 
@@ -159,13 +164,9 @@ Qt common library. include follow functions:
                   message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
               endif()
 
-      + CMakeLists.txt in the project used
+      + Add the following code to the CMakeLists.txt file of the project
 
-              SET(APP_LIBS ${QT_LIBRARIES})
-              if(TARGET RabbitCommon)
-                  list(APPEND APP_LIBS RabbitCommon)
-              endif()
-              target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+              target_link_libraries(${PROJECT_NAME} RabbitCommon)
 
     - Static library
 
@@ -232,12 +233,14 @@ Qt common library. include follow functions:
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
 
-- Initialize the library at the beginning of main
+- Initialization fucntions is called at the beginning of main() of the program
+  and after QApplication
 
         int main(int argc, char* argv[])
         {
             QApplication a(argc, argv);
             a.setApplicationName(......);
+            // Because it depend on QApplication::applicationName()
             RabbitCommon::CTools::Instance()->Init();
             
             ......
@@ -339,7 +342,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v1.0.9</VERSION>
+              <VERSION>v1.0.10</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>

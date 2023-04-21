@@ -107,7 +107,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="49"/>
+        <location filename="../../main.cpp" line="54"/>
         <source>RabbitCommon</source>
         <translation type="unfinished"></translation>
     </message>
