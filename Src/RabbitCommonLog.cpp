@@ -13,7 +13,9 @@
 #include <QSettings>
 #include <QDir>
 #include <QFileInfo>
-#include <QDesktopServices>
+#ifdef HAVE_RABBITCOMMON_GUI
+    #include <QDesktopServices>
+#endif
 #include <QUrl>
 #include <QCoreApplication>
 #include <QRegularExpression>

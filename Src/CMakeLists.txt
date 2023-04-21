@@ -65,7 +65,7 @@ set(RABBITCOMMON_INCLUDE_DIRS
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
-set(_QT_COMPONENTS Core)
+set(_QT_COMPONENTS Core Network)
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
     LIST(APPEND _QT_COMPONENTS Gui Widgets)
@@ -76,7 +76,7 @@ if(WITH_GUI)
         RabbitCommonStyle.h
         FrmStyle/FrmStyle.h
         TitleBar.h
-        FolderBrowser/FolderBrowser.h
+        DockFolderBrowser/DockFolderBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         )
@@ -85,15 +85,15 @@ if(WITH_GUI)
         RabbitCommonStyle.cpp
         FrmStyle/FrmStyle.cpp
         TitleBar.cpp
-        FolderBrowser/FolderBrowser.cpp
+        DockFolderBrowser/DockFolderBrowser.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         FrmStyle/FrmStyle.ui
-        FolderBrowser/FolderBrowser.ui
+        DockFolderBrowser/DockFolderBrowser.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmStyle>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FolderBrowser>)
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>)
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
@@ -232,7 +232,6 @@ endif()
 cmake_dependent_option(BUILD_UPDATE "Set to ON to build update function" ON
     WITH_GUI OFF)
 if(BUILD_UPDATE)
-    LIST(APPEND _QT_COMPONENTS Network)
     if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
         find_package(Qt${QT_VERSION_MAJOR}StateMachine)
         if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)

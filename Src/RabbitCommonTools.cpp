@@ -188,10 +188,18 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     Q_UNUSED(szName)
     Q_UNUSED(szPath)
     Q_UNUSED(bAllUser)
-
-    QString appPath = QApplication::applicationFilePath();
+    
+    QString appPath;
+#ifdef HAVE_RABBITCOMMON_GUI
+    appPath = QApplication::applicationFilePath();
+#endif
     if(!szPath.isEmpty())
         appPath = szPath;
+    if(appPath.isEmpty())
+    {
+        qCCritical(Logger) << "szPath is empty";
+        return -1;
+    }
     if(bAllUser)
         return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();

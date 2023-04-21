@@ -1,5 +1,5 @@
-#include "FolderBrowser.h"
-#include "ui_FolderBrowser.h"
+#include "DockFolderBrowser.h"
+#include "ui_DockFolderBrowser.h"
 #include "TitleBar.h"
 #include "RabbitCommonDir.h"
 
@@ -8,11 +8,11 @@
 #include <QDir>
 #include <QSettings>
 
-CFolderBrowser::CFolderBrowser(const QString &title,
+CDockFolderBrowser::CDockFolderBrowser(const QString &title,
                              QWidget *parent,
                              Qt::WindowFlags flags)
     : QDockWidget(title, parent, flags),
-      ui(new Ui::CFolderBrowser),
+      ui(new Ui::CDockFolderBrowser),
       m_pModel(new QFileSystemModel(this)),
       m_bDetails(false)
 {
@@ -111,11 +111,11 @@ CFolderBrowser::CFolderBrowser(const QString &title,
     // [Use CTitleBar]
 }
 
-CFolderBrowser::CFolderBrowser(QWidget *parent, Qt::WindowFlags flags) :
-    CFolderBrowser(tr("Folder browser"), parent, flags)
+CDockFolderBrowser::CDockFolderBrowser(QWidget *parent, Qt::WindowFlags flags) :
+    CDockFolderBrowser(tr("Folder browser"), parent, flags)
 {}
 
-CFolderBrowser::~CFolderBrowser()
+CDockFolderBrowser::~CDockFolderBrowser()
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -125,13 +125,13 @@ CFolderBrowser::~CFolderBrowser()
     delete ui;
 }
 
-void CFolderBrowser::setRootPath(const QString dir)
+void CDockFolderBrowser::setRootPath(const QString dir)
 {
     m_pModel->setRootPath(dir);
     ui->treeView->setRootIndex(m_pModel->index(dir));
 }
 
-QString CFolderBrowser::rootPath() const
+QString CDockFolderBrowser::rootPath() const
 {
     return m_pModel->rootPath();
 }

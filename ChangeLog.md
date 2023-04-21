@@ -2,6 +2,8 @@
 
 + Add RabbitCommon::CTools::Version
 + Fix ADD_TARGET is not cmake version configure file
++ Fix include directory bug
++ Rename CFolderBrowser to CDockFolderBrowser
 
 ### Version: v1.0.10
 

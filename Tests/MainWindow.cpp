@@ -15,10 +15,14 @@
     #include "QUIWidget/QUIWidget.h"
 #endif
 #include "RabbitCommonTools.h"
-#include "FrmStyle.h"
+
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
-#include "FolderBrowser/FolderBrowser.h"
+
+#ifdef HAVE_RABBITCOMMON_GUI
+    #include "FrmStyle.h"
+    #include "DockFolderBrowser.h"
+#endif
 
 #include <QDir>
 #include <QDebug>
@@ -34,12 +38,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // [Use CFolderBrowser]
-    CFolderBrowser* pDock = new CFolderBrowser(tr("Folder browser"), this);
+#ifdef HAVE_RABBITCOMMON_GUI
+    // [Use CDockFolderBrowser]
+    CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
     addDockWidget(Qt::LeftDockWidgetArea, pDock);
     // Add the action of dock to menu
     ui->menuTools->addAction(pDock->toggleViewAction());
-    // [Use CFolderBrowser]
+    // [Use CDockFolderBrowser]
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +73,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
+#ifdef HAVE_UPDATE
     // [Use CFrmUpdater]
     CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
     QIcon icon = windowIcon();
@@ -82,7 +89,7 @@ void MainWindow::on_actionUpdate_triggered()
         m_pfrmUpdater->show();
     #endif
     // [Use CFrmUpdater]
-
+#endif
 #ifdef BUILD_QUIWidget
     QUIWidget::setFormInCenter(m_pfrmUpdater);
 #endif
@@ -90,7 +97,6 @@ void MainWindow::on_actionUpdate_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-#ifdef HAVE_ADMINAUTHORISER
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     QString szCmd = "mkdir";
     QStringList paras;
@@ -100,7 +106,6 @@ void MainWindow::on_pushButton_clicked()
     RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
 #elif defined(Q_OS_WINDOWS)
     RabbitCommon::CTools::executeByRoot("regedit", QStringList());
-#endif
 #endif
 }
 
@@ -132,17 +137,23 @@ void MainWindow::on_pbEncrypt_clicked()
 
 void MainWindow::on_actionOpen_log_configure_triggered()
 {
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogConfigureFile();
+#endif
 }
 
 void MainWindow::on_actionOpen_log_file_triggered()
 {
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogFile();
+#endif
 }
 
 void MainWindow::on_actionOpen_log_folder_triggered()
 {
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogFolder();
+#endif
 }
 
 void MainWindow::on_pbGenerateCoreFile_clicked()

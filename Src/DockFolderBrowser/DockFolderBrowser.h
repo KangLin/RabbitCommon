@@ -6,7 +6,7 @@
 #include "rabbitcommon_export.h"
 
 namespace Ui {
-class CFolderBrowser;
+class CDockFolderBrowser;
 }
 
 class QFileSystemModel;
@@ -14,23 +14,23 @@ class QFileSystemModel;
 /*!
  * \~english
  * \brief Folder browser. \n
- *        Usage: \snippet Tests/MainWindow.cpp Use CFolderBrowser
+ *        Usage: \snippet Tests/MainWindow.cpp Use CDockFolderBrowser
  * \~chinese
  * \brief 文件夹浏览器。 \n
- *        用法：\snippet Tests/MainWindow.cpp Use CFolderBrowser
+ *        用法：\snippet Tests/MainWindow.cpp Use CDockFolderBrowser
  * \~
  * \ingroup API
  */
-class RABBITCOMMON_EXPORT CFolderBrowser : public QDockWidget
+class RABBITCOMMON_EXPORT CDockFolderBrowser : public QDockWidget
 {
     Q_OBJECT
     
 public:
-    explicit CFolderBrowser(const QString &title, QWidget *parent = nullptr,
+    explicit CDockFolderBrowser(const QString &title, QWidget *parent = nullptr,
                            Qt::WindowFlags flags = Qt::WindowFlags());
-    explicit CFolderBrowser(QWidget *parent = nullptr,
+    explicit CDockFolderBrowser(QWidget *parent = nullptr,
                            Qt::WindowFlags flags = Qt::WindowFlags());
-    virtual ~CFolderBrowser();
+    virtual ~CDockFolderBrowser();
 
     //! Set root path
     void setRootPath(const QString dir);
@@ -46,7 +46,7 @@ Q_SIGNALS:
     void sigDoubleClicked(const QString &szItem, bool bDir);
 
 private:
-    Ui::CFolderBrowser *ui;
+    Ui::CDockFolderBrowser *ui;
     
     QFileSystemModel *m_pModel;
 
