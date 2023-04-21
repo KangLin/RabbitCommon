@@ -11,9 +11,9 @@ set(SOURCE_FILES
 set(SOURCE_UI_FILES MainWindow.ui)
 
 #翻译
-include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/RabbitCommonUtils.cmake)
+#include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
+#include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
+#include(${CMAKE_SOURCE_DIR}/cmake/RabbitCommonUtils.cmake)
 
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE

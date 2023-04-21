@@ -18,7 +18,11 @@ Author：Kang Lin（kl222@126.com)
 
 ### Developer documetns
 
-[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
+[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
+
+### Latest release
+
+[Latest release](https://github.com/KangLin/RabbitCommon/releases/latest)
 
 ### Functions
 
@@ -125,7 +129,16 @@ Qt common library. include follow functions:
      ```
 
 ### Other application use the project
-- Direct source code
+- Use in library mode
+  + cmake
+
+    Set RabbitCommon_DIR to specify the root directory of the installed RabbitCommon
+
+        find_package(RabbitCommon)
+
+  + Qt pro file. (Deprecated, please use CMake for new programs)
+
+- Use the source code directly
   + cmake
     - Submodule
 
@@ -151,13 +164,9 @@ Qt common library. include follow functions:
                   message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
               endif()
 
-      + CMakeLists.txt in the project used
+      + Add the following code to the CMakeLists.txt file of the project
 
-              SET(APP_LIBS ${QT_LIBRARIES})
-              if(TARGET RabbitCommon)
-                  list(APPEND APP_LIBS RabbitCommon)
-              endif()
-              target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+              target_link_libraries(${PROJECT_NAME} RabbitCommon)
 
     - Static library
 
@@ -223,21 +232,23 @@ Qt common library. include follow functions:
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-- Use in library mode
-  + cmake
-    Cmake parameter RabbitCommon_DIR specifies the installation root directory
 
-        find_package(RabbitCommon)
+- Initialization fucntions is called at the beginning of main() of the program
+  and after QApplication
 
-  + Qt pro file. (Deprecated, please use CMake for new programs)
-
-- Load resource
-
-        RabbitCommon::CTools::Instance()->Init();
+        int main(int argc, char* argv[])
+        {
+            QApplication a(argc, argv);
+            a.setApplicationName(......);
+            // Because it depend on QApplication::applicationName()
+            RabbitCommon::CTools::Instance()->Init();
+            
+            ......
+        }
 
 ### Functions
 
-[Developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
+[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
 
 #### [About](Src/DlgAbout/DlgAbout.h)
 
@@ -289,7 +300,7 @@ Qt common library. include follow functions:
             ```
             
   + See: https://github.com/KangLin/SerialPortAssistant
-![About](docments/image/about_en.png "About")
+![About](documents/image/about_en.png "About")
 
 #### Updateer
 
@@ -327,11 +338,11 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
             --home <Project home url>        Project home url
             -m, --min <Min update version>   Min update version
 
-  + Add Update/update.xml in project source root direcory, then add the url to CFrmUpdater::DownloadFile.
+  + Add Update/update.xml in project source root directory, then add the url to CFrmUpdater::DownloadFile.
 
           <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v1.0.9</VERSION>
+              <VERSION>v1.0.10</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>
@@ -348,7 +359,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
   
   + See: https://github.com/KangLin/SerialPortAssistant
   
-![Updater](docments/image/updater_en.png "Updater")
+![Updater](documents/image/updater_en.png "Updater")
 
 #### Execute the program with administrator privileges
 

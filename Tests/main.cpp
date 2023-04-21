@@ -33,10 +33,14 @@ int main(int argc, char *argv[])
     a.setApplicationName("RabbitCommonTests");
 
     RabbitCommon::CTools::Instance()->Init();
+
+    QString qm = RabbitCommon::CDir::Instance()->GetDirTranslations()
+            + "/RabbitCommonTests_" + QLocale::system().name() + ".qm";
     QTranslator tApp;
-    tApp.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-              + "/RabbitCommonTests_" + QLocale::system().name() + ".qm");
-    a.installTranslator(&tApp);
+    if(tApp.load(qm))
+        a.installTranslator(&tApp);
+    else
+        qDebug(mainLog()) << "Load translations fail:" << qm;
 
     qDebug(mainLog) << "GetDirApplication:"
                     << RabbitCommon::CDir::Instance()->GetDirApplication();
@@ -45,6 +49,7 @@ int main(int argc, char *argv[])
     qInfo(mainLog) << "GetDirUserDocument"
                    << RabbitCommon::CDir::Instance()->GetDirUserDocument();
 
+    // Must after install translator
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
 
     QCommandLineParser parser;

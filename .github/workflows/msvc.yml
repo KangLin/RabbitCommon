@@ -9,7 +9,6 @@ on:
 
 jobs:
   build_msvc:
-    #name: qt${{matrix.qt_version}}-${{matrix.triplet}}-${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.BUILD_TYPE}}
 
     strategy:
       matrix:
@@ -44,8 +43,8 @@ jobs:
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      RabbitCommon_VERSION: v1.0.9
-      VCPKGGITCOMMITID: 809266d51a238e504acc134e5878c7860d5c179c
+      RabbitCommon_VERSION: v1.0.10
+      VCPKGGITCOMMITID: 9c7c66471005cb132832786d5d65d83d2cf503ad
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
@@ -189,7 +188,6 @@ jobs:
           name: ${{ env.artifact_name }}
           path: |
             ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_msvc_${{matrix.CMAKE_GENERATOR_PLATFORM}}_qt${{matrix.qt_version}}.zip
-            ${{github.workspace}}\build\RabbitCommon-*.exe
 
 #      - name: Upload To Github Release
 #        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}

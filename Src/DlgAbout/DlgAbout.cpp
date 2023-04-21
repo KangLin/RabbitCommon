@@ -29,6 +29,9 @@ Abstract:
 #include <QStandardPaths>
 #include <QSslError>
 #include <QDateTime>
+#include <QLibraryInfo>
+#include <QMessageBox>
+#include <QHostInfo>
 
 #ifdef HAVE_CMARK
     #include "cmark.h"
@@ -119,25 +122,8 @@ void CDlgAbout::showEvent(QShowEvent *event)
     ui->lbCopyrightIcon->setPixmap(QPixmap::fromImage(m_CopyrightIcon));
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
     ui->lblName->setText(m_szAppName);
-    QString szVersion;
-    if(m_szVersionRevision.isEmpty())
-    {
-        szVersion = tr("Version: ") + m_szVersion + tr("Arch: ") + m_szArch;
-    } else {
-        if(m_szVersionRevisionUrl.isEmpty())
-        {
-            m_szVersionRevisionUrl =
-                    m_szHomePage + "/tree/" + m_szVersionRevision;
-        }
-        szVersion = tr("Version: ") + m_szVersion + tr(" (From revision: ")
-                + "<a href=\"" + m_szVersionRevisionUrl + "\">"
-                + m_szVersionRevision + "</a>) " + tr("Arch: ")
-                + m_szArch;
-    }
-    ui->lbVersion->setText(szVersion);
+    ui->lbVersion->setText(Version());
     ui->lbVersion->setOpenExternalLinks(true);
-    ui->lbQtVersion->setText(tr("Qt version: ") + QT_VERSION_STR);
-    ui->lbDate->setText(tr("Build date: ") + BuildTime());
     ui->lbAuthor->setText(tr("Author: ") + m_szAuthor
                           + tr(" Email: ") + "<a href=\"" + m_szEmail + "\">"
                           + m_szEmail + "</a>");
@@ -244,7 +230,7 @@ QString CDlgAbout::MarkDownToHtml(const QString &szText)
     return szRetureText;
 }
 
-void CDlgAbout::on_pushButton_clicked()
+void CDlgAbout::on_pbOK_clicked()
 {
     close();
 }
@@ -317,7 +303,27 @@ int CDlgAbout::DownloadFile(const QUrl &url)
 
 QString CDlgAbout::BuildTime()
 {
-    return QString(__DATE__) + " " + __TIME__;
+    return QString(__DATE__) + "/" + __TIME__;
+}
+
+QString CDlgAbout::Version()
+{
+    QString szVersion;
+    if(m_szVersionRevision.isEmpty())
+    {
+        szVersion = tr("Version: ") + m_szVersion + " " + tr("Arch: ") + m_szArch;
+    } else {
+        if(m_szVersionRevisionUrl.isEmpty())
+        {
+            m_szVersionRevisionUrl =
+                    m_szHomePage + "/tree/" + m_szVersionRevision;
+        }
+        szVersion = tr("Version: ") + m_szVersion + tr(" (From revision: ")
+                + "<a href=\"" + m_szVersionRevisionUrl + "\">"
+                + m_szVersionRevision + "</a>) " + " " + tr("Arch: ")
+                + m_szArch;
+    }
+    return szVersion;
 }
 
 void CDlgAbout::slotFinished()
@@ -387,3 +393,42 @@ void CDlgAbout::slotSslError(const QList<QSslError> &e)
         m_pReply = nullptr;
     }
 }
+
+void CDlgAbout::on_pbDetails_clicked()
+{
+    QString szInfo, szApp, szOS, szQt, szHost;
+
+    szApp  = tr("======= Application  ========\n");
+    szApp += QApplication::applicationDisplayName() + " " + Version() + "\n";
+    szApp += tr("Build Date/Time: ") + BuildTime() + "\n";
+    szApp += tr("File Path: ") + QApplication::applicationFilePath() + "\n";
+    szApp += tr("Arguments: ") + qApp->arguments().join(' ') + "\n";
+    if(!m_szInfo.isEmpty())
+        szApp += m_szInfo;
+
+    szQt += tr("============== Qt ===========\n");
+    szQt += tr("Qt runtime version: ") + QString(qVersion()) + "\n";
+    szQt += tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
+    szQt += tr("Qt library version: ") + QLibraryInfo::version().toString() + "\n";
+    szQt += tr("Locale: ") + QLocale::system().name() + "\n";
+
+    szOS += tr("============== OS ===========\n");
+    szOS += tr("OS: ") + QSysInfo::prettyProductName() + "\n";
+    szOS += tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
+    szOS += tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
+    if(!QSysInfo::bootUniqueId().isEmpty())
+        szOS += tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
+    szOS += tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
+    szOS += tr("CPU: ") + QSysInfo::currentCpuArchitecture() + "\n";
+    szOS += tr("Build CPU: ") + QSysInfo::buildCpuArchitecture() + "\n";
+
+    szHost += tr("============= Host ==========\n");
+    szHost += tr("Host name: ") + QSysInfo::machineHostName() + "\n";
+    szHost += tr("Domain name: ") + QHostInfo::localDomainName();
+
+    szInfo = szApp + "\n" + szQt + "\n" + szOS + "\n" + szHost;
+    qInfo(RabbitCommon::Logger) << szInfo;
+    QMessageBox::information(this, tr("Information"), szInfo);
+
+}
+

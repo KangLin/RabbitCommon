@@ -18,7 +18,11 @@
 
 ### 开发文档
 
-[开发文档](https://kanglin.github.io/RabbitCommon/Chinese/html/index.html)
+[在线开发文档](https://kanglin.github.io/RabbitCommon/Chinese/html/index.html)
+
+### 最后发行版本
+
+[最后发行版本](https://github.com/KangLin/RabbitCommon/releases/latest)
 
 ### 功能
 
@@ -131,6 +135,17 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         ```
 
 ### 其它应用使用本项目
+- 以库方式使用使用
+  + Qt 工程文件。(已废弃，新程序请用 CMake)
+    
+    以 pkg-config 形式查找库。设置 PKG_CONFIG_PATH 为安装路径。
+    
+  + cmake
+  
+    cmake 参数 RabbitCommon_DIR 指定安装根目录
+    
+        find_package(RabbitCommon)
+
 - 直接用源码
   + cmake工程
     - 子模块方式
@@ -221,16 +236,16 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
-- 以库方式使用使用
-  + Qt 工程文件。(已废弃，新程序请用 CMake)
-  + cmake
-    cmake 参数 RabbitCommon_DIR 指定安装根目录
-    
-        find_package(RabbitCommon)
+- 在程序main开始处，初始化
 
-- 加载资源
-
-        RabbitCommon::CTools::Instance()->Init();
+        int main(int argc, char* argv[])
+        {
+            QApplication a(argc, argv);
+            a.setApplicationName(......);
+            RabbitCommon::CTools::Instance()->Init();
+            
+            ......
+        }
 
 ### 功能
 
@@ -285,7 +300,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             
   + 参见例子： https://github.com/KangLin/LunarCalendar
     
-![关于对话框](docments/image/about.PNG "关于对话框")
+![关于对话框](documents/image/about.PNG "关于对话框")
 
 #### 在线更新
 
@@ -327,7 +342,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             <?xml version="1.0" encoding="UTF-8"?>
             <REDIRECT>
-                <VERSION>v1.0.9</VERSION>
+                <VERSION>v1.0.10</VERSION>
                 <WINDOWS>
                     <URL>url</URL>
                 </WINDOWS>
@@ -344,7 +359,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   
   + 参见例子： https://github.com/KangLin/LunarCalendar
    
-![在线更新](docments/image/update.PNG "在线更新")
+![在线更新](documents/image/update.PNG "在线更新")
 
 #### 管理员权限运行程序
 

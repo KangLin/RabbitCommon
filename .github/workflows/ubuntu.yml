@@ -14,7 +14,6 @@ jobs:
   build_ubuntu:
     strategy:
       matrix:
-        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
     runs-on: ubuntu-latest
@@ -24,7 +23,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
-      RabbitCommon_VERSION: 1.0.9
+      RabbitCommon_VERSION: 1.0.10
       artifact_name: build_ubuntu
 
     # Map the job outputs to step outputs

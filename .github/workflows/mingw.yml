@@ -13,7 +13,6 @@ jobs:
 
     strategy:
       matrix:
-        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
     defaults:
@@ -27,7 +26,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
-      RabbitCommon_VERSION: v1.0.9
+      RabbitCommon_VERSION: v1.0.10
       artifact_name: build_mingw
 
     # Map the job outputs to step outputs
@@ -51,7 +50,8 @@ jobs:
         env:
           PATH: C:\msys64\usr\bin
         run: | 
-          C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-cmake ^
+          C:\msys64\usr\bin\pacman -S --noconfirm ^
+              mingw-w64-x86_64-cmake ^
               mingw-w64-x86_64-make ^
               mingw-w64-x86_64-nsis ^
               mingw-w64-x86_64-gcc ^
@@ -70,25 +70,7 @@ jobs:
           path: |
             ${{env.INSTALL_DIR}}
           key: cache-installed-mingw-install
-    
-      - name: build log4qt
-        if: false
-        working-directory: ${{env.SOURCE_DIR}}
-        env:
-          MSYSTEM: MINGW64
-          PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
-        run: |
-          IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/Log4Qt (
-              git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
-              cd Log4Qt
-              cmake -E make_directory build
-              cd build
-              cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                  -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
-              cmake --build . --config ${{matrix.BUILD_TYPE}}
-              cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-          )
-        
+
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}
         env:
@@ -103,24 +85,26 @@ jobs:
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
-              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
+              -DCMAKE_CXX_COMPILER_ARCHITECTURE_ID=x86_64
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
 
       - name: Package
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw.zip .\install\*
-    
+          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64.zip .\install\*
+
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw.zip
+            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64.zip
+            
