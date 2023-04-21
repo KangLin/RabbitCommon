@@ -83,7 +83,7 @@ public:
 public:
     QString m_szAppName;
     QImage m_AppIcon;
-    //! The application version, it is diffent RabbitCommon::CTools::Version()
+    //! The application version, it is different RabbitCommon::CTools::Version()
     QString m_szVersion;
     QString m_szVersionRevision;
     QString m_szVersionRevisionUrl;
