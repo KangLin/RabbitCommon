@@ -306,7 +306,7 @@ int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCove
     return true;
 }
 
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
 QString CDir::GetOpenDirectory(QWidget *parent,
                                const QString &caption,
                                const QString &dir,
@@ -394,6 +394,6 @@ QString CDir::GetSaveFileName(QWidget *parent,
 #endif
     return szFile;
 }
-#endif //HAVE_GUI
+#endif //HAVE_RABBITCOMMON_GUI
 
 } //namespace RabbitCommon

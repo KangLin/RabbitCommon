@@ -91,7 +91,7 @@ public:
     static void OpenLogFile();
     static void OpenLogFolder();
     
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     static int RestoreWidget(QWidget* pWidget);
     static int SaveWidget(QWidget* pWidget);
 #endif

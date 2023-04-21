@@ -695,7 +695,7 @@ void CLog::slotTimeout()
     checkFileCount();
 }
 
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
 
 void OpenLogConfigureFile()
 {

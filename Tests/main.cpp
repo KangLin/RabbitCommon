@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     // Must after install translator
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::CStyle::Instance()->LoadStyle();
 #endif
 

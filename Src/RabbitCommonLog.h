@@ -36,7 +36,7 @@ namespace RabbitCommon {
 #define LOG_MODEL_WARNING(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_WARNING, model, __VA_ARGS__)
 #define LOG_MODEL_INFO(model, ...) RabbitCommon::CLog::Instance()->Print(__FILE__, __LINE__, Q_FUNC_INFO, LM_INFO, model, __VA_ARGS__)
 
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogConfigureFile instead") RABBITCOMMON_EXPORT void OpenLogConfigureFile();
     Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogFile instead") RABBITCOMMON_EXPORT void OpenLogFile();
     Q_DECL_DEPRECATED_X("Please use RabbitCommon::CTools::OpenLogFolder instead") RABBITCOMMON_EXPORT void OpenLogFolder();

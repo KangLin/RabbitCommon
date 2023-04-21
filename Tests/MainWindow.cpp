@@ -6,19 +6,16 @@
 #include "ui_MainWindow.h"
 
 #ifdef HAVE_ABOUT
-    #include "DlgAbout/DlgAbout.h"
+    #include "DlgAbout.h"
 #endif
 #ifdef HAVE_UPDATE
-    #include "FrmUpdater/FrmUpdater.h"
-#endif
-#ifdef HAVE_ADMINAUTHORISER
-    #include "AdminAuthoriser/adminauthoriser.h"
+    #include "FrmUpdater.h"
 #endif
 #ifdef BUILD_QUIWidget
     #include "QUIWidget/QUIWidget.h"
 #endif
 #include "RabbitCommonTools.h"
-#include "FrmStyle/FrmStyle.h"
+#include "FrmStyle.h"
 #include "RabbitCommonEncrypt.h"
 #include "RabbitCommonLog.h"
 #include "FolderBrowser/FolderBrowser.h"
@@ -109,7 +106,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_actionStype_triggered()
 {
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     CFrmStyle* s = new CFrmStyle();
     s->show();
 #endif
