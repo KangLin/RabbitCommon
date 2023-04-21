@@ -18,6 +18,7 @@ Abstract:
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
 #include "RabbitCommonLog.h"
+#include "Information.h"
 
 #ifdef HAVE_WebEngineWidgets
     #include <QWebEngineView>
@@ -29,9 +30,6 @@ Abstract:
 #include <QStandardPaths>
 #include <QSslError>
 #include <QDateTime>
-#include <QLibraryInfo>
-#include <QMessageBox>
-#include <QHostInfo>
 
 #ifdef HAVE_CMARK
     #include "cmark.h"
@@ -396,42 +394,15 @@ void CDlgAbout::slotSslError(const QList<QSslError> &e)
 
 void CDlgAbout::on_pbDetails_clicked()
 {
-    QString szInfo, szRabbitCommon, szApp, szOS, szQt, szHost;
+    QString szApp;
 
-    szApp  = tr("======= Application  ========\n");
-    szApp += QApplication::applicationDisplayName() + " " + Version() + "\n";
-    szApp += tr("Build Date/Time: ") + BuildTime() + "\n";
-    szApp += tr("File Path: ") + QApplication::applicationFilePath() + "\n";
-    szApp += tr("Arguments: ") + qApp->arguments().join(' ') + "\n";
-    if(!m_szInfo.isEmpty())
-        szApp += m_szInfo;
-    
-    szRabbitCommon += tr("=========== RabbitCommon ========\n");
-    szRabbitCommon += tr("RabbitCommon version:") + RabbitCommon::CTools::Version() + "\n";
+    szApp  = tr("### Application") + "\n";
+    szApp += "- " + QApplication::applicationDisplayName() + " " + Version() + "\n";
+    szApp += "- " + tr("Build Date/Time: ") + BuildTime() + "\n";
+    szApp += "- " + tr("File Path: ") + QApplication::applicationFilePath() + "\n";
+    szApp += "- " + tr("Arguments: ") + qApp->arguments().join(' ') + "\n";
 
-    szQt += tr("============== Qt ===========\n");
-    szQt += tr("Qt runtime version: ") + QString(qVersion()) + "\n";
-    szQt += tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
-    szQt += tr("Qt library version: ") + QLibraryInfo::version().toString() + "\n";
-    szQt += tr("Locale: ") + QLocale::system().name() + "\n";
-
-    szOS += tr("============== OS ===========\n");
-    szOS += tr("OS: ") + QSysInfo::prettyProductName() + "\n";
-    szOS += tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
-    szOS += tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
-    if(!QSysInfo::bootUniqueId().isEmpty())
-        szOS += tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
-    szOS += tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
-    szOS += tr("CPU: ") + QSysInfo::currentCpuArchitecture() + "\n";
-    szOS += tr("Build CPU: ") + QSysInfo::buildCpuArchitecture() + "\n";
-
-    szHost += tr("============= Host ==========\n");
-    szHost += tr("Host name: ") + QSysInfo::machineHostName() + "\n";
-    szHost += tr("Domain name: ") + QHostInfo::localDomainName();
-
-    szInfo = szApp + "\n" + szRabbitCommon + "\n" + szQt + "\n" + szOS + "\n" + szHost;
-    qInfo(RabbitCommon::Logger) << szInfo;
-    QMessageBox::information(this, tr("Information"), szInfo);
-
+    CInformation info(szApp, m_szInfo, this);
+    info.exec();
 }
 

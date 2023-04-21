@@ -95,8 +95,11 @@ cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
 if(BUILD_ABOUT)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
-    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
-    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
+    list(APPEND RABBITCOMMON_HEAD_FILES DlgAbout/Information.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp
+        DlgAbout/Information.cpp)
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui
+        DlgAbout/Information.ui)
 endif(BUILD_ABOUT)
 
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
@@ -491,18 +494,16 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )
 
-if(UNIX OR MINGW)
-    foreach(d ${RabbitCommon_DEFINITIONS})
-        SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
-    endforeach()
+foreach(d ${RabbitCommon_DEFINITIONS})
+    SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
+endforeach()
 
-    # Install pc files
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
-        ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
-    install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-            COMPONENT Development)
-endif()
+# Install pc files
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    COMPONENT Development)
 
 # Install style files
 if(ANDROID)
