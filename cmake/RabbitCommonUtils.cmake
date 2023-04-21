@@ -486,7 +486,7 @@ function(INSTALL_TARGET)
             # Install cmake configure files
             if(DEFINED PARA_NAMESPACE)
                 export(TARGETS ${PARA_NAME}
-                    APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+                    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
                     NAMESPACE ${PARA_NAMESPACE}::
                     )
                 install(EXPORT ${PARA_EXPORT_NAME}
@@ -497,7 +497,7 @@ function(INSTALL_TARGET)
             else()
                 set(PARA_NAMESPACE ${PARA_NAME})
                 export(TARGETS ${PARA_NAME}
-                    APPEND FILE ${CMAKE_BINARY_DIR}/${PARA_NAME}Config.cmake
+                    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
                     )
                 # Install cmake configure files
                 install(EXPORT ${PARA_EXPORT_NAME}
@@ -525,15 +525,19 @@ function(INSTALL_TARGET)
                 endif()
             endif()
             # Install cmake version configure file
-            if(DEFINED PARA_VERSION)
+            if(NOT DEFINED PARA_VERSION)
+                get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
+            endif()
+            if(PARA_VERSION)
                 write_basic_package_version_file(
-                    "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+                    "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                     VERSION ${PARA_VERSION}
                     COMPATIBILITY AnyNewerVersion)
-                install(FILES "${CMAKE_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
+                install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
-                        COMPONENT ${PARA_COMPONENT_DEV})
+                    COMPONENT ${PARA_COMPONENT_DEV})
             endif()
+
         endif(PARA_ISEXE)
         
         # Windows 下分发
@@ -894,6 +898,7 @@ function(ADD_TARGET)
                 INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}
                 COMPONENT ${PARA_COMPONENT}
                 COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
+                VERSION ${PARA_VERSION}
             )
         elseif(PARA_ISEXE)
             if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
@@ -902,7 +907,8 @@ function(ADD_TARGET)
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                     INCLUDES ${PARA_INSTALL_INCLUDES}
                     COMPONENT ${PARA_COMPONENT}
-                    COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX})
+                    COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
+                    VERSION ${PARA_VERSION})
             endif()
         else() # Is library
 
@@ -914,7 +920,8 @@ function(ADD_TARGET)
                     INCLUDES ${PARA_INSTALL_INCLUDES}
                     COMPONENT ${PARA_COMPONENT}
                     COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
-                    INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE})
+                    INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}
+                    VERSION ${PARA_VERSION})
             endif()
 
         endif()

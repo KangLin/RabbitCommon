@@ -9,7 +9,7 @@
 #pragma once
 
 #include <QString>
-#if HAVE_GUI
+#if HAVE_RABBITCOMMON_GUI
 #include <QFileDialog>
 #endif
 #include "rabbitcommon_export.h"
@@ -104,7 +104,7 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     static QString GetOpenDirectory(QWidget *parent = nullptr,
                       const QString &caption = QString(),
                       const QString &dir = QString(),
@@ -119,7 +119,7 @@ public:
                       const QString &dir = QString(),
                       const QString &filter = QString(),
                       QFileDialog::Options options = QFileDialog::Options());
-#endif //HAVE_GUI
+#endif //HAVE_RABBITCOMMON_GUI
 
 private:
     CDir();

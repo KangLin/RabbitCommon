@@ -6,7 +6,9 @@
 #include "dbghelp.h"
 #include <QDir>
 #include <QDateTime>
+#ifdef HAVE_RABBITCOMMON_GUI
 #include <QMessageBox>
+#endif
 #include <QTranslator>
 #include <QCoreApplication>
 #include "MiniDumper.h"
@@ -52,8 +54,10 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 	// 提示
 	QString strTitle = QObject::tr("Application Error");
 	QString strContent = QObject::tr("I'm Sorry, Application is Crash! The path: ")
-            + QDir::currentPath() + QDir::separator() + dumpName;
-	QMessageBox::critical(0, strTitle, strContent, QMessageBox::Ok);
+                         + QDir::currentPath() + QDir::separator() + dumpName;
+#ifdef HAVE_RABBITCOMMON_GUI
+    QMessageBox::critical(0, strTitle, strContent, QMessageBox::Ok);
+#endif
 
 	return EXCEPTION_EXECUTE_HANDLER;
 }

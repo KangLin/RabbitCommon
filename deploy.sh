@@ -40,6 +40,8 @@ sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
 
 sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
 sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Tests/Tests.pro
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/GenerateUpdateFile/GenerateUpdateFile.pro
 #sed -i "s/^\  - export VERSION=.*/\  - export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
 

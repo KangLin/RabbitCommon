@@ -83,6 +83,7 @@ public:
 public:
     QString m_szAppName;
     QImage m_AppIcon;
+    //! The application version, it is diffent RabbitCommon::CTools::Version()
     QString m_szVersion;
     QString m_szVersionRevision;
     QString m_szVersionRevisionUrl;
@@ -134,8 +135,9 @@ private:
     QWidget* m_pChangeLog;
     QWidget* m_pThanks;
     int AppendFile(QWidget *pWidget, const QString &szFile);
-    QString MarkDownToHtml(const QString &szText);
-
+    static QString MarkDownToHtml(const QString &szText);
+    friend class CInformation;
+    
 protected:
     virtual void showEvent(QShowEvent *event) override;
 };

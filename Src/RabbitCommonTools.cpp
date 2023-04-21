@@ -10,7 +10,7 @@
 #include "Log.h"
 
 #include <QSettings>
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
 #include <QApplication>
 #include <QIcon>
 #include <QMainWindow>
@@ -98,6 +98,11 @@ QString CTools::GetLanguage()
     return m_szLanguage;
 }
 
+QString CTools::Version()
+{
+    return RabbitCommon_VERSION;
+}
+
 void CTools::Init(const QString szLanguage)
 {
     SetLanguage(szLanguage);
@@ -105,9 +110,9 @@ void CTools::Init(const QString szLanguage)
     InitResource();
     InitTranslator(szLanguage);
     
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     CStyle::Instance()->LoadStyle();
-#endif //HAVE_GUI
+#endif //HAVE_RABBITCOMMON_GUI
 }
 
 void CTools::Clean()
@@ -183,10 +188,18 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     Q_UNUSED(szName)
     Q_UNUSED(szPath)
     Q_UNUSED(bAllUser)
-
-    QString appPath = QApplication::applicationFilePath();
+    
+    QString appPath;
+#ifdef HAVE_RABBITCOMMON_GUI
+    appPath = QApplication::applicationFilePath();
+#endif
     if(!szPath.isEmpty())
         appPath = szPath;
+    if(appPath.isEmpty())
+    {
+        qCCritical(Logger) << "szPath is empty";
+        return -1;
+    }
     if(bAllUser)
         return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();
@@ -266,7 +279,7 @@ int CTools::GenerateDesktopFile(const QString &szPath,
     szContent = "[Desktop Entry]\n";
     szContent += "Name=" + qApp->applicationName() + "\n";
     szContent += "Comment=" + qApp->applicationName() + "\n";
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     szContent += "Name[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
     szContent += "Comment[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
 #else
@@ -314,26 +327,26 @@ QString CTools::GetHostName()
 
 void CTools::OpenLogConfigureFile()
 {
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogConfigureFile();
 #endif
 }
 
 void CTools::OpenLogFile()
 {
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogFile();
 #endif
 }
 
 void CTools::OpenLogFolder()
 {
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::OpenLogFolder();
 #endif
 }
 
-#ifdef HAVE_GUI
+#ifdef HAVE_RABBITCOMMON_GUI
 int CTools::RestoreWidget(QWidget *pWidget)
 {
     int nRet = 0;

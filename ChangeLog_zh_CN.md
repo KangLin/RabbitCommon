@@ -1,3 +1,9 @@
+### 版本： v1.0.11
++ 增加版本函数: RabbitCommon::CTools::Version
++ 修复 ADD_TARGET 不产生版本配置文件错误
++ 修复包含头文件错误
++ 重命名 CFolderBrowser 到 CDockFolderBrowser
+
 ### 版本： v1.0.10
 + CI：
   - 增加拼写检查

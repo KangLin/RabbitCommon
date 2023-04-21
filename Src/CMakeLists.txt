@@ -58,24 +58,23 @@ SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
 set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
 set(RABBITCOMMON_HEAD_FILES )
+set(RABBITCOMMON_INCLUDE_DIRS
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 endif()
-set(_QT_COMPONENTS Core)
+set(_QT_COMPONENTS Core Network)
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
     LIST(APPEND _QT_COMPONENTS Gui Widgets)
-    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_GUI)
-    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FolderBrowser>"
-        )
+    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
         Style/FrmStyle.h
         TitleBar.h
-        FolderBrowser/FolderBrowser.h
+        DockFolderBrowser/DockFolderBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
@@ -85,23 +84,29 @@ if(WITH_GUI)
         Style/Style.cpp
         Style/FrmStyle.cpp
         TitleBar.cpp
-        FolderBrowser/FolderBrowser.cpp
+        DockFolderBrowser/DockFolderBrowser.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
-        FolderBrowser/FolderBrowser.ui
+        DockFolderBrowser/DockFolderBrowser.ui
         )
+    list(APPEND RABBITCOMMON_INCLUDE_DIRS
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>)
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
     WITH_GUI OFF)
 if(BUILD_ABOUT)
-    LIST(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
-    LIST(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
-    LIST(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp)
-    LIST(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui)
-    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
+    list(APPEND RABBITCOMMON_HEAD_FILES DlgAbout/Information.h)
+    list(APPEND RABBITCOMMON_SOURCE_FILES DlgAbout/DlgAbout.cpp
+        DlgAbout/Information.cpp)
+    list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui
+        DlgAbout/Information.ui)
+    list(APPEND RABBITCOMMON_INCLUDE_DIRS
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>)
 endif(BUILD_ABOUT)
 
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
@@ -226,7 +231,6 @@ endif()
 cmake_dependent_option(BUILD_UPDATE "Set to ON to build update function" ON
     WITH_GUI OFF)
 if(BUILD_UPDATE)
-    LIST(APPEND _QT_COMPONENTS Network)
     if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
         find_package(Qt${QT_VERSION_MAJOR}StateMachine)
         if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
@@ -237,13 +241,12 @@ if(BUILD_UPDATE)
     endif()
     if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
         LIST(APPEND _QT_COMPONENTS Xml)
-        LIST(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
-        LIST(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
-        LIST(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
-        LIST(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
-        LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmUpdater>"
-            )
+        list(APPEND RabbitCommon_DEFINITIONS HAVE_UPDATE)
+        list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES FrmUpdater/FrmUpdater.h)
+        list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
+        list(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
+        list(APPEND RABBITCOMMON_INCLUDE_DIRS
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmUpdater>)
     endif()
 endif()
 
@@ -256,9 +259,8 @@ if(BUILD_QUIWidget)
     #设置资源文件
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
     LIST(APPEND RCC_FILES $<$<CONFIG:Debug>:QUIWidget/Resource/QUIWidgetQss.qrc>)
-    LIST(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>"
-        )
+    list(APPEND RABBITCOMMON_INCLUDE_DIRS
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>)
 endif(BUILD_QUIWidget)
 
 find_package(OpenSSL)
@@ -286,7 +288,7 @@ ENDIF()
 
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
 if(BUILD_ADMINAUTHORISER)
-    list(APPEND RabbitCommon_DEFINITIONS HAVE_ADMINAUTHORISER)
+    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_ADMINAUTHORISER)
     list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthoriser.cpp)
     list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h
         AdminAuthoriser/adminauthoriser.h)
@@ -437,7 +439,7 @@ LIST(APPEND RCC_FILES
     )
 
 if(RabbitCommon_VERSION)
-    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
+    list(APPEND RabbitCommon_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
 else()
     message(WARNING "Please set RabbitCommon_VERSION")
 endif()
@@ -487,8 +489,7 @@ message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
     INSTALL_HEADER_FILES ${RABBITCOMMON_INSTALL_HEAD_FILES}
-    INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    INCLUDE_DIRS ${RABBITCOMMON_INCLUDE_DIRS}
     PRIVATE_INCLUDE_DIRS ${RABBITCOMMON_PRIVATE_INCLUDE_DIRS}
     DEFINITIONS ${RabbitCommon_DEFINITIONS}
     PRIVATE_DEFINITIONS ${RabbitCommon_PRIVATE_DEFINITIONS}
@@ -502,18 +503,16 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )
 
-if(UNIX OR MINGW)
-    foreach(d ${RabbitCommon_DEFINITIONS})
-        SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
-    endforeach()
+foreach(d ${RabbitCommon_DEFINITIONS})
+    SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
+endforeach()
 
-    # Install pc files
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
-        ${CMAKE_BINARY_DIR}/RabbitCommon.pc @ONLY)
-    install(FILES ${CMAKE_BINARY_DIR}/RabbitCommon.pc
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-            COMPONENT Development)
-endif()
+# Install pc files
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    COMPONENT Development)
 
 # Install style files
 if(ANDROID)

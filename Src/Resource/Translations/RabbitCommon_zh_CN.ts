@@ -54,200 +54,108 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="70"/>
         <source>KangLin</source>
         <translation>康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="73"/>
         <source>Kang Lin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="77"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="136"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="85"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
         <source>License</source>
         <translation>许可协议</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
         <source>Change log</source>
         <translation>修改日志</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="99"/>
         <source>Thanks</source>
         <translation>感谢</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="314"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="314"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="323"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
         <source>Arch: </source>
         <translation>架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
         <source> (From revision: </source>
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="401"/>
-        <source>======= Application  ========
-</source>
-        <translation>======= 应用  ========
-</translation>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="399"/>
+        <source>### Application</source>
+        <translation>### 应用程序</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="403"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="401"/>
         <source>Build Date/Time: </source>
         <translation>编译日期/时间：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="404"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="402"/>
         <source>File Path: </source>
         <translation>文件路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="405"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="403"/>
         <source>Arguments: </source>
         <translation>参数：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="409"/>
-        <source>============== Qt ===========
-</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="410"/>
-        <source>Qt runtime version: </source>
-        <translation>Qt 运行版本：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="411"/>
-        <source>Qt compile version: </source>
-        <translation>Qt 编译版本：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="412"/>
-        <source>Qt library version: </source>
-        <translation>Qt 库版本：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="413"/>
-        <source>Locale: </source>
-        <translation>语言：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="415"/>
-        <source>============== OS ===========
-</source>
-        <translation>========= 操作系统 =========
-</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="416"/>
-        <source>OS: </source>
-        <translation>操作系统：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="417"/>
-        <source>Kernel type: </source>
-        <translation>内核类型：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="418"/>
-        <source>Kernel version: </source>
-        <translation>内核版本：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="420"/>
-        <source>Boot Id: </source>
-        <translation>启动 ID：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="421"/>
-        <source>Build ABI: </source>
-        <translation>编译 ABI：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="422"/>
-        <source>CPU: </source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="423"/>
-        <source>Build CPU: </source>
-        <translation>编译时 CPU：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="425"/>
-        <source>============= Host ==========
-</source>
-        <translation>============ 主机 =========
-</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="426"/>
-        <source>Host name: </source>
-        <translation>主机名：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="427"/>
-        <source>Domain name: </source>
-        <translation>域名：</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="431"/>
-        <source>Information</source>
-        <translation>信息</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="127"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
         <source> Email: </source>
         <translation> 邮箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="132"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="130"/>
         <source>Home page: </source>
         <translation>主页：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="136"/>
         <source>Copyright (C)</source>
         <translation>版权所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="242"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="240"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="252"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="250"/>
         <source>Save donation picture</source>
         <translation>保存捐赠图片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="254"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="252"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>图片(*.png *.xpm *.jpg)</translation>
     </message>
@@ -655,6 +563,129 @@
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1216"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
+    </message>
+</context>
+<context>
+    <name>CInformation</name>
+    <message>
+        <location filename="../../DlgAbout/Information.ui" line="14"/>
+        <source>Details</source>
+        <translation>详细</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.ui" line="34"/>
+        <source>Tab 1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="22"/>
+        <source>### RabbitCommon</source>
+        <translation>### 玉兔公共库</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="23"/>
+        <source>RabbitCommon version: </source>
+        <translation>玉兔公共库版本：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="25"/>
+        <source>### Qt</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="26"/>
+        <source>Qt runtime version: </source>
+        <translation>Qt 运行版本：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="27"/>
+        <source>Qt compile version: </source>
+        <translation>Qt 编译版本：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="28"/>
+        <source>Qt library version: </source>
+        <translation>Qt 库版本：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="29"/>
+        <source>Locale: </source>
+        <translation>语言：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="31"/>
+        <source>### OS</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="32"/>
+        <source>OS: </source>
+        <translation>操作系统：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="33"/>
+        <source>Kernel type: </source>
+        <translation>内核类型：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="34"/>
+        <source>Kernel version: </source>
+        <translation>内核版本：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="36"/>
+        <source>Boot Id: </source>
+        <translation>启动 ID：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="37"/>
+        <source>Build ABI: </source>
+        <translation>编译 ABI：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="38"/>
+        <source>CPU: </source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="39"/>
+        <source>Build CPU: </source>
+        <translation>编译时 CPU：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="41"/>
+        <source>### Host</source>
+        <translation>### 主机</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="42"/>
+        <source>Host name: </source>
+        <translation>主机名：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="43"/>
+        <source>Domain name: </source>
+        <translation>域名：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="45"/>
+        <source>Application</source>
+        <translation>应用程序</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="47"/>
+        <source>Qt</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="48"/>
+        <source>OS</source>
+        <translation>操作系统</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="49"/>
+        <source>Host</source>
+        <translation>主机</translation>
     </message>
 </context>
 <context>
