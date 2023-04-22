@@ -45,19 +45,19 @@ else: DEFINES *= RabbitCommon_EXPORTS
 !equals(WITH_GUI, "OFF") {
     QT *= gui
     greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
-    DEFINES *= HAVE_GUI
+    DEFINES *= HAVE_RABBITCOMMON_GUI
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp \
         $$PWD/TitleBar.cpp \
-        $$PWD/FolderBrowser/FolderBrowser.cpp
+        $$PWD/DockFolderBrowser/DockFolderBrowser.cpp
     INSTALL_HEADERS += $$PWD/RabbitCommonStyle.h \
         $$PWD/FrmStyle/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
         $$PWD/TitleBar.h \
-        $$PWD/FolderBrowser/FolderBrowser.h
+        $$PWD/DockFolderBrowser/DockFolderBrowser.h
     FORMS += $$PWD/FrmStyle/FrmStyle.ui \
-       $$PWD/FolderBrowser/FolderBrowser.ui
+       $$PWD/DockFolderBrowser/DockFolderBrowser.ui
     
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp

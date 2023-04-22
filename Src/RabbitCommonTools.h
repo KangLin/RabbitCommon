@@ -44,6 +44,7 @@ public:
 
     //! RabbitCommon version
     static QString Version();
+    static QString Information();
 
     /*!
      * \brief Enable core dump

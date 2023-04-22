@@ -103,6 +103,25 @@ QString CTools::Version()
     return RabbitCommon_VERSION;
 }
 
+QString CTools::Information()
+{
+    QString szInfo;
+    szInfo = QObject::tr("- Functions:") + "\n";
+#if defined(HAVE_RABBITCOMMON_GUI)
+    szInfo += QObject::tr("  - Have GUI") + "\n";
+#endif
+#if defined(HAVE_ABOUT)
+    szInfo += QObject::tr("  - Have about diaglog") + "\n";
+#endif
+#if defined(HAVE_UPDATE)
+    szInfo += QObject::tr("  - Have update") + "\n";
+#endif
+#if defined(BUILD_QUIWidget)
+    szInfo += QObject::tr("  - Have QUIWidget") + "\n";
+#endif
+    return szInfo;
+}
+
 void CTools::Init(const QString szLanguage)
 {
     SetLanguage(szLanguage);
