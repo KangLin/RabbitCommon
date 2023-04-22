@@ -233,7 +233,7 @@ Qt common library. include follow functions:
             CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
 
-- Initialization fucntions is called at the beginning of main() of the program
+- Initialization functions is called at the beginning of main() of the program
   and after QApplication
 
         int main(int argc, char* argv[])
