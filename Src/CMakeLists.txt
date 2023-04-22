@@ -50,8 +50,10 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 SET(RabbitCommon_VERSION "v1.0.10")
 SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
-    OUT_VERSION RabbitCommon_VERSION)
+    OUT_VERSION RabbitCommon_VERSION
+    OUT_REVISION RabbitCommon_REVISION)
 message("RabbitCommon_VERSION: ${RabbitCommon_VERSION}")
+message("RabbitCommon_REVISION: ${RabbitCommon_REVISION}")
 set(VERSION ${RabbitCommon_VERSION})
 
 SET(RABBITCOMMON_INSTALL_HEAD_FILES "")
@@ -59,8 +61,8 @@ set(RABBITCOMMON_SOURCE_FILES )
 set(RABBITCOMMON_SOURCE_UI_FILES )
 set(RABBITCOMMON_HEAD_FILES )
 set(RABBITCOMMON_INCLUDE_DIRS
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
 if(NOT DEFINED QT_VERSION_MAJOR)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
@@ -92,8 +94,8 @@ if(WITH_GUI)
         DockFolderBrowser/DockFolderBrowser.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmStyle>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>)
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmStyle>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>")
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
@@ -107,7 +109,7 @@ if(BUILD_ABOUT)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui
         DlgAbout/Information.ui)
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>)
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
 endif(BUILD_ABOUT)
 
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
@@ -247,7 +249,7 @@ if(BUILD_UPDATE)
         list(APPEND RABBITCOMMON_SOURCE_FILES FrmUpdater/FrmUpdater.cpp)
         list(APPEND RABBITCOMMON_SOURCE_UI_FILES FrmUpdater/FrmUpdater.ui)
         list(APPEND RABBITCOMMON_INCLUDE_DIRS
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmUpdater>)
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FrmUpdater>")
     endif()
 endif()
 
@@ -261,7 +263,7 @@ if(BUILD_QUIWidget)
     LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
     LIST(APPEND RCC_FILES $<$<CONFIG:Debug>:QUIWidget/Resource/QUIWidgetQss.qrc>)
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>)
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>")
 endif(BUILD_QUIWidget)
 
 find_package(OpenSSL)
@@ -440,7 +442,9 @@ LIST(APPEND RCC_FILES
     )
 
 if(RabbitCommon_VERSION)
-    list(APPEND RabbitCommon_DEFINITIONS RabbitCommon_VERSION="${RabbitCommon_VERSION}")
+    list(APPEND RabbitCommon_DEFINITIONS
+        RabbitCommon_VERSION="${RabbitCommon_VERSION}"
+        RabbitCommon_REVISION="${RabbitCommon_REVISION}")
 else()
     message(WARNING "Please set RabbitCommon_VERSION")
 endif()
@@ -486,6 +490,7 @@ ENDFOREACH()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
+message("RABBITCOMMON_INCLUDE_DIRS:${RABBITCOMMON_INCLUDE_DIRS}")
 
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
