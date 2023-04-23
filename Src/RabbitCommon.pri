@@ -46,18 +46,19 @@ else: DEFINES *= RabbitCommon_EXPORTS
     QT *= gui
     greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
     DEFINES *= HAVE_RABBITCOMMON_GUI
-    SOURCES += $$PWD/RabbitCommonStyle.cpp \
-        $$PWD/FrmStyle/FrmStyle.cpp \
+    SOURCES += $$PWD/Style/Style.cpp \
+        $$PWD/Style/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp \
         $$PWD/TitleBar.cpp \
         $$PWD/DockFolderBrowser/DockFolderBrowser.cpp
     INSTALL_HEADERS += \
-        $$PWD/FrmStyle/FrmStyle.h \
+        $$PWD/Style/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
         $$PWD/TitleBar.h \
         $$PWD/DockFolderBrowser/DockFolderBrowser.h
-    HEADERS += $$PWD/RabbitCommonStyle.h $${INSTALL_HEADERS}
-    FORMS += $$PWD/FrmStyle/FrmStyle.ui \
+    HEADERS += $$PWD/Style/Style.h $${INSTALL_HEADERS}
+    INCLUDEPATH += $$PWD/Style
+    FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui
     
     equals(BUILD_QUIWidget, "ON"){
@@ -73,6 +74,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
         DEFINES *= HAVE_UPDATE
         SOURCES += $$PWD/FrmUpdater/FrmUpdater.cpp
         INSTALL_HEADERS += $$PWD/FrmUpdater/FrmUpdater.h
+        INCLUDEPATH += $$PWD/FrmUpdater
         FORMS += $$PWD/FrmUpdater/FrmUpdater.ui
         BUILD_ADMINAUTHORISER = ON
     }
@@ -86,6 +88,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
         SOURCES += $$PWD/DlgAbout/DlgAbout.cpp \
             $$PWD/DlgAbout/Information.cpp
         INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
+        INCLUDEPATH += $$PWD/DlgAbout
         HEADERS += $$PWD/DlgAbout/Information.h
         FORMS += $$PWD/DlgAbout/DlgAbout.ui \
             $$PWD/DlgAbout/Information.ui
@@ -144,7 +147,7 @@ win32 {
 }
 
 SOURCES += \
-    $$PWD/RabbitCommonLog.cpp \
+    $$PWD/Log.cpp \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
@@ -161,7 +164,7 @@ INSTALL_HEADERS += \
     $$PWD/DownloadFile.h
 
 HEADERS += $$INSTALL_HEADERS \
-    $$PWD/RabbitCommonLog.h \
+    $$PWD/Log.h \
     $$PWD/RabbitCommonRegister.h
 
 RESOURCES += \
