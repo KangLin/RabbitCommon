@@ -1,9 +1,11 @@
 ### Version: v1.0.11
 
 + Add RabbitCommon::CTools::Version
++ Add RabbitCommon::CTools::Information
 + Fix ADD_TARGET is not cmake version configure file
 + Fix include directory bug
 + Rename CFolderBrowser to CDockFolderBrowser
++ Fix CDlgAbout bug
 
 ### Version: v1.0.10
 

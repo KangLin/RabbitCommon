@@ -31,7 +31,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      RabbitCommon_VERSION: v1.0.10
+      RabbitCommon_VERSION: v1.0.11
       VCPKGGITCOMMITID: 9c7c66471005cb132832786d5d65d83d2cf503ad
       qt_modules: '${{matrix.qt_modules}}'
 

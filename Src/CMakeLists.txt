@@ -47,7 +47,7 @@ include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 
-SET(RabbitCommon_VERSION "v1.0.10")
+SET(RabbitCommon_VERSION "v1.0.11")
 SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
     OUT_VERSION RabbitCommon_VERSION
@@ -108,6 +108,15 @@ if(BUILD_ABOUT)
         DlgAbout/Information.cpp)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui
         DlgAbout/Information.ui)
+    
+    # 源码目录
+    #  Src/DlgAbout
+    # 安装目录
+    #  ${INSTALL_ROOT}/include/RabbitCommon
+    # 要统一使用： 
+    #  #include "DlgAbout.h"
+    # 所以需要把它加入到 INCLUDE_DIRS
+    #  $<BUILD_INTERFACE:...> 只有在编译时才会生成，所以安装时，是空值。
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
 endif(BUILD_ABOUT)

@@ -30,6 +30,7 @@ Abstract:
 #include <QStandardPaths>
 #include <QSslError>
 #include <QDateTime>
+#include <QCursor>
 
 #ifdef HAVE_CMARK
     #include "cmark.h"
@@ -72,8 +73,6 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szHomePage = "https://github.com/KangLin/" + qApp->applicationName();
     m_szCopyrightOwner = tr("Kang Lin Studio");
     m_szCopyrightStartTime = "2019";
-    m_szCopyrightTime = tr("%1 - %2").arg(m_szCopyrightStartTime,
-                QString::number(QDate::currentDate().year()));
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
@@ -98,7 +97,11 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
     ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
 #endif
-    
+
+    AppendFile(m_pChangeLog, "ChangeLog");
+    AppendFile(m_pLicense, "License");
+    AppendFile(m_pThanks, "Authors");
+
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
 #else
@@ -131,15 +134,13 @@ void CDlgAbout::showEvent(QShowEvent *event)
                         + m_szHomePage + "</a>");
     if(m_szCopyright.isEmpty())
     {
-        m_szCopyrightTime = tr("%1 - %2").arg(m_szCopyrightStartTime,
+        if(m_szCopyrightTime.isEmpty())
+            m_szCopyrightTime = tr("%1 - %2").arg(m_szCopyrightStartTime,
                     QString::number(QDate::currentDate().year()));
         m_szCopyright = tr("Copyright (C)") + " " + m_szCopyrightTime + " " + m_szCopyrightOwner;
     }
     ui->lbCopyright->setText(m_szCopyright);
 
-    AppendFile(m_pChangeLog, "ChangeLog");
-    AppendFile(m_pLicense, "License");
-    AppendFile(m_pThanks, "Authors");
     adjustSize();
 }
 
@@ -396,13 +397,15 @@ void CDlgAbout::on_pbDetails_clicked()
 {
     QString szApp;
 
-    szApp  = tr("### Application") + "\n";
-    szApp += "- " + QApplication::applicationDisplayName() + " " + Version() + "\n";
+    szApp  = tr("### ") + QApplication::applicationDisplayName() + "\n";
+    szApp += "- " + Version() + "\n";
     szApp += "- " + tr("Build Date/Time: ") + BuildTime() + "\n";
     szApp += "- " + tr("File Path: ") + QApplication::applicationFilePath() + "\n";
     szApp += "- " + tr("Arguments: ") + qApp->arguments().join(' ') + "\n";
 
+    QCursor cursor = this->cursor();
+    setCursor(Qt::WaitCursor);
     CInformation info(szApp, m_szInfo, this);
     info.exec();
+    setCursor(cursor);
 }
-
