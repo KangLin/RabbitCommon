@@ -72,7 +72,9 @@ DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
 !equals(WITH_GUI, "OFF"){
-    DEFINES *= HAVE_GUI
+    DEFINES *= HAVE_RABBITCOMMON_GUI
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/FrmStyle
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DockFolderBrowser
 }
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE
