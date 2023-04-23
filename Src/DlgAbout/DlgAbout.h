@@ -32,16 +32,6 @@ Abstract:
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 
-/*!
- * \~english
- * \defgroup API Application interface
- * \defgroup INTERNAL_API Internal API of RabbitCommon
- * 
- * \~chinese
- * \defgroup API 应用程序接口
- * \defgroup INTERNAL_API RabbitCommon 内部使用接口
- */
-
 namespace Ui {
 class CDlgAbout;
 }

@@ -288,6 +288,11 @@ function(INSTALL_TARGET)
         set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT})
     endif()
 
+    if( (NOT PARA_ANDROID_SOURCES_DIR)
+            AND (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/android))
+        set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
+    endif()
+
     if(PARA_ISPLUGIN)
 
         if(NOT DEFINED PARA_COMPONENT)
@@ -715,7 +720,7 @@ function(ADD_TARGET)
             SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
             OUT_QRC TRANSLATIONS_QRC_FILES
             QM_INSTALL_DIR ${QM_INSTALL_DIR})
-        #TODO: 非优秀的方法
+        #TODO: 非优雅的方法
         if(CMAKE_BUILD_TYPE)
             string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
         endif()
@@ -725,17 +730,27 @@ function(ADD_TARGET)
     endif(NOT PARA_NO_TRANSLATION)
 
     if(PARA_ISEXE)
+
         if(ANDROID)
-            if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
-                qt_add_executable(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            if(QT_VERSION_MAJOR GREATER_EQUAL 6)
+                qt_add_executable(${PARA_NAME} ${PARA_SOURCE_FILES}
+                    ${PARA_INSTALL_HEADER_FILES})
             else()
                 add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
+            endif()
+            if( (NOT PARA_ANDROID_SOURCES_DIR)
+                    AND (IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/android))
+                set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
+            endif()
+            if(PARA_ANDROID_SOURCES_DIR)
+              set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+                  QT_ANDROID_PACKAGE_SOURCE_DIR ${PARA_ANDROID_SOURCES_DIR})
             endif()
         else()
             if(PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
             endif()
-            if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+            if(QT_VERSION_MAJOR GREATER_EQUAL 6)
                 qt_add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             else()
                 add_executable(${PARA_NAME} ${WINDOWS_APP} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
@@ -753,7 +768,15 @@ function(ADD_TARGET)
                         "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
                 endif()
             endif()
+
+            if(QT_VERSION_MAJOR VERSION_EQUAL 6)
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    WIN32_EXECUTABLE TRUE
+                )
+            endif()
+
         endif()
+
     else(PARA_ISEXE) # Is library
 
         # For debug libs and exes, add "_d" postfix
@@ -790,8 +813,8 @@ function(ADD_TARGET)
         string(TOLOWER ${PARA_NAME} LOWER_PROJECT_NAME)
         set(PARA_INSTALL_HEADER_FILES ${PARA_INSTALL_HEADER_FILES} 
             ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
-        
-        if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+
+        if(QT_VERSION_MAJOR GREATER_EQUAL 6)
             qt_add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
         else()
             add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
@@ -901,7 +924,8 @@ function(ADD_TARGET)
                 VERSION ${PARA_VERSION}
             )
         elseif(PARA_ISEXE)
-            if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
+
+            if(NOT ANDROID)
                 INSTALL_TARGET(NAME ${PARA_NAME}
                     ISEXE
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
@@ -910,19 +934,18 @@ function(ADD_TARGET)
                     COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
                     VERSION ${PARA_VERSION})
             endif()
+
         else() # Is library
 
-            if(NOT (ANDROID AND (QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)))
-                INSTALL_TARGET(NAME ${PARA_NAME}
-                    EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
-                    NAMESPACE ${PARA_INSTALL_NAMESPACE}
-                    PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
-                    INCLUDES ${PARA_INSTALL_INCLUDES}
-                    COMPONENT ${PARA_COMPONENT}
-                    COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
-                    INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}
-                    VERSION ${PARA_VERSION})
-            endif()
+            INSTALL_TARGET(NAME ${PARA_NAME}
+                EXPORT_NAME ${PARA_INSTALL_EXPORT_NAME}
+                NAMESPACE ${PARA_INSTALL_NAMESPACE}
+                PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
+                INCLUDES ${PARA_INSTALL_INCLUDES}
+                COMPONENT ${PARA_COMPONENT}
+                COMPONENT_PREFIX ${PARA_COMPONENT_PREFIX}
+                INSTALL_CMAKE_CONFIG_IN_FILE ${PARA_INSTALL_CMAKE_CONFIG_IN_FILE}
+                VERSION ${PARA_VERSION})
 
         endif()
     endif()

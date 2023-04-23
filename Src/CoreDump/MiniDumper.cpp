@@ -205,12 +205,12 @@ LONG CMiniDumper::writeMiniDump( _EXCEPTION_POINTERS *pExceptionInfo )
  
 		if( pSlash )
 		{
-			_tcscpy( m_szAppBaseName, pSlash + 1);
+			_tcscpy_s( m_szAppBaseName, pSlash + 1);
 			*(pSlash+1) = 0;
 		}
  
-		wcscpy( szDbgHelpPath, m_szAppPath );
-        wcscat( szDbgHelpPath, L"DBGHELP.DLL");
+		wcscpy_s( szDbgHelpPath, m_szAppPath );
+        wcscat_s( szDbgHelpPath, L"DBGHELP.DLL");
 		hDll = ::LoadLibrary( szDbgHelpPath );
 	}
  
