@@ -1,0 +1,51 @@
+name: build_qmake
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_qmake:
+    name: build mingw
+
+    strategy:
+      matrix:
+        BUILD_TYPE: [Release, Debug]
+        
+    runs-on: ubuntu-latest
+
+    env:
+      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_qmake
+      RabbitCommon_VERSION: 1.0.10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+          cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Install apt packages
+        run: |
+          sudo apt install -y -q cmake build-essential xvfb xpra \
+              libglu1-mesa-dev libpulse-mainloop-glib0 \
+              debhelper fakeroot \
+              qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
+              qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev \
+              qtpositioning5-dev qtwebengine5-dev \
+              libcmark-gfm-dev libcmark-gfm-extensions-dev
+
+      - name: Build RabbitCommon
+        working-directory: ${{github.workspace}}/build
+        run: |
+          qmake ${{github.workspace}}
+          make

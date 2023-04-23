@@ -45,20 +45,20 @@ else: DEFINES *= RabbitCommon_EXPORTS
 !equals(WITH_GUI, "OFF") {
     QT *= gui
     greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets
-    DEFINES *= HAVE_GUI
+    DEFINES *= HAVE_RABBITCOMMON_GUI
     SOURCES += $$PWD/RabbitCommonStyle.cpp \
         $$PWD/FrmStyle/FrmStyle.cpp \
         $$PWD/RabbitRecentMenu.cpp \
         $$PWD/TitleBar.cpp \
-        $$PWD/FolderBrowser/FolderBrowser.cpp
+        $$PWD/DockFolderBrowser/DockFolderBrowser.cpp
     INSTALL_HEADERS += \
         $$PWD/FrmStyle/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
         $$PWD/TitleBar.h \
-        $$PWD/FolderBrowser/FolderBrowser.h
+        $$PWD/DockFolderBrowser/DockFolderBrowser.h
     HEADERS += $$PWD/RabbitCommonStyle.h $${INSTALL_HEADERS}
     FORMS += $$PWD/FrmStyle/FrmStyle.ui \
-       $$PWD/FolderBrowser/FolderBrowser.ui
+       $$PWD/DockFolderBrowser/DockFolderBrowser.ui
     
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
@@ -78,15 +78,18 @@ else: DEFINES *= RabbitCommon_EXPORTS
     }
 
     !equals(BUILD_ABOUT, "OFF"){
-        qtHaveModule(webenginewidgets): QT *= webenginewidgets
-        DEFINES *= HAVE_ABOUT HAVE_WebEngineWidgets
+        qtHaveModule(webenginewidgets) {
+            QT *= webenginewidgets
+            DEFINES *= HAVE_WebEngineWidgets
+            }
+        DEFINES *= HAVE_ABOUT
         SOURCES += $$PWD/DlgAbout/DlgAbout.cpp \
             $$PWD/DlgAbout/Information.cpp
         INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
         HEADERS += $$PWD/DlgAbout/Information.h
         FORMS += $$PWD/DlgAbout/DlgAbout.ui \
             $$PWD/DlgAbout/Information.ui
-        
+
         equals(WITH_CMARK_GFM, "ON"){
             # You need to set the environment variable: PKG_CONFIG_PATH
             packagesExist(libcmark-gfm) {

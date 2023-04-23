@@ -161,42 +161,42 @@
     </message>
 </context>
 <context>
-    <name>CFolderBrowser</name>
+    <name>CDockFolderBrowser</name>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="43"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="46"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.ui" line="14"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="115"/>
+        <source>Folder browser</source>
+        <translation>文件夹浏览器</translation>
+    </message>
+    <message>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="43"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="46"/>
         <source>Filter</source>
         <translation>过滤器</translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="61"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="74"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="61"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="74"/>
         <source>Don&apos;t show hidden files</source>
         <translation>不显示隐藏的文件</translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="63"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="71"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="63"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="71"/>
         <source>Show hidden files</source>
         <translation>显示隐藏的文件</translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="82"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="98"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="82"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="98"/>
         <source>Show brief</source>
         <translation>简单信息</translation>
     </message>
     <message>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="87"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="103"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="87"/>
+        <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="103"/>
         <source>Show details</source>
         <translation>详细信息</translation>
-    </message>
-    <message>
-        <location filename="../../FolderBrowser/FolderBrowser.ui" line="14"/>
-        <location filename="../../FolderBrowser/FolderBrowser.cpp" line="115"/>
-        <source>Folder browser</source>
-        <translation>文件夹浏览器</translation>
     </message>
 </context>
 <context>
@@ -588,102 +588,102 @@
         <translation>玉兔公共库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="25"/>
+        <location filename="../../DlgAbout/Information.cpp" line="26"/>
         <source>### Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="26"/>
+        <location filename="../../DlgAbout/Information.cpp" line="27"/>
         <source>Qt runtime version: </source>
         <translation>Qt 运行版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="27"/>
+        <location filename="../../DlgAbout/Information.cpp" line="28"/>
         <source>Qt compile version: </source>
         <translation>Qt 编译版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="28"/>
+        <location filename="../../DlgAbout/Information.cpp" line="29"/>
         <source>Qt library version: </source>
         <translation>Qt 库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="29"/>
+        <location filename="../../DlgAbout/Information.cpp" line="30"/>
         <source>Locale: </source>
         <translation>语言：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="31"/>
+        <location filename="../../DlgAbout/Information.cpp" line="32"/>
         <source>### OS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="32"/>
+        <location filename="../../DlgAbout/Information.cpp" line="33"/>
         <source>OS: </source>
         <translation>操作系统：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="33"/>
+        <location filename="../../DlgAbout/Information.cpp" line="34"/>
         <source>Kernel type: </source>
         <translation>内核类型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="34"/>
+        <location filename="../../DlgAbout/Information.cpp" line="35"/>
         <source>Kernel version: </source>
         <translation>内核版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="36"/>
+        <location filename="../../DlgAbout/Information.cpp" line="37"/>
         <source>Boot Id: </source>
         <translation>启动 ID：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="37"/>
+        <location filename="../../DlgAbout/Information.cpp" line="38"/>
         <source>Build ABI: </source>
         <translation>编译 ABI：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="38"/>
+        <location filename="../../DlgAbout/Information.cpp" line="39"/>
         <source>CPU: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="39"/>
+        <location filename="../../DlgAbout/Information.cpp" line="40"/>
         <source>Build CPU: </source>
         <translation>编译时 CPU：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="41"/>
+        <location filename="../../DlgAbout/Information.cpp" line="42"/>
         <source>### Host</source>
         <translation>### 主机</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="42"/>
+        <location filename="../../DlgAbout/Information.cpp" line="43"/>
         <source>Host name: </source>
         <translation>主机名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="43"/>
+        <location filename="../../DlgAbout/Information.cpp" line="44"/>
         <source>Domain name: </source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="45"/>
+        <location filename="../../DlgAbout/Information.cpp" line="46"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="47"/>
+        <location filename="../../DlgAbout/Information.cpp" line="48"/>
         <source>Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="48"/>
+        <location filename="../../DlgAbout/Information.cpp" line="49"/>
         <source>OS</source>
         <translation>操作系统</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="49"/>
+        <location filename="../../DlgAbout/Information.cpp" line="50"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
@@ -715,14 +715,39 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="53"/>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="55"/>
         <source>Application Error</source>
         <translation>应用错误</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="54"/>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="56"/>
         <source>I&apos;m Sorry, Application is Crash! The path: </source>
         <translation>程序崩溃！转储文件：</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="109"/>
+        <source>- Functions:</source>
+        <translation>- 功能：</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="111"/>
+        <source>  - Have GUI</source>
+        <translation>  - 界面</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="114"/>
+        <source>  - Have about diaglog</source>
+        <translation>  - 关于对话框</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="117"/>
+        <source>  - Have update</source>
+        <translation>  - 更新</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="120"/>
+        <source>  - Have QUIWidget</source>
+        <translation></translation>
     </message>
 </context>
 <context>

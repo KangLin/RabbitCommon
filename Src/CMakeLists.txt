@@ -107,6 +107,15 @@ if(BUILD_ABOUT)
         DlgAbout/Information.cpp)
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES DlgAbout/DlgAbout.ui
         DlgAbout/Information.ui)
+    
+    # 源码目录
+    #  Src/DlgAbout
+    # 安装目录
+    #  ${INSTALL_ROOT}/include/RabbitCommon
+    # 要统一使用： 
+    #  #include "DlgAbout.h"
+    # 所以需要把它加入到 INCLUDE_DIRS
+    #  $<BUILD_INTERFACE:...> 只有在编译时才会生成，所以安装时，是空值。
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
 endif(BUILD_ABOUT)
@@ -489,7 +498,6 @@ ENDFOREACH()
 get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
 message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
-message("RABBITCOMMON_INCLUDE_DIRS:${RABBITCOMMON_INCLUDE_DIRS}")
 
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITCOMMON_SOURCE_FILES} ${RABBITCOMMON_SOURCE_UI_FILES} ${RCC_FILES} ${RABBITCOMMON_HEAD_FILES}
