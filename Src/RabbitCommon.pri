@@ -77,15 +77,18 @@ else: DEFINES *= RabbitCommon_EXPORTS
     }
 
     !equals(BUILD_ABOUT, "OFF"){
-        qtHaveModule(webenginewidgets): QT *= webenginewidgets
-        DEFINES *= HAVE_ABOUT HAVE_WebEngineWidgets
+        qtHaveModule(webenginewidgets) {
+            QT *= webenginewidgets
+            DEFINES *= HAVE_WebEngineWidgets
+            }
+        DEFINES *= HAVE_ABOUT
         SOURCES += $$PWD/DlgAbout/DlgAbout.cpp \
             $$PWD/DlgAbout/Information.cpp
         INSTALL_HEADERS += $$PWD/DlgAbout/DlgAbout.h
         HEADERS += $$PWD/DlgAbout/Information.h
         FORMS += $$PWD/DlgAbout/DlgAbout.ui \
             $$PWD/DlgAbout/Information.ui
-        
+
         equals(WITH_CMARK_GFM, "ON"){
             # You need to set the environment variable: PKG_CONFIG_PATH
             packagesExist(libcmark-gfm) {

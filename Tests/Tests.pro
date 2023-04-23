@@ -76,9 +76,11 @@ LIBS *= "-L$$DESTDIR" -lRabbitCommon
 }
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/FrmUpdater
 }
 !equals(BUILD_ABOUT, "OFF"){
     DEFINES *= HAVE_ABOUT
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DlgAbout
 }
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
     DEFINES *= HAVE_ADMINAUTHORISER
