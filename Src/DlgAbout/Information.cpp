@@ -9,6 +9,7 @@
 #include <QWebEngineView>
 #endif
 #include <QTextEdit>
+#include <QStandardPaths>
 
 CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget *parent) :
     QDialog(parent),
@@ -28,6 +29,22 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     szQt += "- " + tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
     szQt += "- " + tr("Qt library version: ") + QLibraryInfo::version().toString() + "\n";
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
+    szQt += "\n";
+    szQt += "- " + tr("Standard paths:") + "\n";
+    for(int i = 0; i < 19; i++)
+    {
+        QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
+        szQt += "  - " + QStandardPaths::displayName(type) + ": ";
+        QStringList lstPath = QStandardPaths::standardLocations(type);
+        if(lstPath.size() == 1)
+            szQt += lstPath.at(0);
+        else
+            foreach (auto p, lstPath) {
+                szQt += QString("\n") + "    - " + p;
+            }
+        szQt += "\n";
+    }
+    szQt += "\n";
 
     szOS += tr("### OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
