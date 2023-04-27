@@ -18,7 +18,7 @@ namespace RabbitCommon {
 /**
  * \~chinese 最近打开菜单
  * 
- * \~english Recent open menu
+ * \~english Recently opened menu
  *
  * \~
  * \ingroup API

@@ -105,7 +105,7 @@ endmacro()
 # 输入参数：
 #   SOURCE_DIR: 库的根目录。默认：${CMAKE_SOURCE_DIR}
 # 输出参数：
-#   OUT_VERSION：版本号
+#   OUT_VERSION: 版本号
 #   OUT_REVISION: 版本修正号
 function(GET_VERSION)
     cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
@@ -143,8 +143,10 @@ function(GET_VERSION)
                 SET(${PARA_OUT_REVISION} ${_OUT_REVISION} PARENT_SCOPE)
             ENDIF()
         ELSE()
-            message("Git is not exist. please set the value GIT to git")
+            message(AUTHOR_WARNING "Git is not exist. please set the value GIT to git")
         ENDIF()
+    ELSE()
+        message(AUTHOR_WARNING "The is not git repository: ${PARA_SOURCE_DIR}")
     ENDIF()
 endfunction()
 
@@ -206,8 +208,8 @@ function(INSTALL_TARGETS)
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
-        IF(NOT ANDROID AND UNIX)
-            INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
+        IF((NOT ANDROID) AND UNIX)
+            INSTALL(FILES $<TARGET_SONAME_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT ${PARA_COMPONENT})
         ENDIF()
@@ -970,6 +972,7 @@ endfunction()
 #  PRIVATE_FEATURES        私有特性
 #  INSTALL_DIR             插件库安装目录，默认：plugins 。
 #                          注意：只接受相对路径。绝对路径时，翻译资源前缀会有问题。
+#  NO_TRANSLATION          不产生翻译资源
 function(ADD_PLUGIN_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES            #源文件（包括头文件，资源文件等）
@@ -984,7 +987,7 @@ function(ADD_PLUGIN_TARGET)
         FEATURES                #公有特性
         PRIVATE_FEATURES        #私有特性
         )
-    cmake_parse_arguments(PARA ""
+    cmake_parse_arguments(PARA "NO_TRANSLATION"
         "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_DIR"
         "${MUT_PARAS}"
         ${ARGN})
@@ -1008,17 +1011,21 @@ function(ADD_PLUGIN_TARGET)
                 [ANDROID_SOURCES_DIR android_source_dir]")
         return()
     endif()
-    
+
     if(NOT DEFINED PARA_OUTPUT_DIR)
         set(PARA_OUTPUT_DIR ${CMAKE_BINARY_DIR}/plugins)
     endif()
-    
+
     if(NOT DEFINED PARA_INSTALL_DIR)
         set(PARA_INSTALL_DIR plugins)
     endif()
-    
+
+    if(PARA_NO_TRANSLATION)
+        set(PARA_NO_TRANSLATION NO_TRANSLATION)
+    endif()
     ADD_TARGET(NAME ${PARA_NAME}
         ISPLUGIN
+        ${PARA_NO_TRANSLATION}
         OUTPUT_DIR ${PARA_OUTPUT_DIR}
         VERSION ${PARA_VERSION}
         ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}

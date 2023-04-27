@@ -54,109 +54,108 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="70"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="71"/>
         <source>KangLin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="73"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="74"/>
         <source>Kang Lin Studio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="85"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="86"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="99"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="320"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="322"/>
         <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="320"/>
         <source> (From revision: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="399"/>
-        <source>### Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="401"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="402"/>
         <source>Build Date/Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="402"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="403"/>
         <source>File Path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="403"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="404"/>
         <source>Arguments: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="125"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
         <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
         <source> Email: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="130"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
         <source>Home page: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="136"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="140"/>
         <source>Copyright (C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="240"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="241"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="250"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="251"/>
         <source>Save donation picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="252"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="253"/>
         <source>Images (*.png *.xpm *.jpg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="400"/>
+        <source>### </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -578,112 +577,117 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="22"/>
+        <location filename="../../DlgAbout/Information.cpp" line="23"/>
         <source>### RabbitCommon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="23"/>
+        <location filename="../../DlgAbout/Information.cpp" line="24"/>
         <source>RabbitCommon version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="26"/>
+        <location filename="../../DlgAbout/Information.cpp" line="27"/>
         <source>### Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="27"/>
+        <location filename="../../DlgAbout/Information.cpp" line="28"/>
         <source>Qt runtime version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="28"/>
+        <location filename="../../DlgAbout/Information.cpp" line="29"/>
         <source>Qt compile version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="29"/>
+        <location filename="../../DlgAbout/Information.cpp" line="30"/>
         <source>Qt library version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="30"/>
+        <location filename="../../DlgAbout/Information.cpp" line="31"/>
         <source>Locale: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="32"/>
-        <source>### OS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../DlgAbout/Information.cpp" line="33"/>
-        <source>OS: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="34"/>
-        <source>Kernel type: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="35"/>
-        <source>Kernel version: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="37"/>
-        <source>Boot Id: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="38"/>
-        <source>Build ABI: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="39"/>
-        <source>CPU: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="40"/>
-        <source>Build CPU: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="42"/>
-        <source>### Host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="43"/>
-        <source>Host name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="44"/>
-        <source>Domain name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="46"/>
-        <source>Application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="48"/>
-        <source>Qt</source>
+        <source>Standard paths:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="49"/>
-        <source>OS</source>
+        <source>### OS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="50"/>
+        <source>OS: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="51"/>
+        <source>Kernel type: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="52"/>
+        <source>Kernel version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="54"/>
+        <source>Boot Id: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="55"/>
+        <source>Build ABI: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="56"/>
+        <source>CPU: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="57"/>
+        <source>Build CPU: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="59"/>
+        <source>### Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="60"/>
+        <source>Host name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="61"/>
+        <source>Domain name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="63"/>
+        <source>Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="65"/>
+        <source>Qt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="66"/>
+        <source>OS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="67"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>

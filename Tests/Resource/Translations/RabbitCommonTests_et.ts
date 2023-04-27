@@ -89,17 +89,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="41"/>
+        <location filename="../../MainWindow.cpp" line="43"/>
         <source>Folder browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="132"/>
         <source>Encrypt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="132"/>
         <source>Source:</source>
         <translation type="unfinished"></translation>
     </message>

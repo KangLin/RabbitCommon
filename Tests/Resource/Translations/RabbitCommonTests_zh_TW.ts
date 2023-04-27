@@ -89,17 +89,17 @@
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="41"/>
+        <location filename="../../MainWindow.cpp" line="43"/>
         <source>Folder browser</source>
         <translation>文件夾瀏覽器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="132"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="132"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>
