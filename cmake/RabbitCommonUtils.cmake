@@ -208,8 +208,8 @@ function(INSTALL_TARGETS)
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
-        IF(NOT ANDROID AND UNIX)
-            INSTALL(FILES $<TARGET_LINKER_FILE:${component}>
+        IF((NOT ANDROID) AND UNIX)
+            INSTALL(FILES $<TARGET_SONAME_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT ${PARA_COMPONENT})
         ENDIF()
