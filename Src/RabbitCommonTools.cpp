@@ -366,6 +366,21 @@ void CTools::OpenLogFolder()
 }
 
 #ifdef HAVE_RABBITCOMMON_GUI
+QMenu *CTools::GetLogMenu(QWidget *parent)
+{
+    QMenu* pMenu = new QMenu(QObject::tr("Log"), parent);
+    if(!pMenu) return pMenu;
+    pMenu->setIcon(QIcon::fromTheme("folder-open"));
+    pMenu->addAction(QIcon::fromTheme("document-open"),
+                     QObject::tr("Open Log configure file"),
+                     [](){OpenLogConfigureFile();});
+    pMenu->addAction(QIcon::fromTheme("document-open"),
+                     QObject::tr("Open Log file"), [](){OpenLogFile();});
+    pMenu->addAction(QIcon::fromTheme("folder-open"),
+                     QObject::tr("Open log folder"), [](){OpenLogFolder();});
+    return pMenu;
+}
+
 int CTools::RestoreWidget(QWidget *pWidget)
 {
     int nRet = 0;

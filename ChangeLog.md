@@ -1,3 +1,6 @@
+### Version: v1.0.12
++ Add RabbitCommon::CTools::GetLogMenu
+
 ### Version: v1.0.11
 
 + Add RabbitCommon::CTools::Version

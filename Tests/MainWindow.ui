@@ -134,7 +134,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -148,16 +148,7 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuOpen_log">
-     <property name="title">
-      <string>Open log</string>
-     </property>
-     <addaction name="actionOpen_log_configure"/>
-     <addaction name="actionOpen_log_file"/>
-     <addaction name="actionOpen_log_folder"/>
-    </widget>
     <addaction name="actionStype"/>
-    <addaction name="menuOpen_log"/>
    </widget>
    <addaction name="menuAbout"/>
    <addaction name="menuTools"/>
@@ -188,33 +179,6 @@
    </property>
    <property name="text">
     <string>Stype</string>
-   </property>
-  </action>
-  <action name="actionOpen_log_configure">
-   <property name="icon">
-    <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Open log configure</string>
-   </property>
-  </action>
-  <action name="actionOpen_log_file">
-   <property name="icon">
-    <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Open log file</string>
-   </property>
-  </action>
-  <action name="actionOpen_log_folder">
-   <property name="icon">
-    <iconset theme="folder-open">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Open log folder</string>
    </property>
   </action>
  </widget>

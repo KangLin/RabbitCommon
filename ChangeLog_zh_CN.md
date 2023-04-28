@@ -1,3 +1,6 @@
+### 版本： v1.0.12
++ 增加　RabbitCommon::CTools::GetLogMenu
+
 ### 版本： v1.0.11
 + 增加版本函数: RabbitCommon::CTools::Version
 + 增加函数：RabbitCommon::CTools::Version
