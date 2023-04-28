@@ -344,27 +344,6 @@ QString CTools::GetHostName()
     return buf;
 }
 
-void CTools::OpenLogConfigureFile()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::OpenLogConfigureFile();
-#endif
-}
-
-void CTools::OpenLogFile()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::OpenLogFile();
-#endif
-}
-
-void CTools::OpenLogFolder()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::OpenLogFolder();
-#endif
-}
-
 #ifdef HAVE_RABBITCOMMON_GUI
 QMenu *CTools::GetLogMenu(QWidget *parent)
 {
@@ -373,11 +352,13 @@ QMenu *CTools::GetLogMenu(QWidget *parent)
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
     pMenu->addAction(QIcon::fromTheme("document-open"),
                      QObject::tr("Open Log configure file"),
-                     [](){OpenLogConfigureFile();});
+                     [](){RabbitCommon::OpenLogConfigureFile();});
     pMenu->addAction(QIcon::fromTheme("document-open"),
-                     QObject::tr("Open Log file"), [](){OpenLogFile();});
+                     QObject::tr("Open Log file"),
+                     [](){RabbitCommon::OpenLogFile();});
     pMenu->addAction(QIcon::fromTheme("folder-open"),
-                     QObject::tr("Open log folder"), [](){OpenLogFolder();});
+                     QObject::tr("Open log folder"),
+                     [](){RabbitCommon::OpenLogFolder();});
     return pMenu;
 }
 

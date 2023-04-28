@@ -101,13 +101,6 @@ public:
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szName = QString());
     
-    Q_DECL_DEPRECATED_X("Please use LogMenu instead")
-    static void OpenLogConfigureFile();
-    Q_DECL_DEPRECATED_X("Please use LogMenu instead")
-    static void OpenLogFile();
-    Q_DECL_DEPRECATED_X("Please use LogMenu instead")
-    static void OpenLogFolder();
-    
 #ifdef HAVE_RABBITCOMMON_GUI
     static QMenu* GetLogMenu(QWidget *parent = nullptr);
     static int RestoreWidget(QWidget* pWidget);

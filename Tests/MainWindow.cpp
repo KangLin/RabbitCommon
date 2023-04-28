@@ -134,27 +134,6 @@ void MainWindow::on_pbEncrypt_clicked()
     }
 }
 
-void MainWindow::on_actionOpen_log_configure_triggered()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::CTools::Instance()->OpenLogConfigureFile();
-#endif
-}
-
-void MainWindow::on_actionOpen_log_file_triggered()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::CTools::Instance()->OpenLogFile();
-#endif
-}
-
-void MainWindow::on_actionOpen_log_folder_triggered()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    RabbitCommon::CTools::Instance()->OpenLogFolder();
-#endif
-}
-
 void MainWindow::on_pbGenerateCoreFile_clicked()
 {
     strcpy(0,0);
