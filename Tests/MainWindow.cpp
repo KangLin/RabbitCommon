@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
+    
+    ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(ui->menuTools));
 
 #ifdef HAVE_RABBITCOMMON_GUI
     // [Use CDockFolderBrowser]
