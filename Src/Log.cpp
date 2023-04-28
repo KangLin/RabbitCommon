@@ -3,6 +3,9 @@
 
 #include "Log.h"
 #include "RabbitCommonDir.h"
+#ifdef Q_OS_WIN
+    #include <Windows.h>
+#endif
 #include <string>
 #include <stdarg.h>
 #include <QDebug>
@@ -510,8 +513,12 @@ void CLog::myMessageOutput(QtMsgType type,
     #else
         szMsg = msg;
     #endif
-    fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
-
+    
+#if defined(Q_OS_WIN)
+        OutputDebugStringA(szMsg.toStdString().c_str());
+#else
+        fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
+#endif
     /*
     QFile f(CLog::Instance()->GetLogFile());
     if(!f.open(QFile::WriteOnly | QFile::Append))
