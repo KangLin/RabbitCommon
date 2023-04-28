@@ -54,52 +54,48 @@
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="153"/>
         <source>Open log</source>
-        <translation>打开日志</translation>
+        <translation type="vanished">打开日志</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="172"/>
+        <location filename="../../MainWindow.ui" line="163"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="181"/>
+        <location filename="../../MainWindow.ui" line="172"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="190"/>
+        <location filename="../../MainWindow.ui" line="181"/>
         <source>Stype</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="199"/>
         <source>Open log configure</source>
-        <translation>打开日志配置文件</translation>
+        <translation type="vanished">打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="208"/>
         <source>Open log file</source>
-        <translation>打开日志文件</translation>
+        <translation type="vanished">打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="217"/>
         <source>Open log folder</source>
-        <translation>打开日志文件夹</translation>
+        <translation type="vanished">打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="43"/>
+        <location filename="../../MainWindow.cpp" line="45"/>
         <source>Folder browser</source>
         <translation>文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="132"/>
+        <location filename="../../MainWindow.cpp" line="134"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="132"/>
+        <location filename="../../MainWindow.cpp" line="134"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>
