@@ -1,5 +1,6 @@
 ### Version: v1.0.12
 + Add RabbitCommon::CTools::GetLogMenu
++ Modify about Information
 
 ### Version: v1.0.11
 
