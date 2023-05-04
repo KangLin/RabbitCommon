@@ -2,7 +2,7 @@
 # The file is deprecated
 #-------------------------------------------------
 
-QT += core xml
+QT *= core xml
 
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
@@ -60,7 +60,7 @@ else: DEFINES *= RabbitCommon_EXPORTS
     INCLUDEPATH += $$PWD/Style
     FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui
-    
+
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
         INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
