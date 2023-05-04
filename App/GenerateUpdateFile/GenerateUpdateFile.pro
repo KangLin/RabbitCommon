@@ -75,7 +75,9 @@ msvc {
 include($$PWD/../../pri/Translations.pri)
 
 #VERSION=$$RabbitCommon_VERSION
-INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src $$_PRO_FILE_PWD_/../../Src/export
+INCLUDEPATH += $$_PRO_FILE_PWD_/../Src \
+    $$_PRO_FILE_PWD_/../Src/FrmUpdater \
+    $$_PRO_FILE_PWD_/../Src/export
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon

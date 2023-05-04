@@ -7,7 +7,6 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QFileInfo>
-#include "Log.h"
 
 CGenerateUpdateFile::CGenerateUpdateFile()
 {

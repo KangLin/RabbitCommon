@@ -7,7 +7,7 @@
 	#include "rabbitcommon_export_windows.h"
 #endif
 
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) || defiend(Q_OS_MACOS)
     #include "rabbitcommon_export_linux.h"
 #endif
 
