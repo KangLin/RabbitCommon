@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.19)
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
+include(GNUInstallDirs)
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
@@ -473,7 +474,6 @@ function(INSTALL_TARGET)
             if(NOT DEFINED PARA_EXPORT_NAME)
                 set(PARA_EXPORT_NAME ${PARA_NAME}Config)
             endif()
-
             if(NOT DEFINED PARA_COMPONENT)
                 set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Runtime)
             endif()
@@ -867,6 +867,7 @@ function(ADD_TARGET)
     if(DEFINED PARA_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PUBLIC ${PARA_DEFINITIONS})
     endif()
+    list(APPEND PARA_PRIVATE_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
     if(DEFINED PARA_PRIVATE_DEFINITIONS AND PARA_PRIVATE_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PRIVATE ${PARA_PRIVATE_DEFINITIONS})
     endif()
