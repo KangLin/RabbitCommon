@@ -27,7 +27,9 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     szQt += tr("### Qt") + "\n";
     szQt += "- " + tr("Qt runtime version: ") + QString(qVersion()) + "\n";
     szQt += "- " + tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
+#if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
     szQt += "- " + tr("Qt library version: ") + QLibraryInfo::version().toString() + "\n";
+#endif
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
     szQt += "\n";
     szQt += "- " + tr("Standard paths:") + "\n";
@@ -45,26 +47,32 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
         szQt += "\n";
     }
     szQt += "\n";
-
+#if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
     szOS += tr("### OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
+#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
     if(!QSysInfo::bootUniqueId().isEmpty())
         szOS += "- " + tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
+#endif
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
     szOS += "- " + tr("CPU: ") + QSysInfo::currentCpuArchitecture() + "\n";
     szOS += "- " + tr("Build CPU: ") + QSysInfo::buildCpuArchitecture() + "\n";
 
     szHost += tr("### Host") + "\n";
+#if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
     szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
+#endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName();
-
+#endif
     SetContext(tr("Application"), szApp + szInfo + szRabbitCommon);
     //SetContext(tr("RabbitCommon"), szRabbitCommon);
     SetContext(tr("Qt"), szQt);
-    SetContext(tr("OS"), szOS);
-    SetContext(tr("Host"), szHost);
+    if(!szOS.isEmpty())
+        SetContext(tr("OS"), szOS);
+    if(!szHost.isEmpty())
+        SetContext(tr("Host"), szHost);
 }
 
 CInformation::~CInformation()
