@@ -87,7 +87,7 @@ public:
     QString m_szCopyrightTime;
     QString m_szCopyrightStartTime;
     QString m_szCopyrightOwner;
-    QImage m_DonationIcon;
+    int SetDonationIcon(const QImage& img);
 
 #if defined(Q_OS_ANDROID)
 protected:    
@@ -106,7 +106,8 @@ protected Q_SLOTS:
     
 private:
     Ui::CDlgAbout *ui;
-
+    
+    QImage m_DonationIcon;
     QNetworkAccessManager m_NetManager;
     QNetworkReply *m_pReply;
     /**

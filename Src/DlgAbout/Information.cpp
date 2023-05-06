@@ -2,6 +2,7 @@
 #include "ui_Information.h"
 #include "RabbitCommonTools.h"
 #include "DlgAbout.h"
+#include "Log.h"
 
 #include <QLibraryInfo>
 #include <QHostInfo>
@@ -73,6 +74,8 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
         SetContext(tr("OS"), szOS);
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
+
+    //qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
 }
 
 CInformation::~CInformation()
@@ -82,12 +85,21 @@ CInformation::~CInformation()
 
 void CInformation::SetContext(const QString& szTitle, const QString& szContext)
 {
+    if(szTitle.isEmpty() || szContext.isEmpty())
+    {
+        qCritical(RabbitCommon::Logger) << "Title or context is empty";
+        return;
+    }
+
 #if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
-    ui->tabWidget->addTab(pEdit, szTitle);
+    if(!pEdit) return;
     pEdit->setHtml(CDlgAbout::MarkDownToHtml(szContext));
+    pEdit->show();
+    ui->tabWidget->addTab(pEdit, szTitle);
 #else
     QTextEdit* pEdit = new QTextEdit(ui->tabWidget);
+    if(!pEdit) return;
     pEdit->setReadOnly(true);
     pEdit->setWordWrapMode(QTextOption::NoWrap);
     ui->tabWidget->addTab(pEdit, szTitle);
@@ -96,5 +108,6 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         QTextCursor cursor = pEdit->textCursor();
     cursor.movePosition(QTextCursor::Start);
     pEdit->setTextCursor(cursor);
+    pEdit->show();
 #endif
 }

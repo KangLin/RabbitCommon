@@ -269,6 +269,16 @@ bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
 }
 #endif
 
+int CDlgAbout::SetDonationIcon(const QImage &img)
+{
+    if(m_pReply->isRunning())
+    {
+        m_pReply->abort();
+    }
+    m_DonationIcon = img;
+    return 0;
+}
+
 int CDlgAbout::DownloadFile(const QUrl &url)
 {
     int nRet = 0;
