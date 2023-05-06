@@ -2,19 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>AdminAuthorization</name>
-    <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="200"/>
-        <source>Enter Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
-        <source>Enter your root password to run the program:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../DlgAbout/DlgAbout.ui" line="20"/>
@@ -67,107 +54,107 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="71"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="72"/>
         <source>KangLin</source>
         <translation>康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="74"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="75"/>
         <source>Kang Lin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="139"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="84"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="92"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="85"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
         <source>License</source>
         <translation>许可协议</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="86"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="95"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="87"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="96"/>
         <source>Change log</source>
         <translation>修改日志</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="88"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="99"/>
         <source>Thanks</source>
         <translation>感谢</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="320"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="324"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="331"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="322"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="324"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="333"/>
         <source>Arch: </source>
         <translation>架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="320"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="331"/>
         <source> (From revision: </source>
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="402"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="415"/>
         <source>Build Date/Time: </source>
         <translation>编译日期/时间：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="403"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="416"/>
         <source>File Path: </source>
         <translation>文件路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="404"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="417"/>
         <source>Arguments: </source>
         <translation>参数：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="130"/>
         <source> Email: </source>
         <translation> 邮箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
         <source>Home page: </source>
         <translation>主页：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="140"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="141"/>
         <source>Copyright (C)</source>
         <translation>版权所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="241"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="242"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="251"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="252"/>
         <source>Save donation picture</source>
         <translation>保存捐赠图片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="253"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="254"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>图片(*.png *.xpm *.jpg)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="400"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="413"/>
         <source>### </source>
         <translation></translation>
     </message>
@@ -214,63 +201,63 @@
 <context>
     <name>CFrmStyle</name>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="14"/>
+        <location filename="../../Style/FrmStyle.ui" line="14"/>
         <source>Set style</source>
         <translation>设置样式</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="24"/>
+        <location filename="../../Style/FrmStyle.ui" line="24"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="32"/>
+        <location filename="../../Style/FrmStyle.ui" line="32"/>
         <source>Style name:</source>
         <translation>样式名：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="165"/>
+        <location filename="../../Style/FrmStyle.ui" line="165"/>
         <source>Default(&amp;D)</source>
         <translation>默认(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="42"/>
+        <location filename="../../Style/FrmStyle.ui" line="42"/>
         <source>Browse(&amp;B)</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="54"/>
+        <location filename="../../Style/FrmStyle.ui" line="54"/>
         <source>Icon theme: </source>
         <translation>图标主题：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="65"/>
+        <location filename="../../Style/FrmStyle.ui" line="65"/>
         <source>Icon theme:</source>
         <translation>图标主题：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="84"/>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="92"/>
+        <location filename="../../Style/FrmStyle.ui" line="84"/>
+        <location filename="../../Style/FrmStyle.ui" line="92"/>
         <source>Fallback theme:</source>
         <translation>后备主题：</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="111"/>
+        <location filename="../../Style/FrmStyle.ui" line="111"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation>后备主题改变需要重启程序。</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="124"/>
+        <location filename="../../Style/FrmStyle.ui" line="124"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
         <translation>图标主题选择改变后,需要重启程序.</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="172"/>
+        <location filename="../../Style/FrmStyle.ui" line="172"/>
         <source>Ok(&amp;O)</source>
         <translation>确认(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../FrmStyle/FrmStyle.ui" line="179"/>
+        <location filename="../../Style/FrmStyle.ui" line="179"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -590,132 +577,119 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="23"/>
+        <location filename="../../DlgAbout/Information.cpp" line="24"/>
         <source>### RabbitCommon</source>
         <translation>### 玉兔公共库</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="24"/>
+        <location filename="../../DlgAbout/Information.cpp" line="25"/>
         <source>RabbitCommon version: </source>
         <translation>玉兔公共库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="27"/>
+        <location filename="../../DlgAbout/Information.cpp" line="28"/>
         <source>### Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="28"/>
+        <location filename="../../DlgAbout/Information.cpp" line="29"/>
         <source>Qt runtime version: </source>
         <translation>Qt 运行版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="29"/>
+        <location filename="../../DlgAbout/Information.cpp" line="30"/>
         <source>Qt compile version: </source>
         <translation>Qt 编译版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="30"/>
+        <location filename="../../DlgAbout/Information.cpp" line="32"/>
         <source>Qt library version: </source>
         <translation>Qt 库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="31"/>
+        <location filename="../../DlgAbout/Information.cpp" line="34"/>
         <source>Locale: </source>
         <translation>语言：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="33"/>
+        <location filename="../../DlgAbout/Information.cpp" line="36"/>
         <source>Standard paths:</source>
         <translation>标准路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="49"/>
+        <location filename="../../DlgAbout/Information.cpp" line="52"/>
         <source>### OS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="50"/>
+        <location filename="../../DlgAbout/Information.cpp" line="53"/>
         <source>OS: </source>
         <translation>操作系统：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="51"/>
+        <location filename="../../DlgAbout/Information.cpp" line="54"/>
         <source>Kernel type: </source>
         <translation>内核类型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="52"/>
+        <location filename="../../DlgAbout/Information.cpp" line="55"/>
         <source>Kernel version: </source>
         <translation>内核版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="54"/>
+        <location filename="../../DlgAbout/Information.cpp" line="58"/>
         <source>Boot Id: </source>
         <translation>启动 ID：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="55"/>
+        <location filename="../../DlgAbout/Information.cpp" line="60"/>
         <source>Build ABI: </source>
         <translation>编译 ABI：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="56"/>
+        <location filename="../../DlgAbout/Information.cpp" line="61"/>
         <source>CPU: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="57"/>
+        <location filename="../../DlgAbout/Information.cpp" line="62"/>
         <source>Build CPU: </source>
         <translation>编译时 CPU：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="59"/>
+        <location filename="../../DlgAbout/Information.cpp" line="64"/>
         <source>### Host</source>
         <translation>### 主机</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="60"/>
+        <location filename="../../DlgAbout/Information.cpp" line="66"/>
         <source>Host name: </source>
         <translation>主机名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="61"/>
+        <location filename="../../DlgAbout/Information.cpp" line="68"/>
         <source>Domain name: </source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="63"/>
+        <location filename="../../DlgAbout/Information.cpp" line="70"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="65"/>
+        <location filename="../../DlgAbout/Information.cpp" line="72"/>
         <source>Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="66"/>
+        <location filename="../../DlgAbout/Information.cpp" line="74"/>
         <source>OS</source>
         <translation>操作系统</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="67"/>
+        <location filename="../../DlgAbout/Information.cpp" line="76"/>
         <source>Host</source>
         <translation>主机</translation>
-    </message>
-</context>
-<context>
-    <name>CStyle</name>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="169"/>
-        <source>Open sink</source>
-        <translation>打开样式</translation>
-    </message>
-    <message>
-        <location filename="../../RabbitCommonStyle.cpp" line="171"/>
-        <source>Style files(*.qss *.css);; All files(*.*)</source>
-        <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 <context>
@@ -767,167 +741,58 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="371"/>
+        <location filename="../../RabbitCommonTools.cpp" line="350"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="375"/>
+        <location filename="../../RabbitCommonTools.cpp" line="354"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="378"/>
+        <location filename="../../RabbitCommonTools.cpp" line="357"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="380"/>
+        <location filename="../../RabbitCommonTools.cpp" line="360"/>
         <source>Open log folder</source>
         <translation>打开日志文件夹</translation>
-    </message>
-    <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="193"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="228"/>
-        <source>Critical</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QUIInputBox</name>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="1152"/>
-        <source>Input box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="1153"/>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="1154"/>
         <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="1206"/>
-        <source>Turn off countdown %1 s</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">取消</translation>
     </message>
 </context>
 <context>
     <name>QUIMessageBox</name>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="877"/>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="878"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="930"/>
-        <source>Turn off countdown %1 s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="945"/>
         <source>Prompt</source>
-        <translation>提示</translation>
+        <translation type="vanished">提示</translation>
     </message>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="948"/>
         <source>Query</source>
-        <translation>查询</translation>
+        <translation type="vanished">查询</translation>
     </message>
     <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="952"/>
         <source>Error</source>
-        <translation>错误</translation>
-    </message>
-</context>
-<context>
-    <name>QUIWidget</name>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="484"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="502"/>
-        <source>Silvery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="484"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="505"/>
-        <source>Blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="484"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="508"/>
-        <source>Light blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="484"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="511"/>
-        <source>Dark blue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="485"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="514"/>
-        <source>Gray</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="485"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="517"/>
-        <source>Light gray</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="485"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="520"/>
-        <source>Dark gray</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="485"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="523"/>
-        <source>Black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="486"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="526"/>
-        <source>Light black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="486"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="529"/>
-        <source>Dark black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="486"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="532"/>
-        <source>PS black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="487"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="535"/>
-        <source>Flat black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="487"/>
-        <location filename="../../QUIWidget/QUIWidget.cpp" line="538"/>
-        <source>Flat white</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">错误</translation>
     </message>
 </context>
 <context>
@@ -954,6 +819,19 @@
         <location filename="../../RabbitRecentMenu.cpp" line="186"/>
         <source>Clear Menu</source>
         <translation>清除菜单</translation>
+    </message>
+</context>
+<context>
+    <name>RabbitCommon::CStyle</name>
+    <message>
+        <location filename="../../Style/Style.cpp" line="174"/>
+        <source>Open sink</source>
+        <translation>打开样式</translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="176"/>
+        <source>Style files(*.qss *.css);; All files(*.*)</source>
+        <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
 </context>
 <context>
