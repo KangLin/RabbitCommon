@@ -26,7 +26,7 @@ namespace RabbitCommon {
  *        - Add custom buttons with AddWidgets.
  *        - Usage:
  *          - If the parent is QDockWidget. use QDockWidget::setTitleBarWidget settings
- *            - ag: \snippet Src/FolderBrowser/FolderBrowser.cpp Use CTitleBar
+ *            - ag: \snippet Src/DockFolderBrowser/DockFolderBrowser.cpp Use CTitleBar
  *
  * \~chinese
  * \brief 自定义窗口标题栏。例如： QWidget, QDockWidget 等
@@ -39,7 +39,7 @@ namespace RabbitCommon {
  *        - 用 AddWidgets 增加自定义按钮。
  *        - 用法：
  *          - 如果要设置的父窗口是 QDockWidget，调用 QDockWidget::setTitleBarWidget 设置
- *            - 例子：\snippet Src/FolderBrowser/FolderBrowser.cpp Use CTitleBar
+ *            - 例子：\snippet Src/DockFolderBrowser/DockFolderBrowser.cpp Use CTitleBar
  *
  * \~
  * \ingroup API
