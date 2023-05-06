@@ -32,7 +32,7 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     m_pStateDownloadSetupFile(nullptr)
 {
     bool check = false;
-    setAttribute(Qt::WA_QuitOnClose, false);
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
     ui->lbNewArch->hide();
     ui->lbNewVersion->hide();
