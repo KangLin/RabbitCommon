@@ -217,20 +217,21 @@ function(INSTALL_TARGETS)
     endforeach()
 endfunction()
 
+option(INSTALL_QT "Don't install qt libraries" ON)
 # 安装目标
-#    [必须]NAME              目标名
-#    ISEXE                  是执行程序目标还是库目标
-#    ISPLUGIN               是插件
+#    [必须]NAME                  目标名
+#    ISEXE                      是执行程序目标还是库目标
+#    ISPLUGIN                   是插件
 #    RUNTIME
-#    LIBRARY                库安装位置
+#    LIBRARY                    库安装位置
 #    INSTALL_PLUGIN_LIBRARY_DIR 插件库安装位置
 #    ARCHIVE
-#    PUBLIC_HEADER          头文件的安装位置
-#    INCLUDES               导出安装头文件位置
-#    VERSION                版本号
-#    EXPORT_NAME            cmake 配置文件的导出名
-#    NAMESPACE              cmake 配置文件的导出目录
-#    COMPONENT              组件名。
+#    PUBLIC_HEADER              头文件的安装位置
+#    INCLUDES                   导出安装头文件位置
+#    VERSION                    版本号
+#    EXPORT_NAME                cmake 配置文件的导出名
+#    NAMESPACE                  cmake 配置文件的导出目录
+#    COMPONENT                  组件名。
 #       - 如果未定义。
 #         - 运行库组件名为： Runtime
 #         - 开发库组件名为： Development
@@ -329,7 +330,7 @@ function(INSTALL_TARGET)
         #    )
 
         # 分发
-        IF(WIN32 AND BUILD_SHARED_LIBS)
+        IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
             IF(MINGW)
                 # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
@@ -470,7 +471,7 @@ function(INSTALL_TARGET)
             if(NOT DEFINED PARA_INCLUDES)
                 set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
             endif()
-            
+
             if(NOT DEFINED PARA_EXPORT_NAME)
                 set(PARA_EXPORT_NAME ${PARA_NAME}Config)
             endif()
@@ -512,7 +513,7 @@ function(INSTALL_TARGET)
                         COMPONENT ${PARA_COMPONENT_DEV}
                     )
             endif()
-            if(PARA_EXPORT_NAME)
+            if(NOT (PARA_EXPORT_NAME STREQUAL ${PARA_NAME}Config) )
                 # 因为编译树中已有 export(${PARA_NAME}Config.cmake)
                 if(NOT DEFINED PARA_INSTALL_CMAKE_CONFIG_IN_FILE)
                     set(PARA_INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_SOURCE_DIR}/cmake/${PARA_NAME}Config.cmake.in)
@@ -548,7 +549,7 @@ function(INSTALL_TARGET)
         endif(PARA_ISEXE)
         
         # Windows 下分发
-        IF(WIN32 AND BUILD_SHARED_LIBS)
+        IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
             IF(MINGW)
                 # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
@@ -584,7 +585,7 @@ function(INSTALL_TARGET)
                     DESTINATION "${CMAKE_INSTALL_BINDIR}"
                         COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
             endif()
-        ENDIF(WIN32 AND BUILD_SHARED_LIBS)
+        ENDIF()
         
     endif(PARA_ISPLUGIN)
 endfunction()
