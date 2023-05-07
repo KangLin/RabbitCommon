@@ -1,3 +1,7 @@
+### Version: v1.0.13
++ Fix CFrmUpdater memery leak
++ Documents: fix titlebar comments bug
+
 ### Version: v1.0.12
 + Add RabbitCommon::CTools::GetLogMenu
 + Modify about Information
