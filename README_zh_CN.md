@@ -342,7 +342,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
             <?xml version="1.0" encoding="UTF-8"?>
             <REDIRECT>
-                <VERSION>v1.0.12</VERSION>
+                <VERSION>v1.0.13</VERSION>
                 <WINDOWS>
                     <URL>url</URL>
                 </WINDOWS>

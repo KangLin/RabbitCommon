@@ -1,3 +1,7 @@
+### 版本： v1.0.13
++ 修复 CFrmUpdater 内存泄漏
++ 文档: 修复 titlebar 注释 BUG
+
 ### 版本： v1.0.12
 + 增加　RabbitCommon::CTools::GetLogMenu
 + 修改关于对话框信息
