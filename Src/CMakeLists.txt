@@ -185,7 +185,7 @@ if(WITH_CMARK)
 
     find_package(cmark)
     if(NOT cmark_FOUND)
-        #message("Suggest use cmark: https://github.com/commonmark/cmark. to support Markdown. will download cmark ...")
+        #message("Suggest use cmark: https://github.com/commonmark/cmark to support Markdown. will download cmark ...")
         
         SET(_CMARK_VERSION 0.30.2)
         set(CMARK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION})
