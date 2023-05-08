@@ -143,7 +143,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   + cmake
   
     cmake 参数 RabbitCommon_DIR 指定安装根目录
-    
+
         find_package(RabbitCommon)
 
 - 直接用源码
@@ -164,12 +164,15 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
             else()
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+                message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+                message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")
                 message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
+                message("2.2 Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
                 message("   ag:")
-                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+                message("       cmake -DRabbitCommon_DIR= ")
+                message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
             endif()
 
       + 在使用的工程目录CMakeLists.txt

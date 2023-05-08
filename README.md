@@ -156,12 +156,15 @@ Qt common library. include follow functions:
               if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                   add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
               else()
-                  message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                  message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+                  message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+                  message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
                   message("   ag:")
                   message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                  message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
+                  message("2.2 Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
                   message("   ag:")
-                  message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+                  message("       cmake -DRabbitCommon_DIR= ")
+                  message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
               endif()
 
       + Add the following code to the CMakeLists.txt file of the project

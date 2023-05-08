@@ -521,6 +521,10 @@ foreach(d ${RabbitCommon_DEFINITIONS})
     SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
 endforeach()
 
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RabbitCommon
+    )
 # Install pc files
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
     ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc @ONLY)
