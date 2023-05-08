@@ -143,7 +143,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   + cmake
   
     cmake 参数 RabbitCommon_DIR 指定安装根目录
-    
+
         find_package(RabbitCommon)
 
 - 直接用源码
@@ -164,12 +164,15 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
             else()
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+                message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+                message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")
                 message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
+                message("2.2 Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
                 message("   ag:")
-                message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+                message("       cmake -DRabbitCommon_DIR= ")
+                message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
             endif()
 
       + 在使用的工程目录CMakeLists.txt
@@ -183,58 +186,6 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
     - 静态库
 
              target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
-             
-  + QT工程文件。(已废弃，新程序请用 CMake)
-    - 子模块方式：
-      + 增加子模块：
-      
-            git submodule add https://github.com/KangLin/RabbitCommon.git 3th_libs/RabbitCommon
-      
-      + 在工程文件(.pro)中直接引入 RabbitCommon.pri
-
-            include(3th_libs/RabbitCommon/RabbitCommon.pri)
-
-    - 非子模块方式：在环境变量（RabbitCommon_DIR） 或 QMAKE参数 （RabbitCommon_DIR） 
-      中指定 RabbitCommon 源码根目录的位置，然后在主工程文件（.pro）中加入下列：
-    
-            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
-            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
-            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
-                DEFINES += RABBITCOMMON
-                # DESTDIR =
-                include($${RabbitCommon_DIR}/Src/Src.pro)
-                LIBS *= -L$${DESTDIR} RabbitCommon
-            } else {
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
-                message("   git clone https://github.com/KangLin/RabbitCommon.git")
-                error("2. Then set value RabbitCommon_DIR to download root directory")
-            }
-    
-     - 增加帮助文件：
-
-            isEmpty(PREFIX) {
-                qnx : PREFIX = /tmp
-                else : ios: PREFIX=/
-                else : android : PREFIX = /
-                else : unix : PREFIX = /opt/RabbitCommon
-                else : PREFIX = $$OUT_PWD/install
-            }
-
-            DISTFILES += Authors.md \
-                Authors_zh_CN.md \
-                ChangeLog.md \
-                License.md
-
-            other.files = $$DISTFILES
-            android: other.path = $$PREFIX/assets
-            else: other.path = $$PREFIX
-            other.CONFIG += directory no_check_exist 
-            INSTALLS += other
-
-     因为此种方式翻译资源会在目标项目中重复。所以，主程序工程以 TEMPLATE = subdirs ， 在目标项目源码根目录下增加 RabbitCommon 子目录，在此目录下再链接到本项目。可以参见：https://github.com/KangLin/Tasks
-    - 静态库
-
-            CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 
 - 在程序main开始处，初始化
 

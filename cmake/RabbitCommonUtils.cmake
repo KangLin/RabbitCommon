@@ -469,7 +469,9 @@ function(INSTALL_TARGET)
                 set(PARA_PUBLIC_HEADER ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME})
             endif()
             if(NOT DEFINED PARA_INCLUDES)
-                set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR})
+                set(PARA_INCLUDES ${CMAKE_INSTALL_INCLUDEDIR}
+                    ${CMAKE_INSTALL_INCLUDEDIR}/${PARA_NAME}
+                    )
             endif()
 
             if(NOT DEFINED PARA_EXPORT_NAME)

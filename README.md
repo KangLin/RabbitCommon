@@ -136,8 +136,6 @@ Qt common library. include follow functions:
 
         find_package(RabbitCommon)
 
-  + Qt pro file. (Deprecated, please use CMake for new programs)
-
 - Use the source code directly
   + cmake
     - Submodule
@@ -156,12 +154,15 @@ Qt common library. include follow functions:
               if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                   add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
               else()
-                  message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
+                  message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+                  message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+                  message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
                   message("   ag:")
                   message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                  message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
+                  message("2.2 Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
                   message("   ag:")
-                  message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+                  message("       cmake -DRabbitCommon_DIR= ")
+                  message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
               endif()
 
       + Add the following code to the CMakeLists.txt file of the project
@@ -171,67 +172,6 @@ Qt common library. include follow functions:
     - Static library
 
           target_compile_definitions(${PROJECT_NAME} PRIVATE RABBITCOMMON_STATIC_DEFINE)
-
-  + QT pro file. (Deprecated, please use CMake for new programs)
-    - submodule：
-      + Add submodule：
-
-            git submodule add https://github.com/KangLin/RabbitCommon.git 3th_libs/RabbitCommon
-
-      + Introduce RabbitCommon.pri directly in the project file (.pro)
-
-            include(3th_libs/RabbitCommon/RabbitCommon.pri)
-
-    - No submodule：Specify the location of the RabbitCommon source root 
-      in the environment variable (RabbitCommon_DIR)
-      or QMAKE parameter (RabbitCommon_DIR),
-      then add the following to the main project file (.pro):
-
-            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
-            isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
-            !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
-                DEFINES += RABBITCOMMON
-                # DESTDIR =
-                include($${RabbitCommon_DIR}/Src/Src.pro)
-                INCLUDEPATH *= $${RabbitCommon_DIR}/Src $${RabbitCommon_DIR}/Src/export
-                LIBS += -lRabbitCommon
-            } else {
-                message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
-                message("   git clone https://github.com/KangLin/RabbitCommon.git")
-                error("2. Then set value RabbitCommon_DIR to download root directory")
-            }
-
-     - Add about files:
-
-            isEmpty(PREFIX) {
-                qnx : PREFIX = /tmp
-                else : ios: PREFIX=/
-                else : android : PREFIX = /
-                else : unix : PREFIX = /opt/RabbitCommon
-                else : PREFIX = $$OUT_PWD/install
-            }
-
-            DISTFILES += Authors.md \
-                Authors_zh_CN.md \
-                ChangeLog.md \
-                License.md
-
-            other.files = $$DISTFILES
-            android: other.path = $$PREFIX/assets
-            else: other.path = $$PREFIX
-            other.CONFIG += directory no_check_exist 
-            INSTALLS += other
-
-    Because this way translation resources will be repeated in the target project.
-    Therefore, The main pro file is TEMPLATE = subdirs, generally add the RabbitCommon directory under
-    the target project source root directory,
-    and then link to the project in this directory.
-    Can see ：https://github.com/KangLin/Tasks
-
-    - Static library
-
-            CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
-
 
 - Initialization functions is called at the beginning of main() of the program
   and after QApplication
