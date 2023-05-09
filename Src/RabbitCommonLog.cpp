@@ -530,7 +530,11 @@ void CLog::myMessageOutput(QtMsgType type,
     #endif
     
 #if defined(Q_OS_WIN)
-        OutputDebugStringA(szMsg.toStdString().c_str());
+    #ifdef UNICODE
+        OutputDebugString(szMsg.toStdWString().c_str());
+    #else
+        OutputDebugString(szMsg.toStdString().c_str());
+    #endif
 #else
         fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
 #endif
