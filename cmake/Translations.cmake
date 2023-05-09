@@ -202,7 +202,9 @@ function(GENERATED_QT_TRANSLATIONS)
     if(DEFINED PARA_TSDIR)
         set(TS_DIR ${PARA_TSDIR})
     endif()
-    
+    if(NOT IS_DIRECTORY ${TS_DIR})
+        file(MAKE_DIRECTORY ${TS_DIR})
+    endif()
     SET(TS_FILES
         ${TS_DIR}/${TRANSLATIONS_NAME}_ar.ts
         ${TS_DIR}/${TRANSLATIONS_NAME}_ca.ts
