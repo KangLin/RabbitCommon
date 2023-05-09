@@ -165,7 +165,7 @@ jobs:
               -DCMARK_TESTS=OFF ^
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
-              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
+              -DCMAKE_INSTALL_PREFIX=%CD%/install ^
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }}

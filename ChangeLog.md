@@ -1,3 +1,7 @@
+### Version: v2.0.0
++ Remove RabbitCommonLog
++ Modify style interface
+
 ### Version: v1.0.13
 + Fix CFrmUpdater memery leak
 + Documents: fix titlebar comments bug

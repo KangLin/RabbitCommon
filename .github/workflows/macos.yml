@@ -92,7 +92,7 @@ jobs:
               -DCMARK_STATIC=ON \
               -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
