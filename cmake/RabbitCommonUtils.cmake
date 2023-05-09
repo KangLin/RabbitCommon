@@ -403,7 +403,7 @@ function(INSTALL_TARGET)
                 )
             
             #分发
-            IF(ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6)
+            IF( ANDROID AND (QT_VERSION_MAJOR VERSION_LESS 6) )
                 Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
                 GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
                     ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
@@ -747,7 +747,7 @@ function(ADD_TARGET)
                     AND (IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/android))
                 set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
             endif()
-            if(PARA_ANDROID_SOURCES_DIR)
+            if(DEFINED PARA_ANDROID_SOURCES_DIR)
               set_property(TARGET ${PARA_NAME} APPEND PROPERTY
                   QT_ANDROID_PACKAGE_SOURCE_DIR ${PARA_ANDROID_SOURCES_DIR})
             endif()
@@ -827,6 +827,7 @@ function(ADD_TARGET)
         GENERATE_EXPORT_HEADER(${PARA_NAME})
         file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
             DESTINATION ${CMAKE_BINARY_DIR})
+
     endif(PARA_ISEXE)
 
     if(DEFINED PARA_OUTPUT_DIR)
@@ -870,7 +871,6 @@ function(ADD_TARGET)
     if(DEFINED PARA_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PUBLIC ${PARA_DEFINITIONS})
     endif()
-    list(APPEND PARA_PRIVATE_DEFINITIONS $<$<CONFIG:Debug>:DEBUG _DEBUG>)
     if(DEFINED PARA_PRIVATE_DEFINITIONS AND PARA_PRIVATE_DEFINITIONS)
         target_compile_definitions(${PARA_NAME} PRIVATE ${PARA_PRIVATE_DEFINITIONS})
     endif()
