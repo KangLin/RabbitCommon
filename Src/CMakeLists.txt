@@ -63,12 +63,13 @@ set(RABBITCOMMON_INCLUDE_DIRS
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 
 if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 endif()
 set(_QT_COMPONENTS Core Network)
+
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg SvgWidgets)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
@@ -234,6 +235,11 @@ if(cmark_FOUND OR cmark-gfm_FOUND)
         LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
     else()
         message("Don't find Qt${QT_VERSION_MAJOR}WebEngineWidgets")
+        find_package(Qt${QT_VERSION_MAJOR}WebView)
+        if(Qt${QT_VERSION_MAJOR}WebView_FOUND)
+            list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebView)
+            LIST(APPEND _QT_COMPONENTS WebView)
+        endif()
     endif()
 endif()
 
@@ -479,14 +485,11 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 
 #需要的QT组件
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0 AND ANDROID)
-    LIST(APPEND _QT_COMPONENTS AndroidExtras)
+if(QT_VERSION_MAJOR LESS 6 AND ANDROID)
+    message(FATAL_ERROR "Qt must great 6.0.0 for android")
 endif()
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${_QT_COMPONENTS})
 message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
-    message(FATAL_ERROR "Qt must great 5.10.0")
-endif()
 FOREACH(_COMPONENT ${_QT_COMPONENTS})
     if(Qt${QT_VERSION_MAJOR}${_COMPONENT}_FOUND)
         LIST(APPEND RABBIT_COMMON_LIBS Qt${QT_VERSION_MAJOR}::${_COMPONENT})
@@ -531,8 +534,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc
 
 # Install style files
 if(ANDROID)
-   INSTALL(DIRECTORY Resource/style/ DESTINATION "assets/data/style" COMPONENT Runtime)
-   #INSTALL(DIRECTORY QUIWidget/Resource/qss DESTINATION "assets/data/style" COMPONENT Runtime)
+    INSTALL(DIRECTORY Resource/style/ DESTINATION "assets/data/style" COMPONENT Runtime)
+    #INSTALL(DIRECTORY QUIWidget/Resource/qss DESTINATION "assets/data/style" COMPONENT Runtime)
 else()
    INSTALL(DIRECTORY Resource/style/ DESTINATION "data/style" COMPONENT Runtime)
    #INSTALL(DIRECTORY QUIWidget/Resource/qss/ DESTINATION "data/style" COMPONENT Runtime)

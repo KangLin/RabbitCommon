@@ -20,11 +20,13 @@
 #include "FrmStyle.h"
 #include "DockFolderBrowser.h"
 #endif
+#include "RabbitCommonDir.h"
 
 #include <QDir>
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDockWidget>
+#include <QFileDialog>
 
 Q_LOGGING_CATEGORY(windowLog, "RabbitCommon.MainWindow")
 
@@ -40,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #ifdef HAVE_RABBITCOMMON_GUI
     // [Use CDockFolderBrowser]
     CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
+    pDock->setRootPath(RabbitCommon::CDir::Instance()->GetDirIcons(true));
     addDockWidget(Qt::LeftDockWidgetArea, pDock);
     // Add the action of dock to menu
     ui->menuTools->addAction(pDock->toggleViewAction());
@@ -171,4 +174,18 @@ void MainWindow::slotDownloadFile(const QString szFile)
 void MainWindow::slotDownloadError(int nErr, const QString szErr)
 {
     qDebug(windowLog) << "Download file error:" << nErr << szErr;
+}
+
+void MainWindow::on_pbOpenFolder_clicked()
+{
+    QIcon icon = QIcon::fromTheme("filter");
+    if(icon.isNull())
+        qDebug() << "Load icon fail";
+
+    QFileDialog fileDialog(this);
+    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+    fileDialog.setWindowTitle(tr("Open SVG File"));
+
+    fileDialog.setDirectory(RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot());
+    fileDialog.exec();
 }

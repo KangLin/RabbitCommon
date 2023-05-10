@@ -86,25 +86,26 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
+              -DINSTALL_QT=OFF ^
+              -DBUILD_APP=OFF ^
               -DCMAKE_CXX_COMPILER_ARCHITECTURE_ID=x86_64
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
 
       - name: Package
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64.zip .\install\*
+          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64_${{matrix.BUILD_TYPE}}.zip .\install\*
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64.zip
+            ${{github.workspace}}\build\RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64_${{matrix.BUILD_TYPE}}.zip
             

@@ -90,6 +90,85 @@
         RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
         RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
 
+    - linux
+    
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+                 -DCMAKE_BUILD_TYPE=Release \
+                 -DQT_DIR=... \
+                 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+          cmake --build . --config Release --target install
+        
+    - windows
+    
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install ^
+                   -DCMAKE_BUILD_TYPE=Release ^
+                   -DQT_DIR=... ^
+                   -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+          cmake --build . --config Release --target install
+
+    - android
+      + Qt6 及以上版本
+
+        cd build
+        ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
+        ${Qt6_DIR}/bin/qt-cmake . --config Release --target all
+        或者：
+        cmake .. -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+            -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
+
+      + Qt5
+        + 主机是linux
+    
+            cd build
+            cmake .. -DCMAKE_BUILD_TYPE=Release \
+                 -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+                 -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+                 -DANDROID_ABI="armeabi-v7a with NEON" \
+                 -DANDROID_PLATFORM=android-18 \
+                 -DQT_DIR=... \
+                 -DQt5_DIR=
+            cmake --build . --config Release --target all
+    
+        + 主机是windows
+    
+            cd build
+            cmake .. -G"Unix Makefiles" ^
+               -DCMAKE_BUILD_TYPE=Release ^
+               -DCMAKE_INSTALL_PREFIX=`pwd`/android-build ^
+               -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake ^
+               -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe ^
+               -DANDROID_PLATFORM=android-18 ^
+               -DANDROID_ABI=arm64-v8a ^
+               -DANDROID_ARM_NEON=ON ^
+               -DQT_DIR=... \
+               -DQt5_DIR=
+            cmake --build . --config Release --target all
+    
+        - 参数说明：https://developer.android.google.cn/ndk/guides/cmake
+          + ANDROID_ABI: 可取下列值：
+            目标 ABI。如果未指定目标 ABI，则 CMake 默认使用 armeabi-v7a。  
+            有效的目标名称为：
+            - armeabi：带软件浮点运算并基于 ARMv5TE 的 CPU。
+            - armeabi-v7a：带硬件 FPU 指令 (VFPv3_D16) 并基于 ARMv7 的设备。
+            - armeabi-v7a with NEON：与 armeabi-v7a 相同，但启用 NEON 浮点指令。这相当于设置 -DANDROID_ABI=armeabi-v7a 和 -DANDROID_ARM_NEON=ON。
+            - arm64-v8a：ARMv8 AArch64 指令集。
+            - x86：IA-32 指令集。
+            - x86_64 - 用于 x86-64 架构的指令集。
+          + ANDROID_NDK <path> 主机上安装的 NDK 根目录的绝对路径
+          + ANDROID_PLATFORM: 如需平台名称和对应 Android 系统映像的完整列表，请参阅 [Android NDK 原生 API](https://developer.android.google.cn/ndk/guides/stable_apis.html)
+          + ANDROID_ARM_MODE
+          + ANDROID_ARM_NEON
+          + ANDROID_STL:指定 CMake 应使用的 STL。 
+            - c++_shared: 使用 libc++ 动态库
+            - c++_static: 使用 libc++ 静态库
+            - none: 没有 C++ 库支持
+            - system: 用系统的 STL
+        - 安装 apk 到设备
+    
+               adb install android-build-debug.apk 
 
   + 用 qmake (已废弃，新程序请用 CMake)
 

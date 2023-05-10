@@ -26,6 +26,7 @@ namespace RabbitCommon {
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
+ *       |- log                                    GetDirLog()
  *       |- icons                                  GetDirIcons()
  *       |- data                                   GetDirData()
  *       |   |- db                                 GetDirDatabase()
@@ -61,6 +62,7 @@ namespace RabbitCommon {
  *       |    |- etc                               GetDirConfig()
  *       |    |   |- xml                           GetDirApplicationXml()
  *       |    |   |- applicationName.conf          GetApplicationConfigureFile() 
+ *       |    |- log                               GetDirLog()
  *       |    |- data                              GetDirData()
  *       |    |   |- db                            GetDirDatabase()
  *       |        |- database.db                   GetDirDatabaseFile()
@@ -81,6 +83,7 @@ public:
     QString GetDirApplicationInstallRoot();
     int SetDirApplicationInstallRoot(const QString &szPath);
     QString GetDirConfig(bool bReadOnly = false);
+    QString GetDirLog();
     QString GetDirData(bool bReadOnly = false);
     QString GetDirDatabase(bool bReadOnly = false);
     QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);

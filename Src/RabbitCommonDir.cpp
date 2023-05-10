@@ -93,6 +93,27 @@ QString CDir::GetDirConfig(bool bReadOnly)
     return szPath;
 }
 
+QString CDir::GetDirLog()
+{
+    QString szPath;
+#if defined (Q_OS_ANDROID)
+    szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "log";
+    QDir d;
+    if(!d.exists(szPath))
+    {
+        d.mkpath(szPath);
+        //Todo: Copy assets:/etc to here.
+        //CopyDirectory("assets:/etc", szPath);
+    }
+#else
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "log";
+    QDir d;
+    if(!d.exists(szPath))
+        d.mkpath(szPath);
+#endif
+    return szPath;
+}
+
 QString CDir::GetDirData(bool bReadOnly)
 {
     QString szPath;

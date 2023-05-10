@@ -157,8 +157,8 @@ CLog::CLog() : QObject(),
 #if !(defined(DEBUG) || defined(_DEBUG))
     szFilterRules = "*.debug = false";
 #endif
-    m_szPath = CDir::Instance()->GetDirApplicationInstallRoot()
-            + QDir::separator() + "log";
+
+    m_szPath = CDir::Instance()->GetDirLog();
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(true)
             + QDir::separator() + qApp->applicationName() + "_logqt.ini";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
@@ -223,12 +223,12 @@ CLog::CLog() : QObject(),
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    qSetMessagePattern(szPattern);
-    qInstallMessageHandler(myMessageOutput);
-#else
-    qInstallMsgHandler(myMessageOutput);
-#endif
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+        qSetMessagePattern(szPattern);
+        qInstallMessageHandler(myMessageOutput);
+    #else
+        qInstallMsgHandler(myMessageOutput);
+    #endif
 
     QDir d;
     if(!d.exists(m_szPath))
@@ -244,6 +244,7 @@ CLog::CLog() : QObject(),
                          this, SLOT(slotTimeout()));
     Q_ASSERT(check);
     m_Timer.start(nInterval * 1000);
+
 #endif
 }
 

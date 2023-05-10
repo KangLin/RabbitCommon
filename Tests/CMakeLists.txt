@@ -43,3 +43,6 @@ if(NOT ANDROID AND UNIX)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonTests.sh
         DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
 endif()
+
+# Install QIcon theme
+INSTALL_ICON_THEME()

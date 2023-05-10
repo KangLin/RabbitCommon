@@ -152,28 +152,31 @@ function(GET_VERSION)
 endfunction()
 
 # Install QIcon theme
-# SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
-# DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+#   NAME: project name
+#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+#   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+# NOTE: it must be after ADD_TARGET 
 option(INSTALL_STYLE_TO_BUILD_PATH "Install icons to build path" ON)
 function(INSTALL_ICON_THEME)
-    cmake_parse_arguments(PARA "" "DESTINATION" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT DEFINED PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/)
     endif()
+    if(NOT PARA_NAME)
+        set(PARA_NAME ${PROJECT_NAME})
+    endif()
     if(NOT DEFINED PARA_DESTINATION)
-        if(ANDROID)
-            set(PARA_DESTINATION assets/data/icons)
-        else()
-            set(PARA_DESTINATION data/icons)
-        endif()
+        set(PARA_DESTINATION data/icons)
     endif()
 
-    install(DIRECTORY ${PARA_SOURCES}
-        DESTINATION ${PARA_DESTINATION}
-        COMPONENT Runtime)
-
-    if(NOT ANDROID)
+    if(ANDROID)
+        set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+    else()
+        install(DIRECTORY ${PARA_SOURCES}
+            DESTINATION ${PARA_DESTINATION}
+            COMPONENT Runtime)
         if(INSTALL_STYLE_TO_BUILD_PATH)
             file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/data/icons)
         endif()

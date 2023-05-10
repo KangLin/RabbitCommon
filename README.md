@@ -74,18 +74,106 @@ Qt common library. include follow functions:
   + Use cmake
 
         cd build
-        cmake ..  -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+        cmake ..  -DCMAKE_BUILD_TYPE=Release
+            -DQT_DIR=... \
+            -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
         cmake --build .
 
-      * Parameter
-        - CMAKE_BUILD_TYPE: build type(MUST)
-        - Qt5_DIR: Qt install position
-        - BUILD_DOCS: build doxygen documetns
-        - BUILD_APP: build app
-        - BUILD_ABOUT: build about
-        - BUILD_UPDATE: build updater
-        - BUILD_ADMINAUTHORISER: build admin authoriser
+    * Parameter
+      - CMAKE_BUILD_TYPE: build type(MUST)
+      - QT_DIR: Qt install position
+      - BUILD_DOCS: build doxygen documetns
+      - BUILD_APP: build app
+      - BUILD_ABOUT: build about
+      - BUILD_UPDATE: build updater
+      - BUILD_ADMINAUTHORISER: build admin authoriser
 
+    **NOTE**: If you use MSVC, you need to add -DCMAKE_BUILD_TYPE=Debug,
+              otherwise the following error will occur when compiling Debug:
+
+          RabbitCommonTools.obj : error LNK2019: An external symbol that cannot be resolved "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
+          RabbitCommonTools.obj : error LNK2019: An external symbol that cannot be resolved "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
+
+    - linux
+  
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+               -DCMAKE_BUILD_TYPE=Release \
+               -DQT_DIR=... \
+               -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+          cmake --build . --config Release --target install
+      
+    - windows
+  
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=`pwd`/install ^
+                 -DCMAKE_BUILD_TYPE=Release ^
+                 -DQT_DIR=... ^
+                 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+          cmake --build . --config Release --target install
+  
+    - Android
+      - The host is linux
+      
+            cd build
+            cmake .. -DCMAKE_BUILD_TYPE=Release \
+                   -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+                   -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+                   -DANDROID_ABI="armeabi-v7a with NEON" \
+                   -DANDROID_PLATFORM=android-18 \
+                   -DQT_DIR=... \
+                   -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+            cmake --build . --config Release --target all
+      
+      - The host is windows
+      
+            cd build
+            cmake .. -G"Unix Makefiles" ^
+                 -DCMAKE_BUILD_TYPE=Release ^
+                 -DCMAKE_INSTALL_PREFIX=`pwd`/android-build ^
+                 -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake ^
+                 -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe ^
+                 -DANDROID_PLATFORM=android-18 ^
+                 -DANDROID_ABI=arm64-v8a ^
+                 -DANDROID_ARM_NEON=ON ^
+                 -DQT_DIR=... \
+                 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+            cmake --build . --config Release --target all
+  
+      - Parameter Description: https://developer.android.google.cn/ndk/guides/cmake
+        + ANDROID_ABI: The following values can be taken:
+           Goal ABI. If the target ABI is not specified, CMake uses armeabi-v7a by default.
+           Valid ABI are:
+          - armeabi：CPU with software floating point arithmetic based on ARMv5TE
+          - armeabi-v7a：ARMv7-based device with hardware FPU instructions (VFP v3 D16)
+          - armeabi-v7a with NEON：Same as armeabi-v7a, but with NEON floating point instructions enabled. This is equivalent to setting -DANDROID_ABI=armeabi-v7a and -DANDROID_ARM_NEON=ON.
+          - arm64-v8a：ARMv8 AArch64 Instruction Set
+          - x86：IA-32 Instruction Set
+          - x86_64 - x86-64 Instruction Set
+        + ANDROID_NDK <path> The path of installed ndk in host
+        + ANDROID_PLATFORM: For a full list of platform names and corresponding Android system images, see the [Android NDK Native API] (https://developer.android.google.com/ndk/guides/stable_apis.html)
+        + ANDROID_ARM_MODE
+        + ANDROID_ARM_NEON
+        + ANDROID_STL: Specifies the STL that CMake should use. 
+          - c++_shared: The shared library variant of libc++.
+          - c++_static: The static library variant of libc++.
+          - none: No C++ standard library support.
+          - system: The system STL
+      
+      - Install apk to devices
+      
+             adb install android-build-debug.apk 
+
+      - Qt6 and later
+
+        cd build
+        ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
+        ${Qt6_DIR}/bin/qt-cmake . --config Release --target all
+        Or:
+        cmake .. -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+            -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
+            
   + Use qmake. (Deprecated, please use CMake for new programs)
 
         cd build

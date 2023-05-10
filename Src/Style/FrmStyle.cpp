@@ -25,14 +25,15 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
     ui->gpIconTheme->setChecked(bIconTheme);
     ui->gpIconTheme->setVisible(m_bShowIconTheme);
 
-    qDebug(RabbitCommon::LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths()
-                                      << "Icon theme name:" << QIcon::themeName()
-                                     #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                                      << "Fallback search paths:" << QIcon::fallbackSearchPaths()
-                                     #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                                     #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                                      << "Fallback theme name:" << QIcon::fallbackThemeName()
-                                     #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    qDebug(RabbitCommon::LoggerStyle)
+            << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
+            << "Icon theme name:" << QIcon::themeName() << "\n"
+           #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+            << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
+           #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+           #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+            << "Fallback theme name:" << QIcon::fallbackThemeName() << "\n"
+           #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
                                          ;
     foreach(auto d, QIcon::themeSearchPaths())
     {
