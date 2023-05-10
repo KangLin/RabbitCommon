@@ -82,7 +82,6 @@
 #    + CMakeLists.txt
   
 #        #翻译
-#        include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 #        include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
         
 #        GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCE_FILES} ${SOURCE_UI_FILES}
@@ -191,13 +190,13 @@ function(GENERATED_QT_TRANSLATIONS)
     if(DEFINED PARA_NAME)
         SET(TRANSLATIONS_NAME ${PARA_NAME})
     endif()
-    
+
     if(NOT DEFINED PARA_TARGET)
         set(PARA_TARGET ${PROJECT_NAME})
     endif()
-    
+
     message("TRANSLATIONS_NAME:${TRANSLATIONS_NAME}; TARGET:${PARA_TARGET}; CURRENT_SOURCE_DIR:${CMAKE_SOURCE_DIR}")
-    
+
     set(TS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations)
     if(DEFINED PARA_TSDIR)
         set(TS_DIR ${PARA_TSDIR})
@@ -245,7 +244,11 @@ function(GENERATED_QT_TRANSLATIONS)
         )
 
     if(NOT DEFINED QT_VERSION_MAJOR)
-        set(QT_VERSION_MAJOR 5)
+        find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+        if(NOT QT_FOUND)
+            message(AUTHOR_WARNING "Don't found qt")
+            set(QT_VERSION_MAJOR 5)
+        endif()
     endif()
     OPTION(OPTION_TRANSLATIONS "Refresh translations on compile" ON)
     MESSAGE("Refresh translations on compile: ${OPTION_TRANSLATIONS}\n")
@@ -266,14 +269,16 @@ function(GENERATED_QT_TRANSLATIONS)
                     message(WARNING "translations_update_${PARA_TARGET} is existed")
                     return()
                 endif()
-                
-                if(QT_VERSION_MAJOR GREATER_EQUAL 6)
+
+                if(QT_VERSION_MAJOR EQUAL 6)
                     qt6_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
-                else()
+                elseif(QT_VERSION_MAJOR EQUAL 5)
                     #注：根据 https://bugreports.qt.io/browse/QTBUG-41736 ，qt5_create_translation这个宏会在make clean或rebuild时把全部ts文件都删掉后再重新生成，这意味着已经翻译好的文本会全部丢失，已有的解决方法也已经失效，而Qt官方也没有针对这个问题进行修复，因此不建议再使用这个宏了，还是手动生成ts文件再搭配qt5_add_translation比较保险。
                     qt5_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
+                else()
+                    qt_create_translation(QM_FILES_UPDATE ${SOURCE_FILES} ${TS_FILES}) # 生成或更新翻译源文件（.ts）和生成翻译文件（.qm） 文件
                 endif()
-                
+
                 # 手动执行目标，生成或更新翻译源文件(.ts)
                 ADD_CUSTOM_TARGET(translations_update_${PARA_TARGET} DEPENDS ${QM_FILES_UPDATE})
             endif()
@@ -282,13 +287,15 @@ function(GENERATED_QT_TRANSLATIONS)
                 message(WARNING "translations_${PARA_TARGET} is existed")
                 return()
             endif()
-            
-            if(QT_VERSION_MAJOR GREATER_EQUAL 6)
+
+            if(QT_VERSION_MAJOR EQUAL 6)
                 qt6_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
-            else()
+            elseif(QT_VERSION_MAJOR EQUAL 5)
                 qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
+            else()
+                qt_add_translation(QM_FILES ${TS_FILES}) #生成翻译文件（.qm）
             endif()
-            
+
             # 自动执行目标，生成翻译文件(.qm)
             ADD_CUSTOM_TARGET(translations_${PARA_TARGET} ALL DEPENDS ${QM_FILES})
             

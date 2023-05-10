@@ -117,5 +117,6 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-              -DQT_DIR=$Qt6_DIR/lib/cmake/Qt6
+              -DQT_DIR=$Qt6_DIR/lib/cmake/Qt6 \
+              -DQt6_DIR=$Qt6_DIR/lib/cmake/Qt6
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target all
