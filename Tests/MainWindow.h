@@ -35,8 +35,6 @@ private slots:
     void slotDownloadFile(const QString szFile);
     void slotDownloadError(int nErr, const QString szErr);
     
-    void on_pbOpenFolder_clicked();
-    
 private:
     Ui::MainWindow *ui;
     

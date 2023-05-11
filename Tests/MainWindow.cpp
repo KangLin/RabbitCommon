@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     
     ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(ui->menuTools));
+    ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(ui->tbLog));
 
 #ifdef HAVE_RABBITCOMMON_GUI
     // [Use CDockFolderBrowser]
@@ -174,18 +175,4 @@ void MainWindow::slotDownloadFile(const QString szFile)
 void MainWindow::slotDownloadError(int nErr, const QString szErr)
 {
     qDebug(windowLog) << "Download file error:" << nErr << szErr;
-}
-
-void MainWindow::on_pbOpenFolder_clicked()
-{
-    QIcon icon = QIcon::fromTheme("filter");
-    if(icon.isNull())
-        qDebug() << "Load icon fail";
-
-    QFileDialog fileDialog(this);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setWindowTitle(tr("Open SVG File"));
-
-    fileDialog.setDirectory(RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot());
-    fileDialog.exec();
 }

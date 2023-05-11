@@ -113,11 +113,14 @@
 
         cd build
         ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
-        ${Qt6_DIR}/bin/qt-cmake . --config Release --target all
+        cmake --build . --config Release
+        
         或者：
+        
         cmake .. -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
             -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
+        cmake --build . --config Release
 
       + Qt5
         + 主机是linux

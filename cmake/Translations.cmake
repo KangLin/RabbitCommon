@@ -253,7 +253,7 @@ function(GENERATED_QT_TRANSLATIONS)
     OPTION(OPTION_TRANSLATIONS "Refresh translations on compile" ON)
     MESSAGE("Refresh translations on compile: ${OPTION_TRANSLATIONS}\n")
     IF(OPTION_TRANSLATIONS)
-        FIND_PACKAGE(Qt${QT_VERSION_MAJOR} COMPONENTS LinguistTools REQUIRED) #语言工具
+        FIND_PACKAGE(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS LinguistTools) #语言工具
         IF(NOT Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
             MESSAGE(WARNING "Could not find LinguistTools. Your build won't contain translations.")
         ELSE()
@@ -298,15 +298,15 @@ function(GENERATED_QT_TRANSLATIONS)
 
             # 自动执行目标，生成翻译文件(.qm)
             ADD_CUSTOM_TARGET(translations_${PARA_TARGET} ALL DEPENDS ${QM_FILES})
-            
+
             #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
-            
+
             if(DEFINED PARA_QM_INSTALL_DIR)
                 set(RESOUCE_PREFIX "/${PARA_QM_INSTALL_DIR}")
             else()
                 set(RESOUCE_PREFIX "/translations")
             endif()
-            
+
             # 生成资源文件
             set(RESOURCE_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/translations_${TRANSLATIONS_NAME}.qrc")
             file(WRITE "${RESOURCE_FILE_NAME}"
