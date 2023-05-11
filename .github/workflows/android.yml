@@ -16,7 +16,7 @@ jobs:
             qt_version: 6.5.0
             qt_arch: android_armv7
             ANDROID_ABI: armeabi-v7a
-            qt_modules: 'qtimageformats qtmultimedia qtpositioning qtscxml qtwebview'
+            qt_modules: 'qtshadertools qtimageformats qtmultimedia qtpositioning qtscxml qtwebview'
 
     runs-on: ubuntu-latest
 
