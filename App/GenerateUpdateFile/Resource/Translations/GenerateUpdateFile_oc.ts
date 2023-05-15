@@ -4,62 +4,62 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="105"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="104"/>
         <source>xml file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="109"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="108"/>
         <source>Package version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="114"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="113"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="119"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="118"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="125"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="124"/>
         <source>Operating system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="130"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="129"/>
         <source>Platform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="135"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="134"/>
         <source>Architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="140"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="139"/>
         <source>MD5 checksum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="144"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="143"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="148"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="147"/>
         <source>Package download urls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="154"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="153"/>
         <source>Project home url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../GenerateUpdateFile.cpp" line="159"/>
+        <location filename="../../GenerateUpdateFile.cpp" line="158"/>
         <source>Min update version</source>
         <translation type="unfinished"></translation>
     </message>

@@ -60,7 +60,7 @@ public:
 
     //! Add user-defined buttons
     int AddWidgets(QList<QWidget*> pLstWidget);
-
+    
     static QPushButton* CreateSmallPushButton(QIcon icon, QWidget *parent);
 
 private Q_SLOTS:

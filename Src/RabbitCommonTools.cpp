@@ -7,7 +7,7 @@
 #include "AdminAuthoriser/adminauthoriser.h"
 #endif
 #include "RabbitCommonRegister.h"
-#include "Log.h"
+#include "Log/Log.h"
 
 #include <QSettings>
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -35,6 +35,11 @@
 
 #ifdef Q_OS_WIN
     #include "CoreDump/MiniDumper.h"
+#endif
+
+#ifdef HAVE_RABBITCOMMON_GUI
+    #include "Log/DockDebugLog.h"
+    extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
 inline void g_RabbitCommon_InitResource()
@@ -359,6 +364,21 @@ QMenu *CTools::GetLogMenu(QWidget *parent)
     pMenu->addAction(QIcon::fromTheme("folder-open"),
                      QObject::tr("Open log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parent);
+    if(pMainWindow) {
+        if(!g_pDcokDebugLog)
+            g_pDcokDebugLog = new CDockDebugLog(pMainWindow);
+
+        pMainWindow->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea,
+                                   g_pDcokDebugLog);
+    }
+    if(g_pDcokDebugLog) {
+        QAction* pDock = g_pDcokDebugLog->toggleViewAction();
+        pMenu->addAction(pDock);
+        pDock->setText(QObject::tr("Log dock"));
+        pDock->setIcon(QIcon::fromTheme("floating"));
+    }
+
     return pMenu;
 }
 
@@ -393,6 +413,7 @@ int CTools::SaveWidget(QWidget *pWidget)
     }
     return nRet;
 }
+
 #endif
 
 } //namespace RabbitCommon

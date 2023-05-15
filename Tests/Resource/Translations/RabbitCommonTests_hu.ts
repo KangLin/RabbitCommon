@@ -9,97 +9,82 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="27"/>
+        <location filename="../../MainWindow.ui" line="42"/>
         <source>Exec program use root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="45"/>
+        <location filename="../../MainWindow.ui" line="62"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="69"/>
+        <location filename="../../MainWindow.ui" line="86"/>
         <source>Encrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="87"/>
+        <location filename="../../MainWindow.ui" line="49"/>
         <source>Generate core file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="100"/>
+        <location filename="../../MainWindow.ui" line="23"/>
+        <source>Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="97"/>
         <source>Download file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="115"/>
+        <location filename="../../MainWindow.ui" line="112"/>
         <source>Add file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="122"/>
+        <location filename="../../MainWindow.ui" line="119"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="142"/>
+        <location filename="../../MainWindow.ui" line="141"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="149"/>
+        <location filename="../../MainWindow.ui" line="148"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="153"/>
-        <source>Open log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="172"/>
+        <location filename="../../MainWindow.ui" line="162"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="181"/>
+        <location filename="../../MainWindow.ui" line="171"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="190"/>
+        <location filename="../../MainWindow.ui" line="180"/>
         <source>Stype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="199"/>
-        <source>Open log configure</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="208"/>
-        <source>Open log file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="217"/>
-        <source>Open log folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.cpp" line="43"/>
+        <location filename="../../MainWindow.cpp" line="45"/>
         <source>Folder browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="132"/>
+        <location filename="../../MainWindow.cpp" line="135"/>
         <source>Encrypt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="132"/>
+        <location filename="../../MainWindow.cpp" line="135"/>
         <source>Source:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -107,7 +92,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="54"/>
+        <location filename="../../main.cpp" line="53"/>
         <source>RabbitCommon</source>
         <translation type="unfinished"></translation>
     </message>

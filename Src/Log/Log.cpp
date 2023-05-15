@@ -56,6 +56,11 @@
     #include "log4cplus/log4cplus.h"
 #endif
 
+#ifdef HAVE_RABBITCOMMON_GUI
+#include "DockDebugLog.h"
+extern CDockDebugLog* g_pDcokDebugLog;
+#endif
+
 namespace RabbitCommon {
 
 QLoggingCategory Logger("RabbitCommon");
@@ -476,7 +481,10 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     szTemp += buf;
     
     //std::cout << szTemp;
-    
+#ifdef HAVE_RABBITCOMMON_GUI
+    if(g_pDcokDebugLog)
+        g_pDcokDebugLog->AddLog(szTemp.c_str());
+#endif
     qDebug() << szTemp.c_str();
     
     return 0;
@@ -514,7 +522,12 @@ void CLog::myMessageOutput(QtMsgType type,
     #else
         szMsg = msg;
     #endif
-    
+
+#ifdef HAVE_RABBITCOMMON_GUI
+        if(g_pDcokDebugLog)
+            g_pDcokDebugLog->AddLog(szMsg);
+#endif
+
 #if defined(Q_OS_WIN)
         #ifdef UNICODE
             OutputDebugString(szMsg.toStdWString().c_str());

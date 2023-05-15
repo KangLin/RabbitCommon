@@ -103,6 +103,7 @@ public:
     
 #ifdef HAVE_RABBITCOMMON_GUI
     static QMenu* GetLogMenu(QWidget *parent = nullptr);
+
     static int RestoreWidget(QWidget* pWidget);
     static int SaveWidget(QWidget* pWidget);
 #endif

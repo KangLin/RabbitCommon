@@ -76,6 +76,7 @@ if(WITH_GUI)
         Style/FrmStyle.h
         TitleBar.h
         DockFolderBrowser/DockFolderBrowser.h
+        Log/DockDebugLog.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
@@ -86,10 +87,12 @@ if(WITH_GUI)
         Style/FrmStyle.cpp
         TitleBar.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
+        Log/DockDebugLog.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
         DockFolderBrowser/DockFolderBrowser.ui
+        Log/DockDebugLog.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>
@@ -433,10 +436,10 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
-    Log.h
+    Log/Log.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
-    Log.cpp
+    Log/Log.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp

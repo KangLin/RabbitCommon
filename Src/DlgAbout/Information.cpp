@@ -2,7 +2,7 @@
 #include "ui_Information.h"
 #include "RabbitCommonTools.h"
 #include "DlgAbout.h"
-#include "Log.h"
+#include "Log/Log.h"
 
 #include <QLibraryInfo>
 #include <QHostInfo>

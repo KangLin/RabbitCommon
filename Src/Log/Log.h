@@ -55,7 +55,7 @@ public:
 private:
     CLog();
     virtual ~CLog();
-
+    
     bool m_bEnablePrintThread;
     QString m_szConfigureFile;
 

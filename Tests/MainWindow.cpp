@@ -37,8 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     
-    ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(ui->menuTools));
-    ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(ui->tbLog));
+    ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
+    ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(this));
 
 #ifdef HAVE_RABBITCOMMON_GUI
     // [Use CDockFolderBrowser]

@@ -18,7 +18,7 @@ CDockFolderBrowser::CDockFolderBrowser(const QString &title,
 {
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    
+
     ui->setupUi(this);
 
     ui->treeView->setModel(m_pModel);

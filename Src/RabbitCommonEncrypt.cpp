@@ -1,8 +1,7 @@
 // Author Kang Lin <kl222@126.com>
 
 #include "RabbitCommonEncrypt.h"
-#include "Log.h"
-
+#include "Log/Log.h"
 #include <string.h>
 
 #if defined (HAVE_OPENSSL)
