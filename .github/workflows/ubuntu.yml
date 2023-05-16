@@ -45,6 +45,8 @@ jobs:
 
       - name: Install apt packages
         run: |
+          sudo apt update -y
+          sudo apt upgrade -y
           sudo apt install -y -q cmake build-essential xvfb xpra \
               libglu1-mesa-dev libpulse-mainloop-glib0 \
               debhelper fakeroot \
