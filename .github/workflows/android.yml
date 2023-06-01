@@ -9,15 +9,15 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         qt_arch: [android_armv7, android_x86_64]
-        qt_version: [6.5.0]
+        qt_version: [6.5.1]
         include:
           - BUILD_TYPE: Release
             qt_arch: android_armv7
-            qt_version: 6.5.0
+            qt_version: 6.5.1
             VCPKG_TARGET_TRIPLET: arm-android
 
           - BUILD_TYPE: Release
-            qt_version: 6.5.0
+            qt_version: 6.5.1
             qt_arch: android_x86_64 
             VCPKG_TARGET_TRIPLET: x64-android
 
@@ -29,7 +29,8 @@ jobs:
       INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
       RabbitCommon_VERSION: v0.0.25
       VCPKGGITCOMMITID: ea222747b888b8d63df56240b262db38b095c68f
-      #ANDROID_PLATFORM: android-30
+      ANDROID_PLATFORM: android-23
+      ANDROID_NATIVE_API_LEVEL: 23
       qt_modules: 'qtimageformats qtmultimedia qtscxml'
 
     steps:
@@ -123,9 +124,12 @@ jobs:
           echo "ls ${Qt6_DIR}/../gcc_64/lib/cmake"
           ls ${Qt6_DIR}/../gcc_64/lib/cmake
           sudo chmod 777 ${Qt6_DIR}/bin/qt-cmake
+          echo "ANDROID_NATIVE_API_LEVEL:$ANDROID_NATIVE_API_LEVEL"
+          echo "ANDROID_PLATFORM:$ANDROID_PLATFORM;${{env.ANDROID_PLATFORM}}"
           ${Qt6_DIR}/bin/qt-cmake .. \
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
-              -DANDROID_PLATFORM=android-30 \
+              -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
+              -DANDROID_NATIVE_API_LEVEL=${{env.ANDROID_NATIVE_API_LEVEL}} \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools
-          cmake --build . --config ${{matrix.BUILD_TYPE}}
+          cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
