@@ -548,4 +548,6 @@ else()
 endif()
 
 # Install QIcon theme
-INSTALL_ICON_THEME()
+if(NOT ANDROID)
+    INSTALL_ICON_THEME()
+endif()

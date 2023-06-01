@@ -2,6 +2,10 @@
 
 cmake_minimum_required(VERSION 3.19)
 
+get_filename_component(RabbitCommonUtils_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
+message("RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
+set_property(GLOBAL APPEND PROPERTY RabbitCommonUtils_DIR ${RabbitCommonUtils_DIR})
+
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
@@ -170,6 +174,7 @@ function(INSTALL_ICON_THEME)
         list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
             ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/data)
     else()
         if(NOT DEFINED PARA_DESTINATION)
             if(ANDROID)
@@ -758,6 +763,10 @@ function(ADD_TARGET)
               set_property(TARGET ${PARA_NAME} APPEND PROPERTY
                   QT_ANDROID_PACKAGE_SOURCE_DIR ${PARA_ANDROID_SOURCES_DIR})
             endif()
+
+            get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+            INSTALL_ICON_THEME(SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/icons)
+
         else()
             if(PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
