@@ -1,6 +1,8 @@
 ### Version: v2.0.0
 + Remove RabbitCommonLog
 + Modify style interface
++ CI ( github action ) is ok.
++ Add dock debug log
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memery leak
