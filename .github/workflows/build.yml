@@ -3,6 +3,7 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  RabbitCommon_VERSION: v1.0.13
 
 on:
   push:
@@ -26,7 +27,7 @@ jobs:
 
   doxygen:
     uses: ./.github/workflows/doxygen.yml
-    #if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
 
   deploy:
 #    if: ${{ startsWith(github.ref, 'refs/tags/') }}
@@ -76,21 +77,21 @@ jobs:
 
       - name: Make note file
         run: |
-          echo "[:cn: 修改日志](ChangeLog_zh_CN.md) [:us: Change log](ChangeLog.md)" > NoteFile
-          echo "" >> NoteFile
-          echo "File checksum:" >> NoteFile
           cd ${{ env.artifact_path }}
+          echo "[:cn: 修改日志](https://github.com/KangLin/RabbitCommon/blob/${{env.RabbitCommon_VERSION}}/ChangeLog_zh_CN.md) [:us: Change log](https://github.com/KangLin/RabbitCommon/blob/${{env.RabbitCommon_VERSION}}/ChangeLog.md)" > Release.md
+          echo "" >> Release.md
+          echo "File checksum:" >> Release.md
           for file in *
           do
               echo "$file"
               if [ -f "$file" ]; then
                 md5sum $file > $file.md5sum
-                cat $file.md5sum >> ../NoteFile
+                cat $file.md5sum >> Release.md
               fi
           done
 
       - name: Upload To Github Release
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
-          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file NoteFile
+          gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file ${{github.workspace}}/${{ env.artifact_path }}/Release.md
           gh release upload ${{ github.ref_name }} ${{github.workspace}}/${{ env.artifact_path }}/*

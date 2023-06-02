@@ -313,7 +313,7 @@ int CDlgAbout::DownloadFile(const QUrl &url)
 
 QString CDlgAbout::BuildTime()
 {
-    return QString(__DATE__) + "/" + __TIME__;
+    return QString("%1/%2").arg(__DATE__, __TIME__);
 }
 
 QString CDlgAbout::Version()
