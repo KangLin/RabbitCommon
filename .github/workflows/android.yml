@@ -9,16 +9,11 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         qt_arch: [android_armv7, android_x86_64]
-        qt_version: [6.5.1, 6.6.0]
+        qt_version: [6.5.1]
         include:
           - BUILD_TYPE: Release
             qt_arch: android_armv7
             qt_version: 6.5.1
-            VCPKG_TARGET_TRIPLET: arm-android
-
-          - BUILD_TYPE: Release
-            qt_arch: android_armv7
-            qt_version: 6.6.0
             VCPKG_TARGET_TRIPLET: arm-android
 
           - BUILD_TYPE: Release
@@ -136,5 +131,7 @@ jobs:
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
               -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
               -DANDROID_NATIVE_API_LEVEL=${{env.ANDROID_NATIVE_API_LEVEL}} \
-              -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools
+              -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
+          cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
