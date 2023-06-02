@@ -3,6 +3,7 @@
 + Modify style interface
 + CI ( github action ) is ok.
 + Add dock debug log
++ Qt of Android greater or equal 6
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memery leak
