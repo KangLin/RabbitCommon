@@ -155,10 +155,10 @@ function(GET_VERSION)
     ENDIF()
 endfunction()
 
-# Install data folder
+# Install directory to data folder
 #   NAME: project name
 #   SOURCES: [MUST] source folder
-#   DESTINATION: destination folder.
+#   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
 # NOTE: If not NAME, it must be after ADD_TARGET
 option(INSTALL_TO_BUILD_PATH "Install to build path" ON)
 function(INSTALL_DATA_DIR)
@@ -174,7 +174,7 @@ function(INSTALL_DATA_DIR)
         list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
             ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/data)
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/${PARA_DESTINATION})
     else()
         if(NOT PARA_DESTINATION)
             if(ANDROID)
@@ -187,7 +187,43 @@ function(INSTALL_DATA_DIR)
             DESTINATION ${PARA_DESTINATION}
             COMPONENT Runtime)
         if(INSTALL_TO_BUILD_PATH AND NOT ANDROID)
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/data)
+            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
+        endif()
+    endif()
+endfunction()
+
+# Install file to data folder
+#   NAME: project name
+#   SOURCES: [MUST] source folder
+#   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
+# NOTE: If not NAME, it must be after ADD_TARGET
+function(INSTALL_DATA_FILE)
+    cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
+
+    if(NOT PARA_SOURCES)
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DATA_FILE(NAME ... SOURCES ... DESTINATION ... )")
+    endif()
+    if(NOT PARA_NAME)
+        set(PARA_NAME ${PROJECT_NAME})
+    endif()
+    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
+        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+        set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/${PARA_DESTINATION})
+    else()
+        if(NOT PARA_DESTINATION)
+            if(ANDROID)
+                set(PARA_DESTINATION assets/data)
+            else()
+                set(PARA_DESTINATION data)
+            endif()
+        endif()
+        install(FILES ${PARA_SOURCES}
+            DESTINATION ${PARA_DESTINATION}
+            COMPONENT Runtime)
+        if(INSTALL_TO_BUILD_PATH AND NOT ANDROID)
+            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
         endif()
     endif()
 endfunction()
