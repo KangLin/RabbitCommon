@@ -155,17 +155,17 @@ function(GET_VERSION)
     ENDIF()
 endfunction()
 
-# Install QIcon theme
+# Install data folder
 #   NAME: project name
-#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
-#   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
-# NOTE: it must be after ADD_TARGET 
-option(INSTALL_ICON_THEME_TO_BUILD_PATH "Install icons to build path" ON)
-function(INSTALL_ICON_THEME)
+#   SOURCES: [MUST] source folder
+#   DESTINATION: destination folder.
+# NOTE: If not NAME, it must be after ADD_TARGET
+option(INSTALL_TO_BUILD_PATH "Install to build path" ON)
+function(INSTALL_DATA_DIR)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
-    if(NOT DEFINED PARA_SOURCES)
-        set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons)
+    if(NOT PARA_SOURCES)
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DATA_DIR(NAME ... SOURCES ... DESTINATION ... )")
     endif()
     if(NOT PARA_NAME)
         set(PARA_NAME ${PROJECT_NAME})
@@ -176,7 +176,7 @@ function(INSTALL_ICON_THEME)
             ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
         file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/data)
     else()
-        if(NOT DEFINED PARA_DESTINATION)
+        if(NOT PARA_DESTINATION)
             if(ANDROID)
                 set(PARA_DESTINATION assets/data)
             else()
@@ -186,47 +186,45 @@ function(INSTALL_ICON_THEME)
         install(DIRECTORY ${PARA_SOURCES}
             DESTINATION ${PARA_DESTINATION}
             COMPONENT Runtime)
-        if(INSTALL_ICON_THEME_TO_BUILD_PATH AND NOT ANDROID)
+        if(INSTALL_TO_BUILD_PATH AND NOT ANDROID)
             file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/data)
         endif()
     endif()
+endfunction()
+
+# Install QIcon theme
+#   NAME: project name
+#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+#   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+# NOTE: If not NAME, it must be after ADD_TARGET
+function(INSTALL_ICON_THEME)
+    cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
+
+    if(NOT PARA_SOURCES)
+        get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+        set(PARA_SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/icons)
+    endif()
+    INSTALL_DATA_DIR(NAME ${PARA_NAME}
+        SOURCES ${PARA_SOURCES}
+        DESTINATION ${PARA_DESTINATION})
 endfunction()
 
 # Install style files
 #   NAME: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
 #   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/style
-# NOTE: it must be after ADD_TARGET 
+# NOTE: If not NAME, it must be after ADD_TARGET
 option(INSTALL_STYLE_TO_BUILD_PATH "Install style to build path" ON)
 function(INSTALL_STYLE)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
-    if(NOT DEFINED PARA_SOURCES)
-        set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)
+    if(NOT PARA_SOURCES)
+        get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+        set(PARA_SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/style)
     endif()
-    if(NOT PARA_NAME)
-        set(PARA_NAME ${PROJECT_NAME})
-    endif()
-    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
-        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        set_property(TARGET ${PARA_NAME} APPEND PROPERTY
-            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/data)
-    else()
-        if(NOT DEFINED PARA_DESTINATION)
-            if(ANDROID)
-                set(PARA_DESTINATION assets/data)
-            else()
-                set(PARA_DESTINATION data)
-            endif()
-        endif()
-        install(DIRECTORY ${PARA_SOURCES}
-            DESTINATION ${PARA_DESTINATION}
-            COMPONENT Runtime)
-        if(INSTALL_STYLE_TO_BUILD_PATH AND NOT ANDROID)
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/data)
-        endif()
-    endif()
+    INSTALL_DATA_DIR(NAME ${PARA_NAME}
+        SOURCES ${PARA_SOURCES}
+        DESTINATION ${PARA_DESTINATION})
 endfunction()
 
 # 安装指定目标文件
@@ -236,8 +234,7 @@ endfunction()
 function(INSTALL_TARGETS)
     cmake_parse_arguments(PARA "" "DESTINATION;COMPONENT" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
-        message("Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ... [COMPONENT ...])")
-        return()
+        message(FATAL_ERROR "Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ... [COMPONENT ...])")
     endif()
 
     if(NOT DEFINED PARA_DESTINATION)
@@ -802,8 +799,8 @@ function(ADD_TARGET)
             endif()
 
             get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
-            INSTALL_ICON_THEME(SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/icons)
-            INSTALL_STYLE(SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/style)
+            INSTALL_ICON_THEME()
+            INSTALL_STYLE()
 
         else()
             if(PARA_ISWINDOWS AND WIN32)
