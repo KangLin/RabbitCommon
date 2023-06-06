@@ -4,6 +4,9 @@
 + CI ( github action ) is ok.
 + Add dock debug log
 + Qt of Android greater or equal 6
++ CMake:
+  - Add INSTALL_DIR
+  - Add INSTALL_FILE
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memery leak

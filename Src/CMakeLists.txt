@@ -448,7 +448,6 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     )
 
 #翻译
-#include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Qt5CorePatches.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 
 #设置资源文件

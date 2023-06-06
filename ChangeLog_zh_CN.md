@@ -4,6 +4,9 @@
 + 自动化 ( github action ) 完成
 + 增加调试日志停泊条
 + Andoird 需要 Qt 大于或等于 6
++ CMake:
+  - 增加 INSTALL_DIR
+  - 增加 INSTALL_FILE
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

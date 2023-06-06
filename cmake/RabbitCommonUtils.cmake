@@ -155,34 +155,39 @@ function(GET_VERSION)
     ENDIF()
 endfunction()
 
-# Install directory to data folder
+# Install directory
 #   NAME: project name
 #   SOURCES: [MUST] source folder
 #   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
 # NOTE: If not NAME, it must be after ADD_TARGET
 option(INSTALL_TO_BUILD_PATH "Install to build path" ON)
-function(INSTALL_DATA_DIR)
+function(INSTALL_DIR)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DATA_DIR(NAME ... SOURCES ... DESTINATION ... )")
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DIR(NAME ... SOURCES ... DESTINATION ... )")
     endif()
     if(NOT PARA_NAME)
-        set(PARA_NAME ${PROJECT_NAME})
+        if(NOT PROJECT_NAME)
+            message(FATAL_ERROR "Move the INSTALL_DIR(...) to the back of the project(...)")
+        else()
+            set(PARA_NAME ${PROJECT_NAME})
+        endif()
     endif()
+
+    if(NOT PARA_DESTINATION)
+        set(PARA_DESTINATION .)
+    endif()
+    if(ANDROID)
+        set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
+    endif()
+
     if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
         list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
             ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/${PARA_DESTINATION})
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/${PARA_DESTINATION})
     else()
-        if(NOT PARA_DESTINATION)
-            if(ANDROID)
-                set(PARA_DESTINATION assets/data)
-            else()
-                set(PARA_DESTINATION data)
-            endif()
-        endif()
         install(DIRECTORY ${PARA_SOURCES}
             DESTINATION ${PARA_DESTINATION}
             COMPONENT Runtime)
@@ -192,33 +197,33 @@ function(INSTALL_DATA_DIR)
     endif()
 endfunction()
 
-# Install file to data folder
-#   NAME: project name
-#   SOURCES: [MUST] source folder
-#   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
-# NOTE: If not NAME, it must be after ADD_TARGET
-function(INSTALL_DATA_FILE)
+function(INSTALL_FILE)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DATA_FILE(NAME ... SOURCES ... DESTINATION ... )")
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_FILE(NAME ... SOURCES ... DESTINATION ... )")
     endif()
     if(NOT PARA_NAME)
-        set(PARA_NAME ${PROJECT_NAME})
+        if(NOT PROJECT_NAME)
+            message(FATAL_ERROR "Move the INSTALL_FILE(...) to the back of the project(...)")
+        else()
+            set(PARA_NAME ${PROJECT_NAME})
+        endif()
     endif()
+
+    if(NOT PARA_DESTINATION)
+        set(PARA_DESTINATION .)
+    endif()
+    if(ANDROID)
+        set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
+    endif()
+
     if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
-        #list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
             ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/${PARA_DESTINATION})
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/${PARA_DESTINATION})
     else()
-        if(NOT PARA_DESTINATION)
-            if(ANDROID)
-                set(PARA_DESTINATION assets/data)
-            else()
-                set(PARA_DESTINATION data)
-            endif()
-        endif()
         install(FILES ${PARA_SOURCES}
             DESTINATION ${PARA_DESTINATION}
             COMPONENT Runtime)
@@ -231,16 +236,18 @@ endfunction()
 # Install QIcon theme
 #   NAME: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
-#   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+#   DESTINATION: Default is data/icons
 # NOTE: If not NAME, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
-        set(PARA_SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/icons)
+        set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
     endif()
-    INSTALL_DATA_DIR(NAME ${PARA_NAME}
+    if(NOT PARA_DESTINATION)
+        set(PARA_DESTINATION data)
+    endif()
+    INSTALL_DIR(NAME ${PARA_NAME}
         SOURCES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION})
 endfunction()
@@ -248,17 +255,19 @@ endfunction()
 # Install style files
 #   NAME: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
-#   DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/style
+#   DESTINATION: Default is data/style
 # NOTE: If not NAME, it must be after ADD_TARGET
 option(INSTALL_STYLE_TO_BUILD_PATH "Install style to build path" ON)
 function(INSTALL_STYLE)
     cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
-        set(PARA_SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/style)
+        set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/style)
     endif()
-    INSTALL_DATA_DIR(NAME ${PARA_NAME}
+    if(NOT PARA_DESTINATION)
+        set(PARA_DESTINATION data)
+    endif()
+    INSTALL_DIR(NAME ${PARA_NAME}
         SOURCES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION})
 endfunction()
@@ -348,7 +357,7 @@ function(INSTALL_TARGET)
         "INCLUDES"
         ${ARGN})
     if(NOT DEFINED PARA_NAME)
-        message(FATAL_ERROR "Use:
+        message(FATAL_ERROR "Usage:
             INSTALL_TARGET
                 NAME name
                 [ISEXE]
@@ -372,11 +381,6 @@ function(INSTALL_TARGET)
     else()
         set(PARA_COMPONENT_DEV ${PARA_COMPONENT})
         set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT})
-    endif()
-
-    if( (NOT PARA_ANDROID_SOURCES_DIR)
-            AND (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/android))
-        set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
     endif()
 
     if(PARA_ISPLUGIN)
@@ -486,6 +490,10 @@ function(INSTALL_TARGET)
             
             #分发
             IF( ANDROID AND (QT_VERSION_MAJOR VERSION_LESS 6) )
+                if( (NOT PARA_ANDROID_SOURCES_DIR)
+                        AND (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/android) )
+                    set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
+                endif()
                 Set(JSON_FILE ${CMAKE_BINARY_DIR}/android_deployment_settings.json)
                 GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
                     ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
@@ -752,7 +760,7 @@ function(ADD_TARGET)
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
-        message(FATAL_ERROR "Use:
+        message(FATAL_ERROR "Usage:
             ADD_TARGET
                 [NAME name]
                 [ISEXE]
@@ -784,11 +792,14 @@ function(ADD_TARGET)
     endif()
 
     if(NOT DEFINED PARA_NAME)
+        if(NOT PROJECT_NAME)
+            message(FATAL_ERROR "Move the ADD_TARGET(...) to the back of the project(...)")
+        endif()
         set(PARA_NAME ${PROJECT_NAME})
     endif()
 
     if(NOT PARA_NO_TRANSLATION)
-        #翻译资源    
+        #翻译资源
         if(ANDROID)
             if(PARA_ISPLUGIN)
                 set(QM_INSTALL_DIR assets/${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
@@ -826,7 +837,7 @@ function(ADD_TARGET)
                 add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             endif()
             if( (NOT PARA_ANDROID_SOURCES_DIR)
-                    AND (IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/android))
+                    AND (IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/android) )
                 set(PARA_ANDROID_SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android)
             endif()
             if(PARA_ANDROID_SOURCES_DIR)
@@ -838,9 +849,10 @@ function(ADD_TARGET)
                 endif()
             endif()
 
+            # TODO: 此处未完成。做为第三方库时，不能安装
             get_property(RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
-            INSTALL_ICON_THEME()
-            INSTALL_STYLE()
+            INSTALL_ICON_THEME(SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/icons)
+            INSTALL_STYLE(SOURCES ${RabbitCommonUtils_DIR}/../Src/Resource/style)
 
         else()
             if(PARA_ISWINDOWS AND WIN32)
@@ -1089,7 +1101,7 @@ function(ADD_PLUGIN_TARGET)
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
-        message(FATAL_ERROR "Use:
+        message(FATAL_ERROR "Usage:
             ADD_TARGET
                 [NAME name]
                 SOURCE_FILES source1 [source2 ... header1 ...]]

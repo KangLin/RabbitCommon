@@ -333,7 +333,7 @@ Qt common library. include follow functions:
   + See: https://github.com/KangLin/SerialPortAssistant
 ![About](documents/image/about_en.png "About")
 
-#### Updateer
+#### Updater
 
 See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
