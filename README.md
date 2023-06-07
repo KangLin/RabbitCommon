@@ -221,21 +221,19 @@ Qt common library. include follow functions:
 
 ### Other application use the project
 
-    ```
-    find_package(RabbitCommon)
-    if(NOT RabbitCommon_FOUND)
+    if(NOT RabbitCommon_DIR)
+        set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
         if(NOT RabbitCommon_DIR)
-            set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
-            if(NOT RabbitCommon_DIR)
-                set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
-            endif()
+            set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
         endif()
-        
-        if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-            if(NOT EXISTS ${CMAKE_BINARY_DIR}/RabbitCommon)
-                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-            endif()
-        else()
+    endif()
+    if(RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+        message("Use RabbitCommon source code")
+        add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
+    else()
+        find_package(RabbitCommon)
+        if(NOT RabbitCommon_FOUND)
+            message("RabbitCommon_DIR is not set. Please use one of the following ways to set it:")
             message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
             message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
             message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
@@ -247,7 +245,6 @@ Qt common library. include follow functions:
             message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
         endif()
     endif()
-    ```
     
 - Use in library mode
   + cmake
@@ -263,6 +260,10 @@ Qt common library. include follow functions:
           add_subdirectory(3th_libs/RabbitCommon/Src)
 
     - No submodule
+      + Download RabbitCommon to the same directory of the application
+
+            git clone https://github.com/KangLin/RabbitCommon.git
+              
       + Introduced to add_subdirectory this directory
 
               if(NOT RabbitCommon_DIR)
@@ -274,6 +275,7 @@ Qt common library. include follow functions:
               if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                   add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
               else()
+                  message("RabbitCommon_DIR is not set. Please use one of the following ways to set it:")
                   message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
                   message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
                   message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")

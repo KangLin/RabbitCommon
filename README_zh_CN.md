@@ -230,40 +230,41 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 - 直接用源码
 
-    ```
-    find_package(RabbitCommon)
-    if(NOT RabbitCommon_FOUND)
         if(NOT RabbitCommon_DIR)
             set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
             if(NOT RabbitCommon_DIR)
                 set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
             endif()
         endif()
-        
-        if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-            if(NOT EXISTS ${CMAKE_BINARY_DIR}/RabbitCommon)
-                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-            endif()
+        if(RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+            message("Use RabbitCommon source code")
+            add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
         else()
-            message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
-            message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
-            message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
-            message("   ag:")
-            message("       git clone https://github.com/KangLin/RabbitCommon.git")
-            message("2.2 Then set cmake variable or environment variable RabbitCommon_DIR to download root directory.")
-            message("   ag:")
-            message("       cmake -DRabbitCommon_DIR= ")
-            message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
+            find_package(RabbitCommon)
+            if(NOT RabbitCommon_FOUND)
+                message("RabbitCommon_DIR is not set. Please use one of the following ways to set it:")
+                message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+                message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+                message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
+                message("   ag:")
+                message("       git clone https://github.com/KangLin/RabbitCommon.git")
+                message("2.2 Then set cmake variable or environment variable RabbitCommon_DIR to download root directory.")
+                message("   ag:")
+                message("       cmake -DRabbitCommon_DIR= ")
+                message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
+            endif()
         endif()
-    endif()
-    ```
 
   + cmake工程
     - 子模块方式
-    
+
           add_subdirectory(3th_libs/RabbitCommon/Src)
-        
+
     - 非子模块方式
+      + 下载 RabbitCommon 到与应用相同的目录
+
+            git clone https://github.com/KangLin/RabbitCommon.git
+
       + 引入以 add_subdirectory 本项目录
 
             if(NOT RabbitCommon_DIR)
@@ -275,6 +276,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
             if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
                 add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
             else()
+                message("RabbitCommon_DIR is not found. Please use one of the following ways to set it:")
                 message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
                 message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
                 message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
@@ -288,11 +290,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
       + 在使用的工程目录CMakeLists.txt
       
-            SET(APP_LIBS ${QT_LIBRARIES})
-            if(TARGET RabbitCommon)
-                list(APPEND APP_LIBS RabbitCommon)
-            endif()
-            target_link_libraries(${PROJECT_NAME} ${APP_LIBS})
+            target_link_libraries(${PROJECT_NAME} RabbitCommon)
 
     - 静态库
 

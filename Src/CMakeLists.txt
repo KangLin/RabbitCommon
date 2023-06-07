@@ -1,9 +1,6 @@
 # Author: Kang Lin <kl222@126.com>
-if(ANDROID)
-    cmake_minimum_required(VERSION 3.19)
-else()
-    cmake_minimum_required(VERSION 2.8)
-endif()
+
+cmake_minimum_required(VERSION 3.21)
 
 project(RabbitCommon)
 
