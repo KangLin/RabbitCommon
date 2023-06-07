@@ -7,9 +7,10 @@
 + CMake:
   - Add INSTALL_DIR
   - Add INSTALL_FILE
+  - Add install dependencies runtime dlls
 
 ### Version: v1.0.13
-+ Fix CFrmUpdater memery leak
++ Fix CFrmUpdater memory leak
 + Documents: fix titlebar comments bug
 
 ### Version: v1.0.12

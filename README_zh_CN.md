@@ -219,16 +219,45 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 ### 其它应用使用本项目
 - 以库方式使用使用
   + Qt 工程文件。(已废弃，新程序请用 CMake)
-    
+
     以 pkg-config 形式查找库。设置 PKG_CONFIG_PATH 为安装路径。
-    
+
   + cmake
-  
+
     cmake 参数 RabbitCommon_DIR 指定安装根目录
 
         find_package(RabbitCommon)
 
 - 直接用源码
+
+    ```
+    find_package(RabbitCommon)
+    if(NOT RabbitCommon_FOUND)
+        if(NOT RabbitCommon_DIR)
+            set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
+            if(NOT RabbitCommon_DIR)
+                set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
+            endif()
+        endif()
+        
+        if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+            if(NOT EXISTS ${CMAKE_BINARY_DIR}/RabbitCommon)
+                add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
+            endif()
+        else()
+            message("1. Set RabbitCommon_DIR to the install prefix of RabbitCommon.")
+            message("2. Set RabbitCommon_DIR to source code root of RabbitCommon.")
+            message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
+            message("   ag:")
+            message("       git clone https://github.com/KangLin/RabbitCommon.git")
+            message("2.2 Then set cmake variable or environment variable RabbitCommon_DIR to download root directory.")
+            message("   ag:")
+            message("       cmake -DRabbitCommon_DIR= ")
+            message(FATAL_ERROR "RabbitCommon_DIR isn't set.")
+        endif()
+    endif()
+    ```
+
   + cmake工程
     - 子模块方式
     
@@ -251,7 +280,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
                 message("2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon")
                 message("   ag:")
                 message("       git clone https://github.com/KangLin/RabbitCommon.git")
-                message("2.2 Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+                message("2.2 Then set cmake variable or environment variable RabbitCommon_DIR to download root directory.")
                 message("   ag:")
                 message("       cmake -DRabbitCommon_DIR= ")
                 message(FATAL_ERROR "RabbitCommon_DIR isn't set.")

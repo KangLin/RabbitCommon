@@ -1,6 +1,6 @@
 # Author: Kang Lin <kl222@126.com>
 
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.21)
 
 get_filename_component(RabbitCommonUtils_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 message("RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
@@ -487,7 +487,7 @@ function(INSTALL_TARGET)
                 #ARCHIVE DESTINATION "${PARA_ARCHIVE}"
                 #    COMPONENT ${PARA_COMPONENT}
                 )
-            
+
             #分发
             IF( ANDROID AND (QT_VERSION_MAJOR VERSION_LESS 6) )
                 if( (NOT PARA_ANDROID_SOURCES_DIR)
@@ -639,7 +639,14 @@ function(INSTALL_TARGET)
             endif()
 
         endif(PARA_ISEXE)
-        
+
+        # Install dependencies runtime dlls
+        if(NOT ANDROID)
+            install(FILES $<TARGET_RUNTIME_DLLS:${PARA_NAME}>
+                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
+        endif()
+
         # Windows 下分发
         IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
             IF(MINGW)
@@ -683,6 +690,7 @@ function(INSTALL_TARGET)
 endfunction()
 
 # 增加目标
+# 注意：在调用之前，需要 include(GenerateExportHeader)
 # 参数：
 #    [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
 #    ISEXE                          是执行程序目标还是库目标
@@ -1021,7 +1029,16 @@ function(ADD_TARGET)
     if(DEFINED PARA_PRIVATE_FEATURES)
         target_compile_features(${PARA_NAME} PRIVATE ${PARA_PRIVATE_FEATURES})
     endif()
-    
+
+    # Install dependencies runtime dlls
+    if(INSTALL_TO_BUILD_PATH AND WIN32)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMENT "Copy target ${PROJECT_NAME} runtime dlls ... $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/bin
+            COMMAND_EXPAND_LISTS
+        )
+    endif()
+
     if(NOT PARA_NO_INSTALL)
         # Install target
         if(PARA_ISPLUGIN)

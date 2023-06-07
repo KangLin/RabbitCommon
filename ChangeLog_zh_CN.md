@@ -7,6 +7,7 @@
 + CMake:
   - 增加 INSTALL_DIR
   - 增加 INSTALL_FILE
+  - 增加 install dependencies runtime dlls
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏
