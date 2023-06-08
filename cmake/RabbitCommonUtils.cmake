@@ -882,7 +882,7 @@ function(ADD_TARGET)
                 endif()
             endif()
 
-            # NOTE: 如果不用 ADD_TARGET 时，请手动安装
+            # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE
             if(EXISTS ${CMAKE_BINARY_DIR}/assets)
                 file(COPY ${CMAKE_BINARY_DIR}/assets
                     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/)

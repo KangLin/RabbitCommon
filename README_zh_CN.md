@@ -87,8 +87,8 @@
         
     **注意**：如果使用 MSVC ,则需要加上 -DCMAKE_BUILD_TYPE=Debug ，否则当编译 Debug 时会出现下面错误：
 
-        RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
-        RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
+    RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qInitResources_translations_RabbitCommon(void)" (?qInitResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_InitResource(void)" (?g_RabbitCommon_InitResource@@YAXXZ) 中被引用
+    RabbitCommonTools.obj : error LNK2019: 无法解析的外部符号 "int __cdecl qCleanupResources_translations_RabbitCommon(void)" (?qCleanupResources_translations_RabbitCommon@@YAHXZ)，该符号在函数 "void __cdecl g_RabbitCommon_CleanResource(void)" (?g_RabbitCommon_CleanResource@@YAXXZ) 中被引用
 
     - linux
     
@@ -111,44 +111,44 @@
     - android
       + Qt6 及以上版本
 
-        cd build
-        ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
-        cmake --build . --config Release
+            cd build
+            ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
+            cmake --build . --config Release
         
         或者：
         
-        cmake .. -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
-            -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
-        cmake --build . --config Release
+            cmake .. -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+                -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
+            cmake --build . --config Release
 
       + Qt5
         + 主机是linux
     
-            cd build
-            cmake .. -DCMAKE_BUILD_TYPE=Release \
-                 -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
-                 -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
-                 -DANDROID_ABI="armeabi-v7a with NEON" \
-                 -DANDROID_PLATFORM=android-18 \
-                 -DQT_DIR=... \
-                 -DQt5_DIR=
-            cmake --build . --config Release --target all
+                cd build
+                cmake .. -DCMAKE_BUILD_TYPE=Release \
+                     -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+                     -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
+                     -DANDROID_ABI="armeabi-v7a with NEON" \
+                     -DANDROID_PLATFORM=android-18 \
+                     -DQT_DIR=... \
+                     -DQt5_DIR=
+                cmake --build . --config Release --target all
     
         + 主机是windows
     
-            cd build
-            cmake .. -G"Unix Makefiles" ^
-               -DCMAKE_BUILD_TYPE=Release ^
-               -DCMAKE_INSTALL_PREFIX=`pwd`/android-build ^
-               -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake ^
-               -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe ^
-               -DANDROID_PLATFORM=android-18 ^
-               -DANDROID_ABI=arm64-v8a ^
-               -DANDROID_ARM_NEON=ON ^
-               -DQT_DIR=... \
-               -DQt5_DIR=
-            cmake --build . --config Release --target all
+                cd build
+                cmake .. -G"Unix Makefiles" ^
+                   -DCMAKE_BUILD_TYPE=Release ^
+                   -DCMAKE_INSTALL_PREFIX=`pwd`/android-build ^
+                   -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake ^
+                   -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe ^
+                   -DANDROID_PLATFORM=android-18 ^
+                   -DANDROID_ABI=arm64-v8a ^
+                   -DANDROID_ARM_NEON=ON ^
+                   -DQT_DIR=... \
+                   -DQt5_DIR=
+                cmake --build . --config Release --target all
     
         - 参数说明：https://developer.android.google.cn/ndk/guides/cmake
           + ANDROID_ABI: 可取下列值：
@@ -315,50 +315,39 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 [DlgAbout.h](Src/DlgAbout/DlgAbout.h)
 
-  + 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则： 
-      Authors.md、License.md、ChangeLog.md是默认文件。本地文件命名规则是在默认文件名后加上本地名。例如：中文件： 
-      Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
+- 安装 Authors、 License、 ChangeLog 等文件。文件名命名规则：
 
-    
-            isEmpty(PREFIX) {
-                qnx : PREFIX = /tmp
-                else : ios: PREFIX=/
-                else : android : PREFIX = /
-                else : unix : PREFIX = /opt/RabbitCommon
-                else : PREFIX = $$OUT_PWD/install
-            }
+  Authors.md、License.md、ChangeLog.md是默认文件。
+  本地文件命名规则是在默认文件名后加上本地名。
+  例如：中文件：  
+  Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
-            DISTFILES += Authors.md \
-                Authors_zh_CN.md \
-                ChangeLog.md \
-                License.md
-
-            other.files = $$DISTFILES
-            android: other.path = $$PREFIX/assets
-            else: other.path = $$PREFIX
-            other.CONFIG += directory no_check_exist 
-            INSTALLS += other
+        SET(OTHER_FILES
+            ${CMAKE_SOURCE_DIR}/License.md
+            ${CMAKE_SOURCE_DIR}/Authors.md
+            ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
+            ${CMAKE_SOURCE_DIR}/ChangeLog.md
+            )
+        INSTALL_FILE(SOURCES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
             
-  + 代码中使用
+- 代码中使用
     
-            ```
-            QApplication a(argc, argv);
-            a.setApplicationVersion(RabbitCommon_VERSION);
-            a.setApplicationName("Calendar");
-            a.setApplicationDisplayName(QObject::tr("Calendar"));
-        
-            #ifdef RABBITCOMMON
-                CDlgAbout about(this);
-                about.m_AppIcon = QImage(":/image/Calendar");
-                about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
-                #if defined (Q_OS_ANDROID)
-                    about.showMaximized();
-                #endif
-                about.exec();
+        QApplication a(argc, argv);
+        a.setApplicationVersion(RabbitCommon_VERSION);
+        a.setApplicationName("Calendar");
+        a.setApplicationDisplayName(QObject::tr("Calendar"));
+      
+        #ifdef RABBITCOMMON
+            CDlgAbout about(this);
+            about.m_AppIcon = QImage(":/image/Calendar");
+            about.m_szHomePage = "https://github.com/KangLin/LunarCalendar";
+            #if defined (Q_OS_ANDROID)
+                about.showMaximized();
             #endif
-            ```
+            about.exec();
+        #endif
             
-  + 参见例子： https://github.com/KangLin/LunarCalendar
+- 参见例子： https://github.com/KangLin/LunarCalendar
     
 ![关于对话框](documents/image/about.PNG "关于对话框")
 
@@ -378,46 +367,46 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
   #endif
   ```
   
-  + 可以用 CFrmUpdater::GenerateUpdateXml() 产生更新 xml 文件，可用命令行参数 --help 查看支持的命令参数
+- 可以用 CFrmUpdater::GenerateUpdateXml() 产生更新 xml 文件，可用命令行参数 --help 查看支持的命令参数
   
-            ./TasksApp --help
-            Usage: ./TasksApp [options]
+      ./TasksApp --help
+      Usage: ./TasksApp [options]
             
-            Options:
-              -h, --help                       Displays this help.
-              -v, --version                    Displays version information.
-              -f, --file <xml file name>       xml file name
-              --pv <Package version>           Package version
-              -t, --time <Time>                Time
-              -i, --info <Information>         Information
-              -s, --system <Operating system>  Operating system
-              -p, --platform <Platform>        Platform
-              -a, --arch <Architecture>        Architecture
-              -c, --md5 <MD5 checksum>         MD5 checksum
-              -u, --url <Download url>         Package download url
-              --home <Project home url>        Project home url
-              -m, --min <Min update version>   Min update version
+      Options:
+          -h, --help                       Displays this help.
+          -v, --version                    Displays version information.
+          -f, --file <xml file name>       xml file name
+          --pv <Package version>           Package version
+          -t, --time <Time>                Time
+          -i, --info <Information>         Information
+          -s, --system <Operating system>  Operating system
+          -p, --platform <Platform>        Platform
+          -a, --arch <Architecture>        Architecture
+          -c, --md5 <MD5 checksum>         MD5 checksum
+          -u, --url <Download url>         Package download url
+          --home <Project home url>        Project home url
+          -m, --min <Min update version>   Min update version
 
-  + 在目标工程源码目录中增加 Update/update.xml 文件，然后在程序中指定此 xml 文件做为 CFrmUpdater::DownloadFile 的 URL 参数
+- 在目标工程源码目录中增加 Update/update.xml 文件，然后在程序中指定此 xml 文件做为 CFrmUpdater::DownloadFile 的 URL 参数
 
-            <?xml version="1.0" encoding="UTF-8"?>
-            <REDIRECT>
-                <VERSION>v1.0.13</VERSION>
-                <WINDOWS>
-                    <URL>url</URL>
-                </WINDOWS>
-                <LINUX>
-                    <URL>url</URL>
-                </LINUX>
-                <LINUX_APPIMAGE>
-                    <URL>url</URL>
-                </LINUX_APPIMAGE>
-                <ANDROID>
-                    <URL>url</URL>
-                </ANDROID>   
-            </REDIRECT>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <REDIRECT>
+           <VERSION>v1.0.13</VERSION>
+           <WINDOWS>
+                <URL>url</URL>
+           </WINDOWS>
+           <LINUX>
+                <URL>url</URL>
+           </LINUX>
+           <LINUX_APPIMAGE>
+                <URL>url</URL>
+           </LINUX_APPIMAGE>
+           <ANDROID>
+                <URL>url</URL>
+           </ANDROID>   
+      </REDIRECT>
   
-  + 参见例子： https://github.com/KangLin/LunarCalendar
+- 参见例子： https://github.com/KangLin/LunarCalendar
    
 ![在线更新](documents/image/update.PNG "在线更新")
 

@@ -113,6 +113,19 @@ Qt common library. include follow functions:
           cmake --build . --config Release --target install
   
     - Android
+      - Qt6 or laster
+
+            cd build
+            ${Qt6_DIR}/bin/qt-cmake .. -DCMAKE_BUILD_TYPE=Release
+            cmake --build . --config Release
+        
+        Or:
+        
+            cmake .. -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=`pwd`/android-build \
+                -DCMAKE_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake
+            cmake --build . --config Release
+      
       - The host is linux
       
             cd build
@@ -314,54 +327,42 @@ Qt common library. include follow functions:
 
 #### [About](Src/DlgAbout/DlgAbout.h)
 
-  + Install Authors、 License、 ChangeLog files.  
-      File name naming rules:  
-      Authors.md、License.md、ChangeLog.md is the default file.  
-      The local file naming rule is to add the local name after the default file name.  
-      For example: Chinese file:  
-      Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
+- Install Authors、 License、 ChangeLog files.  
+  File name naming rules:  
+  Authors.md、License.md、ChangeLog.md is the default file.  
+  The local file naming rule is to add the local name after the default file name.  
+  For example: Chinese file:  
+  Authors_zh_CN.md、License_zh_CN.md、ChangeLog_zh_CN.md
 
-            isEmpty(PREFIX) {
-                qnx : PREFIX = /tmp
-                else : ios: PREFIX=/
-                else : android : PREFIX = /
-                else : unix : PREFIX = /opt/RabbitCommon
-                else : PREFIX = $$OUT_PWD/install
-            }
-
-            DISTFILES += Authors.md \
-                Authors_zh_CN.md \
-                ChangeLog.md \
-                License.md
-
-            other.files = $$DISTFILES
-            android: other.path = $$PREFIX/assets
-            else: other.path = $$PREFIX
-            other.CONFIG += directory no_check_exist 
-            INSTALLS += other
+        SET(OTHER_FILES
+            ${CMAKE_SOURCE_DIR}/License.md
+            ${CMAKE_SOURCE_DIR}/Authors.md
+            ${CMAKE_SOURCE_DIR}/Authors_zh_CN.md
+            ${CMAKE_SOURCE_DIR}/ChangeLog.md
+            )
+        INSTALL_FILE(SOURCES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
             
-  + Used in code
-    
-            ```
-            QApplication a(argc, argv);
-            a.setApplicationVersion(RabbitCommon_VERSION);
-            a.setApplicationName("SerialPortAssistant");
-            a.setApplicationDisplayName(QObject::tr("SerialPortAssistant"));
-        
-            #ifdef RABBITCOMMON
-                CDlgAbout about(this);
-                about.m_AppIcon = QImage(":/icon/SerialPortAssistant");
-                about.m_szHomePage = "https://github.com/KangLin/SerialPortAssistant";
-                #if defined (Q_OS_ANDROID)
-                    about.showMaximized();
-                    about.exec();
-                #else
-                    about.exec();
-                #endif
+ - Used in code
+
+        QApplication a(argc, argv);
+        a.setApplicationVersion(RabbitCommon_VERSION);
+        a.setApplicationName("SerialPortAssistant");
+        a.setApplicationDisplayName(QObject::tr("SerialPortAssistant"));
+
+        #ifdef RABBITCOMMON
+            CDlgAbout about(this);
+            about.m_AppIcon = QImage(":/icon/SerialPortAssistant");
+            about.m_szHomePage = "https://github.com/KangLin/SerialPortAssistant";
+            #if defined (Q_OS_ANDROID)
+                about.showMaximized();
+                about.exec();
+            #else
+                about.exec();
             #endif
-            ```
+        #endif
             
-  + See: https://github.com/KangLin/SerialPortAssistant
+- See: https://github.com/KangLin/SerialPortAssistant
+
 ![About](documents/image/about_en.png "About")
 
 #### Updater
@@ -380,29 +381,29 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
   #endif
   ```
   
-  + Use CFrmUpdater::GenerateUpdateXml() to generate update xml file, use --help look up parameter
+- Use CFrmUpdater::GenerateUpdateXml() to generate update xml file, use --help look up parameter
 
-          ./TasksApp --help
-          Usage: ./TasksApp [options]
-          
-          Options:
-            -h, --help                       Displays this help.
-            -v, --version                    Displays version information.
-            -f, --file <xml file name>       xml file name
-            --pv <Package version>           Package version
-            -t, --time <Time>                Time
-            -i, --info <Information>         Information
-            -s, --system <Operating system>  Operating system
-            -p, --platform <Platform>        Platform
-            -a, --arch <Architecture>        Architecture
-            -c, --md5 <MD5 checksum>         MD5 checksum
-            -u, --url <Download url>         Package download url
-            --home <Project home url>        Project home url
-            -m, --min <Min update version>   Min update version
+      ./TasksApp --help
+      Usage: ./TasksApp [options]
 
-  + Add Update/update.xml in project source root directory, then add the url to CFrmUpdater::DownloadFile.
+      Options:
+          -h, --help                       Displays this help.
+          -v, --version                    Displays version information.
+          -f, --file <xml file name>       xml file name
+          --pv <Package version>           Package version
+          -t, --time <Time>                Time
+          -i, --info <Information>         Information
+          -s, --system <Operating system>  Operating system
+          -p, --platform <Platform>        Platform
+          -a, --arch <Architecture>        Architecture
+          -c, --md5 <MD5 checksum>         MD5 checksum
+          -u, --url <Download url>         Package download url
+          --home <Project home url>        Project home url
+          -m, --min <Min update version>   Min update version
 
-          <?xml version="1.0" encoding="UTF-8"?>
+- Add Update/update.xml in project source root directory, then add the url to CFrmUpdater::DownloadFile.
+
+      <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
               <VERSION>v1.0.13</VERSION>
               <WINDOWS>
@@ -417,9 +418,9 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
               <ANDROID>
                   <URL>url</URL>
               </ANDROID>   
-          </REDIRECT>
+      </REDIRECT>
   
-  + See: https://github.com/KangLin/SerialPortAssistant
+- See: https://github.com/KangLin/SerialPortAssistant
   
 ![Updater](documents/image/updater_en.png "Updater")
 
@@ -427,28 +428,28 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
 [adminauthoriser.h](Src/AdminAuthoriser/adminauthoriser.h)
 
-  + Internal implementation
+- Internal implementation
 
-            QString szCmd = "mkdir";
-            QStringList paras;
-            paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-            qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
-                     << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
+      QString szCmd = "mkdir";
+      QStringList paras;
+      paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
+      qDebug() << "RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras):"
+               << RabbitCommon::AdminAuthoriser::Instance()->execute(szCmd, paras);
 
-  + Public interface:
+- Public interface:
 
-            RabbitCommon::CTools::executeByRoot("regedit", QStringList());
+      RabbitCommon::CTools::executeByRoot("regedit", QStringList());
 
 #### The program starts automatically
 
 [The program starts automatically](Src/RabbitCommonTools.h)
 
-        static int InstallStartRun(const QString &szName = QString(),
+      static int InstallStartRun(const QString &szName = QString(),
                                const QString &szPath = QString(),
                                bool bAllUser = false);
-        static int RemoveStartRun(const QString &szName = QString(),
-                              bool bAllUser = false);
-        static bool IsStartRun(const QString &szName = QString(),
+      static int RemoveStartRun(const QString &szName = QString(),
+                           bool bAllUser = false);
+      static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
 #### Get system information

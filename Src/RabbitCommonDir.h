@@ -20,15 +20,15 @@ namespace RabbitCommon {
  * 
  * Default directory:
  * \code
- * ApplicationInstallRoot                          GetDirApplicationInstallRoot()
+ * ApplicationInstallRoot(The folder is only read) GetDirApplicationInstallRoot()
  *       |- bin                                    GetDirApplication()
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
  *       |- log                                    GetDirLog()
- *       |- icons                                  GetDirIcons()
  *       |- data                                   GetDirData()
+ *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
  *       |- plugins                                GetDirPlugins()
@@ -36,6 +36,7 @@ namespace RabbitCommon {
  *       |   |- translations                       GetDirPluginsTranslation()
  *       |       | - szDir                         GetDirPluginsTranslation(szDir)
  *
+ * The follow folder is write and read:
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- etc                                    GetDirUserConfig()
@@ -47,30 +48,30 @@ namespace RabbitCommon {
  *
  *
  * Android:
- *    assets                                       GetDirApplicationInstallRoot()  (Only read)
+ *    assets (The folder is only read)             GetDirApplicationInstallRoot()
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetApplicationConfigureFile()
  *       |- translations                           GetDirTranslations()
- *       |- icons                                  GetDirIcons()
  *       |- data                                   GetDirData()
+ *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
-  
+ *
  *    DocumentRoot/Rabbit/applicationName          (Write and read)
- *       |- root                                 
- *       |    |- etc                               GetDirConfig()
- *       |    |   |- xml                           GetDirApplicationXml()
- *       |    |   |- applicationName.conf          GetApplicationConfigureFile() 
- *       |    |- log                               GetDirLog()
- *       |    |- data                              GetDirData()
- *       |    |   |- db                            GetDirDatabase()
- *       |        |- database.db                   GetDirDatabaseFile()
+ *       |- root
+ *       |    |- etc                               GetDirConfig(true)
+ *       |    |   |- xml                           GetDirApplicationXml(true)
+ *       |    |   |- applicationName.conf          GetApplicationConfigureFile(true)
+ *       |    |- log                               GetDirLog(true)
+ *       |    |- data                              GetDirData(true)
+ *       |    |   |- db                            GetDirDatabase(true)
+ *       |        |- database.db                   GetDirDatabaseFile(true)
  *
  * \endcode
- * 
+ *
  * NOTE: In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
- * 
+ *
  * \ingroup API
  */
 class RABBITCOMMON_EXPORT CDir
