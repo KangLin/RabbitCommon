@@ -743,16 +743,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="55"/>
-        <source>Application Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="56"/>
-        <source>I&apos;m Sorry, Application is Crash! The path: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../RabbitCommonTools.cpp" line="114"/>
         <source>- Functions:</source>
         <translation type="unfinished"></translation>

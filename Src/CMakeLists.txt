@@ -532,17 +532,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc
     COMPONENT Development)
 
 ## Install style files
-#if(ANDROID)
-#    INSTALL(DIRECTORY Resource/style/ DESTINATION "assets/data/style" COMPONENT Runtime)
-#    #INSTALL(DIRECTORY QUIWidget/Resource/qss DESTINATION "assets/data/style" COMPONENT Runtime)
-#else()
-#   INSTALL(DIRECTORY Resource/style/ DESTINATION "data/style" COMPONENT Runtime)
-#   #INSTALL(DIRECTORY QUIWidget/Resource/qss/ DESTINATION "data/style" COMPONENT Runtime)
-#   if(INSTALL_STYLE_TO_BUILD_PATH)
-#       file(COPY Resource/style/ DESTINATION ${CMAKE_BINARY_DIR}/data/style)
-#   endif()
-#endif()
-
-# Install QIcon theme
 INSTALL_STYLE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)
+#INSTALL_DIR(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget/Resource/qss
+#    DESTINATION data)
+# Install QIcon theme
 INSTALL_ICON_THEME(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons)

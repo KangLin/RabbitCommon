@@ -747,14 +747,12 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="55"/>
         <source>Application Error</source>
-        <translation>应用错误</translation>
+        <translation type="vanished">应用错误</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="56"/>
         <source>I&apos;m Sorry, Application is Crash! The path: </source>
-        <translation>程序崩溃！转储文件：</translation>
+        <translation type="vanished">程序崩溃！转储文件：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="114"/>
