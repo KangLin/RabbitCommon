@@ -847,6 +847,7 @@ function(ADD_TARGET)
             endif()
         endif()
         GENERATED_QT_TRANSLATIONS(
+            ALL
             TARGET ${PARA_NAME}
             SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
             OUT_QRC TRANSLATIONS_QRC_FILES

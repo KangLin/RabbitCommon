@@ -147,6 +147,7 @@ void CTools::Clean()
 
 void CTools::InitTranslator(const QString szLanguage)
 {
+    qInfo(Logger) << "Language:" << szLanguage;
     QString szFile = CDir::Instance()->GetDirTranslations()
             + "/RabbitCommon_" + szLanguage + ".qm";
     bool ret = m_Translator.load(szFile);

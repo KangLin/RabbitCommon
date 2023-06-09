@@ -225,15 +225,18 @@ CLog::CLog() : QObject(),
                    << "\n    Count:" << m_nCount
                    << "\n    Length:" << m_nLength
                    << "\n    Rules:" << szFilterRules;
+
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
+#ifndef Q_OS_ANDROID
     #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         qSetMessagePattern(szPattern);
         qInstallMessageHandler(myMessageOutput);
     #else
         qInstallMsgHandler(myMessageOutput);
     #endif
+#endif
 
     QDir d;
     if(!d.exists(m_szPath))

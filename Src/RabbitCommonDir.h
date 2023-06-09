@@ -32,9 +32,9 @@ namespace RabbitCommon {
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
  *       |- plugins                                GetDirPlugins()
- *       |   |- szDir                              GetDirPlugins(szDir)
  *       |   |- translations                       GetDirPluginsTranslation()
- *       |       | - szDir                         GetDirPluginsTranslation(szDir)
+ *       |   |- szDir                              GetDirPlugins("plugins/szDir")
+ *       |       | - translations                  GetDirPluginsTranslation("plugins/szDir")
  *
  * The follow folder is write and read:
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
@@ -57,7 +57,11 @@ namespace RabbitCommon {
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
- *
+ *       |- plugins
+ *       |   |- translations                       GetDirPluginsTranslation()
+ *       |   |- szDir
+ *       |       | - translations                  GetDirPluginsTranslation("plugins/szDir")
+ *       
  *    DocumentRoot/Rabbit/applicationName          (Write and read)
  *       |- root
  *       |    |- etc                               GetDirConfig(true)

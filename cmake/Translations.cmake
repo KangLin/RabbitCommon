@@ -8,6 +8,7 @@
 #  - 安装翻译文件(.qm)到安装目录。目录结构详见后面说明
 #+ 参数：
 #  - [必须] SOURCES: 要理新的源文件。默认使用变量 SOURCE_FILES 和 SOURCE_UI_FILES 之中的源文件。
+#  - [可选] ALL: 自动做为 ALL 的依赖
 #  - [可选] NAME: 生成的翻译源文件(.ts)文件名前缀，默认值 ${PROJECT_NAME}。
 #    **注意**：翻译资源名为此名字加上前缀 translations_ ,它也可以由 OUT_QRC_NAME 参数指定的变量得到
 #  - [可选] TARGET: 生成的翻译对象，默认值 ${PROJECT_NAME}。
@@ -23,7 +24,7 @@
 #  - 在 CMakeLists.txt加入包含此文件
 
 #        include(Translations.cmake)
-  
+
 #  - 调用 GENERATED_QT_TRANSLATIONS 函数
 #    + [必选] 设置 SOURCES 参数为要更新的源文件
 #    + [可选] 设置 OUT_QRC 参数为接收资源文件名变量。默认为：TRANSLATIONS_RESOURCE_FILES
@@ -49,7 +50,7 @@
 #                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
 #        qApp->installTranslator(&translator);
 
-#  - 增加目标依赖（可选，默认会自动执行）： 
+#  - 增加目标依赖（可选，如果设置了 ALL 参数，则可以不需要）： 
 
 #        add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
 
@@ -182,7 +183,7 @@
 include (CMakeParseArguments)
 
 function(GENERATED_QT_TRANSLATIONS)
-    cmake_parse_arguments(PARA ""
+    cmake_parse_arguments(PARA "ALL"
         "NAME;TARGET;TSDIR;QM_INSTALL_DIR;OUT_QRC;OUT_QRC_NAME;RESOUCE_PREFIX;INSTALL_COMPONENT"
         "SOURCES" ${ARGN})
 
@@ -297,15 +298,18 @@ function(GENERATED_QT_TRANSLATIONS)
             endif()
 
             # 自动执行目标，生成翻译文件(.qm)
-            ADD_CUSTOM_TARGET(translations_${PARA_TARGET} ALL DEPENDS ${QM_FILES})
-
+            if(PARA_ALL)
+                ADD_CUSTOM_TARGET(translations_${PARA_TARGET} ALL DEPENDS ${QM_FILES})
+            else()
+                ADD_CUSTOM_TARGET(translations_${PARA_TARGET} DEPENDS ${QM_FILES})
+            endif()
             #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
 
-            if(DEFINED PARA_QM_INSTALL_DIR)
-                set(RESOUCE_PREFIX "/${PARA_QM_INSTALL_DIR}")
-            else()
-                set(RESOUCE_PREFIX "/translations")
+            if(NOT PARA_QM_INSTALL_DIR)
+                set(PARA_QM_INSTALL_DIR translations)
             endif()
+
+            set(RESOUCE_PREFIX "/${PARA_QM_INSTALL_DIR}")
 
             # 生成资源文件
             set(RESOURCE_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/translations_${TRANSLATIONS_NAME}.qrc")
@@ -335,18 +339,8 @@ function(GENERATED_QT_TRANSLATIONS)
             if(NOT DEFINED INSTALL_COMPONENT)
                 set(PARA_INSTALL_COMPONENT Runtime)
             endif()
-            if(DEFINED PARA_QM_INSTALL_DIR)
-                install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
-                    COMPONENT ${PARA_INSTALL_COMPONENT})
-            else()
-                if(ANDROID)
-                    install(FILES ${QM_FILES} DESTINATION "assets/translations"
-                        COMPONENT ${PARA_INSTALL_COMPONENT})
-                else()
-                    install(FILES ${QM_FILES} DESTINATION "translations"
-                        COMPONENT ${PARA_INSTALL_COMPONENT})
-                endif()
-            endif()
+            install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
+                COMPONENT ${PARA_INSTALL_COMPONENT})
             
         ENDIF()
     ENDIF(OPTION_TRANSLATIONS)
