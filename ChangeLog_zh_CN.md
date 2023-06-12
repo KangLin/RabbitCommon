@@ -3,7 +3,7 @@
 + 修改样式接口
 + 自动化 ( github action ) 完成
 + 增加调试日志停泊条
-+ Andoird 需要 Qt 大于或等于 6
++ Andoird 需要 Qt 版本大于或等于 6
 + CMake:
   - 增加 INSTALL_DIR
   - 增加 INSTALL_FILE

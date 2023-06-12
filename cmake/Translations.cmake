@@ -303,7 +303,9 @@ function(GENERATED_QT_TRANSLATIONS)
             else()
                 ADD_CUSTOM_TARGET(translations_${PARA_TARGET} DEPENDS ${QM_FILES})
             endif()
-            #add_dependencies(${TRANSLATIONS_NAME} translations_${TRANSLATIONS_NAME})
+            if(ENABLE_UPDATE_TRANSLATIONS)
+                add_dependencies(translations_${PARA_TARGET} translations_update_${PARA_TARGET})
+            endif()
 
             if(NOT PARA_QM_INSTALL_DIR)
                 set(PARA_QM_INSTALL_DIR translations)
@@ -339,9 +341,30 @@ function(GENERATED_QT_TRANSLATIONS)
             if(NOT DEFINED INSTALL_COMPONENT)
                 set(PARA_INSTALL_COMPONENT Runtime)
             endif()
+#            INSTALL_FILE(TARGET translations_${PARA_TARGET}
+#                SOURCES ${QM_FILES}
+#                DESTINATION "${PARA_QM_INSTALL_DIR}"
+#                    COMPONENT ${PARA_INSTALL_COMPONENT}
+#                )
+            
             install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
                 COMPONENT ${PARA_INSTALL_COMPONENT})
-            
+            # Copy to build tree for develop
+            if(INSTALL_TO_BUILD_PATH OR ANDROID)
+                if(ANDROID)
+                    set(_QM_INSTALL_DIR ${CMAKE_BINARY_DIR}/assets/${PARA_QM_INSTALL_DIR})
+                else()
+                    set(_QM_INSTALL_DIR ${CMAKE_BINARY_DIR}/${PARA_QM_INSTALL_DIR})
+                endif()
+                add_custom_command(
+                    TARGET translations_${PARA_TARGET} POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E make_directory "${_QM_INSTALL_DIR}"
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QM_FILES} "${_QM_INSTALL_DIR}"
+                    COMMENT "Copy qm file ${QM_FILES} to ${_QM_INSTALL_DIR}"
+                    COMMAND_EXPAND_LISTS
+                    VERBATIM)
+            endif()
+
         ENDIF()
     ENDIF(OPTION_TRANSLATIONS)
 

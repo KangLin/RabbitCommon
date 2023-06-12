@@ -3,7 +3,7 @@
 + Modify style interface
 + CI ( github action ) is ok.
 + Add dock debug log
-+ Qt of Android greater or equal 6
++ Qt version of Android greater or equal 6
 + CMake:
   - Add INSTALL_DIR
   - Add INSTALL_FILE

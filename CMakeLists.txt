@@ -173,20 +173,6 @@ if(BUILD_TESTS)
     add_subdirectory(Tests)
 endif(BUILD_TESTS)
 
-set(OTHER_FILES
-    License.md
-    Authors.md
-    Authors_zh_CN.md
-    ChangeLog.md
-    )
-
-# Install other files
-IF(ANDROID)
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets" COMPONENT Runtime)
-else()
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
-endif()
-
 ## Create will be delete files
 #CONFIGURE_FILE(
 #    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"

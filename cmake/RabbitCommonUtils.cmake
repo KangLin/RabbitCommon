@@ -156,23 +156,24 @@ function(GET_VERSION)
 endfunction()
 
 # Install directory
-#   NAME: project name
+#   TARGET: project name
 #   SOURCES: [MUST] source folder
 #   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
 #   COMPONENT
-# NOTE: If not NAME, it must be after ADD_TARGET
+# NOTE: If not TARGET, it must be after ADD_TARGET
+# #与 INSTALL(DIRECTORY ...) 功能相似，android 安装到 assets
 option(INSTALL_TO_BUILD_PATH "Install to build path" ON)
 function(INSTALL_DIR)
-    cmake_parse_arguments(PARA "" "NAME;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DIR(NAME ... SOURCES ... DESTINATION ... )")
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DIR([TARGET ... ]SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
     endif()
-    if(NOT PARA_NAME)
-        if(NOT PROJECT_NAME)
-            message(FATAL_ERROR "Move the INSTALL_DIR(...) to the back of the project(...)")
+    if(NOT PARA_TARGET)
+        if(NOT TARGET ${PROJECT_NAME})
+            message(FATAL_ERROR "Move the INSTALL_DIR(...) to the back of the add_executable(...) or add_library(...)")
         else()
-            set(PARA_NAME ${PROJECT_NAME})
+            set(PARA_TARGET ${PROJECT_NAME})
         endif()
     endif()
     if(NOT PARA_COMPONENT)
@@ -181,47 +182,46 @@ function(INSTALL_DIR)
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION .)
     endif()
+
+#    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
+#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+#        set_property(TARGET ${PARA_TARGET} APPEND PROPERTY
+#            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+#    endif()
+
+    install(DIRECTORY ${PARA_SOURCES}
+        DESTINATION ${PARA_DESTINATION}
+            COMPONENT ${PARA_COMPONENT})
+
     if(ANDROID)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
     endif()
 
-    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
-#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-#        set_property(TARGET ${PARA_NAME} APPEND PROPERTY
-#            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-        
-#        if(TARGET ${PARA_NAME})
-#            add_custom_command(
-#                TARGET ${PARA_NAME} POST_BUILD
-#                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCES} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#                COMMENT "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#                COMMAND_EXPAND_LISTS
-#                VERBATIM)
-#        else()
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
-#        endif()
-
-    else()
-        install(DIRECTORY ${PARA_SOURCES}
-            DESTINATION ${PARA_DESTINATION}
-            COMPONENT ${PARA_COMPONENT})
-        if(INSTALL_TO_BUILD_PATH AND NOT ANDROID)
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
-        endif()
+    if(INSTALL_TO_BUILD_PATH OR ANDROID)
+        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
+#        add_custom_command(
+#            TARGET ${PARA_TARGET} POST_BUILD
+#            COMMAND ${CMAKE_COMMAND} -E echo "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCES} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMENT "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            VERBATIM)
     endif()
+
 endfunction()
 
+#与 INSTALL(FILES ...) 功能相似，android 安装到 assets
 function(INSTALL_FILE)
-    cmake_parse_arguments(PARA "" "NAME;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_FILE(NAME ... SOURCES ... DESTINATION ... )")
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_FILE([TARGET ... ]SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
     endif()
-    if(NOT PARA_NAME)
-        if(NOT PROJECT_NAME)
-            message(FATAL_ERROR "Move the INSTALL_FILE(...) to the back of the project(...)")
+    if(NOT PARA_TARGET)
+        if(NOT TARGET ${PROJECT_NAME})
+            message(FATAL_ERROR "Move the INSTALL_FILE(...) to the back of the add_executable(...) or add_library(...)")
         else()
-            set(PARA_NAME ${PROJECT_NAME})
+            set(PARA_TARGET ${PROJECT_NAME})
         endif()
     endif()
     if(NOT PARA_COMPONENT)
@@ -230,41 +230,41 @@ function(INSTALL_FILE)
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION .)
     endif()
+
+#    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
+#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+#        set_property(TARGET ${PARA_TARGET} APPEND PROPERTY
+#        endif()
+
+    install(FILES ${PARA_SOURCES}
+        DESTINATION ${PARA_DESTINATION}
+        COMPONENT ${PARA_COMPONENT})
+
     if(ANDROID)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
     endif()
 
-    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
-#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-#        set_property(TARGET ${PARA_NAME} APPEND PROPERTY
-#            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
-#        if(TARGET ${PARA_NAME})
-#            add_custom_command(
-#                TARGET ${PARA_NAME} POST_BUILD
-#                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCES} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#                COMMENT "Copy file ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#                COMMAND_EXPAND_LISTS
-#                VERBATIM)
-#        else()
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
-#        endif()
-    else()
-        install(FILES ${PARA_SOURCES}
-            DESTINATION ${PARA_DESTINATION}
-            COMPONENT ${PARA_COMPONENT})
-        if(INSTALL_TO_BUILD_PATH AND NOT ANDROID)
-            file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
-        endif()
+    if(INSTALL_TO_BUILD_PATH OR ANDROID)
+        #file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
+        add_custom_command(
+            TARGET ${PARA_TARGET} PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Copy files ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCES} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+            COMMENT "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+            COMMAND_EXPAND_LISTS
+            VERBATIM)
     endif()
+
 endfunction()
 
 # Install QIcon theme
-#   NAME: project name
+#   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
 #   DESTINATION: Default is data/icons
-# NOTE: If not NAME, it must be after ADD_TARGET
+# NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
-    cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
@@ -272,19 +272,19 @@ function(INSTALL_ICON_THEME)
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION data)
     endif()
-    INSTALL_DIR(NAME ${PARA_NAME}
+    INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION})
 endfunction()
 
 # Install style files
-#   NAME: project name
+#   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
 #   DESTINATION: Default is data/style
-# NOTE: If not NAME, it must be after ADD_TARGET
+# NOTE: If not TARGET, it must be after ADD_TARGET
 option(INSTALL_STYLE_TO_BUILD_PATH "Install style to build path" ON)
 function(INSTALL_STYLE)
-    cmake_parse_arguments(PARA "" "NAME;DESTINATION" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/style)
@@ -292,7 +292,7 @@ function(INSTALL_STYLE)
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION data)
     endif()
-    INSTALL_DIR(NAME ${PARA_NAME}
+    INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION})
 endfunction()
@@ -833,18 +833,10 @@ function(ADD_TARGET)
 
     if(NOT PARA_NO_TRANSLATION)
         #翻译资源
-        if(ANDROID)
-            if(PARA_ISPLUGIN)
-                set(QM_INSTALL_DIR assets/${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
-            else()
-                set(QM_INSTALL_DIR assets/translations)
-            endif()
+        if(PARA_ISPLUGIN)
+            set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
         else()
-            if(PARA_ISPLUGIN)
-                set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
-            else()
-                set(QM_INSTALL_DIR translations)
-            endif()
+            set(QM_INSTALL_DIR translations)
         endif()
         GENERATED_QT_TRANSLATIONS(
             ALL
@@ -884,16 +876,15 @@ function(ADD_TARGET)
             endif()
 
             # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE
-            if(EXISTS ${CMAKE_BINARY_DIR}/assets)
-                file(COPY ${CMAKE_BINARY_DIR}/assets
-                    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/)
-#                add_custom_command(
-#                    TARGET ${PARA_NAME} PRE_BUILD
-#                    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different "${CMAKE_BINARY_DIR}/assets/" "${CMAKE_CURRENT_BINARY_DIR}/android-build/${PARA_DESTINATION}"
-#                    COMMENT "Copy directory ${CMAKE_BINARY_DIR}/assets/ to ${CMAKE_CURRENT_BINARY_DIR}/android-build/${PARA_DESTINATION}"
-#                    COMMAND_EXPAND_LISTS
-#                    VERBATIM)
-            endif()
+#                file(COPY ${CMAKE_BINARY_DIR}/assets
+#                    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/)
+            add_custom_command(
+                TARGET ${PARA_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "copy directory ${CMAKE_BINARY_DIR}/assets to ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
+                COMMENT "Copy directory ${CMAKE_BINARY_DIR}/assets/ to ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
+                COMMAND_EXPAND_LISTS
+                VERBATIM)
 
         else()
             if(PARA_ISWINDOWS AND WIN32)
@@ -1067,7 +1058,7 @@ function(ADD_TARGET)
     if(INSTALL_TO_BUILD_PATH AND WIN32)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMENT "Copy target ${PROJECT_NAME} runtime dlls ... $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/bin
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/bin"
             COMMAND_EXPAND_LISTS
         )
     endif()
