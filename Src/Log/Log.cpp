@@ -690,7 +690,9 @@ void CLog::slotTimeout()
             szFile = getNextFileName(m_File.fileName());
         else
             if(m_File.isOpen()) break;
-
+#ifdef Q_OS_ANDROID
+        if(szFile.isEmpty()) return;
+#endif
         Q_ASSERT(!szFile.isEmpty());
 
         m_Mutex.lock();
