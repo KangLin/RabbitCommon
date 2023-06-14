@@ -66,7 +66,7 @@ set(_QT_COMPONENTS Core Network)
 
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg SvgWidgets)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
@@ -288,11 +288,11 @@ IF(OpenSSL_FOUND)
     # They need to be set before the find_package( ...) calls below.
     if(ANDROID)
         #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-        if (ANDROID_ABI STREQUAL "armeabi-v7a")
-            set(ANDROID_EXTRA_LIBS
-                $<TARGET_FILE:OpenSSL::SSL>
-                $<TARGET_FILE:OpenSSL::Crypto>)
-        endif()
+
+        list(APPEND QT_ANDROID_EXTRA_LIBS
+            $<TARGET_FILE:OpenSSL::SSL>
+            $<TARGET_FILE:OpenSSL::Crypto>)
+
     else()
         list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
     endif()
@@ -515,6 +515,23 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )
+
+IF(OpenSSL_FOUND)
+    # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
+    # Check https://doc.qt.io/qt/deployment-android.html for more information.
+    # They need to be set before the find_package( ...) calls below.
+    if(ANDROID)
+        set_property(TARGET ${PROJECT_NAME}
+            APPEND PROPERTY QT_ANDROID_EXTRA_LIBS
+            $<TARGET_FILE:OpenSSL::SSL>
+            $<TARGET_FILE:OpenSSL::Crypto>)
+    else()
+        list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
+    endif()
+    if(WIN32)
+        INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
+    endif()
+ENDIF()
 
 foreach(d ${RabbitCommon_DEFINITIONS})
     SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
