@@ -1,8 +1,5 @@
-if(ANDROID)
-    cmake_minimum_required(VERSION 3.19)
-else()
-    cmake_minimum_required(VERSION 2.8)
-endif()
+CMAKE_MINIMUM_REQUIRED(VERSION 3.21)
+MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
 project(RabbitCommon)
 

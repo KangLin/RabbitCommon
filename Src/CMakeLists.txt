@@ -1,7 +1,5 @@
 # Author: Kang Lin <kl222@126.com>
 
-cmake_minimum_required(VERSION 3.21)
-
 project(RabbitCommon)
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -297,8 +295,11 @@ IF(OpenSSL_FOUND)
         list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
     endif()
     if(WIN32)
+        # Qt 5.9 (LTS) use OpenSSL 1.0* and Qt 5.12 (LTS) and newest version of Qt use OpenSSL 1.1*
+        # Source: https://lists.qt-project.org/pipermail/releasing/2019-March/002614.html
         INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
     endif()
+
 ENDIF()
 
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)

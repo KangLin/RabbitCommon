@@ -1,6 +1,7 @@
 # Author: Kang Lin <kl222@126.com>
 
 cmake_minimum_required(VERSION 3.21)
+MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
 get_filename_component(RabbitCommonUtils_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 message("RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
