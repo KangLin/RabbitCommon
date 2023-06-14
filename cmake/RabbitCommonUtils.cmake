@@ -1056,13 +1056,13 @@ function(ADD_TARGET)
     endif()
 
     # Install dependencies runtime dlls
-    if(INSTALL_TO_BUILD_PATH AND WIN32)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMENT "Copy target ${PROJECT_NAME} runtime dlls ... $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/bin"
-            COMMAND_EXPAND_LISTS
-        )
-    endif()
+#    if(INSTALL_TO_BUILD_PATH AND WIN32)
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#            COMMENT "Copy target ${PROJECT_NAME} runtime dlls ... $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>"
+#            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/bin"
+#            COMMAND_EXPAND_LISTS
+#        )
+#    endif()
 
     if(NOT PARA_NO_INSTALL)
         # Install target
