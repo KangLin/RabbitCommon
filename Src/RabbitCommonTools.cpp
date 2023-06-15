@@ -105,7 +105,17 @@ QString CTools::GetLanguage()
 
 QString CTools::Version()
 {
-    return RabbitCommon_VERSION;
+    QString szReturn;
+    QString szVersion(RabbitCommon_VERSION);
+    QString szRevision(RabbitCommon_REVISION);
+    if(szRevision.isEmpty()) {
+        szReturn = QObject::tr("Version: ") + szVersion;
+    } else {
+        szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: ")
+                + "<a href=\"http://github.com/KangLin/RabbitCommon/tree/" + szRevision + "\">"
+                + szRevision + "</a>) ";
+    }
+    return szReturn;
 }
 
 QString CTools::Information()
@@ -124,6 +134,27 @@ QString CTools::Information()
 #if defined(BUILD_QUIWidget)
     szInfo += QObject::tr("  - Have QUIWidget") + "\n";
 #endif
+    szInfo += QObject::tr("  - Applicatoin folders and files: ") + "\n";
+    szInfo += QObject::tr("    - Install root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
+    szInfo += QObject::tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";
+    szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirConfig() + "\n";
+    szInfo += QObject::tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileApplicationConfigure() + "\n";
+    szInfo += QObject::tr("    - Translations path: ") + RabbitCommon::CDir::Instance()->GetDirTranslations() + "\n";
+    szInfo += QObject::tr("    - Log path: ") + RabbitCommon::CDir::Instance()->GetDirLog() + "\n";
+    szInfo += QObject::tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirData() + "\n";
+    szInfo += QObject::tr("    - Icons path: ") + RabbitCommon::CDir::Instance()->GetDirIcons() + "\n";
+    szInfo += QObject::tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirDatabase() + "\n";
+    szInfo += QObject::tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirDatabaseFile() + "\n";
+    szInfo += QObject::tr("    - Plugins path: ") + RabbitCommon::CDir::Instance()->GetDirPlugins() + "\n";
+    szInfo += QObject::tr("  - User folders and files: ") + "\n";
+    szInfo += QObject::tr("    - Documents path: ") + RabbitCommon::CDir::Instance()->GetDirUserDocument() + "\n";
+    szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirUserConfig() + "\n";
+    szInfo += QObject::tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileUserConfigure() + "\n";
+    szInfo += QObject::tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirUserData() + "\n";
+    szInfo += QObject::tr("    - Image path: ") + RabbitCommon::CDir::Instance()->GetDirUserImage() + "\n";
+    szInfo += QObject::tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabase() + "\n";
+    szInfo += QObject::tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabaseFile() + "\n";
+
     return szInfo;
 }
 

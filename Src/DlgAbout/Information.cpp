@@ -22,7 +22,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     QString szRabbitCommon, szOS, szQt, szHost;
 
     szRabbitCommon += "\n" + tr("### RabbitCommon") + "\n";
-    szRabbitCommon += "- " + tr("RabbitCommon version: ") + RabbitCommon::CTools::Version() + "\n";
+    szRabbitCommon += "- " + RabbitCommon::CTools::Version() + "\n";
     szRabbitCommon += RabbitCommon::CTools::Information();
 
     szQt += tr("### Qt") + "\n";
@@ -67,7 +67,8 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
 #endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName();
 #endif
-    SetContext(tr("Application"), szApp + szInfo + szRabbitCommon);
+    SetContext(tr("Application"), szApp + szInfo);
+    SetContext(tr("RabbitCommon"), szRabbitCommon);
     //SetContext(tr("RabbitCommon"), szRabbitCommon);
     SetContext(tr("Qt"), szQt);
     if(!szOS.isEmpty())
@@ -75,7 +76,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
 
-    //qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
+    qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
 }
 
 CInformation::~CInformation()
