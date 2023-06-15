@@ -61,7 +61,7 @@ int CStyle::LoadStyle()
     bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
     if(bIconTheme) {
         QIcon::setThemeSearchPaths(QIcon::themeSearchPaths()
-                                   << RabbitCommon::CDir::Instance()->GetDirIcons(true));
+                          << RabbitCommon::CDir::Instance()->GetDirIcons(true));
         QString szThemeName = QIcon::themeName();
         if(szThemeName.isEmpty())
             szThemeName = m_szDefaultIconTheme;
@@ -70,7 +70,7 @@ int CStyle::LoadStyle()
         
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
         QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                                      << RabbitCommon::CDir::Instance()->GetDirIcons(true));
+                          << RabbitCommon::CDir::Instance()->GetDirIcons(true));
         QString szFallbackThemeName = QIcon::fallbackThemeName();
         if(szFallbackThemeName.isEmpty())
             szFallbackThemeName = m_szDefaultFallbackIconTheme;

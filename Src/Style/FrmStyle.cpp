@@ -38,7 +38,11 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
     foreach(auto d, QIcon::themeSearchPaths())
     {
         QDir dir(d);
-        if(!dir.exists()) continue;
+        if(!dir.exists())
+        {
+            qDebug(RabbitCommon::LoggerStyle) << "Folder isn't exists:" << d;
+            continue;
+        }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
         if(RabbitCommon::CDir::Instance()->GetDirIcons() == d) continue;
 #endif
@@ -48,10 +52,13 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
                                               << "Theme dir:" << themeName;
             QFileInfo fi(dir.absolutePath() + QDir::separator()
                          + themeName + QDir::separator() + "index.theme");
-            if(!fi.exists())
-                continue;
-            qDebug(RabbitCommon::LoggerStyle) << "Theme:" << themeName;
-            ui->cbIconTheme->addItem(themeName);
+            if(fi.exists())
+            {
+                qDebug(RabbitCommon::LoggerStyle) << "Theme:" << themeName;
+                ui->cbIconTheme->addItem(themeName);
+            } else {
+                qDebug(RabbitCommon::LoggerStyle) << "index.theme is not exists:" << fi.fileName();
+            }
         }
     }
     if(!QIcon::themeName().isEmpty())

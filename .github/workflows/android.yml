@@ -16,13 +16,11 @@ jobs:
         qt_arch: [android_armv7, android_x86_64]
         qt_version: [6.5.1]
         include:
-          - BUILD_TYPE: Release
-            qt_arch: android_armv7
+          - qt_arch: android_armv7
             qt_version: 6.5.1
             VCPKG_TARGET_TRIPLET: arm-android
 
-          - BUILD_TYPE: Release
-            qt_version: 6.5.1
+          - qt_version: 6.5.1
             qt_arch: android_x86_64 
             VCPKG_TARGET_TRIPLET: x64-android
 
