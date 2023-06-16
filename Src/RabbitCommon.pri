@@ -7,6 +7,7 @@ QT *= core xml
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
 isEmpty(RabbitCommon_VERSION): error("Please set RabbitCommon_VERSION")
+
 #VERSION=$$replace(RabbitCommon_VERSION, v,)
 #win32{
 #    VERSION=$$split(VERSION, -)

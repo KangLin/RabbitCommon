@@ -10,25 +10,21 @@ CONFIG(staticlib): CONFIG*=static
 isEmpty(RabbitCommon_VERSION) {
     isEmpty(GIT) : GIT=$$(GIT)
     isEmpty(GIT) : GIT=git
-    isEmpty(GIT_DESCRIBE) {
-        GIT_DESCRIBE = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT describe --tags)
-        isEmpty(RabbitCommon_VERSION) {
-            RabbitCommon_VERSION = $$GIT_DESCRIBE
-        }
-    }
     isEmpty(RabbitCommon_VERSION) {
-        RabbitCommon_VERSION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT rev-parse --short HEAD)
+        RabbitCommon_VERSION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT describe --tags)
     }
     
-    isEmpty(RabbitCommon_VERSION){
+    RabbitCommon_REVISION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT rev-parse --short HEAD)
+
+    isEmpty(RabbitCommon_REVISION){
         warning("Built without git, please add RabbitCommon_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
     }
 }
 isEmpty(RabbitCommon_VERSION){
     RabbitCommon_VERSION="v1.0.13"
 }
-message("RabbitCommon RabbitCommon_VERSION:$$RabbitCommon_VERSION")
-DEFINES += RabbitCommon_VERSION=\"\\\"$$quote($$RabbitCommon_VERSION)\\\"\"
+message("RabbitCommon RabbitCommon_VERSION:$$RabbitCommon_VERSION; RabbitCommon_REVISION:$$RabbitCommon_REVISION")
+DEFINES += RabbitCommon_VERSION=\"\\\"$$quote($$RabbitCommon_VERSION)\\\"\" RabbitCommon_REVISION=\"\\\"$$quote($$RabbitCommon_REVISION)\\\"\"
 
 isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
