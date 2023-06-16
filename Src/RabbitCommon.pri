@@ -192,13 +192,13 @@ android{
 style.target = style
 style.files = $$PWD/Resource/style/*
 CONFIG(release, debug|release): style.files += $$PWD/QUIWidget/Resource/qss/*
-android: style.path = $$system_path($${PREFIX}/assets/data/style)
+android: style.path = $$system_path(assets/data/style)
 else: style.path = $$system_path($${PREFIX}/data/style)
 style.CONFIG += directory no_check_exist
 # Install QIcon theme
-IconTheme.targ = IconTheme
+IconTheme.target = IconTheme
 IconTheme.files = $$PWD/Resource/icons/*
-android: IconTheme.path = $$system_path($${PREFIX}/assets/data/icons)
+android: IconTheme.path = $$system_path(assets/data/icons)
 else: IconTheme.path = $$system_path($${PREFIX}/data/icons)
 IconTheme.CONFIG += directory no_check_exist
 INSTALLS += style IconTheme
