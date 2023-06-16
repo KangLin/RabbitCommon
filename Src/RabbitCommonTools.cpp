@@ -134,7 +134,7 @@ QString CTools::Information()
 #if defined(BUILD_QUIWidget)
     szInfo += QObject::tr("  - Have QUIWidget") + "\n";
 #endif
-    szInfo += QObject::tr("  - Applicatoin folders and files: ") + "\n";
+    szInfo += QObject::tr("  - Applicatoin paths and files: ") + "\n";
     szInfo += QObject::tr("    - Install root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
     szInfo += QObject::tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";
     szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirConfig() + "\n";

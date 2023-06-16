@@ -993,11 +993,11 @@ function(ADD_TARGET)
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION})
     endif()
-    
+
     if(DEFINED PARA_LIBS AND PARA_LIBS)
         target_link_libraries(${PARA_NAME} PUBLIC ${PARA_LIBS})
     endif()
-    
+
     if(DEFINED PARA_PRIVATE_LIBS AND PARA_PRIVATE_LIBS)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
     endif()
@@ -1020,7 +1020,7 @@ function(ADD_TARGET)
     if(DEFINED PARA_PRIVATE_INCLUDE_DIRS AND PARA_PRIVATE_INCLUDE_DIRS)
         target_include_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_INCLUDE_DIRS})
     endif()
-    
+
     # Target compile options
     IF(MSVC)
         # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
