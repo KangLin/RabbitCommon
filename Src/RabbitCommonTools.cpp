@@ -80,6 +80,8 @@ CTools::CTools()
 
 CTools::~CTools()
 {
+    if(g_pDcokDebugLog)
+        delete g_pDcokDebugLog;
 }
 
 CTools* CTools::Instance()
@@ -403,7 +405,10 @@ QMenu *CTools::GetLogMenu(QWidget *parent)
 
         pMainWindow->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea,
                                    g_pDcokDebugLog);
+    } else {
+        qDebug(Logger) << "CTools::GetLogMenu: The parent suggest is MainWindow pointer";
     }
+
     if(g_pDcokDebugLog) {
         QAction* pDock = g_pDcokDebugLog->toggleViewAction();
         pMenu->addAction(pDock);
