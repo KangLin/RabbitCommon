@@ -76,7 +76,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
 
-    qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
+    //qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
 }
 
 CInformation::~CInformation()

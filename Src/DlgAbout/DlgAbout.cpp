@@ -418,7 +418,7 @@ void CDlgAbout::on_pbDetails_clicked()
 
     QCursor cursor = this->cursor();
     setCursor(Qt::WaitCursor);
-    CInformation info(szApp, m_szInfo, this);
+    CInformation info(szApp, m_szDetails, this);
 #if defined (Q_OS_ANDROID)
     info.showMaximized();
 #endif
