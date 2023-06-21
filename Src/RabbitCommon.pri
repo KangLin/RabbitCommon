@@ -43,6 +43,9 @@ CONFIG(staticlib): CONFIG*=static
 CONFIG(static): DEFINES *= RABBITCOMMON_STATIC_DEFINE
 else: DEFINES *= RabbitCommon_EXPORTS
 
+# 设置 Relase 时，qDebug 打印文件名与行号
+DEFINES *= QT_MESSAGELOGCONTEXT
+
 !equals(WITH_GUI, "OFF") {
     QT *= gui
     greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets

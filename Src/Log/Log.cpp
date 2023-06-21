@@ -162,8 +162,12 @@ CLog::CLog() : QObject(),
     }
 
 #else
-
-    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{if-debug}DEBUG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}ERROR%{endif}%{if-fatal}FATALF%{endif} [%{category}] - %{message} [%{file}:%{line}, %{function}]";
+    
+    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{if-debug}DEBUG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}ERROR%{endif}%{if-fatal}FATALF%{endif} [%{category}] - %{message}";
+#ifdef QT_MESSAGELOGCONTEXT
+    // Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release
+    szPattern += " [%{file}:%{line}, %{function}]";
+#endif
     QString szFilterRules;
     quint64 nInterval = 60; // Unit: second
 #if !(defined(DEBUG) || defined(_DEBUG))
