@@ -5,6 +5,7 @@
 #include "RabbitCommonDir.h"
 #include <QMenu>
 #include <QSettings>
+#include <QScrollBar>
 
 CDockDebugLog* g_pDcokDebugLog = nullptr;
 
@@ -14,6 +15,12 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->hide();
+    
+    connect(this, &QDockWidget::visibilityChanged, this, [=](bool visible) {
+        if (visible) {
+            ui->txtDebugLog->horizontalScrollBar()->setValue(0);
+        }
+    });
 
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);

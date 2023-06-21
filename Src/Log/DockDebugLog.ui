@@ -27,10 +27,13 @@
        <bool>true</bool>
       </property>
       <property name="textInteractionFlags">
-       <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       <set>Qt::NoTextInteraction</set>
       </property>
       <property name="maximumBlockCount">
        <number>2000</number>
+      </property>
+      <property name="backgroundVisible">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

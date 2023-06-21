@@ -61,6 +61,13 @@
 extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    QtMessageHandler g_originalMessageHandler = Q_NULLPTR;
+#else
+    QtMsgHandler g_originalMessageHandler = Q_NULLPTR;
+#endif
+    
+
 namespace RabbitCommon {
 
 QLoggingCategory Logger("RabbitCommon");
@@ -229,14 +236,12 @@ CLog::CLog() : QObject(),
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
-#ifndef Q_OS_ANDROID
     #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         qSetMessagePattern(szPattern);
-        qInstallMessageHandler(myMessageOutput);
+        g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
     #else
-        qInstallMsgHandler(myMessageOutput);
+        g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
     #endif
-#endif
 
     QDir d;
     if(!d.exists(m_szPath))
@@ -531,15 +536,6 @@ void CLog::myMessageOutput(QtMsgType type,
             g_pDcokDebugLog->AddLog(szMsg);
 #endif
 
-#if defined(Q_OS_WIN)
-        #ifdef UNICODE
-            OutputDebugString(szMsg.toStdWString().c_str());
-        #else
-            OutputDebugString(szMsg.toStdString().c_str());
-        #endif
-#else
-        fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
-#endif
     /*
     QFile f(CLog::Instance()->GetLogFile());
     if(!f.open(QFile::WriteOnly | QFile::Append))
@@ -559,12 +555,23 @@ void CLog::myMessageOutput(QtMsgType type,
     }
 
     //f.close();
+    
+//#if defined(Q_OS_WIN)
+//#ifdef UNICODE
+//    OutputDebugString(szMsg.toStdWString().c_str());
+//#else
+//    OutputDebugString(szMsg.toStdString().c_str());
+//#endif
+//#else
+//    fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
+//#endif
+    if(g_originalMessageHandler)
+        g_originalMessageHandler(type, context, msg);
 }
 #else
 void CLog::myMessageOutput(QtMsgType type, const char* msg)
 {
     QString szMsg(msg);
-    fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
 
     QFile f(CLog::Instance()->GetLogFile());
     if(!f.open(QFile::WriteOnly | QFile::Append))
@@ -580,6 +587,9 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
     CLog::Instance()->m_Mutex.unlock();
 
     f.close();
+
+    if(g_originalMessageHandler)
+        g_originalMessageHandler(type, msg);
 }
 #endif
 

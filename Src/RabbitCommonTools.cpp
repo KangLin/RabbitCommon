@@ -384,7 +384,7 @@ QString CTools::GetHostName()
 }
 
 #ifdef HAVE_RABBITCOMMON_GUI
-QMenu *CTools::GetLogMenu(QWidget *parent)
+QMenu* CTools::GetLogMenu(QWidget *parent)
 {
     QMenu* pMenu = new QMenu(QObject::tr("Log"), parent);
     if(!pMenu) return pMenu;
@@ -410,6 +410,8 @@ QMenu *CTools::GetLogMenu(QWidget *parent)
     }
 
     if(g_pDcokDebugLog) {
+        // Must set ObjectName then restore it. See: saveState help document
+        g_pDcokDebugLog->setObjectName("dockDebugLog");
         QAction* pDock = g_pDcokDebugLog->toggleViewAction();
         pMenu->addAction(pDock);
         pDock->setText(QObject::tr("Log dock"));
