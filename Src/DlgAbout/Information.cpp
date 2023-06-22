@@ -18,14 +18,17 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
 {
     ui->setupUi(this);
     ui->tabWidget->removeTab(0);
-
-    QString szRabbitCommon, szOS, szQt, szHost;
-
-    szRabbitCommon += "\n" + tr("### RabbitCommon") + "\n";
+    
+    SetContext(tr("Application"), szApp + szInfo);
+    
+    QString szRabbitCommon;
+    szRabbitCommon = "\n" + tr("### RabbitCommon") + "\n";
     szRabbitCommon += "- " + RabbitCommon::CTools::Version() + "\n";
     szRabbitCommon += RabbitCommon::CTools::Information();
-
-    szQt += tr("### Qt") + "\n";
+    SetContext(tr("RabbitCommon"), szRabbitCommon);
+    
+    QString szQt;
+    szQt = tr("### Qt") + "\n";
     szQt += "- " + tr("Qt runtime version: ") + QString(qVersion()) + "\n";
     szQt += "- " + tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
@@ -33,6 +36,19 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
 #endif
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
     szQt += "\n";
+    szQt += tr("- OpenSSL:") + "\n";
+    if(QSslSocket::supportsSsl())
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        szQt += "  - " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+#endif
+        szQt += "  - " + tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
+    } else {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        szQt += "  - " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+#endif
+        szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+    }
     szQt += "- " + tr("Standard paths:") + "\n";
     for(int i = 0; i < 19; i++)
     {
@@ -48,8 +64,11 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
         szQt += "\n";
     }
     szQt += "\n";
+    SetContext(tr("Qt"), szQt);
+    
+    QString szOS;
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
-    szOS += tr("### OS") + "\n";
+    szOS = tr("### OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
@@ -60,19 +79,16 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
     szOS += "- " + tr("CPU: ") + QSysInfo::currentCpuArchitecture() + "\n";
     szOS += "- " + tr("Build CPU: ") + QSysInfo::buildCpuArchitecture() + "\n";
-
-    szHost += tr("### Host") + "\n";
+    if(!szOS.isEmpty())
+        SetContext(tr("OS"), szOS);
+    
+    QString szHost;
+    szHost = tr("### Host") + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
     szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
 #endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName();
 #endif
-    SetContext(tr("Application"), szApp + szInfo);
-    SetContext(tr("RabbitCommon"), szRabbitCommon);
-    //SetContext(tr("RabbitCommon"), szRabbitCommon);
-    SetContext(tr("Qt"), szQt);
-    if(!szOS.isEmpty())
-        SetContext(tr("OS"), szOS);
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
 

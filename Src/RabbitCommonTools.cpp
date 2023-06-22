@@ -21,6 +21,11 @@
 #include <QLocale>
 #include <QDir>
 #include <QStandardPaths>
+#include <QSslSocket>
+
+#if defined(HAVE_OPENSSL)
+    #include "openssl/opensslv.h"
+#endif
 
 #ifdef WINDOWS
     #include <windows.h>
@@ -129,9 +134,20 @@ QString CTools::Information()
 #endif
 #if defined(HAVE_ABOUT)
     szInfo += QObject::tr("  - Have about diaglog") + "\n";
+//    #ifdef HAVE_CMARK_GFM
+//    szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
+//    #elif HAVE_CMARK
+//    szInfo += QObject::tr("    - Use cmark") + "\n";
+//    #endif
+//    #ifdef HAVE_WebEngineWidgets
+//    szInfo += QObject::tr("    - Use WebEngineWidgets") + "\n";
+//    #endif
 #endif
 #if defined(HAVE_UPDATE)
     szInfo += QObject::tr("  - Have update") + "\n";
+#endif
+#if defined(HAVE_OPENSSL)
+    szInfo += QObject::tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
 #if defined(BUILD_QUIWidget)
     szInfo += QObject::tr("  - Have QUIWidget") + "\n";
@@ -157,6 +173,31 @@ QString CTools::Information()
     szInfo += QObject::tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabase() + "\n";
     szInfo += QObject::tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabaseFile() + "\n";
 
+    szInfo += QObject::tr("- Dependent libraries:") + "\n";
+    szInfo += QObject::tr("  - OpenSSL:") + "\n";
+#if defined(HAVE_OPENSSL)
+    szInfo += "    - " + QObject::tr("RabbitCommon Build Version: ") + OPENSSL_VERSION_TEXT + "\n";
+#endif
+    if(QSslSocket::supportsSsl())
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+#endif
+        szInfo += "    - " + QObject::tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
+    } else {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+#endif
+        szInfo += "    - " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+    }
+#ifdef HAVE_CMARK_GFM
+    szInfo += QObject::tr("  - cmark-gfm") + "\n";
+#elif HAVE_CMARK
+    szInfo += QObject::tr("  - cmark") + "\n";
+#endif
+#ifdef HAVE_WebEngineWidgets
+    szInfo += QObject::tr("  - WebEngineWidgets") + "\n";
+#endif
     return szInfo;
 }
 
