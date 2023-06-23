@@ -465,7 +465,7 @@ function(INSTALL_TARGET)
             INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
                     DESTINATION "${CMAKE_INSTALL_BINDIR}"
                         COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
-        ENDIF(WIN32 AND BUILD_SHARED_LIBS)
+        ENDIF()
         
     else(PARA_ISPLUGIN) # Is not plugin
         
