@@ -7,7 +7,7 @@ if [ $# -lt 4 ]; then
     echo "Please using:"
     echo "$0 source_path \"source_color\" destination_path \"destination_color\""
 	echo "ag:"
-	echo "$0 ../Src/Resource/icons/black \"#000000\" ../Src/Resource/icons/white \"#ffffff\""
+	echo "$0 ../Src/Resource/icons/green \"#00ff00\" ../Src/Resource/icons/white \"#ffffff\""
     exit
 fi
 
