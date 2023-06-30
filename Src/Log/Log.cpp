@@ -163,7 +163,7 @@ CLog::CLog() : QObject(),
 
 #else
     
-    QString szPattern = "%{time hh:mm:ss.zzz} [%{threadid}] %{if-debug}DEBUG%{endif}%{if-info}INFO%{endif}%{if-warning}WARN%{endif}%{if-critical}ERROR%{endif}%{if-fatal}FATALF%{endif} [%{category}] - %{message}";
+    QString szPattern = "[%{time hh:mm:ss.zzz} %{pid}|%{threadid} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}E%{endif}%{if-fatal}F%{endif}] %{category} - %{message} [%{file}:%{line}, %{function}]";
 #ifdef QT_MESSAGELOGCONTEXT
     // Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release
     szPattern += " [%{file}:%{line}, %{function}]";
