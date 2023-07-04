@@ -667,11 +667,11 @@ function(INSTALL_TARGET)
         endif(PARA_ISEXE)
 
         # Install dependencies runtime dlls
-        if(NOT ANDROID)
-            install(FILES $<TARGET_RUNTIME_DLLS:${PARA_NAME}>
-                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
-        endif()
+#        if(NOT ANDROID)
+#            install(FILES $<TARGET_RUNTIME_DLLS:${PARA_NAME}>
+#                DESTINATION "${CMAKE_INSTALL_BINDIR}"
+#                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
+#        endif()
 
         # Windows 下分发
         IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
