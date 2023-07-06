@@ -334,7 +334,7 @@ function(INSTALL_TARGETS)
     endforeach()
 endfunction()
 
-option(INSTALL_QT "Don't install qt libraries" ON)
+option(INSTALL_QT "Install qt libraries" ON)
 # 安装目标
 #    [必须]NAME                  目标名
 #    ISEXE                      是执行程序目标还是库目标
