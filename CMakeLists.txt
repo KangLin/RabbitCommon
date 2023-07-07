@@ -14,7 +14,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-SET(RabbitCommon_VERSION "v1.0.13")
+SET(RabbitCommon_VERSION "v1.0.14")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
