@@ -8,6 +8,11 @@
   - Add INSTALL_DIR
   - Add INSTALL_FILE
   - Add install dependencies runtime dlls
++ CFrmStyle
+  - Fix CFrmStyle is deleted on close
+  - Add RabbitCommon::CTools::AddStyleMenu
+  - Add RabbitCommon::CTools::InsertStyleMenu
+
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak

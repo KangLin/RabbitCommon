@@ -11,7 +11,7 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
     ui(new Ui::CFrmStyle),
     m_bShowIconTheme(bShowIconTheme)
 {
-    setAttribute(Qt::WA_QuitOnClose, false);
+    setAttribute(Qt::WA_DeleteOnClose, true);
     ui->setupUi(this);
 
     ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());
@@ -95,6 +95,7 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
 
 CFrmStyle::~CFrmStyle()
 {
+    qDebug(RabbitCommon::LoggerStyle) << "CFrmStyle::~CFrmStyle()";
     delete ui;
 }
 

@@ -8,6 +8,10 @@
   - 增加 INSTALL_DIR
   - 增加 INSTALL_FILE
   - 增加 install dependencies runtime dlls
++ CFrmStyle
+  - 修复 CFrmStyle is deleted on close
+  - 增加 RabbitCommon::CTools::AddStyleMenu
+  - 增加 RabbitCommon::CTools::InsertStyleMenu
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

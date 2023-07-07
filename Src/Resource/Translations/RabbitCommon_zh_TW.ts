@@ -953,28 +953,34 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="430"/>
+        <location filename="../../RabbitCommonTools.cpp" line="431"/>
+        <location filename="../../RabbitCommonTools.cpp" line="441"/>
+        <source>Style</source>
+        <translation>樣式</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="451"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="434"/>
+        <location filename="../../RabbitCommonTools.cpp" line="455"/>
         <location filename="../../Log/DockDebugLog.cpp" line="82"/>
         <source>Open Log configure file</source>
         <translation>打開日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="437"/>
+        <location filename="../../RabbitCommonTools.cpp" line="458"/>
         <source>Open Log file</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="440"/>
+        <location filename="../../RabbitCommonTools.cpp" line="461"/>
         <source>Open log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="458"/>
+        <location filename="../../RabbitCommonTools.cpp" line="479"/>
         <source>Log dock</source>
         <translation>日誌 - 停泊條</translation>
     </message>

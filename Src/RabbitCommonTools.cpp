@@ -425,6 +425,27 @@ QString CTools::GetHostName()
 }
 
 #ifdef HAVE_RABBITCOMMON_GUI
+QAction* CTools::AddStyleMenu(QMenu *pMenu, QWidget *parent)
+{
+    return pMenu->addAction(QIcon::fromTheme("style"),
+                            QObject::tr("Style"),
+                            [&](){
+                                CFrmStyle* s = new CFrmStyle(parent);
+                                s->show();
+                            });
+}
+
+void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
+{
+    QAction* pAction = new QAction(QIcon::fromTheme("style"),
+                                   QObject::tr("Style"), parent);
+    QObject::connect(pAction, &QAction::triggered, [&](){
+        CFrmStyle* s = new CFrmStyle(parent);
+        s->show();
+    });
+    pMenu->insertAction(before, pAction);
+}
+
 QMenu* CTools::GetLogMenu(QWidget *parent)
 {
     QMenu* pMenu = new QMenu(QObject::tr("Log"), parent);

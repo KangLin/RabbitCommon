@@ -27,7 +27,11 @@ class CFrmStyle;
  *  RabbitCommon::CTools::Instance()->Init();
  *  \endcode
  *
- *  - 设置样式。在程序需要打开设置样式对话框：
+ *  - 设置样式：
+ *    - [可选] 增加打开样式对话框菜单
+ *      - [可选] 使用 RabbitCommon::CTools::AddStyleMenu
+ *      - [可选] 使用 RabbitCommon::CTools::InsertStyleMenu
+ *    - [可选] 在程序需要打开设置样式对话框：
  *   \code
  *   CFrmStyle* s = new CFrmStyle();
  *   s->show();
@@ -48,7 +52,11 @@ class CFrmStyle;
  *  RabbitCommon::CTools::Instance()->Init();
  *  \endcode
  *
- * - Set the style. In the program you need to open the Set Style dialog box:
+ * - Set the style:
+ *   - [Options] Add the menu of set style dialog
+ *     - [Options] Use RabbitCommon::CTools::AddStyleMenu
+ *     - [Options] Use RabbitCommon::CTools::InsertStyleMenu
+ *   - [Options] In the program you need to open the set style dialog box:
  *   \code
  *   CFrmStyle* s = new CFrmStyle();
  *   s->show();

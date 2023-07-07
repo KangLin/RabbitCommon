@@ -102,6 +102,8 @@ public:
                                    const QString &szName = QString());
     
 #ifdef HAVE_RABBITCOMMON_GUI
+    static QAction* AddStyleMenu(QMenu* pMenu, QWidget *parent = nullptr);
+    static void InsertStyleMenu(QMenu* pMenu, QAction* before, QWidget *parent = nullptr);
     static QMenu* GetLogMenu(QWidget *parent = nullptr);
 
     static int RestoreWidget(QWidget* pWidget);
