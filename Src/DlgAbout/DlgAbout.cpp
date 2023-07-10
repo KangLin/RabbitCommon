@@ -54,17 +54,20 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 #endif
 
     ui->setupUi(this);
-    
+
     setAttribute(Qt::WA_QuitOnClose, true);
-    
+
     m_szAppName = qApp->applicationDisplayName();
-    
+
     m_szVersion = qApp->applicationVersion();
 #ifdef RabbitCommon_VERSION
     if(m_szVersion.isEmpty())
+    {
+        qWarning(RabbitCommon::Logger) << "The m_szVersion is not set. Please use qApp->setApplicationVersion() or m_szVersion";
         m_szVersion = RabbitCommon_VERSION;
+    }
 #endif
-    
+
 #ifdef BUILD_ARCH
     m_szArch = BUILD_ARCH;
 #endif
@@ -77,9 +80,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
-    
+
     DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
-    
+
 #if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     m_pLicense = new QWebEngineView(ui->tabWidget);
     ui->tabWidget->addTab(m_pLicense, tr("License"));
@@ -112,7 +115,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
                     this, SLOT(slotDonation(const QPoint &)));
     Q_ASSERT(check);
 #endif
-    
+
 }
 
 void CDlgAbout::showEvent(QShowEvent *event)
