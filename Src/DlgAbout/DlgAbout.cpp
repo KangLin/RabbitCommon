@@ -316,7 +316,9 @@ int CDlgAbout::DownloadFile(const QUrl &url)
 
 QString CDlgAbout::BuildTime()
 {
-    return QString("%1/%2").arg(__DATE__, __TIME__);
+    if(m_szBuildTime.isEmpty())
+        return QString("%1/%2").arg(__DATE__, __TIME__);
+    return m_szBuildTime;
 }
 
 QString CDlgAbout::Version()

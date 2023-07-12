@@ -78,6 +78,7 @@ public:
     QString m_szVersionRevision;
     QString m_szVersionRevisionUrl;
     QString m_szArch;
+    QString m_szBuildTime;
     QString m_szDetails; // The applaction's information append to details dialog
     QString m_szAuthor;
     QString m_szEmail;
