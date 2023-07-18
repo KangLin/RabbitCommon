@@ -171,7 +171,7 @@ QString CStyle::GetStyle()
         szPath = fi.absoluteFilePath();
     }
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
-    szFile = RabbitCommon::CDir::GetOpenFileName(pParent, tr("Open sink"),
+    szFile = QFileDialog::getOpenFileName(pParent, tr("Open sink"),
                  szPath,
                  tr("Style files(*.qss *.css);; All files(*.*)"));
     return szFile;

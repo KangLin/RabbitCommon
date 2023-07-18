@@ -112,25 +112,6 @@ public:
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);
-#ifdef HAVE_RABBITCOMMON_GUI
-    Q_DECL_DEPRECATED_X ("Use QFileDialog")
-    static QString GetOpenDirectory(QWidget *parent = nullptr,
-                      const QString &caption = QString(),
-                      const QString &dir = QString(),
-                      QFileDialog::Options options = QFileDialog::Options());
-    Q_DECL_DEPRECATED_X ("Use QFileDialog")
-    static QString GetOpenFileName(QWidget *parent = nullptr,
-                      const QString &caption = QString(),
-                      const QString &dir = QString(),
-                      const QString &filter = QString(),
-                      QFileDialog::Options options = QFileDialog::Options());
-    Q_DECL_DEPRECATED_X ("Use QFileDialog")
-    static QString GetSaveFileName(QWidget *parent = nullptr,
-                      const QString &caption = QString(),
-                      const QString &dir = QString(),
-                      const QString &filter = QString(),
-                      QFileDialog::Options options = QFileDialog::Options());
-#endif //HAVE_RABBITCOMMON_GUI
 
 private:
     CDir();

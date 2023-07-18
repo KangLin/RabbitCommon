@@ -12,6 +12,10 @@
   - 修复 CFrmStyle is deleted on close
   - 增加 RabbitCommon::CTools::AddStyleMenu
   - 增加 RabbitCommon::CTools::InsertStyleMenu
++ CDir:
+  - 删除 GetOpenDirectory
+  - 删除 GetOpenFileName
+  - 删除 GetSaveFileName
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

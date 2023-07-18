@@ -12,7 +12,10 @@
   - Fix CFrmStyle is deleted on close
   - Add RabbitCommon::CTools::AddStyleMenu
   - Add RabbitCommon::CTools::InsertStyleMenu
-
++ CDir:
+  - Remove GetOpenDirectory
+  - Remove GetOpenFileName
+  - Remove GetSaveFileName
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak

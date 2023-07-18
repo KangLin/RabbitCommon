@@ -251,10 +251,10 @@ void CDlgAbout::slotSaveDonation()
 {
     QString szDir = RabbitCommon::CDir::Instance()->GetDirUserImage()
             + QDir::separator() + "donation.png";
-    QString szFile = RabbitCommon::CDir::GetSaveFileName(this,
-                                                         tr("Save donation picture"),
-                                                         szDir,
-                                                         tr("Images (*.png *.xpm *.jpg)"));
+    QString szFile =  QFileDialog::getSaveFileName(this,
+                                           tr("Save donation picture"),
+                                           szDir,
+                                           tr("Images (*.png *.xpm *.jpg)"));
     QFileInfo fi(szFile);
     if(fi.suffix().isEmpty())
         szFile += ".png";
