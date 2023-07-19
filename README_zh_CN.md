@@ -61,6 +61,8 @@
   + [ ] IOS
   
   Mac os 和 IOS ，本人没有相应设备，请有相应设备的同学自己编译，测试。
+
+  详见：[Qt5 支持平台](https://doc.qt.io/qt-5/supported-platforms.html)、[Qt6 支持平台](https://doc.qt.io/qt-6/supported-platforms.html)。
   
 ### 编译
 - 建立并进入build目录

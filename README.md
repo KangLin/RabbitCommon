@@ -63,6 +63,8 @@ Qt common library. include follow functions:
   Mac os and IOS, I don't have the corresponding equipment,
   please compile and test the students with the corresponding equipment.
 
+  See: [Qt5](https://doc.qt.io/qt-5/supported-platforms.html), [Qt6](https://doc.qt.io/qt-6/supported-platforms.html)
+
 ### Compile
 - Create and entry build directory
 
