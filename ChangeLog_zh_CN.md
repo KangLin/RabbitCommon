@@ -1,3 +1,10 @@
+### 版本： v1.0.15
++ 修复自启动错误
+
+### 版本： v1.0.14
++ 修复 CFrmStyle 在关闭时，未删除错误
++ 修复 find_package(RabbitCommon) 错误
+
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏
 + 文档: 修复 titlebar 注释 BUG

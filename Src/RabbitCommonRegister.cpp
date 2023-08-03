@@ -53,6 +53,12 @@ int CRegister::InstallStartRunCurrentUser(QString szName, QString szPath)
 
     QString appPath = GetDesktopFileName(szPath, szName);
     QFile f(appPath);
+    if(!f.exists())
+    {
+        qCCritical(Logger) << "The desktop file is not exist." << appPath;
+        return -2;
+    }
+
     bool ret = f.link(szLink);
     if(ret) return 0;
 
@@ -344,8 +350,8 @@ QString CRegister::GetDesktopFileName(const QString &szPath,
 
 QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
 {
-    QString appName 
-            = "org.Rabbit." + QCoreApplication::applicationName() +".desktop";
+    QString appName
+        = "org.Rabbit." + QCoreApplication::applicationName() +".desktop";
     if(!szName.isEmpty()) appName = szName;
     QString szLink;
     if(bAllUser)
@@ -353,9 +359,16 @@ QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
         szLink = "/etc/xdg";
     } else {
         szLink = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
-                    + "/.config";
+                 + "/.config";
     }
-    szLink += "/autostart/" + appName;
+    szLink += "/autostart";
+    QDir d(szLink);
+    if(!d.exists())
+    {
+        qWarning(Logger) << "Create directory" << szLink;
+        d.mkpath(szLink);
+    }
+    szLink += "/" + appName;
     return szLink;
 }
 

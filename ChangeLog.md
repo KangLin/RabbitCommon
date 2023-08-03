@@ -1,3 +1,10 @@
+### Version: v1.0.15
++ Fix start up bug
+
+### Version: v1.0.14
++ Fix CFrmStyle is deleted on close
++ FIX: find_package(RabbitCommon) bug
+
 ### Version: v1.0.13
 + Fix CFrmUpdater memery leak
 + Documents: fix titlebar comments bug
