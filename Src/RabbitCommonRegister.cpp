@@ -100,7 +100,7 @@ bool CRegister::IsStartRunCurrentUser(QString szName)
     
     return false;
 #elif defined(Q_OS_UNIX)
-    QString szLink = GetDesktopFileLink(szName);
+    QString szLink = GetDesktopFileLink(szName, false);
     if(QFile::exists(szLink))
         return true;
     return false;
@@ -332,6 +332,15 @@ bool CRegister::IsRegister(const QString &reg, const QString &name)
     return !val.isEmpty();
 }
 
+/*
+ * ubuntu icon of desktop position:
+ *
+ *  - All user: /usr/share/applications or /usr/local/share/applications
+ *  - Current user: ~/.local/share/applications
+ *
+ * See: debian/postinst
+ * See: https://blog.csdn.net/jiang_huixin/article/details/107092622
+ */
 QString CRegister::GetDesktopFileName(const QString &szPath,
                                    const QString &szName)
 {
@@ -347,9 +356,16 @@ QString CRegister::GetDesktopFileName(const QString &szPath,
     return appPath + QDir::separator() + appName;
 }
 
+/*
+    //See: debian/postinst and Install/install.sh
+    //Ubuntu use gnome-session-properties
+    // - Current user: ~/.config/autostart
+    // - All user: /etc/xdg/autostart/
+    //https://blog.csdn.net/DinnerHowe/article/details/79025282
+ */
 QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
 {
-    QString appName 
+    QString appName
             = "org.Rabbit." + QCoreApplication::applicationName() +".desktop";
     if(!szName.isEmpty()) appName = szName;
     QString szLink;
@@ -361,6 +377,11 @@ QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
                     + "/.config";
     }
     szLink += "/autostart";
+    /*
+     * LINUX 应该有脚本 debian/postinst 建立好目录。
+     * 但是由于安装时是 root 用户。使用时是当前用户。
+     * 所以当前用户可能未正确建立。
+     */
     QDir d(szLink);
     if(!d.exists())
     {

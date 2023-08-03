@@ -72,10 +72,12 @@ public:
      * \param arguments
      */
     static bool executeByRoot(const QString &program, const QStringList &arguments = QStringList());
-
+    
     /*!
      * \brief InstallStartRun: auto run when startup
-     * \param szName
+     * \param szName: The programe name
+     *                - Windows: is programe name
+     *                - Linux: the name of desktop file.
      * \param szPath
      * \param bAllUser:
      *          - true: all user
