@@ -16,6 +16,7 @@
   - Remove GetOpenDirectory
   - Remove GetOpenFileName
   - Remove GetSaveFileName
++ Fix auto start
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak

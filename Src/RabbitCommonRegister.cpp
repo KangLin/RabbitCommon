@@ -53,10 +53,15 @@ int CRegister::InstallStartRunCurrentUser(QString szName, QString szPath)
 
     QString appPath = GetDesktopFileName(szPath, szName);
     QFile f(appPath);
+    if(!f.exists())
+    {
+        qCCritical(Logger) << "The desktop file is not exist." << appPath;
+        return -1;
+    }
     bool ret = f.link(szLink);
     if(ret) return 0;
 
-    qDebug(Logger) << "f.link fail:" << f.error() << f.errorString();
+    qCritical(Logger) << "f.link fail[" << f.error() << "]:" << f.errorString();
     if(QFileDevice::RenameError == f.error()) return 0;
 
     QString szCmd = "ln -s " + appPath + " " + szLink;
@@ -355,7 +360,14 @@ QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
         szLink = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
                     + "/.config";
     }
-    szLink += "/autostart/" + appName;
+    szLink += "/autostart";
+    QDir d(szLink);
+    if(!d.exists())
+    {
+        qWarning(Logger) << "Create directory" << szLink;
+        d.mkpath(szLink);
+    }
+    szLink += "/" + appName;
     return szLink;
 }
 

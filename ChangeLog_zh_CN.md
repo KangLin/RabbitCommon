@@ -16,6 +16,7 @@
   - 删除 GetOpenDirectory
   - 删除 GetOpenFileName
   - 删除 GetSaveFileName
++ 修复自启错误
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

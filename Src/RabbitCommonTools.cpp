@@ -317,6 +317,11 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
 
     appPath = CRegister::GetDesktopFileName(szPath, szName);
     QFile f(appPath);
+    if(!f.exists())
+    {
+        qCCritical(Logger) << "The desktop file is not exist." << appPath;
+        return -2;
+    }
     bool ret = f.link(szLink);
     if(!ret)
     {
