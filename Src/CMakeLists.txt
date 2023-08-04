@@ -533,11 +533,6 @@ IF(OpenSSL_FOUND)
             APPEND PROPERTY QT_ANDROID_EXTRA_LIBS
             $<TARGET_FILE:OpenSSL::SSL>
             $<TARGET_FILE:OpenSSL::Crypto>)
-    else()
-        list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
-    endif()
-    if(WIN32)
-        INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
     endif()
 ENDIF()
 
