@@ -731,6 +731,8 @@ endfunction()
 #    PRIVATE_INCLUDE_DIRS           私有包含目录
 #    LIBS                           公有依赖库
 #    PRIVATE_LIBS                   私有依赖库
+#    LINK_DIRECTORIES               连接目录
+#    PRIVATE_LINK_DIRECTORIES       私有连接目录
 #    DEFINITIONS                    公有宏定义
 #    PRIVATE_DEFINITIONS            私有宏宏义
 #    OPTIONS                        公有选项
@@ -761,19 +763,21 @@ endfunction()
 #         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
 function(ADD_TARGET)
     SET(MUT_PARAS
-        SOURCE_FILES            #源文件（包括头文件，资源文件等）
-        INSTALL_HEADER_FILES    #如果是库，要安装的头文件
-        INCLUDE_DIRS            #包含目录
-        PRIVATE_INCLUDE_DIRS    #私有包含目录
-        LIBS                    #公有依赖库
-        PRIVATE_LIBS            #私有依赖库
-        DEFINITIONS             #公有宏定义
-        PRIVATE_DEFINITIONS     #私有宏宏义
-        OPTIONS                 #公有选项
-        PRIVATE_OPTIONS         #私有选项
-        FEATURES                #公有特性
-        PRIVATE_FEATURES        #私有特性
-        INSTALL_INCLUDES        #导出包安装的头文件目录
+        SOURCE_FILES             #源文件（包括头文件，资源文件等）
+        INSTALL_HEADER_FILES     #如果是库，要安装的头文件
+        INCLUDE_DIRS             #包含目录
+        PRIVATE_INCLUDE_DIRS     #私有包含目录
+        LIBS                     #公有依赖库
+        PRIVATE_LIBS             #私有依赖库
+        LINK_DIRECTORIES         #连接目录
+        PRIVATE_LINK_DIRECTORIES #私有连接目录
+        DEFINITIONS              #公有宏定义
+        PRIVATE_DEFINITIONS      #私有宏宏义
+        OPTIONS                  #公有选项
+        PRIVATE_OPTIONS          #私有选项
+        FEATURES                 #公有特性
+        PRIVATE_FEATURES         #私有特性
+        INSTALL_INCLUDES         #导出包安装的头文件目录
         )
     SET(SINGLE_PARAS
         NAME
@@ -806,6 +810,8 @@ function(ADD_TARGET)
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
                 [PRIVATE_LIBS lib1 [lib2 ...]]
+                [LINK_DIRECTORIES dir1 [dir2 ...]]
+                [PRIVATE_LINK_DIRECTORIES dir1 [dir2 ...]]
                 [INCLUDE_DIRS [include_dir1 ...]]
                 [PRIVATE_INCLUDE_DIRS [include_dir1 ...]]
                 [DEFINITIONS [definition1 ...]]
@@ -1004,6 +1010,14 @@ function(ADD_TARGET)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
     endif()
 
+    if(PARA_LINK_DIRECTORIES)
+        target_link_directories(${PARA_NAME} PRIVATE ${PARA_LINK_DIRECTORIES})
+    endif()
+    
+    if(PARA_PRIVATE_LINK_DIRECTORIES)
+        target_link_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LINK_DIRECTORIES})
+    endif()
+
     # Target compile definitions
     target_compile_definitions(${PARA_NAME} PRIVATE
         $<$<CONFIG:Debug>:_DEBUG DEBUG>
@@ -1117,6 +1131,8 @@ endfunction()
 #  PRIVATE_INCLUDE_DIRS    私有包含目录
 #  LIBS                    公有依赖库
 #  PRIVATE_LIBS            私有依赖库
+#  LINK_DIRECTORIES               连接目录
+#  PRIVATE_LINK_DIRECTORIES       私有连接目录
 #  DEFINITIONS             公有宏定义
 #  PRIVATE_DEFINITIONS     私有宏宏义
 #  OPTIONS                 公有选项
@@ -1133,6 +1149,8 @@ function(ADD_PLUGIN_TARGET)
         PRIVATE_INCLUDE_DIRS    #私有包含目录
         LIBS                    #公有依赖库
         PRIVATE_LIBS            #私有依赖库
+        LINK_DIRECTORIES         #连接目录
+        PRIVATE_LINK_DIRECTORIES #私有连接目录
         DEFINITIONS             #公有宏定义
         PRIVATE_DEFINITIONS     #私有宏宏义
         OPTIONS                 #公有选项
@@ -1151,6 +1169,8 @@ function(ADD_PLUGIN_TARGET)
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [LIBS lib1 [lib2 ...]]
                 [PRIVATE_LIBS lib1 [lib2 ...]]
+                [LINK_DIRECTORIES dir1 [dir2 ...]]
+                [PRIVATE_LINK_DIRECTORIES dir1 [dir2 ...]]
                 [INCLUDE_DIRS [include_dir1 ...]]
                 [PRIVATE_INCLUDE_DIRS [include_dir1 ...]]
                 [DEFINITIONS [definition1 ...]]
@@ -1185,6 +1205,8 @@ function(ADD_PLUGIN_TARGET)
         SOURCE_FILES ${PARA_SOURCE_FILES}
         LIBS ${PARA_LIBS}
         PRIVATE_LIBS ${PARA_PRIVATE_LIBS}
+        LINK_DIRECTORIES ${PRIVATE_LINK_DIRECTORIES}
+        PRIVATE_LINK_DIRECTORIES ${PARA_PRIVATE_LINK_DIRECTORIES}
         DEFINITIONS ${PARA_DEFINITIONS}
         PRIVATE_DEFINITIONS ${PARA_PRIVATE_DEFINITIONS}
         OPTIONS ${PARA_OPTIONS}
