@@ -4,11 +4,27 @@ project(RabbitCommon)
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
+
+#打开 qt 编译工具
+SET(CMAKE_AUTOUIC ON)
+SET(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTORCC ON)
+
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+endif()
+set(_QT_COMPONENTS Core Network)
+
+if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_C_STANDARD 17)
+else()
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_C_STANDARD 11)
+endif()
 
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
@@ -32,11 +48,6 @@ else()
     set(BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
-#打开 qt 编译工具
-SET(CMAKE_AUTOUIC ON)
-SET(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTORCC ON)
-
 include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
@@ -57,11 +68,6 @@ set(RABBITCOMMON_HEAD_FILES )
 set(RABBITCOMMON_INCLUDE_DIRS
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
-
-if(NOT DEFINED QT_VERSION_MAJOR)
-    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-endif()
-set(_QT_COMPONENTS Core Network)
 
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
