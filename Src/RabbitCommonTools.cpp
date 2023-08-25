@@ -413,10 +413,11 @@ QString CTools::GetCurrentUser()
     pwd = getpwuid(getuid());
     return pwd->pw_name;
 #elif WINDOWS
-    WCHAR szUserName[MAX_PATH] = {0};
+    CHAR szUserName[MAX_PATH] = {0};
 	DWORD dwSize=MAX_PATH;
-	::GetUserName(szUserName, &dwSize);
-    return QString::fromWCharArray(szUserName, dwSize);
+	::GetUserNameA(szUserName, &dwSize);
+    return szUserName;
+    //return QString::fromWCharArray(szUserName, dwSize);
 #else
     return QDir::home().dirName();
 #endif
