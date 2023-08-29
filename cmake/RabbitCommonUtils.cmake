@@ -685,7 +685,7 @@ function(INSTALL_TARGET)
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
-                    --no-translations
+                    #--no-translations
                     --dir "${CMAKE_BINARY_DIR}/DependLibraries"
                     --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
                     --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
@@ -697,7 +697,7 @@ function(INSTALL_TARGET)
                     COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                     --no-compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                     --verbose 7
-                    --no-translations
+                    #--no-translations
                     --dir "${CMAKE_BINARY_DIR}/DependLibraries"
                     --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
                     --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
