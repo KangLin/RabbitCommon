@@ -117,6 +117,7 @@ private:
     virtual ~CTools();
     
     QTranslator m_Translator, m_TranslatorQt;
+    bool m_bTranslator, m_bTranslatorQt;
     
     QString m_szLanguage;
 };

@@ -79,7 +79,7 @@ inline void g_RabbitCommon_CleanResource()
 
 namespace RabbitCommon {
 
-CTools::CTools()
+CTools::CTools() : m_bTranslator(false), m_bTranslatorQt(false)
 {   
 }
 
@@ -224,32 +224,33 @@ void CTools::InitTranslator(const QString szLanguage)
     qInfo(Logger) << "Language:" << szLanguage;
     QString szFile = CDir::Instance()->GetDirTranslations()
             + "/RabbitCommon_" + szLanguage + ".qm";
-    bool ret = m_Translator.load(szFile);
-    if(ret)
+    m_bTranslator = m_Translator.load(szFile);
+    if(m_bTranslator)
     {
-        ret = qApp->installTranslator(&m_Translator);
-        if(!ret)
-            qCritical(Logger) << "translator install translator fail:" << szFile;
+        m_bTranslator = qApp->installTranslator(&m_Translator);
+        if(!m_bTranslator)
+            qCritical(Logger) << "Install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "translator load fail:" << szFile;
+        qCritical(Logger) << "Load translator file fail:" << szFile;
 
     szFile = CDir::Instance()->GetDirApplication()
             + QDir::separator() + "translations"
             + QDir::separator() + "qt_" + szLanguage + ".qm";
-    ret = m_TranslatorQt.load(szFile);
-    if(ret)
+    m_bTranslatorQt = m_TranslatorQt.load(szFile);
+    if(m_bTranslatorQt)
     {
-        ret = qApp->installTranslator(&m_TranslatorQt);
-        if(!ret)
-            qCritical(Logger) << "Qt translator install translator fail:" << szFile;
+        m_bTranslatorQt = qApp->installTranslator(&m_TranslatorQt);
+        if(!m_bTranslatorQt)
+            qCritical(Logger) << "Install qt translator fail:" << szFile;
     } else
-        qCritical(Logger) << "Qt translator load fail:" << szFile;
+        qCritical(Logger) << "Load qt translator file fail:" << szFile;
 }
 
 void CTools::CleanTranslator()
 {
     qApp->removeTranslator(&m_TranslatorQt);
-    qApp->removeTranslator(&m_Translator);
+    if(m_bTranslator)
+        qApp->removeTranslator(&m_Translator);
 }
 
 void CTools::InitResource()
