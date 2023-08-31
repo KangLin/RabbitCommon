@@ -162,31 +162,31 @@
 <context>
     <name>CDockDebugLog</name>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="34"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="38"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="37"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="50"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="56"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="73"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="41"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="54"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="60"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="77"/>
         <source>Wrap</source>
         <translation>捆綁行</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="45"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="49"/>
         <source>Clear</source>
         <translation>清理</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="59"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="68"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="63"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="72"/>
         <source>No wrap</source>
         <translation>不捆綁行</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="85"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="89"/>
         <source>Open log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
@@ -761,14 +761,12 @@
         <translation type="vanished">保存</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="55"/>
         <source>Application Error</source>
-        <translation>應用錯誤</translation>
+        <translation type="vanished">應用錯誤</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="56"/>
         <source>I&apos;m Sorry, Application is Crash! The path: </source>
-        <translation>程序崩潰！轉儲文件：</translation>
+        <translation type="vanished">程序崩潰！轉儲文件：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="119"/>
@@ -950,34 +948,34 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="431"/>
-        <location filename="../../RabbitCommonTools.cpp" line="441"/>
+        <location filename="../../RabbitCommonTools.cpp" line="438"/>
+        <location filename="../../RabbitCommonTools.cpp" line="448"/>
         <source>Style</source>
         <translation>樣式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="451"/>
+        <location filename="../../RabbitCommonTools.cpp" line="458"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="455"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="82"/>
+        <location filename="../../RabbitCommonTools.cpp" line="462"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="86"/>
         <source>Open Log configure file</source>
         <translation>打開日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="458"/>
+        <location filename="../../RabbitCommonTools.cpp" line="465"/>
         <source>Open Log file</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="461"/>
+        <location filename="../../RabbitCommonTools.cpp" line="468"/>
         <source>Open log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="479"/>
+        <location filename="../../RabbitCommonTools.cpp" line="486"/>
         <source>Log dock</source>
         <translation>日誌 - 停泊條</translation>
     </message>

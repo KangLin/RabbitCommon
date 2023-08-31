@@ -16,11 +16,15 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
     ui->setupUi(this);
     this->hide();
     
-    connect(this, &QDockWidget::visibilityChanged, this, [=](bool visible) {
+    bool check = connect(this, &QDockWidget::visibilityChanged, this, [=](bool visible) {
         if (visible) {
             ui->txtDebugLog->horizontalScrollBar()->setValue(0);
         }
     });
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(sigAddLog(QString)),
+                    this, SLOT(slotAddLog(QString)));
+    Q_ASSERT(check);
 
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -98,7 +102,7 @@ CDockDebugLog::~CDockDebugLog()
     delete ui;
 }
 
-int CDockDebugLog::AddLog(const QString &szLog)
+int CDockDebugLog::slotAddLog(const QString &szLog)
 {
     ui->txtDebugLog->appendPlainText(szLog);
     return 0;

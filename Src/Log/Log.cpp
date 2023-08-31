@@ -495,7 +495,7 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
     //std::cout << szTemp;
 #ifdef HAVE_RABBITCOMMON_GUI
     if(g_pDcokDebugLog)
-        g_pDcokDebugLog->AddLog(szTemp.c_str());
+        emit g_pDcokDebugLog->sigAddLog(szTemp.c_str());
 #endif
     qDebug() << szTemp.c_str();
     
@@ -537,7 +537,7 @@ void CLog::myMessageOutput(QtMsgType type,
 
 #ifdef HAVE_RABBITCOMMON_GUI
         if(g_pDcokDebugLog)
-            g_pDcokDebugLog->AddLog(szMsg);
+            emit g_pDcokDebugLog->sigAddLog(szMsg);
 #endif
 
     /*

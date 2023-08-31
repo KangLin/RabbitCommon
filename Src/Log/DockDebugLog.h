@@ -19,8 +19,12 @@ class CDockDebugLog : public QDockWidget
 public:
     explicit CDockDebugLog(QWidget *parent = nullptr);
     virtual ~CDockDebugLog();
+    
+Q_SIGNALS:
+    void sigAddLog(const QString& szLog);
 
-    int AddLog(const QString& szLog);
+private Q_SLOTS:
+    int slotAddLog(const QString& szLog);
     
 private:
     Ui::CDockDebugLog *ui;
