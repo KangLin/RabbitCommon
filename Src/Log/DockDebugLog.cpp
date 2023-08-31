@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QSettings>
 #include <QScrollBar>
+#include <QInputDialog>
 
 CDockDebugLog* g_pDcokDebugLog = nullptr;
 
@@ -26,7 +27,7 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
                     this, SLOT(slotAddLog(QString)));
     Q_ASSERT(check);
 
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+    static QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
 
     RabbitCommon::CTitleBar* pDockTitleBar = new RabbitCommon::CTitleBar(this);
@@ -79,6 +80,23 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
                 p->setChecked(false);
                 ui->txtDebugLog->setLineWrapMode(QPlainTextEdit::NoWrap);
             }
+            int nWrap = ui->txtDebugLog->lineWrapMode();
+            set.setValue("DockDebugLog/Wrap", nWrap);
+        });
+        
+        int nMaxBlockCount = set.value("DockDebugLog/MaximumBlockCount", ui->txtDebugLog->maximumBlockCount()).toInt();
+        ui->txtDebugLog->setMaximumBlockCount(nMaxBlockCount);
+        pMenu->addAction(tr("Set maximum block count"), [&](){
+            bool ok = false;
+            int count = QInputDialog::getInt(this,
+                                             tr("Set maximum block count"),
+                                             tr("Set maximum block count"),
+                                             ui->txtDebugLog->maximumBlockCount(),
+                                             0, 100000, 1, &ok);
+            if(ok) {
+                this->ui->txtDebugLog->setMaximumBlockCount(count);
+                set.setValue("DockDebugLog/MaximumBlockCount", ui->txtDebugLog->maximumBlockCount());
+            }
         });
 
         pMenu->addSeparator();
@@ -94,10 +112,6 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
 
 CDockDebugLog::~CDockDebugLog()
 {
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                  QSettings::IniFormat);
-    int nWrap = ui->txtDebugLog->lineWrapMode();
-    set.setValue("DockDebugLog/Wrap", nWrap);
     g_pDcokDebugLog = nullptr;
     delete ui;
 }

@@ -162,31 +162,38 @@
 <context>
     <name>CDockDebugLog</name>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="38"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="39"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="41"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="54"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="60"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="77"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="42"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="55"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="61"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="78"/>
         <source>Wrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="49"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="50"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="63"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="72"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="64"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="73"/>
         <source>No wrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Log/DockDebugLog.cpp" line="89"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="92"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="93"/>
+        <source>Set maximum block count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="107"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -932,7 +939,7 @@
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="462"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="86"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="104"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
