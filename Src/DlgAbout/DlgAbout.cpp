@@ -334,9 +334,13 @@ QString CDlgAbout::Version()
                     m_szHomePage + "/tree/" + m_szVersionRevision;
         }
         szVersion = tr("Version: ") + m_szVersion + tr(" (From revision: ")
-                + "<a href=\"" + m_szVersionRevisionUrl + "\">"
-                + m_szVersionRevision + "</a>) " + " " + tr("Arch: ")
-                + m_szArch;
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
+                    + "<a href=\"" + m_szVersionRevisionUrl + "\">"
+                    + m_szVersionRevision + "</a>"
+#else
+                    + m_szVersionRevision
+#endif
+                    + ") " + tr("Arch: ") + m_szArch;
     }
     return szVersion;
 }

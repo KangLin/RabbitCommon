@@ -119,8 +119,13 @@ QString CTools::Version()
         szReturn = QObject::tr("Version: ") + szVersion;
     } else {
         szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: ")
-                + "<a href=\"http://github.com/KangLin/RabbitCommon/tree/" + szRevision + "\">"
-                + szRevision + "</a>) ";
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
+                   + "<a href=\"http://github.com/KangLin/RabbitCommon/tree/" + szRevision + "\">"
+                   + szRevision + "</a>"
+#else
+                   + szRevision
+#endif
+                   + ") ";
     }
     return szReturn;
 }

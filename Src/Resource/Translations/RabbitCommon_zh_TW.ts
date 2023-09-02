@@ -869,7 +869,7 @@
         <location filename="../../RabbitCommonTools.cpp" line="162"/>
         <location filename="../../RabbitCommonTools.cpp" line="171"/>
         <source>    - Data path: </source>
-        <translation>    - 數據目錄</translation>
+        <translation>    - 數據目錄：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="163"/>
