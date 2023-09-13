@@ -94,7 +94,7 @@
     </message>
     <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="329"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="338"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="343"/>
         <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,17 +104,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="420"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="424"/>
         <source>Build Date/Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="421"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="425"/>
         <source>File Path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="422"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="426"/>
         <source>Arguments: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -154,7 +154,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="418"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="422"/>
         <source>### </source>
         <translation type="unfinished"></translation>
     </message>
@@ -187,13 +187,45 @@
     </message>
     <message>
         <location filename="../../Log/DockDebugLog.cpp" line="89"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="92"/>
+        <source>Filter: include</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../Log/DockDebugLog.cpp" line="93"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="110"/>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="94"/>
+        <source>Include the following</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="94"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="111"/>
+        <source>(Regular expressions are supported)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="106"/>
+        <source>Filter: exclude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="111"/>
+        <source>exclude the following</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DockDebugLog.cpp" line="123"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="126"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="127"/>
         <source>Set maximum block count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="107"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="141"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -771,190 +803,190 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="131"/>
+        <location filename="../../RabbitCommonTools.cpp" line="136"/>
         <source>- Functions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="133"/>
+        <location filename="../../RabbitCommonTools.cpp" line="138"/>
         <source>  - Have GUI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="136"/>
+        <location filename="../../RabbitCommonTools.cpp" line="141"/>
         <source>  - Have about diaglog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="147"/>
+        <location filename="../../RabbitCommonTools.cpp" line="152"/>
         <source>  - Have update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="150"/>
+        <location filename="../../RabbitCommonTools.cpp" line="155"/>
         <source>  - Have encrypt(OPENSSL)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="153"/>
+        <location filename="../../RabbitCommonTools.cpp" line="158"/>
         <source>  - Have QUIWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="155"/>
+        <location filename="../../RabbitCommonTools.cpp" line="160"/>
         <source>  - Applicatoin paths and files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="156"/>
+        <location filename="../../RabbitCommonTools.cpp" line="161"/>
         <source>    - Install root path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="157"/>
+        <location filename="../../RabbitCommonTools.cpp" line="162"/>
         <source>    - Application path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="158"/>
-        <location filename="../../RabbitCommonTools.cpp" line="169"/>
+        <location filename="../../RabbitCommonTools.cpp" line="163"/>
+        <location filename="../../RabbitCommonTools.cpp" line="174"/>
         <source>    - Configure path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="159"/>
-        <location filename="../../RabbitCommonTools.cpp" line="170"/>
+        <location filename="../../RabbitCommonTools.cpp" line="164"/>
+        <location filename="../../RabbitCommonTools.cpp" line="175"/>
         <source>    - Configure file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="160"/>
+        <location filename="../../RabbitCommonTools.cpp" line="165"/>
         <source>    - Translations path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="161"/>
+        <location filename="../../RabbitCommonTools.cpp" line="166"/>
         <source>    - Log path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="162"/>
-        <location filename="../../RabbitCommonTools.cpp" line="171"/>
+        <location filename="../../RabbitCommonTools.cpp" line="167"/>
+        <location filename="../../RabbitCommonTools.cpp" line="176"/>
         <source>    - Data path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="163"/>
+        <location filename="../../RabbitCommonTools.cpp" line="168"/>
         <source>    - Icons path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="164"/>
-        <location filename="../../RabbitCommonTools.cpp" line="173"/>
+        <location filename="../../RabbitCommonTools.cpp" line="169"/>
+        <location filename="../../RabbitCommonTools.cpp" line="178"/>
         <source>    - Database path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="165"/>
-        <location filename="../../RabbitCommonTools.cpp" line="174"/>
+        <location filename="../../RabbitCommonTools.cpp" line="170"/>
+        <location filename="../../RabbitCommonTools.cpp" line="179"/>
         <source>    - Database file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="166"/>
+        <location filename="../../RabbitCommonTools.cpp" line="171"/>
         <source>    - Plugins path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="167"/>
+        <location filename="../../RabbitCommonTools.cpp" line="172"/>
         <source>  - User folders and files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="168"/>
+        <location filename="../../RabbitCommonTools.cpp" line="173"/>
         <source>    - Documents path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="172"/>
+        <location filename="../../RabbitCommonTools.cpp" line="177"/>
         <source>    - Image path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="176"/>
+        <location filename="../../RabbitCommonTools.cpp" line="181"/>
         <source>- Dependent libraries:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="177"/>
+        <location filename="../../RabbitCommonTools.cpp" line="182"/>
         <source>  - OpenSSL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="179"/>
+        <location filename="../../RabbitCommonTools.cpp" line="184"/>
         <source>RabbitCommon Build Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="184"/>
         <location filename="../../RabbitCommonTools.cpp" line="189"/>
+        <location filename="../../RabbitCommonTools.cpp" line="194"/>
         <source>Build Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="186"/>
+        <location filename="../../RabbitCommonTools.cpp" line="191"/>
         <source>Installed Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="191"/>
+        <location filename="../../RabbitCommonTools.cpp" line="196"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="194"/>
+        <location filename="../../RabbitCommonTools.cpp" line="199"/>
         <source>  - cmark-gfm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="196"/>
+        <location filename="../../RabbitCommonTools.cpp" line="201"/>
         <source>  - cmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="199"/>
+        <location filename="../../RabbitCommonTools.cpp" line="204"/>
         <source>  - WebEngineWidgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="438"/>
-        <location filename="../../RabbitCommonTools.cpp" line="448"/>
+        <location filename="../../RabbitCommonTools.cpp" line="443"/>
+        <location filename="../../RabbitCommonTools.cpp" line="453"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="458"/>
+        <location filename="../../RabbitCommonTools.cpp" line="463"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="462"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="104"/>
+        <location filename="../../RabbitCommonTools.cpp" line="467"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="138"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="465"/>
+        <location filename="../../RabbitCommonTools.cpp" line="470"/>
         <source>Open Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="468"/>
+        <location filename="../../RabbitCommonTools.cpp" line="473"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="486"/>
+        <location filename="../../RabbitCommonTools.cpp" line="491"/>
         <source>Log dock</source>
         <translation type="unfinished"></translation>
     </message>

@@ -44,6 +44,7 @@
 
 #ifdef HAVE_RABBITCOMMON_GUI
     #include "Log/DockDebugLog.h"
+    #include "Log/DlgFilter.h"
     extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
@@ -463,6 +464,19 @@ QMenu* CTools::GetLogMenu(QWidget *parent)
     QMenu* pMenu = new QMenu(QObject::tr("Log"), parent);
     if(!pMenu) return pMenu;
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
+    pMenu->addAction(QIcon::fromTheme("emblem-system"),
+                     QObject::tr("Settings"),
+                     [](){
+                         CDlgFilter dlg;
+                         QString szInclude, szExclude;
+                         CLog::Instance()->GetFilter(szInclude, szExclude);
+                         dlg.SetFilter(szInclude, szExclude);
+                         if(QDialog::Accepted == dlg.exec())
+                         {
+                             dlg.GetFilter(szInclude, szExclude);
+                             CLog::Instance()->SetFilter(szInclude, szExclude);
+                         }
+                     });
     pMenu->addAction(QIcon::fromTheme("document-open"),
                      QObject::tr("Open Log configure file"),
                      [](){RabbitCommon::OpenLogConfigureFile();});

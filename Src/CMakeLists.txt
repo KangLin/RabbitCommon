@@ -442,15 +442,19 @@ list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
     Log/Log.h
+    Log/DlgFilter.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
     Log/Log.cpp
+    Log/DlgFilter.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonEncrypt.cpp
     DownloadFile.cpp
     )
+
+list(APPEND RABBITCOMMON_SOURCE_UI_FILES Log/DlgFilter.ui)
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)

@@ -71,6 +71,8 @@ extern CDockDebugLog* g_pDcokDebugLog;
 namespace RabbitCommon {
 
 QLoggingCategory Logger("RabbitCommon");
+QRegularExpression g_reInclude;
+QRegularExpression g_reExclude;
 
 CLog::CLog() : QObject(),
     m_szFileFormat("yyyy-MM-dd"),
@@ -489,14 +491,14 @@ int CLog::Print(const char *pszFile, int nLine, const char* pszFunction, int nLe
         //return nRet;
     }
     szTemp += buf;
-    
+
     //std::cout << szTemp;
 #ifdef HAVE_RABBITCOMMON_GUI
     if(g_pDcokDebugLog)
         emit g_pDcokDebugLog->sigAddLog(szTemp.c_str());
 #endif
     qDebug() << szTemp.c_str();
-    
+
     return 0;
 }
 
@@ -521,6 +523,20 @@ QString CLog::GetLogDir()
     return fi.absolutePath();
 }
 
+int CLog::SetFilter(const QString &szInclude, const QString &szExclude)
+{
+    g_reInclude = QRegularExpression(szInclude);
+    g_reExclude = QRegularExpression(szExclude);
+    return 0;
+}
+
+int CLog::GetFilter(QString &szInclude, QString &szExclude)
+{
+    szInclude = g_reInclude.pattern();
+    szExclude = g_reExclude.pattern();
+    return 0;
+}
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 void CLog::myMessageOutput(QtMsgType type,
                            const QMessageLogContext &context,
@@ -532,6 +548,19 @@ void CLog::myMessageOutput(QtMsgType type,
     #else
         szMsg = msg;
     #endif
+        
+    if(g_reInclude.isValid() && !g_reInclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = g_reInclude.match(szMsg);
+        if(!m.hasMatch()) {
+            return;
+        }
+    }
+    if(g_reExclude.isValid() && !g_reExclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = g_reExclude.match(szMsg);
+        if(m.hasMatch()) {
+            return;
+        }
+    }
 
 #ifdef HAVE_RABBITCOMMON_GUI
         if(g_pDcokDebugLog)
@@ -557,16 +586,7 @@ void CLog::myMessageOutput(QtMsgType type,
     }
 
     //f.close();
-    
-//#if defined(Q_OS_WIN)
-//#ifdef UNICODE
-//    OutputDebugString(szMsg.toStdWString().c_str());
-//#else
-//    OutputDebugString(szMsg.toStdString().c_str());
-//#endif
-//#else
-//    fprintf(stderr, "%s\r\n", szMsg.toStdString().c_str());
-//#endif
+
     if(g_originalMessageHandler)
         g_originalMessageHandler(type, context, msg);
 }
@@ -574,21 +594,38 @@ void CLog::myMessageOutput(QtMsgType type,
 void CLog::myMessageOutput(QtMsgType type, const char* msg)
 {
     QString szMsg(msg);
-
+    
+    if(g_reInclude.isValid() && !g_reInclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = g_reInclude.match(szMsg);
+        if(!m.hasMatch()) {
+            return;
+        }
+    }
+    if(g_reExclude.isValid() && !g_reExclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = g_reExclude.match(szMsg);
+        if(m.hasMatch()) {
+            return;
+        }
+    }
+    
+    /*
     QFile f(CLog::Instance()->GetLogFile());
     if(!f.open(QFile::WriteOnly | QFile::Append))
     {
         fprintf(stderr, "Open log file fail. %s\n",
                 f.fileName().toStdString().c_str());
         return;
+    } //*/
+    
+    if(CLog::Instance()->m_File.isOpen())
+    {
+        QTextStream s(&CLog::Instance()->m_File);
+        CLog::Instance()->m_Mutex.lock();
+        s << szMsg << "\r\n";
+        CLog::Instance()->m_Mutex.unlock();
     }
 
-    QTextStream s(&f);
-    CLog::Instance()->m_Mutex.lock();
-    s << szMsg << "\r\n";
-    CLog::Instance()->m_Mutex.unlock();
-
-    f.close();
+    //f.close();
 
     if(g_originalMessageHandler)
         g_originalMessageHandler(type, msg);

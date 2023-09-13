@@ -3,6 +3,7 @@
 #include "TitleBar.h"
 #include "Log.h"
 #include "RabbitCommonDir.h"
+#include "DlgFilter.h"
 #include <QMenu>
 #include <QSettings>
 #include <QScrollBar>
@@ -83,7 +84,25 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
             int nWrap = ui->txtDebugLog->lineWrapMode();
             set.setValue("DockDebugLog/Wrap", nWrap);
         });
-        
+
+        QString szInclude = set.value("DockDebugLog/Filter/Include").toString();
+        SetInclude(szInclude);
+        QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
+        SetExclude(szExclude);
+        pMenu->addAction(tr("Filter"), [&](){
+            QString szInclude = set.value("DockDebugLog/Filter/Include").toString();
+            QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
+            CDlgFilter f;
+            f.SetFilter(szInclude, szExclude);
+            if(QDialog::Accepted == f.exec()) {
+                f.GetFilter(szInclude, szExclude);
+                this->SetInclude(szInclude);
+                this->SetExclude(szExclude);
+                set.setValue("DockDebugLog/Filter/Include", szInclude);
+                set.setValue("DockDebugLog/Filter/Exclude", szExclude);
+            }
+        });
+
         int nMaxBlockCount = set.value("DockDebugLog/MaximumBlockCount", ui->txtDebugLog->maximumBlockCount()).toInt();
         ui->txtDebugLog->setMaximumBlockCount(nMaxBlockCount);
         pMenu->addAction(tr("Set maximum block count"), [&](){
@@ -116,8 +135,32 @@ CDockDebugLog::~CDockDebugLog()
     delete ui;
 }
 
-int CDockDebugLog::slotAddLog(const QString &szLog)
+int CDockDebugLog::SetInclude(const QString &szInclude)
 {
-    ui->txtDebugLog->appendPlainText(szLog);
+    m_reInclude = QRegularExpression(szInclude);
     return 0;
+}
+
+int CDockDebugLog::SetExclude(const QString &szExclude)
+{
+    m_reExclude = QRegularExpression(szExclude);
+    return 0;
+}
+
+void CDockDebugLog::slotAddLog(const QString &szLog)
+{
+    if(m_reInclude.isValid() && !m_reInclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = m_reInclude.match(szLog);
+        if(!m.hasMatch()) {
+            return;
+        }
+    }
+    if(m_reExclude.isValid() && !m_reExclude.pattern().isEmpty()) {
+        QRegularExpressionMatch m = m_reExclude.match(szLog);
+        if(m.hasMatch()) {
+            return;
+        }
+    }
+    ui->txtDebugLog->appendPlainText(szLog);
+    return;
 }

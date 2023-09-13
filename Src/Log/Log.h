@@ -39,6 +39,9 @@ public:
     QString OpenLogConfigureFile();
     QString GetLogFile();
     QString GetLogDir();
+    
+    int SetFilter(const QString &szInclude, const QString &szExclude);
+    int GetFilter(QString &szInclude, QString &szExclude);
 
     /**
      * @brief 日志输出

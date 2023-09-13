@@ -2,6 +2,7 @@
 #define DOCKDEBUGLOG_H
 
 #include <QDockWidget>
+#include <QRegularExpression>
 
 namespace Ui {
 class CDockDebugLog;
@@ -19,15 +20,20 @@ class CDockDebugLog : public QDockWidget
 public:
     explicit CDockDebugLog(QWidget *parent = nullptr);
     virtual ~CDockDebugLog();
-    
+
 Q_SIGNALS:
     void sigAddLog(const QString& szLog);
 
 private Q_SLOTS:
-    int slotAddLog(const QString& szLog);
-    
+    void slotAddLog(const QString& szLog);
+
 private:
     Ui::CDockDebugLog *ui;
+    QRegularExpression m_reInclude;
+    QRegularExpression m_reExclude;
+    
+    int SetInclude(const QString& szInclude);
+    int SetExclude(const QString& szExclude);
 };
 
 #endif // DOCKDEBUGLOG_H
