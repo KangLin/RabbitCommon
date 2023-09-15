@@ -89,7 +89,7 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
         SetInclude(szInclude);
         QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
         SetExclude(szExclude);
-        pMenu->addAction(tr("Filter"), [&](){
+        pMenu->addAction(QIcon::fromTheme("filter"), tr("Filter"), [&](){
             QString szInclude = set.value("DockDebugLog/Filter/Include").toString();
             QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
             CDlgFilter f;
