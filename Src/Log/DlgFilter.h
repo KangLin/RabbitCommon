@@ -17,7 +17,11 @@ public:
     
     int SetFilter(const QString &szInclude, const QString &szExclude);
     int GetFilter(QString &szInclude, QString &szExclude);
-
+    
+private slots:    
+    void on_leInclude_editingFinished();
+    void on_leExclude_editingFinished();
+    
 private:
     Ui::CDlgFilter *ui;
 };

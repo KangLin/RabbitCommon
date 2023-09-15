@@ -176,6 +176,22 @@
         <source>Exclude the following(Regular expressions are supported):</source>
         <translation>排除下面內容（支持正則表達式）</translation>
     </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="39"/>
+        <source>Filter of include is error: </source>
+        <translation>過濾器包含表達式錯誤：</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="41"/>
+        <location filename="../../Log/DlgFilter.cpp" line="52"/>
+        <source>Error</source>
+        <translation>錯誤</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="50"/>
+        <source>Filter of exclude is error: </source>
+        <translation>過濾器排除表達式錯誤：</translation>
+    </message>
 </context>
 <context>
     <name>CDockDebugLog</name>

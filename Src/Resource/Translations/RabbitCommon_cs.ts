@@ -176,6 +176,22 @@
         <source>Exclude the following(Regular expressions are supported):</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="39"/>
+        <source>Filter of include is error: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="41"/>
+        <location filename="../../Log/DlgFilter.cpp" line="52"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgFilter.cpp" line="50"/>
+        <source>Filter of exclude is error: </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CDockDebugLog</name>
