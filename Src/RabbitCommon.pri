@@ -55,18 +55,22 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/RabbitRecentMenu.cpp \
         $$PWD/TitleBar.cpp \
         $$PWD/DockFolderBrowser/DockFolderBrowser.cpp \
-        $$PWD/Log/DockDebugLog.cpp
+        $$PWD/Log/DockDebugLog.cpp \
+        $$PWD/Log/DlgFilter.cpp
     INSTALL_HEADERS += \
         $$PWD/Style/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
         $$PWD/TitleBar.h \
         $$PWD/DockFolderBrowser/DockFolderBrowser.h \
-        $$PWD/Log/DockDebugLog.h
-    HEADERS += $$PWD/Style/Style.h $${INSTALL_HEADERS}
+    HEADERS += $${INSTALL_HEADERS} \
+        $$PWD/Style/Style.h \
+        $$PWD/Log/DockDebugLog.h \
+        $$PWD/Log/DlgFilter.h
     INCLUDEPATH += $$PWD/Style
     FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui \
-       $$PWD/Log/DockDebugLog.ui
+       $$PWD/Log/DockDebugLog.ui \
+       $$PWD/Log/DlgFilter.ui
 
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp

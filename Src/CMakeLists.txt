@@ -78,10 +78,11 @@ if(WITH_GUI)
         Style/FrmStyle.h
         TitleBar.h
         DockFolderBrowser/DockFolderBrowser.h
-        Log/DockDebugLog.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
+        Log/DockDebugLog.h
+        Log/DlgFilter.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
@@ -90,11 +91,13 @@ if(WITH_GUI)
         TitleBar.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
         Log/DockDebugLog.cpp
+        Log/DlgFilter.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
         DockFolderBrowser/DockFolderBrowser.ui
         Log/DockDebugLog.ui
+        Log/DlgFilter.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>
@@ -229,7 +232,6 @@ if(WITH_CMARK)
                 INSTALL_TARGETS(TARGETS cmark::cmark)
             endif()
         endif()
-        
     endif()
 endif(WITH_CMARK)
 
@@ -327,91 +329,7 @@ if(BUILD_ADMINAUTHORISER)
 endif(BUILD_ADMINAUTHORISER)
 
 OPTION(INSTALL_LOG_CONFIG_FILE "Install configure files" OFF)
-OPTION(WITH_LOG4QT "Use log4qt library" OFF)
-if(WITH_LOG4QT)
-    find_package(Log4Qt)
-    if(Log4Qt_FOUND)
-        set(CMAKE_CXX_STANDARD 17)
-        set(CMAKE_CXX_STANDARD_REQUIRED ON)
-        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4QT)
-        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS Log4Qt::log4qt)
-        LIST(APPEND _QT_COMPONENTS Concurrent)
-        INSTALL_TARGETS(TARGETS Log4Qt::log4qt)
-        # Install log4qt.properties configure file
-        if(INSTALL_LOG_CONFIG_FILE)
-            if(ANDROID)
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
-                    DESTINATION assets/etc
-                    COMPONENT Runtime
-                    )
-            else()
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4qt.conf
-                    DESTINATION etc
-                    COMPONENT Runtime
-                    )
-            endif()
-        endif()
-    else()
-        message("Download Log4Qt from https://github.com/MEONMedical/Log4Qt")
-    endif()
-endif()
-
-OPTION(WITH_LOG4CXX "Use log4cxx library" OFF)
-if(WITH_LOG4CXX)
-    find_package(log4cxx)
-    if(log4cxx_FOUND)
-        set(CMAKE_CXX_STANDARD 11)
-        set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CXX)
-        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cxx)
-        # Install log4cplus configure file
-        if(INSTALL_LOG_CONFIG_FILE)
-            if(ANDROID)
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
-                    DESTINATION assets/etc
-                    COMPONENT Runtime)
-            else()
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cxx.conf
-                    DESTINATION etc
-                    COMPONENT Runtime)
-            endif()
-        endif()
-    else()
-        message("Download log4cxx http://gitbox.apache.org/repos/asf/logging-log4cxx.git")
-    endif()
-endif()
-
-OPTION(WITH_LOG4CPLUS "Use log4cplus library" OFF)
-if(WITH_LOG4CPLUS)
-    find_package(log4cplus)
-    message("log4cplus:${log4cplus_FOUND}")
-    if(log4cplus_FOUND)
-        set(CMAKE_CXX_STANDARD 11)
-        set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-        #message("Found log4cplugs componts:${log4cplus_FIND_COMPONENTS}")
-        LIST(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_LOG4CPLUS)
-        LIST(APPEND RABBIT_PRIVATE_COMMON_LIBS log4cplus::log4cplus)
-        # Install log4cplus configure file
-        if(INSTALL_LOG_CONFIG_FILE)
-            if(ANDROID)
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
-                    DESTINATION assets/etc
-                    COMPONENT Runtime)
-            else()
-                INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/log4cplus.conf
-                    DESTINATION etc
-                    COMPONENT Runtime)
-            endif()
-        endif()
-    else()
-        message("Download log4cplus from https://github.com/log4cplus/log4cplus")
-    endif()
-endif()
-
-if(INSTALL_LOG_CONFIG_FILE AND
-        NOT (WITH_LOG4QT OR WITH_LOG4CXX OR WITH_LOG4CPLUS) )
+if(INSTALL_LOG_CONFIG_FILE)
     if(ANDROID)
         INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
             DESTINATION assets/etc
@@ -442,19 +360,15 @@ list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
     Log/Log.h
-    Log/DlgFilter.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
     Log/Log.cpp
-    Log/DlgFilter.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonEncrypt.cpp
     DownloadFile.cpp
     )
-
-list(APPEND RABBITCOMMON_SOURCE_UI_FILES Log/DlgFilter.ui)
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)

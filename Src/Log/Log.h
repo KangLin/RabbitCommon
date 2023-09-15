@@ -34,7 +34,6 @@ class CLog : QObject
 
 public:
     static CLog* Instance();
-    int EnablePrintThread(bool bPrint);
 
     QString OpenLogConfigureFile();
     QString GetLogFile();
@@ -43,23 +42,10 @@ public:
     int SetFilter(const QString &szInclude, const QString &szExclude);
     int GetFilter(QString &szInclude, QString &szExclude);
 
-    /**
-     * @brief 日志输出
-     * @param pszFile:打印日志处文件名
-     * @param nLine:打印日志处行号
-     * @param nLevel:打印日志错误级别
-     * @param pszModelName:打印日志的模块范围
-     * @param pFormatString:格式化字符串
-     * @return 
-     */
-    int Print(const char *pszFile, int nLine, const char* pszFunction, int nLevel,
-            const char* pszModelName, const char *pFormatString, ...);
-
 private:
     CLog();
     virtual ~CLog();
-    
-    bool m_bEnablePrintThread;
+
     QString m_szConfigureFile;
 
     QString m_szPath;
@@ -77,7 +63,7 @@ private:
         static void myMessageOutput(QtMsgType, const char *);
     #endif
     void checkFileCount();
-    int checkFileLength();
+    bool checkFileLength();
     QString getFileName();
     QString getNextFileName(const QString szFile);
 private Q_SLOTS:
