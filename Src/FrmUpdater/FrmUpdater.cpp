@@ -117,8 +117,10 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
                 + qApp->applicationName() + "/-/raw/master/Update/update.xml");
         QUrl gitee("https://gitee.com/kl222/"
                 + qApp->applicationName() + "/raw/master/Update/update.xml");
+        QUrl sourceforge("https://sourceforge.net/p/"
+                  + qApp->applicationName() + "/ci/master/tree/Update/update.xml?format=raw");
         // [Redirect xml file default urls]
-        m_Urls << github << gitlab << gitee;
+        m_Urls << github << gitee << sourceforge << gitlab;
     } else {
         m_Urls = urls;
     }
