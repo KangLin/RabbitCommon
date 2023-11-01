@@ -459,9 +459,9 @@ void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
     pMenu->insertAction(before, pAction);
 }
 
-QMenu* CTools::GetLogMenu(QWidget *parent)
+QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
 {
-    QMenu* pMenu = new QMenu(QObject::tr("Log"), parent);
+    QMenu* pMenu = new QMenu(QObject::tr("Log"), parentMainWindow);
     if(!pMenu) return pMenu;
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
     pMenu->addAction(QIcon::fromTheme("emblem-system"),
@@ -486,7 +486,7 @@ QMenu* CTools::GetLogMenu(QWidget *parent)
     pMenu->addAction(QIcon::fromTheme("folder-open"),
                      QObject::tr("Open log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
-    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parent);
+    QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parentMainWindow);
     if(pMainWindow) {
         if(!g_pDcokDebugLog)
             g_pDcokDebugLog = new CDockDebugLog(pMainWindow);
