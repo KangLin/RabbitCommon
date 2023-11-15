@@ -27,15 +27,15 @@ class CFrmStyle;
  *  RabbitCommon::CTools::Instance()->Init();
  *  \endcode
  *
- *  - 设置样式：
- *    - [可选] 增加打开样式对话框菜单
- *      - [可选] 使用 RabbitCommon::CTools::AddStyleMenu
- *      - [可选] 使用 RabbitCommon::CTools::InsertStyleMenu
+ *  - 设置样式。使用下列方法之一设置：
+ *    - [可选] 增加打开样式对话框菜单。使用下列方法之一设置：
+ *      - [可选] 使用 \ref RabbitCommon::CTools::AddStyleMenu
+ *      - [可选] 使用 \ref RabbitCommon::CTools::InsertStyleMenu
  *    - [可选] 在程序需要打开设置样式对话框：
- *   \code
- *   CFrmStyle* s = new CFrmStyle();
- *   s->show();
- *   \endcode
+ *      \code
+ *       CFrmStyle* s = new CFrmStyle();
+ *       s->show();
+ *      \endcode
  *
  *  - 在需要使用图标的地方调用 QIcon::fromTheme
  *   \code
@@ -47,20 +47,21 @@ class CFrmStyle;
  * \details
  *
  * Usge:
- * -Initialize. Add the following code at the beginning of the program:
+ * - Initialize. Add the following code at the beginning of the program:
  *  \code
  *  RabbitCommon::CTools::Instance()->Init();
  *  \endcode
  *
- * - Set the style:
- *   - [Options] Add the menu of set style dialog
+ * - Set the style. Use one of the following methods to set up:
+ *   - [Options] Add the menu of set style dialog.
+ *               Use one of the following methods to set up:
  *     - [Options] Use RabbitCommon::CTools::AddStyleMenu
  *     - [Options] Use RabbitCommon::CTools::InsertStyleMenu
  *   - [Options] In the program you need to open the set style dialog box:
- *   \code
- *   CFrmStyle* s = new CFrmStyle();
- *   s->show();
- *   \endcode
+ *     \code
+ *     CFrmStyle* s = new CFrmStyle();
+ *     s->show();
+ *     \endcode
  *
  *  - Call QIcon::fromTheme where you need to use the icon
  *   \code
@@ -78,8 +79,9 @@ class CFrmStyle;
  * \endcode
  *
  * \~
- * \see CStyle INSTALL_ICON_THEME()
- * \ingroup API
+ * \see RabbitCommon::CStyle RabbitCommon::CTools RabbitCommon::CTools::AddStyleMenu RabbitCommon::CTools::InsertStyleMenu
+ * \see INSTALL_ICON_THEME()
+  * \ingroup API
  */
 class RABBITCOMMON_EXPORT CFrmStyle : public QWidget
 {

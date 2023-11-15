@@ -1,6 +1,5 @@
 ### 版本： v2.0.0
 + 删除 RabbitCommonLog
-+ 修改样式接口
 + 自动化 ( github action ) 完成
 + 增加调试日志停泊条
 + Andoird 需要 Qt 版本大于或等于 6
@@ -8,10 +7,11 @@
   - 增加 INSTALL_DIR
   - 增加 INSTALL_FILE
   - 增加 install dependencies runtime dlls
-+ CFrmStyle
-  - 修复 CFrmStyle is deleted on close
-  - 增加 RabbitCommon::CTools::AddStyleMenu
-  - 增加 RabbitCommon::CTools::InsertStyleMenu
++ 修改样式接口
+  - CFrmStyle
+    + 修复 CFrmStyle is deleted on close
+    + 增加 RabbitCommon::CTools::AddStyleMenu
+    + 增加 RabbitCommon::CTools::InsertStyleMenu
 + CDir:
   - 删除 GetOpenDirectory
   - 删除 GetOpenFileName

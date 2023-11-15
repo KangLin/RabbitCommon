@@ -1,5 +1,11 @@
-/** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
- *  @author Kang Lin <kl222@126.com>
+/*!
+ * \~english
+ * \copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ * \author Kang Lin <kl222@126.com>
+ * 
+ * \~chinese
+ * \copyright 康林工作室版权所有 (c)，保留所有权力。
+ * \author 康　林 <kl222@126.com>
  */
 
 #ifndef RABBITCOMMON_TOOLS_H
@@ -18,11 +24,11 @@
 /*!
  * \~english
  * \defgroup API Application interface
- * \defgroup INTERNAL_API Internal API of RabbitCommon
+ * \defgroup INTERNAL_API Internal interface
  * 
  * \~chinese
  * \defgroup API 应用程序接口
- * \defgroup INTERNAL_API RabbitCommon 内部使用接口
+ * \defgroup INTERNAL_API 内部使用接口
  */
 
 namespace RabbitCommon {
@@ -36,22 +42,69 @@ class RABBITCOMMON_EXPORT CTools
 public:
     static CTools* Instance();
 
-    /*! NOTE: 初始化资源，只在程序开始时调用一次，一般在 main() 函数的开始处
-     * QApplication a(argc, argv);
-     * a.setApplicationName(......);
-     * 之后
-     * 如果放到 QApplication a(argc, argv); 之前，
+    /*!
+     * \~chinese
+     * \note 初始化资源，只在程序开始时调用一次，一般在 main() 函数的开始处　QApplication a(argc, argv) 之后：
+     * \code
+     * int main(int argc, char* argv[]) {
+     *     QApplication a(argc, argv);
+     *     a.setApplicationName(......);
+     *     RabbitCommon::CTools::Instance->Init();
+     *     ......
+     * }
+     * \endcode
+     * 如果放到 QApplication a(argc, argv) 之前，
      * 则需要先调用 CDir::Instance()->SetDirApplication()
      * 和 CDir::Instance()->SetDirApplicationInstallRoot()
+     * 
+     * \code
+     * int main(int argc, char* argv[]) {
+     *     CDir::Instance()->SetDirApplication();
+     *     CDir::Instance()->SetDirApplicationInstallRoot();
+     *     RabbitCommon::CTools::Instance->Init();
+     *     QApplication a(argc, argv);
+     *     a.setApplicationName(......);
+     *     ......
+     * }
+     * \endcode
+     * 
+     * \~english
+     * \note Initialize the resource,
+     *       which is called only once at the beginning of the program,
+     *       usually after QApplication a(argc, argv)
+     *       at the beginning of the main() function
+     * \code
+     * int main(int argc, char* argv[]) {
+     *     QApplication a(argc, argv);
+     *     a.setApplicationName(......);
+     *     RabbitCommon::CTools::Instance->Init();
+     *     ......
+     * }
+     * \endcode
+     * 
+     * If you put it before QApplication a(argc, argv),
+     * you need to call CDir::Instance()->SetDirApplication()
+     * and CDir::Instance()->SetDirApplicationInstallRoot()
+     * \code
+     * int main(int argc, char* argv[]) {
+     *     CDir::Instance()->SetDirApplication();
+     *     CDir::Instance()->SetDirApplicationInstallRoot();
+     *     RabbitCommon::CTools::Instance->Init();
+     *     QApplication a(argc, argv);
+     *     a.setApplicationName(......);
+     *     ......
+     * }
+     * \endcode
      */
     void Init(const QString szLanguage = QLocale::system().name());
-    //! NOTE: 释放资源，只在程序结束前调用一次
+    /*! 
+     * \~chinese
+     * \note 释放资源，只在程序结束前调用一次
+     * \~english
+     * \note Free up the resource and call it only once before the program ends
+     */
     void Clean();
-    void InitTranslator(const QString szLanguage = QLocale::system().name());
-    void CleanTranslator();
-    void InitResource();
-    void CleanResource();
-
+    
     int SetLanguage(const QString szLanguage);
     QString GetLanguage();
 
@@ -104,8 +157,25 @@ public:
                                    const QString &szName = QString());
     
 #ifdef HAVE_RABBITCOMMON_GUI
+    /*!
+     * \brief Add style menu after pMenu
+     * \param pMenu
+     * \param parent
+     * \return 
+     */
     static QAction* AddStyleMenu(QMenu* pMenu, QWidget *parent = nullptr);
+    /*!
+     * \brief Insert style menu
+     * \param pMenu
+     * \param before
+     * \param parent
+     */
     static void InsertStyleMenu(QMenu* pMenu, QAction* before, QWidget *parent = nullptr);
+    /*!
+     * \brief Get log menu
+     * \param parentMainWindow: QMainWindow pointer
+     * \return 
+     */
     static QMenu* GetLogMenu(QWidget *parentMainWindow = nullptr);
 
     static int RestoreWidget(QWidget* pWidget);
@@ -115,6 +185,11 @@ public:
 private:
     CTools();
     virtual ~CTools();
+
+    void InitTranslator(const QString szLanguage = QLocale::system().name());
+    void CleanTranslator();
+    void InitResource();
+    void CleanResource();
     
     QTranslator m_Translator, m_TranslatorQt;
     bool m_bTranslator, m_bTranslatorQt;

@@ -1,6 +1,5 @@
 ### Version: v2.0.0
 + Remove RabbitCommonLog
-+ Modify style interface
 + CI ( github action ) is ok.
 + Add dock debug log
 + Qt version of Android greater or equal 6
@@ -8,10 +7,11 @@
   - Add INSTALL_DIR
   - Add INSTALL_FILE
   - Add install dependencies runtime dlls
-+ CFrmStyle
-  - Fix CFrmStyle is deleted on close
-  - Add RabbitCommon::CTools::AddStyleMenu
-  - Add RabbitCommon::CTools::InsertStyleMenu
++ Modify style interface
+  - CFrmStyle
+    + Fix CFrmStyle is deleted on close
+    + Add RabbitCommon::CTools::AddStyleMenu
+    + Add RabbitCommon::CTools::InsertStyleMenu
 + CDir:
   - Remove GetOpenDirectory
   - Remove GetOpenFileName
