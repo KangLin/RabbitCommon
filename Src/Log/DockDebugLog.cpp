@@ -122,6 +122,9 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
         pMenu->addAction(QIcon::fromTheme("document-open"),
                          QObject::tr("Open Log configure file"),
                          [](){RabbitCommon::OpenLogConfigureFile();});
+        pMenu->addAction(QIcon::fromTheme("document-open"),
+                         QObject::tr("Open Log file"),
+                         [](){RabbitCommon::OpenLogFile();});
         pMenu->addAction(QIcon::fromTheme("folder-open"),
                          tr("Open log folder"), [](){
            RabbitCommon::OpenLogFolder();

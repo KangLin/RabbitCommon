@@ -494,7 +494,8 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
         pMainWindow->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea,
                                    g_pDcokDebugLog);
     } else {
-        qDebug(Logger) << "CTools::GetLogMenu: The parent suggest is MainWindow pointer";
+        qWarning(Logger) << "CTools::GetLogMenu: Don't use dock debug log."
+                         <<  "The parent suggest is MainWindow pointer";
     }
 
     if(g_pDcokDebugLog) {
