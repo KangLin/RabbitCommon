@@ -1,4 +1,6 @@
-// https://blog.csdn.net/mumufan05/article/details/109705192?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&utm_relevant_index=5
+// Window以及Ubuntu下的core dump调试方法: https://blog.csdn.net/zhoukehu_CSDN/article/details/125152019?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-125152019-blog-109705192.235^v38^pc_relevant_sort_base3&spm=1001.2101.3001.4242.1&utm_relevant_index=3
+// Windows平台coredump处理: https://blog.csdn.net/mumufan05/article/details/109705192?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&utm_relevant_index=5
+
 #include <qglobal.h>
 
 #ifdef Q_OS_WIN
@@ -52,9 +54,10 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 	}
 
 	// 提示
-	QString strTitle = QObject::tr("Application Error");
-	QString strContent = QObject::tr("I'm Sorry, Application is Crash! The path: ")
-                         + QDir::currentPath() + QDir::separator() + dumpName;
+    QString strTitle = QObject::tr("Application Error");
+    QString strContent = QObject::tr("I'm Sorry, Application is Crash!") + "\n\n"
+                         + QObject::tr("The current path: ") + QDir::currentPath() + "\n\n"
+                         + QObject::tr("The dump file: ") + dumpName;
 #ifdef HAVE_RABBITCOMMON_GUI
     QMessageBox::critical(0, strTitle, strContent, QMessageBox::Ok);
 #endif
