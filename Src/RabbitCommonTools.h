@@ -162,6 +162,18 @@ public:
      * \param pMenu
      * \param parent
      * \return 
+     * 
+     * \note
+     * If you has your icon theme.
+     * then call INSTALL_ICON_THEME() in CMakeLists.txt
+     * \code
+     * # in CMakeLists.txt
+     * # Install QIcon theme
+     * # param SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+     * # param DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+     * INSTALL_ICON_THEME()
+     * \endcode
+     * \see CFrmStyle
      */
     static QAction* AddStyleMenu(QMenu* pMenu, QWidget *parent = nullptr);
     /*!
@@ -169,6 +181,18 @@ public:
      * \param pMenu
      * \param before
      * \param parent
+     *
+     * \note
+     * If you has your icon theme.
+     * then call INSTALL_ICON_THEME() in CMakeLists.txt
+     * \code
+     * # in CMakeLists.txt
+     * # Install QIcon theme
+     * # param SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+     * # param DESTINATION: Default is ${CMAKE_INSTALL_PREFIX}/data/icons
+     * INSTALL_ICON_THEME()
+     * \endcode
+     * \see CFrmStyle
      */
     static void InsertStyleMenu(QMenu* pMenu, QAction* before, QWidget *parent = nullptr);
     /*!
