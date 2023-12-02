@@ -90,7 +90,13 @@ bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringLi
 		QLatin1String key("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System");
 		QSettings registry(key, QSettings::NativeFormat);
 		const QVariant enableLUA = registry.value(QLatin1String("EnableLUA"));
-		if ((enableLUA.type() == QVariant::Int) && (enableLUA.toInt() == 0))
+		if (
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+            (enableLUA.typeId() == QMetaType::Int)
+#else
+            (enableLUA.type() == QVariant::Int)
+#endif
+            && (enableLUA.toInt() == 0))
 			return false;
 	}
 
