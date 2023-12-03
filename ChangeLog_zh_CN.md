@@ -1,3 +1,4 @@
+
 ### 版本： v2.0.0
 + 删除 RabbitCommonLog
 + 自动化 ( github action ) 完成
@@ -17,7 +18,8 @@
   - 删除 GetOpenFileName
   - 删除 GetSaveFileName
 + 修复自启错误
-
++ RabbitCommon::Tools 只初始化一次
+ 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏
 + 文档: 修复 titlebar 注释 BUG

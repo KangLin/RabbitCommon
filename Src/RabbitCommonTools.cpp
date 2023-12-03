@@ -80,7 +80,9 @@ inline void g_RabbitCommon_CleanResource()
 
 namespace RabbitCommon {
 
-CTools::CTools() : m_bTranslator(false), m_bTranslatorQt(false)
+CTools::CTools() : m_bTranslator(false),
+    m_bTranslatorQt(false),
+    m_Initialized(false)
 {   
 }
 
@@ -209,6 +211,9 @@ QString CTools::Information()
 
 void CTools::Init(const QString szLanguage)
 {
+    if(m_Initialized)
+        return;
+
     SetLanguage(szLanguage);
     RabbitCommon::CLog::Instance();
     InitResource();

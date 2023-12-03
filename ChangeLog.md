@@ -17,6 +17,7 @@
   - Remove GetOpenFileName
   - Remove GetSaveFileName
 + Fix auto start
++ Only initialized once RabbitCommon::Tools
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak

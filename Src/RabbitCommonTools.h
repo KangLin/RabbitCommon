@@ -219,6 +219,7 @@ private:
     bool m_bTranslator, m_bTranslatorQt;
     
     QString m_szLanguage;
+    bool m_Initialized;
 };
 
 } //namespace RabbitCommon
