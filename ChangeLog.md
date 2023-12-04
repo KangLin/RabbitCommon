@@ -1,5 +1,6 @@
 ### Version: v1.0.15
 + Fix start up bug
++ Only initialized once RabbitCommon::Tools
 
 ### Version: v1.0.14
 + Fix CFrmStyle is deleted on close
