@@ -665,6 +665,10 @@ function(INSTALL_TARGET)
                     COMPONENT ${PARA_COMPONENT_DEV})
             endif()
 
+            # Install pkg-config file
+            install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc"
+                DESTINATION "${PARA_ARCHIVE}/pkgconfig"
+                COMPONENT ${PARA_COMPONENT_DEV})
         endif(PARA_ISEXE)
 
         # Install dependencies runtime dlls
@@ -677,7 +681,7 @@ function(INSTALL_TARGET)
         # Windows 下分发
         IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
             IF(MINGW)
-                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
+                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
                     )
@@ -931,10 +935,13 @@ function(ADD_TARGET)
         if(NOT CMAKE_DEBUG_POSTFIX)
             set(CMAKE_DEBUG_POSTFIX "_d")
         endif()
+        if(CMAKE_BUILD_TYPE)
+            string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
+        endif()
+        if(LOWER_BUILD_TYPE STREQUAL "debug")
+            set(PC_POSTIX ${CMAKE_DEBUG_POSTFIX})
+        endif()
         if(WIN32)
-            if(CMAKE_BUILD_TYPE)
-                string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
-            endif()
             if(LOWER_BUILD_TYPE STREQUAL "debug")
                 option(WITH_LIBRARY_SUFFIX_VERSION "Library suffix plus version number" OFF)
             else()
@@ -949,10 +956,12 @@ function(ADD_TARGET)
                     if(CMAKE_BUILD_TYPE)
                         string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_CMAKE_BUILD_TYPE)
                         SET(CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX "${CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX}_${PARA_VERSION}")
+                        set(PC_POSTIX ${CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX})
                     elseif(CMAKE_CONFIGURATION_TYPES)
                         foreach(PARA_CONFIG ${CMAKE_CONFIGURATION_TYPES})
                             string(TOUPPER ${PARA_CONFIG} UPPER_PARA_CONFIG)
                             SET(CMAKE_${UPPER_PARA_CONFIG}_POSTFIX "${CMAKE_${UPPER_PARA_CONFIG}_POSTFIX}_${PARA_VERSION}")
+                            set(PC_POSTIX ${CMAKE_${UPPER_CMAKE_BUILD_TYPE}_POSTFIX})
                         endforeach()
                     endif()
                 endif(PARA_VERSION_FOUND OR PARA_VERSION)
@@ -973,6 +982,23 @@ function(ADD_TARGET)
         file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
             DESTINATION ${CMAKE_BINARY_DIR})
 
+        # Generate pkg-config file
+        set(PC_DEFINITIONS)
+        foreach(d ${PARA_DEFINITIONS})
+            SET(PC_DEFINITIONS "${PC_DEFINITIONS} -D${d}")
+        endforeach()
+        if(NOT RabbitCommon_DIR)
+            set(RabbitCommon_DIR ${RabbitCommon_ROOT})
+        endif()
+        if(RabbitCommon_DIR)
+            set(PC_FILE ${RabbitCommon_DIR}/cmake/RabbitCommon.pc.in)
+        else()
+            set(PC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in)
+        endif()
+        configure_file(${PC_FILE}
+            ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc @ONLY)
+        message("Generate pkg-config file: ${PC_FILE} to ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc")
+        
     endif(PARA_ISEXE)
 
     if(DEFINED PARA_OUTPUT_DIR)

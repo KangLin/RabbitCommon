@@ -18,6 +18,7 @@
   - Remove GetSaveFileName
 + Fix auto start
 + Only initialized once RabbitCommon::Tools
++ RabbitCommonUtils: add pkg-config file
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak

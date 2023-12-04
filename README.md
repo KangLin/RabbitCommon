@@ -52,6 +52,8 @@ Qt common library. include follow functions:
 - [x] cmake functions
   + [x] Translations
   + [x] Add target, plugin target
+  + [x] Generate pkg-config configure file
+  + [x] Generate cmake configure file
   + [x] Add unistall target
 - [x] Cross-platform, support multiple operating systems
   - [x] Windows

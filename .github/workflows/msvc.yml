@@ -46,7 +46,7 @@ jobs:
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitCommon_VERSION: v1.0.13
-      VCPKGGITCOMMITID: 9c7c66471005cb132832786d5d65d83d2cf503ad
+      VCPKGGITCOMMITID: 16ee2ecb31788c336ace8bb14c21801efb6836e4
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
 

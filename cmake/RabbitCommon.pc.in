@@ -1,10 +1,10 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 libdir=${prefix}/lib
-includedir=${prefix}/include/RabbitCommon
+includedir=${prefix}/include/@PARA_NAME@
 
-Name: @PROJECT_NAME@
-Description: Rabbit common C++ library
-Version: @RabbitCommon_VERSION@
-Libs: -L${libdir} -lRabbitCommon
-Cflags: -I${includedir} @RabbitCommon_DEFINITIONS_PC@
+Name: @PARA_NAME@
+Description: @PARA_NAME@ C++ library
+Version: @PARA_VERSION@
+Libs: -L${libdir} -l@PARA_NAME@@PC_POSTIX@
+Cflags: -I${includedir} @PC_DEFINITIONS@
 

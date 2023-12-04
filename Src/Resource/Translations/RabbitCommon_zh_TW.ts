@@ -807,48 +807,44 @@
         <translation type="vanished">保存</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="57"/>
         <source>Application Error</source>
-        <translation>應用錯誤</translation>
+        <translation type="vanished">應用錯誤</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="58"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation>程序崩潰！</translation>
+        <translation type="vanished">程序崩潰！</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="59"/>
         <source>The current path: </source>
-        <translation>當前目錄文件：</translation>
+        <translation type="vanished">當前目錄文件：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="60"/>
         <source>The dump file: </source>
-        <translation>轉儲文件：</translation>
+        <translation type="vanished">轉儲文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="120"/>
         <location filename="../../RabbitCommonTools.cpp" line="122"/>
+        <location filename="../../RabbitCommonTools.cpp" line="124"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="122"/>
+        <location filename="../../RabbitCommonTools.cpp" line="124"/>
         <source> (From revision: </source>
         <translation>(校訂版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="137"/>
+        <location filename="../../RabbitCommonTools.cpp" line="139"/>
         <source>- Functions:</source>
         <translation>- 功能：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="139"/>
+        <location filename="../../RabbitCommonTools.cpp" line="141"/>
         <source>  - Have GUI</source>
         <translation>  - 界面</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="142"/>
+        <location filename="../../RabbitCommonTools.cpp" line="144"/>
         <source>  - Have about diaglog</source>
         <translation>  - 關於對話框</translation>
     </message>
@@ -865,181 +861,181 @@
         <translation type="vanished">    - 使用 WebEngineWidgets</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="153"/>
+        <location filename="../../RabbitCommonTools.cpp" line="155"/>
         <source>  - Have update</source>
         <translation>  - 更新</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="156"/>
+        <location filename="../../RabbitCommonTools.cpp" line="158"/>
         <source>  - Have encrypt(OPENSSL)</source>
         <translation>  - 加密 (OPENSSL)</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="159"/>
+        <location filename="../../RabbitCommonTools.cpp" line="161"/>
         <source>  - Have QUIWidget</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="161"/>
+        <location filename="../../RabbitCommonTools.cpp" line="163"/>
         <source>  - Applicatoin paths and files: </source>
         <translation>  - 應用程序目錄和文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="162"/>
+        <location filename="../../RabbitCommonTools.cpp" line="164"/>
         <source>    - Install root path: </source>
         <translation>    - 安裝根目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="163"/>
+        <location filename="../../RabbitCommonTools.cpp" line="165"/>
         <source>    - Application path: </source>
         <translation>    - 應用程序目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="164"/>
-        <location filename="../../RabbitCommonTools.cpp" line="175"/>
+        <location filename="../../RabbitCommonTools.cpp" line="166"/>
+        <location filename="../../RabbitCommonTools.cpp" line="177"/>
         <source>    - Configure path: </source>
         <translation>    - 配置目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="165"/>
-        <location filename="../../RabbitCommonTools.cpp" line="176"/>
+        <location filename="../../RabbitCommonTools.cpp" line="167"/>
+        <location filename="../../RabbitCommonTools.cpp" line="178"/>
         <source>    - Configure file: </source>
         <translation>    - 配置文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="166"/>
+        <location filename="../../RabbitCommonTools.cpp" line="168"/>
         <source>    - Translations path: </source>
         <translation>    - 翻譯目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="167"/>
+        <location filename="../../RabbitCommonTools.cpp" line="169"/>
         <source>    - Log path: </source>
         <translation>    - 日誌目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="168"/>
-        <location filename="../../RabbitCommonTools.cpp" line="177"/>
+        <location filename="../../RabbitCommonTools.cpp" line="170"/>
+        <location filename="../../RabbitCommonTools.cpp" line="179"/>
         <source>    - Data path: </source>
         <translation>    - 數據目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="169"/>
+        <location filename="../../RabbitCommonTools.cpp" line="171"/>
         <source>    - Icons path: </source>
         <translation>    - 圖標目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="170"/>
-        <location filename="../../RabbitCommonTools.cpp" line="179"/>
+        <location filename="../../RabbitCommonTools.cpp" line="172"/>
+        <location filename="../../RabbitCommonTools.cpp" line="181"/>
         <source>    - Database path: </source>
         <translation>    - 數據庫目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="171"/>
-        <location filename="../../RabbitCommonTools.cpp" line="180"/>
+        <location filename="../../RabbitCommonTools.cpp" line="173"/>
+        <location filename="../../RabbitCommonTools.cpp" line="182"/>
         <source>    - Database file: </source>
         <translation>    - 數據庫文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="172"/>
+        <location filename="../../RabbitCommonTools.cpp" line="174"/>
         <source>    - Plugins path: </source>
         <translation>    - 插件目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="173"/>
+        <location filename="../../RabbitCommonTools.cpp" line="175"/>
         <source>  - User folders and files: </source>
         <translation>  - 用戶目錄與文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="174"/>
+        <location filename="../../RabbitCommonTools.cpp" line="176"/>
         <source>    - Documents path: </source>
         <translation>    - 文檔目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="178"/>
+        <location filename="../../RabbitCommonTools.cpp" line="180"/>
         <source>    - Image path: </source>
         <translation>    - 圖像目錄：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="182"/>
+        <location filename="../../RabbitCommonTools.cpp" line="184"/>
         <source>- Dependent libraries:</source>
         <translation>- 依賴庫：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="183"/>
+        <location filename="../../RabbitCommonTools.cpp" line="185"/>
         <source>  - OpenSSL:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="185"/>
+        <location filename="../../RabbitCommonTools.cpp" line="187"/>
         <source>RabbitCommon Build Version: </source>
         <translation>玉免公共庫編譯時版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="190"/>
-        <location filename="../../RabbitCommonTools.cpp" line="195"/>
+        <location filename="../../RabbitCommonTools.cpp" line="192"/>
+        <location filename="../../RabbitCommonTools.cpp" line="197"/>
         <source>Build Version: </source>
         <translation>編譯時版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="192"/>
+        <location filename="../../RabbitCommonTools.cpp" line="194"/>
         <source>Installed Version: </source>
         <translation>安裝的版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="197"/>
+        <location filename="../../RabbitCommonTools.cpp" line="199"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安裝 OPENSSL 動態庫，請安裝！</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="200"/>
+        <location filename="../../RabbitCommonTools.cpp" line="202"/>
         <source>  - cmark-gfm</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="202"/>
+        <location filename="../../RabbitCommonTools.cpp" line="204"/>
         <source>  - cmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="205"/>
+        <location filename="../../RabbitCommonTools.cpp" line="207"/>
         <source>  - WebEngineWidgets</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="444"/>
-        <location filename="../../RabbitCommonTools.cpp" line="454"/>
+        <location filename="../../RabbitCommonTools.cpp" line="449"/>
+        <location filename="../../RabbitCommonTools.cpp" line="459"/>
         <source>Style</source>
         <translation>樣式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="464"/>
+        <location filename="../../RabbitCommonTools.cpp" line="469"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="468"/>
+        <location filename="../../RabbitCommonTools.cpp" line="473"/>
         <source>Settings</source>
         <translation>設置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="481"/>
+        <location filename="../../RabbitCommonTools.cpp" line="486"/>
         <location filename="../../Log/DockDebugLog.cpp" line="123"/>
         <source>Open Log configure file</source>
         <translation>打開日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="484"/>
+        <location filename="../../RabbitCommonTools.cpp" line="489"/>
         <location filename="../../Log/DockDebugLog.cpp" line="126"/>
         <source>Open Log file</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="487"/>
+        <location filename="../../RabbitCommonTools.cpp" line="492"/>
         <source>Open log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="506"/>
+        <location filename="../../RabbitCommonTools.cpp" line="511"/>
         <source>Log dock</source>
         <translation>日誌 - 停泊條</translation>
     </message>
