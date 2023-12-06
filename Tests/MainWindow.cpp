@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // [Use CDockFolderBrowser]
     CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
     pDock->setRootPath(RabbitCommon::CDir::Instance()->GetDirIcons(true));
+    qDebug() << pDock->rootPath();
     addDockWidget(Qt::LeftDockWidgetArea, pDock);
     // Add the action of dock to menu
     ui->menuTools->addAction(pDock->toggleViewAction());

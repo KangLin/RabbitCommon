@@ -78,13 +78,13 @@ int CStyle::LoadStyle()
                                               szFallbackThemeName).toString());
 #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
         
-        qDebug(LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths()
-                            << "Icon theme name:" << QIcon::themeName()
+        qDebug(LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
+                            << "Icon theme name:" << QIcon::themeName() << "\n"
                        #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                            << "Fallback search paths:" << QIcon::fallbackSearchPaths()
+                            << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
                        #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
                        #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                            << "Fallback theme name:" << QIcon::fallbackThemeName()
+                            << "Fallback theme name:" << QIcon::fallbackThemeName() << "\n"
                        #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
                                ;
     }
@@ -145,7 +145,7 @@ int CStyle::LoadStyle(const QString &szFile)
         }
         else
         {
-            qDebug(LoggerStyle) << "file open file fail:" << szFile;
+            qCritical(LoggerStyle) << "file open file fail:" << szFile;
         }
     }
     return 0;
@@ -170,6 +170,7 @@ QString CStyle::GetStyle()
         QFileInfo fi(szFile);
         szPath = fi.absoluteFilePath();
     }
+    qDebug(LoggerStyle) << "Path:" << szPath;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = QFileDialog::getOpenFileName(pParent, tr("Open sink"),
                  szPath,

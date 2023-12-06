@@ -239,7 +239,9 @@ void CTools::InitTranslator(const QString szLanguage)
     if(m_bTranslator)
     {
         m_bTranslator = qApp->installTranslator(&m_Translator);
-        if(!m_bTranslator)
+        if(m_bTranslator)
+            qDebug(Logger) << "Install translator:" << szFile;
+        else
             qCritical(Logger) << "Install translator fail:" << szFile;
     } else
         qCritical(Logger) << "Load translator file fail:" << szFile;
@@ -251,7 +253,9 @@ void CTools::InitTranslator(const QString szLanguage)
     if(m_bTranslatorQt)
     {
         m_bTranslatorQt = qApp->installTranslator(&m_TranslatorQt);
-        if(!m_bTranslatorQt)
+        if(m_bTranslatorQt)
+            qDebug(Logger) << "Install qt translator:" << szFile;
+        else
             qCritical(Logger) << "Install qt translator fail:" << szFile;
     } else
         qCritical(Logger) << "Load qt translator file fail:" << szFile;

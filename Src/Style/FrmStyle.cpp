@@ -42,16 +42,18 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
         QDir dir(d);
         if(!dir.exists())
         {
-            qDebug(RabbitCommon::LoggerStyle) << "Folder isn't exists:" << d;
+            qDebug(RabbitCommon::LoggerStyle) << "Theme folder isn't exists:" << d;
             continue;
         }
+
+        qInfo(RabbitCommon::LoggerStyle) << "Theme folder:" << dir.absolutePath();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
         if(RabbitCommon::CDir::Instance()->GetDirIcons() == d) continue;
 #endif
         foreach(auto themeName, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
         {
-            qDebug(RabbitCommon::LoggerStyle) << "Path:" << dir.absolutePath()
-                                              << "Theme dir:" << themeName;
+            qDebug(RabbitCommon::LoggerStyle) << "Theme path:" << dir.absolutePath()
+                                              << "Theme:" << themeName;
             QFileInfo fi(dir.absolutePath() + QDir::separator()
                          + themeName + QDir::separator() + "index.theme");
             if(fi.exists())
@@ -59,7 +61,9 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
                 qDebug(RabbitCommon::LoggerStyle) << "Theme:" << themeName;
                 ui->cbIconTheme->addItem(themeName);
             } else {
-                qDebug(RabbitCommon::LoggerStyle) << "index.theme is not exists:" << fi.fileName();
+                qCritical(RabbitCommon::LoggerStyle)
+                    << "index.theme is not exists:" << fi.fileName()
+                    << "Theme:" << themeName;
             }
         }
     }
@@ -73,8 +77,8 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
     {
         foreach(auto themeName, fallbackDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
         {
-            qDebug(RabbitCommon::LoggerStyle) << "fallbackDir:" << fallbackDir.absolutePath()
-                                              << "Theme dir:" << themeName;
+            qDebug(RabbitCommon::LoggerStyle) << "fallback path:" << fallbackDir.absolutePath()
+                                              << "Theme:" << themeName;
             QFileInfo fi(fallbackDir.absolutePath() + QDir::separator()
                          + themeName + QDir::separator() + "index.theme");
             if(!fi.exists())

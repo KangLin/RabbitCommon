@@ -53,7 +53,7 @@ CLog::CLog() : QObject(),
 #endif
     QString szFilterRules;
     quint64 nInterval = 60; // Unit: second
-#if !(defined(DEBUG) || defined(_DEBUG))
+#if !(defined(DEBUG) || defined(_DEBUG) || ANDROID)
     szFilterRules = "*.debug = false";
 #endif
 
