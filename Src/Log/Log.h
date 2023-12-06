@@ -27,6 +27,7 @@ namespace RabbitCommon {
 
 /*!
  * \note USER DON'T USE CLog!!!
+ * \ingroup INTERNAL_API
  */
 class CLog : QObject
 {

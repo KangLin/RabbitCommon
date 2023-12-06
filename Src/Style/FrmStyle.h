@@ -81,9 +81,9 @@ class CFrmStyle;
  * \~
  * \see RabbitCommon::CStyle RabbitCommon::CTools RabbitCommon::CTools::AddStyleMenu RabbitCommon::CTools::InsertStyleMenu
  * \see INSTALL_ICON_THEME()
-  * \ingroup API
+ * \ingroup INTERNAL_API
  */
-class RABBITCOMMON_EXPORT CFrmStyle : public QWidget
+class CFrmStyle : public QWidget
 {
     Q_OBJECT
     

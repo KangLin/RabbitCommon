@@ -8,7 +8,7 @@
   - Add INSTALL_FILE
   - Add install dependencies runtime dlls
 + Modify style interface
-  - CFrmStyle
+  - CFrmStyle. modify to internal api.
     + Fix CFrmStyle is deleted on close
     + Add RabbitCommon::CTools::AddStyleMenu
     + Add RabbitCommon::CTools::InsertStyleMenu

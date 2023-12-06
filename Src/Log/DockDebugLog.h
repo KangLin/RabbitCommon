@@ -10,8 +10,8 @@ class CDockDebugLog;
 
 /*!
  * \brief The CDockDebugLog class
- *
  * \see QMenu* CTools::GetLogMenu
+ * \ingroup INTERNAL_API
  */
 class CDockDebugLog : public QDockWidget
 {

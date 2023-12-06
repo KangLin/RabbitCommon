@@ -7,6 +7,10 @@ namespace Ui {
 class CDlgFilter;
 }
 
+/*!
+ * \brief Set filter dialog
+ * \ingroup INTERNAL_API
+ */
 class CDlgFilter : public QDialog
 {
     Q_OBJECT

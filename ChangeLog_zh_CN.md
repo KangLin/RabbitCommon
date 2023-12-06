@@ -9,7 +9,7 @@
   - 增加 INSTALL_FILE
   - 增加 install dependencies runtime dlls
 + 修改样式接口
-  - CFrmStyle
+  - CFrmStyle。改为内部接口
     + 修复 CFrmStyle is deleted on close
     + 增加 RabbitCommon::CTools::AddStyleMenu
     + 增加 RabbitCommon::CTools::InsertStyleMenu
