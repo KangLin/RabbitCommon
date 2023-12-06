@@ -495,21 +495,17 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
     if(pMainWindow) {
         if(!g_pDcokDebugLog)
             g_pDcokDebugLog = new CDockDebugLog(pMainWindow);
-
         pMainWindow->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea,
                                    g_pDcokDebugLog);
-    } else {
-        qWarning(Logger) << "CTools::GetLogMenu: Don't use dock debug log."
-                         <<  "The parent suggest is MainWindow pointer";
-    }
-
-    if(g_pDcokDebugLog) {
         // Must set ObjectName then restore it. See: saveState help document
         g_pDcokDebugLog->setObjectName("dockDebugLog");
         QAction* pDock = g_pDcokDebugLog->toggleViewAction();
         pMenu->addAction(pDock);
         pDock->setText(QObject::tr("Log dock"));
         pDock->setIcon(QIcon::fromTheme("floating"));
+    } else {
+        qWarning(Logger) << "CTools::GetLogMenu: Don't use dock debug log."
+                         <<  "The parent suggest is MainWindow pointer";
     }
 
     return pMenu;
