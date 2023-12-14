@@ -46,7 +46,10 @@ CLog::CLog() : QObject(),
     SetFilter(set.value("Log/Filter/include").toString(),
               set.value("Log/Filter/Exclude").toString());
     
-    QString szPattern = "[%{time hh:mm:ss.zzz} %{pid}|%{threadid} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}E%{endif}%{if-fatal}F%{endif}] %{category} - %{message} [%{file}:%{line}, %{function}]";
+    QString szPattern = "[%{time hh:mm:ss.zzz} %{pid}|%{threadid} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}E%{endif}%{if-fatal}F%{endif}] %{category} - %{message}";
+#if !(defined(DEBUG) || defined(_DEBUG))
+    szPattern += " [%{file}:%{line}, %{function}]";
+#endif
 #ifdef QT_MESSAGELOGCONTEXT
     // Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release
     szPattern += " [%{file}:%{line}, %{function}]";

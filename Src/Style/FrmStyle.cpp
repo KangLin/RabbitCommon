@@ -8,10 +8,9 @@
 #include "RabbitCommonDir.h"
 #include <QSettings>
 
-CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::CFrmStyle),
-    m_bShowIconTheme(bShowIconTheme)
+CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
+    QWidget(parent, f),
+    ui(new Ui::CFrmStyle)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     ui->setupUi(this);
@@ -22,10 +21,8 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
     // Icon theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    bool bIconTheme = set.value("Style/Icon/Theme/Enable",
-                                m_bShowIconTheme).toBool();
+    bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
     ui->gpIconTheme->setChecked(bIconTheme);
-    ui->gpIconTheme->setVisible(m_bShowIconTheme);
 
     qDebug(RabbitCommon::LoggerStyle)
             << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
@@ -42,11 +39,13 @@ CFrmStyle::CFrmStyle(bool bShowIconTheme, QWidget *parent) :
         QDir dir(d);
         if(!dir.exists())
         {
-            qDebug(RabbitCommon::LoggerStyle) << "Theme folder isn't exists:" << d;
+            qDebug(RabbitCommon::LoggerStyle)
+                << "Theme folder isn't exists:" << d;
             continue;
         }
 
-        qInfo(RabbitCommon::LoggerStyle) << "Theme folder:" << dir.absolutePath();
+        qInfo(RabbitCommon::LoggerStyle)
+            << "Theme folder:" << dir.absolutePath();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
         if(RabbitCommon::CDir::Instance()->GetDirIcons() == d) continue;
 #endif

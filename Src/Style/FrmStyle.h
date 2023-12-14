@@ -88,7 +88,8 @@ class CFrmStyle : public QWidget
     Q_OBJECT
     
 public:
-    explicit CFrmStyle(bool bShowIconTheme = true, QWidget *parent = nullptr);
+    explicit CFrmStyle(QWidget *parent = nullptr,
+                       Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~CFrmStyle();
     
 private Q_SLOTS:
@@ -101,7 +102,6 @@ private Q_SLOTS:
     
 private:
     Ui::CFrmStyle *ui;
-    bool m_bShowIconTheme;
 };
 
 #endif // CFRMSTYLE_H

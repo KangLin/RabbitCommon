@@ -451,9 +451,10 @@ QAction* CTools::AddStyleMenu(QMenu *pMenu, QWidget *parent)
 {
     return pMenu->addAction(QIcon::fromTheme("style"),
                             QObject::tr("Style"),
-                            [&](){
+                            [=](){
                                 CFrmStyle* s = new CFrmStyle(parent);
-                                s->show();
+                                if(s)
+                                    s->show();
                             });
 }
 
@@ -461,9 +462,10 @@ void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
 {
     QAction* pAction = new QAction(QIcon::fromTheme("style"),
                                    QObject::tr("Style"), parent);
-    QObject::connect(pAction, &QAction::triggered, [&](){
+    QObject::connect(pAction, &QAction::triggered, [=](){
         CFrmStyle* s = new CFrmStyle(parent);
-        s->show();
+        if(s)
+            s->show();
     });
     pMenu->insertAction(before, pAction);
 }
