@@ -1002,40 +1002,40 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="449"/>
-        <location filename="../../RabbitCommonTools.cpp" line="459"/>
+        <location filename="../../RabbitCommonTools.cpp" line="453"/>
+        <location filename="../../RabbitCommonTools.cpp" line="464"/>
         <source>Style</source>
         <translation>樣式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="469"/>
+        <location filename="../../RabbitCommonTools.cpp" line="475"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="473"/>
+        <location filename="../../RabbitCommonTools.cpp" line="479"/>
         <source>Settings</source>
         <translation>設置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="486"/>
+        <location filename="../../RabbitCommonTools.cpp" line="492"/>
         <location filename="../../Log/DockDebugLog.cpp" line="123"/>
         <source>Open Log configure file</source>
         <translation>打開日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="489"/>
+        <location filename="../../RabbitCommonTools.cpp" line="495"/>
         <location filename="../../Log/DockDebugLog.cpp" line="126"/>
         <source>Open Log file</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="492"/>
+        <location filename="../../RabbitCommonTools.cpp" line="498"/>
         <source>Open log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="511"/>
+        <location filename="../../RabbitCommonTools.cpp" line="510"/>
         <source>Log dock</source>
         <translation>日誌 - 停泊條</translation>
     </message>
@@ -1103,12 +1103,12 @@
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="174"/>
+        <location filename="../../Style/Style.cpp" line="175"/>
         <source>Open sink</source>
         <translation>打開樣式</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="176"/>
+        <location filename="../../Style/Style.cpp" line="177"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>樣式文件(*.qss *.css);; All files(*.*)</translation>
     </message>

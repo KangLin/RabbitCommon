@@ -966,40 +966,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="449"/>
-        <location filename="../../RabbitCommonTools.cpp" line="459"/>
+        <location filename="../../RabbitCommonTools.cpp" line="453"/>
+        <location filename="../../RabbitCommonTools.cpp" line="464"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="469"/>
+        <location filename="../../RabbitCommonTools.cpp" line="475"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="473"/>
+        <location filename="../../RabbitCommonTools.cpp" line="479"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="486"/>
+        <location filename="../../RabbitCommonTools.cpp" line="492"/>
         <location filename="../../Log/DockDebugLog.cpp" line="123"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="489"/>
+        <location filename="../../RabbitCommonTools.cpp" line="495"/>
         <location filename="../../Log/DockDebugLog.cpp" line="126"/>
         <source>Open Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="492"/>
+        <location filename="../../RabbitCommonTools.cpp" line="498"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="511"/>
+        <location filename="../../RabbitCommonTools.cpp" line="510"/>
         <source>Log dock</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1033,12 +1033,12 @@
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="174"/>
+        <location filename="../../Style/Style.cpp" line="175"/>
         <source>Open sink</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="176"/>
+        <location filename="../../Style/Style.cpp" line="177"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>

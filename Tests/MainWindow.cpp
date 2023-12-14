@@ -17,7 +17,6 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonEncrypt.h"
 #ifdef HAVE_RABBITCOMMON_GUI
-#include "FrmStyle.h"
 #include "DockFolderBrowser.h"
 #endif
 #include "RabbitCommonDir.h"
@@ -36,7 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
-    
+
+    RabbitCommon::CTools::AddStyleMenu(ui->menuTools);
     ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
     ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(this));
 
@@ -110,14 +110,6 @@ void MainWindow::on_pushButton_clicked()
     RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
 #elif defined(Q_OS_WINDOWS)
     RabbitCommon::CTools::executeByRoot("regedit", QStringList());
-#endif
-}
-
-void MainWindow::on_actionStype_triggered()
-{
-#ifdef HAVE_RABBITCOMMON_GUI
-    CFrmStyle* s = new CFrmStyle();
-    s->show();
 #endif
 }
 

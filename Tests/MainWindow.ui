@@ -133,7 +133,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -147,7 +147,6 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionStype"/>
    </widget>
    <addaction name="menuAbout"/>
    <addaction name="menuTools"/>
@@ -169,15 +168,6 @@
    </property>
    <property name="text">
     <string>Update</string>
-   </property>
-  </action>
-  <action name="actionStype">
-   <property name="icon">
-    <iconset theme="style">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
-   <property name="text">
-    <string>Stype</string>
    </property>
   </action>
  </widget>

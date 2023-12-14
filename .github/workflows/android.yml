@@ -30,6 +30,7 @@ jobs:
 
     env:
       artifact_name: build_android
+      STOREPASS: ${{secrets.STOREPASS}}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
