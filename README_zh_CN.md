@@ -15,6 +15,8 @@
   - https://sourceforge.net/projects/rabbitcommon/
   - https://gitlab.com/kl222/RabbitCommon
   - https://launchpad.net/rabbitcommon
+  - https://invent.kde.org/kanglin/RabbitCommon
+  - https://gitee.com/kl222/RabbitCommon
 
 ### 开发文档
 
