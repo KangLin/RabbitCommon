@@ -305,7 +305,7 @@ void CFrmUpdater::slotCheck()
 // [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
-    qDebug(FrmUpdater) << "Download error:" << nErr << szError;
+    qCritical(FrmUpdater) << "Download file error:" << nErr << szError;
     QString szMsg = szError;
     if(szMsg.isEmpty()) szMsg = tr("Download file error");
     ui->lbState->setText(szMsg);
@@ -328,8 +328,7 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     if(QFile::rename(szFile, f))
     {
         m_DownloadFile.setFileName(f);
-        
-        qDebug(FrmUpdater) << "Download finished: rename"
+        qInfo(FrmUpdater) << "Download finished: rename"
                            << szFile << "to" << f;
     } else {
         qCritical(FrmUpdater) << "Download finished. rename fail from"

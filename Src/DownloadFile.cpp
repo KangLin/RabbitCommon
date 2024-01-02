@@ -110,7 +110,9 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
     }
 
     qInfo(m_Log) << "Download file:"
-          << nIndex << url << bRedirection << file->fileName();
+                 << nIndex << url
+                 << "redirection:" << bRedirection
+                 << file->fileName();
 
     if(file->isOpen())
         file->close();
