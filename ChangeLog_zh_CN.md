@@ -20,7 +20,9 @@
 + 修复自启错误
 + RabbitCommon::Tools 只初始化一次
 + RabbitCommonUtils: 增加产生 pkg-config 配置文件
- 
++ Android:
+  - 增加 AndroidRequestPermission
+
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏
 + 文档: 修复 titlebar 注释 BUG

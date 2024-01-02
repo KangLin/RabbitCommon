@@ -19,7 +19,9 @@
 + Fix auto start
 + Only initialized once RabbitCommon::Tools
 + RabbitCommonUtils: add pkg-config file
-
++ Android:
+  - Add AndroidRequestPermission
+  
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak
 + Documents: fix titlebar comments bug

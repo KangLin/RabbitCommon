@@ -23,6 +23,12 @@
 #include <QStandardPaths>
 #include <QSslSocket>
 
+#if defined(Q_OS_ANDROID)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QtCore/private/qandroidextras_p.h>
+#endif
+#endif
+
 #if defined(HAVE_OPENSSL)
     #include "openssl/opensslv.h"
 #endif
@@ -209,11 +215,48 @@ QString CTools::Information()
     return szInfo;
 }
 
+int CTools::AndroidRequestPermission(const QString &premission)
+{
+#if defined (Q_OS_ANDROID)
+    #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+    // get android storage permisson
+    // 该接口也可以直接使用字符串，可自行跳转到头文件自行查看
+    
+    if (QtAndroidPrivate::checkPermission(premission).result()
+        == QtAndroidPrivate::Denied)
+    {
+        QtAndroidPrivate::requestPermission(premission).waitForFinished();
+    }
+    qInfo(Logger) << "anroid permission" << premission << ";status:"
+                  << QtAndroidPrivate::checkPermission(premission).result();
+    #endif
+#endif
+
+    return 0;
+}
+
+int CTools::AndroidRequestPermission(const QStringList &premissions)
+{
+    foreach (auto p, premissions) {
+        AndroidRequestPermission(p);
+    }
+    return 0;
+}
+
 void CTools::Init(const QString szLanguage)
 {
     if(m_Initialized)
         return;
 
+    QStringList permissions;
+    permissions << "android.permission.WRITE_EXTERNAL_STORAGE"
+                << "android.permission.INTERNET"
+                << "android.permission.ACCESS_NETWORK_STATE"
+                << "android.permission.CHANGE_WIFI_STATE"
+                << "android.permission.ACCESS_WIFI_STATE"
+                << "android.permission.ACCESS_NETWORK_STATE"
+                << "android.permission.CHANGE_NETWORK_STATE";
+    AndroidRequestPermission(permissions);
     SetLanguage(szLanguage);
     RabbitCommon::CLog::Instance();
     InitResource();
