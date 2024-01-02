@@ -1077,7 +1077,7 @@
 <context>
     <name>RabbitCommon::CDownloadFile</name>
     <message>
-        <location filename="../../DownloadFile.cpp" line="374"/>
+        <location filename="../../DownloadFile.cpp" line="379"/>
         <source>: downloading %1%</source>
         <translation>: 正在下載 %1%</translation>
     </message>

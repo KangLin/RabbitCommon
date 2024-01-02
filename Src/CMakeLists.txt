@@ -137,11 +137,11 @@ if(WITH_CMARK_GFM)
     find_package(cmark-gfm)
     find_package(cmark-gfm-extensions)
     if(NOT cmark-gfm_FOUND)
-        SET(_CMARK_GFM_VERSION 0.29.0.gfm.11)
+        SET(_CMARK_GFM_VERSION 0.29.0.gfm.13)
         set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
         if(NOT EXISTS "${CMARK_GFM_DIR}")
             DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_GFM_VERSION}"
-                HASH fbef845a129e8782efb21deeabf25e24
+                HASH 65f559c2ad9001cfbac1d6977612c320
                 URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_GFM_VERSION}.tar.gz"
                 DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
                 STATUS retval
