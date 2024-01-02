@@ -46,7 +46,7 @@ jobs:
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitCommon_VERSION: v1.0.13
-      VCPKGGITCOMMITID: 16ee2ecb31788c336ace8bb14c21801efb6836e4
+      VCPKGGITCOMMITID: f1c6efee2245009540dde947e0e3d008f3aa7dbb
       qt_modules: qtwebengine ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
@@ -115,7 +115,7 @@ jobs:
           #extra: # optional
 
       - name: run-vcpkg
-        uses: lukka/run-vcpkg@v7.4
+        uses: lukka/run-vcpkg@v11
         with:
           # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
           #setupOnly: # optional
@@ -124,10 +124,10 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
           # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
           # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: RabbitCommon_cache-vcpkg-msvc-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
+          #appendedCacheKey: RabbitCommon_cache-vcpkg-msvc-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
           #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-          vcpkgTriplet: '${{matrix.triplet}}'
-          vcpkgArguments: 'zlib openssl'
+          #vcpkgTriplet: '${{matrix.triplet}}'
+          #vcpkgArguments: 'zlib openssl'
 
       - name: Cache installed
         uses: actions/cache@v3

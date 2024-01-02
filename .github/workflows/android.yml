@@ -35,7 +35,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
       RabbitCommon_VERSION: v0.0.25
-      VCPKGGITCOMMITID: ea222747b888b8d63df56240b262db38b095c68f
+      VCPKGGITCOMMITID: f1c6efee2245009540dde947e0e3d008f3aa7dbb
       ANDROID_PLATFORM: android-28
       ANDROID_NATIVE_API_LEVEL: 28
       qt_modules: 'qtimageformats qtmultimedia qtscxml'
@@ -105,7 +105,7 @@ jobs:
 
       - name: run-vcpkg
         if: false
-        uses: lukka/run-vcpkg@v7.4
+        uses: lukka/run-vcpkg@v11
         with:
           # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
           #setupOnly: # optional
@@ -114,10 +114,10 @@ jobs:
           vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
           # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
           # compute its hash and append this to the computed cache's key.
-          appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
-          additionalCachedPaths: $VCPKG_ROOT/installed
-          vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-          vcpkgArguments: 'openssl '
+          #appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
+          #additionalCachedPaths: $VCPKG_ROOT/installed
+          #vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
+          #vcpkgArguments: 'openssl '
 
       - name: build RabbitCommon
         working-directory: ${{github.workspace}}/build
