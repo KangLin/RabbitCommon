@@ -33,7 +33,7 @@ jobs:
       STOREPASS: ${{secrets.STOREPASS}}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_${{matrix.BUILD_TYPE}}
+      INSTALL_DIR: ${{github.workspace}}/.cache/install
       RabbitCommon_VERSION: v0.0.25
       VCPKGGITCOMMITID: f1c6efee2245009540dde947e0e3d008f3aa7dbb
       ANDROID_PLATFORM: android-28
@@ -66,14 +66,6 @@ jobs:
             ${{env.INSTALL_DIR}}
           key: cache-installed-android-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
 
-      - name: Cache Qt
-        #if: false
-        id: cache-qt
-        uses: actions/cache@v1  # not v2!
-        with:
-          path: ${{env.TOOSL_DIR}}/qt
-          key: qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
-
       - name: Install Qt of gcc_64
         uses: jurplel/install-qt-action@v3
         with:
@@ -83,7 +75,8 @@ jobs:
           target: 'desktop'
           arch: 'gcc_64'
           set-env: false
-          cached: '${{ steps.cache-qt.outputs.cache-hit }}' # optional, default is false
+          cache: true
+          cache-key-prefix: cached_qt
 
       - name: Install Qt of android
         uses: jurplel/install-qt-action@v3
@@ -101,7 +94,8 @@ jobs:
           # Additional Qt modules to install
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
           # Whether or not to actually download Qt
-          cached: '${{ steps.cache-qt.outputs.cache-hit }}' # optional, default is false
+          cache: true
+          cache-key-prefix: cached_qt
 
       - name: run-vcpkg
         if: false
@@ -112,12 +106,6 @@ jobs:
           #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
           vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
           vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-          # compute its hash and append this to the computed cache's key.
-          #appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
-          #additionalCachedPaths: $VCPKG_ROOT/installed
-          #vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-          #vcpkgArguments: 'openssl '
 
       - name: build RabbitCommon
         working-directory: ${{github.workspace}}/build

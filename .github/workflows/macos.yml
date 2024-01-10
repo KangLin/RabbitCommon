@@ -36,7 +36,7 @@ jobs:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_macos
+      INSTALL_DIR: ${{github.workspace}}/.cache/install
       qt_modules: ${{matrix.qt_modules}}
       VCPKGGITCOMMITID: f1c6efee2245009540dde947e0e3d008f3aa7dbb
       RabbitCommon_VERSION: v1.0.13
@@ -66,7 +66,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: Cache-macos-installed-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+          key: cached-macos-install-qt${{matrix.qt_version}}-${{matrix.qt_arch}}-${{matrix.BUILD_TYPE}}
 
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v11
@@ -76,19 +76,6 @@ jobs:
           #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
           vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
-          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-          # compute its hash and append this to the computed cache's key.
-          #appendedCacheKey: RabbitCommon_cache-vcpkg-msvc-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
-          #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-          #vcpkgTriplet: '${{matrix.triplet}}'
-          #vcpkgArguments: 'zlib openssl'
-
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v1  # not v2!
-        with:
-          path: ${{env.TOOSL_DIR}}/qt
-          key: qt${{matrix.qt_version}}-macos
 
       - name: Install Qt
         # You may pin to the exact commit or the version.
@@ -100,7 +87,8 @@ jobs:
           # Version of Qt to install
           version: ${{matrix.qt_version}} # optional, default is 5.15.2
           modules: ${{env.qt_modules}} # optional. See: https://ddalcino.github.io/aqt-list-server/
-          cache: ${{steps.cache-qt.outputs.cache-hit}} # optional, default is false
+          cache: true
+          cache-key-prefix: cached_qt
 
       - name: Compile use cmake
         working-directory: ${{github.workspace}}/build
