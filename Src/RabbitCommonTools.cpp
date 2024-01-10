@@ -215,29 +215,29 @@ QString CTools::Information()
     return szInfo;
 }
 
-int CTools::AndroidRequestPermission(const QString &premission)
+int CTools::AndroidRequestPermission(const QString &permission)
 {
 #if defined (Q_OS_ANDROID)
     #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-    // get android storage permisson
+    // get android storage permission
     // 该接口也可以直接使用字符串，可自行跳转到头文件自行查看
     
-    if (QtAndroidPrivate::checkPermission(premission).result()
+    if (QtAndroidPrivate::checkPermission(permission).result()
         == QtAndroidPrivate::Denied)
     {
-        QtAndroidPrivate::requestPermission(premission).waitForFinished();
+        QtAndroidPrivate::requestPermission(permission).waitForFinished();
     }
-    qInfo(Logger) << "anroid permission" << premission << ";status:"
-                  << QtAndroidPrivate::checkPermission(premission).result();
+    qInfo(Logger) << "android permission" << permission << ";status:"
+                  << QtAndroidPrivate::checkPermission(permission).result();
     #endif
 #endif
 
     return 0;
 }
 
-int CTools::AndroidRequestPermission(const QStringList &premissions)
+int CTools::AndroidRequestPermission(const QStringList &permissions)
 {
-    foreach (auto p, premissions) {
+    foreach (auto p, permissions) {
         AndroidRequestPermission(p);
     }
     return 0;

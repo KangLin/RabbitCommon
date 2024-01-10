@@ -246,9 +246,9 @@ int CGenerateUpdateFile::GenerateUpdateXmlFile(const QString &szFile, const INFO
     
     QDomText arch = doc.createTextNode("ARCHITECTURE");
     arch.setData(info.szArchitecture);
-    QDomElement eArch = doc.createElement("ARCHITECTURE");
-    eArch.appendChild(arch);
-    root.appendChild(eArch);
+    QDomElement architecture = doc.createElement("ARCHITECTURE");
+    architecture.appendChild(arch);
+    root.appendChild(architecture);
     
     QDomText md5 = doc.createTextNode("MD5SUM");
     md5.setData(info.szMd5sum);

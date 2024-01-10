@@ -17,9 +17,9 @@ Author：Kang Lin（kl222@126.com)
   - https://gitlab.com/kl222/RabbitCommon
   - https://invent.kde.org/kanglin/RabbitCommon
   - https://gitee.com/kl222/RabbitCommon
-### Developer documetns
+### Developer documents
 
-[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/index.html)
+[Online developer documents](https://kanglin.github.io/RabbitCommon/English/html/index.html)
 
 ### Latest release
 
@@ -55,7 +55,7 @@ Qt common library. include follow functions:
   + [x] Add target, plugin target
   + [x] Generate pkg-config configure file
   + [x] Generate cmake configure file
-  + [x] Add unistall target
+  + [x] Add uninstall target
 - [x] Cross-platform, support multiple operating systems
   - [x] Windows
   - [x] Linux、Unix
@@ -87,7 +87,7 @@ Qt common library. include follow functions:
     * Parameter
       - CMAKE_BUILD_TYPE: build type(MUST)
       - QT_DIR: Qt install position
-      - BUILD_DOCS: build doxygen documetns
+      - BUILD_DOCS: build doxygen documents
       - BUILD_APP: build app
       - BUILD_ABOUT: build about
       - BUILD_UPDATE: build updater
@@ -202,7 +202,7 @@ Qt common library. include follow functions:
         make install
 
     * Parameter
-      - BUILD_DOCS: build doxygen documetns
+      - BUILD_DOCS: build doxygen documents
       - BUILD_ABOUT=OFF: Off build about
       - BUILD_UPDATE=OFF: Off build updater
       - BUILD_ADMINAUTHORISER＝OFF: Off admin authoriser
@@ -328,7 +328,7 @@ Qt common library. include follow functions:
 
 ### Functions
 
-[Online developer documetns](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
+[Online developer documents](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)
 
 #### [About](Src/DlgAbout/DlgAbout.h)
 

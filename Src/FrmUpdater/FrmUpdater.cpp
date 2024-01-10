@@ -761,7 +761,7 @@ void CFrmUpdater::slotUpdate()
                               << "in a new process, and detaches from it.";
             if(!proc.startDetached(szCmd))
             {
-                qInfo(FrmUpdater) << "Start new process fial."
+                qInfo(FrmUpdater) << "Start new process fail."
                                   << "Use system installer to install"
                                   << m_DownloadFile.fileName();
                 QUrl url(m_DownloadFile.fileName());
@@ -1049,9 +1049,9 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
     
     QDomText arch = doc.createTextNode("ARCHITECTURE");
     arch.setData(info.szArchitecture);
-    QDomElement eArch = doc.createElement("ARCHITECTURE");
-    eArch.appendChild(arch);
-    root.appendChild(eArch);
+    QDomElement architecture = doc.createElement("ARCHITECTURE");
+    architecture.appendChild(arch);
+    root.appendChild(architecture);
     
     QDomText md5 = doc.createTextNode("MD5SUM");
     md5.setData(info.szMd5sum);

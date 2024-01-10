@@ -206,8 +206,8 @@ public:
     static int SaveWidget(QWidget* pWidget);
 #endif
     
-    static int AndroidRequestPermission(const QStringList& premissions);
-    static int AndroidRequestPermission(const QString& premission);
+    static int AndroidRequestPermission(const QStringList& permissions);
+    static int AndroidRequestPermission(const QString& permission);
 
 private:
     CTools();

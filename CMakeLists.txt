@@ -175,7 +175,7 @@ endif(BUILD_TESTS)
 #    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
 #    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
 #    IMMEDIATE @ONLY)
-## Create unistall target
+## Create uninstall target
 #ADD_CUSTOM_TARGET(uninstall
 #    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
 #    DEPENDS uninstall-runtime)
