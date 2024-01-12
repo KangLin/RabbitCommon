@@ -90,7 +90,10 @@ if(UNIX AND (NOT (MACOS AND APPLE)) AND (NOT ANDROID))
     set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
     #set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY ">=")
 
-    set(CPACK_DEBIAN_PACKAGE_PREDEPENDS "debhelper (>= 6), cmake (>= 2.8.0)")
+    set(CPACK_DEBIAN_PACKAGE_PREDEPENDS "debhelper (>= 13), qt6-tools-dev, qt6-tools-dev-tools,
+        qt6-base-dev, qt6-base-dev-tools, qt6-qpa-plugins, qt6-l10n-tools,
+        qt6-translations-l10n, qt6-scxml-dev, qt6-webengine-dev,
+        qt6-webengine-dev-tools, qt6-multimedia-dev, libsqlite3-dev")
 
 endif()
 ############### Debian ###################

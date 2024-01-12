@@ -21,6 +21,7 @@
 + RabbitCommonUtils: add pkg-config file
 + Android:
   - Add AndroidRequestPermission
++ Modify debian package
   
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak
