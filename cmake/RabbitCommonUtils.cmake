@@ -172,7 +172,7 @@ function(INSTALL_DIR)
     endif()
     if(NOT PARA_TARGET)
         if(NOT TARGET ${PROJECT_NAME})
-            message(FATAL_ERROR "Move the INSTALL_DIR(...) to the back of the add_executable(...) or add_library(...)")
+            message(WARNING "Move the INSTALL_DIR(...) to the back of the add_executable(...) or add_library(...)")
         else()
             set(PARA_TARGET ${PROJECT_NAME})
         endif()
@@ -666,9 +666,11 @@ function(INSTALL_TARGET)
             endif()
 
             # Install pkg-config file
-            install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc"
-                DESTINATION "${PARA_ARCHIVE}/pkgconfig"
-                COMPONENT ${PARA_COMPONENT_DEV})
+            if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc)
+                install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc"
+                    DESTINATION "${PARA_ARCHIVE}/pkgconfig"
+                    COMPONENT ${PARA_COMPONENT_DEV})
+            endif()
         endif(PARA_ISEXE)
 
         # Install dependencies runtime dlls
@@ -995,9 +997,11 @@ function(ADD_TARGET)
         else()
             set(PC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in)
         endif()
-        configure_file(${PC_FILE}
-            ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc @ONLY)
-        message("Generate pkg-config file: ${PC_FILE} to ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc")
+        if(EXISTS ${PC_FILE})
+            configure_file(${PC_FILE}
+                ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc @ONLY)
+            message("Generate pkg-config file: ${PC_FILE} to ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc")
+        endif()
         
     endif(PARA_ISEXE)
 
