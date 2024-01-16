@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: rabbitcommon
-Upstream-Contact: <preferred name and address to reach the upstream project>
-Source: <url://example.com>
+Upstream-Contact: Kang Lin <kl222@126.com>
+Source: https://github.com/KangLin/RabbitCommon
 
 Files: *
 Copyright: 2019 Kang Lin <kl222@126.com>

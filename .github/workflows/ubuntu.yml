@@ -72,6 +72,10 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*
+      
+      - name: Build RabbitCommon deb
+        run: |
+          ./build_debpackage.sh
 
       - name: Update artifact
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -81,6 +85,7 @@ jobs:
           path: |
             ${{github.workspace}}/build/RabbitCommon-*.tar.gz
             ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip
+            ${{github.workspace}}/../*.deb
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}

@@ -43,7 +43,7 @@ export QT_ROOT=$QT_ROOT
 # -S  Equivalent to --build=source
 
 #The -us -uc tell it there is no need to GPG sign the package. the -b is build binary
-#dpkg-buildpackage -us -uc -b
+dpkg-buildpackage -us -uc -b
 
 #The -us -uc tell it there is no need to GPG sign the package. the -S is build source package
 #dpkg-buildpackage -us -uc -S
@@ -53,4 +53,4 @@ export QT_ROOT=$QT_ROOT
 # build source and binary package
 #dpkg-buildpackage -us -uc 
 
-dpkg-buildpackage
+#dpkg-buildpackage

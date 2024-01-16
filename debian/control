@@ -1,10 +1,11 @@
+# https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#control
 # https://www.debian.org/doc/debian-policy/ch-controlfields.html
 
 Source: rabbitcommon
 Maintainer: Kang Lin <kl222@126.com>
-Section: main
+Section: libs
 Priority: optional
-Build-Depends: debhelper (>=13), debhelper-compat (=13), fakeroot,
+Build-Depends: debhelper (>=13~), debhelper-compat (=13), fakeroot,
  qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools,
  qt6-qpa-plugins, qt6-l10n-tools, qt6-translations-l10n, qt6-scxml-dev,
  qt6-webengine-dev, qt6-webengine-dev-tools, qt6-multimedia-dev
@@ -15,12 +16,19 @@ Vcs-Browser: https://github.com/KangLin/RabbitCommon
 Rules-Requires-Root: binary-targets
 
 Package: rabbitcommon
-Architecture: any
 Section: libs
-Priority: optional
-Essential: no
+Architecture: any
+Multi-Arch: same
+# Essential: no
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Homepage: https://github.com/KangLin/RabbitCommon
-Description: Rabbit common library for qt
- Rabbit common library for qt. by Kang Lin <kl222@126.com>
+Description: Rabbit common library using Qt
+ Rabbit common library using Qt. by Kang Lin <kl222@126.com>
+
+Package: rabbitcommon-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: rabbitcommon (= ${binary:Version}), ${misc:Depends}
+Description: Rabbit common devel library using Qt
+ Rabbit common devel library using Qt. by Kang Lin <kl222@126.com>

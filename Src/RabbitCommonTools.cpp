@@ -94,8 +94,10 @@ CTools::CTools() : m_bTranslator(false),
 
 CTools::~CTools()
 {
+#if HAVE_RABBITCOMMON_GUI
     if(g_pDcokDebugLog)
         delete g_pDcokDebugLog;
+#endif
 }
 
 CTools* CTools::Instance()
