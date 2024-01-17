@@ -72,7 +72,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*
-      
+
       - name: Make deb package
         run: |
           ./build_debpackage.sh
