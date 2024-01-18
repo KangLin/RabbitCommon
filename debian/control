@@ -9,7 +9,7 @@ Build-Depends: debhelper (>=13~), debhelper-compat (=13), fakeroot,
  qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools,
  qt6-qpa-plugins, qt6-l10n-tools, qt6-translations-l10n, qt6-scxml-dev,
  qt6-webengine-dev, qt6-webengine-dev-tools
-Standards-Version: 2.0.0
+Standards-Version: 4.6.2
 Homepage: https://github.com/KangLin/RabbitCommon
 Vcs-Git: https://github.com/KangLin/RabbitCommon.git
 Vcs-Browser: https://github.com/KangLin/RabbitCommon

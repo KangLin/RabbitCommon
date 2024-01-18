@@ -1,4 +1,4 @@
-rabbitcommon (2.0.0) stable; urgency=medium
+rabbitcommon (2.0.0) unstable; urgency=medium
 
   * Initial Release.
 
