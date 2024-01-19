@@ -44,6 +44,7 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_lower}_${CPACK_PACKAGE_VERSION
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME_lower}_${CPACK_PACKAGE_VERSION}_source")
 
 #set(CPACK_PACKAGE_CHECKSUM "MD5")
+set(CPACK_PACKAGE_CONTACT "Kang Lin <kl222@126.com>")
 
 ############### NSIS ###################
 if(WIN32)
@@ -96,7 +97,7 @@ if(UNIX AND (NOT (MACOS AND APPLE)) AND (NOT ANDROID))
         qt6-webengine-dev-tools, qt6-multimedia-dev, libsqlite3-dev")
 
 endif()
-############### Debian ###################
+############### Debian end ###################
 
 include(CPackComponent)
 include(CPack)

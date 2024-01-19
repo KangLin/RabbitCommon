@@ -18,7 +18,10 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #include "MainWindow.h"
-#include "FrmUpdater/FrmUpdater.h"
+
+#ifdef HAVE_UPDATE
+    #include "FrmUpdater.h"
+#endif
 
 Q_LOGGING_CATEGORY(mainLog, "RabbitCommon.main")
 

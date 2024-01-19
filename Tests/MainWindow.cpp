@@ -35,12 +35,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
-
+    
+#ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::CTools::AddStyleMenu(ui->menuTools);
     ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
     ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(this));
 
-#ifdef HAVE_RABBITCOMMON_GUI
+
     // [Use CDockFolderBrowser]
     CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
     pDock->setRootPath(RabbitCommon::CDir::Instance()->GetDirIcons(true));
