@@ -24,7 +24,14 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Rabbit common library using Qt
- Rabbit common library using Qt. by Kang Lin <kl222@126.com>
+ Rabbit common library using Qt.
+ .
+ Author: Kang Lin <kl222@126.com>
+ .
+ Donation:
+ https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
 
 Package: rabbitcommon-dev
 Section: libdevel
@@ -32,4 +39,11 @@ Architecture: any
 Multi-Arch: same
 Depends: rabbitcommon (= ${binary:Version}), ${misc:Depends}
 Description: Rabbit common devel library using Qt
- Rabbit common devel library using Qt. by Kang Lin <kl222@126.com>
+ Rabbit common devel library using Qt.
+ .
+ Author: Kang Lin <kl222@126.com>
+ .
+ Donation:
+ https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
