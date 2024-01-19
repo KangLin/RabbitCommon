@@ -1,11 +1,7 @@
 @PACKAGE_INIT@
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/")
-
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}")
-
-include(CMakeFindDependencyMacro)
-find_dependency(Qt@QT_VERSION_MAJOR@ COMPONENTS @RabbitCommon_QT_COMPONENTS@)
 
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonUtils.cmake")
@@ -21,3 +17,6 @@ else()
     # Install translations
     INSTALL_DIR(SOURCES ${PACKAGE_PREFIX_DIR}/translations)
 endif()
+
+include(CMakeFindDependencyMacro)
+find_dependency(Qt@QT_VERSION_MAJOR@ COMPONENTS @RabbitCommon_QT_COMPONENTS@)
