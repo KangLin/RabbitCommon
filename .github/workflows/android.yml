@@ -35,10 +35,10 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
       RabbitCommon_VERSION: v0.0.25
-      VCPKGGITCOMMITID: f1c6efee2245009540dde947e0e3d008f3aa7dbb
+      VCPKGGITCOMMITID: a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6
       ANDROID_PLATFORM: android-28
       ANDROID_NATIVE_API_LEVEL: 28
-      qt_modules: 'qtimageformats qtmultimedia qtscxml'
+      qt_modules: 'qtimageformats qtmultimedia qtscxml qtwebchannel qtwebsockets qtwebview'
 
     # Map the job outputs to step outputs
     outputs:
