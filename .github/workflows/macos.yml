@@ -68,7 +68,7 @@ jobs:
             ${{env.INSTALL_DIR}}
           key: cached-macos-install-qt${{matrix.qt_version}}-${{matrix.qt_arch}}-${{matrix.BUILD_TYPE}}
 
-      - name: run-vcpkg
+      - name: run vcpkg
         uses: lukka/run-vcpkg@v11
         with:
           # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.

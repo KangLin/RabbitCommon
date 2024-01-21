@@ -97,7 +97,7 @@ jobs:
           cache: true
           cache-key-prefix: cached_qt
 
-      - name: run-vcpkg
+      - name: run vcpkg
         if: false
         uses: lukka/run-vcpkg@v11
         with:
