@@ -32,9 +32,9 @@ class CFrmUpdater;
  *
  * - 使用：
  *   - 生成配置文件
- *     - [必选] 生成更新配置文件(update_XXX.xml)。 格式详见： \ref CheckUpdateXmlFile \n
+ *     - [必选] 生成更新配置文件(update_XXX.xml)。 格式详见： \ref CheckUpdateConfigFile \n
  *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
- *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectXmlFile \n
+ *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectConfigFile \n
  *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
  *   - 在应用程序中使用 CFrmUpdater:
  *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
@@ -48,10 +48,10 @@ class CFrmUpdater;
  * - Usage:
  *   - Generate configuration file
  *     - [MUST] Generate update configuration file(update_XXX.xml).
- *              Format see: \ref CheckUpdateXmlFile \n
+ *              Format see: \ref CheckUpdateConfigFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
  *     - [OPTION] Generate redirect configure file(update.xml).
- *             Format see: \ref CheckRedirectXmlFile \n
+ *             Format see: \ref CheckRedirectConfigFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
  *   - Used by application CFrmUpdater:
  *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
@@ -107,7 +107,7 @@ protected Q_SLOTS:
     void slotButtonClickd(int id);
     void slotCheck();
     void slotDownloadFile();
-    virtual void slotCheckXmlFile();
+    virtual void slotCheckConfigFile();
     void slotDownloadSetupFile();
     void slotUpdate();
     void slotStateFinished();
@@ -119,15 +119,15 @@ protected Q_SLOTS:
 Q_SIGNALS:
     void sigError();
     void sigFinished();
-    void sigDownLoadRedireXml();
+    void sigDownLoadRedire();
 
 private:
     CFrmUpdater(QWidget *parent);
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
     bool IsDownLoad();
-    int CheckRedirectXmlFile();
-    int CheckUpdateXmlFile();
+    int CheckRedirectConfigFile();
+    int CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
     QString InstallScript(const QString szDownLoadFile,
                           const QString szApplicationName);

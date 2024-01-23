@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFinalState>
+#include <QJsonDocument>
 #include <QDomDocument>
 #include <QDomText>
 #include <QDomElement>
@@ -22,7 +23,8 @@
 #include <QMenu>
 #include <QSettings>
 
-Q_LOGGING_CATEGORY(FrmUpdater, "RabbitCommon.Updater")
+static Q_LOGGING_CATEGORY(FrmUpdater, "RabbitCommon.Updater")
+
 CFrmUpdater::CFrmUpdater(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CFrmUpdater),
@@ -154,17 +156,17 @@ CFrmUpdater::~CFrmUpdater()
  *   |             s                    |                  |
  *   |----------------------------------|                  |
  *   |                                  |                  |
- *   |  |--------------------|          |                  |
- *   |  |Download xml fil    |          |                  |
- *   |  |(sDownloadXmlFile)  |<-----|   |                  |
- *   |  |--------------------|      |   |                  |
+ *   |  |----------------------|        |                  |
+ *   |  |Download config file  |        |                  |
+ *   |  |(sDownloadConfigFile) |<---|   |                  |
+ *   |  |----------------------|    |   |                  |
  *   |      |                       |   |                  |
  *   |      | sigFinished           |   |                  |
  *   |      |                       |   |                  |
- *   |      V   sigDownLoadRedireXml|   |                  |
+ *   |      V   sigDownLoadRedire   |   |                  |
  *   |  |--------------------|      |   |                  |
- *   |  |Check xml file      |      |   |                  |
- *   |  |(sCheckXmlFile)     |------|   |                  |
+ *   |  |Check config file   |      |   |                  |
+ *   |  |(sCheckConfigFile)  |------|   |                  |
  *   |  |____________________|          |                  |
  *   |      |                           |                  |
  *   |      | sigFinished               |                  |
@@ -190,8 +192,8 @@ int CFrmUpdater::InitStateMachine()
     QFinalState *sFinal = new QFinalState();
     QState *sCheck = new QState();
     QState *s = new QState();
-    QState *sDownloadXmlFile = new QState(s);
-    QState *sCheckXmlFile = new QState(s);
+    QState *sDownloadConfigFile = new QState(s);
+    QState *sCheckConfigFile = new QState(s);
     QState *sDownloadSetupFile = new QState(s);
     QState *sUpdate = new QState(s);
     
@@ -207,18 +209,18 @@ int CFrmUpdater::InitStateMachine()
     s->addTransition(this, SIGNAL(sigError()), sFinal);
     s->addTransition(this, SIGNAL(sigFinished()), sFinal);
 
-    s->setInitialState(sDownloadXmlFile);
-    sDownloadXmlFile->assignProperty(ui->lbState, "text", tr("Being download xml file"));
-    sDownloadXmlFile->addTransition(this, SIGNAL(sigFinished()), sCheckXmlFile);
-    check = connect(sDownloadXmlFile, SIGNAL(entered()),
+    s->setInitialState(sDownloadConfigFile);
+    sDownloadConfigFile->assignProperty(ui->lbState, "text", tr("Being Download config file"));
+    sDownloadConfigFile->addTransition(this, SIGNAL(sigFinished()), sCheckConfigFile);
+    check = connect(sDownloadConfigFile, SIGNAL(entered()),
                      this, SLOT(slotDownloadFile()));
     Q_ASSERT(check);
     
-    sCheckXmlFile->addTransition(this, SIGNAL(sigDownLoadRedireXml()), sDownloadXmlFile);
-    sCheckXmlFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
-    sCheckXmlFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
-    sCheckXmlFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
-    check = connect(sCheckXmlFile, SIGNAL(entered()),  this, SLOT(slotCheckXmlFile()));
+    sCheckConfigFile->addTransition(this, SIGNAL(sigDownLoadRedire()), sDownloadConfigFile);
+    sCheckConfigFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
+    sCheckConfigFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
+    sCheckConfigFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
+    check = connect(sCheckConfigFile, SIGNAL(entered()),  this, SLOT(slotCheckConfigFile()));
     Q_ASSERT(check);
     
     m_pStateDownloadSetupFile = sDownloadSetupFile;
@@ -371,19 +373,20 @@ void CFrmUpdater::slotDownloadFile()
     // [Use RabbitCommon::CDownloadFile download file]
 }
 
-void CFrmUpdater::slotCheckXmlFile()
+void CFrmUpdater::slotCheckConfigFile()
 {
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
-    qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile()";
-    if(CheckRedirectXmlFile() <= 0)
+    qDebug(FrmUpdater) << "CFrmUpdater::slotCheckConfigFile()";
+    if(CheckRedirectConfigFile() <= 0)
         return;
     
-    CheckUpdateXmlFile();
+    CheckUpdateConfigFile();
 }
 
 /*!
  * \brief 检查重定向配置文件
+ * 
  * \details
  * 重定向配置文件格式：
  * 
@@ -415,10 +418,15 @@ void CFrmUpdater::slotCheckXmlFile()
    </REDIRECT>
    
  * \endcode
+ *
+ * \return > 0: 正常配置文件
+ *         = 0: 是重定向配置文件
+ *         < 0: 错误
+ * 
  */
-int CFrmUpdater::CheckRedirectXmlFile()
+int CFrmUpdater::CheckRedirectConfigFile()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectXmlFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectConfigFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
         qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
@@ -498,7 +506,7 @@ int CFrmUpdater::CheckRedirectXmlFile()
 
     qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
 
-    emit sigDownLoadRedireXml();
+    emit sigDownLoadRedire();
 
     return 0;
 }
@@ -531,9 +539,9 @@ int CFrmUpdater::CheckRedirectXmlFile()
    
  * \endcode
  */
-int CFrmUpdater::CheckUpdateXmlFile()
+int CFrmUpdater::CheckUpdateConfigFile()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateXmlFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateConfigFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
         qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
