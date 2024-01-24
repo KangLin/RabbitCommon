@@ -22,7 +22,8 @@
 + Android:
   - Add AndroidRequestPermission
 + Modify debian package
-  
++ Add unit test
+
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak
 + Documents: fix titlebar comments bug

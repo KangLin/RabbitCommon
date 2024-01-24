@@ -16,7 +16,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
 
-    void test_updater_joson();
+    void test_joson();
 };
 
 #endif // CUNITTESTS_H

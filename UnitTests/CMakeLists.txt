@@ -2,27 +2,31 @@ cmake_minimum_required(VERSION 3.5)
 
 project(UnitTests LANGUAGES CXX)
 
-enable_testing()
-
-set(SOURCE_FILES UnitTests.h UnitTests.cpp)
-
-#需要的QT组件
-SET(QT_COMPONENTS Gui Test)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS ${QT_COMPONENTS})
-if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${QT_COMPONENTS})
-        SET(QT_LIBRARIES ${QT_LIBRARIES} Qt${QT_VERSION_MAJOR}::${_COMPONENT})
-    ENDFOREACH()
-endif()
-message("QT_LIBRARIES:${QT_LIBRARIES}")
-
-ADD_TARGET(NAME ${PROJECT_NAME}
+set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
+ADD_TARGET(NAME UnitTests
     ISEXE
     NO_TRANSLATION
-    SOURCE_FILES ${SOURCE_FILES}
+    SOURCE_FILES UnitTests.h UnitTests.cpp
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
     )
 
-add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+add_test(NAME UnitTests
+    COMMAND UnitTests
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    )
+
+ADD_TARGET(NAME TestGenerateJsonFile
+    ISEXE
+    NO_TRANSLATION
+    SOURCE_FILES TestGenerateJsonFile.cpp TestGenerateJsonFile.h
+    PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
+        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
+    )
+
+add_test(NAME TestGenerateJsonFile
+    COMMAND TestGenerateJsonFile -f a.json --foc 1
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    )

@@ -93,6 +93,9 @@ jobs:
               -DBUILD_APP=OFF ^
               -DBUILD_TESTS=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          copy /Y ${{env.INSTALL_DIR}}\bin\*.dll bin
+          copy /Y ${{env.INSTALL_DIR}}\lib\*.dll bin
+          copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll bin
           ctest
 
       - name: Package

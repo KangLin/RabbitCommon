@@ -23,6 +23,7 @@
 + Android:
   - 增加 AndroidRequestPermission
 + 修改 debian 打包
++ 增加单元测试
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

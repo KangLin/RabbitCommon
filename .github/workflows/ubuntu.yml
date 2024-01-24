@@ -73,6 +73,8 @@ jobs:
                 -DBUILD_APP=OFF \
                 -DBUILD_TESTS=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          sudo Xvfb :99 -ac &
+          export DISPLAY=:99.0
           ctest
           
       - name: Build RabbitCommon

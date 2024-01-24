@@ -89,6 +89,8 @@ public:
      */
     int GenerateUpdateXml();
     int GenerateUpdateXml(QCommandLineParser &parser);
+    int GenerateUpdateJson();
+    int GenerateUpdateJson(QCommandLineParser &parser);
 
     /*!
      * \brief Set install and automation startup
@@ -154,22 +156,39 @@ private:
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;
 
-    struct INFO{
+    enum class INFO_TYPE{
+        VERSION,
+        FILE,
+        VERSION_FILE
+    };
+
+    struct INFO {
         QString szVerion;
         QString szInfomation;
         QString szTime;
         bool bForce;
+        QString szUrlHome;
+        QString szMinUpdateVersion;
+        
         QString szSystem;
+        QString szSystemMinVersion;
         QString szPlatform;
         QString szArchitecture;
+        QString szArchitectureMinVersion;
         QString szFileName;
         QVector<QUrl> urls;
-        QString szUrlHome;
         QString szMd5sum;
-        QString szMinUpdateVersion;
     } m_Info;
-
-    int GenerateUpdateXmlFile(const QString &szFile, const INFO &info);
+    int GetInfo(/*[in]*/QCommandLineParser &parser,
+                /*[out]*/QString &szFile,
+                /*[out]*/INFO &info,
+                /*[out]*/INFO_TYPE &type);
+    int GenerateUpdateXmlFile(const QString &szFile,
+                              const INFO &info,
+                              INFO_TYPE &type);
+    int GenerateJsonFile(const QString &szFile,
+                         const INFO &info,
+                         INFO_TYPE type);
 
     // QWidget interface
 protected:
@@ -182,6 +201,8 @@ private Q_SLOTS:
     // Only test!!!
 public:
     int test_json();
+    int test_generate_json_file();
+    void test_command_line_arguments();
 
 #endif
 };

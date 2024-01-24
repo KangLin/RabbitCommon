@@ -528,6 +528,47 @@ int CFrmUpdater::CheckRedirectConfigFile()
  * \brief 检查更新配置文件
  * \details
  * 
+ * json 格式：
+ * \code
+ * {
+ *   "version": {
+ *     "version": "2.0.0",
+ *     "min_update_version": "1.0.0",
+ *     "time": "",
+ *     "info": "RabbitCommon",
+ *     "home": "https://github.com/kanglin/rabbitcommon",
+ *     "force": false
+ *   },
+ *   "files": [
+ *     {
+ *       "os": "windows",
+ *       "os_min_version": "7",
+ *       "arch": "x86",
+ *       "arch_min_version": "1",
+ *       "name": "RabbitCommon_setup.exe",
+ *       "md5": "",
+ *       "urls": [
+ *         "github.com/kanglin/rabbitcommon/windows",
+ *         "gitlab.com/kl222/rabbitcommon/windows"
+ *       ]
+ *     },
+ *     {
+ *       "os": "ubuntu",
+ *       "os_min_version": "22.06",
+ *       "arch": "x86",
+ *       "arch_min_version": "1",
+ *       "name": "rabbitcommon_setup.deb",
+ *       "md5": "",
+ *       "urls": [
+ *         "github.com/kanglin/rabbitcommon/ubuntu",
+ *         "gitlab.com/kl222/rabbitcommon/ubuntu"
+ *       ]
+ *     }
+ *   ]
+ * }
+ * \endcode
+ * 
+ * 旧的 xml 格式：
  * \code
  
    <?xml version="1.0" encoding="UTF-8"?>
@@ -1022,7 +1063,91 @@ void CFrmUpdater::slotButtonClickd(int id)
     set.setValue("Update/RadioButton", id);
 }
 
-int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
+/*!
+ * \brief Generate Json File
+ * \param szFile
+ * \param info
+ * \param type
+ * \return 
+ * \see CheckUpdateConfigFile
+ */
+int CFrmUpdater::GenerateJsonFile(const QString &szFile, const INFO &info, INFO_TYPE type)
+{
+    QJsonDocument doc;
+    
+    QJsonObject version;    
+    version.insert("version", info.szVerion);
+    version.insert("min_update_version", info.szMinUpdateVersion);
+    version.insert("info", info.szInfomation);
+    version.insert("time", info.szTime);
+    version.insert("force", info.bForce);
+    version.insert("home", info.szUrlHome);
+
+    QJsonObject file;
+    file.insert("os", info.szSystem);
+    if(!info.szSystemMinVersion.isEmpty())
+        file.insert("os_min_version", info.szSystemMinVersion);
+    file.insert("arch", info.szArchitecture);
+    if(!info.szArchitectureMinVersion.isEmpty())
+        file.insert("arch_min_version", info.szArchitectureMinVersion);
+    file.insert("md5", info.szMd5sum);
+    file.insert("name", info.szFileName);
+    QJsonArray urls;
+    foreach (auto u, info.urls) {
+        urls.append(u.toString());
+    }
+    file.insert("urls", urls);
+    
+    switch(type) {
+    case INFO_TYPE::VERSION:
+        doc.setObject(version);
+        break;
+    case INFO_TYPE::FILE:
+        doc.setObject(file);
+        break;
+    case INFO_TYPE::VERSION_FILE:
+    {
+        QJsonObject root;
+        root.insert("version", version);
+        QJsonArray files;
+        files.append(file);
+        root.insert("files", files);
+        doc.setObject(root);
+    }
+    default:
+        break;
+    };
+
+    QFile f(szFile);
+    if(!f.open(QIODevice::WriteOnly))
+    {
+        qCritical(FrmUpdater) << "Open file fail:" << f.fileName();
+        return -1;
+    }
+    f.write(doc.toJson());
+    f.close();
+    return 0;
+}
+
+int CFrmUpdater::GenerateUpdateJson()
+{
+    QCommandLineParser parser;
+    int nRet = GenerateUpdateJson(parser);
+    parser.process(qApp->arguments());
+    return nRet;
+}
+
+int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
+{
+    QString szFile;
+    INFO info;
+    INFO_TYPE type;
+    if(GetInfo(parser, szFile, info, type))
+        return -1;
+    return GenerateJsonFile(szFile, info, type);
+}
+
+int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info, INFO_TYPE &type)
 {
     QDomDocument doc;
     QDomProcessingInstruction ins;
@@ -1128,14 +1253,26 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info)
 int CFrmUpdater::GenerateUpdateXml()
 {
     QCommandLineParser parser;
-    return GenerateUpdateXml(parser);
+    int nRet = GenerateUpdateXml(parser);
+    parser.process(qApp->arguments());
+    return nRet;
 }
 
 int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
 {
-    int nRet = -1;
+    QString szFile;
     INFO info;
-    
+    INFO_TYPE type;
+    if(GetInfo(parser, szFile, info, type))
+        return -1;
+    return GenerateUpdateXmlFile(szFile, info, type);
+}
+
+int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
+                         /*[out]*/QString &szFile,
+                         /*[out]*/INFO &info,
+                         /*[out]*/INFO_TYPE &type)
+{    
     QString szSystem, szUrl;
 #if defined (Q_OS_WIN)
     szSystem = "Windows";
@@ -1179,12 +1316,21 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
 
     parser.addHelpOption();
     parser.addVersionOption();
-
+    
     QCommandLineOption oFile(QStringList() << "f" << "file",
-                             tr("xml file name"),
-                             "xml file name");
+                             tr("Configure file name"),
+                             "Configure file name",
+                             "update.json");
     parser.addOption(oFile);
-    QCommandLineOption oPackageVersion("pv",
+    QCommandLineOption oFileOuputContent(QStringList() << "foc" << "file-output-content",
+                                 tr("Configure file output content:") + "\n"
+                                     + QString::number(static_cast<int>(INFO_TYPE::VERSION)) + tr(": content is version") + "\n"
+                                     + QString::number(static_cast<int>(INFO_TYPE::FILE)) + tr(": content is file") + "\n"
+                                     + QString::number(static_cast<int>(INFO_TYPE::VERSION_FILE)) + tr(": content is version and file"),
+                                 "Configure file output content",
+                                 QString::number(static_cast<int>(INFO_TYPE::VERSION_FILE)));
+    parser.addOption(oFileOuputContent);
+    QCommandLineOption oPackageVersion(QStringList() << "pv" << "package-version",
                                 tr("Package version"),
                                 "Package version",
                                 m_szCurrentVersion);
@@ -1219,9 +1365,10 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
                              tr("MD5 checksum"),
                              "MD5 checksum");
     parser.addOption(oMd5);
-    QCommandLineOption oPackageFile("pf",
-                             tr("Package file, Is used to calculate md5sum"),
-                             "Package file");
+    QCommandLineOption oPackageFile(QStringList() << "pf" << "package-file",
+                            tr("Package file, Is used to calculate md5sum"),
+                            "Package file",
+                            qApp->applicationName());
     parser.addOption(oPackageFile);
     QCommandLineOption oUrl(QStringList() << "u" << "urls",
                              tr("Package download urls"),
@@ -1234,7 +1381,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
                              "Project home url",
                              szHome);
     parser.addOption(oUrlHome);
-    QCommandLineOption oMin(QStringList() << "m" << "min",
+    QCommandLineOption oMin(QStringList() << "m" << "min" << "min-update-version",
                              tr("Min update version"),
                              "Min update version",
                              m_szCurrentVersion);
@@ -1245,10 +1392,13 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     if(!parser.parse(QApplication::arguments()))
         return -1;
     //*/
-    QString szFile = parser.value(oFile);
+    szFile = parser.value(oFile);
     if(szFile.isEmpty())
-        return nRet;
+        qDebug(FrmUpdater) << "File is empty";
     
+    type = static_cast<INFO_TYPE>(parser.value(oFileOuputContent).toInt());
+    qDebug(FrmUpdater) << "File content is:" << (int)type;
+
     info.szVerion = parser.value(oPackageVersion);
     info.szTime = parser.value(oTime);
     info.szInfomation = parser.value(oInfo);
@@ -1257,6 +1407,8 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     info.szPlatform = parser.value(oPlatform);
     info.szArchitecture = parser.value(oArch);
     info.szMd5sum = parser.value(oMd5);
+    if(info.szMd5sum.isEmpty())
+        qDebug(FrmUpdater) << "Md5 is empty. please set -c or --md5";
     QString szPackageFile = parser.value(oPackageFile);
     QFileInfo fi(szPackageFile);
     info.szFileName = fi.fileName();
@@ -1286,7 +1438,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     info.szUrlHome = parser.value(oUrlHome);
     info.szMinUpdateVersion = parser.value(oMin);
 
-    return GenerateUpdateXmlFile(szFile, info);
+    return 0;
 }
 
 void CFrmUpdater::showEvent(QShowEvent *event)
@@ -1342,12 +1494,14 @@ int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 }
 
 #if defined(HAVE_TEST)
+#include <QtTest>
+
 int CFrmUpdater::test_json()
 {
     QJsonArray url_windows;
-    url_windows.append("gitlab.com/windows");
     url_windows.append("github.com/windows");
-    
+    url_windows.append("gitlab.com/windows");
+        
     QJsonObject file_windows;
     file_windows.insert("os", "windows");
     file_windows.insert("os_min_version", "7");
@@ -1369,9 +1523,13 @@ int CFrmUpdater::test_json()
     files.append(file_linux);
     
     QJsonObject version;
-    version.insert("file", files);
-    version.insert("min_version", "1.0.0");
     version.insert("version", "2.0.0");
+    version.insert("min_update_version", "1.0.0");
+    version.insert("info", "RabbitCommon");
+    version.insert("time", QDateTime::currentDateTime().toString());
+    version.insert("home", "github.com/kanglin/rabbitcommon");
+    version.insert("force", false);
+    version.insert("files", files);
 
     QJsonDocument updater, doc1;
     
@@ -1383,6 +1541,19 @@ int CFrmUpdater::test_json()
     if(updater == doc1)
         return 0;
     return -1;
+}
+
+// set command line in UnitTests/CMakeLists.txt
+int CFrmUpdater::test_generate_json_file()
+{
+    int nRet = 0;
+    nRet = GenerateUpdateJson();
+    return nRet;
+}
+
+void CFrmUpdater::test_command_line_arguments()
+{
+    GenerateUpdateJson();
 }
 
 #endif //#if defined(HAVE_TEST)

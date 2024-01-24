@@ -23,7 +23,7 @@ void CUnitTests::init()
 void CUnitTests::cleanup()
 {}
 
-void CUnitTests::test_updater_joson()
+void CUnitTests::test_joson()
 {
     CFrmUpdater updater;
     QVERIFY(0 == updater.test_json());
