@@ -177,6 +177,13 @@ protected:
 private Q_SLOTS:
     void on_cbPrompt_clicked(bool checked);
     void on_cbHomePage_clicked(bool checked);
+
+#if defined(HAVE_TEST)
+    // Only test!!!
+public:
+    int test_json();
+
+#endif
 };
 
 #endif // RABBITCOMMON_FRMUPDATER_H

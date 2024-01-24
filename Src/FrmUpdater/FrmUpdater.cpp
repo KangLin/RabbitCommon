@@ -11,6 +11,8 @@
 #include <QStandardPaths>
 #include <QFinalState>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QDomDocument>
 #include <QDomText>
 #include <QDomElement>
@@ -114,13 +116,13 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
     {
         // [Redirect xml file default urls]
         QUrl github("https://github.com/KangLin/"
-                + qApp->applicationName() + "/raw/master/Update/update.xml");
+                + qApp->applicationName() + "/raw/master/Update/update.json");
         QUrl gitlab("https://gitlab.com/kl222/"
-                + qApp->applicationName() + "/-/raw/master/Update/update.xml");
+                + qApp->applicationName() + "/-/raw/master/Update/update.json");
         QUrl gitee("https://gitee.com/kl222/"
-                + qApp->applicationName() + "/raw/master/Update/update.xml");
+                + qApp->applicationName() + "/raw/master/Update/update.json");
         QUrl sourceforge("https://sourceforge.net/p/"
-                  + qApp->applicationName() + "/ci/master/tree/Update/update.xml?format=raw");
+                  + qApp->applicationName() + "/ci/master/tree/Update/update.json?format=raw");
         // [Redirect xml file default urls]
         m_Urls << github << gitee << sourceforge << gitlab;
     } else {
@@ -378,9 +380,11 @@ void CFrmUpdater::slotCheckConfigFile()
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     qDebug(FrmUpdater) << "CFrmUpdater::slotCheckConfigFile()";
+
+    // Redirect
     if(CheckRedirectConfigFile() <= 0)
         return;
-    
+
     CheckUpdateConfigFile();
 }
 
@@ -389,7 +393,16 @@ void CFrmUpdater::slotCheckConfigFile()
  * 
  * \details
  * 重定向配置文件格式：
+ * json 格式:
+ * \code
+ * {
+ *   REDIRECT: true
+ *   version:{ "2.0.0"
+ *   
+ * }
+ * \endcode
  * 
+ * xml 格式:
  * \code
  
    <?xml version="1.0" encoding="UTF-8"?>
@@ -1327,3 +1340,49 @@ int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
     m_InstallAutoStartupType = bAutoStart;
     return 0;
 }
+
+#if defined(HAVE_TEST)
+int CFrmUpdater::test_json()
+{
+    QJsonArray url_windows;
+    url_windows.append("gitlab.com/windows");
+    url_windows.append("github.com/windows");
+    
+    QJsonObject file_windows;
+    file_windows.insert("os", "windows");
+    file_windows.insert("os_min_version", "7");
+    file_windows.insert("arch", "x86");
+    file_windows.insert("arch_version", "1");
+    file_windows.insert("url", url_windows);
+    
+    QJsonArray url_linux;
+    url_linux.append("gitlab.com/linux");
+    url_linux.append("github.com/linux");
+    
+    QJsonObject file_linux;
+    file_linux.insert("os", "linux");
+    file_linux.insert("arch", "x64");
+    file_linux.insert("url", url_linux);
+    
+    QJsonArray files;
+    files.append(file_windows);
+    files.append(file_linux);
+    
+    QJsonObject version;
+    version.insert("file", files);
+    version.insert("min_version", "1.0.0");
+    version.insert("version", "2.0.0");
+
+    QJsonDocument updater, doc1;
+    
+    updater.setObject(version);
+    qDebug(FrmUpdater) << updater.toJson();
+    QJsonParseError err;
+    doc1 = QJsonDocument::fromJson(updater.toJson(), &err);
+    qDebug(FrmUpdater) << doc1;
+    if(updater == doc1)
+        return 0;
+    return -1;
+}
+
+#endif //#if defined(HAVE_TEST)
