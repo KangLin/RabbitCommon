@@ -44,6 +44,7 @@ jobs:
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
+          cmake -E make_directory ${{github.workspace}}/build_test
 
       - name: Install apt packages
         run: |
@@ -56,7 +57,24 @@ jobs:
               qt6-l10n-tools qt6-translations-l10n qt6-scxml-dev \
               qt6-webengine-dev qt6-webengine-dev-tools \
               libcmark-gfm-dev libcmark-gfm-extensions-dev
-
+      
+      - name: Build and test
+        working-directory: ${{github.workspace}}/build_test
+        run: |
+          cmake -E make_directory ${{github.workspace}}/build_test
+          cmake ${{github.workspace}} \
+                -DCMARK_SHARED=OFF \
+                -DCMARK_TESTS=OFF \
+                -DCMARK_STATIC=ON \
+                -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+                -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+                -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
+                -DINSTALL_QT=OFF \
+                -DBUILD_APP=OFF \
+                -DBUILD_TESTS=ON
+          cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          ctest
+          
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}/build
         run: |
@@ -68,7 +86,8 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
                 -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
                 -DINSTALL_QT=OFF \
-                -DBUILD_APP=OFF
+                -DBUILD_APP=OFF \
+                -DBUILD_TESTS=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*

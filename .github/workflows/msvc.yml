@@ -67,6 +67,7 @@ jobs:
       - name: Make directories
         run: |
           cmake -E make_directory ${{github.workspace}}/build
+          cmake -E make_directory ${{github.workspace}}/build_test
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
@@ -105,7 +106,28 @@ jobs:
           vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
+      - name: Build and test
+        working-directory: ${{github.workspace}}/build_test
+        run: |
+          cd ${{github.workspace}}/build_test
+          cmake ${{github.workspace}} ^
+              -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+              -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+              -DCMARK_SHARED=OFF ^
+              -DCMARK_TESTS=OFF ^
+              -DCMARK_STATIC=ON ^
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
+              -DCMAKE_INSTALL_PREFIX=%CD%/install ^
+              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
+              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
+              -DINSTALL_QT=OFF ^
+              -DBUILD_APP=OFF ^
+              -DBUILD_TESTS=ON
+          cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          ctest
+
       - name: Build RabbitCommon
+        working-directory: ${{github.workspace}}/build
         run: |
           cd ${{github.workspace}}/build
           cmake ${{github.workspace}} ^
@@ -119,7 +141,8 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
               -DINSTALL_QT=OFF ^
-              -DBUILD_APP=OFF
+              -DBUILD_APP=OFF ^
+              -DBUILD_TESTS=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
 

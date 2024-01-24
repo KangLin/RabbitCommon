@@ -59,6 +59,7 @@ jobs:
           cmake -E make_directory ${{env.INSTALL_DIR}}
           cmake -E make_directory ${{github.workspace}}/build
           cmake -E make_directory ${{github.workspace}}/build_qmake
+          cmake -E make_directory ${{github.workspace}}/build_test
 
       - name: Cache installed
         uses: actions/cache@v3
@@ -90,7 +91,24 @@ jobs:
           cache: true
           cache-key-prefix: cached_qt
 
-      - name: Compile use cmake
+      - name: Build and test
+        working-directory: ${{github.workspace}}/build_test
+        run: |
+          cmake ${{github.workspace}} \
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
+              -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
+              -DINSTALL_QT=OFF \
+              -DBUILD_APP=OFF \
+              -DBUILD_TESTS=ON
+          cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          ctest
+
+      - name: Make zip package
         working-directory: ${{github.workspace}}/build
         run: |
           cmake ${{github.workspace}} \
@@ -102,7 +120,8 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DINSTALL_QT=OFF \
-              -DBUILD_APP=OFF
+              -DBUILD_APP=OFF \
+              -DBUILD_TESTS=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
