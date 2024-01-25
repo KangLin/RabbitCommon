@@ -12,6 +12,7 @@ public:
     
 private Q_SLOTS:
     void test_generate_json_file();
+    void test_json_file();
 };
 
 #endif // __CTestGenerateJsonFile_H_KL_2024_01_25__

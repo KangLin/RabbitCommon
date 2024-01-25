@@ -63,26 +63,26 @@ msvc {
     QMAKE_CXXFLAGS += "/utf-8"
 }
 
-include($$PWD/../pri/Translations.pri)
+include($$_PRO_FILE_PWD_/../../pri/Translations.pri)
 
 #VERSION=$$RabbitCommon_VERSION
-INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/export
-isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
+INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src $$_PRO_FILE_PWD_/../../Src/export
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
 !equals(WITH_GUI, "OFF"){
     DEFINES *= HAVE_RABBITCOMMON_GUI
-    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/Style
-    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DockFolderBrowser
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src/Style
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src/DockFolderBrowser
 }
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE
-    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/FrmUpdater
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src/FrmUpdater
 }
 !equals(BUILD_ABOUT, "OFF"){
     DEFINES *= HAVE_ABOUT
-    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DlgAbout
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../../Src/DlgAbout
 }
 !equals(BUILD_ADMINAUTHORISER, "OFF"){
     DEFINES *= HAVE_ADMINAUTHORISER
@@ -137,12 +137,12 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 !android : unix {
 
     DESKTOP_FILE.target = DESKTOP_FILE
-    DESKTOP_FILE.files = $$PWD/share/org.Rabbit.RabbitCommon.desktop
+    DESKTOP_FILE.files = $$_PRO_FILE_PWD_/../../share/org.Rabbit.RabbitCommon.desktop
     DESKTOP_FILE.path = $${PREFIX}/share/applications
     DESKTOP_FILE.CONFIG += directory no_check_exist
 
     START_SCRIPT.target = START_SCRIPT
-    START_SCRIPT.files = $$PWD/share/RabbitCommon.sh
+    START_SCRIPT.files = $$_PRO_FILE_PWD_/../../share/RabbitCommon.sh
     START_SCRIPT.path = $${PREFIX}/bin
     START_SCRIPT.CONFIG += directory no_check_exist
     

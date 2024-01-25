@@ -29,4 +29,16 @@ void CUnitTests::test_joson()
     QVERIFY(0 == updater.test_json());
 }
 
+void CUnitTests::test_generate_json_file()
+{
+    CFrmUpdater updater;
+    QVERIFY(0 == updater.test_generate_default_json_file());
+}
+
+void CUnitTests::test_default_json_file()
+{
+    CFrmUpdater updater;
+    updater.test_default_json_file();
+}
+
 QTEST_MAIN(CUnitTests)

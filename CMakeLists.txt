@@ -168,7 +168,7 @@ if(BUILD_APP)
 endif()
 if(BUILD_TESTS)
     enable_testing() # Enable testing only works in root scope
-    add_subdirectory(UnitTests)
+    add_subdirectory(Tests)
 endif(BUILD_TESTS)
 
 ## Create will be delete files

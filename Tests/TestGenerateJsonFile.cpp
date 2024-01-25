@@ -13,6 +13,12 @@ void CTestGenerateJsonFile::test_generate_json_file()
     QVERIFY(0 == updater.test_generate_json_file());
 }
 
+void CTestGenerateJsonFile::test_json_file()
+{
+    CFrmUpdater updater;
+    updater.test_json_file();
+}
+
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);

@@ -17,6 +17,8 @@ private Q_SLOTS:
     void cleanup();
 
     void test_joson();
+    void test_generate_json_file();
+    void test_default_json_file();
 };
 
 #endif // CUNITTESTS_H

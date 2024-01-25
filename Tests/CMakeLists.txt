@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(UnitTests LANGUAGES CXX)
+project(Tests LANGUAGES CXX)
 
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/bin)
 ADD_TARGET(NAME UnitTests
@@ -15,6 +15,7 @@ ADD_TARGET(NAME UnitTests
 add_test(NAME UnitTests
     COMMAND UnitTests
     WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND_EXPAND_LISTS
     )
 
 ADD_TARGET(NAME TestGenerateJsonFile
@@ -27,6 +28,7 @@ ADD_TARGET(NAME TestGenerateJsonFile
     )
 
 add_test(NAME TestGenerateJsonFile
-    COMMAND TestGenerateJsonFile -f a.json --foc 1
+    COMMAND TestGenerateJsonFile -f test.json -i "info" -t "time" -s "windows" -a "x86" -c "asbdasersdfasdfawer" --pf "package-file" -u "github.com" --home "home" -m "1.5.7"
     WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND_EXPAND_LISTS
     )

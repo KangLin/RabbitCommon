@@ -1494,7 +1494,7 @@ int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 }
 
 #if defined(HAVE_TEST)
-#include <QtTest>
+
 
 int CFrmUpdater::test_json()
 {
@@ -1543,7 +1543,7 @@ int CFrmUpdater::test_json()
     return -1;
 }
 
-// set command line in UnitTests/CMakeLists.txt
+// set command line in Tests/CMakeLists.txt
 int CFrmUpdater::test_generate_json_file()
 {
     int nRet = 0;
@@ -1551,9 +1551,17 @@ int CFrmUpdater::test_generate_json_file()
     return nRet;
 }
 
-void CFrmUpdater::test_command_line_arguments()
+void CFrmUpdater::test_json_file()
 {
-    GenerateUpdateJson();
 }
 
+int CFrmUpdater::test_generate_default_json_file()
+{
+    return GenerateUpdateJson();
+}
+
+void CFrmUpdater::test_default_json_file()
+{
+    
+}
 #endif //#if defined(HAVE_TEST)
