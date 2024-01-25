@@ -1,4 +1,4 @@
 TARGET = App
 TEMPLATE = subdirs
 
-SUBDIRS = GenerateUpdateFile
+SUBDIRS = GenerateUpdateFile Tests

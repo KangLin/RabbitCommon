@@ -165,7 +165,6 @@ add_subdirectory(Src)
 option(BUILD_APP "Set to ON to build application" ON)
 if(BUILD_APP)
     add_subdirectory(App)
-    add_subdirectory(Tests)
 endif()
 if(BUILD_TESTS)
     enable_testing() # Enable testing only works in root scope
