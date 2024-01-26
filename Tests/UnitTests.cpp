@@ -23,6 +23,35 @@ void CUnitTests::init()
 void CUnitTests::cleanup()
 {}
 
+void CUnitTests::test_os()
+{
+    QString szOS = QSysInfo::productType();
+    qDebug() << "QSysInfo::productType():" << szOS;
+#if defined(Q_OS_WINDOWS) || defined(Q_OS_CYGWIN)
+    QVERIFY("windows" == szOS);
+#elif defined(Q_OS_ANDROID)
+    QVERIFY("android" == szOS);
+#elif defined(Q_OS_MACOS)
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QVERIFY("macos" == szOS);
+    #else
+        QVERIFY("osx" == szOS);
+    #endif
+#elif defined(Q_OS_LINUX)
+    QVERIFY("ubuntu" == szOS || "debian" == szOS);
+#elif defined(Q_OS_UNIX)
+    QVERIFY("osx" == szOS);
+#endif
+}
+
+void CUnitTests::test_architecture()
+{
+    qDebug() << "Build architecture:" << QSysInfo::buildCpuArchitecture()
+             << "Current architercture:" << QSysInfo::currentCpuArchitecture();
+    QVERIFY(QSysInfo::buildCpuArchitecture()
+            == QSysInfo::currentCpuArchitecture());
+}
+
 void CUnitTests::test_joson()
 {
     CFrmUpdater updater;

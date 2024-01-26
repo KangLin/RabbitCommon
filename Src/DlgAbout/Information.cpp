@@ -70,6 +70,8 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
     szOS = tr("### OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
+    szOS += "  - " + tr("product type: ") + QSysInfo::productType() + "\n";
+    szOS += "  - " + tr("product version: ") + QSysInfo::productVersion() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
@@ -77,8 +79,9 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
         szOS += "- " + tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
 #endif
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
-    szOS += "- " + tr("CPU: ") + QSysInfo::currentCpuArchitecture() + "\n";
-    szOS += "- " + tr("Build CPU: ") + QSysInfo::buildCpuArchitecture() + "\n";
+    szOS += "- " + tr("CPU: ") + "\n";
+    szOS += "  - " + tr("Architecture: ") + QSysInfo::currentCpuArchitecture() + "\n";
+    szOS += "  - " + tr("Build architecture: ") + QSysInfo::buildCpuArchitecture() + "\n";
     if(!szOS.isEmpty())
         SetContext(tr("OS"), szOS);
     
