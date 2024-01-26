@@ -201,9 +201,8 @@ private Q_SLOTS:
     // Only test!!!
 public:
     int test_json();
-    int test_generate_json_file();
+    void test_generate_json_file();
     void test_json_file();
-    int test_generate_default_json_file();
     void test_default_json_file();
 
 #endif

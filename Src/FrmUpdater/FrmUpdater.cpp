@@ -1142,8 +1142,9 @@ int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
     QString szFile;
     INFO info;
     INFO_TYPE type;
-    if(GetInfo(parser, szFile, info, type))
-        return -1;
+    int nRet = GetInfo(parser, szFile, info, type);
+    if(nRet)
+        return nRet;
     return GenerateJsonFile(szFile, info, type);
 }
 
@@ -1225,13 +1226,13 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info, 
     QDomElement eUrlHome = doc.createElement("HOME");
     eUrlHome.appendChild(urlHome);
     root.appendChild(eUrlHome);
-    
+
     QDomText min = doc.createTextNode("MIN_UPDATE_VERSION");
     min.setData(info.szMinUpdateVersion);
     QDomElement eMin = doc.createElement("MIN_UPDATE_VERSION");
     eMin.appendChild(min);
     root.appendChild(eMin);
-    
+
     QFile f;
     f.setFileName(szFile);
     if(!f.open(QIODevice::WriteOnly))
@@ -1263,8 +1264,9 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     QString szFile;
     INFO info;
     INFO_TYPE type;
-    if(GetInfo(parser, szFile, info, type))
-        return -1;
+    int nRet = GetInfo(parser, szFile, info, type);
+    if(nRet)
+        return nRet;
     return GenerateUpdateXmlFile(szFile, info, type);
 }
 
@@ -1272,7 +1274,7 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/QString &szFile,
                          /*[out]*/INFO &info,
                          /*[out]*/INFO_TYPE &type)
-{    
+{
     QString szSystem, szUrl;
 #if defined (Q_OS_WIN)
     szSystem = "Windows";
@@ -1316,7 +1318,7 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
 
     parser.addHelpOption();
     parser.addVersionOption();
-    
+
     QCommandLineOption oFile(QStringList() << "f" << "file",
                              tr("Configure file name"),
                              "Configure file name",
@@ -1387,11 +1389,11 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
                              m_szCurrentVersion);
     parser.addOption(oMin);
 
-    //parser.process(QApplication::arguments());
-    //*
-    if(!parser.parse(QApplication::arguments()))
-        return -1;
-    //*/
+    if(!parser.parse(QApplication::arguments())) {
+        qDebug(FrmUpdater) << "parser.parse fail" << parser.errorText()
+                              << qApp->arguments();
+    }
+
     szFile = parser.value(oFile);
     if(szFile.isEmpty())
         qDebug(FrmUpdater) << "File is empty";
@@ -1494,7 +1496,7 @@ int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 }
 
 #if defined(HAVE_TEST)
-
+#include <QtTest>
 
 int CFrmUpdater::test_json()
 {
@@ -1544,24 +1546,19 @@ int CFrmUpdater::test_json()
 }
 
 // set command line in Tests/CMakeLists.txt
-int CFrmUpdater::test_generate_json_file()
+void CFrmUpdater::test_generate_json_file()
 {
-    int nRet = 0;
-    nRet = GenerateUpdateJson();
-    return nRet;
+    QVERIFY(0 == GenerateUpdateJson());
 }
 
 void CFrmUpdater::test_json_file()
 {
 }
 
-int CFrmUpdater::test_generate_default_json_file()
-{
-    return GenerateUpdateJson();
-}
-
 void CFrmUpdater::test_default_json_file()
 {
-    
+    QFile file("update.json");
+    QVERIFY(file.exists());
 }
+
 #endif //#if defined(HAVE_TEST)

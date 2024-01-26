@@ -127,7 +127,7 @@ jobs:
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll bin
-          ctest -C ${{ matrix.BUILD_TYPE }}
+          ctest -C ${{ matrix.BUILD_TYPE }} -V
 
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}/build

@@ -1,5 +1,5 @@
 #include "UnitTests.h"
-#include <QCoreApplication>
+#include <QApplication>
 #include <QtTest>
 
 #include "FrmUpdater.h"
@@ -29,16 +29,12 @@ void CUnitTests::test_joson()
     QVERIFY(0 == updater.test_json());
 }
 
-void CUnitTests::test_generate_json_file()
-{
-    CFrmUpdater updater;
-    QVERIFY(0 == updater.test_generate_default_json_file());
-}
-
-void CUnitTests::test_default_json_file()
-{
-    CFrmUpdater updater;
-    updater.test_default_json_file();
-}
-
 QTEST_MAIN(CUnitTests)
+/*
+int main(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
+    CUnitTests obj;
+    // See: https://doc.qt.io/qt-6/qtest-overview.html#qt-test-command-line-arguments
+    return QTest::qExec(&obj, QStringList() << "UnitTests" << "-xml");
+}//*/

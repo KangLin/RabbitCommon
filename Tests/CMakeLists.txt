@@ -18,6 +18,21 @@ add_test(NAME UnitTests
     COMMAND_EXPAND_LISTS
     )
 
+ADD_TARGET(NAME TestGenerateDefaultJsonFile
+    ISEXE
+    NO_TRANSLATION
+    SOURCE_FILES TestGenerateDefaultJsonFile.cpp TestGenerateDefaultJsonFile.h
+    PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
+        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
+    )
+
+add_test(NAME TestGenerateDefaultJsonFile
+    COMMAND TestGenerateDefaultJsonFile
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND_EXPAND_LISTS
+    )
+
 ADD_TARGET(NAME TestGenerateJsonFile
     ISEXE
     NO_TRANSLATION
