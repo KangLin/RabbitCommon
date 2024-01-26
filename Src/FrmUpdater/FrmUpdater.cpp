@@ -762,9 +762,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         conf.version.szHome = objVersion["home"].toString();
         conf.version.bForce = objVersion["force"].toBool();
         //*
-        qDebug(FrmUpdater) << "Current version:"
-                           << m_szCurrentVersion
-                           << "\nParse xml file:\n"
+        qDebug(FrmUpdater) << "Current version:" << m_szCurrentVersion
                            << "version:" << conf.version.szVerion
                            << "minUpdateVersion:" << conf.version.szMinUpdateVersion
                            << "time:" << conf.version.szTime
@@ -1455,7 +1453,8 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     QCommandLineOption oPackageFile(QStringList() << "p" << "pf" << "package-file",
                             tr("Package file, Is used to calculate md5sum"),
                             "Package file",
-                            qApp->applicationName());
+                            qApp->applicationFilePath()
+                            );
     parser.addOption(oPackageFile);
     QCommandLineOption oUrl(QStringList() << "u" << "urls",
                              tr("Package download urls"),
@@ -1646,6 +1645,33 @@ void CFrmUpdater::test_default_json_file()
 {
     QFile file("update.json");
     QVERIFY(file.exists());
+    
+    CONFIG_INFO info;
+    QVERIFY(0 == GetConfigFromFile("update.json", info));
+    QVERIFY(info.files[0].szArchitecture == QSysInfo::buildCpuArchitecture());
+    QVERIFY(info.version.szVerion == m_szCurrentVersion);
+    QVERIFY(info.version.szMinUpdateVersion == m_szCurrentVersion);
+    
+    CONFIG_FILE conf_file = info.files[0];
+    QString szMd5;
+    QString szPackageFile = qApp->applicationFilePath();
+    if(!szPackageFile.isEmpty())
+    {
+        //计算包的 MD5 和
+        QCryptographicHash md5sum(QCryptographicHash::Md5);
+        QFile app(szPackageFile);
+        if(app.open(QIODevice::ReadOnly))
+        {
+            if(md5sum.addData(&app))
+            {
+                szMd5 = md5sum.result().toHex();
+            }
+            app.close();
+        } else {
+            qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
+        }
+    }
+    QVERIFY(conf_file.szMd5sum == szMd5);
 }
 
 #endif //#if defined(HAVE_TEST)
