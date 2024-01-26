@@ -1275,13 +1275,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
     QDomElement eSystem = doc.createElement("SYSTEM");
     eSystem.appendChild(system);
     root.appendChild(eSystem);
-    
-    QDomText platform = doc.createTextNode("PLATFORM");
-    platform.setData(file.szPlatform);
-    QDomElement ePlatform = doc.createElement("PLATFORM");
-    ePlatform.appendChild(platform);
-    root.appendChild(ePlatform);
-    
+   
     QDomText arch = doc.createTextNode("ARCHITECTURE");
     arch.setData(file.szArchitecture);
     QDomElement architecture = doc.createElement("ARCHITECTURE");
@@ -1358,23 +1352,28 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     return GenerateUpdateXmlFile(szFile, info, type);
 }
 
+/*!
+ * \brief CFrmUpdater::GetConfigFromCommandLine
+ * \param parser
+ * \param szFile
+ * \param info
+ * \param type
+ * \return 
+ * \see GetConfigFromFile
+ */
 int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/QString &szFile,
                          /*[out]*/CONFIG_INFO &info,
                          /*[out]*/CONFIG_TYPE &type)
 {
-    QString szSystem, szUrl;
-
-    szSystem = QSysInfo::productType();
-
+    QString szUrl;
 #if defined (Q_OS_WIN)
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
             + "/releases/download/"
             + m_szCurrentVersion + "/"
             + qApp->applicationName()
-            + "_Setup_"
-            + m_szCurrentVersion + ".exe";
+            + m_szCurrentVersion + "_Setup" + ".exe";
 #elif defined(Q_OS_ANDROID)
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
@@ -1439,7 +1438,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     QCommandLineOption oSystem(QStringList() << "s" << "system",
                              tr("Operating system"),
                              "Operating system",
-                             szSystem);
+                             QSysInfo::productType());
     parser.addOption(oSystem);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),
@@ -1452,8 +1451,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     parser.addOption(oMd5);
     QCommandLineOption oPackageFile(QStringList() << "p" << "pf" << "package-file",
                             tr("Package file, Is used to calculate md5sum"),
-                            "Package file",
-                            qApp->applicationFilePath()
+                            "Package file"
                             );
     parser.addOption(oPackageFile);
     QCommandLineOption oUrl(QStringList() << "u" << "urls",
@@ -1496,8 +1494,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     file.szSystem = parser.value(oSystem);
     file.szArchitecture = parser.value(oArch);
     file.szMd5sum = parser.value(oMd5);
-    if(file.szMd5sum.isEmpty())
-        qDebug(FrmUpdater) << "Md5 is empty. please set -c or --md5";
+    
     QString szPackageFile = parser.value(oPackageFile);
     QFileInfo fi(szPackageFile);
     file.szFileName = fi.fileName();
@@ -1517,6 +1514,9 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
             qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
         }
     }
+
+    if(file.szMd5sum.isEmpty())
+        qWarning(FrmUpdater) << "Md5 is empty. please set -c or --md5 or -p";
 
     QString szUrls = parser.value(oUrl);
     foreach(auto u, szUrls.split(";"))
@@ -1637,8 +1637,25 @@ void CFrmUpdater::test_generate_json_file()
     QVERIFY(0 == GenerateUpdateJson());
 }
 
+// See: Tests/CMakeLists.txt
 void CFrmUpdater::test_json_file()
 {
+    QFile file("test.json");
+    QVERIFY(file.exists());
+    
+    CONFIG_INFO info;
+    QVERIFY(0 == GetConfigFromFile("test.json", info));
+    QVERIFY(info.version.szVerion == "2.0.0");
+    QVERIFY(info.version.szMinUpdateVersion == "1.5.7");
+    QVERIFY(info.version.szTime == "time");
+    QVERIFY(info.version.szInfomation == "info");
+    QVERIFY(info.version.szHome ==  "home");
+    
+    CONFIG_FILE conf_file = info.files[0];
+    QVERIFY(conf_file.szSystem == "windows");
+    QVERIFY(conf_file.szArchitecture == "x86");
+    QVERIFY(conf_file.szMd5sum == "asbdasersdfasdfawer");
+    QVERIFY(conf_file.urls[0] == QUrl("github.com"));
 }
 
 void CFrmUpdater::test_default_json_file()
@@ -1648,30 +1665,16 @@ void CFrmUpdater::test_default_json_file()
     
     CONFIG_INFO info;
     QVERIFY(0 == GetConfigFromFile("update.json", info));
-    QVERIFY(info.files[0].szArchitecture == QSysInfo::buildCpuArchitecture());
     QVERIFY(info.version.szVerion == m_szCurrentVersion);
     QVERIFY(info.version.szMinUpdateVersion == m_szCurrentVersion);
-    
+    QVERIFY(info.version.szInfomation == qApp->applicationName() + " " + m_szCurrentVersion);
+    QVERIFY(info.version.szHome ==  "https://github.com/KangLin/" + qApp->applicationName());
+        
     CONFIG_FILE conf_file = info.files[0];
-    QString szMd5;
-    QString szPackageFile = qApp->applicationFilePath();
-    if(!szPackageFile.isEmpty())
-    {
-        //计算包的 MD5 和
-        QCryptographicHash md5sum(QCryptographicHash::Md5);
-        QFile app(szPackageFile);
-        if(app.open(QIODevice::ReadOnly))
-        {
-            if(md5sum.addData(&app))
-            {
-                szMd5 = md5sum.result().toHex();
-            }
-            app.close();
-        } else {
-            qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
-        }
-    }
-    QVERIFY(conf_file.szMd5sum == szMd5);
+    QVERIFY(conf_file.szSystem == QSysInfo::productType());
+    QVERIFY(conf_file.szArchitecture == QSysInfo::buildCpuArchitecture());
+    QVERIFY(conf_file.szMd5sum.isEmpty());
+    QVERIFY(conf_file.szFileName.isEmpty());
 }
 
 #endif //#if defined(HAVE_TEST)

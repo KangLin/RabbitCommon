@@ -171,7 +171,6 @@ private:
     struct CONFIG_FILE {
         QString szSystem;
         QString szSystemMinVersion;
-        QString szPlatform;
         QString szArchitecture;
         QString szArchitectureMinVersion;
         QString szFileName;

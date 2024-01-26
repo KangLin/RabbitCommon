@@ -40,10 +40,6 @@ message("RabbitCommon_VERSION ${PROJECT_NAME}:${RabbitCommon_VERSION}")
 set(VERSION ${RabbitCommon_VERSION})
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 
-# ----------------------------------------------------------------------------
-# Detect compiler and target platform architecture
-# ----------------------------------------------------------------------------
-message("Host architecture:${HOST_ARCH}")
 message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID:${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}")
 message("CMAKE_SYSTEM_PROCESSOR:${CMAKE_SYSTEM_PROCESSOR}")
 
@@ -142,16 +138,6 @@ if(BUILD_TESTS)
     enable_testing() # Enable testing only works in root scope
     add_subdirectory(Tests)
 endif(BUILD_TESTS)
-
-## Create will be delete files
-#CONFIGURE_FILE(
-#    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-#    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-#    IMMEDIATE @ONLY)
-## Create uninstall target
-#ADD_CUSTOM_TARGET(uninstall
-#    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-#    DEPENDS uninstall-runtime)
 
 message(STATUS "Build tests: ${BUILD_TESTS}")
 message(STATUS "Build app: ${BUILD_APP}")
