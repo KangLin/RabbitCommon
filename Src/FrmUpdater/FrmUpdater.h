@@ -74,7 +74,6 @@ public:
     virtual ~CFrmUpdater() override;
 
     int SetVersion(const QString &szVersion);
-    int SetArch(const QString &szArch);
     /**
      * @brief SetTitle
      * @param icon
@@ -143,8 +142,6 @@ private:
     QButtonGroup m_ButtonGroup;
 
     QString m_szCurrentVersion;
-    QString m_szCurrentArch;
-    QString m_szPlatform;
 
     QFile m_DownloadFile;
     bool m_bDownload;
@@ -156,20 +153,22 @@ private:
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;
 
-    enum class INFO_TYPE{
+    enum class CONFIG_TYPE{
         VERSION,
         FILE,
         VERSION_FILE
     };
-
-    struct INFO {
+    
+    struct CONFIG_VERSION {
         QString szVerion;
+        QString szMinUpdateVersion;
         QString szInfomation;
         QString szTime;
         bool bForce;
-        QString szUrlHome;
-        QString szMinUpdateVersion;
-        
+        QString szHome;
+    };
+
+    struct CONFIG_FILE {
         QString szSystem;
         QString szSystemMinVersion;
         QString szPlatform;
@@ -178,17 +177,26 @@ private:
         QString szFileName;
         QVector<QUrl> urls;
         QString szMd5sum;
+    };
+
+    struct CONFIG_INFO {
+        CONFIG_VERSION version;
+        QVector<CONFIG_FILE> files;
     } m_Info;
-    int GetInfo(/*[in]*/QCommandLineParser &parser,
+    
+    CONFIG_FILE m_ConfigFile;
+
+    int GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
+    int GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 /*[out]*/QString &szFile,
-                /*[out]*/INFO &info,
-                /*[out]*/INFO_TYPE &type);
+                /*[out]*/CONFIG_INFO &info,
+                /*[out]*/CONFIG_TYPE &type);
     int GenerateUpdateXmlFile(const QString &szFile,
-                              const INFO &info,
-                              INFO_TYPE &type);
+                              const CONFIG_INFO &info,
+                              CONFIG_TYPE &type);
     int GenerateJsonFile(const QString &szFile,
-                         const INFO &info,
-                         INFO_TYPE type);
+                         const CONFIG_INFO &info,
+                         CONFIG_TYPE type);
 
     // QWidget interface
 protected:

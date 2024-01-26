@@ -67,10 +67,8 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
         m_szVersion = RabbitCommon_VERSION;
     }
 #endif
-
-#ifdef BUILD_ARCH
-    m_szArch = BUILD_ARCH;
-#endif
+    
+    m_szArch = QSysInfo::buildCpuArchitecture();
 
     m_szAuthor = tr("KangLin");
     m_szEmail = "kl222@126.com";

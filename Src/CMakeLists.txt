@@ -26,27 +26,9 @@ else()
     set(CMAKE_C_STANDARD 11)
 endif()
 
-# ----------------------------------------------------------------------------
-# Detect compiler and target platform architecture
-# ----------------------------------------------------------------------------
-if(NOT ANDROID)
-    if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(BUILD_ARCH x86_64)
-    elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(BUILD_ARCH x86)
-    endif()
-else()
-    set(BUILD_ARCH ${ANDROID_ARCH})
-endif()
-message("Architecture:${HOST_ARCH}")
 message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID:${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}")
 message("CMAKE_SYSTEM_PROCESSOR:${CMAKE_SYSTEM_PROCESSOR}")
 message("CMAKE_HOST_SYSTEM_PROCESSOR:${CMAKE_HOST_SYSTEM_PROCESSOR}")
-if(MSVC)
-    set(BUILD_ARCH ${CMAKE_CXX_COMPILER_ARCHITECTURE_ID})
-else()
-    set(BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
-endif()
 
 include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
@@ -397,7 +379,6 @@ elseif(UNIX)
 endif()
 
 list(APPEND RabbitCommon_PRIVATE_DEFINITIONS
-    BUILD_ARCH="${BUILD_ARCH}"
     BUILD_PLATFORM="${BUILD_PLATFORM}")
 
 if(MSVC)

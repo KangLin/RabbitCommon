@@ -73,14 +73,9 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
                     this, SLOT(slotButtonClickd(int)));
     Q_ASSERT(check);
     SetTitle();
-    SetArch(BUILD_ARCH);
-#if defined (Q_OS_WIN)
-        m_szPlatform += "x86";
-#elif defined(Q_OS_ANDROID)
-        m_szPlatform += "arm";        
-#elif defined (Q_OS_LINUX)
-        m_szPlatform += "x86_64";
-#endif
+
+    ui->lbCurrentArch->setText(tr("Current archecture: %1")
+                 .arg(QSysInfo::currentCpuArchitecture()));
         
     QString szVerion = qApp->applicationVersion();
 #ifdef RabbitCommon_VERSION
@@ -254,14 +249,6 @@ int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
     if(pixmpa.isNull())
         pixmpa.load(":/icon/RabbitCommon/App", "PNG");
     ui->lbTitleIcon->setPixmap(pixmpa);
-    return 0;
-}
-
-int CFrmUpdater::SetArch(const QString &szArch)
-{
-    m_szCurrentArch = szArch;
-    ui->lbCurrentArch->setText(tr("Current archecture: %1")
-                               .arg(m_szCurrentArch));
     return 0;
 }
 
@@ -528,14 +515,193 @@ int CFrmUpdater::CheckRedirectConfigFile()
  * \brief 检查更新配置文件
  * \details
  * 
+ * 
+ * 旧的 xml 格式：
+ * \code
+ 
+   <?xml version="1.0" encoding="UTF-8"?>
+   <UPDATE>
+    <VERSION>v0.0.1</VERSION>
+    <TIME>2019-2-24 19:28:50</TIME>
+    <INFO>v0.0.1 information</INFO>
+    <HOME>home page</HOME>
+    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
+    <FORCE>0</FORCE>
+    
+    <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
+    <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
+    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a arm64_v8a-->
+    <FILENAME>File name</FILENAME>
+    <URL>url1</URL>
+    <URL>url2</URL>
+    <URL>...</URL>
+    <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
+    
+   </UPDATE>
+   
+ * \endcode
+ */
+int CFrmUpdater::CheckUpdateConfigFile()
+{
+    int nRet = 0;
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateConfigFile()";
+    if(!m_DownloadFile.open(QIODevice::ReadOnly))
+    {
+        qCritical(FrmUpdater) << "Open download file fail:"
+                              << m_DownloadFile.fileName();
+        emit sigError();
+        return -1;
+    }
+    m_DownloadFile.close();
+
+    CONFIG_INFO info;
+    nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
+    if(nRet) {
+        QString szError = tr("Parse file %1 fail. It isn't configure file")
+                              .arg(m_DownloadFile.fileName());
+        ui->lbState->setText(szError);
+        emit sigError();
+        return nRet;
+    }
+
+    if(CompareVersion(info.version.szVerion, m_szCurrentVersion) <= 0)
+    {
+        ui->lbState->setText(tr("There is laster version"));
+        emit sigError();
+        return -4;
+    }
+
+    QString szArchitecture = QSysInfo::currentCpuArchitecture();
+    CONFIG_FILE file;
+    foreach (auto f, info.files) {
+        
+#if defined (Q_OS_WIN)
+        if(f.szSystem.compare("windows", Qt::CaseInsensitive))
+        {
+            continue;
+        }
+        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
+            && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
+        {
+            continue;
+        }
+#elif defined(Q_OS_ANDROID)
+        if(f.szSystem.compare("android", Qt::CaseInsensitive))
+        {
+            continue;
+        }
+        if(szArchitecture != f.szArchitecture)
+        {
+            continue;
+        }
+#elif defined (Q_OS_LINUX)
+        if(f.szSystem.compare("linux", Qt::CaseInsensitive))
+        {
+            continue;
+        }
+        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
+            && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
+        {
+            continue;
+        }
+#endif
+        file = f;
+        break;
+    }
+    
+#if defined (Q_OS_WIN)
+        if(file.szSystem.compare("windows", Qt::CaseInsensitive))
+        {
+            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
+            emit sigError();
+            return -5;
+        }
+        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
+            && !file.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
+        {
+            ui->lbState->setText(tr("Architecture is different. %1 different %2")
+                                     .arg(szArchitecture, file.szArchitecture));
+            emit sigError();
+            return -6;
+        }
+#elif defined(Q_OS_ANDROID)
+        if(file.szSystem.compare("android", Qt::CaseInsensitive))
+        {
+            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
+            emit sigError();
+            return -7;
+        }
+        if(szArchitecture != file.szArchitecture)
+        {
+            ui->lbState->setText(tr("Architecture is different. %1 different %2")
+                                     .arg(szArchitecture, file.szArchitecture));
+            emit sigError();
+            return -8;
+        }
+#elif defined (Q_OS_LINUX)
+        if(file.szSystem.compare("linux", Qt::CaseInsensitive))
+        {
+            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
+            emit sigError();
+            return -9;
+        }
+        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
+            && !file.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
+        {
+            ui->lbState->setText(tr("Architecture is different. %1 different %2")
+                                     .arg(szArchitecture, file.szArchitecture));
+            emit sigError();
+            return -10;
+        }
+#endif
+        
+    m_Info.version = info.version;
+    m_ConfigFile = file;
+        
+    ui->lbNewVersion->setText(tr("New version: %1").arg(info.version.szVerion));
+    ui->lbNewVersion->show();
+    ui->lbNewArch->setText(tr("New architecture: %1").arg(file.szArchitecture));
+    ui->lbNewArch->show();
+    ui->lbState->setText(tr("There is a new version, is it updated?"));
+    if(info.version.bForce)
+    {
+        qDebug(FrmUpdater) << "Force update";
+        emit sigFinished();
+    }
+    else
+    {
+        ui->cbHomePage->show();
+        ui->cbPrompt->show();
+        ui->pbOK->setText(tr("OK(&O)"));
+        ui->pbOK->show();
+        if(!CheckPrompt(info.version.szVerion) && this->isHidden())
+            emit sigError();
+        else
+            show();
+    }
+
+    return nRet;
+}
+
+/*
  * json 格式：
+ * 
+ * |   os  |         architecture       |platform    |
+ * |:-----:|:--------------------------:|:----------:|
+ * |windows|        "i386",x86_64          |mingw,cygwin|
+ * |linux  |        x86,x86_64          |            |
+ * |android|armv7, arm64_v8a, x86,x86_64|            |
+ * |macos  |        x86,x86_64          |            |
+ 
+ * \see: [static, since 5.4] QString QSysInfo::currentCpuArchitecture()
+ *
  * \code
  * {
  *   "version": {
  *     "version": "2.0.0",
  *     "min_update_version": "1.0.0",
  *     "time": "",
- *     "info": "RabbitCommon",
+ *     "information": "RabbitCommon",
  *     "home": "https://github.com/kanglin/rabbitcommon",
  *     "force": false
  *   },
@@ -567,176 +733,80 @@ int CFrmUpdater::CheckRedirectConfigFile()
  *   ]
  * }
  * \endcode
- * 
- * 旧的 xml 格式：
- * \code
- 
-   <?xml version="1.0" encoding="UTF-8"?>
-   <UPDATE>
-    <VERSION>v0.0.1</VERSION>
-    <TIME>2019-2-24 19:28:50</TIME>
-    <INFO>v0.0.1 information</INFO>
-    <HOME>home page</HOME>
-    <MIN_UPDATE_VERSION>%MIN_UPDATE_VERSION%</MIN_UPDATE_VERSION>
-    <FORCE>0</FORCE>
-    
-    <SYSTEM>windows</SYSTEM>         <!--windows, linux, android-->
-    <PLATFORM>x86</PLATFORM>         <!--windows, linux, android-->
-    <ARCHITECTURE>x86</ARCHITECTURE> <!--x86, x86_64, armeabi-v7a arm64_v8a-->
-    <FILENAME>File name</FILENAME>
-    <URL>url1</URL>
-    <URL>url2</URL>
-    <URL>...</URL>
-    <MD5SUM>%RABBITIM_MD5SUM%</MD5SUM>
-    
-   </UPDATE>
-   
- * \endcode
+ * \see GenerateJsonFile
  */
-int CFrmUpdater::CheckUpdateConfigFile()
+int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateConfigFile()";
-    if(!m_DownloadFile.open(QIODevice::ReadOnly))
-    {
-        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
-                              << m_DownloadFile.fileName();
-        emit sigError();
+    QFile file(szFile);
+    if(!file.open(QFile::ReadOnly)) {
+        qDebug(FrmUpdater) << "The file isn't opened:" << szFile;
         return -1;
     }
-    QDomDocument doc;
-    if(!doc.setContent(&m_DownloadFile))
+
+    QJsonDocument doc;
+    doc = QJsonDocument::fromJson(file.readAll());
+    file.close();
+    if(!doc.isObject())
     {
-        QString szError = tr("Parse file %1 fail. It isn't xml file")
-                .arg(m_DownloadFile.fileName());
-        ui->lbState->setText(szError);
-        qDebug(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
-        m_DownloadFile.close();
-        emit sigError();
+        qDebug(FrmUpdater) << "Parser file fail." << szFile;
         return -2;
     }
-    m_DownloadFile.close();
-    if(doc.elementsByTagName("UPDATE").isEmpty())
-    {
-        QString szError = tr("Parse file %1 fail. It isn't update xml file")
-                .arg(m_DownloadFile.fileName());
-        ui->lbState->setText(szError);
-        emit sigError();
-        return -3;
+    
+    QJsonObject obj = doc.object();
+    if(obj.contains("version")) {
+        QJsonObject objVersion = obj["version"].toObject();
+        conf.version.szVerion = objVersion["version"].toString();
+        conf.version.szMinUpdateVersion = objVersion["min_update_version"].toString();
+        conf.version.szTime = objVersion["time"].toString();
+        conf.version.szInfomation = objVersion["information"].toString();
+        conf.version.szHome = objVersion["home"].toString();
+        conf.version.bForce = objVersion["force"].toBool();
+        //*
+        qDebug(FrmUpdater) << "Current version:"
+                           << m_szCurrentVersion
+                           << "\nParse xml file:\n"
+                           << "version:" << conf.version.szVerion
+                           << "minUpdateVersion:" << conf.version.szMinUpdateVersion
+                           << "time:" << conf.version.szTime
+                           << "information:" << conf.version.szInfomation
+                           << "home:" << conf.version.szHome
+                           << "bForce:" << conf.version.bForce
+                           ;//*/
     }
-    QDomNodeList lstNode = doc.documentElement().childNodes();
-    for(int i = 0; i < lstNode.length(); i++)
-    {
-        QDomElement node = lstNode.item(i).toElement();
-        if(node.nodeName() == "VERSION")
-            m_Info.szVerion = node.text();
-        else if(node.nodeName() == "TIME")
-            m_Info.szTime = node.text();
-        else if(node.nodeName() == "INFO")
-            m_Info.szInfomation = node.text();
-        else if(node.nodeName() == "FORCE")
-            m_Info.bForce = node.text().toInt();
-        else if(node.nodeName() == "SYSTEM")
-            m_Info.szSystem = node.text();
-        else if(node.nodeName() == "PLATFORM")
-            m_Info.szPlatform = node.text();
-        else if(node.nodeName() == "ARCHITECTURE")
-            m_Info.szArchitecture = node.text();
-        else if(node.nodeName() == "FILENAME")
-            m_Info.szFileName = node.text();
-        else if(node.nodeName() == "URL")
-            m_Info.urls.push_back(QUrl(node.text()));
-        else if(node.nodeName() == "HOME")
-            m_Info.szUrlHome = node.text();
-        else if(node.nodeName() == "MD5SUM")
-            m_Info.szMd5sum = node.text();
-        else if(node.nodeName() == "MIN_UPDATE_VERSION")
-            m_Info.szMinUpdateVersion = node.text();
+    
+    if(!obj.contains("files")) {
+        qDebug(FrmUpdater()) << "Configure file isn't contains files arrary";
+        return 0;
     }
-    qDebug(FrmUpdater) << "Current version:"
-             << m_szCurrentVersion
-             << "\nParse xml file:\n"
-             << "version: " << m_Info.szVerion
-             << "time: " << m_Info.szTime
-             << "bForce: " << m_Info.bForce
-             << "system: " << m_Info.szSystem
-             << "Platform: " << m_Info.szPlatform
-             << "Arch: " << m_Info.szArchitecture
-             << "FileName:" << m_Info.szFileName
-             << "url: " << m_Info.urls
-             << "md5: " << m_Info.szMd5sum
-             << "minUpdateVersion: " << m_Info.szMinUpdateVersion;
-    if(CompareVersion(m_Info.szVerion, m_szCurrentVersion) <= 0)
-    {
-        ui->lbState->setText(tr("There is laster version"));
-        emit sigError();
-        return -4;
+    
+    QJsonArray objFiles = obj["files"].toArray();
+    for(auto it = objFiles.begin(); it != objFiles.end(); it++) {
+        QJsonObject f = it->toObject();
+        CONFIG_FILE file;
+        file.szSystem = f["os"].toString();
+        file.szSystemMinVersion = f["os_min_version"].toString();
+        file.szArchitecture = f["arch"].toString();
+        file.szArchitectureMinVersion = f["arch_min_version"].toString();
+        file.szMd5sum = f["md5"].toString();
+        file.szFileName = f["name"].toString();
+        
+        QJsonArray urls = f["urls"].toArray();
+        foreach(auto u, urls)
+        {
+            file.urls.append(u.toString());
+        }
+
+        conf.files.append(file);
+        //*
+        qDebug(FrmUpdater) << "OS:" << file.szSystem
+                           << "os_min_version:" << file.szSystemMinVersion
+                           << "arch:" << file.szArchitecture
+                           << "arch_min_version:" << file.szArchitectureMinVersion
+                           << "md5:" << file.szMd5sum
+                           << "name:" << file.szFileName
+                           << "urls:" << file.urls;//*/
     }
 
-    ui->lbNewVersion->setText(tr("New version: %1").arg(m_Info.szVerion));
-    ui->lbNewVersion->show();
-    ui->lbNewArch->setText(tr("New architecture: %1").arg(m_Info.szArchitecture));
-    ui->lbNewArch->show();
-    
-#if defined (Q_OS_WIN)
-    if(m_Info.szSystem.compare("windows", Qt::CaseInsensitive))
-    {
-        ui->lbState->setText(tr("System is different"));
-        emit sigError();
-        return -5;
-    }
-    if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
-        && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-    {
-        ui->lbState->setText(tr("Architecture is different"));
-        emit sigError();
-        return -6;
-    }
-#elif defined(Q_OS_ANDROID)
-    if(m_Info.szSystem.compare("android", Qt::CaseInsensitive))
-    {
-        ui->lbState->setText(tr("System is different"));
-        emit sigError();
-        return -7;
-    }
-    if(m_szCurrentArch != m_Info.szArchitecture)
-    {
-        ui->lbState->setText(tr("Architecture is different"));
-        emit sigError();
-        return -8;
-    }
-#elif defined (Q_OS_LINUX)
-    if(m_Info.szSystem.compare("linux", Qt::CaseInsensitive))
-    {
-        ui->lbState->setText(tr("System is different"));
-        emit sigError();
-        return -9;
-    }
-    if(!m_szCurrentArch.compare("x86", Qt::CaseInsensitive)
-        && !m_Info.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-    {
-        ui->lbState->setText(tr("Architecture is different"));
-        emit sigError();
-        return -10;
-    }
-#endif   
-    
-    ui->lbState->setText(tr("There is a new version, is it updated?"));
-    if(m_Info.bForce)
-    {
-        qDebug(FrmUpdater) << "Force update";
-        emit sigFinished();
-    }
-    else
-    {
-        ui->cbHomePage->show();
-        ui->cbPrompt->show();
-        ui->pbOK->setText(tr("OK(&O)"));
-        ui->pbOK->show();
-        if(!CheckPrompt(m_Info.szVerion) && this->isHidden())
-            emit sigError();
-        else
-            show();
-    }
     return 0;
 }
 
@@ -749,7 +819,7 @@ void CFrmUpdater::slotDownloadSetupFile()
         emit sigFinished();
     else
     {
-        m_Urls = m_Info.urls;
+        m_Urls = m_ConfigFile.urls;
         slotDownloadFile();
     }
 }
@@ -777,14 +847,14 @@ void CFrmUpdater::slotUpdate()
             ui->lbState->setText(tr("Download file fail"));
             break;
         }
-        if(md5sum.result().toHex() != m_Info.szMd5sum)
+        if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
         {
             QString szFail;
             szFail = tr("Md5sum is different. ")
                     + "\n" + tr("Download file md5sum: ")
                     + md5sum.result().toHex()
                     + "\n" + tr("md5sum in Update.xml:")
-                    + m_Info.szMd5sum;
+                    + m_ConfigFile.szMd5sum;
             ui->lbState->setText(szFail);
             break;
         }
@@ -891,10 +961,11 @@ void CFrmUpdater::slotUpdate()
     }while(0);
 
     QProcess procHome;
-    if((!bSuccess || ui->cbHomePage->isChecked()) && !m_Info.szUrlHome.isEmpty())
-        if(!procHome.startDetached(m_Info.szUrlHome))
+    QString szHome = m_Info.version.szHome;
+    if((!bSuccess || ui->cbHomePage->isChecked()) && !szHome.isEmpty())
+        if(!procHome.startDetached(szHome))
         {
-            QUrl url(m_Info.szUrlHome);
+            QUrl url(szHome);
             if(!QDesktopServices::openUrl(url))
             {
                 QString szErr = tr("Open home page fail");
@@ -906,8 +977,16 @@ void CFrmUpdater::slotUpdate()
     {
         emit sigFinished();
         qApp->quit();
-    } else
-        emit sigError();
+        return;
+    }
+    
+    emit sigError();
+    QUrl url(szHome);
+    if(!QDesktopServices::openUrl(url))
+    {
+        QString szErr = tr("Open home page fail");
+        qCritical(FrmUpdater) << szErr;
+    }
 }
 
 QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
@@ -948,6 +1027,14 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
     return szCmd;
 }
 
+/*!
+ * \brief CFrmUpdater::CompareVersion
+ * \param newVersion
+ * \param currentVersion
+ * \return > 0:
+ *         = 0: 相同
+ *         < 0
+ */
 int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &currentVersion)
 {
     int nRet = 0;
@@ -1003,7 +1090,7 @@ bool CFrmUpdater::IsDownLoad()
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
 
-    QString szFile = szTmp + QDir::separator() + m_Info.szFileName;
+    QString szFile = szTmp + QDir::separator() + m_ConfigFile.szFileName;
 
     QFile f(szFile);
     if(!f.open(QIODevice::ReadOnly))
@@ -1017,7 +1104,7 @@ bool CFrmUpdater::IsDownLoad()
             bRet = false;
             break;
         }
-        if(md5sum.result().toHex() != m_Info.szMd5sum)
+        if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
         {
             bRet = false;
             break;
@@ -1069,48 +1156,50 @@ void CFrmUpdater::slotButtonClickd(int id)
  * \param info
  * \param type
  * \return 
- * \see CheckUpdateConfigFile
+ * \see GetConfigFromFile
  */
-int CFrmUpdater::GenerateJsonFile(const QString &szFile, const INFO &info, INFO_TYPE type)
+int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE type)
 {
     QJsonDocument doc;
     
     QJsonObject version;    
-    version.insert("version", info.szVerion);
-    version.insert("min_update_version", info.szMinUpdateVersion);
-    version.insert("info", info.szInfomation);
-    version.insert("time", info.szTime);
-    version.insert("force", info.bForce);
-    version.insert("home", info.szUrlHome);
-
-    QJsonObject file;
-    file.insert("os", info.szSystem);
-    if(!info.szSystemMinVersion.isEmpty())
-        file.insert("os_min_version", info.szSystemMinVersion);
-    file.insert("arch", info.szArchitecture);
-    if(!info.szArchitectureMinVersion.isEmpty())
-        file.insert("arch_min_version", info.szArchitectureMinVersion);
-    file.insert("md5", info.szMd5sum);
-    file.insert("name", info.szFileName);
-    QJsonArray urls;
-    foreach (auto u, info.urls) {
-        urls.append(u.toString());
+    version.insert("version", info.version.szVerion);
+    version.insert("min_update_version", info.version.szMinUpdateVersion);
+    version.insert("time", info.version.szTime);
+    version.insert("information", info.version.szInfomation);
+    version.insert("home", info.version.szHome);
+    version.insert("force", info.version.bForce);
+    
+    QJsonArray files;
+    foreach (auto f, info.files) {
+        QJsonObject file;
+        file.insert("os", f.szSystem);
+        if(!f.szSystemMinVersion.isEmpty())
+            file.insert("os_min_version", f.szSystemMinVersion);
+        file.insert("arch", f.szArchitecture);
+        if(!f.szArchitectureMinVersion.isEmpty())
+            file.insert("arch_min_version", f.szArchitectureMinVersion);
+        file.insert("md5", f.szMd5sum);
+        file.insert("name", f.szFileName);
+        QJsonArray urls;
+        foreach (auto u, f.urls) {
+            urls.append(u.toString());
+        }
+        file.insert("urls", urls);
+        files.append(file);
     }
-    file.insert("urls", urls);
     
     switch(type) {
-    case INFO_TYPE::VERSION:
+    case CONFIG_TYPE::VERSION:
         doc.setObject(version);
         break;
-    case INFO_TYPE::FILE:
-        doc.setObject(file);
+    case CONFIG_TYPE::FILE:
+        doc.setObject(files[0].toObject());
         break;
-    case INFO_TYPE::VERSION_FILE:
+    case CONFIG_TYPE::VERSION_FILE:
     {
         QJsonObject root;
         root.insert("version", version);
-        QJsonArray files;
-        files.append(file);
         root.insert("files", files);
         doc.setObject(root);
     }
@@ -1140,15 +1229,15 @@ int CFrmUpdater::GenerateUpdateJson()
 int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
 {
     QString szFile;
-    INFO info;
-    INFO_TYPE type;
-    int nRet = GetInfo(parser, szFile, info, type);
+    CONFIG_INFO info;
+    CONFIG_TYPE type;
+    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
     if(nRet)
         return nRet;
     return GenerateJsonFile(szFile, info, type);
 }
 
-int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info, INFO_TYPE &type)
+int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE &type)
 {
     QDomDocument doc;
     QDomProcessingInstruction ins;
@@ -1159,60 +1248,61 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info, 
     doc.appendChild(root);
     
     QDomText version = doc.createTextNode("VERSION");
-    version.setData(info.szVerion);
+    version.setData(info.version.szVerion);
     QDomElement eVersion = doc.createElement("VERSION");
     eVersion.appendChild(version);
     root.appendChild(eVersion);
     
     QDomText time = doc.createTextNode("TIME");
-    time.setData(info.szTime);
+    time.setData(info.version.szTime);
     QDomElement eTime = doc.createElement("TIME");
     eTime.appendChild(time);
     root.appendChild(eTime);
 
     QDomText i = doc.createTextNode("INFO");
-    i.setData(info.szInfomation);
+    i.setData(info.version.szInfomation);
     QDomElement eInfo = doc.createElement("INFO");
     eInfo.appendChild(i);
     root.appendChild(eInfo);
     
     QDomText force = doc.createTextNode("FORCE");
-    force.setData(QString::number(info.bForce));
+    force.setData(QString::number(info.version.bForce));
     QDomElement eForce = doc.createElement("FORCE");
     eForce.appendChild(force);
     root.appendChild(eForce);
     
+    CONFIG_FILE file = info.files[0];
     QDomText system = doc.createTextNode("SYSTEM");
-    system.setData(info.szSystem);
+    system.setData(file.szSystem);
     QDomElement eSystem = doc.createElement("SYSTEM");
     eSystem.appendChild(system);
     root.appendChild(eSystem);
     
     QDomText platform = doc.createTextNode("PLATFORM");
-    platform.setData(info.szPlatform);
+    platform.setData(file.szPlatform);
     QDomElement ePlatform = doc.createElement("PLATFORM");
     ePlatform.appendChild(platform);
     root.appendChild(ePlatform);
     
     QDomText arch = doc.createTextNode("ARCHITECTURE");
-    arch.setData(info.szArchitecture);
+    arch.setData(file.szArchitecture);
     QDomElement architecture = doc.createElement("ARCHITECTURE");
     architecture.appendChild(arch);
     root.appendChild(architecture);
     
     QDomText md5 = doc.createTextNode("MD5SUM");
-    md5.setData(info.szMd5sum);
+    md5.setData(file.szMd5sum);
     QDomElement eMd5 = doc.createElement("MD5SUM");
     eMd5.appendChild(md5);
     root.appendChild(eMd5);
     
     QDomText fileName = doc.createTextNode("FILENAME");
-    fileName.setData(info.szFileName);
+    fileName.setData(file.szFileName);
     QDomElement eFileName = doc.createElement("FILENAME");
     eFileName.appendChild(fileName);
     root.appendChild(eFileName);
     
-    foreach(auto u, info.urls)
+    foreach(auto u, file.urls)
     {
         QDomText url = doc.createTextNode("URL");
         url.setData(u.toString());
@@ -1222,13 +1312,13 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const INFO &info, 
     }
 
     QDomText urlHome = doc.createTextNode("HOME");
-    urlHome.setData(info.szUrlHome);
+    urlHome.setData(info.version.szHome);
     QDomElement eUrlHome = doc.createElement("HOME");
     eUrlHome.appendChild(urlHome);
     root.appendChild(eUrlHome);
 
     QDomText min = doc.createTextNode("MIN_UPDATE_VERSION");
-    min.setData(info.szMinUpdateVersion);
+    min.setData(info.version.szMinUpdateVersion);
     QDomElement eMin = doc.createElement("MIN_UPDATE_VERSION");
     eMin.appendChild(min);
     root.appendChild(eMin);
@@ -1262,22 +1352,24 @@ int CFrmUpdater::GenerateUpdateXml()
 int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
 {
     QString szFile;
-    INFO info;
-    INFO_TYPE type;
-    int nRet = GetInfo(parser, szFile, info, type);
+    CONFIG_INFO info;
+    CONFIG_TYPE type;
+    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
     if(nRet)
         return nRet;
     return GenerateUpdateXmlFile(szFile, info, type);
 }
 
-int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
+int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/QString &szFile,
-                         /*[out]*/INFO &info,
-                         /*[out]*/INFO_TYPE &type)
+                         /*[out]*/CONFIG_INFO &info,
+                         /*[out]*/CONFIG_TYPE &type)
 {
     QString szSystem, szUrl;
+
+    szSystem = QSysInfo::productType();
+
 #if defined (Q_OS_WIN)
-    szSystem = "Windows";
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
             + "/releases/download/"
@@ -1286,7 +1378,6 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
             + "_Setup_"
             + m_szCurrentVersion + ".exe";
 #elif defined(Q_OS_ANDROID)
-    szSystem = "Android";
     szUrl = "https://github.com/KangLin/"
             + qApp->applicationName()
             + "/releases/download/"
@@ -1294,7 +1385,6 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
             + qApp->applicationName().toLower()
             + m_szCurrentVersion + ".apk";
 #elif defined(Q_OS_LINUX)
-    szSystem = "Linux";
     QFileInfo f(qApp->applicationFilePath());
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {
@@ -1326,11 +1416,11 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
     parser.addOption(oFile);
     QCommandLineOption oFileOuputContent(QStringList() << "foc" << "file-output-content",
                                  tr("Configure file output content:") + "\n"
-                                     + QString::number(static_cast<int>(INFO_TYPE::VERSION)) + tr(": content is version") + "\n"
-                                     + QString::number(static_cast<int>(INFO_TYPE::FILE)) + tr(": content is file") + "\n"
-                                     + QString::number(static_cast<int>(INFO_TYPE::VERSION_FILE)) + tr(": content is version and file"),
+                                     + QString::number(static_cast<int>(CONFIG_TYPE::VERSION)) + tr(": content is version") + "\n"
+                                     + QString::number(static_cast<int>(CONFIG_TYPE::FILE)) + tr(": content is file") + "\n"
+                                     + QString::number(static_cast<int>(CONFIG_TYPE::VERSION_FILE)) + tr(": content is version and file"),
                                  "Configure file output content",
-                                 QString::number(static_cast<int>(INFO_TYPE::VERSION_FILE)));
+                                 QString::number(static_cast<int>(CONFIG_TYPE::VERSION_FILE)));
     parser.addOption(oFileOuputContent);
     QCommandLineOption oPackageVersion(QStringList() << "pv" << "package-version",
                                 tr("Package version"),
@@ -1353,21 +1443,16 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
                              "Operating system",
                              szSystem);
     parser.addOption(oSystem);
-    QCommandLineOption oPlatform(QStringList() << "p" << "platform",
-                             tr("Platform"),
-                             "Platform",
-                             m_szPlatform);
-    parser.addOption(oPlatform);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),
                              "Architecture",
-                             m_szCurrentArch);
+                             QSysInfo::buildCpuArchitecture());
     parser.addOption(oArch);
     QCommandLineOption oMd5(QStringList() << "c" << "md5",
                              tr("MD5 checksum"),
                              "MD5 checksum");
     parser.addOption(oMd5);
-    QCommandLineOption oPackageFile(QStringList() << "pf" << "package-file",
+    QCommandLineOption oPackageFile(QStringList() << "p" << "pf" << "package-file",
                             tr("Package file, Is used to calculate md5sum"),
                             "Package file",
                             qApp->applicationName());
@@ -1397,24 +1482,27 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
     szFile = parser.value(oFile);
     if(szFile.isEmpty())
         qDebug(FrmUpdater) << "File is empty";
-    
-    type = static_cast<INFO_TYPE>(parser.value(oFileOuputContent).toInt());
+
+    type = static_cast<CONFIG_TYPE>(parser.value(oFileOuputContent).toInt());
     qDebug(FrmUpdater) << "File content is:" << (int)type;
 
-    info.szVerion = parser.value(oPackageVersion);
-    info.szTime = parser.value(oTime);
-    info.szInfomation = parser.value(oInfo);
-    info.bForce = false;
-    info.szSystem = parser.value(oSystem);
-    info.szPlatform = parser.value(oPlatform);
-    info.szArchitecture = parser.value(oArch);
-    info.szMd5sum = parser.value(oMd5);
-    if(info.szMd5sum.isEmpty())
+    info.version.szVerion = parser.value(oPackageVersion);
+    info.version.szMinUpdateVersion = parser.value(oMin);
+    info.version.szTime = parser.value(oTime);
+    info.version.szInfomation = parser.value(oInfo);
+    info.version.szHome = parser.value(oUrlHome);
+    info.version.bForce = false;
+
+    CONFIG_FILE file;
+    file.szSystem = parser.value(oSystem);
+    file.szArchitecture = parser.value(oArch);
+    file.szMd5sum = parser.value(oMd5);
+    if(file.szMd5sum.isEmpty())
         qDebug(FrmUpdater) << "Md5 is empty. please set -c or --md5";
     QString szPackageFile = parser.value(oPackageFile);
     QFileInfo fi(szPackageFile);
-    info.szFileName = fi.fileName();
-    if(info.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
+    file.szFileName = fi.fileName();
+    if(file.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
     {
         //计算包的 MD5 和
         QCryptographicHash md5sum(QCryptographicHash::Md5);
@@ -1423,7 +1511,7 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
         {
             if(md5sum.addData(&app))
             {
-                info.szMd5sum = md5sum.result().toHex();
+                file.szMd5sum = md5sum.result().toHex();
             }
             app.close();
         } else {
@@ -1434,11 +1522,10 @@ int CFrmUpdater::GetInfo(/*[in]*/QCommandLineParser &parser,
     QString szUrls = parser.value(oUrl);
     foreach(auto u, szUrls.split(";"))
     {
-        info.urls.push_back(QUrl(u));
+        file.urls.push_back(QUrl(u));
     }
 
-    info.szUrlHome = parser.value(oUrlHome);
-    info.szMinUpdateVersion = parser.value(oMin);
+    info.files.append(file);
 
     return 0;
 }

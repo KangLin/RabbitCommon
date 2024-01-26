@@ -10,7 +10,6 @@
 
 CGenerateUpdateFile::CGenerateUpdateFile()
 {
-    SetArch(BUILD_ARCH);
 #if defined (Q_OS_WIN)
         m_szPlatform += "x86";
 #elif defined(Q_OS_ANDROID)

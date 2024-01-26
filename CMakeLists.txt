@@ -43,26 +43,11 @@ set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 # ----------------------------------------------------------------------------
 # Detect compiler and target platform architecture
 # ----------------------------------------------------------------------------
-if(NOT ANDROID)
-    if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(HOST_ARCH x86_64)
-    elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(HOST_ARCH x86)
-    endif()
-else()
-    set(HOST_ARCH ${ANDROID_ARCH})
-endif()
 message("Host architecture:${HOST_ARCH}")
 message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID:${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}")
 message("CMAKE_SYSTEM_PROCESSOR:${CMAKE_SYSTEM_PROCESSOR}")
-if(MSVC)
-    set(BUILD_ARCH ${CMAKE_CXX_COMPILER_ARCHITECTURE_ID})
-else()
-    set(BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
-endif()
 
 add_definitions(-DRabbitCommon_VERSION="${RabbitCommon_VERSION}")
-add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
 add_definitions(-DBUILD_PLATFORM="${BUILD_PLATFORM}")
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
@@ -120,19 +105,6 @@ include(CMakeDependentOption)
 #check_function_exists("fabs" HAVE_FABS)
 
 set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
-
-# ----------------------------------------------------------------------------
-# Detect compiler and target platform architecture
-# ----------------------------------------------------------------------------
-if(NOT ANDROID)
-    if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(BUILD_ARCH x86_64)
-    elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(BUILD_ARCH x86)
-    endif()
-else()
-    set(BUILD_ARCH ${CMAKE_ANDROID_ARCH})
-endif()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 message("QT_VERSION_MAJOR:${QT_VERSION_MAJOR}")
