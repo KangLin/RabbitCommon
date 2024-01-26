@@ -75,7 +75,7 @@ jobs:
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           sudo Xvfb :99 -ac &
           export DISPLAY=:99.0
-          ctest
+          ctest -V
           
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}/build

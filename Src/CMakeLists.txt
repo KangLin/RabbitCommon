@@ -285,11 +285,11 @@ IF(OpenSSL_FOUND)
     endif()
     list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
 
-    if(WIN32)
+    #if(WIN32)
         # Qt 5.9 (LTS) use OpenSSL 1.0* and Qt 5.12 (LTS) and newest version of Qt use OpenSSL 1.1*
         # Source: https://lists.qt-project.org/pipermail/releasing/2019-March/002614.html
-        INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
-    endif()
+    #    INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
+    #endif()
 
 ENDIF()
 

@@ -773,7 +773,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     }
     
     if(!obj.contains("files")) {
-        qDebug(FrmUpdater()) << "Configure file isn't contains files arrary";
+        qDebug(FrmUpdater()) << "Configure file isn't contains files array";
         return 0;
     }
     

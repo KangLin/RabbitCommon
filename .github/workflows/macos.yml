@@ -106,7 +106,7 @@ jobs:
               -DBUILD_APP=OFF \
               -DBUILD_TESTS=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          ctest
+          ctest -V
 
       - name: Make zip package
         working-directory: ${{github.workspace}}/build

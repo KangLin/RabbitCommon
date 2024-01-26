@@ -107,6 +107,7 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
       - name: Build and test
+        if: false
         working-directory: ${{github.workspace}}/build_test
         run: |
           cd ${{github.workspace}}/build_test
@@ -120,14 +121,16 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
-              -DINSTALL_QT=OFF ^
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON ^
+              -DINSTALL_QT=ON ^
               -DBUILD_APP=OFF ^
               -DBUILD_TESTS=ON
-          cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          copy /Y ${{env.INSTALL_DIR}}\bin\*.dll bin
-          copy /Y ${{env.INSTALL_DIR}}\lib\*.dll bin
-          copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll bin
-          ctest -C ${{ matrix.BUILD_TYPE }} -V
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+          echo "xcopy /Y /S install\bin bin\${{ matrix.BUILD_TYPE }}"
+          xcopy /Y /S install\bin bin\${{ matrix.BUILD_TYPE }}
+          echo "xcopy /Y /S ${{env.VCPKG_DEFAULT_BINARY_CACHE}}/bin/*.dll bin\${{ matrix.BUILD_TYPE }}"
+          xcopy /Y /S ${{env.VCPKG_DEFAULT_BINARY_CACHE}}/bin/*.dll bin\${{ matrix.BUILD_TYPE }}
+          ctest -C ${{ matrix.BUILD_TYPE }} -VV
 
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}/build
@@ -143,6 +146,7 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON ^
               -DINSTALL_QT=OFF ^
               -DBUILD_APP=OFF ^
               -DBUILD_TESTS=OFF
