@@ -24,37 +24,43 @@ class CFrmUpdater;
 }
 
 /*!
- * \~chinese 更新软件
- *
+ * \~chinese
+ * \brief 更新软件
  * \details
  * - 原理：
  *   - 状态机图：详见： \ref InitStateMachine
  *
  * - 使用：
- *   - 生成配置文件
- *     - [必选] 生成更新配置文件(update_XXX.xml)。 格式详见： \ref CheckUpdateConfigFile \n
- *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
+ *   - 生成配置文件:
+ *     - [必选] 生成更新配置文件(update_XXX.json)。 格式详见： \ref GetConfigFromFile \n
+ *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Update configure file default urls
  *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectConfigFile \n
- *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
+ *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect configure file default urls
+ *     - 例子：
+ *       \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+ *       \see GenerateUpdateJson() GenerateUpdateJson(QCommandLineParser &parser)
  *   - 在应用程序中使用 CFrmUpdater:
- *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
+ *     \snippet App/Tests/MainWindow.cpp Use CFrmUpdater
  * 
- * \~english Updater
- *
+ * \~english
+ * \brief Updater
  * \details
  * - Principle:
  *   - State machine. See: \ref InitStateMachine
  *
  * - Usage:
  *   - Generate configuration file
- *     - [MUST] Generate update configuration file(update_XXX.xml).
- *              Format see: \ref CheckUpdateConfigFile \n
- *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Update xml file default urls
+ *     - [MUST] Generate update configuration file(update_XXX.json).
+ *              Format see: \ref GetConfigFromFile \n
+ *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Update configure file default urls
  *     - [OPTION] Generate redirect configure file(update.xml).
  *             Format see: \ref CheckRedirectConfigFile \n
- *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect xml file default urls
+ *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect configure file default urls
+ *     - Example:
+ *       \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+ *       \see GenerateUpdateJson() GenerateUpdateJson(QCommandLineParser &parser)
  *   - Used by application CFrmUpdater:
- *     \snippet Tests/MainWindow.cpp Use CFrmUpdater
+ *     \snippet App/Tests/MainWindow.cpp Use CFrmUpdater
  *     
  * \~
  * \see RabbitCommon::CDownloadFile
@@ -88,7 +94,19 @@ public:
      */
     int GenerateUpdateXml();
     int GenerateUpdateXml(QCommandLineParser &parser);
+    /*!
+     * \brief Generate update json configure file
+     * \note  If your application hasn't a command-line argument, use it.
+     * \see GetConfigFromFile
+     */
     int GenerateUpdateJson();
+    /*!
+     * \brief Generate update json configure file
+     * \param parser: QCommandLineParser
+     * \note  If your application has a command-line argument, use it.
+     * \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+     * \see GetConfigFromFile
+     */
     int GenerateUpdateJson(QCommandLineParser &parser);
 
     /*!
@@ -184,7 +202,7 @@ private:
     } m_Info;
     
     CONFIG_FILE m_ConfigFile;
-
+    
     int GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
     int GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 /*[out]*/QString &szFile,

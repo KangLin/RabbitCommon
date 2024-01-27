@@ -43,7 +43,7 @@ ADD_TARGET(NAME TestGenerateJsonFile
     )
 
 add_test(NAME TestGenerateJsonFile
-    COMMAND TestGenerateJsonFile -f "test.json" --pv "2.0.0" -i "info" -t "time" -s "windows" -a "x86" -c "asbdasersdfasdfawer" -p "package-file" -u "github.com" --home "home" -m "1.5.7"
+    COMMAND TestGenerateJsonFile -f "test.json" --pv "2.0.0" -i "info" -t "time" -s "windows" -a "x86" -c "asbdasersdfasdfawer" -n "rabbitcommon" -p "package-file" -u "github.com" --home "home" -m "1.5.7"
     WORKING_DIRECTORY ${OUTPUT_DIR}
     COMMAND_EXPAND_LISTS
     )

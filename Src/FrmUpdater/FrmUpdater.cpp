@@ -4,9 +4,7 @@
 #include "FrmUpdater.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "AdminAuthoriser/adminauthoriser.h"
 #include "ui_FrmUpdater.h"
-
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFinalState>
@@ -109,7 +107,7 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
 {
     if(urls.isEmpty())
     {
-        // [Redirect xml file default urls]
+        // [Redirect configure file default urls]
         QUrl github("https://github.com/KangLin/"
                 + qApp->applicationName() + "/raw/master/Update/update.json");
         QUrl gitlab("https://gitlab.com/kl222/"
@@ -118,12 +116,12 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
                 + qApp->applicationName() + "/raw/master/Update/update.json");
         QUrl sourceforge("https://sourceforge.net/p/"
                   + qApp->applicationName() + "/ci/master/tree/Update/update.json?format=raw");
-        // [Redirect xml file default urls]
+        // [Redirect configure file default urls]
         m_Urls << github << gitee << sourceforge << gitlab;
     } else {
         m_Urls = urls;
     }
-
+    qDebug(FrmUpdater) << "Urls:" << m_Urls;
     InitStateMachine();
 }
 
@@ -186,6 +184,7 @@ CFrmUpdater::~CFrmUpdater()
  */
 int CFrmUpdater::InitStateMachine()
 {
+    qDebug(FrmUpdater) << "Init State Machine";
     QFinalState *sFinal = new QFinalState();
     QState *sCheck = new QState();
     QState *s = new QState();
@@ -312,8 +311,8 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
             = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
-
-    QString f = szTmp + szFile.mid(szFile.lastIndexOf("/"));
+    
+    QString f = szTmp + m_ConfigFile.szFileName;
     if(QFile::exists(f))
         QFile::remove(f);
     if(QFile::rename(szFile, f))
@@ -448,8 +447,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
     m_DownloadFile.close();
     if(doc.elementsByTagName("REDIRECT").isEmpty())
         return 1;
-
-    QString szOS;
+    
+    QString szOS = QSysInfo::productType();
     QString szVersion;
     QDomNodeList versionNode = doc.documentElement().elementsByTagName("VERSION");
     if(versionNode.isEmpty())
@@ -462,10 +461,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
     szVersion = node.text();
     QDomNodeList n;
 #if defined (Q_OS_WIN)
-    szOS = "windows";
     n = doc.documentElement().elementsByTagName("WINDOWS");
 #elif defined(Q_OS_ANDROID)
-    szOS = "android";
     n = doc.documentElement().elementsByTagName("ANDROID");
 #elif defined (Q_OS_LINUX)
     QFileInfo f(qApp->applicationFilePath());
@@ -492,16 +489,16 @@ int CFrmUpdater::CheckRedirectConfigFile()
 
     if(m_Urls.isEmpty())
     {
-        // [Update xml file default urls]
+        // [Update configure file default urls]
         QUrl github("https://github.com/KangLin/"
                    + qApp->applicationName() + "/releases/download/"
-                   + szVersion + "/update_" + szOS + ".xml");
+                   + szVersion + "/update_" + szOS + ".json");
         m_Urls.push_back(github);
         QUrl sourceforge("https://sourceforge.net/projects/"
                          + qApp->applicationName() +"/files/"
-                         + szVersion + "/update_" + szOS + ".xml/download");
+                         + szVersion + "/update_" + szOS + ".json/download");
         m_Urls.push_back(sourceforge);
-        // [Update xml file default urls]
+        // [Update configure file default urls]
     }
 
     qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
@@ -570,94 +567,40 @@ int CFrmUpdater::CheckUpdateConfigFile()
         emit sigError();
         return -4;
     }
+    
+    if(info.files.isEmpty()) {
+        ui->lbState->setText(tr("The configure file has not files"));
+        emit sigError();
+        return -5;
+    }
 
     QString szArchitecture = QSysInfo::currentCpuArchitecture();
     CONFIG_FILE file;
     foreach (auto f, info.files) {
-        
-#if defined (Q_OS_WIN)
-        if(f.szSystem.compare("windows", Qt::CaseInsensitive))
-        {
+        if(f.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive))
             continue;
-        }
-        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
+
+#if defined(Q_OS_WIN) ||  defined(Q_OS_LINUX)
+        if(!szArchitecture.compare("i386", Qt::CaseInsensitive)
             && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-        {
             continue;
-        }
-#elif defined(Q_OS_ANDROID)
-        if(f.szSystem.compare("android", Qt::CaseInsensitive))
-        {
-            continue;
-        }
+#else
         if(szArchitecture != f.szArchitecture)
-        {
             continue;
-        }
-#elif defined (Q_OS_LINUX)
-        if(f.szSystem.compare("linux", Qt::CaseInsensitive))
-        {
-            continue;
-        }
-        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
-            && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-        {
-            continue;
-        }
 #endif
         file = f;
         break;
     }
-    
-#if defined (Q_OS_WIN)
-        if(file.szSystem.compare("windows", Qt::CaseInsensitive))
-        {
-            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
-            emit sigError();
-            return -5;
-        }
-        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
-            && !file.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-        {
-            ui->lbState->setText(tr("Architecture is different. %1 different %2")
-                                     .arg(szArchitecture, file.szArchitecture));
-            emit sigError();
-            return -6;
-        }
-#elif defined(Q_OS_ANDROID)
-        if(file.szSystem.compare("android", Qt::CaseInsensitive))
-        {
-            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
-            emit sigError();
-            return -7;
-        }
-        if(szArchitecture != file.szArchitecture)
-        {
-            ui->lbState->setText(tr("Architecture is different. %1 different %2")
-                                     .arg(szArchitecture, file.szArchitecture));
-            emit sigError();
-            return -8;
-        }
-#elif defined (Q_OS_LINUX)
-        if(file.szSystem.compare("linux", Qt::CaseInsensitive))
-        {
-            ui->lbState->setText(tr("System is different. linux different %1").arg(file.szSystem));
-            emit sigError();
-            return -9;
-        }
-        if(!szArchitecture.compare("x86", Qt::CaseInsensitive)
-            && !file.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-        {
-            ui->lbState->setText(tr("Architecture is different. %1 different %2")
-                                     .arg(szArchitecture, file.szArchitecture));
-            emit sigError();
-            return -10;
-        }
-#endif
-        
+
+    if(file.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive)) {
+        ui->lbState->setText(tr("The system or architecture is not exist in configure file"));
+        emit sigError();
+        return -6;
+    }
+
     m_Info.version = info.version;
     m_ConfigFile = file;
-        
+
     ui->lbNewVersion->setText(tr("New version: %1").arg(info.version.szVerion));
     ui->lbNewVersion->show();
     ui->lbNewArch->setText(tr("New architecture: %1").arg(file.szArchitecture));
@@ -683,12 +626,12 @@ int CFrmUpdater::CheckUpdateConfigFile()
     return nRet;
 }
 
-/*
+/*!
  * json 格式：
  * 
  * |   os  |         architecture       |platform    |
  * |:-----:|:--------------------------:|:----------:|
- * |windows|        "i386",x86_64          |mingw,cygwin|
+ * |windows|        "i386",x86_64       |mingw,cygwin|
  * |linux  |        x86,x86_64          |            |
  * |android|armv7, arm64_v8a, x86,x86_64|            |
  * |macos  |        x86,x86_64          |            |
@@ -733,7 +676,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
  *   ]
  * }
  * \endcode
- * \see GenerateJsonFile
+ * \see GenerateJsonFile GetConfigFromCommandLine
  */
 int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 {
@@ -1148,6 +1091,25 @@ void CFrmUpdater::slotButtonClickd(int id)
     set.setValue("Update/RadioButton", id);
 }
 
+int CFrmUpdater::GenerateUpdateJson()
+{
+    QCommandLineParser parser;
+    int nRet = GenerateUpdateJson(parser);
+    parser.process(qApp->arguments());
+    return nRet;
+}
+
+int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
+{
+    QString szFile;
+    CONFIG_INFO info;
+    CONFIG_TYPE type;
+    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
+    if(nRet)
+        return nRet;
+    return GenerateJsonFile(szFile, info, type);
+}
+
 /*!
  * \brief Generate Json File
  * \param szFile
@@ -1214,25 +1176,6 @@ int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info
     f.write(doc.toJson());
     f.close();
     return 0;
-}
-
-int CFrmUpdater::GenerateUpdateJson()
-{
-    QCommandLineParser parser;
-    int nRet = GenerateUpdateJson(parser);
-    parser.process(qApp->arguments());
-    return nRet;
-}
-
-int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
-{
-    QString szFile;
-    CONFIG_INFO info;
-    CONFIG_TYPE type;
-    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
-    if(nRet)
-        return nRet;
-    return GenerateJsonFile(szFile, info, type);
 }
 
 int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE &type)
@@ -1353,7 +1296,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
 }
 
 /*!
- * \brief CFrmUpdater::GetConfigFromCommandLine
+ * \brief Get configure from command-line
  * \param parser
  * \param szFile
  * \param info
@@ -1366,42 +1309,30 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/CONFIG_INFO &info,
                          /*[out]*/CONFIG_TYPE &type)
 {
-    QString szUrl;
+    QString szFileName;
 #if defined (Q_OS_WIN)
-    szUrl = "https://github.com/KangLin/"
-            + qApp->applicationName()
-            + "/releases/download/"
-            + m_szCurrentVersion + "/"
-            + qApp->applicationName()
-            + m_szCurrentVersion + "_Setup" + ".exe";
+    szFileName = qApp->applicationName() + "_" + m_szCurrentVersion + "_Setup" + ".exe";
 #elif defined(Q_OS_ANDROID)
-    szUrl = "https://github.com/KangLin/"
-            + qApp->applicationName()
-            + "/releases/download/"
-            + m_szCurrentVersion + "/"
-            + qApp->applicationName().toLower()
-            + m_szCurrentVersion + ".apk";
+    szFileName = qApp->applicationName().toLower() + "_" + m_szCurrentVersion + ".apk";
 #elif defined(Q_OS_LINUX)
     QFileInfo f(qApp->applicationFilePath());
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {
         QString szVersion = m_szCurrentVersion;
         szVersion.replace("v", "", Qt::CaseInsensitive);
-        szUrl = "https://github.com/KangLin/"
-                + qApp->applicationName()
-                + "/releases/download/"
-                + m_szCurrentVersion + "/"
-                + qApp->applicationName().toLower()
+        szFileName = qApp->applicationName().toLower()
                 + "_" + szVersion + "_amd64.deb";
     } else {
-        szUrl = "https://github.com/KangLin/"
-                + qApp->applicationName()
-                + "/releases/download/"
-                + m_szCurrentVersion + "/"
-                + qApp->applicationName()
+        szFileName = qApp->applicationName()
                 + "_" + m_szCurrentVersion + ".tar.gz";
     }
 #endif
+
+    QString szUrl;          
+    szUrl = "https://github.com/KangLin/"
+            + qApp->applicationName()
+            + "/releases/download/"
+            + m_szCurrentVersion + "/" + szFileName;
 
     parser.addHelpOption();
     parser.addVersionOption();
@@ -1454,6 +1385,11 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                             "Package file"
                             );
     parser.addOption(oPackageFile);
+    QCommandLineOption oFileName(QStringList() << "n" << "file-name",
+                                 tr("File name"),
+                                 "File name"
+                                 );
+    parser.addOption(oFileName);
     QCommandLineOption oUrl(QStringList() << "u" << "urls",
                              tr("Package download urls"),
                              "Download urls",
@@ -1494,29 +1430,42 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     file.szSystem = parser.value(oSystem);
     file.szArchitecture = parser.value(oArch);
     file.szMd5sum = parser.value(oMd5);
+    file.szFileName = parser.value(oFileName);
     
     QString szPackageFile = parser.value(oPackageFile);
-    QFileInfo fi(szPackageFile);
-    file.szFileName = fi.fileName();
-    if(file.szMd5sum.isEmpty() && !szPackageFile.isEmpty())
-    {
-        //计算包的 MD5 和
-        QCryptographicHash md5sum(QCryptographicHash::Md5);
-        QFile app(szPackageFile);
-        if(app.open(QIODevice::ReadOnly))
+    if(!szPackageFile.isEmpty()) {
+        QFileInfo fi(szPackageFile);
+        if(file.szFileName.isEmpty())
+            file.szFileName = fi.fileName();
+        if(file.szMd5sum.isEmpty())
         {
-            if(md5sum.addData(&app))
+            //计算包的 MD5 和
+            QCryptographicHash md5sum(QCryptographicHash::Md5);
+            QFile app(szPackageFile);
+            if(app.open(QIODevice::ReadOnly))
             {
-                file.szMd5sum = md5sum.result().toHex();
+                if(md5sum.addData(&app))
+                {
+                    file.szMd5sum = md5sum.result().toHex();
+                }
+                app.close();
+            } else {
+                qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
             }
-            app.close();
-        } else {
-            qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
         }
     }
 
     if(file.szMd5sum.isEmpty())
         qWarning(FrmUpdater) << "Md5 is empty. please set -c or --md5 or -p";
+
+    /* 注意：这里要放在包文件后。
+     * 优先级：
+     *   1. -n 参数设置
+     *   2. 从包文件中提取
+     *   3. 默认值
+     */
+    if(file.szFileName.isEmpty())
+        file.szFileName = szFileName;
 
     QString szUrls = parser.value(oUrl);
     foreach(auto u, szUrls.split(";"))
@@ -1656,6 +1605,7 @@ void CFrmUpdater::test_json_file()
     QVERIFY(conf_file.szArchitecture == "x86");
     QVERIFY(conf_file.szMd5sum == "asbdasersdfasdfawer");
     QVERIFY(conf_file.urls[0] == QUrl("github.com"));
+    QVERIFY(conf_file.szFileName == "rabbitcommon");
 }
 
 void CFrmUpdater::test_default_json_file()
@@ -1674,7 +1624,26 @@ void CFrmUpdater::test_default_json_file()
     QVERIFY(conf_file.szSystem == QSysInfo::productType());
     QVERIFY(conf_file.szArchitecture == QSysInfo::buildCpuArchitecture());
     QVERIFY(conf_file.szMd5sum.isEmpty());
-    QVERIFY(conf_file.szFileName.isEmpty());
+    
+    QString szFileName;
+#if defined (Q_OS_WIN)
+    szFileName = qApp->applicationName() + "_" + m_szCurrentVersion + "_Setup" + ".exe";
+#elif defined(Q_OS_ANDROID)
+    szFileName = qApp->applicationName().toLower() + "_" + m_szCurrentVersion + ".apk";
+#elif defined(Q_OS_LINUX)
+    QFileInfo f(qApp->applicationFilePath());
+    if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
+    {
+        QString szVersion = m_szCurrentVersion;
+        szVersion.replace("v", "", Qt::CaseInsensitive);
+        szFileName = qApp->applicationName().toLower()
+                     + "_" + szVersion + "_amd64.deb";
+    } else {
+        szFileName = qApp->applicationName()
+                     + "_" + m_szCurrentVersion + ".tar.gz";
+    }
+#endif
+    QVERIFY(conf_file.szFileName == szFileName);
 }
 
 #endif //#if defined(HAVE_TEST)

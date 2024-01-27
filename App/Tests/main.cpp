@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
 
     // Must after install translator
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-
+    
+    // [Use CFrmUpdater GenerateUpdateJson]
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
@@ -66,9 +67,10 @@ int main(int argc, char *argv[])
 
 #ifdef HAVE_UPDATE
     CFrmUpdater updater;
-    updater.GenerateUpdateXml(parser);
+    updater.GenerateUpdateJson(parser);
 #endif
-    parser.parse(QApplication::arguments());
+    parser.process(QApplication::arguments());
+    // [Use CFrmUpdater GenerateUpdateJson]
     
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));

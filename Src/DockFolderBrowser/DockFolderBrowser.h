@@ -14,10 +14,10 @@ class QFileSystemModel;
 /*!
  * \~english
  * \brief Folder browser. \n
- *        Usage: \snippet Tests/MainWindow.cpp Use CDockFolderBrowser
+ *        Usage: \snippet App/Tests/MainWindow.cpp Use CDockFolderBrowser
  * \~chinese
  * \brief 文件夹浏览器。 \n
- *        用法：\snippet Tests/MainWindow.cpp Use CDockFolderBrowser
+ *        用法：\snippet App/Tests/MainWindow.cpp Use CDockFolderBrowser
  * \~
  * \ingroup API
  */
