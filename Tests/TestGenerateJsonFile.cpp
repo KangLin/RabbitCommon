@@ -7,10 +7,10 @@
 CTestGenerateJsonFile::CTestGenerateJsonFile() : QObject()
 {}
 
-void CTestGenerateJsonFile::test_generate_json_file()
+void CTestGenerateJsonFile::test_generate_update_json_file()
 {
     CFrmUpdater updater;
-    updater.test_generate_json_file();
+    updater.test_generate_update_json_file();
 }
 
 void CTestGenerateJsonFile::test_json_file()

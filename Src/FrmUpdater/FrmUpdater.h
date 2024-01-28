@@ -176,7 +176,7 @@ private:
         FILE,
         VERSION_FILE
     };
-    
+
     struct CONFIG_VERSION {
         QString szVerion;
         QString szMinUpdateVersion;
@@ -195,6 +195,12 @@ private:
         QVector<QUrl> urls;
         QString szMd5sum;
     };
+    
+    struct CONFIG_REDIRECT {
+        QString szVersion;
+        QString szMinUpdateVersion;
+        QVector<CONFIG_FILE> files;
+    };
 
     struct CONFIG_INFO {
         CONFIG_VERSION version;
@@ -203,6 +209,7 @@ private:
     
     CONFIG_FILE m_ConfigFile;
     
+    int GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf);
     int GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
     int GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 /*[out]*/QString &szFile,
@@ -226,9 +233,9 @@ private Q_SLOTS:
     // Only test!!!
 public:
     int test_json();
-    void test_generate_json_file();
+    void test_generate_update_json_file();
     void test_json_file();
-    void test_default_json_file();
+    void test_default_update_json_file();
 
 #endif
 };

@@ -382,42 +382,33 @@ void CFrmUpdater::slotCheckConfigFile()
  * json 格式:
  * \code
  * {
- *   REDIRECT: true
- *   version:{ "2.0.0"
- *   
+ *   redirect: [
+ *     {
+ *       "version": "2.0.0",
+ *       "min_update_version": "1.0.0",
+ *       "files": [
+ *         {
+ *           "os": "windows",
+ *           "arch": "x86",
+ *           "urls": [
+ *             "github.com/kanglin/rabbitcommon/windows/update_windows.json",
+ *             "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+ *           ]
+ *         },
+ *         {
+ *           "os": "ubuntu",
+ *           "arch": "x86",
+ *           "urls": [
+ *             "github.com/kanglin/rabbitcommon/ubuntu.json",
+ *             "gitlab.com/kl222/rabbitcommon/ubuntu.json"
+ *           ]
+ *         }
+ *       ]
+ *     }
+ *   ]
  * }
  * \endcode
  * 
- * xml 格式:
- * \code
- 
-   <?xml version="1.0" encoding="UTF-8"?>
-   <REDIRECT>
-       <VERSION>v0.0.1</VERSION>
-       <WINDOWS>
-           <URL>url1</URL>
-           <URL>url2</URL>
-           <URL>...</URL>
-       </WINDOWS>
-       <LINUX>
-           <URL>url1</URL>
-           <URL>url2</URL>
-           <URL>...</URL>
-       </LINUX>
-       <LINUX_APPIMAGE>
-           <URL>url1</URL>
-           <URL>url2</URL>
-           <URL>...</URL>
-       </LINUX_APPIMAGE>
-       <ANDROID>
-           <URL>url1</URL>
-           <URL>url2</URL>
-           <URL>...</URL>
-       </ANDROID>   
-   </REDIRECT>
-   
- * \endcode
- *
  * \return > 0: 正常配置文件
  *         = 0: 是重定向配置文件
  *         < 0: 错误
@@ -425,83 +416,93 @@ void CFrmUpdater::slotCheckConfigFile()
  */
 int CFrmUpdater::CheckRedirectConfigFile()
 {
+    int nRet = 0;
     qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectConfigFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile: open file fail:"
-                              << m_DownloadFile.fileName();
+        QString szError = tr("Open configure file fail:") + m_DownloadFile.fileName();
+        ui->lbState->setText(szError);
+        qCritical(FrmUpdater) << szError;
         emit sigError();
         return -1;
     }
-    QDomDocument doc;
-    if(!doc.setContent(&m_DownloadFile))
-    {
-        QString szError = tr("Parse file %1 fail. It isn't xml file")
-                .arg(m_DownloadFile.fileName());
-        ui->lbState->setText(szError);
-        qCritical(FrmUpdater) << "CFrmUpdater::slotCheckXmlFile:" << szError;
-        m_DownloadFile.close();
-        emit sigError();
-        return -2;
-    }
-    m_DownloadFile.close();
-    if(doc.elementsByTagName("REDIRECT").isEmpty())
-        return 1;
     
-    QString szOS = QSysInfo::productType();
-    QString szVersion;
-    QDomNodeList versionNode = doc.documentElement().elementsByTagName("VERSION");
-    if(versionNode.isEmpty())
+    QVector<CONFIG_REDIRECT> conf;
+    nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
+    if(nRet) {
+        return nRet;
+    }
+    
+    CONFIG_REDIRECT redirect;
+    for(auto it = conf.begin(); it != conf.end(); it++) {
+        redirect = *it;
+        QString szVersion = redirect.szVersion;
+        if(szVersion.isEmpty())
+        {
+            QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
+            ui->lbState->setText(szError);
+            qCritical(FrmUpdater) << szError;
+            emit sigError();
+            return -2;
+        }
+
+        if(CompareVersion(szVersion, m_szCurrentVersion) < 0)
+            continue;
+
+        QString szMinVersion = redirect.szMinUpdateVersion;
+        if(!szMinVersion.isEmpty()) {
+            if(CompareVersion(szMinVersion, m_szCurrentVersion) > 0)
+                continue;
+        }
+
+        break;
+    }
+
+    if(CompareVersion(redirect.szVersion, m_szCurrentVersion) < 0)
     {
+        QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
+        ui->lbState->setText(szError);
         emit sigError();
         return -3;
     }
-
-    QDomElement node = versionNode.item(0).toElement();
-    szVersion = node.text();
-    QDomNodeList n;
-#if defined (Q_OS_WIN)
-    n = doc.documentElement().elementsByTagName("WINDOWS");
-#elif defined(Q_OS_ANDROID)
-    n = doc.documentElement().elementsByTagName("ANDROID");
-#elif defined (Q_OS_LINUX)
-    QFileInfo f(qApp->applicationFilePath());
-    if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
-    {   
-        szOS = "linux";
-        n = doc.documentElement().elementsByTagName("LINUX");
-    } else {
-        szOS = "linux_appimage";
-        n = doc.documentElement().elementsByTagName("LINUX_APPIMAGE");
-    }
-#endif
-
-    m_Urls.clear();
-    if(!n.isEmpty())
-    {
-        QDomElement url = n.item(0).firstChildElement("URL");
-        while(!url.isNull())
-        {
-            m_Urls.push_back(QUrl(url.text()));
-            url = n.item(0).nextSiblingElement("URL");
+    
+    CONFIG_FILE file;
+    foreach (auto f, redirect.files) {
+        if(!f.szSystem.isEmpty()) {
+           if(QSysInfo::productType() != f.szSystem)
+                continue;
         }
+        if(!f.szArchitecture.isEmpty())
+        {    
+           QString szArchitecture = QSysInfo::currentCpuArchitecture();
+#if defined(Q_OS_WIN) ||  defined(Q_OS_LINUX)
+           if(!szArchitecture.compare("i386", Qt::CaseInsensitive)
+               && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
+                continue;
+#else
+           if(szArchitecture != f.szArchitecture)
+                continue;
+#endif
+        }
+        file = f;
     }
 
+    m_Urls = file.urls;
     if(m_Urls.isEmpty())
     {
         // [Update configure file default urls]
         QUrl github("https://github.com/KangLin/"
                    + qApp->applicationName() + "/releases/download/"
-                   + szVersion + "/update_" + szOS + ".json");
+                   + redirect.szVersion + "/update.json");
         m_Urls.push_back(github);
         QUrl sourceforge("https://sourceforge.net/projects/"
                          + qApp->applicationName() +"/files/"
-                         + szVersion + "/update_" + szOS + ".json/download");
+                         + redirect.szVersion + "/update.json/download");
         m_Urls.push_back(sourceforge);
         // [Update configure file default urls]
     }
 
-    qDebug(FrmUpdater) << "OS:" << szOS << "Version:" << szVersion << m_Urls;
+    qDebug(FrmUpdater) << "Version:" << redirect.szVersion << m_Urls;
 
     emit sigDownLoadRedire();
 
@@ -537,6 +538,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
    </UPDATE>
    
  * \endcode
+ * 
+ * \see GetConfigFromFile
  */
 int CFrmUpdater::CheckUpdateConfigFile()
 {
@@ -627,6 +630,86 @@ int CFrmUpdater::CheckUpdateConfigFile()
 }
 
 /*!
+ * \brief CFrmUpdater::GetRedirectFromFile
+ * \param szFile
+ * \param conf
+ * \return > 0: 正常配置文件
+ *         = 0: 是重定向配置文件
+ *         < 0: 错误
+ */
+int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf)
+{
+    QFile f(szFile);
+    if(!f.open(QFile::ReadOnly))
+    {
+        QString szError = tr("Open file fail").arg(szFile);
+        ui->lbState->setText(szError);
+        qCritical(FrmUpdater) << szError;
+        emit sigError();
+        return -1;
+    }
+
+    QJsonDocument doc;
+    doc = QJsonDocument::fromJson(f.readAll());
+    f.close();
+    if(!doc.isObject())
+    {
+        QString szError = tr("Parse file %1 fail. It isn't configure file")
+                              .arg(m_DownloadFile.fileName());
+        ui->lbState->setText(szError);
+        qCritical(FrmUpdater) << szError;
+        emit sigError();
+        return -2;
+    }
+
+    QJsonObject objRoot = doc.object();
+    if(!objRoot.contains("redirect"))
+        return 1;
+
+    QJsonArray arrRedirect = objRoot["redirecct"].toArray();
+    for(auto it = arrRedirect.begin(); it != arrRedirect.end(); it++) {
+        QJsonObject obj = it->toObject();
+        CONFIG_REDIRECT objRedirect;
+        objRedirect.szVersion = obj["version"].toString();
+        objRedirect.szMinUpdateVersion = obj["min_update_version"].toString();
+        qDebug(FrmUpdater) << "version:" << objRedirect.szVersion
+                           << "min_update_version:" << objRedirect.szMinUpdateVersion;
+
+        QJsonArray objFiles = obj["files"].toArray();
+        for(auto it = objFiles.begin(); it != objFiles.end(); it++) {
+            QJsonObject f = it->toObject();
+            CONFIG_FILE file;
+            file.szSystem = f["os"].toString();
+            file.szSystemMinVersion = f["os_min_version"].toString();
+            file.szArchitecture = f["arch"].toString();
+            file.szArchitectureMinVersion = f["arch_min_version"].toString();
+            file.szMd5sum = f["md5"].toString();
+            file.szFileName = f["name"].toString();
+            
+            QJsonArray urls = f["urls"].toArray();
+            foreach(auto u, urls)
+            {
+                file.urls.append(u.toString());
+            }
+            
+            objRedirect.files.append(file);
+            //*
+            qDebug(FrmUpdater) << "OS:" << file.szSystem
+                               << "os_min_version:" << file.szSystemMinVersion
+                               << "arch:" << file.szArchitecture
+                               << "arch_min_version:" << file.szArchitectureMinVersion
+                               << "md5:" << file.szMd5sum
+                               << "name:" << file.szFileName
+                               << "urls:" << file.urls;//*/
+        }
+
+        conf.append(objRedirect);
+    }
+
+    return 0;
+}
+    
+/*!
  * json 格式：
  * 
  * |   os  |         architecture       |platform    |
@@ -691,7 +774,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     file.close();
     if(!doc.isObject())
     {
-        qDebug(FrmUpdater) << "Parser file fail." << szFile;
+        qCritical(FrmUpdater) << "Parser configure file fail." << szFile;
         return -2;
     }
     
@@ -1581,7 +1664,7 @@ int CFrmUpdater::test_json()
 }
 
 // set command line in Tests/CMakeLists.txt
-void CFrmUpdater::test_generate_json_file()
+void CFrmUpdater::test_generate_update_json_file()
 {
     QVERIFY(0 == GenerateUpdateJson());
 }
@@ -1608,7 +1691,7 @@ void CFrmUpdater::test_json_file()
     QVERIFY(conf_file.szFileName == "rabbitcommon");
 }
 
-void CFrmUpdater::test_default_json_file()
+void CFrmUpdater::test_default_update_json_file()
 {
     QFile file("update.json");
     QVERIFY(file.exists());

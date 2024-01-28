@@ -11,7 +11,7 @@ public:
     explicit CTestGenerateJsonFile();
     
 private Q_SLOTS:
-    void test_generate_json_file();
+    void test_generate_update_json_file();
     void test_json_file();
 };
 
