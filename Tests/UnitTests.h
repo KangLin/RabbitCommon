@@ -21,6 +21,7 @@ private Q_SLOTS:
     void test_joson();
     
     void test_redirect_json_file();
+    void test_check_redirect_json_file();
 };
 
 #endif // CUNITTESTS_H

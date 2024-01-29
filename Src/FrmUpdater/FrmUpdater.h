@@ -230,14 +230,9 @@ private Q_SLOTS:
     void on_cbHomePage_clicked(bool checked);
 
 #if defined(HAVE_TEST)
-    // Only test!!!
-public:
-    int test_json();
-    void test_generate_update_json_file();
-    void test_json_file();
-    void test_default_update_json_file();
-    void test_redirect_json_file();
-
+    friend class CUnitTests;
+    friend class CTestGenerateJsonFile;
+    friend class CTestGenerateDefaultJsonFile;
 #endif
 };
 

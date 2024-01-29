@@ -5,6 +5,11 @@
       "min_update_version": "1.0.0",
       "files": [
         {
+          "urls": [
+              "update.json"
+          ]
+        },
+        {
           "os": "windows",
           "arch": "x86",
           "urls": [
@@ -14,7 +19,7 @@
         },
         {
           "os": "ubuntu",
-          "arch": "x86",
+          "arch": "x86_64",
           "urls": [
             "github.com/kanglin/rabbitcommon/ubuntu.json",
             "gitlab.com/kl222/rabbitcommon/ubuntu.json"
