@@ -417,7 +417,7 @@ void CFrmUpdater::slotCheckConfigFile()
 int CFrmUpdater::CheckRedirectConfigFile()
 {
     int nRet = 0;
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectConfigFile()";
+    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectConfigFile()" << m_DownloadFile.fileName();
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
         QString szError = tr("Open configure file fail:") + m_DownloadFile.fileName();

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Icon=/opt/RabbitCommon/share/pixmaps/App.png
-Exec=/opt/RabbitCommon/bin/RabbitCommonTests.sh
+Exec=/opt/RabbitCommon/bin/RabbitCommonApp.sh
 Terminal=false
 StartupNotify=true
 Categories=Application;Development;
