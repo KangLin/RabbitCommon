@@ -1,0 +1,26 @@
+{
+  "redirect": [
+    {
+      "version": "2.0.0",
+      "min_update_version": "1.0.0",
+      "files": [
+        {
+          "os": "windows",
+          "arch": "x86",
+          "urls": [
+            "github.com/kanglin/rabbitcommon/windows/update_windows.json",
+            "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+          ]
+        },
+        {
+          "os": "ubuntu",
+          "arch": "x86",
+          "urls": [
+            "github.com/kanglin/rabbitcommon/ubuntu.json",
+            "gitlab.com/kl222/rabbitcommon/ubuntu.json"
+          ]
+        }
+      ]
+    }
+  ]
+}

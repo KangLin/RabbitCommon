@@ -236,6 +236,7 @@ public:
     void test_generate_update_json_file();
     void test_json_file();
     void test_default_update_json_file();
+    void test_redirect_json_file();
 
 #endif
 };

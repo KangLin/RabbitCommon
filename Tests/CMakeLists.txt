@@ -47,3 +47,7 @@ add_test(NAME TestGenerateJsonFile
     WORKING_DIRECTORY ${OUTPUT_DIR}
     COMMAND_EXPAND_LISTS
     )
+
+if(NOT EXISTS ${OUTPUT_DIR}/data)
+    file(COPY data DESTINATION ${OUTPUT_DIR})
+endif()

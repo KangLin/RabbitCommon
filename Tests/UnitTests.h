@@ -19,7 +19,8 @@ private Q_SLOTS:
     void test_os();
     void test_architecture();
     void test_joson();
-
+    
+    void test_redirect_json_file();
 };
 
 #endif // CUNITTESTS_H

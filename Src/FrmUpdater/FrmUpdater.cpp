@@ -636,6 +636,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
  * \return > 0: 正常配置文件
  *         = 0: 是重定向配置文件
  *         < 0: 错误
+ * \see CheckRedirectConfigFile
  */
 int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf)
 {
@@ -655,7 +656,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
     if(!doc.isObject())
     {
         QString szError = tr("Parse file %1 fail. It isn't configure file")
-                              .arg(m_DownloadFile.fileName());
+                              .arg(f.fileName());
         ui->lbState->setText(szError);
         qCritical(FrmUpdater) << szError;
         emit sigError();
@@ -666,7 +667,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
     if(!objRoot.contains("redirect"))
         return 1;
 
-    QJsonArray arrRedirect = objRoot["redirecct"].toArray();
+    QJsonArray arrRedirect = objRoot["redirect"].toArray();
     for(auto it = arrRedirect.begin(); it != arrRedirect.end(); it++) {
         QJsonObject obj = it->toObject();
         CONFIG_REDIRECT objRedirect;
@@ -1727,6 +1728,24 @@ void CFrmUpdater::test_default_update_json_file()
     }
 #endif
     QVERIFY(conf_file.szFileName == szFileName);
+}
+
+void CFrmUpdater::test_redirect_json_file()
+{
+    QVector<CONFIG_REDIRECT> conf;
+    int nRet = 0;
+    nRet = GetRedirectFromFile("update.json", conf);
+    QVERIFY(1 == nRet);
+    nRet = GetRedirectFromFile("data/redirect.json", conf);
+    QVERIFY(0 == nRet);
+    QVERIFY(conf.length() == 1);
+    QVERIFY(conf[0].szVersion == "2.0.0");
+    QVERIFY(conf[0].szMinUpdateVersion == "1.0.0");
+    QVERIFY(conf[0].files.length() == 2);
+    QVERIFY(conf[0].files[0].szSystem == "windows");
+    QVERIFY(conf[0].files[0].szArchitecture == "x86");
+    QVERIFY(conf[0].files[0].urls.size() == 2);
+    QVERIFY(conf[0].files[1].szSystem == "ubuntu");
 }
 
 #endif //#if defined(HAVE_TEST)
