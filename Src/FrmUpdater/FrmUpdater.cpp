@@ -367,7 +367,7 @@ void CFrmUpdater::slotDownloadFile()
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
-                    new RabbitCommon::CDownloadFile());
+            new RabbitCommon::CDownloadFile(), &QObject::deleteLater);
         bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
                 this, SLOT(slotDownloadFileFinished(const QString)));
         Q_ASSERT(check);

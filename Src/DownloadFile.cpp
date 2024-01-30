@@ -118,8 +118,8 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
         if(m_szFileName.left(1) != "/" && m_szFileName.left(1) != "\\")
             m_szFileName = QDir::separator() + m_szFileName;
         QString szFile = szTmp + m_szFileName;
-
-        file = QSharedPointer<QFile>(new QFile());
+        
+        file = QSharedPointer<QFile>(new QFile(), &QObject::deleteLater);
         if(!file)
         {
             m_szError = "new QFile fail";
