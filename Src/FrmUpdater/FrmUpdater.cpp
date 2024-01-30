@@ -439,14 +439,6 @@ int CFrmUpdater::CheckRedirectConfigFile()
 {
     int nRet = 0;
     qDebug(log) << "CFrmUpdater::CheckRedirectConfigFile()" << m_DownloadFile.fileName();
-    if(!m_DownloadFile.open(QIODevice::ReadOnly))
-    {
-        QString szError = tr("Open configure file fail:") + m_DownloadFile.fileName();
-        ui->lbState->setText(szError);
-        qCritical(log) << szError;
-        emit sigError();
-        return -1;
-    }
     
     QVector<CONFIG_REDIRECT> conf;
     nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
@@ -483,6 +475,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
     {
         QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
         ui->lbState->setText(szError);
+        qCritical(log) << szError;
         emit sigError();
         return -3;
     }
@@ -567,34 +560,30 @@ int CFrmUpdater::CheckUpdateConfigFile()
 {
     int nRet = 0;
     qDebug(log) << "CFrmUpdater::CheckUpdateConfigFile()";
-    if(!m_DownloadFile.open(QIODevice::ReadOnly))
-    {
-        qCritical(log) << "Open download file fail:"
-                              << m_DownloadFile.fileName();
-        emit sigError();
-        return -1;
-    }
-    m_DownloadFile.close();
-
     CONFIG_INFO info;
     nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
     if(nRet) {
         QString szError = tr("Parse file %1 fail. It isn't configure file")
                               .arg(m_DownloadFile.fileName());
         ui->lbState->setText(szError);
+        qCritical(log) << szError;
         emit sigError();
         return nRet;
     }
 
     if(CompareVersion(info.version.szVerion, m_szCurrentVersion) <= 0)
     {
-        ui->lbState->setText(tr("There is laster version"));
+        QString szError(tr("There is laster version"));
+        ui->lbState->setText(szError);
+        qInfo(log) << szError;
         emit sigError();
         return -4;
     }
     
     if(info.files.isEmpty()) {
-        ui->lbState->setText(tr("The configure file has not files"));
+        QString szError(tr("The configure file has not files"));
+        ui->lbState->setText(szError);
+        qCritical(log) << szError;
         emit sigError();
         return -5;
     }
@@ -618,7 +607,10 @@ int CFrmUpdater::CheckUpdateConfigFile()
     }
 
     if(file.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive)) {
-        ui->lbState->setText(tr("The system or architecture is not exist in configure file"));
+        QString szErr;
+        szErr = tr("The system or architecture is not exist in configure file");
+        ui->lbState->setText(szErr);
+        qCritical(log) << szErr;
         emit sigError();
         return -6;
     }
