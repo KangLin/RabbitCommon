@@ -22,12 +22,12 @@
 #include "RabbitCommonDir.h"
 
 #include <QDir>
-#include <QDebug>
 #include <QDesktopServices>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <QLoggingCategory>
 
-Q_LOGGING_CATEGORY(windowLog, "RabbitCommon.MainWindow")
+Q_LOGGING_CATEGORY(log, "RabbitCommon.MainWindow")
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -163,11 +163,11 @@ void MainWindow::on_pbDownload_clicked()
 
 void MainWindow::slotDownloadFile(const QString szFile)
 {
-    qDebug(windowLog) << "Download file:" << szFile;
+    qDebug(log) << "Download file:" << szFile;
     QDesktopServices::openUrl(QUrl::fromLocalFile(szFile));
 }
 
 void MainWindow::slotDownloadError(int nErr, const QString szErr)
 {
-    qDebug(windowLog) << "Download file error:" << nErr << szErr;
+    qDebug(log) << "Download file error:" << nErr << szErr;
 }

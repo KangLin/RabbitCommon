@@ -5,7 +5,6 @@
 #include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QLoggingCategory>
 
 #include "rabbitcommon_export.h"
 
@@ -49,8 +48,8 @@ public:
 
     /*!
      * \~chinese
-     * \param urls:
-     * \param szFileName: 
+     * \param urls: 要下载的地址
+     * \param szFileName: 下载的文件名。如果没有，则从下载地址中分离出来。
      * \param bSequence:
      *     true: 按顺序向 urls 发起请求。前一个请求失败后，才请求后一个。如果成功，则返回。
      *     false: 同时向所有 urls 发起请求。
@@ -91,7 +90,6 @@ private Q_SLOTS:
     void slotFinished();
 
 private:
-    QLoggingCategory m_Log;
     bool m_bSequence;
     QString m_szFileName;
     QVector<QUrl> m_Url;

@@ -86,6 +86,8 @@ inline void g_RabbitCommon_CleanResource()
 
 namespace RabbitCommon {
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Tools")
+
 CTools::CTools() : m_bTranslator(false),
     m_bTranslatorQt(false),
     m_Initialized(false)
@@ -229,7 +231,7 @@ int CTools::AndroidRequestPermission(const QString &permission)
     {
         QtAndroidPrivate::requestPermission(permission).waitForFinished();
     }
-    qInfo(Logger) << "android permission" << permission << ";status:"
+    qInfo(log) << "android permission" << permission << ";status:"
                   << QtAndroidPrivate::checkPermission(permission).result();
     #endif
 #endif
@@ -277,7 +279,7 @@ void CTools::Clean()
 
 void CTools::InitTranslator(const QString szLanguage)
 {
-    qInfo(Logger) << "Language:" << szLanguage;
+    qInfo(log) << "Language:" << szLanguage;
     QString szFile = CDir::Instance()->GetDirTranslations()
             + "/RabbitCommon_" + szLanguage + ".qm";
     m_bTranslator = m_Translator.load(szFile);
@@ -285,11 +287,11 @@ void CTools::InitTranslator(const QString szLanguage)
     {
         m_bTranslator = qApp->installTranslator(&m_Translator);
         if(m_bTranslator)
-            qDebug(Logger) << "Install translator:" << szFile;
+            qDebug(log) << "Install translator:" << szFile;
         else
-            qCritical(Logger) << "Install translator fail:" << szFile;
+            qCritical(log) << "Install translator fail:" << szFile;
     } else
-        qCritical(Logger) << "Load translator file fail:" << szFile;
+        qCritical(log) << "Load translator file fail:" << szFile;
 
     szFile = CDir::Instance()->GetDirApplication()
             + QDir::separator() + "translations"
@@ -299,11 +301,11 @@ void CTools::InitTranslator(const QString szLanguage)
     {
         m_bTranslatorQt = qApp->installTranslator(&m_TranslatorQt);
         if(m_bTranslatorQt)
-            qDebug(Logger) << "Install qt translator:" << szFile;
+            qDebug(log) << "Install qt translator:" << szFile;
         else
-            qCritical(Logger) << "Install qt translator fail:" << szFile;
+            qCritical(log) << "Install qt translator fail:" << szFile;
     } else
-        qCritical(Logger) << "Load qt translator file fail:" << szFile;
+        qCritical(log) << "Load qt translator file fail:" << szFile;
 }
 
 void CTools::CleanTranslator()
@@ -357,7 +359,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
         appPath = szPath;
     if(appPath.isEmpty())
     {
-        qCCritical(Logger) << "szPath is empty";
+        qCCritical(log) << "szPath is empty";
         return -1;
     }
     if(bAllUser)
@@ -372,7 +374,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     if(QFile::exists(szLink))
         if(RemoveStartRun(szName, bAllUser))
         {
-            qCCritical(Logger) << "RemoveStartRun" << szName << "fail";
+            qCCritical(log) << "RemoveStartRun" << szName << "fail";
             return -1;
         }
 
@@ -380,7 +382,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     QFile f(appPath);
     if(!f.exists())
     {
-        qCCritical(Logger) << "The desktop file is not exist." << appPath;
+        qCCritical(log) << "The desktop file is not exist." << appPath;
         return -2;
     }
     bool ret = f.link(szLink);
@@ -388,7 +390,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     {
         QString szCmd = "ln -s " + appPath + " " + szLink;
         if(!executeByRoot(szCmd))
-            qCritical(Logger) << "CTools::InstallStartRun: file link"
+            qCritical(log) << "CTools::InstallStartRun: file link"
                               << f.fileName() << " to " << szLink << f.error();
         return -1;
     }
@@ -414,7 +416,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
     
     QString szCmd = "rm " + szLink;
     if(executeByRoot(szCmd)) return 0;
-    qCritical(Logger) << "execute" << szCmd << "fail";
+    qCritical(log) << "execute" << szCmd << "fail";
     return -1;
 
 }
@@ -555,7 +557,7 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
         pDock->setText(QObject::tr("Log dock"));
         pDock->setIcon(QIcon::fromTheme("floating"));
     } else {
-        qWarning(Logger) << "CTools::GetLogMenu: Don't use dock debug log."
+        qWarning(log) << "CTools::GetLogMenu: Don't use dock debug log."
                          <<  "The parent suggest is MainWindow pointer";
     }
 

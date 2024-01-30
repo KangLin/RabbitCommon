@@ -22,8 +22,9 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QSettings>
+#include <QLoggingCategory>
 
-static Q_LOGGING_CATEGORY(FrmUpdater, "RabbitCommon.Updater")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Updater")
 
 CFrmUpdater::CFrmUpdater(QWidget *parent) :
     QWidget(parent),
@@ -91,13 +92,13 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
         szMsg = "Build Version: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
         szMsg += "; Installed Version: " + QSslSocket::sslLibraryVersionString();
-        qInfo(FrmUpdater) << "QSslSocket support ssl:" << szMsg;
+        qInfo(log) << "QSslSocket support ssl:" << szMsg;
     } else {
         QString szMsg;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szMsg = "BuildVersion: " + QSslSocket::sslLibraryBuildVersionString();
 #endif
-        qCritical(FrmUpdater) <<
+        qCritical(log) <<
               "QSslSocket is not support ssl. The system is not install the OPENSSL dynamic library[" << szMsg << "]."
               " Please install OPENSSL dynamic library [" << szMsg << "]";
     }
@@ -121,13 +122,15 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
     } else {
         m_Urls = urls;
     }
-    qDebug(FrmUpdater) << "Urls:" << m_Urls;
+    qDebug(log) << "Urls:" << m_Urls;
     InitStateMachine();
 }
 
 CFrmUpdater::~CFrmUpdater()
 {
     m_DownloadFile.close();
+    if(m_Download)
+        m_Download.reset();
     delete ui;
 }
 
@@ -184,7 +187,7 @@ CFrmUpdater::~CFrmUpdater()
  */
 int CFrmUpdater::InitStateMachine()
 {
-    qDebug(FrmUpdater) << "Init State Machine";
+    qDebug(log) << "Init State Machine";
     QFinalState *sFinal = new QFinalState();
     QState *sCheck = new QState();
     QState *s = new QState();
@@ -261,16 +264,18 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
 
 void CFrmUpdater::slotStateFinished()
 {
-    if(m_Download)
-        m_Download.reset();
+    qDebug(log) << "slotStateFinished()";
+
 #if HAVE_TEST
     emit sigFinalState();
 #endif
+    if(m_Download)
+        m_Download.reset();
 }
 
 void CFrmUpdater::slotCheck()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::slotCheck()";
+    qDebug(log) << "CFrmUpdater::slotCheck()";
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QDateTime d = set.value("Update/DateTime").toDateTime();
@@ -298,7 +303,7 @@ void CFrmUpdater::slotCheck()
 // [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
-    qCritical(FrmUpdater) << "Download file error:" << nErr << szError;
+    qCritical(log) << "Download file error:" << nErr << szError;
     QString szMsg = szError;
     if(szMsg.isEmpty()) szMsg = tr("Download file error");
     ui->lbState->setText(szMsg);
@@ -307,7 +312,7 @@ void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 
 void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 {
-    qDebug(FrmUpdater) << "slotDownloadFileFinished:" << szFile;
+    qDebug(log) << "slotDownloadFileFinished:" << szFile;
     if(m_DownloadFile.isOpen())
         m_DownloadFile.close();
 
@@ -329,10 +334,10 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     if(QFile::rename(szFile, f))
     {
         m_DownloadFile.setFileName(f);
-        qInfo(FrmUpdater) << "Download finished: rename"
+        qInfo(log) << "Download finished: rename"
                            << szFile << "to" << f;
     } else {
-        qCritical(FrmUpdater) << "Download finished. rename fail from"
+        qCritical(log) << "Download finished. rename fail from"
                            << szFile << "to" << f;
         m_DownloadFile.setFileName(szFile);
     }
@@ -353,7 +358,7 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void CFrmUpdater::slotDownloadFile()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadFile";
+    qDebug(log) << "CFrmUpdater::slotDownloadFile";
     // [Use RabbitCommon::CDownloadFile download file]
     if(!m_Urls.isEmpty())
     {
@@ -377,7 +382,7 @@ void CFrmUpdater::slotCheckConfigFile()
 {
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
-    qDebug(FrmUpdater) << "CFrmUpdater::slotCheckConfigFile()";
+    qDebug(log) << "CFrmUpdater::slotCheckConfigFile()";
 
     // Redirect
     if(CheckRedirectConfigFile() <= 0)
@@ -429,12 +434,12 @@ void CFrmUpdater::slotCheckConfigFile()
 int CFrmUpdater::CheckRedirectConfigFile()
 {
     int nRet = 0;
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckRedirectConfigFile()" << m_DownloadFile.fileName();
+    qDebug(log) << "CFrmUpdater::CheckRedirectConfigFile()" << m_DownloadFile.fileName();
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
         QString szError = tr("Open configure file fail:") + m_DownloadFile.fileName();
         ui->lbState->setText(szError);
-        qCritical(FrmUpdater) << szError;
+        qCritical(log) << szError;
         emit sigError();
         return -1;
     }
@@ -453,7 +458,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
         {
             QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
             ui->lbState->setText(szError);
-            qCritical(FrmUpdater) << szError;
+            qCritical(log) << szError;
             emit sigError();
             return -2;
         }
@@ -515,7 +520,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
         // [Update configure file default urls]
     }
 
-    qDebug(FrmUpdater) << "Version:" << redirect.szVersion << m_Urls;
+    qDebug(log) << "Version:" << redirect.szVersion << m_Urls;
 
     emit sigDownLoadRedire();
 
@@ -557,10 +562,10 @@ int CFrmUpdater::CheckRedirectConfigFile()
 int CFrmUpdater::CheckUpdateConfigFile()
 {
     int nRet = 0;
-    qDebug(FrmUpdater) << "CFrmUpdater::CheckUpdateConfigFile()";
+    qDebug(log) << "CFrmUpdater::CheckUpdateConfigFile()";
     if(!m_DownloadFile.open(QIODevice::ReadOnly))
     {
-        qCritical(FrmUpdater) << "Open download file fail:"
+        qCritical(log) << "Open download file fail:"
                               << m_DownloadFile.fileName();
         emit sigError();
         return -1;
@@ -624,7 +629,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
     ui->lbState->setText(tr("There is a new version, is it updated?"));
     if(info.version.bForce)
     {
-        qDebug(FrmUpdater) << "Force update";
+        qDebug(log) << "Force update";
         emit sigFinished();
     }
     else
@@ -658,7 +663,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
     {
         QString szError = tr("Open file fail").arg(szFile);
         ui->lbState->setText(szError);
-        qCritical(FrmUpdater) << szError;
+        qCritical(log) << szError;
         emit sigError();
         return -1;
     }
@@ -671,7 +676,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
         QString szError = tr("Parse file %1 fail. It isn't configure file")
                               .arg(f.fileName());
         ui->lbState->setText(szError);
-        qCritical(FrmUpdater) << szError;
+        qCritical(log) << szError;
         emit sigError();
         return -2;
     }
@@ -686,7 +691,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
         CONFIG_REDIRECT objRedirect;
         objRedirect.szVersion = obj["version"].toString();
         objRedirect.szMinUpdateVersion = obj["min_update_version"].toString();
-        qDebug(FrmUpdater) << "version:" << objRedirect.szVersion
+        qDebug(log) << "version:" << objRedirect.szVersion
                            << "min_update_version:" << objRedirect.szMinUpdateVersion;
 
         QJsonArray objFiles = obj["files"].toArray();
@@ -708,7 +713,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
             
             objRedirect.files.append(file);
             //*
-            qDebug(FrmUpdater) << "OS:" << file.szSystem
+            qDebug(log) << "OS:" << file.szSystem
                                << "os_min_version:" << file.szSystemMinVersion
                                << "arch:" << file.szArchitecture
                                << "arch_min_version:" << file.szArchitectureMinVersion
@@ -779,7 +784,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 {
     QFile file(szFile);
     if(!file.open(QFile::ReadOnly)) {
-        qDebug(FrmUpdater) << "The file isn't opened:" << szFile;
+        qDebug(log) << "The file isn't opened:" << szFile;
         return -1;
     }
 
@@ -788,7 +793,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     file.close();
     if(!doc.isObject())
     {
-        qCritical(FrmUpdater) << "Parser configure file fail." << szFile;
+        qCritical(log) << "Parser configure file fail." << szFile;
         return -2;
     }
     
@@ -802,7 +807,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         conf.version.szHome = objVersion["home"].toString();
         conf.version.bForce = objVersion["force"].toBool();
         //*
-        qDebug(FrmUpdater) << "Current version:" << m_szCurrentVersion
+        qDebug(log) << "Current version:" << m_szCurrentVersion
                            << "version:" << conf.version.szVerion
                            << "minUpdateVersion:" << conf.version.szMinUpdateVersion
                            << "time:" << conf.version.szTime
@@ -813,7 +818,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     }
     
     if(!obj.contains("files")) {
-        qDebug(FrmUpdater()) << "Configure file isn't contains files array";
+        qDebug(log) << "Configure file isn't contains files array";
         return 0;
     }
     
@@ -836,7 +841,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 
         conf.files.append(file);
         //*
-        qDebug(FrmUpdater) << "OS:" << file.szSystem
+        qDebug(log) << "OS:" << file.szSystem
                            << "os_min_version:" << file.szSystemMinVersion
                            << "arch:" << file.szArchitecture
                            << "arch_min_version:" << file.szArchitectureMinVersion
@@ -850,7 +855,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 
 void CFrmUpdater::slotDownloadSetupFile()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::slotDownloadSetupFile()";
+    qDebug(log) << "CFrmUpdater::slotDownloadSetupFile()";
     ui->pbOK->setText(tr("Hide"));
     ui->lbState->setText(tr("Download ......"));
     if(IsDownLoad())
@@ -867,14 +872,14 @@ void CFrmUpdater::slotUpdate()
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
-    //qDebug(FrmUpdater) << "CFrmUpdater::slotUpdate()";
+    //qDebug(log) << "CFrmUpdater::slotUpdate()";
 
     // Check file md5sum
     bool bSuccess = false;
     do {
         if(!m_DownloadFile.open(QIODevice::ReadOnly))
         {
-            qCritical(FrmUpdater) << "Download file fail: "
+            qCritical(log) << "Download file fail: "
                                   << m_DownloadFile.fileName();
             ui->lbState->setText(tr("Download file fail"));
             break;
@@ -926,12 +931,12 @@ void CFrmUpdater::slotUpdate()
             QString szCmd;
             szCmd = m_DownloadFile.fileName();
             //启动安装程序
-            qInfo(FrmUpdater) << "Start"
+            qInfo(log) << "Start"
                               << szCmd
                               << "in a new process, and detaches from it.";
             if(!proc.startDetached(szCmd))
             {
-                qInfo(FrmUpdater) << "Start new process fail."
+                qInfo(log) << "Start new process fail."
                                   << "Use system installer to install"
                                   << m_DownloadFile.fileName();
                 QUrl url(m_DownloadFile.fileName());
@@ -955,7 +960,7 @@ void CFrmUpdater::slotUpdate()
             QString szCmd = InstallScript(m_DownloadFile.fileName(),
                                           qApp->applicationName());
             f.write(szCmd.toStdString().c_str());
-            qDebug(FrmUpdater) << szCmd << szInstall;
+            qDebug(log) << szCmd << szInstall;
             f.close();
 
             //启动安装程序
@@ -993,7 +998,7 @@ void CFrmUpdater::slotUpdate()
 
         //system(m_DownloadFile.fileName().toStdString().c_str());
         //int nRet = QProcess::execute(m_DownloadFile.fileName());
-        //qDebug(FrmUpdater) << "QProcess::execute return: " << nRet;
+        //qDebug(log) << "QProcess::execute return: " << nRet;
         
         bSuccess = true;
     } while(0);
@@ -1023,7 +1028,7 @@ void CFrmUpdater::slotUpdate()
     if(!QDesktopServices::openUrl(url))
     {
         QString szErr = tr("Open home page fail");
-        qCritical(FrmUpdater) << szErr;
+        qCritical(log) << szErr;
     }
 }
 
@@ -1159,7 +1164,7 @@ bool CFrmUpdater::IsDownLoad()
 
 void CFrmUpdater::on_pbOK_clicked()
 {
-    qDebug(FrmUpdater) << "CFrmUpdater::on_pbOK_clicked()";
+    qDebug(log) << "CFrmUpdater::on_pbOK_clicked()";
     if(!m_pStateDownloadSetupFile->active())
         return;
     
@@ -1267,7 +1272,7 @@ int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info
     QFile f(szFile);
     if(!f.open(QIODevice::WriteOnly))
     {
-        qCritical(FrmUpdater) << "Open file fail:" << f.fileName();
+        qCritical(log) << "Open file fail:" << f.fileName();
         return -1;
     }
     f.write(doc.toJson());
@@ -1359,7 +1364,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
     f.setFileName(szFile);
     if(!f.open(QIODevice::WriteOnly))
     {
-        qCritical(FrmUpdater)
+        qCritical(log)
                 << "CFrmUpdater::GenerateUpdateXml file open file fail:"
                 << f.fileName();
         return -1;
@@ -1505,16 +1510,16 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     parser.addOption(oMin);
 
     if(!parser.parse(QApplication::arguments())) {
-        qDebug(FrmUpdater) << "parser.parse fail" << parser.errorText()
+        qDebug(log) << "parser.parse fail" << parser.errorText()
                               << qApp->arguments();
     }
 
     szFile = parser.value(oFile);
     if(szFile.isEmpty())
-        qDebug(FrmUpdater) << "File is empty";
+        qDebug(log) << "File is empty";
 
     type = static_cast<CONFIG_TYPE>(parser.value(oFileOuputContent).toInt());
-    qDebug(FrmUpdater) << "File content is:" << (int)type;
+    qDebug(log) << "File content is:" << (int)type;
 
     info.version.szVerion = parser.value(oPackageVersion);
     info.version.szMinUpdateVersion = parser.value(oMin);
@@ -1547,13 +1552,13 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 }
                 app.close();
             } else {
-                qCritical(FrmUpdater) << "Don't open package file:" << szPackageFile;
+                qCritical(log) << "Don't open package file:" << szPackageFile;
             }
         }
     }
 
     if(file.szMd5sum.isEmpty())
-        qWarning(FrmUpdater) << "Md5 is empty. please set -c or --md5 or -p";
+        qWarning(log) << "Md5 is empty. please set -c or --md5 or -p";
 
     /* 注意：这里要放在包文件后。
      * 优先级：

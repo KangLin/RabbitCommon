@@ -23,7 +23,7 @@
     #include "FrmUpdater.h"
 #endif
 
-Q_LOGGING_CATEGORY(mainLog, "RabbitCommon.main")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.main")
 
 int main(int argc, char *argv[])
 {
@@ -43,13 +43,13 @@ int main(int argc, char *argv[])
     if(tApp.load(qm))
         a.installTranslator(&tApp);
     else
-        qDebug(mainLog()) << "Load translations fail:" << qm;
+        qDebug(log()) << "Load translations fail:" << qm;
 
-    qDebug(mainLog) << "GetDirApplication:"
+    qDebug(log) << "GetDirApplication:"
                     << RabbitCommon::CDir::Instance()->GetDirApplication();
-    qDebug(mainLog) << "GetDirApplicationInstallRoot:"
+    qDebug(log) << "GetDirApplicationInstallRoot:"
               << RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot();
-    qInfo(mainLog) << "GetDirUserDocument"
+    qInfo(log) << "GetDirUserDocument"
                    << RabbitCommon::CDir::Instance()->GetDirUserDocument();
 
     // Must after install translator

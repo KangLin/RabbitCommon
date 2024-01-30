@@ -3,6 +3,9 @@
 #include "RabbitCommonTools.h"
 #include <QApplication>
 #include <QTest>
+#include <QLoggingCategory>
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.Updater")
 
 CTestUpdater::CTestUpdater(QObject *parent)
     : QObject{parent}

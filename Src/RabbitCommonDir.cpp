@@ -6,11 +6,12 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QCoreApplication>
-#include <QDebug>
+#include <QLoggingCategory>
 
 namespace RabbitCommon {
 
-Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
+static Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
+
 CDir::CDir()
 {
     //注意这个必须的在最前  

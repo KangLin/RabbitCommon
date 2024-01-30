@@ -12,6 +12,8 @@
 #include <QTextEdit>
 #include <QStandardPaths>
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout.Information")
+
 CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CInformation)
@@ -95,7 +97,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
 
-    //qDebug(RabbitCommon::Logger) << szRabbitCommon << szOS << szQt << szHost;
+    //qDebug(log) << szRabbitCommon << szOS << szQt << szHost;
 }
 
 CInformation::~CInformation()
@@ -107,7 +109,7 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
 {
     if(szTitle.isEmpty() || szContext.isEmpty())
     {
-        qCritical(RabbitCommon::Logger) << "Title or context is empty";
+        qCritical(log) << "Title or context is empty";
         return;
     }
 

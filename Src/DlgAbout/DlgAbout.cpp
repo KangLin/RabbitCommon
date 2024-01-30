@@ -32,6 +32,7 @@ Abstract:
 #include <QSslError>
 #include <QDateTime>
 #include <QCursor>
+#include <QLoggingCategory>
 
 #ifdef HAVE_CMARK
     #include "cmark.h"
@@ -42,6 +43,8 @@ Abstract:
     #include "registry.h"
     #include "parser.h"
 #endif
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout")
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
@@ -63,7 +66,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 #ifdef RabbitCommon_VERSION
     if(m_szVersion.isEmpty())
     {
-        qWarning(RabbitCommon::Logger) << "The m_szVersion is not set. Please use qApp->setApplicationVersion() or m_szVersion";
+        qWarning(log) << "The m_szVersion is not set. Please use qApp->setApplicationVersion() or m_szVersion";
         m_szVersion = RabbitCommon_VERSION;
     }
 #endif
@@ -345,7 +348,7 @@ QString CDlgAbout::Version()
 
 void CDlgAbout::slotFinished()
 {
-    qDebug(RabbitCommon::Logger) << "CDlgAbout::slotFinished()";
+    qDebug(log) << "CDlgAbout::slotFinished()";
 
     QVariant redirectionTarget;
     if(m_pReply)
@@ -361,7 +364,7 @@ void CDlgAbout::slotFinished()
         QUrl u = redirectionTarget.toUrl();  
         if(u.isValid())
         {
-            qDebug(RabbitCommon::Logger)
+            qDebug(log)
                     << "CDlgAbout::slotFinished():redirectionTarget:url:" << u;
             DownloadFile(u);
         }
@@ -393,7 +396,7 @@ void CDlgAbout::slotFinished()
 
 void CDlgAbout::slotError(QNetworkReply::NetworkError e)
 {
-    qDebug(RabbitCommon::Logger) << "CFrmUpdater::slotError: " << e;
+    qDebug(log) << "CFrmUpdater::slotError: " << e;
     if(m_pReply)
     {
         m_pReply->disconnect();
@@ -404,7 +407,7 @@ void CDlgAbout::slotError(QNetworkReply::NetworkError e)
 
 void CDlgAbout::slotSslError(const QList<QSslError> &e)
 {
-    qDebug(RabbitCommon::Logger) << "CFrmUpdater::slotSslError: " << e;
+    qDebug(log) << "CFrmUpdater::slotSslError: " << e;
     if(m_pReply)
     {
         m_pReply->disconnect();

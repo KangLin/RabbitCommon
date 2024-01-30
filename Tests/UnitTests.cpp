@@ -4,6 +4,8 @@
 
 #include "FrmUpdater.h"
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.Updater")
+
 CUnitTests::CUnitTests(QObject *parent)
     : QObject{parent}
 {}
@@ -26,7 +28,7 @@ void CUnitTests::cleanup()
 void CUnitTests::test_os()
 {
     QString szOS = QSysInfo::productType();
-    qDebug() << "QSysInfo::productType():" << szOS;
+    qDebug(log) << "QSysInfo::productType():" << szOS;
 #if defined(Q_OS_WINDOWS) || defined(Q_OS_CYGWIN)
     QVERIFY("windows" == szOS);
 #elif defined(Q_OS_ANDROID)
@@ -46,7 +48,7 @@ void CUnitTests::test_os()
 
 void CUnitTests::test_architecture()
 {
-    qDebug() << "Build architecture:" << QSysInfo::buildCpuArchitecture()
+    qDebug(log) << "Build architecture:" << QSysInfo::buildCpuArchitecture()
              << "Current architercture:" << QSysInfo::currentCpuArchitecture();
     QVERIFY(QSysInfo::buildCpuArchitecture()
             == QSysInfo::currentCpuArchitecture());
@@ -90,10 +92,10 @@ void CUnitTests::test_joson()
     QJsonDocument updater, doc1;
     
     updater.setObject(version);
-    qDebug() << updater.toJson();
+    qDebug(log) << updater.toJson();
     QJsonParseError err;
     doc1 = QJsonDocument::fromJson(updater.toJson(), &err);
-    qDebug() << doc1;
+    qDebug(log) << doc1;
     QVERIFY(updater == doc1);
 }
 

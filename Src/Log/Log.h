@@ -71,8 +71,6 @@ private Q_SLOTS:
     void slotTimeout();
 };
 
-extern QLoggingCategory Logger;
-
 } // End namespace RabbitCommon
 
 #endif // RABBIT_COMMON_LOG_H

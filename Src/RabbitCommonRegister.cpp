@@ -13,6 +13,8 @@
 
 namespace RabbitCommon {
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Register")
+
 const QString gKeyCurrentUserRun = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 const QString gKeyCurrentUserRunOnce = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce";
 const QString gKeyCurrentUserRunServices = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices";
@@ -47,7 +49,7 @@ int CRegister::InstallStartRunCurrentUser(QString szName, QString szPath)
     if(QFile::exists(szLink))
         if(CTools::RemoveStartRun(szName, false))
         {
-            qCCritical(Logger) << "RemoveStartRun" << szName << "fail";
+            qCCritical(log) << "RemoveStartRun" << szName << "fail";
             return -1;
         }
 
@@ -55,18 +57,18 @@ int CRegister::InstallStartRunCurrentUser(QString szName, QString szPath)
     QFile f(appPath);
     if(!f.exists())
     {
-        qCCritical(Logger) << "The desktop file is not exist." << appPath;
+        qCCritical(log) << "The desktop file is not exist." << appPath;
         return -1;
     }
     bool ret = f.link(szLink);
     if(ret) return 0;
 
-    qCritical(Logger) << "f.link fail[" << f.error() << "]:" << f.errorString();
+    qCritical(log) << "f.link fail[" << f.error() << "]:" << f.errorString();
     if(QFileDevice::RenameError == f.error()) return 0;
 
     QString szCmd = "ln -s " + appPath + " " + szLink;
     if(CTools::executeByRoot(szCmd)) return 0;
-    qCritical(Logger) << "execute" << szCmd << "fail";
+    qCritical(log) << "execute" << szCmd << "fail";
     return -1;
 #endif
 }
@@ -87,7 +89,7 @@ int CRegister::RemoveStartRunCurrentUser(QString szName)
     
     QString szCmd = "rm " + szLink;
     if(CTools::executeByRoot(szCmd)) return 0;
-    qCritical(Logger) << "execute" << szCmd << "fail";
+    qCritical(log) << "execute" << szCmd << "fail";
     return -1;
 #endif
 }
@@ -170,7 +172,7 @@ int CRegister::InstallStartRun(QString szName, QString szPath)
     if(QFile::exists(szLink))
         if(CTools::RemoveStartRun(szName, true))
         {
-            qCCritical(Logger) << "RemoveStartRun" << szName << "fail";
+            qCCritical(log) << "RemoveStartRun" << szName << "fail";
             return -1;
         }
 
@@ -181,7 +183,7 @@ int CRegister::InstallStartRun(QString szName, QString szPath)
     {
         QString szCmd = "ln -s " + appPath + " " + szLink;
         if(!CTools::executeByRoot(szCmd))
-            qCritical(Logger) << "CTools::InstallStartRun: file link"
+            qCritical(log) << "CTools::InstallStartRun: file link"
                               << f.fileName() << " to " << szLink << f.error();
         return -1;
     }
@@ -205,7 +207,7 @@ int CRegister::RemoveStartRun(const QString &szName)
     
     QString szCmd = "rm " + szLink;
     if(CTools::executeByRoot(szCmd)) return 0;
-    qCritical(Logger) << "execute" << szCmd << "fail";
+    qCritical(log) << "execute" << szCmd << "fail";
     return -1;
 #endif
 }
@@ -385,7 +387,7 @@ QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
     QDir d(szLink);
     if(!d.exists())
     {
-        qWarning(Logger) << "Create directory" << szLink;
+        qWarning(log) << "Create directory" << szLink;
         d.mkpath(szLink);
     }
     szLink += "/" + appName;

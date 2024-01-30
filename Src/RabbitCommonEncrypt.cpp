@@ -10,6 +10,8 @@
 
 namespace RabbitCommon {
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Encrypt")
+
 #define PASSWORD_LENGTH 16
 
 static const unsigned char Key[] =
@@ -122,7 +124,7 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
     nRet = Dencode(pIn, inLen, &pOut, nOutLen);
     if(nRet)
     {
-        qCritical(Logger) << "Dencode error";
+        qCritical(log) << "Dencode error";
         return nRet;
     }
 

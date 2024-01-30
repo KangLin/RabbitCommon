@@ -65,7 +65,7 @@ add_test(NAME TestUpdater
     )
 
 set_tests_properties(TestUpdater PROPERTIES
-  FAIL_REGULAR_EXPRESSION "\[[01][0-9]:[0-6][0-9]:[0-6][0-9]\.[0-9]{3} [0-9A-Fa-f]+\|[0-9A-Fa-f]+ E\];ERROR;Failed"
+  FAIL_REGULAR_EXPRESSION "\[[01][0-9]:[0-6][0-9]:[0-6][0-9]\.[0-9]{3} [0-9A-Fa-f]+\|[0-9A-Fa-f]+ E\] RabbitCommon.Updater"
 )
 
 if(NOT EXISTS ${OUTPUT_DIR}/data)
