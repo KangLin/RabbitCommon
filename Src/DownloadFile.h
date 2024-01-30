@@ -44,13 +44,15 @@ class RABBITCOMMON_EXPORT CDownloadFile : public QObject
     Q_OBJECT
 
 public:
+    explicit CDownloadFile(QObject *parent = nullptr);
+    ~CDownloadFile();
+
     /*!
      * \~chinese
      * \param urls:
      * \param bSequence:
-     *     TRUE: 按顺序向 urls 发起请求。前一个请求失败后，才请示后一个。如果成功，则返回。
-     *     FALSE: 同时向所有 urls 发起请求。
-     * \param parent
+     *     true: 按顺序向 urls 发起请求。前一个请求失败后，才请求后一个。如果成功，则返回。
+     *     false: 同时向所有 urls 发起请求。
      *
      * \~english
      * \param urls:
@@ -58,12 +60,8 @@ public:
      *                   After the previous request fails,
      *                   the latter one is requested.
      *                   Returns if successful
-     * \param parent
      */
-    explicit CDownloadFile(QVector<QUrl> urls,
-                           bool bSequence = false,
-                           QObject *parent = nullptr);
-    virtual ~CDownloadFile();
+    int Start(QVector<QUrl> urls, bool bSequence = false);
 
 signals:
     /*!

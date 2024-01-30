@@ -6,16 +6,20 @@
 
 namespace RabbitCommon {
 
-CDownloadFile::CDownloadFile(QVector<QUrl> urls, bool bSequence, QObject *parent)
+CDownloadFile::CDownloadFile(QObject *parent)
     : QObject{parent},
-      m_Log("RabbitCommon.DownloadFile"),
-      m_bSequence(bSequence),
-      m_nBytesReceived(0)
+    m_Log("RabbitCommon.DownloadFile"),
+    m_bSequence(false),
+    m_nBytesReceived(0)
+{}
+
+int CDownloadFile::Start(QVector<QUrl> urls, bool bSequence)
 {
+    int nRet = 0;
     if(urls.isEmpty())
     {
         m_szError = "Urls is empty.";
-        return;
+        return -1;
     }
     /*
     QString szPath = urls[0].path();
@@ -35,11 +39,12 @@ CDownloadFile::CDownloadFile(QVector<QUrl> urls, bool bSequence, QObject *parent
     m_Url = urls;
     if(m_bSequence)
     {
-        DownloadFile(0, m_Url[0]);
+        nRet = DownloadFile(0, m_Url[0]);
     } else {
         for(int i = 0; i < m_Url.length(); i++)
             DownloadFile(i, m_Url[i]);
     }
+    return nRet;
 }
 
 CDownloadFile::~CDownloadFile()
@@ -111,7 +116,7 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
 
     qInfo(m_Log) << "Download file:"
                  << nIndex << url
-                 << "redirection:" << bRedirection
+                 << "(redirection:" << bRedirection << ")"
                  << file->fileName();
 
     if(file->isOpen())
