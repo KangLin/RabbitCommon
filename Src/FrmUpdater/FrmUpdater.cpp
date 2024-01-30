@@ -263,6 +263,9 @@ void CFrmUpdater::slotStateFinished()
 {
     if(m_Download)
         m_Download.reset();
+#if HAVE_TEST
+    emit sigFinalState();
+#endif
 }
 
 void CFrmUpdater::slotCheck()
@@ -304,6 +307,7 @@ void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 
 void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 {
+    qDebug(FrmUpdater) << "slotDownloadFileFinished:" << szFile;
     if(m_DownloadFile.isOpen())
         m_DownloadFile.close();
 
@@ -311,8 +315,15 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
             = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
-    
-    QString f = szTmp + m_ConfigFile.szFileName;
+
+    QString szFileName(m_ConfigFile.szFileName);
+    if(szFileName.isEmpty())
+    {
+        szFileName = szFile.mid(szFile.lastIndexOf("/"));
+    }
+    if(szFileName.left(1) != "/" && szFileName.left(1) != "\\")
+        szFileName = QDir::separator() + szFileName;
+    QString f = szTmp + szFileName;
     if(QFile::exists(f))
         QFile::remove(f);
     if(QFile::rename(szFile, f))
@@ -347,7 +358,7 @@ void CFrmUpdater::slotDownloadFile()
     if(!m_Urls.isEmpty())
     {
         m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
-                    new RabbitCommon::CDownloadFile(m_Urls));
+                    new RabbitCommon::CDownloadFile());
         bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
                 this, SLOT(slotDownloadFileFinished(const QString)));
         Q_ASSERT(check);
@@ -357,6 +368,7 @@ void CFrmUpdater::slotDownloadFile()
         check = connect(m_Download.data(), SIGNAL(sigDownloadProgress(qint64, qint64)),
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
+        m_Download->Start(m_Urls);
     }
     // [Use RabbitCommon::CDownloadFile download file]
 }
@@ -485,6 +497,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
 #endif
         }
         file = f;
+        break;
     }
 
     m_Urls = file.urls;
@@ -858,7 +871,7 @@ void CFrmUpdater::slotUpdate()
 
     // Check file md5sum
     bool bSuccess = false;
-    do{
+    do {
         if(!m_DownloadFile.open(QIODevice::ReadOnly))
         {
             qCritical(FrmUpdater) << "Download file fail: "
@@ -884,7 +897,7 @@ void CFrmUpdater::slotUpdate()
             break;
         }
         bSuccess = true;
-    }while(0);
+    } while(0);
     
     m_DownloadFile.close();
     if(!bSuccess)
@@ -895,7 +908,7 @@ void CFrmUpdater::slotUpdate()
     
     // Exec download file
     bSuccess = false;
-    do{
+    do {
         //修改文件执行权限  
         /*QFileInfo info(m_szDownLoadFile);
         if(!info.permission(QFile::ExeUser))
@@ -983,7 +996,7 @@ void CFrmUpdater::slotUpdate()
         //qDebug(FrmUpdater) << "QProcess::execute return: " << nRet;
         
         bSuccess = true;
-    }while(0);
+    } while(0);
 
     QProcess procHome;
     QString szHome = m_Info.version.szHome;

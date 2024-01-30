@@ -13,7 +13,7 @@ CDownloadFile::CDownloadFile(QObject *parent)
     m_nBytesReceived(0)
 {}
 
-int CDownloadFile::Start(QVector<QUrl> urls, bool bSequence)
+int CDownloadFile::Start(QVector<QUrl> urls, QString szFileName, bool bSequence)
 {
     int nRet = 0;
     if(urls.isEmpty())
@@ -37,6 +37,8 @@ int CDownloadFile::Start(QVector<QUrl> urls, bool bSequence)
     }//*/
 
     m_Url = urls;
+    m_szFileName = szFileName;
+    m_bSequence = bSequence;
     if(m_bSequence)
     {
         nRet = DownloadFile(0, m_Url[0]);
@@ -101,7 +103,13 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
         if(!d.exists(szTmp))
             d.mkpath(szTmp);
         QString szPath = url.path();
-        QString szFile = szTmp + szPath.mid(szPath.lastIndexOf("/"));
+        if(m_szFileName.isEmpty())
+        {
+            m_szFileName = szPath.mid(szPath.lastIndexOf("/"));
+        }
+        if(m_szFileName.left(1) != "/" && m_szFileName.left(1) != "\\")
+            m_szFileName = QDir::separator() + m_szFileName;
+        QString szFile = szTmp + m_szFileName;
 
         file = QSharedPointer<QFile>(new QFile());
         if(!file)

@@ -122,14 +122,6 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(conf[0].files[2].urls.size() == 2);
 }
 
-void CUnitTests::test_check_redirect_json_file()
-{
-    QVector<QUrl> urls;
-    urls << QUrl("data/redirect.json");
-    CFrmUpdater updater(urls);
-    updater.CheckRedirectConfigFile();
-}
-
 QTEST_MAIN(CUnitTests)
 /*
 int main(int argc, char* argv[])

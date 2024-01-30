@@ -49,6 +49,25 @@ add_test(NAME UnitTests
     COMMAND_EXPAND_LISTS
     )
 
+ADD_TARGET(NAME TestUpdater
+    ISEXE
+    NO_TRANSLATION
+    SOURCE_FILES TestUpdater.h TestUpdater.cpp
+    PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
+        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
+    )
+
+add_test(NAME TestUpdater
+    COMMAND TestUpdater
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND_EXPAND_LISTS
+    )
+
+set_tests_properties(TestUpdater PROPERTIES
+  FAIL_REGULAR_EXPRESSION "\[[01][0-9]:[0-6][0-9]:[0-6][0-9]\.[0-9]{3} [0-9A-Fa-f]+\|[0-9A-Fa-f]+ E\];ERROR;Failed"
+)
+
 if(NOT EXISTS ${OUTPUT_DIR}/data)
     file(COPY data DESTINATION ${OUTPUT_DIR})
 endif()

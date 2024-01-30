@@ -50,18 +50,20 @@ public:
     /*!
      * \~chinese
      * \param urls:
+     * \param szFileName: 
      * \param bSequence:
      *     true: 按顺序向 urls 发起请求。前一个请求失败后，才请求后一个。如果成功，则返回。
      *     false: 同时向所有 urls 发起请求。
      *
      * \~english
      * \param urls:
+     * \param szFileName: 
      * \param bSequence: Whether the requests are made in order.
      *                   After the previous request fails,
      *                   the latter one is requested.
      *                   Returns if successful
      */
-    int Start(QVector<QUrl> urls, bool bSequence = false);
+    int Start(QVector<QUrl> urls, QString szFileName = QString(), bool bSequence = false);
 
 signals:
     /*!
@@ -91,6 +93,7 @@ private Q_SLOTS:
 private:
     QLoggingCategory m_Log;
     bool m_bSequence;
+    QString m_szFileName;
     QVector<QUrl> m_Url;
     QVector<QSharedPointer<QFile> > m_DownloadFile;
     bool m_bDownload;

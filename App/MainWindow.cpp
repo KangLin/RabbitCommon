@@ -151,13 +151,14 @@ void MainWindow::on_pbDownload_clicked()
     {
         urls.push_back(QUrl(ui->cmbDownloadFiles->itemText(i)));
     }
-    m_pDownload = new RabbitCommon::CDownloadFile(urls);
+    m_pDownload = new RabbitCommon::CDownloadFile();
     bool check = connect(m_pDownload, SIGNAL(sigFinished(const QString)),
             this, SLOT(slotDownloadFile(const QString)));
     Q_ASSERT(check);
     check = connect(m_pDownload, SIGNAL(sigError(int, const QString)),
                     this, SLOT(slotDownloadError(int, const QString)));
     Q_ASSERT(check);
+    m_pDownload->Start(urls);
 }
 
 void MainWindow::slotDownloadFile(const QString szFile)
