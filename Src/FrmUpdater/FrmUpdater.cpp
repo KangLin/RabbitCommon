@@ -331,7 +331,11 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     QString f = szTmp + szFileName;
     if(QFile::exists(f))
         QFile::remove(f);
+#if HAVE_TEST
+    if(QFile::copy(szFile, f))
+#else
     if(QFile::rename(szFile, f))
+#endif
     {
         m_DownloadFile.setFileName(f);
         qInfo(log) << "Download finished: rename"
