@@ -22,17 +22,18 @@ void CTestGenerateJsonFile::test_json_file()
     CFrmUpdater::CONFIG_INFO info;
     QVERIFY(0 == updater.GetConfigFromFile("test.json", info));
     QVERIFY(info.version.szVerion == "2.0.0");
-    QVERIFY(info.version.szMinUpdateVersion == "1.5.7");
+    QVERIFY(info.version.szMinUpdateVersion == "1.9.0");
     QVERIFY(info.version.szTime == "time");
     QVERIFY(info.version.szInfomation == "info");
     QVERIFY(info.version.szHome ==  "home");
 
     CFrmUpdater::CONFIG_FILE conf_file = info.files[0];
-    QVERIFY(conf_file.szSystem == "windows");
-    QVERIFY(conf_file.szArchitecture == "x86");
-    QVERIFY(conf_file.szMd5sum == "asbdasersdfasdfawer");
-    QVERIFY(conf_file.urls[0] == QUrl("github.com"));
-    QVERIFY(conf_file.szFileName == "rabbitcommon");
+    QVERIFY(conf_file.szSystem == "ubuntu");
+    QVERIFY(conf_file.szArchitecture == "x86_64");
+    QVERIFY(conf_file.szMd5sum == "aab854ec7cc6831d591237e609a8bf36");
+    QVERIFY(conf_file.urls[0] == QUrl("https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb"));
+    QVERIFY(conf_file.urls[1] == QUrl("https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb/download"));
+    QVERIFY(conf_file.szFileName == "rabbitremotecontrol_0.0.26_amd64.deb");
 }
 
 int main(int argc, char* argv[])

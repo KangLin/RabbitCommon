@@ -23,14 +23,14 @@
                     "os": "windows",
                     "arch": "x86",
                     "urls": [
-                        "file:update.json"
+                        "file:test.json"
                     ]
                 },
                 {
                     "os": "ubuntu",
                     "arch": "x86_64",
                     "urls": [
-                        "file:update.json"
+                        "file:test.json"
                     ]
                 }
             ]

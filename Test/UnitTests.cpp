@@ -128,11 +128,11 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(conf[2].files[0].szSystem == "windows");
     QVERIFY(conf[2].files[0].szArchitecture == "x86");
     QVERIFY(conf[2].files[0].urls.size() == 1);
-    QVERIFY(conf[2].files[0].urls[0] == QUrl::fromLocalFile("update.json"));
+    QVERIFY(conf[2].files[0].urls[0] == QUrl::fromLocalFile("test.json"));
     QVERIFY(conf[2].files[1].szSystem == "ubuntu");
     QVERIFY(conf[2].files[1].szArchitecture == "x86_64");
     QVERIFY(conf[2].files[1].urls.size() == 1);
-    QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("update.json"));
+    QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("test.json"));
 
     QVERIFY(conf[3].szVersion == "1.5.0");
     QVERIFY(conf[3].szMinUpdateVersion.isEmpty());

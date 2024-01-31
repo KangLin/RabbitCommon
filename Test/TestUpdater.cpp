@@ -11,14 +11,25 @@ CTestUpdater::CTestUpdater(QObject *parent)
     : QObject{parent}
 {}
 
-int CTestUpdater::test_check_redirect_json_file()
+int CTestUpdater::TestCheckRedirectJson()
 {
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
-    m_pUpdater = new CFrmUpdater(urls);
-    m_pUpdater->SetVersion("1.15.0");
-    connect(m_pUpdater, SIGNAL(sigFinalState()), this, SLOT(slotClose()));
-    m_pUpdater->show();
+    CFrmUpdater* pUpdater = new CFrmUpdater(urls);
+    pUpdater->SetVersion("1.15.0");
+    connect(pUpdater, SIGNAL(sigFinalState()), this, SLOT(slotClose()));
+    pUpdater->show();
+    return 0;
+}
+
+int CTestUpdater::TestCheckUpdateJson()
+{
+    QVector<QUrl> urls;
+    urls << QUrl::fromLocalFile("data/redirect.json");
+    CFrmUpdater* pUpdater = new CFrmUpdater(urls);
+    pUpdater->SetVersion("1.9.0");
+    connect(pUpdater, SIGNAL(sigFinalState()), this, SLOT(slotClose()));
+    pUpdater->show();
     return 0;
 }
 
@@ -39,7 +50,11 @@ int main(int argc, char *argv[])
 
     CTestUpdater test;
     
-    int nRet = test.test_check_redirect_json_file();
+    int nRet = test.TestCheckRedirectJson();
+    if(nRet)
+        return nRet;
+    
+    nRet = test.TestCheckUpdateJson();
     if(nRet)
         return nRet;
 

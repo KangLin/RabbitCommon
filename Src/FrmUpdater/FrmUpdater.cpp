@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QRegularExpression>
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Updater")
 
@@ -1551,7 +1552,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
         file.szFileName = szFileName;
 
     QString szUrls = parser.value(oUrl);
-    foreach(auto u, szUrls.split(";"))
+    foreach(auto u, szUrls.split(QRegularExpression("[;,]")))
     {
         file.urls.push_back(QUrl(u));
     }

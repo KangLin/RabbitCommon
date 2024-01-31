@@ -10,10 +10,8 @@ class CTestUpdater : public QObject
 public:
     explicit CTestUpdater(QObject *parent = nullptr);
     
-    int test_check_redirect_json_file();
-    
-private:
-    CFrmUpdater *m_pUpdater;
+    int TestCheckRedirectJson();
+    int TestCheckUpdateJson();
     
 private Q_SLOTS:
     void slotClose();

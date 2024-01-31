@@ -29,7 +29,7 @@ ADD_TARGET(NAME TestGenerateJsonFile
     )
 
 add_test(NAME TestGenerateJsonFile
-    COMMAND TestGenerateJsonFile -f "test.json" --pv "2.0.0" -i "info" -t "time" -s "windows" -a "x86" -c "asbdasersdfasdfawer" -n "rabbitcommon" -p "package-file" -u "github.com" --home "home" -m "1.5.7"
+    COMMAND TestGenerateJsonFile -f "test.json" --pv "2.0.0" -i "info" -t "time" -s "ubuntu" -a "x86_64" -c "aab854ec7cc6831d591237e609a8bf36" -n "rabbitremotecontrol_0.0.26_amd64.deb" -p "package-file" -u "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb,https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb/download" --home "home" -m "1.9.0"
     WORKING_DIRECTORY ${OUTPUT_DIR}
     COMMAND_EXPAND_LISTS
     )
