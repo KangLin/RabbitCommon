@@ -397,9 +397,9 @@ void CFrmUpdater::slotCheckConfigFile()
     if(nRet <= 0) return;
     if(2 == nRet)
     {
-        QString szError(tr("There is laster version"));
-        ui->lbState->setText(szError);
-        qInfo(log) << szError;
+        QString szText(tr("There is laster version"));
+        ui->lbState->setText(szText);
+        qInfo(log) << szText;
         emit sigError();
         return;
     }
@@ -431,7 +431,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
     nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
     if(nRet) {
         if(nRet < 0) {
-            QString szError = tr("File[%1] failed[%2]:")
+            QString szError = tr("Failed[%2] to process the file: %1")
                                   .arg(m_DownloadFile.fileName(), nRet);
             ui->lbState->setText(szError);
             qCritical(log) << szError;
@@ -552,8 +552,8 @@ int CFrmUpdater::CheckUpdateConfigFile()
     CONFIG_INFO info;
     nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
     if(nRet) {
-        QString szError = tr("Parse file %1 fail. It isn't configure file")
-                              .arg(m_DownloadFile.fileName());
+        QString szError = tr("Failed[%2] to process the file: %1")
+                              .arg(m_DownloadFile.fileName(), nRet);
         ui->lbState->setText(szError);
         qCritical(log) << szError;
         emit sigError();
