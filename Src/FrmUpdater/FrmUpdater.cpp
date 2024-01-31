@@ -389,10 +389,19 @@ void CFrmUpdater::slotCheckConfigFile()
     qDebug(log) << "CFrmUpdater::slotCheckConfigFile()";
 
     // Redirect
-    if(CheckRedirectConfigFile() <= 0)
+    int nRet = 0;
+    nRet = CheckRedirectConfigFile();
+    if(nRet <= 0) return;
+    if(2 == nRet)
+    {
+        QString szError(tr("There is laster version"));
+        ui->lbState->setText(szError);
+        qInfo(log) << szError;
+        emit sigError();
         return;
-
-    CheckUpdateConfigFile();
+    }
+    if(1 == nRet)
+        CheckUpdateConfigFile();
 }
 
 /*!
@@ -403,7 +412,9 @@ void CFrmUpdater::slotCheckConfigFile()
  * json format:
  * \include Test/data/redirect.json
  *
- * \return > 0: Is normal configure file
+ * \return
+ *         = 2: Don't updater
+ *         = 1: Is normal configure file
  *         = 0: Is redirect configure file
  *         < 0: Error
  */
@@ -428,8 +439,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
 
     CONFIG_REDIRECT redirect;
     for(auto it = conf.begin(); it != conf.end(); it++) {
-        redirect = *it;
-        QString szVersion = redirect.szVersion;
+
+        QString szVersion = it->szVersion;
         if(szVersion.isEmpty())
         {
             QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
@@ -439,27 +450,22 @@ int CFrmUpdater::CheckRedirectConfigFile()
             return -2;
         }
 
-        if(CompareVersion(szVersion, m_szCurrentVersion) < 0)
+        if(CompareVersion(szVersion, m_szCurrentVersion) <= 0)
             continue;
 
-        QString szMinVersion = redirect.szMinUpdateVersion;
+        QString szMinVersion = it->szMinUpdateVersion;
         if(!szMinVersion.isEmpty()) {
             if(CompareVersion(szMinVersion, m_szCurrentVersion) > 0)
                 continue;
         }
 
+        redirect = *it;
         break;
     }
 
-    if(CompareVersion(redirect.szVersion, m_szCurrentVersion) < 0)
-    {
-        QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
-        ui->lbState->setText(szError);
-        qCritical(log) << szError;
-        emit sigError();
-        return -3;
-    }
-    
+    if(redirect.szVersion.isEmpty())
+        return 2;
+
     CONFIG_FILE file;
     foreach (auto f, redirect.files) {
         if(!f.szSystem.isEmpty()) {
@@ -497,7 +503,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
         // [Update configure file default urls]
     }
 
-    qDebug(log) << "Version:" << redirect.szVersion << m_Urls;
+    qInfo(log) << "Redirect. Version:" << redirect.szVersion << m_Urls;
 
     emit sigDownLoadRedire();
 
@@ -553,7 +559,8 @@ int CFrmUpdater::CheckUpdateConfigFile()
 
     if(CompareVersion(info.version.szVerion, m_szCurrentVersion) <= 0)
     {
-        QString szError(tr("There is laster version"));
+        QString szError;
+        szError = tr("There is laster version");
         ui->lbState->setText(szError);
         qInfo(log) << szError;
         emit sigError();

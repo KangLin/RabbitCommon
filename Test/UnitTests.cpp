@@ -111,7 +111,7 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(conf.length() == 4);
 
     QVERIFY(conf[0].szVersion == "2.0.0");
-    QVERIFY(conf[0].szMinUpdateVersion.isEmpty());
+    QVERIFY(conf[0].szMinUpdateVersion == "1.16.0");
     QVERIFY(conf[0].files.isEmpty());
 
     QVERIFY(conf[1].szVersion == "1.16.0");
@@ -135,7 +135,7 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("update.json"));
 
     QVERIFY(conf[3].szVersion == "1.5.0");
-    QVERIFY(conf[3].szMinUpdateVersion == "1.0.0");
+    QVERIFY(conf[3].szMinUpdateVersion.isEmpty());
     QVERIFY(conf[3].files.length() == 2);
     QVERIFY(conf[3].files[0].szSystem == "windows");
     QVERIFY(conf[3].files[0].szArchitecture == "x86");
