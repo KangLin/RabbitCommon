@@ -16,16 +16,18 @@ int CTestUpdater::test_check_redirect_json_file()
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
     m_pUpdater = new CFrmUpdater(urls);
+    m_pUpdater->SetVersion("1.16.0");
     connect(m_pUpdater, SIGNAL(sigFinalState()), this, SLOT(slotClose()));
-    m_pUpdater->show();
+    //m_pUpdater->show();
     return 0;
 }
 
 void CTestUpdater::slotClose()
 {
     CFrmUpdater* p = dynamic_cast<CFrmUpdater*>(this->sender());
+    //*
     if(p)
-        p->close();
+        p->close();//*/
 }
 
 int main(int argc, char *argv[])

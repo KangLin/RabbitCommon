@@ -1,0 +1,60 @@
+{
+    "redirect": [
+        {
+          "version": "2.0.0"
+        },
+        {
+            "version": "1.16.0",
+            "min_update_version": "1.10.0",
+            "files": [
+                {
+                    "urls": [
+                        "file:update.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "1.10.0",
+            "min_update_version": "1.5.0",
+            "files": [
+                {
+                    "os": "windows",
+                    "arch": "x86",
+                    "urls": [
+                        "file:update.json"
+                    ]
+                },
+                {
+                    "os": "ubuntu",
+                    "arch": "x86_64",
+                    "urls": [
+                        "file:update.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "1.5.0",
+            "min_update_version": "1.0.0",
+            "files": [
+                {
+                    "os": "windows",
+                    "arch": "x86",
+                    "urls": [
+                        "github.com/kanglin/rabbitcommon/windows/update_windows.json",
+                        "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+                    ]
+                },
+                {
+                    "os": "ubuntu",
+                    "arch": "x86_64",
+                    "urls": [
+                        "github.com/kanglin/rabbitcommon/windows/update_ubuntu.json",
+                        "gitlab.com/kl222/rabbitcommon/windows/update_ubuntu.json"
+                    ]
+                }
+            ]
+        }
+    ]
+}

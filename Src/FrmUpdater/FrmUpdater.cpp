@@ -42,12 +42,12 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     ui->progressBar->hide();
     ui->cbHomePage->hide();
     ui->pbOK->hide();
-    
+
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     ui->cbPrompt->setChecked(set.value("Updater/Prompt", false).toBool());
     ui->cbHomePage->setChecked(set.value("Updater/ShowHomePage", true).toBool());
-    
+
     check = connect(&m_TrayIcon,
                     SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                     this,
@@ -56,7 +56,7 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     m_TrayIcon.setIcon(this->windowIcon());
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
-    
+
     int id = set.value("Update/RadioButton", -2).toInt();
     m_ButtonGroup.addButton(ui->rbEveryTime);
     m_ButtonGroup.addButton(ui->rbEveryDate);
@@ -75,7 +75,7 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
 
     ui->lbCurrentArch->setText(tr("Current archecture: %1")
                  .arg(QSysInfo::currentCpuArchitecture()));
-        
+
     QString szVerion = qApp->applicationVersion();
 #ifdef RabbitCommon_VERSION
     if(szVerion.isEmpty())
@@ -138,7 +138,7 @@ CFrmUpdater::~CFrmUpdater()
  * \~chinese 初始化状态机
  * \~english
  * \brief Initialization state machine
- * 
+ *
  * \~
  * \details
  * \code
@@ -400,52 +400,32 @@ void CFrmUpdater::slotCheckConfigFile()
  * 
  * \details
  * 重定向配置文件格式：
- * json 格式:
- * \code
- * {
- *   redirect: [
- *     {
- *       "version": "2.0.0",
- *       "min_update_version": "1.0.0",
- *       "files": [
- *         {
- *           "os": "windows",
- *           "arch": "x86",
- *           "urls": [
- *             "github.com/kanglin/rabbitcommon/windows/update_windows.json",
- *             "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
- *           ]
- *         },
- *         {
- *           "os": "ubuntu",
- *           "arch": "x86",
- *           "urls": [
- *             "github.com/kanglin/rabbitcommon/ubuntu.json",
- *             "gitlab.com/kl222/rabbitcommon/ubuntu.json"
- *           ]
- *         }
- *       ]
- *     }
- *   ]
- * }
- * \endcode
- * 
- * \return > 0: 正常配置文件
- *         = 0: 是重定向配置文件
- *         < 0: 错误
- * 
+ * json format:
+ * \include Test/data/redirect.json
+ *
+ * \return > 0: Is normal configure file
+ *         = 0: Is redirect configure file
+ *         < 0: Error
  */
 int CFrmUpdater::CheckRedirectConfigFile()
 {
     int nRet = 0;
-    qDebug(log) << "CFrmUpdater::CheckRedirectConfigFile()" << m_DownloadFile.fileName();
-    
+    qDebug(log) << "CFrmUpdater::CheckRedirectConfigFile()"
+                << m_DownloadFile.fileName();
+
     QVector<CONFIG_REDIRECT> conf;
     nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
     if(nRet) {
+        if(nRet < 0) {
+            QString szError = tr("File[%1] failed[%2]:")
+                                  .arg(m_DownloadFile.fileName(), nRet);
+            ui->lbState->setText(szError);
+            qCritical(log) << szError;
+            emit sigError();
+        }
         return nRet;
     }
-    
+
     CONFIG_REDIRECT redirect;
     for(auto it = conf.begin(); it != conf.end(); it++) {
         redirect = *it;
@@ -644,12 +624,14 @@ int CFrmUpdater::CheckUpdateConfigFile()
 }
 
 /*!
- * \brief CFrmUpdater::GetRedirectFromFile
- * \param szFile
- * \param conf
- * \return > 0: 正常配置文件
- *         = 0: 是重定向配置文件
- *         < 0: 错误
+ * \brief Get redirect configure from file
+ * \param szFile: File name
+ * \param conf: Redirect configure
+ * \return > 0: Is normal configure file
+ *         = 0: Is redirect configure file
+ *         < 0: Error
+ * json format:
+ * \include Test/data/redirect.json
  * \see CheckRedirectConfigFile
  */
 int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf)
@@ -658,9 +640,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
     if(!f.open(QFile::ReadOnly))
     {
         QString szError = tr("Open file fail").arg(szFile);
-        ui->lbState->setText(szError);
         qCritical(log) << szError;
-        emit sigError();
         return -1;
     }
 
@@ -671,9 +651,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
     {
         QString szError = tr("Parse file %1 fail. It isn't configure file")
                               .arg(f.fileName());
-        ui->lbState->setText(szError);
         qCritical(log) << szError;
-        emit sigError();
         return -2;
     }
 
@@ -700,13 +678,13 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
             file.szArchitectureMinVersion = f["arch_min_version"].toString();
             file.szMd5sum = f["md5"].toString();
             file.szFileName = f["name"].toString();
-            
+
             QJsonArray urls = f["urls"].toArray();
             foreach(auto u, urls)
             {
                 file.urls.append(u.toString());
             }
-            
+
             objRedirect.files.append(file);
             //*
             qDebug(log) << "OS:" << file.szSystem
@@ -723,7 +701,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
 
     return 0;
 }
-    
+
 /*!
  * json 格式：
  * 
