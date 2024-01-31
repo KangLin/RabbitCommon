@@ -296,7 +296,8 @@ void CDownloadFile::slotError(QNetworkReply::NetworkError e)
     }
  
     int nIndex = m_Reply[pReply];
-    qDebug(log) << "Network error:" << e << nIndex << pReply->url();
+    qDebug(log) << "Network error[" << e << "]:" << pReply->errorString()
+                << "index:" << nIndex << pReply->url();
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(pReply)
     {
@@ -321,9 +322,13 @@ void CDownloadFile::slotError(QNetworkReply::NetworkError e)
 
     if(m_Reply.empty())
     {
-        if(m_szError.isEmpty())
-            m_szError = "Network error: from " + m_Url[nIndex].toString()
-                    + " to " + file->fileName();
+        if(m_szError.isEmpty()) {
+            m_szError = "Network error: ";
+            if(!pReply->errorString().isEmpty())
+                m_szError += pReply->errorString() + "; ";
+            m_szError += "from " + m_Url[nIndex].toString()
+                         + " to " + file->fileName();
+        }
         emit sigError(e, m_szError);
     }
 }
@@ -341,7 +346,8 @@ void CDownloadFile::slotSslError(const QList<QSslError> e)
         return;
     }
     int nIndex = m_Reply[pReply];
-    qDebug(log) << "ssl error:" << e << nIndex << pReply->url();
+    qDebug(log) << "ssl error[" << e << "]:" << pReply->errorString()
+                << "index:" << nIndex << pReply->url();
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(pReply)
     {
@@ -366,8 +372,13 @@ void CDownloadFile::slotSslError(const QList<QSslError> e)
     if(m_Reply.empty())
     {
         if(m_szError.isEmpty())
-            m_szError = "ssl error: from " + m_Url[nIndex].toString()
+        {
+            m_szError = "ssl error: ";
+            if(!pReply->errorString().isEmpty())
+                m_szError += pReply->errorString() + "; ";
+             m_szError += "from " + m_Url[nIndex].toString()
                     + " to " + file->fileName();
+        }
         emit sigError(-1, m_szError);
     }
 }

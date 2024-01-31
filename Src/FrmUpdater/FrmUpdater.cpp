@@ -304,10 +304,12 @@ void CFrmUpdater::slotCheck()
 // [Process the signals of RabbitCommon::CDownloadFile]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
-    qCritical(log) << "Download file error:" << nErr << szError;
-    QString szMsg = szError;
-    if(szMsg.isEmpty()) szMsg = tr("Download file error");
+    QString szMsg;
+    szMsg = tr("Error:") + tr("Download file fail.");
+    if(!szError.isEmpty())
+        szMsg += "(" + szError + ")";
     ui->lbState->setText(szMsg);
+    qCritical(log) << szMsg << nErr;
     emit sigError();
 }
 
