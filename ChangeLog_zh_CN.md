@@ -1,4 +1,3 @@
-
 ### 版本： v2.0.0
 + 删除 RabbitCommonLog
 + 自动化 ( github action ) 完成
@@ -24,6 +23,9 @@
   - 增加 AndroidRequestPermission
 + 修改 debian 打包
 + 增加单元测试
++ 修改 RabbitCommon::CDownloadFile 接口
+  - 增加 int Start(QVector<QUrl> urls, QString szFileName = QString(), bool bSequence = false);
+  - 删除构造函数 CDownloadFile(QVector<QUrl> urls, bool bSequence = false, QObject *parent = nullptr);
 
 ### 版本： v1.0.13
 + 修复 CFrmUpdater 内存泄漏

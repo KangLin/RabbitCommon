@@ -23,6 +23,9 @@
   - Add AndroidRequestPermission
 + Modify debian package
 + Add unit test
++ Modify RabbitCommon::CDownloadFile interface
+  - Delete the constructor CDownloadFile(QVector<QUrl> urls, bool bSequence = false, QObject *parent = nullptr);
+  - Add int Start(QVector<QUrl> urls, QString szFileName = QString(), bool bSequence = false);
 
 ### Version: v1.0.13
 + Fix CFrmUpdater memory leak
