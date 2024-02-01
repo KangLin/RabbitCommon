@@ -10,7 +10,7 @@
             "files": [
                 {
                     "urls": [
-                        "file:data/update.json"
+                        "file:data/update_locale.json"
                     ]
                 }
             ]

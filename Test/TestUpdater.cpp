@@ -36,12 +36,12 @@ void CTestUpdater::TestCheckUpdateJson()
     pUpdater->SetVersion("v0.0.25");
     pUpdater->show();
     
-    QTest::qWait(1000);
+    QTest::qWait(100);
     QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
     QVERIFY(pState->text() == tr("There is a new version, is it updated?"));
     QTest::keyPress(pUpdater, Qt::Key_O, Qt::AltModifier);
     while(true) {
-        QTest::qWait(5000);
+        QTest::qWait(10000);
         if(pState->text().contains(tr("Failed"))){
             QVERIFY2(false, "Download fail");
             break;
