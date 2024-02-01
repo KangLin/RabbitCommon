@@ -301,7 +301,7 @@ void CFrmUpdater::slotCheck()
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     QString szMsg;
-    szMsg = tr("Error:") + tr("Download file fail.");
+    szMsg = tr("Failed:") + tr("Download file is Failed.");
     if(!szError.isEmpty())
         szMsg += "(" + szError + ")";
     ui->lbState->setText(szMsg);
@@ -427,7 +427,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
     nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
     if(nRet) {
         if(nRet < 0) {
-            QString szError = tr("Failed[%2] to process the file: %1")
+            QString szError = tr("Failed:") + tr("%2 process the file: %1")
                                   .arg(m_DownloadFile.fileName(), nRet);
             ui->lbState->setText(szError);
             qCritical(log) << szError;
@@ -442,7 +442,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
         QString szVersion = it->szVersion;
         if(szVersion.isEmpty())
         {
-            QString szError = tr("Configure file error:") + m_DownloadFile.fileName();
+            QString szError = tr("Failed:") + tr("Configure file content error:")
+                              + m_DownloadFile.fileName();
             ui->lbState->setText(szError);
             qCritical(log) << szError;
             emit sigError();
@@ -548,7 +549,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
     CONFIG_INFO info;
     nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
     if(nRet) {
-        QString szError = tr("Failed[%2] to process the file: %1")
+        QString szError = tr("Failed:") + tr("%2 process the file: %1")
                               .arg(m_DownloadFile.fileName(), nRet);
         ui->lbState->setText(szError);
         qCritical(log) << szError;
@@ -567,7 +568,9 @@ int CFrmUpdater::CheckUpdateConfigFile()
     }
     
     if(info.files.isEmpty()) {
-        QString szError(tr("The configure file has not files"));
+        QString szError;
+        szError = tr("Failed:") + tr("There is not files in the configure file ")
+            + m_DownloadFile.fileName();
         ui->lbState->setText(szError);
         qCritical(log) << szError;
         emit sigError();
@@ -594,7 +597,9 @@ int CFrmUpdater::CheckUpdateConfigFile()
 
     if(file.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive)) {
         QString szErr;
-        szErr = tr("The system or architecture is not exist in configure file");
+        szErr = tr("Failed:")
+              + tr("The system or architecture is not exist in the configure file ")
+              + m_DownloadFile.fileName();
         ui->lbState->setText(szErr);
         qCritical(log) << szErr;
         emit sigError();
@@ -859,26 +864,33 @@ void CFrmUpdater::slotUpdate()
     do {
         if(!m_DownloadFile.open(QIODevice::ReadOnly))
         {
-            qCritical(log) << "Download file fail: "
-                                  << m_DownloadFile.fileName();
-            ui->lbState->setText(tr("Download file fail"));
+            QString szErr;
+            szErr = tr("Failed:") + tr("Don't open download file ")
+                + m_DownloadFile.fileName();
+            qCritical(log) << szErr;
+            ui->lbState->setText(szErr);
             break;
         }
         QCryptographicHash md5sum(QCryptographicHash::Md5);
         if(!md5sum.addData(&m_DownloadFile))
         {
-            ui->lbState->setText(tr("Download file fail"));
+            QString szErr;
+            szErr = tr("Failed:") + tr("Don't open download file ")
+                    + m_DownloadFile.fileName();
+            qCritical(log) << szErr;
+            ui->lbState->setText(szErr);
             break;
         }
         if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
         {
             QString szFail;
-            szFail = tr("Md5sum is different. ")
+            szFail = tr("Failed:") + tr("Md5sum is different. ")
                     + "\n" + tr("Download file md5sum: ")
                     + md5sum.result().toHex()
                     + "\n" + tr("md5sum in Update.xml:")
                     + m_ConfigFile.szMd5sum;
             ui->lbState->setText(szFail);
+            qCritical(log) << szFail;
             break;
         }
         bSuccess = true;
@@ -922,7 +934,8 @@ void CFrmUpdater::slotUpdate()
                 QUrl url(m_DownloadFile.fileName());
                 if(!QDesktopServices::openUrl(url))
                 {
-                    QString szErr = tr("Execute install program error.%1")
+                    QString szErr = tr("Failed:")
+                                    + tr("Execute install program error.%1")
                             .arg(m_DownloadFile.fileName());
                     ui->lbState->setText(szErr);
                     break;
@@ -933,7 +946,8 @@ void CFrmUpdater::slotUpdate()
             QFile f(szInstall);
             if(!f.open(QFile::WriteOnly))
             {
-                QString szErr = tr("Open file %1 fail").arg(fi.absolutePath());
+                QString szErr = tr("Failed:")
+                    + tr("Open file %1 fail").arg(fi.absolutePath());
                 ui->lbState->setText(szErr);
                 break;
             }
@@ -947,7 +961,7 @@ void CFrmUpdater::slotUpdate()
             if(!RabbitCommon::CTools::executeByRoot("/bin/bash",
                                                     QStringList() << szInstall))
             {
-                QString szErr = tr("Execute") + "/bin/bash "
+                QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
                                 + szInstall + "fail";
                 ui->lbState->setText(szErr);
                 break;
@@ -967,7 +981,7 @@ void CFrmUpdater::slotUpdate()
 //            QProcess exe;
 //            if(!exe.startDetached(szProgram))
 //            {
-//                QString szErr = tr("Execute program error.%1")
+//                QString szErr = tr("Failed:") + tr("Execute program error.%1")
 //                        .arg(szProgram);
 //                ui->lbState->setText(szErr);
 //                break;
@@ -991,7 +1005,7 @@ void CFrmUpdater::slotUpdate()
             QUrl url(szHome);
             if(!QDesktopServices::openUrl(url))
             {
-                QString szErr = tr("Open home page fail");
+                QString szErr = tr("Failed:") + tr("Open home page fail");
                 ui->lbState->setText(szErr);
             }
         }

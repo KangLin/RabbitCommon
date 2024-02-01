@@ -5,6 +5,7 @@
 #include <QTest>
 #include <QLoggingCategory>
 #include <QLabel>
+#include <QRegularExpression>
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.Updater")
 
@@ -35,11 +36,21 @@ void CTestUpdater::TestCheckUpdateJson()
     pUpdater->SetVersion("v0.0.25");
     pUpdater->show();
     
-    QTest::qWait(5000);
+    QTest::qWait(1000);
     QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
     QVERIFY(pState->text() == tr("There is a new version, is it updated?"));
     QTest::keyPress(pUpdater, Qt::Key_O, Qt::AltModifier);
-    QTest::qWait(5000);
+    while(true) {
+        QTest::qWait(5000);
+        if(pState->text().contains(tr("Failed"))){
+            QVERIFY2(false, "Download fail");
+            break;
+        }
+        if(pState->text() != tr("Download ......")) {
+            QTest::qWait(1000);
+            break;
+        }
+    }
     QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);
     return;
 }
