@@ -57,6 +57,7 @@ void CTestGenerateDefaultJsonFile::test_default_update_json_file()
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    QCoreApplication::setApplicationName("RabbitCommon");
     CTestGenerateDefaultJsonFile obj;
     // QTEST_MAIN() 会自动增加命令行参数。
     // 所以这里我们直接用 QTest::qExec ，不传递参数给 QApplication

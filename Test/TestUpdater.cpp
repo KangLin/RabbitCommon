@@ -17,13 +17,13 @@ void CTestUpdater::TestCheckRedirectJson()
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
     CFrmUpdater* pUpdater = new CFrmUpdater(urls);
-    pUpdater->SetVersion("1.15.0");
+    pUpdater->SetVersion("v3.0.0");
     pUpdater->show();
-
     QTest::qWait(100);
     QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
     QVERIFY(pState->text() == tr("There is laster version"));
-    QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);
+    pUpdater->close();
+    //QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);
     return;
 }
 
@@ -32,10 +32,12 @@ void CTestUpdater::TestCheckUpdateJson()
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
     CFrmUpdater* pUpdater = new CFrmUpdater(urls);
-    pUpdater->SetVersion("1.9.0");
+    pUpdater->SetVersion("v0.0.25");
     pUpdater->show();
     
-    QTest::qWait(500);
+    QTest::qWait(5000);
+    QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
+    QVERIFY(pState->text() == tr("There is a new version, is it updated?"));
     QTest::keyPress(pUpdater, Qt::Key_O, Qt::AltModifier);
     QTest::qWait(5000);
     QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);

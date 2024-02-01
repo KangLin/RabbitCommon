@@ -1,42 +1,42 @@
 {
     "redirect": [
         {
-          "version": "2.0.0",
-          "min_update_version": "1.16.0"
+          "version": "v2.0.0",
+          "min_update_version": "v0.0.26"
         },
         {
-            "version": "1.16.0",
-            "min_update_version": "1.10.0",
+            "version": "v0.0.26",
+            "min_update_version": "v0.0.20",
             "files": [
                 {
                     "urls": [
-                        "file:update.json"
+                        "file:data/update.json"
                     ]
                 }
             ]
         },
         {
-            "version": "1.10.0",
-            "min_update_version": "1.5.0",
+            "version": "v0.0.20",
+            "min_update_version": "v0.0.10",
             "files": [
                 {
                     "os": "windows",
                     "arch": "x86",
                     "urls": [
-                        "file:test.json"
+                        "file:data/update_windows.json"
                     ]
                 },
                 {
                     "os": "ubuntu",
                     "arch": "x86_64",
                     "urls": [
-                        "file:test.json"
+                        "file:data/update_ubuntu.json"
                     ]
                 }
             ]
         },
         {
-            "version": "1.5.0",
+            "version": "v0.0.10",
             "files": [
                 {
                     "os": "windows",

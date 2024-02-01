@@ -8,7 +8,9 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.Updater")
 
 CUnitTests::CUnitTests(QObject *parent)
     : QObject{parent}
-{}
+{
+    QCoreApplication::setApplicationName("RabbitCommon");
+}
 
 void CUnitTests::initTestCase()
 {}
@@ -99,6 +101,7 @@ void CUnitTests::test_joson()
     QVERIFY(updater == doc1);
 }
 
+// See: data/redirect.json
 void CUnitTests::test_redirect_json_file()
 {
     CFrmUpdater updater;
@@ -110,31 +113,31 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(0 == nRet);
     QVERIFY(conf.length() == 4);
 
-    QVERIFY(conf[0].szVersion == "2.0.0");
-    QVERIFY(conf[0].szMinUpdateVersion == "1.16.0");
+    QVERIFY(conf[0].szVersion == "v2.0.0");
+    QVERIFY(conf[0].szMinUpdateVersion == "v0.0.26");
     QVERIFY(conf[0].files.isEmpty());
 
-    QVERIFY(conf[1].szVersion == "1.16.0");
-    QVERIFY(conf[1].szMinUpdateVersion == "1.10.0");
+    QVERIFY(conf[1].szVersion == "v0.0.26");
+    QVERIFY(conf[1].szMinUpdateVersion == "v0.0.20");
     QVERIFY(conf[1].files.length() == 1);
     QVERIFY(conf[1].files[0].szSystem.isEmpty());
     QVERIFY(conf[1].files[0].szArchitecture.isEmpty());
     QVERIFY(conf[1].files[0].urls.size() == 1);
-    QVERIFY(conf[1].files[0].urls[0] == QUrl::fromLocalFile("update.json"));
+    QVERIFY(conf[1].files[0].urls[0] == QUrl::fromLocalFile("data/update.json"));
 
-    QVERIFY(conf[2].szVersion == "1.10.0");
-    QVERIFY(conf[2].szMinUpdateVersion == "1.5.0");
+    QVERIFY(conf[2].szVersion == "v0.0.20");
+    QVERIFY(conf[2].szMinUpdateVersion == "v0.0.10");
     QVERIFY(conf[2].files.length() == 2);
     QVERIFY(conf[2].files[0].szSystem == "windows");
     QVERIFY(conf[2].files[0].szArchitecture == "x86");
     QVERIFY(conf[2].files[0].urls.size() == 1);
-    QVERIFY(conf[2].files[0].urls[0] == QUrl::fromLocalFile("test.json"));
+    QVERIFY(conf[2].files[0].urls[0] == QUrl::fromLocalFile("data/update_windows.json"));
     QVERIFY(conf[2].files[1].szSystem == "ubuntu");
     QVERIFY(conf[2].files[1].szArchitecture == "x86_64");
     QVERIFY(conf[2].files[1].urls.size() == 1);
-    QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("test.json"));
+    QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("data/update_ubuntu.json"));
 
-    QVERIFY(conf[3].szVersion == "1.5.0");
+    QVERIFY(conf[3].szVersion == "v0.0.10");
     QVERIFY(conf[3].szMinUpdateVersion.isEmpty());
     QVERIFY(conf[3].files.length() == 2);
     QVERIFY(conf[3].files[0].szSystem == "windows");

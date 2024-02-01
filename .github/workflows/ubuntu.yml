@@ -71,7 +71,7 @@ jobs:
                 -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
                 -DINSTALL_QT=OFF \
                 -DBUILD_APP=OFF \
-                -DBUILD_TESTS=ON
+                -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           sudo Xvfb :99 -ac &
           export DISPLAY=:99.0
@@ -89,7 +89,7 @@ jobs:
                 -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
                 -DINSTALL_QT=OFF \
                 -DBUILD_APP=OFF \
-                -DBUILD_TESTS=OFF
+                -DBUILD_TEST=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*

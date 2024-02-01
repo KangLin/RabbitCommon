@@ -196,16 +196,16 @@ int CFrmUpdater::InitStateMachine()
     QState *sCheckConfigFile = new QState(s);
     QState *sDownloadSetupFile = new QState(s);
     QState *sUpdate = new QState(s);
-    
+
     bool check = connect(sFinal, SIGNAL(entered()),
                          this, SLOT(slotStateFinished()));
     Q_ASSERT(check);
-    
+
     sCheck->addTransition(this, SIGNAL(sigError()), sFinal);
     sCheck->addTransition(this, SIGNAL(sigFinished()), s);
     check = connect(sCheck, SIGNAL(entered()), this, SLOT(slotCheck()));
     Q_ASSERT(check);
-    
+
     s->addTransition(this, SIGNAL(sigError()), sFinal);
     s->addTransition(this, SIGNAL(sigFinished()), sFinal);
 
@@ -215,24 +215,24 @@ int CFrmUpdater::InitStateMachine()
     check = connect(sDownloadConfigFile, SIGNAL(entered()),
                      this, SLOT(slotDownloadFile()));
     Q_ASSERT(check);
-    
+
     sCheckConfigFile->addTransition(this, SIGNAL(sigDownLoadRedire()), sDownloadConfigFile);
     sCheckConfigFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
     sCheckConfigFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
     sCheckConfigFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
     check = connect(sCheckConfigFile, SIGNAL(entered()),  this, SLOT(slotCheckConfigFile()));
     Q_ASSERT(check);
-    
+
     m_pStateDownloadSetupFile = sDownloadSetupFile;
     sDownloadSetupFile->addTransition(this, SIGNAL(sigFinished()), sUpdate);
     sDownloadSetupFile->assignProperty(ui->lbState, "text", tr("Being download update file"));
     check = connect(sDownloadSetupFile, SIGNAL(entered()), this, SLOT(slotDownloadSetupFile()));
     Q_ASSERT(check);
-    
+
     sUpdate->assignProperty(ui->lbState, "text", tr("Being install update"));
     check = connect(sUpdate, SIGNAL(entered()), this, SLOT(slotUpdate()));
     Q_ASSERT(check);
-    
+
     m_StateMachine.addState(sCheck);    
     m_StateMachine.addState(s);
     m_StateMachine.addState(sFinal);
@@ -266,10 +266,6 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
 void CFrmUpdater::slotStateFinished()
 {
     qDebug(log) << "slotStateFinished()";
-
-#if HAVE_TEST
-    emit sigFinalState();
-#endif
     if(m_Download)
         m_Download.reset();
 }

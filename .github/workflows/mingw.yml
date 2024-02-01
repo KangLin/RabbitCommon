@@ -91,7 +91,7 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
               -DINSTALL_QT=OFF ^
               -DBUILD_APP=OFF ^
-              -DBUILD_TESTS=ON
+              -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll bin

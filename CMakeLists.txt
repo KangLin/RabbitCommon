@@ -128,7 +128,7 @@ SET(CMAKE_AUTORCC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
-option(BUILD_TEST "Set to ON to build tests" ON)
+option(BUILD_TEST "Set to ON to build tests" OFF)
 add_subdirectory(Src)
 option(BUILD_APP "Set to ON to build application" ON)
 if(BUILD_APP)

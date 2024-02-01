@@ -130,7 +130,7 @@ jobs:
               -DANDROID_NATIVE_API_LEVEL=${{env.ANDROID_NATIVE_API_LEVEL}} \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
-              -DBUILD_TESTS=OFF \
+              -DBUILD_TEST=OFF \
               -DBUILD_APP=OFF
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install

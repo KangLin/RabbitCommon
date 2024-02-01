@@ -234,8 +234,6 @@ private Q_SLOTS:
     friend class CTestGenerateJsonFile;
     friend class CTestGenerateDefaultJsonFile;
     friend class CTestUpdater;
-Q_SIGNALS:
-    void sigFinalState();
 #endif
 };
 
