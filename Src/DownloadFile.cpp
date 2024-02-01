@@ -142,8 +142,16 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
     {
         qDebug(log) << "Is local file:" << url;
         file->setFileName(url.toLocalFile());
-        emit sigFinished(file->fileName());
-        return 0;
+        if(QFile::exists(file->fileName()))
+        {
+            emit sigFinished(file->fileName());
+            return 0;
+        }
+
+        QString szErr = tr("The file is not exists: ") + file->fileName();
+        qCritical(log) << szErr;
+        emit sigError(-4, szErr);
+        return -4;
     }
 
     if(!file->open(QIODevice::WriteOnly))

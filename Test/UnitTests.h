@@ -15,7 +15,10 @@ private Q_SLOTS:
     void cleanupTestCase();
     void init();
     void cleanup();
-    
+
+    void testDownloadFileNoExistLocalFile();
+    void testDownloadFileExistLocalFile();
+
     void test_os();
     void test_architecture();
     void test_joson();
