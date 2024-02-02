@@ -92,7 +92,9 @@ public:
      * @brief Update XML file used only to generate programs
      * @return 
      */
+    Q_DECL_DEPRECATED
     int GenerateUpdateXml();
+    Q_DECL_DEPRECATED
     int GenerateUpdateXml(QCommandLineParser &parser);
     /*!
      * \brief Generate update json configure file
