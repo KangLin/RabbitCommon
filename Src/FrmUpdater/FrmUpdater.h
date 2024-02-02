@@ -17,7 +17,7 @@
 #include <QCommandLineParser>
 #include "rabbitcommon_export.h"
 
-#include "DownloadFile.h"
+#include "Download.h"
 
 namespace Ui {
 class CFrmUpdater;
@@ -63,7 +63,7 @@ class CFrmUpdater;
  *     \snippet App/Tests/MainWindow.cpp Use CFrmUpdater
  *     
  * \~
- * \see RabbitCommon::CDownloadFile
+ * \see RabbitCommon::CDownload
  * \ingroup API
  */
 class RABBITCOMMON_EXPORT CFrmUpdater : public QWidget
@@ -117,11 +117,11 @@ public:
     int SetInstallAutoStartup(bool bAutoStart = true);
 
 protected Q_SLOTS:
-    // [Add the slot functions of RabbitCommon::CDownloadFile]
+    // [Add the slot functions of RabbitCommon::CDownload]
     void slotDownloadError(int nErr, const QString szError);
     void slotDownloadFileFinished(const QString szFile);
     void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    // [Add the slot functions of RabbitCommon::CDownloadFile]
+    // [Add the slot functions of RabbitCommon::CDownload]
 
     void slotButtonClickd(int id);
     void slotCheck();
@@ -164,9 +164,9 @@ private:
     QFile m_DownloadFile;
     bool m_bDownload;
     QVector<QUrl> m_Urls;
-    // [Instantiate the object of RabbitCommon::CDownloadFile]
-    QSharedPointer<RabbitCommon::CDownloadFile> m_Download;
-    // [Instantiate the object of RabbitCommon::CDownloadFile]
+    // [Instantiate the object of RabbitCommon::CDownload]
+    QSharedPointer<RabbitCommon::CDownload> m_Download;
+    // [Instantiate the object of RabbitCommon::CDownload]
 
     QStateMachine m_StateMachine;
     QState *m_pStateDownloadSetupFile;

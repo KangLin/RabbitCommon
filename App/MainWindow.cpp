@@ -151,7 +151,7 @@ void MainWindow::on_pbDownload_clicked()
     {
         urls.push_back(QUrl(ui->cmbDownloadFiles->itemText(i)));
     }
-    m_pDownload = new RabbitCommon::CDownloadFile();
+    m_pDownload = new RabbitCommon::CDownload();
     bool check = connect(m_pDownload, SIGNAL(sigFinished(const QString)),
             this, SLOT(slotDownloadFile(const QString)));
     Q_ASSERT(check);

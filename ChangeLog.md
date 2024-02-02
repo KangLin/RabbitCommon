@@ -23,7 +23,7 @@
   - Add AndroidRequestPermission
 + Modify debian package
 + Add unit test
-+ Modify RabbitCommon::CDownloadFile interface
++ Renmae RabbitCommon::CDownloadFile to RabbitCommon::CDownload
   - Delete the constructor CDownloadFile(QVector<QUrl> urls, bool bSequence = false, QObject *parent = nullptr);
   - Add int Start(QVector<QUrl> urls, QString szFileName = QString(), bool bSequence = false);
 

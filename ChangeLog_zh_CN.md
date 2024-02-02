@@ -23,7 +23,7 @@
   - 增加 AndroidRequestPermission
 + 修改 debian 打包
 + 增加单元测试
-+ 修改 RabbitCommon::CDownloadFile 接口
++ 重命名 RabbitCommon::CDownloadFile 到 RabbitCommon::CDownload
   - 增加 int Start(QVector<QUrl> urls, QString szFileName = QString(), bool bSequence = false);
   - 删除构造函数 CDownloadFile(QVector<QUrl> urls, bool bSequence = false, QObject *parent = nullptr);
 

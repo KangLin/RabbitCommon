@@ -336,7 +336,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
     RabbitCommonEncrypt.h
-    DownloadFile.h
+    Download.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -349,7 +349,7 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp
     RabbitCommonEncrypt.cpp
-    DownloadFile.cpp
+    Download.cpp
     )
 
 #翻译

@@ -31,12 +31,12 @@ void CUnitTests::testDownloadFileNoExistLocalFile()
     QString szExitFile = "data/redirect.json";
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile(szNoExitFile) << QUrl::fromLocalFile(szExitFile);
-    RabbitCommon::CDownloadFile dwonload;
-    QObject::connect(&dwonload, &RabbitCommon::CDownloadFile::sigError,
+    RabbitCommon::CDownload dwonload;
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
           [&](int nRet, const QString msg){
         QVERIFY(tr("The file is not exists: ") + szNoExitFile == msg && -4 == nRet);
     });
-    QObject::connect(&dwonload, &RabbitCommon::CDownloadFile::sigFinished,
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
                      [&](const QString szPath){
                          QVERIFY(szExitFile == szPath);
                      });
@@ -50,12 +50,12 @@ void CUnitTests::testDownloadFileExistLocalFile()
     QString szFile = "data/nofile";
     QVector<QUrl> urls;
     urls << szFile;
-    RabbitCommon::CDownloadFile dwonload;
-    QObject::connect(&dwonload, &RabbitCommon::CDownloadFile::sigError,
+    RabbitCommon::CDownload dwonload;
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
                      [&](int nRet, const QString msg){
                          QVERIFY(true);
                      });
-    QObject::connect(&dwonload, &RabbitCommon::CDownloadFile::sigFinished,
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
                      [&](const QString szFile){
                          QVERIFY(false);
                      });

@@ -13,38 +13,38 @@ namespace RabbitCommon {
 /*!
  * \~chinese 从多个 URLS 下载同一个文件
  * - 使用：
- *   - 实例化  RabbitCommon::CDownloadFile 对象：
- *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownloadFile
+ *   - 实例化  RabbitCommon::CDownload 对象：
+ *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownload
  *   - 增加需要处理的槽函数：
- *   \snippet Src/FrmUpdater/FrmUpdater.h Add the slot functions of RabbitCommon::CDownloadFile
+ *   \snippet Src/FrmUpdater/FrmUpdater.h Add the slot functions of RabbitCommon::CDownload
  *   - 下载, 连接信号：
- *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownloadFile download file
+ *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownload download file
  *   - 处理信号：
- *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownloadFile
+ *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownload
  *
  * \~english
  * \brief Download the same file from multiple URLs
  * 
  * - Usage:
- *   - Instantiate the object of RabbitCommon::CDownloadFile:
- *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownloadFile
- *   - Add the slot functions of RabbitCommon::CDownloadFile:
- *   \snippet Src/FrmUpdater/FrmUpdater.h Add the slot functions of RabbitCommon::CDownloadFile
- *   - Use RabbitCommon::CDownloadFile download file and connect the signals:
- *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownloadFile download file
- *   - Process the signals of RabbitCommon::CDownloadFile:
- *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownloadFile
+ *   - Instantiate the object of RabbitCommon::CDownload:
+ *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownload
+ *   - Add the slot functions of RabbitCommon::CDownload:
+ *   \snippet Src/FrmUpdater/FrmUpdater.h Add the slot functions of RabbitCommon::CDownload
+ *   - Use RabbitCommon::CDownload download file and connect the signals:
+ *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownload download file
+ *   - Process the signals of RabbitCommon::CDownload:
+ *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownload
  *
  * \~
  * \ingroup API
  */
-class RABBITCOMMON_EXPORT CDownloadFile : public QObject
+class RABBITCOMMON_EXPORT CDownload : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CDownloadFile(QObject *parent = nullptr);
-    ~CDownloadFile();
+    explicit CDownload(QObject *parent = nullptr);
+    ~CDownload();
 
     /*!
      * \~chinese

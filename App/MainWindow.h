@@ -8,7 +8,7 @@
 
 #include <QMainWindow>
 
-#include "DownloadFile.h"
+#include "Download.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,7 +37,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     
-    RabbitCommon::CDownloadFile* m_pDownload;
+    RabbitCommon::CDownload* m_pDownload;
 };
 
 #endif // MAINWINDOW_H

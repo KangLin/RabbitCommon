@@ -297,7 +297,7 @@ void CFrmUpdater::slotCheck()
         emit sigError();
 }
 
-// [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownload]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     QString szMsg;
@@ -357,16 +357,16 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
                           + tr(": downloading %1%").arg(
                             QString::number(bytesReceived * 100 / bytesTotal)));
 }
-// [Process the signals of RabbitCommon::CDownloadFile]
+// [Process the signals of RabbitCommon::CDownload]
 
 void CFrmUpdater::slotDownloadFile()
 {
     qDebug(log) << "CFrmUpdater::slotDownloadFile";
-    // [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownload download file]
     if(!m_Urls.isEmpty())
     {
-        m_Download = QSharedPointer<RabbitCommon::CDownloadFile>(
-            new RabbitCommon::CDownloadFile(), &QObject::deleteLater);
+        m_Download = QSharedPointer<RabbitCommon::CDownload>(
+            new RabbitCommon::CDownload(), &QObject::deleteLater);
         bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
                 this, SLOT(slotDownloadFileFinished(const QString)));
         Q_ASSERT(check);
@@ -378,7 +378,7 @@ void CFrmUpdater::slotDownloadFile()
         Q_ASSERT(check);
         m_Download->Start(m_Urls);
     }
-    // [Use RabbitCommon::CDownloadFile download file]
+    // [Use RabbitCommon::CDownload download file]
 }
 
 void CFrmUpdater::slotCheckConfigFile()

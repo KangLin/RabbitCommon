@@ -1,4 +1,4 @@
-#include "DownloadFile.h"
+#include "Download.h"
 
 #include <QStandardPaths>
 #include <QCoreApplication>
@@ -9,13 +9,13 @@ namespace RabbitCommon {
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DownloadFile")
 
-CDownloadFile::CDownloadFile(QObject *parent)
+CDownload::CDownload(QObject *parent)
     : QObject{parent},
     m_bSequence(false),
     m_nBytesReceived(0)
 {}
 
-int CDownloadFile::Start(QVector<QUrl> urls, QString szFileName, bool bSequence)
+int CDownload::Start(QVector<QUrl> urls, QString szFileName, bool bSequence)
 {
     int nRet = 0;
     if(urls.isEmpty())
@@ -51,7 +51,7 @@ int CDownloadFile::Start(QVector<QUrl> urls, QString szFileName, bool bSequence)
     return nRet;
 }
 
-CDownloadFile::~CDownloadFile()
+CDownload::~CDownload()
 {
     QMap<QNetworkReply*, int>::Iterator it;
     it = m_Reply.begin();
@@ -73,7 +73,7 @@ CDownloadFile::~CDownloadFile()
     }
 }
 
-int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
+int CDownload::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
 {
     int nRet = 0;
 
@@ -198,9 +198,9 @@ int CDownloadFile::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
     return nRet;
 }
 
-void CDownloadFile::slotReadyRead()
+void CDownload::slotReadyRead()
 {
-    //qDebug() << "CDownloadFile::slotReadyRead()";
+    //qDebug() << "CDownload::slotReadyRead()";
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
     {
@@ -221,7 +221,7 @@ void CDownloadFile::slotReadyRead()
     }
 }
 
-void CDownloadFile::slotFinished()
+void CDownload::slotFinished()
 {
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
@@ -293,7 +293,7 @@ void CDownloadFile::slotFinished()
     emit sigFinished(file->fileName());
 }
 
-void CDownloadFile::slotError(QNetworkReply::NetworkError e)
+void CDownload::slotError(QNetworkReply::NetworkError e)
 {  
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
@@ -341,7 +341,7 @@ void CDownloadFile::slotError(QNetworkReply::NetworkError e)
     }
 }
 
-void CDownloadFile::slotSslError(const QList<QSslError> e)
+void CDownload::slotSslError(const QList<QSslError> e)
 {
     QString sErr;
     foreach(QSslError s, e)
@@ -391,7 +391,7 @@ void CDownloadFile::slotSslError(const QList<QSslError> e)
     }
 }
 
-void CDownloadFile::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
