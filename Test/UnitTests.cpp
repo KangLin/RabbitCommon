@@ -147,7 +147,7 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(1 == nRet);
     nRet = updater.GetRedirectFromFile("data/redirect.json", conf);
     QVERIFY(0 == nRet);
-    QVERIFY(conf.length() == 4);
+    QVERIFY(conf.length() == 5);
 
     QVERIFY(conf[0].szVersion == "v2.0.0");
     QVERIFY(conf[0].szMinUpdateVersion == "v0.0.26");
@@ -163,7 +163,7 @@ void CUnitTests::test_redirect_json_file()
 
     QVERIFY(conf[2].szVersion == "v0.0.20");
     QVERIFY(conf[2].szMinUpdateVersion == "v0.0.10");
-    QVERIFY(conf[2].files.length() == 2);
+    QVERIFY(conf[2].files.length() == 4);
     QVERIFY(conf[2].files[0].szSystem == "windows");
     QVERIFY(conf[2].files[0].szArchitecture.isEmpty());
     QVERIFY(conf[2].files[0].urls.size() == 1);
@@ -172,16 +172,28 @@ void CUnitTests::test_redirect_json_file()
     QVERIFY(conf[2].files[1].szArchitecture == "x86_64");
     QVERIFY(conf[2].files[1].urls.size() == 1);
     QVERIFY(conf[2].files[1].urls[0] == QUrl::fromLocalFile("data/update_ubuntu.json"));
+    QVERIFY(conf[2].files[2].szSystem == "macos");
+    QVERIFY(conf[2].files[2].szArchitecture == "x86_64");
+    QVERIFY(conf[2].files[2].urls.size() == 1);
+    QVERIFY(conf[2].files[2].urls[0] == QUrl::fromLocalFile("data/update_macos.json"));
+    QVERIFY(conf[2].files[3].szSystem == "osx");
+    QVERIFY(conf[2].files[3].szArchitecture == "x86_64");
+    QVERIFY(conf[2].files[3].urls.size() == 1);
+    QVERIFY(conf[2].files[3].urls[0] == QUrl::fromLocalFile("data/update_macos.json"));
 
     QVERIFY(conf[3].szVersion == "v0.0.10");
-    QVERIFY(conf[3].szMinUpdateVersion.isEmpty());
-    QVERIFY(conf[3].files.length() == 2);
-    QVERIFY(conf[3].files[0].szSystem == "windows");
-    QVERIFY(conf[3].files[0].szArchitecture == "x86");
-    QVERIFY(conf[3].files[0].urls.size() == 2);
-    QVERIFY(conf[3].files[1].szSystem == "ubuntu");
-    QVERIFY(conf[3].files[1].szArchitecture == "x86_64");
-    QVERIFY(conf[3].files[1].urls.size() == 2);
+    QVERIFY(conf[3].szMinUpdateVersion == "v0.0.5");
+    QVERIFY(conf[3].files.length() == 1);
+
+    QVERIFY(conf[4].szVersion == "v0.0.5");
+    QVERIFY(conf[4].szMinUpdateVersion.isEmpty());
+    QVERIFY(conf[4].files.length() == 2);
+    QVERIFY(conf[4].files[0].szSystem == "windows");
+    QVERIFY(conf[4].files[0].szArchitecture == "x86");
+    QVERIFY(conf[4].files[0].urls.size() == 2);
+    QVERIFY(conf[4].files[1].szSystem == "ubuntu");
+    QVERIFY(conf[4].files[1].szArchitecture == "x86_64");
+    QVERIFY(conf[4].files[1].urls.size() == 2);
 }
 
 QTEST_MAIN(CUnitTests)

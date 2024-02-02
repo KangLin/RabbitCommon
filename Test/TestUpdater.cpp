@@ -40,7 +40,7 @@ void CTestUpdater::TestCheckUpdateJson()
     QTest::qWait(100);
     QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
     QVERIFY2(pState->text() == tr("There is a new version, is it updated?"),
-             pState->text().toStdString().c_str());
+             QString("label:" + pState->text()).toStdString().c_str());
     QTest::keyPress(pUpdater, Qt::Key_O, Qt::AltModifier);
     while(true) {
         QTest::qWait(100);
@@ -65,11 +65,11 @@ void CTestUpdater::TestCheckSingleUpdateJson()
     CFrmUpdater* pUpdater = new CFrmUpdater(urls);
     pUpdater->SetVersion("v0.0.15");
     pUpdater->show();
-    
+
     QTest::qWait(100);
     QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
     QVERIFY2(pState->text() == tr("There is a new version, is it updated?"),
-             pState->text().toStdString().c_str());
+             QString("label:" + pState->text()).toStdString().c_str());
     QTest::keyPress(pUpdater, Qt::Key_O, Qt::AltModifier);
     while(true) {
         QTest::qWait(100);
@@ -83,6 +83,23 @@ void CTestUpdater::TestCheckSingleUpdateJson()
             break;
         }
     }
+    QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);
+    return;
+}
+
+void CTestUpdater::TestCheckUnknownUpdateJson()
+{
+    QVector<QUrl> urls;
+    urls << QUrl::fromLocalFile("data/redirect.json");
+    CFrmUpdater* pUpdater = new CFrmUpdater(urls);
+    pUpdater->SetVersion("v0.0.8");
+    pUpdater->show();
+    
+    QTest::qWait(100);
+    QLabel* pState = pUpdater->findChild<QLabel*>("lbState");
+    QVERIFY2(pState->text().contains(tr("Failed:")),
+             QString("label:" + pState->text()).toStdString().c_str());
+    
     QTest::keyPress(pUpdater, Qt::Key_C, Qt::AltModifier);
     return;
 }

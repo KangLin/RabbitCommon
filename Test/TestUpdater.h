@@ -14,6 +14,7 @@ private Q_SLOTS:
     void TestCheckRedirectJson();
     void TestCheckUpdateJson();
     void TestCheckSingleUpdateJson();
+    void TestCheckUnknownUpdateJson();
 };
 
 #endif // CTESTUPDATER_H

@@ -491,16 +491,30 @@ int CFrmUpdater::CheckRedirectConfigFile()
     m_Urls = file.urls;
     if(m_Urls.isEmpty())
     {
-        // [Update configure file default urls]
-        QUrl github("https://github.com/KangLin/"
-                   + qApp->applicationName() + "/releases/download/"
-                   + redirect.szVersion + "/update.json");
-        m_Urls.push_back(github);
-        QUrl sourceforge("https://sourceforge.net/projects/"
-                         + qApp->applicationName() +"/files/"
-                         + redirect.szVersion + "/update.json/download");
-        m_Urls.push_back(sourceforge);
-        // [Update configure file default urls]
+        if(redirect.files.isEmpty()) {
+            // [Update configure file default urls]
+            QUrl github("https://github.com/KangLin/"
+                        + qApp->applicationName() + "/releases/download/"
+                        + redirect.szVersion + "/update.json");
+            m_Urls.push_back(github);
+            QUrl sourceforge("https://sourceforge.net/projects/"
+                             + qApp->applicationName() +"/files/"
+                             + redirect.szVersion + "/update.json/download");
+            m_Urls.push_back(sourceforge);
+            // [Update configure file default urls]
+        } else {
+            QString szError;
+            szError =  tr("Failed:")
+                      + tr("Don't find the update configure file in")
+                      + m_DownloadFile.fileName()
+                      + "; " + tr("Current version:") + m_szCurrentVersion
+                      + "; " + tr("version:") + redirect.szVersion
+                      + "; " + tr("min update version:")
+                      + redirect.szMinUpdateVersion;
+            qCritical(log) << szError;
+            ui->lbState->setText(szError);
+            return -3;
+        }
     }
 
     qInfo(log) << "Redirect. Version:" << redirect.szVersion << m_Urls;

@@ -31,11 +31,39 @@
                     "urls": [
                         "file:data/update_ubuntu.json"
                     ]
+                },
+                {
+                    "os": "macos",
+                    "arch": "x86_64",
+                    "urls": [
+                        "file:data/update_macos.json"
+                    ]
+                },
+                {
+                    "os": "osx",
+                    "arch": "x86_64",
+                    "urls": [
+                        "file:data/update_macos.json"
+                    ]
                 }
             ]
         },
         {
             "version": "v0.0.10",
+            "min_update_version": "v0.0.5",
+            "files": [
+                {
+                    "os": "XXXX",
+                    "arch": "x86",
+                    "urls": [
+                        "github.com/kanglin/rabbitcommon/windows/update_windows.json",
+                        "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "v0.0.5",
             "files": [
                 {
                     "os": "windows",
