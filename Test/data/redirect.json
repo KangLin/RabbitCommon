@@ -21,7 +21,6 @@
             "files": [
                 {
                     "os": "windows",
-                    "arch": "x86",
                     "urls": [
                         "file:data/update_windows.json"
                     ]

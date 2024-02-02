@@ -1,0 +1,29 @@
+{
+    "version": {
+        "version": "v0.0.26",
+        "home": "https://github.com/KangLin/RabbitCommon",
+        "information": "Rabbit common test local file",
+        "time": "2024-02-01 09:42:14",
+        "force": false
+    },
+    "files": [
+        {
+            "os": "ubuntu",
+            "arch": "x86_64",
+            "md5": "8bccd9edee0d23da4a5b0e344c006e8d",
+            "name": "ubuntu",
+            "urls": [
+                "file:data/update.json"
+            ]
+        },
+        {
+            "os": "windows",
+            "arch": "x86_64",
+            "md5": "8bccd9edee0d23da4a5b0e344c006e8d",
+            "name": "windows",
+            "urls": [
+                "file:data/update.json"
+            ]
+        }
+    ]
+}

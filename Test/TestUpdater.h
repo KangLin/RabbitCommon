@@ -13,6 +13,7 @@ public:
 private Q_SLOTS:
     void TestCheckRedirectJson();
     void TestCheckUpdateJson();
+    void TestCheckSingleUpdateJson();
 };
 
 #endif // CTESTUPDATER_H
