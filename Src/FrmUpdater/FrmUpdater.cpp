@@ -1402,7 +1402,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
     int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
     if(nRet)
         return nRet;
-    return GenerateUpdateXmlFile(szFile, info, type);
+    return GenerateUpdateXmlFile(szFile + ".xml", info, type);
 }
 
 /*!
