@@ -29,7 +29,7 @@ void CTestUpdater::TestCheckRedirectJson()
     return;
 }
 
-void CTestUpdater::TestCheckUpdateJson()
+void CTestUpdater::TestCheckRedirectNoOSJson()
 {
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
@@ -58,7 +58,7 @@ void CTestUpdater::TestCheckUpdateJson()
     return;
 }
 
-void CTestUpdater::TestCheckSingleUpdateJson()
+void CTestUpdater::TestCheckRedirectSingleUpdateJson()
 {
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
@@ -87,7 +87,7 @@ void CTestUpdater::TestCheckSingleUpdateJson()
     return;
 }
 
-void CTestUpdater::TestCheckUnknownUpdateJson()
+void CTestUpdater::TestCheckRedirectUnknownUpdateJson()
 {
     QVector<QUrl> urls;
     urls << QUrl::fromLocalFile("data/redirect.json");
