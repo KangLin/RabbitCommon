@@ -38,14 +38,26 @@ fi
 md5=`md5sum $2|awk '{print $1}'`
 name=`basename $2`
 
+urls=$5
+array=(${urls//,/ })
+
+for var in ${array[@]}
+do
+    if [ -z "$szUrls" ]; then
+        szUrls=$var
+    else
+        szUrls="\"$szUrls\",\"$var\""
+    fi
+done   
+
 cat > $1 << EOF
 {
-    "os": $3,
-    "arch": $4,
-    "md5": ${md5},
-    "name": ${name},
+    "os": "$3",
+    "arch": "$4",
+    "md5": "${md5}",
+    "name": "${name}",
     "urls": [
-        $5
+        $szUrls
     ]
 }
 EOF
