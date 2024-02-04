@@ -1516,6 +1516,11 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                              "Min update version",
                              m_szCurrentVersion);
     parser.addOption(oMin);
+    QCommandLineOption oForce(QStringList() << "force",
+                              tr("Set force flag"),
+                              "Force flag",
+                              "false");
+    parser.addOption(oForce);
 
     if(!parser.parse(QApplication::arguments())) {
         qDebug(log) << "parser.parse fail" << parser.errorText()
@@ -1534,7 +1539,11 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     info.version.szTime = parser.value(oTime);
     info.version.szInfomation = parser.value(oInfo);
     info.version.szHome = parser.value(oUrlHome);
-    info.version.bForce = false;
+    QString szForce = parser.value(oForce).trimmed();
+    if(szForce.compare("true", Qt::CaseInsensitive))
+        info.version.bForce = false;
+    else
+        info.version.bForce = true;
 
     CONFIG_FILE file;
     file.szSystem = parser.value(oSystem);

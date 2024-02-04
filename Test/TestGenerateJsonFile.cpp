@@ -26,6 +26,7 @@ void CTestGenerateJsonFile::test_json_file()
     QVERIFY(info.version.szTime == "time");
     QVERIFY(info.version.szInfomation == "info");
     QVERIFY(info.version.szHome ==  "home");
+    QVERIFY(info.version.bForce);
 
     CFrmUpdater::CONFIG_FILE conf_file = info.files[0];
     QVERIFY(conf_file.szSystem == "ubuntu");

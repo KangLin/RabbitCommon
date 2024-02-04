@@ -27,7 +27,8 @@ void CTestGenerateDefaultJsonFile::test_default_update_json_file()
     QVERIFY(info.version.szMinUpdateVersion == updater.m_szCurrentVersion);
     QVERIFY(info.version.szInfomation == qApp->applicationName() + " " + updater.m_szCurrentVersion);
     QVERIFY(info.version.szHome ==  "https://github.com/KangLin/" + qApp->applicationName());
-    
+    QVERIFY(info.version.bForce == false);
+
     CFrmUpdater::CONFIG_FILE conf_file = info.files[0];
     QVERIFY(conf_file.szSystem == QSysInfo::productType());
     QVERIFY(conf_file.szArchitecture == QSysInfo::buildCpuArchitecture());
