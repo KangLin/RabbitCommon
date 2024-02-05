@@ -20,7 +20,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_doxygen
-      DOXYGEN_VERSION: 1.9.8
+      DOXYGEN_VERSION: 1.10.0
       RabbitCommon_VERSION: v1.0.13
       artifact_name: build_doxygen
 

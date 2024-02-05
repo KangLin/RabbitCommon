@@ -405,17 +405,17 @@ void CFrmUpdater::slotCheckConfigFile()
 
 /*!
  * \brief 检查重定向配置文件
- * 
+ * \return
+ *         = 2: Don't updater \n
+ *         = 1: Is normal configure file \n
+ *         = 0: Is redirect configure file \n
+ *         < 0: Error
+ *
  * \details
- * 重定向配置文件格式：
- * json format:
+ * 重定向配置文件格式：\n
+ * json format: \n
  * \include Test/data/redirect.json
  *
- * \return
- *         = 2: Don't updater
- *         = 1: Is normal configure file
- *         = 0: Is redirect configure file
- *         < 0: Error
  */
 int CFrmUpdater::CheckRedirectConfigFile()
 {
@@ -652,8 +652,8 @@ int CFrmUpdater::CheckUpdateConfigFile()
  * \brief Get redirect configure from file
  * \param szFile: File name
  * \param conf: Redirect configure
- * \return > 0: Is normal configure file
- *         = 0: Is redirect configure file
+ * \return > 0: Is normal configure file \n
+ *         = 0: Is redirect configure file \n
  *         < 0: Error
  * json format:
  * \include Test/data/redirect.json

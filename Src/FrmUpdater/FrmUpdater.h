@@ -37,10 +37,10 @@ class CFrmUpdater;
  *     - [可选] 生成重定向文件配置文件(update.xml)。 格式详见： \ref CheckRedirectConfigFile \n
  *       默认位置： \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect configure file default urls
  *     - 例子：
- *       \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+ *       \snippet App/main.cpp Use CFrmUpdater GenerateUpdateJson
  *       \see GenerateUpdateJson() GenerateUpdateJson(QCommandLineParser &parser)
  *   - 在应用程序中使用 CFrmUpdater:
- *     \snippet App/Tests/MainWindow.cpp Use CFrmUpdater
+ *     \snippet App/MainWindow.cpp Use CFrmUpdater
  * 
  * \~english
  * \brief Updater
@@ -57,10 +57,10 @@ class CFrmUpdater;
  *             Format see: \ref CheckRedirectConfigFile \n
  *       Default: \snippet Src/FrmUpdater/FrmUpdater.cpp Redirect configure file default urls
  *     - Example:
- *       \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+ *       \snippet App/main.cpp Use CFrmUpdater GenerateUpdateJson
  *       \see GenerateUpdateJson() GenerateUpdateJson(QCommandLineParser &parser)
  *   - Used by application CFrmUpdater:
- *     \snippet App/Tests/MainWindow.cpp Use CFrmUpdater
+ *     \snippet App/MainWindow.cpp Use CFrmUpdater
  *     
  * \~
  * \see RabbitCommon::CDownload
@@ -106,7 +106,7 @@ public:
      * \brief Generate update json configure file
      * \param parser: QCommandLineParser
      * \note  If your application has a command-line argument, use it.
-     * \snippet App/Tests/main.cpp Use CFrmUpdater GenerateUpdateJson
+     * \snippet App/main.cpp Use CFrmUpdater GenerateUpdateJson
      * \see GetConfigFromFile
      */
     int GenerateUpdateJson(QCommandLineParser &parser);

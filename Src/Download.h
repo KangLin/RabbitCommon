@@ -21,10 +21,11 @@ namespace RabbitCommon {
  *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownload download file
  *   - 处理信号：
  *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownload
+ * \note 如果用 new 生成对象，则需要使用 QObject::deleteLater 释放对象
  *
  * \~english
  * \brief Download the same file from multiple URLs
- * 
+ *
  * - Usage:
  *   - Instantiate the object of RabbitCommon::CDownload:
  *   \snippet Src/FrmUpdater/FrmUpdater.h Instantiate the object of RabbitCommon::CDownload
@@ -34,6 +35,8 @@ namespace RabbitCommon {
  *   \snippet Src/FrmUpdater/FrmUpdater.cpp Use RabbitCommon::CDownload download file
  *   - Process the signals of RabbitCommon::CDownload:
  *   \snippet Src/FrmUpdater/FrmUpdater.cpp Process the signals of RabbitCommon::CDownload
+ * \note If you use new to generate an object,
+ *       you need to use QObject::deleteLater to delete the object
  *
  * \~
  * \ingroup API

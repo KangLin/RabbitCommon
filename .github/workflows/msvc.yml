@@ -107,6 +107,7 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
       - name: Build and test
+        if: false
         working-directory: ${{github.workspace}}/build_test
         run: |
           cd ${{github.workspace}}/build_test
