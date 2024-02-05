@@ -35,7 +35,6 @@ Qt common library. include follow functions:
   - [x] [About](#About)
     + [cmark](https://github.com/commonmark/cmark): support MarkDown
   - [x] [Updater](#Updater)
-  - [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
   - [x] [Style (include icon theme)](Src/FrmStyle/FrmStyle.h)
   - [x] [Recent open menu](Src/RabbitRecentMenu.h)
   - [x] [Title bar](Src/TitleBar.h)

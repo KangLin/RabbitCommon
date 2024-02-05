@@ -36,7 +36,6 @@
   - [x] [关于对话框](#关于对话框)
     + [cmark](https://github.com/commonmark/cmark): 用于解析 MarkDown 语法
   - [x] [在线更新](#在线更新)
-  - [x] [QUIWidget](Src/QUIWidget/QUIWidget.h)
   - [x] [样式(包括图标主题](Src/FrmStyle.h)
   - [x] [最近打开菜单](Src/RabbitRecentMenu.h)
   - [x] [自定义标题栏](Src/TitleBar.h)
