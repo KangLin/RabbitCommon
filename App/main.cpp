@@ -66,8 +66,11 @@ int main(int argc, char *argv[])
     parser.addOption(noexample);
 
 #ifdef HAVE_UPDATE
-    CFrmUpdater updater;
-    updater.GenerateUpdateJson(parser);
+    if(a.arguments().length() > 1) {
+        CFrmUpdater updater;
+        updater.GenerateUpdateJson(parser);
+        return 0;
+    }
 #endif
     parser.process(QApplication::arguments());
     // [Use CFrmUpdater GenerateUpdateJson]
