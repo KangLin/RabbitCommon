@@ -107,7 +107,6 @@ jobs:
           vcpkgDirectory: ${{runner.workspace}}/vcpkg/
 
       - name: Build and test
-        if: false
         working-directory: ${{github.workspace}}/build_test
         run: |
           cd ${{github.workspace}}/build_test
@@ -119,11 +118,11 @@ jobs:
               -DCMARK_STATIC=ON ^
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
               -DCMAKE_INSTALL_PREFIX=%CD%/install ^
-              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
+              -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
-              -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON ^
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
               -DINSTALL_QT=ON ^
-              -DBUILD_APP=OFF ^
+              -DBUILD_APP=ON ^
               -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           echo "xcopy /Y /S install\bin bin\${{ matrix.BUILD_TYPE }}"
