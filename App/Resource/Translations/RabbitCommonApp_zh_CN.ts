@@ -31,7 +31,7 @@
     <message>
         <location filename="../../MainWindow.ui" line="23"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>日志</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="97"/>
@@ -59,48 +59,27 @@
         <translation>工具</translation>
     </message>
     <message>
-        <source>Open log</source>
-        <translation type="vanished">打开日志</translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="162"/>
+        <location filename="../../MainWindow.ui" line="161"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="171"/>
+        <location filename="../../MainWindow.ui" line="170"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="180"/>
-        <source>Stype</source>
-        <translation>样式</translation>
-    </message>
-    <message>
-        <source>Open log configure</source>
-        <translation type="vanished">打开日志配置文件</translation>
-    </message>
-    <message>
-        <source>Open log file</source>
-        <translation type="vanished">打开日志文件</translation>
-    </message>
-    <message>
-        <source>Open log folder</source>
-        <translation type="vanished">打开日志文件夹</translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.cpp" line="45"/>
+        <location filename="../../MainWindow.cpp" line="46"/>
         <source>Folder browser</source>
         <translation>文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="135"/>
+        <location filename="../../MainWindow.cpp" line="129"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="135"/>
+        <location filename="../../MainWindow.cpp" line="129"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>
@@ -108,7 +87,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="53"/>
+        <location filename="../../main.cpp" line="56"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
     </message>

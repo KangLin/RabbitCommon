@@ -507,7 +507,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
         } else {
             QString szError;
             szError =  tr("Failed:")
-                      + tr("Don't find the update configure file in")
+                      + tr("Don't find the urls in configure file:")
                       + m_DownloadFile.fileName()
                       + "; " + tr("Current version:") + m_szCurrentVersion
                       + "; " + tr("version:") + redirect.szVersion
