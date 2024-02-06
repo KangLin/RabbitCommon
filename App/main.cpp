@@ -69,10 +69,11 @@ int main(int argc, char *argv[])
     if(a.arguments().length() > 1) {
         CFrmUpdater updater;
         updater.GenerateUpdateJson(parser);
+        parser.process(QApplication::arguments());
         return 0;
     }
 #endif
-    parser.process(QApplication::arguments());
+    
     // [Use CFrmUpdater GenerateUpdateJson]
     
     MainWindow *m = new MainWindow();
