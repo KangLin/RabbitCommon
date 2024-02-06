@@ -1,3 +1,6 @@
+### 版本： v2.0.1
++ 修复更新中的下载进度条错误
+
 ### 版本： v2.0.0
 + 删除 RabbitCommonLog
 + 自动化 ( github action ) 完成

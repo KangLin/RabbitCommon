@@ -1,3 +1,6 @@
+### Version: v2.0.1
++ Update: fix show progressBar
+
 ### Version: v2.0.0
 + Remove RabbitCommonLog
 + CI ( github action ) is ok.
