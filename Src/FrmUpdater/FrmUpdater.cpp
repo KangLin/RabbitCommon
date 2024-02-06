@@ -349,6 +349,8 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+    if(ui->progressBar->isHidden())
+        ui->progressBar->show();
     ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
     if(bytesTotal > 0)
@@ -871,6 +873,7 @@ void CFrmUpdater::slotUpdate()
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
+    ui->progressBar->hide();
     //qDebug(log) << "CFrmUpdater::slotUpdate()";
 
     // Check file md5sum
