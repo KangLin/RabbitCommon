@@ -66,14 +66,14 @@ int main(int argc, char *argv[])
     parser.addOption(noexample);
 
 #ifdef HAVE_UPDATE
+    CFrmUpdater* updater = new CFrmUpdater();
     if(a.arguments().length() > 1) {
-        CFrmUpdater updater;
-        updater.GenerateUpdateJson(parser);
+        updater->GenerateUpdateJson(parser);
         parser.process(QApplication::arguments());
         return 0;
     }
 #endif
-    
+
     // [Use CFrmUpdater GenerateUpdateJson]
     
     MainWindow *m = new MainWindow();
