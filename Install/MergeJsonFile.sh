@@ -55,6 +55,6 @@ do
 done
 echo "    ]" >> ${update_json_file}
 echo "}" >> ${update_json_file}
-echo "cat >> ${update_json_file}"
+echo "cat ${update_json_file}"
 cat ${update_json_file}
 #rm -fr *.json
