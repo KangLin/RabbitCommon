@@ -81,8 +81,20 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
     m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
-
-    DownloadFile(QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png"));
+    
+    QVector<QUrl> urls;
+    urls << QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png")
+         << QUrl("https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png")
+         << QUrl("https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png");
+    m_Download = QSharedPointer<RabbitCommon::CDownload>(
+        new RabbitCommon::CDownload(), &QObject::deleteLater);
+    bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),
+                         this, SLOT(slotDownloadFileFinished(const QString)));
+    Q_ASSERT(check);
+    check = connect(m_Download.data(), SIGNAL(sigError(int, const QString)),
+                    this, SLOT(slotDownloadError(int, const QString)));
+    Q_ASSERT(check);
+    m_Download->Start(urls);
 
 #if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     m_pLicense = new QWebEngineView(ui->tabWidget);
@@ -110,7 +122,6 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
 #else
-    bool check = false;
     ui->lbDonation->setContextMenuPolicy(Qt::CustomContextMenu);
     check = connect(ui->lbDonation, SIGNAL(customContextMenuRequested(const QPoint &)),
                     this, SLOT(slotDonation(const QPoint &)));
@@ -275,44 +286,9 @@ bool CDlgAbout::eventFilter(QObject *watched, QEvent *event)
 
 int CDlgAbout::SetDonationIcon(const QImage &img)
 {
-    if(m_pReply->isRunning())
-    {
-        m_pReply->abort();
-    }
+    m_Download.clear();
     m_DonationIcon = img;
     return 0;
-}
-
-int CDlgAbout::DownloadFile(const QUrl &url)
-{
-    int nRet = 0;
-    QNetworkRequest request(url);
-    //https://blog.csdn.net/itjobtxq/article/details/8244509
-    /*QSslConfiguration config;
-    config.setPeerVerifyMode(QSslSocket::VerifyNone);
-    config.setProtocol(QSsl::AnyProtocol);
-    request.setSslConfiguration(config);
-    */
-    m_pReply = m_NetManager.get(request);
-    if(!m_pReply)
-        return -1;
-
-    bool check = false;
-    check = connect(m_pReply,
-                #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-                    SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
-                #else
-                    SIGNAL(error(QNetworkReply::NetworkError)),
-                #endif
-                    this, SLOT(slotError(QNetworkReply::NetworkError)));
-    Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(sslErrors(const QList<QSslError>&)),
-                    this, SLOT(slotSslError(const QList<QSslError>&)));
-    Q_ASSERT(check);
-    check = connect(m_pReply, SIGNAL(finished()),
-                    this, SLOT(slotFinished()));
-    Q_ASSERT(check);
-    return nRet;
 }
 
 QString CDlgAbout::BuildTime()
@@ -346,74 +322,20 @@ QString CDlgAbout::Version()
     return szVersion;
 }
 
-void CDlgAbout::slotFinished()
+void CDlgAbout::slotDownloadError(int nErr, const QString szError)
 {
-    qDebug(log) << "CDlgAbout::slotFinished()";
+    QString szMsg;
+    szMsg = tr("Failed:") + tr("Download file is Failed.");
+    if(!szError.isEmpty())
+        szMsg += "(" + szError + ")";
+    qCritical(log) << szMsg << nErr;
+}
 
-    QVariant redirectionTarget;
-    if(m_pReply)
-        redirectionTarget = m_pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if(redirectionTarget.isValid())
-    {
-        if(m_pReply)
-        {
-            m_pReply->disconnect();
-            m_pReply->deleteLater();
-            m_pReply = nullptr;
-        }
-        QUrl u = redirectionTarget.toUrl();  
-        if(u.isValid())
-        {
-            qDebug(log)
-                    << "CDlgAbout::slotFinished():redirectionTarget:url:" << u;
-            DownloadFile(u);
-        }
-        return;
-    }
-    
-    QByteArray d;
-    if(m_pReply)
-        d = m_pReply->readAll();
-    m_DonationIcon.loadFromData(d);
+void CDlgAbout::slotDownloadFileFinished(const QString szFile)
+{
+    qDebug(log) << "slotDownloadFileFinished:" << szFile;
+    m_DonationIcon.load(szFile);
     ui->lbDonation->setPixmap(QPixmap::fromImage(m_DonationIcon));
-    //    QFile f(RabbitCommon::CDir::Instance()->GetDirUserImage()
-    //            + QDir::separator() + "donation.png");
-    //    if(f.open(QFile::WriteOnly))
-    //    {
-    //        f.write(d);
-    //        f.close();
-    //        m_DonationIcon = QPixmap(RabbitCommon::CDir::Instance()->GetDirUserImage()
-    //                                 + QDir::separator() + "donation.png", "png");
-    //    }
-
-    if(m_pReply)
-    {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
-}
-
-void CDlgAbout::slotError(QNetworkReply::NetworkError e)
-{
-    qDebug(log) << "CFrmUpdater::slotError: " << e;
-    if(m_pReply)
-    {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
-}
-
-void CDlgAbout::slotSslError(const QList<QSslError> &e)
-{
-    qDebug(log) << "CFrmUpdater::slotSslError: " << e;
-    if(m_pReply)
-    {
-        m_pReply->disconnect();
-        m_pReply->deleteLater();
-        m_pReply = nullptr;
-    }
 }
 
 void CDlgAbout::on_pbDetails_clicked()

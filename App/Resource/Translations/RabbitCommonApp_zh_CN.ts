@@ -74,12 +74,12 @@
         <translation>文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="129"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="129"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>

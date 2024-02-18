@@ -29,8 +29,7 @@ Abstract:
 #include <QDialog>
 
 #include "rabbitcommon_export.h"
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
+#include "Download.h"
 
 namespace Ui {
 class CDlgAbout;
@@ -100,25 +99,15 @@ protected Q_SLOTS:
     void on_pbDetails_clicked();
     void slotDonation(const QPoint &pos);
     void slotSaveDonation();
-    
-    void slotError(QNetworkReply::NetworkError e);
-    void slotSslError(const QList<QSslError>& e);
-    void slotFinished();
+
+    void slotDownloadError(int nErr, const QString szError);
+    void slotDownloadFileFinished(const QString szFile);
     
 private:
     Ui::CDlgAbout *ui;
     
     QImage m_DonationIcon;
-    QNetworkAccessManager m_NetManager;
-    QNetworkReply *m_pReply;
-    /**
-     * @brief DownloadFile
-     * @param url: Download url
-     * @param bRedirection: true: Is redirection
-     * @param bDownload: true: don't check, download immediately
-     * @return 
-     */
-    int DownloadFile(const QUrl &url);
+    QSharedPointer<RabbitCommon::CDownload> m_Download;
 
     QString BuildTime();
     QString Version();

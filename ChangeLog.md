@@ -1,5 +1,6 @@
 ### Version: v2.0.1
 + Update: fix show progressBar
++ Use CDownLoad to down the image of contribute in CDlgAbout
 
 ### Version: v2.0.0
 + Remove RabbitCommonLog

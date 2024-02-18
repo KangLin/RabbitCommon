@@ -64,97 +64,107 @@
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="153"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="89"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="97"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="100"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="108"/>
         <source>License</source>
         <translation>許可協議</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="91"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="100"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="102"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="111"/>
         <source>Change log</source>
         <translation>修改日誌</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="93"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="103"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="104"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="114"/>
         <source>Thanks</source>
         <translation>感謝</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="330"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="337"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="305"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="330"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="344"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="305"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
         <source>Arch: </source>
         <translation>架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="337"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
         <source> (From revision: </source>
         <translation>(校訂版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="425"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="327"/>
+        <source>Failed:</source>
+        <translation type="unfinished">失敗:</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="327"/>
+        <source>Download file is Failed.</source>
+        <translation type="unfinished">下載文件失敗。</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="346"/>
         <source>Build Date/Time: </source>
         <translation>編譯日期/時間：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="426"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="347"/>
         <source>File Path: </source>
         <translation>文件路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="427"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="348"/>
         <source>Arguments: </source>
         <translation>參數：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="144"/>
         <source> Email: </source>
         <translation> 郵箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="148"/>
         <source>Home page: </source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="145"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="155"/>
         <source>Copyright (C)</source>
         <translation>版權所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="246"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="266"/>
         <source>Save donation picture</source>
         <translation>保存捐贈圖片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="258"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="268"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="423"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="344"/>
         <source>### </source>
         <translation></translation>
     </message>
@@ -1141,7 +1151,7 @@
     <name>RabbitCommon::CDownloadFile</name>
     <message>
         <source>: downloading %1%</source>
-        <translation>: 正在下載 %1%</translation>
+        <translation type="vanished">: 正在下載 %1%</translation>
     </message>
 </context>
 <context>
