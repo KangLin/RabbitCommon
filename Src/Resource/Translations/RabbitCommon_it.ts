@@ -64,107 +64,107 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="153"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="154"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="100"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="108"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="101"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="109"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="102"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="111"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="103"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="112"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="104"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="114"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="105"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="115"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="305"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="306"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="305"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="319"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="306"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="320"/>
         <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="312"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
         <source> (From revision: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="327"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="328"/>
         <source>Failed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="327"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="328"/>
         <source>Download file is Failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="346"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="347"/>
         <source>Build Date/Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="347"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="348"/>
         <source>File Path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="348"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="349"/>
         <source>Arguments: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="143"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="144"/>
         <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="144"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="145"/>
         <source> Email: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="148"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="149"/>
         <source>Home page: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="155"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="156"/>
         <source>Copyright (C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="256"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="257"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="266"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="267"/>
         <source>Save donation picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="268"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="269"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="344"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="345"/>
         <source>### </source>
         <translation type="unfinished"></translation>
     </message>
