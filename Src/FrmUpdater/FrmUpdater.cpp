@@ -430,7 +430,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
     if(nRet) {
         if(nRet < 0) {
             QString szError = tr("Failed:") + tr("%2 process the file: %1")
-                                  .arg(m_DownloadFile.fileName(), nRet);
+                                      .arg(m_DownloadFile.fileName()).arg(nRet);
             ui->lbState->setText(szError);
             qCritical(log) << szError;
             emit sigError();
@@ -566,7 +566,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
     nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
     if(nRet) {
         QString szError = tr("Failed:") + tr("%2 process the file: %1")
-                              .arg(m_DownloadFile.fileName(), nRet);
+                                      .arg(m_DownloadFile.fileName()).arg(nRet);
         ui->lbState->setText(szError);
         qCritical(log) << szError;
         emit sigError();
