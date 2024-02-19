@@ -501,7 +501,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
             m_Urls.push_back(github);
             QUrl sourceforge("https://sourceforge.net/projects/"
                              + qApp->applicationName() +"/files/"
-                             + redirect.szVersion + "/update.json/download");
+                             + redirect.szVersion + "/update.json?viasf=1");
             m_Urls.push_back(sourceforge);
             // [Update configure file default urls]
         } else {
