@@ -28,7 +28,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw
-      RabbitCommon_VERSION: v2.0.0
+      RabbitCommon_VERSION: v2.0.1
       artifact_name: build_mingw
       CMAKE_GENERATOR: "MinGW Makefiles"
 

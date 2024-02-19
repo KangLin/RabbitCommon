@@ -21,7 +21,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_doxygen
       DOXYGEN_VERSION: 1.9.8
-      RabbitCommon_VERSION: v2.0.0
+      RabbitCommon_VERSION: v2.0.1
       artifact_name: build_doxygen
 
     # Map the job outputs to step outputs
@@ -51,6 +51,8 @@ jobs:
 
       - name: install apt packages
         run: |
+          sudo apt update -y -q
+          sudo apt upgrade -y -q
           sudo apt install -y -q cmake build-essential graphviz \
               qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools
 
