@@ -132,7 +132,7 @@ jobs:
               -DBUILD_APP=OFF
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
-          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip install/*
+          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip ./install/*
 
       - name: Update artifact
         #if: ${{ matrix.BUILD_TYPE == 'Release' }}
