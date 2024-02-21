@@ -46,6 +46,14 @@ jobs:
           cmake -E make_directory ${{github.workspace}}/build
           cmake -E make_directory ${{github.workspace}}/build_test
 
+      - name: Cache installed
+        uses: actions/cache@v3
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+          key: install_ubuntu_${{matrix.BUILD_TYPE}}
+      
       - name: Install apt packages
         run: |
           sudo apt update -y
