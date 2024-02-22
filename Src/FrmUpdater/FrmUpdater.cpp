@@ -300,6 +300,7 @@ void CFrmUpdater::slotCheck()
 // [Process the signals of RabbitCommon::CDownload]
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
+    ui->progressBar->hide();
     QString szMsg;
     szMsg = tr("Failed:") + tr("Download file is Failed.");
     if(!szError.isEmpty())
@@ -312,6 +313,7 @@ void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 {
     qDebug(log) << "slotDownloadFileFinished:" << szFile;
+    ui->progressBar->hide();
     if(m_DownloadFile.isOpen())
         m_DownloadFile.close();
 
