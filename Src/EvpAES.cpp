@@ -1,6 +1,7 @@
 #include "EvpAES.h"
 #include <openssl/evp.h>
 #include <openssl/aes.h>
+#include <openssl/ssl.h>
 
 #define KEY_SIZE_16B            16
 #define KEY_SIZE_24B            24
@@ -358,4 +359,13 @@ bool EvpAES::encrypt(const QByteArray &in, QByteArray &out,
         out.resize(mlen + flen);
         return true;
     }
+}
+
+//TODO: only install the dependencies libraries(libssl)
+int EvpAES::testSSL()
+{
+    SSL_CTX *ssl_ctx = SSL_CTX_new(TLS_client_method());
+    if(ssl_ctx)
+        SSL_CTX_free(ssl_ctx);
+    return 0;
 }

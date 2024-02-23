@@ -1,3 +1,6 @@
+### Version: v2.0.2
++ Fix: install libssl.dll
+
 ### Version: v2.0.1
 + Update: fix show progressBar
 + Use CDownLoad to down the image of contribute in CDlgAbout

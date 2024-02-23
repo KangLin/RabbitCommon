@@ -1,3 +1,8 @@
+### 版本： v2.0.2
++ 修复安装依赖库 libssl 。
+  因为 -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON
+  安装依赖库。所以需要在程序中引用。
+
 ### 版本： v2.0.1
 + 修复更新中的下载进度条错误
 + 关于对话框中使用 CDownLoad 下载捐赠图片

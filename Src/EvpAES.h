@@ -57,6 +57,9 @@ private:
     bool encrypt(const QByteArray& in, QByteArray& out,
                  const QByteArray& key, const QByteArray& ivec,
                  const EVP_CIPHER *cipher, bool enc = true);
+    
+    //TODO: only install the dependencies libraries(libssl)
+    int testSSL();
 
 private:
     EVP_CIPHER_CTX *ctx;
