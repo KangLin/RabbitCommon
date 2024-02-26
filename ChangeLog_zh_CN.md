@@ -2,6 +2,7 @@
 + 修复安装依赖库 libssl 。
   因为 -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON
   安装依赖库。所以需要在程序中引用。
++ android 打包时，安装 openssl 库。
 
 ### 版本： v2.0.1
 + 修复更新中的下载进度条错误

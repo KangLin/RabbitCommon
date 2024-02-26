@@ -1,5 +1,6 @@
 ### Version: v2.0.2
 + Fix: install libssl.dll
++ Fix: install openssl library in package android
 
 ### Version: v2.0.1
 + Update: fix show progressBar
