@@ -15,14 +15,16 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release]
-        qt_arch: [android_armv7, android_x86_64]
+        qt_arch: [android_arm64_v8a, android_x86_64]
         qt_version: [6.6.2]
         include:
-          - qt_arch: android_armv7
+          - qt_arch: android_arm64_v8a
             VCPKG_TARGET_TRIPLET: arm-android
+            ANDROID_ABI: arm64_v8a
 
           - qt_arch: android_x86_64 
             VCPKG_TARGET_TRIPLET: x64-android
+            ANDROID_ABI: x86_64
 
     runs-on: ubuntu-latest
 
@@ -34,6 +36,7 @@ jobs:
       INSTALL_DIR: ${{github.workspace}}/.cache/install
       RabbitCommon_VERSION: v2.0.2
       VCPKGGITCOMMITID: a1a1cbc975abf909a6c8985a6a2b8fe20bbd9bd6
+      ANDROID_ABI: ${{matrix.ANDROID_ABI}}
       ANDROID_PLATFORM: android-28
       ANDROID_NATIVE_API_LEVEL: 28
       qt_modules: 'qtimageformats qtmultimedia qtscxml qtwebchannel qtwebsockets qtwebview'
@@ -124,8 +127,6 @@ jobs:
           ${Qt6_DIR}/bin/qt-cmake .. \
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
-              -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
-              -DANDROID_NATIVE_API_LEVEL=${{env.ANDROID_NATIVE_API_LEVEL}} \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DBUILD_TEST=OFF \
