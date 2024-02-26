@@ -746,6 +746,7 @@ endfunction()
 #    PRIVATE_OPTIONS                私有选项
 #    FEATURES                       公有特性
 #    PRIVATE_FEATURES               私有特性
+#    NO_INSTALL_ANDROID_OPENSSL     当是 android 时，不安装 openssl 库
 #    NO_INSTALL                     不安装
 #    INSTALL_HEADER_FILES           如果是库，要安装的头文件
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
@@ -800,7 +801,7 @@ function(ADD_TARGET)
         COMPONENT_PREFIX
         )
     cmake_parse_arguments(PARA
-        "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL"
+        "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -813,6 +814,7 @@ function(ADD_TARGET)
                 [ISWINDOWS]
                 [NO_TRANSLATION]
                 [NO_INSTALL]
+                [NO_INSTALL_ANDROID_OPENSSL]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
@@ -887,6 +889,18 @@ function(ADD_TARGET)
                 else()
                     set(ANDROID_PACKAGE_SOURCE_DIR ${PARA_ANDROID_SOURCES_DIR})
                 endif()
+            endif()
+
+            if (ANDROID AND NOT PARA_NO_INSTALL_ANDROID_OPENSSL)
+                include(FetchContent)
+                FetchContent_Declare(
+                  android_openssl
+                  DOWNLOAD_EXTRACT_TIMESTAMP true
+                  URL      https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
+                )
+                FetchContent_MakeAvailable(android_openssl)
+                include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
+                add_android_openssl_libraries(${PROJECT_NAME})
             endif()
 
             # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE

@@ -272,25 +272,7 @@ IF(OpenSSL_FOUND)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_OPENSSL)
     list(APPEND RABBITCOMMON_SOURCE_FILES EvpAES.cpp)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES EvpAES.h)
-    # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-    # Check https://doc.qt.io/qt/deployment-android.html for more information.
-    # They need to be set before the find_package( ...) calls below.
-    if(ANDROID)
-        #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-
-        list(APPEND QT_ANDROID_EXTRA_LIBS
-            $<TARGET_FILE:OpenSSL::SSL>
-            $<TARGET_FILE:OpenSSL::Crypto>)
-
-    endif()
     list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
-
-    #if(WIN32)
-        # Qt 5.9 (LTS) use OpenSSL 1.0* and Qt 5.12 (LTS) and newest version of Qt use OpenSSL 1.1*
-        # Source: https://lists.qt-project.org/pipermail/releasing/2019-March/002614.html
-    #    INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
-    #endif()
-
 ENDIF()
 
 option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
@@ -437,18 +419,6 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )
-
-IF(OpenSSL_FOUND)
-    # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-    # Check https://doc.qt.io/qt/deployment-android.html for more information.
-    # They need to be set before the find_package( ...) calls below.
-    if(ANDROID)
-        set_property(TARGET ${PROJECT_NAME}
-            APPEND PROPERTY QT_ANDROID_EXTRA_LIBS
-            $<TARGET_FILE:OpenSSL::SSL>
-            $<TARGET_FILE:OpenSSL::Crypto>)
-    endif()
-ENDIF()
 
 #foreach(d ${RabbitCommon_DEFINITIONS})
 #    SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
