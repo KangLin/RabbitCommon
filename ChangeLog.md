@@ -1,3 +1,6 @@
+### Version: v2.0.3
++ Fix: fix footer.html bug
+
 ### Version: v2.0.2
 + Fix: install libssl.dll
 + Fix: install openssl library in package android

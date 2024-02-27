@@ -1,3 +1,6 @@
+### 版本： v2.0.3
++ 修复footer.html中链接错误
+
 ### 版本： v2.0.2
 + 修复安装依赖库 libssl 。
   因为 -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON
