@@ -40,7 +40,7 @@ if(NOT ANDROID AND UNIX)
         DESTINATION "share/applications" COMPONENT Runtime)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
         DESTINATION "share/pixmaps" COMPONENT Runtime)
-    INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonTests.sh
+    INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonApp.sh
         DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
 endif()
 

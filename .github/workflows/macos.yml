@@ -106,6 +106,7 @@ jobs:
               -DBUILD_APP=ON \
               -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           ctest -V
 
       - name: Make zip package
