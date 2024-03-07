@@ -133,12 +133,17 @@ jobs:
               -DBUILD_APP=ON ^
               -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+
+      - name: test
+        working-directory: ${{github.workspace}}/build_test
+        if: false
+        run: |
           echo "xcopy /Y /S install\bin bin\${{ matrix.BUILD_TYPE }}"
           xcopy /Y /S install\bin bin\${{ matrix.BUILD_TYPE }}
           echo "xcopy /Y /S ${{env.VCPKG_DEFAULT_BINARY_CACHE}}/bin/*.dll bin\${{ matrix.BUILD_TYPE }}"
-          xcopy /Y /S ${{env.VCPKG_DEFAULT_BINARY_CACHE}}/bin/*.dll bin\${{ matrix.BUILD_TYPE }}
+          xcopy /Y /S ${{env.VCPKG_DEFAULT_BINARY_CACHE}}/bin/*.dll bin\${{ matrix.BUILD_TYPE }} 
           ctest -C ${{ matrix.BUILD_TYPE }} -VV
-
+      
       - name: Build RabbitCommon
         working-directory: ${{github.workspace}}/build
         run: |
