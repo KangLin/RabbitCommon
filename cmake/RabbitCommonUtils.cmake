@@ -656,6 +656,9 @@ function(INSTALL_TARGET)
                 get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
             endif()
             if(PARA_VERSION)
+                if(NOT WIN32)
+                    string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
+                endif()
                 write_basic_package_version_file(
                     "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                     VERSION ${PARA_VERSION}
@@ -1053,6 +1056,9 @@ function(ADD_TARGET)
     endif()
 
     if(DEFINED PARA_VERSION)
+        if(NOT WIN32)
+            string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
+        endif()
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION})
     endif()
