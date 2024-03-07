@@ -937,10 +937,12 @@ function(ADD_TARGET)
                 endif()
             endif()
 
-            if(QT_VERSION_MAJOR VERSION_EQUAL 6)
-                set_target_properties(${PARA_NAME} PROPERTIES
-                    WIN32_EXECUTABLE TRUE
-                )
+            if(WIN32)
+                if(QT_VERSION_MAJOR VERSION_EQUAL 6)
+                    set_target_properties(${PARA_NAME} PROPERTIES
+                        WIN32_EXECUTABLE TRUE
+                    )
+                endif()
             endif()
 
         endif()
@@ -1016,7 +1018,7 @@ function(ADD_TARGET)
                 ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc @ONLY)
             message("Generate pkg-config file: ${PC_FILE} to ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc")
         endif()
-        
+
     endif(PARA_ISEXE)
 
     if(DEFINED PARA_OUTPUT_DIR)
@@ -1124,14 +1126,15 @@ function(ADD_TARGET)
         target_compile_features(${PARA_NAME} PRIVATE ${PARA_PRIVATE_FEATURES})
     endif()
 
-    # Install dependencies runtime dlls
-#    if(INSTALL_TO_BUILD_PATH AND WIN32)
-#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-#            COMMENT "Copy target ${PROJECT_NAME} runtime dlls ... $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>"
-#            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> "${CMAKE_BINARY_DIR}/bin"
-#            COMMAND_EXPAND_LISTS
-#        )
-#    endif()
+    # Copy the target's dependent dynamic library
+    if(INSTALL_TO_BUILD_PATH)
+        add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Copy ${PARA_NAME}'s dependent dynamic library $<TARGET_RUNTIME_DLLS:${PARA_NAME}>"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PARA_NAME}> $<TARGET_FILE:${PARA_NAME}> $<TARGET_FILE_DIR:${PARA_NAME}> 
+            COMMAND_EXPAND_LISTS
+            VERBATIM
+        )
+    endif()
 
     if(NOT PARA_NO_INSTALL)
         # Install target
