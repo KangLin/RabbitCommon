@@ -736,6 +736,7 @@ endfunction()
 #    NAME                           目标名。注意：翻译资源文件名(.ts)默认是 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
+#    SOVERSION
 #    ANDROID_SOURCES_DIR            Android 源码文件目录
 #    INCLUDE_DIRS                   包含目录
 #    PRIVATE_INCLUDE_DIRS           私有包含目录
@@ -794,6 +795,7 @@ function(ADD_TARGET)
         NAME
         OUTPUT_DIR
         VERSION
+        SOVERSION
         ANDROID_SOURCES_DIR
         INSTALL_PUBLIC_HEADER
         INSTALL_PLUGIN_LIBRARY_DIR
@@ -834,6 +836,7 @@ function(ADD_TARGET)
                 [FEATURES feature1 [feature2 ...]]
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
+                [SOVERSION soversion]
                 [ANDROID_SOURCES_DIR android_source_dir]
                 [INSTALL_PLUGIN_LIBRARY_DIR dir]
                 [INSTALL_EXPORT_NAME configure_file_name]
@@ -970,8 +973,10 @@ function(ADD_TARGET)
             endif()
             if(WITH_LIBRARY_SUFFIX_VERSION)
                 if(NOT PARA_VERSION)
-                    message(AUTHOR_WARNING "The VERSION is ${PARA_VERSION}, When the target(${PARA_NAME}). please set it.")
-                    #get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
+                    get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
+                    if(NOT PARA_VERSION)
+                        message(AUTHOR_WARNING "The VERSION is null, When the target(${PARA_NAME}). please set it the VERSION of ADD_TARGET.")
+                    endif()
                 endif()
                 if(PARA_VERSION_FOUND OR PARA_VERSION)
                     if(CMAKE_BUILD_TYPE)
@@ -1055,12 +1060,24 @@ function(ADD_TARGET)
             )
     endif()
 
-    if(DEFINED PARA_VERSION)
+    if(PARA_VERSION)
         if(NOT WIN32)
             string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
         endif()
+        if(NOT PARA_SOVERSION)
+            string(FIND ${PARA_VERSION} "." _VERSION_MAJOR_POS)
+            string(SUBSTRING ${PARA_VERSION} 0 ${_VERSION_MAJOR_POS} PARA_SOVERSION)
+        endif()
+        string(REPLACE "v" "" PARA_SOVERSION ${PARA_SOVERSION})
         set_target_properties(${PARA_NAME} PROPERTIES
-            VERSION ${PARA_VERSION})
+            VERSION ${PARA_VERSION}
+        )
+    endif()
+
+    if(PARA_SOVERSION)
+        set_target_properties(${PARA_NAME} PROPERTIES
+            SOVERSION ${PARA_SOVERSION}
+        )
     endif()
 
     if(DEFINED PARA_LIBS AND PARA_LIBS)
@@ -1187,6 +1204,7 @@ endfunction()
 #  NAME                    目标名
 #  OUTPUT_DIR              目标生成目录
 #  VERSION                 版本
+#  SOVERSION
 #  ANDROID_SOURCES_DIR     Android 源码文件目录
 #  [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
 #  INCLUDE_DIRS            包含目录
@@ -1221,7 +1239,7 @@ function(ADD_PLUGIN_TARGET)
         PRIVATE_FEATURES        #私有特性
         )
     cmake_parse_arguments(PARA "NO_TRANSLATION"
-        "NAME;OUTPUT_DIR;VERSION;ANDROID_SOURCES_DIR;INSTALL_DIR"
+        "NAME;OUTPUT_DIR;VERSION;SOVERSION;ANDROID_SOURCES_DIR;INSTALL_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -1243,6 +1261,7 @@ function(ADD_PLUGIN_TARGET)
                 [FEATURES feature1 [feature2 ...]]
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
+                [SOVERSION soversion]
                 [ANDROID_SOURCES_DIR android_source_dir]")
         return()
     endif()
