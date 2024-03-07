@@ -27,7 +27,7 @@ namespace RabbitCommon {
  *       |   |- applicationName.conf               GetFileApplicationConfigure()
  *       |- translations                           GetDirTranslations()
  *       |- log                                    GetDirLog()
- *       |- data                                   GetDirData()
+ *       |- share                                  GetDirData()
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -40,7 +40,7 @@ namespace RabbitCommon {
  * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- etc                                    GetDirUserConfig()
- *       |- data                                   GetDirUserData()
+ *       |- share                                  GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  *       |    |- db                                GetDirUserDatabase()
  *       |       |- database.db                    GetDirUserDatabaseFile()
@@ -53,7 +53,7 @@ namespace RabbitCommon {
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetFileApplicationConfigure()
  *       |- translations                           GetDirTranslations()
- *       |- data                                   GetDirData()
+ *       |- share                                  GetDirData()
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -68,14 +68,18 @@ namespace RabbitCommon {
  *       |    |   |- xml                           GetDirApplicationXml(true)
  *       |    |   |- applicationName.conf          GetFileApplicationConfigure(true)
  *       |    |- log                               GetDirLog(true)
- *       |    |- data                              GetDirData(true)
+ *       |    |- share                             GetDirData(true)
  *       |    |   |- db                            GetDirDatabase(true)
  *       |        |- database.db                   GetDirDatabaseFile(true)
  *
  * \endcode
  *
- * NOTE: In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
+ * \note In android, copy contents to DocumentRoot/Rabbit/applicationName from assets
  *
+ * \see
+ * - [GNU installation Directories in cmake](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+ * - [GNU installation Directories](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
+ * 
  * \ingroup API
  */
 class RABBITCOMMON_EXPORT CDir
@@ -89,6 +93,15 @@ public:
     int SetDirApplicationInstallRoot(const QString &szPath);
     QString GetDirConfig(bool bReadOnly = false);
     QString GetDirLog();
+    /*!
+     * Get data directory
+     * \param bReadOnly
+     * \return data directory
+     * \note the data directory is ${CMAKE_INSTALL_DATADIR} in CMakeLists.txt
+     * \see 
+     *   - [GNU installation Directories in cmake](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+     *   - [GNU installation Directories](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
+     */
     QString GetDirData(bool bReadOnly = false);
     QString GetDirDatabase(bool bReadOnly = false);
     QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);

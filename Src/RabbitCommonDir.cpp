@@ -121,17 +121,17 @@ QString CDir::GetDirData(bool bReadOnly)
     Q_UNUSED(bReadOnly);
 #if defined (Q_OS_ANDROID)
     if(bReadOnly)
-        return "assets:/data";
-    szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "data";
+        return "assets:/share";
+    szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "share";
     QDir d;
     if(!d.exists(szPath))
     {
         d.mkpath(szPath);
         //TODO: Copy assets:/etc to here.
-        //CopyDirectory("assets:/data", szPath);
+        //CopyDirectory("assets:/share", szPath);
     }
 #else
-    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "data";
+    szPath = GetDirApplicationInstallRoot() + QDir::separator() + "share";
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);
@@ -205,7 +205,7 @@ QString CDir::GetDirUserConfig()
 
 QString CDir::GetDirUserData()
 {
-    QString szPath = GetDirUserDocument() + QDir::separator() + "data";
+    QString szPath = GetDirUserDocument() + QDir::separator() + "share";
     
     QDir d;
     if(!d.exists(szPath))

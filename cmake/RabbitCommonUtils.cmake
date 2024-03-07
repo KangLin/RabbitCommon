@@ -262,7 +262,7 @@ endfunction()
 # Install QIcon theme
 #   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
-#   DESTINATION: Default is data/icons
+#   DESTINATION: Default is share/icons
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
@@ -271,7 +271,7 @@ function(INSTALL_ICON_THEME)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
     endif()
     if(NOT PARA_DESTINATION)
-        set(PARA_DESTINATION data)
+        set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
@@ -281,7 +281,7 @@ endfunction()
 # Install style files
 #   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
-#   DESTINATION: Default is data/style
+#   DESTINATION: Default is share/style
 # NOTE: If not TARGET, it must be after ADD_TARGET
 option(INSTALL_STYLE_TO_BUILD_PATH "Install style to build path" ON)
 function(INSTALL_STYLE)
@@ -291,7 +291,7 @@ function(INSTALL_STYLE)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/style)
     endif()
     if(NOT PARA_DESTINATION)
-        set(PARA_DESTINATION data)
+        set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
@@ -472,6 +472,7 @@ function(INSTALL_TARGET)
         
         # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
         # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
+        # See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
         # Install target
         if(ANDROID)
             if(NOT DEFINED PARA_RUNTIME)
