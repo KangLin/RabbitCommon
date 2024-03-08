@@ -33,6 +33,7 @@ Abstract:
 #include <QDateTime>
 #include <QCursor>
 #include <QLoggingCategory>
+#include <QApplication>
 
 #ifdef HAVE_CMARK
     #include "cmark.h"
@@ -167,15 +168,25 @@ CDlgAbout::~CDlgAbout()
 
 int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
 {
-    QString szFileLocation;
-    
-    szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
-            + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     QDir d;
+    QString szFileLocation;
+
+    szFileLocation = RabbitCommon::CDir::Instance()->GetDirData()
+                     + QDir::separator() + "doc" + QDir::separator()
+                     + QApplication::applicationName() + QDir::separator()
+                     + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
+    if(!d.exists(szFileLocation))
+        szFileLocation = RabbitCommon::CDir::Instance()->GetDirData()
+                         + QDir::separator() + "doc" + QDir::separator()
+                         + QApplication::applicationName() + QDir::separator()
+                         + szFile + ".md";
+    if(!d.exists(szFileLocation))
+        szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
+            + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     if(!d.exists(szFileLocation))
         szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot()
                 + QDir::separator() + szFile + ".md";
-    
+
     QFile readme(szFileLocation);
     if(readme.open(QFile::ReadOnly))
     {

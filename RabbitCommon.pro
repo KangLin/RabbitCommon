@@ -29,8 +29,8 @@ DISTFILES += Authors.md \
     License.md
 
 other.files = $$DISTFILES
-android: other.path = $$PREFIX/assets
-else: other.path = $$PREFIX
+android: other.path = $$PREFIX/assets/share/doc/RabbitCommon
+else: other.path = $$PREFIX/share/doc/RabbitCommon
 other.CONFIG += directory no_check_exist
 INSTALLS += other
 

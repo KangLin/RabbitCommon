@@ -9,8 +9,9 @@
     Use cmake default output directory
   - other
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-- modify GetDirData() share from data  
+- Modify GetDirData() share from data  
     See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+- Modify ChangeLog.md etc position to ${CMAKE_INSTALL_DOCDIR}
 
 ### Version: v2.0.3
 - Fix: fix footer.html bug

@@ -12,7 +12,8 @@
       LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
 - 修改 GetDirData() share from data  
    See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
-   
+- 修改 ChangeLog.md 等文档存放位置为 ${CMAKE_INSTALL_DOCDIR}
+
 ### 版本： v2.0.3
 - 修复footer.html中链接错误
 

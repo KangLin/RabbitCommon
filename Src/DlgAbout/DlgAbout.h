@@ -39,7 +39,7 @@ class CDlgAbout;
  * \~chinese
  * \brief 关于对话框
  * \details
- *     用户必须安装下列文件到安装根目录：
+ *     用户必须安装下列文件到 ${CMAKE_INSTALL_DOCDIR}
  *     \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
  *     \li License:    License.md or License[_locale].md
  *     \li Authors:    Authors.md or Authors[_locale].md
@@ -50,7 +50,7 @@ class CDlgAbout;
  *
  * \~english
  * \brief About dialog
- * \details User must install the follow file to install root:
+ * \details User must install the follow file to ${CMAKE_INSTALL_DOCDIR}:
  *    \li ChangeLog:  ChangeLog.md or ChangeLog[_locale].md
  *    \li License:    License.md or License[_locale].md
  *    \li Authors:    Authors.md or Authors[_locale].md
@@ -59,6 +59,10 @@ class CDlgAbout;
  *       \li Chines language: ChangeLog_zh_CN.md
  *       \li English language: ChangeLog_en.md
  * \~
+ * \see 
+ *   - [GNU installation Directories in cmake](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+ *   - [GNU installation Directories](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
+ *
  * \ingroup API
  */
 class RABBITCOMMON_EXPORT CDlgAbout : public QDialog
