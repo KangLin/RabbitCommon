@@ -14,7 +14,7 @@
             "name": "rabbitremotecontrol_0.0.26_amd64.deb",
             "urls": [
                 "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb",
-                "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb/download"
+                "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb?viasf=1"
             ]
         },
         {
@@ -24,7 +24,7 @@
             "name": "RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe",
             "urls": [
                 "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe",
-                "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe/download"
+                "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe?viasf=1"
             ]
         }
     ]

@@ -416,10 +416,10 @@ void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
             m_nBytesReceived = bytesReceived;
             emit sigDownloadProgress(m_nBytesReceived, bytesTotal);
         }
-        qDebug(log) << "slotDownloadProgress:"
-                      << m_Url[nIndex] << ";" << file->fileName()
-                      << tr(": downloading %1%").arg(
-                            QString::number(bytesReceived * 100 / bytesTotal));
+        qDebug(log) << tr("Downloading %1% [%2/%3]")
+                       .arg(QString::number(bytesReceived * 100 / bytesTotal))
+         .arg(QString::number(bytesReceived)).arg(QString::number(bytesTotal))
+            << m_Url[nIndex] << file->fileName();
     }
 }
 

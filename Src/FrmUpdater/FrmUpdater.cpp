@@ -301,6 +301,7 @@ void CFrmUpdater::slotCheck()
 void CFrmUpdater::slotDownloadError(int nErr, const QString szError)
 {
     ui->progressBar->hide();
+    ui->progressBar->setRange(0, 100);;
     QString szMsg;
     szMsg = tr("Failed:") + tr("Download file is Failed.");
     if(!szError.isEmpty())
@@ -314,6 +315,7 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 {
     qDebug(log) << "slotDownloadFileFinished:" << szFile;
     ui->progressBar->hide();
+    ui->progressBar->setRange(0, 100);;
     if(m_DownloadFile.isOpen())
         m_DownloadFile.close();
 
@@ -352,14 +354,23 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if(ui->progressBar->isHidden())
+    {
         ui->progressBar->show();
-    ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
+        ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
+    }
+    if(ui->progressBar->maximum() != bytesTotal)
+         ui->progressBar->setRange(0, static_cast<int>(bytesTotal));
+
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
-    if(bytesTotal > 0)
+    if(bytesTotal > 0) {
+        QString szInfo = tr("Downloading %1% [%2/%3]")
+                              .arg(QString::number(bytesReceived * 100 / bytesTotal))
+                              .arg(QString::number(bytesReceived)).arg(QString::number(bytesTotal));
+        //qDebug(log) << szInfo;
         m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName()
-                          + tr(": downloading %1%").arg(
-                            QString::number(bytesReceived * 100 / bytesTotal)));
+                          + ": " + szInfo);
+    }
 }
 // [Process the signals of RabbitCommon::CDownload]
 
@@ -876,6 +887,7 @@ void CFrmUpdater::slotUpdate()
                           + qApp->applicationDisplayName());
     ui->lbState->setText(tr("Being install update ......"));
     ui->progressBar->hide();
+    ui->progressBar->setRange(0, 100);;
     //qDebug(log) << "CFrmUpdater::slotUpdate()";
 
     // Check file md5sum
