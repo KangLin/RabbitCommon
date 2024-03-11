@@ -16,16 +16,18 @@ export DH_VERBOSE = 1
 
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
-PACKAGE_DIR = "debian/package_deb"
 PACKAGE_rabbitcommon_DIR = "debian/rabbitcommon"
 PACKAGE_rabbitcommon_dev_DIR = "debian/rabbitcommon-dev"
 
 %:
 	dh $@
 
-# https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#rules
+# Debian 维护者指南: https://www.debian.org/doc/manuals/debmake-doc/index.zh-cn.html
+# Debian 新维护者手册: https://www.debian.org/doc/manuals/maint-guide/dreq.zh-cn.html#rules
+# See: man debhelper
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
+    # See: man dh_auto_configure and debhelper
 	dh_auto_configure -B$(BUILD_DIR) -- \
             -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=OFF
 
