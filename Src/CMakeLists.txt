@@ -294,15 +294,9 @@ endif(BUILD_ADMINAUTHORISER)
 
 OPTION(INSTALL_LOG_CONFIG_FILE "Install configure files" OFF)
 if(INSTALL_LOG_CONFIG_FILE)
-    if(ANDROID)
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
-            DESTINATION assets/etc
+    INSTALL_FILE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
+        DESTINATION etc
             COMPONENT Runtime)
-    else()
-        INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
-            DESTINATION etc
-            COMPONENT Runtime)
-    endif()
 endif()
     
 if(WIN32)
