@@ -753,6 +753,7 @@ endfunction()
 #    PRIVATE_FEATURES               私有特性
 #    NO_INSTALL_ANDROID_OPENSSL     当是 android 时，不安装 openssl 库
 #    NO_INSTALL                     不安装
+#    INSTALL_RPATH                  INSTALL_RPATH
 #    INSTALL_HEADER_FILES           如果是库，要安装的头文件
 #    INSTALL_PUBLIC_HEADER          头文件安装位置
 #    INSTALL_INCLUDES               导出安装头文件位置
@@ -797,6 +798,7 @@ function(ADD_TARGET)
         OUTPUT_DIR
         VERSION
         SOVERSION
+        INSTALL_RPATH
         ANDROID_SOURCES_DIR
         INSTALL_PUBLIC_HEADER
         INSTALL_PLUGIN_LIBRARY_DIR
@@ -838,6 +840,7 @@ function(ADD_TARGET)
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
                 [SOVERSION soversion]
+                [INSTALL_RPATH install_rpath]
                 [ANDROID_SOURCES_DIR android_source_dir]
                 [INSTALL_PLUGIN_LIBRARY_DIR dir]
                 [INSTALL_EXPORT_NAME configure_file_name]
@@ -921,7 +924,7 @@ function(ADD_TARGET)
                 COMMAND_EXPAND_LISTS
                 VERBATIM)
 
-        else()
+        else() # NO ANDROID
             if(PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
             endif()
@@ -945,11 +948,8 @@ function(ADD_TARGET)
             endif()
 
             if(WIN32)
-                if(QT_VERSION_MAJOR VERSION_EQUAL 6)
-                    set_target_properties(${PARA_NAME} PROPERTIES
-                        WIN32_EXECUTABLE TRUE
-                    )
-                endif()
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    WIN32_EXECUTABLE TRUE)
             endif()
 
         endif()
@@ -1029,6 +1029,24 @@ function(ADD_TARGET)
         endif()
 
     endif(PARA_ISEXE)
+
+    if(NOT PARA_INSTALL_RPATH)
+        # setup rpath to where binary is at.
+        if(APPLE)
+            SET(PARA_INSTALL_RPATH
+                "lib:../lib:../lib/${CMAKE_LIBRARY_ARCHITECTURE}:@executable_path:@executable_path/../lib:@executable_path/../lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+        else()
+            SET(PARA_INSTALL_RPATH
+                "$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib/${CMAKE_LIBRARY_ARCHITECTURE}:lib:../lib:../lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+        endif()
+    endif()
+    # setup rpath to where binary is at.
+    SET_TARGET_PROPERTIES(${PARA_NAME}
+        PROPERTIES INSTALL_RPATH
+            ${PARA_INSTALL_RPATH})
+    #set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+    # 使用构建时的链接路径作为安装后的RPATH
+    #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
     if(DEFINED PARA_OUTPUT_DIR)
         set_target_properties(${PARA_NAME} PROPERTIES
@@ -1206,6 +1224,7 @@ endfunction()
 #  OUTPUT_DIR              目标生成目录
 #  VERSION                 版本
 #  SOVERSION
+#  INSTALL_RPATH
 #  ANDROID_SOURCES_DIR     Android 源码文件目录
 #  [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
 #  INCLUDE_DIRS            包含目录
@@ -1240,7 +1259,7 @@ function(ADD_PLUGIN_TARGET)
         PRIVATE_FEATURES        #私有特性
         )
     cmake_parse_arguments(PARA "NO_TRANSLATION"
-        "NAME;OUTPUT_DIR;VERSION;SOVERSION;ANDROID_SOURCES_DIR;INSTALL_DIR"
+        "NAME;OUTPUT_DIR;VERSION;SOVERSION;INSTALL_RPATH;ANDROID_SOURCES_DIR;INSTALL_DIR"
         "${MUT_PARAS}"
         ${ARGN})
     if(NOT DEFINED PARA_SOURCE_FILES)
@@ -1263,6 +1282,7 @@ function(ADD_PLUGIN_TARGET)
                 [PRIVATE_FEATURES feature1 [feature2 ...]]
                 [VERSION version]
                 [SOVERSION soversion]
+                [INSTALL_RPATH install_rpath]
                 [ANDROID_SOURCES_DIR android_source_dir]")
         return()
     endif()
@@ -1283,6 +1303,7 @@ function(ADD_PLUGIN_TARGET)
         ${PARA_NO_TRANSLATION}
         OUTPUT_DIR ${PARA_OUTPUT_DIR}
         VERSION ${PARA_VERSION}
+        INSTALL_RPATH ${PARA_INSTALL_RPATH}
         ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
         SOURCE_FILES ${PARA_SOURCE_FILES}
         LIBS ${PARA_LIBS}

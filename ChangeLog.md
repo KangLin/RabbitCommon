@@ -12,6 +12,8 @@
 - Modify GetDirData() share from data  
     See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
 - Modify ChangeLog.md etc position to ${CMAKE_INSTALL_DOCDIR}
+- RabbitCommonUtils: Add INSTALL_RPATH  
+  FIX: 7 in https://github.com/KangLin/RabbitRemoteControl/issues/20
 
 ### Version: v2.0.3
 - Fix: fix footer.html bug
