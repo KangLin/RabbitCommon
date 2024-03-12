@@ -19,6 +19,8 @@ private Q_SLOTS:
     void testDownloadFileNoExistLocalFile();
     void testDownloadFileExistLocalFile();
 
+    void testCFrmUpdaterCompareVersion();
+
     void test_os();
     void test_architecture();
     void test_joson();

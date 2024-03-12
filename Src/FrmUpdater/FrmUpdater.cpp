@@ -1107,43 +1107,40 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
 {
     int nRet = 0;
     QString sN = newVersion;
-    sN = sN.replace("-", ".");
     QString sC = currentVersion;
+    
+    if(sN.isEmpty() || sC.isEmpty())
+        return sN.length() - sC.length();
+
+    sN = sN.replace("-", ".");
     sC = sC.replace("-", ".");
+
     QStringList szNew = sN.split(".");
     QStringList szCur = sC.split(".");
+
+    int count = qMin(szNew.length(), szCur.length());
+    qDebug(log) << "count:" << count;
+
+    if(count < 1)
+        return szNew.length() - szCur.length();
+
     QString firstNew = szNew.at(0);
     QString firstCur = szCur.at(0);
     firstNew = firstNew.remove(QChar('v'), Qt::CaseInsensitive);
     firstCur = firstCur.remove(QChar('v'), Qt::CaseInsensitive);
-    if(firstNew.toInt() > firstCur.toInt())
-        return 1;
-    else if(firstNew.toInt() < firstCur.toInt()){
-        return -1;
-    }
-    if(szNew.at(1).toInt() > szCur.at(1).toInt())
-        return 1;
-    else if(szNew.at(1).toInt() < szCur.at(1).toInt()){
-        return -1;
-    }
-    if(szNew.at(2).toInt() > szCur.at(2).toInt())
-        return 1;
-    else if(szNew.at(2).toInt() < szCur.at(2).toInt()){
-        return -1;
-    }
-    if(szNew.length() >=4 && szCur.length() < 4)
-        return 1;
-    else if(szNew.length() < 4 && szCur.length() >= 4)
-        return -1;
-    else if(szNew.length() >= 4 && szCur.length() >= 4)
-    {
-        if(szNew.at(3).toInt() > szCur.at(3).toInt())
-            return 1;
-        else if(szNew.at(3).toInt() < szCur.at(3).toInt()){
-            return -1;
-        }
-    }
-    return nRet;
+    nRet = firstNew.toInt() - firstCur.toInt();
+    if(nRet)
+        return nRet;
+
+    if(count < 2)
+        return sN.length() - sC.length();
+    nRet = szNew.at(1).toInt() - szCur.at(1).toInt();
+    if(nRet)
+        return nRet;
+
+    if(count < 3)
+        return sN.length() - sC.length();
+    return szNew.at(2).toInt() - szCur.at(2).toInt();
 }
 
 /*!

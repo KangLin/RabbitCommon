@@ -63,6 +63,34 @@ void CUnitTests::testDownloadFileExistLocalFile()
     QTest::qWait(100);
 }
 
+void CUnitTests::testCFrmUpdaterCompareVersion()
+{
+    CFrmUpdater updater;
+    
+    QVERIFY(updater.CompareVersion("", "v0.0.21") < 0);
+    QVERIFY(updater.CompareVersion("", "") == 0);
+    QVERIFY(updater.CompareVersion("v0.0.21", "") > 0);
+    
+    QVERIFY(updater.CompareVersion("v0.1.20", "v1.0") < 0);
+    QVERIFY(updater.CompareVersion("v1.0", "v1.0") == 0);
+    QVERIFY(updater.CompareVersion("v1.0", "v0.0.19") > 0);
+    
+    QVERIFY(updater.CompareVersion("v0.0.20", "v0.1") < 0);
+    QVERIFY(updater.CompareVersion("v0.1", "v0.1") == 0);
+    QVERIFY(updater.CompareVersion("v0.1", "v0.0.19") > 0);
+    
+    QVERIFY(updater.CompareVersion("v0.0.20", "v0.0.21") < 0);
+    QVERIFY(updater.CompareVersion("v0.0.20", "v0.0.20") == 0);
+    QVERIFY(updater.CompareVersion("v0.0.20", "v0.0.19") > 0);
+    
+    QVERIFY(updater.CompareVersion("v0.0.20-a", "v0.0.21-b") < 0);
+    QVERIFY(updater.CompareVersion("v0.0.20-d", "v0.0.20-c") == 0);
+    QVERIFY(updater.CompareVersion("v0.0.20-f", "v0.0.19-w") > 0);
+    
+    QVERIFY(updater.CompareVersion("va.b.20-f", "vc.0.19-w") > 0);
+    
+}
+
 void CUnitTests::test_os()
 {
     QString szOS = QSysInfo::productType();
