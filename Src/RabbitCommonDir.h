@@ -67,7 +67,7 @@ namespace RabbitCommon {
  *       |    |- etc                               GetDirConfig(true)
  *       |    |   |- xml                           GetDirApplicationXml(true)
  *       |    |   |- applicationName.conf          GetFileApplicationConfigure(true)
- *       |    |- log                               GetDirLog(true)
+ *       |    |- log                               GetDirLog()
  *       |    |- share                             GetDirData(true)
  *       |    |   |- db                            GetDirDatabase(true)
  *       |        |- database.db                   GetDirDatabaseFile(true)

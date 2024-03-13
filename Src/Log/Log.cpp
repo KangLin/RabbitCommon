@@ -63,18 +63,21 @@ CLog::CLog() : QObject(),
     QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
             + QDir::separator() + qApp->applicationName() + "_logqt.ini";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
+    if(!QFile::exists(szConfFile))
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+                     + QDir::separator() + "logqt.in";
     if (QFile::exists(szConfFile))
     {
         m_szConfigureFile = szConfFile;
         qInfo(Logger) << "Load log configure file:" << m_szConfigureFile;
-        QSettings set(m_szConfigureFile, QSettings::IniFormat);
-        set.beginGroup("Log");
-        m_szPath = set.value("Path", m_szPath).toString();
-        m_szFileFormat = set.value("Name", m_szFileFormat).toString();
-        szPattern = set.value("Pattern", szPattern).toString();
-        nInterval = set.value("Interval", nInterval).toUInt();
-        m_nCount = set.value("Count", 0).toULongLong();
-        QString szLength = set.value("Length", 0).toString();
+        QSettings setConfig(m_szConfigureFile, QSettings::IniFormat);
+        setConfig.beginGroup("Log");
+        m_szPath = setConfig.value("Path", m_szPath).toString();
+        m_szFileFormat = setConfig.value("Name", m_szFileFormat).toString();
+        szPattern = setConfig.value("Pattern", szPattern).toString();
+        nInterval = setConfig.value("Interval", nInterval).toUInt();
+        m_nCount = setConfig.value("Count", 0).toULongLong();
+        QString szLength = setConfig.value("Length", 0).toString();
         if(!szLength.isEmpty()) {
             QRegularExpression e("(\\d+)([mkg]?)",
                                  QRegularExpression::CaseInsensitiveOption);
@@ -97,17 +100,17 @@ CLog::CLog() : QObject(),
                 m_nLength = len;
             }
         }
-        set.endGroup();
+        setConfig.endGroup();
 
-        set.beginGroup("Rules");
-        auto keys = set.childKeys();
+        setConfig.beginGroup("Rules");
+        auto keys = setConfig.childKeys();
         //qDebug(Logger) << "keys" << keys;
         szFilterRules.clear();
         foreach(auto k, keys) {
-            QString v = set.value(k).toString();
+            QString v = setConfig.value(k).toString();
             szFilterRules += k + "=" + v + "\n";
         }
-        set.endGroup();
+        setConfig.endGroup();
     } else {
         qWarning(Logger) << "Log configure file is not exist:" << szConfFile
                          << ". Use default settings.";
