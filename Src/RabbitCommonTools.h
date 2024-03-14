@@ -110,6 +110,7 @@ public:
 
     //! RabbitCommon version
     static QString Version();
+    //! RabbitCommon information
     static QString Information();
 
     /*!

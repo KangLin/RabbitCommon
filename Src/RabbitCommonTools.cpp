@@ -131,14 +131,13 @@ QString CTools::Version()
     if(szRevision.isEmpty()) {
         szReturn = QObject::tr("Version: ") + szVersion;
     } else {
-        szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: ")
+        szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: "); 
 #if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
-                   + "<a href=\"http://github.com/KangLin/RabbitCommon/tree/" + szRevision + "\">"
-                   + szRevision + "</a>"
+            szReturn += "[" + szRevision + "](http://github.com/KangLin/RabbitCommon/tree/" + szRevision + ")";
 #else
-                   + szRevision
+            szReturn += szRevision;
 #endif
-                   + ") ";
+        szReturn += ") ";
     }
     return szReturn;
 }

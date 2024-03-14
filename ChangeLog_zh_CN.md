@@ -16,6 +16,7 @@
 - RabbitCommonUtils: 使用 INSTALL_RPATH  
   修复: 7 in https://github.com/KangLin/RabbitRemoteControl/issues/20
 - 修复 CFrmUpdater::CompareVersion 错误
+- 修改 CTools::Version()
 
 ### 版本： v2.0.3
 - 修复footer.html中链接错误

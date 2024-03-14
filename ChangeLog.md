@@ -15,6 +15,7 @@
 - RabbitCommonUtils: Add INSTALL_RPATH  
   FIX: 7 in https://github.com/KangLin/RabbitRemoteControl/issues/20
 - Update: fix CFrmUpdater::CompareVersion bug
+- Modify CTools::Version()
 
 ### Version: v2.0.3
 - Fix: fix footer.html bug

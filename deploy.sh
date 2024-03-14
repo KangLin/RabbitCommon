@@ -33,8 +33,6 @@ fi
 
 sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
 sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
-sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/ci/build.sh
-sed -i "s/^version: '.*{build}'/version: '${VERSION}.{build}'/g" ${SOURCE_DIR}/appveyor.yml
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
 sed -i "s/          \"version\":[[:blank:]]*\"v\?[0-9]\+\.[0-9]\+\.[0-9]\+\"/          \"version\":\"${VERSION}\"/g" ${SOURCE_DIR}/Update/update.json
@@ -59,8 +57,9 @@ sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/README*.m
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${DEBIAN_VERSION}/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${DEBIAN_VERSION}/g" ${SOURCE_DIR}/.github/workflows/qmake.yml
 if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
-    sed -i "s/\"version-string\":[0-9]\+\.[0-9]\+\.[0-9]\+\".*\"/\"version-string\":\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/vcpkg.json
+    sed -i "s/  \"version-string\":.*\"[0-9]\+\.[0-9]\+\.[0-9]\+\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg.json
 fi
+
 
 CHANGLOG_TMP=${SOURCE_DIR}/debian/changelog.tmp
 CHANGLOG_FILE=${SOURCE_DIR}/debian/changelog
