@@ -4,7 +4,6 @@
 
 作者：康林（kl222@126.com)
 
-[![Windows 编译状态](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
 [![master 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 [![develop 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 

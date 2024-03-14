@@ -4,7 +4,6 @@
 
 Author：Kang Lin（kl222@126.com)
 
-[![Windows status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
 [![master status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 [![develop status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 
