@@ -16,17 +16,6 @@ isEmpty(RabbitCommon_VERSION): error("Please set RabbitCommon_VERSION")
 win32: DEFINES *= WINDOWS
 mingw: DEFINES *= MINGW
 unix: DEFINES *= UNIX
-android{
-    DEFINES += BUILD_ARCH=\"\\\"$${ANDROID_TARGET_ARCH}\\\"\"
-} else: win32 {
-    contains(QMAKE_TARGET.arch, x86_64) {
-        DEFINES += BUILD_ARCH=\"\\\"x86_64\\\"\"
-    } else {
-        DEFINES += BUILD_ARCH=\"\\\"x86\\\"\"
-    }
-} else {
-    DEFINES += BUILD_ARCH=\"\\\"$$system(uname -p)\\\"\"
-}
 CONFIG(debug, debug|release): DEFINES *= _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
 
