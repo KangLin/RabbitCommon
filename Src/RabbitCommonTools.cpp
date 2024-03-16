@@ -10,14 +10,16 @@
 #include "Log/Log.h"
 
 #include <QSettings>
+
 #ifdef HAVE_RABBITCOMMON_GUI
-#include <QApplication>
-#include <QIcon>
-#include <QMainWindow>
-#include "Style.h"
+    #include <QIcon>
+    #include <QMainWindow>
+    #include "Style.h"
+    #include <QApplication>
 #else
-#include <QCoreApplication>
+    #include <QCoreApplication>
 #endif
+
 #include <QLocale>
 #include <QDir>
 #include <QStandardPaths>
@@ -284,7 +286,7 @@ void CTools::InitTranslator(const QString szLanguage)
     m_bTranslator = m_Translator.load(szFile);
     if(m_bTranslator)
     {
-        m_bTranslator = qApp->installTranslator(&m_Translator);
+        m_bTranslator = QCoreApplication::installTranslator(&m_Translator);
         if(m_bTranslator)
             qDebug(log) << "Install translator:" << szFile;
         else
@@ -298,7 +300,7 @@ void CTools::InitTranslator(const QString szLanguage)
     m_bTranslatorQt = m_TranslatorQt.load(szFile);
     if(m_bTranslatorQt)
     {
-        m_bTranslatorQt = qApp->installTranslator(&m_TranslatorQt);
+        m_bTranslatorQt = QCoreApplication::installTranslator(&m_TranslatorQt);
         if(m_bTranslatorQt)
             qDebug(log) << "Install qt translator:" << szFile;
         else
@@ -309,9 +311,9 @@ void CTools::InitTranslator(const QString szLanguage)
 
 void CTools::CleanTranslator()
 {
-    qApp->removeTranslator(&m_TranslatorQt);
+    QCoreApplication::removeTranslator(&m_TranslatorQt);
     if(m_bTranslator)
-        qApp->removeTranslator(&m_Translator);
+        QCoreApplication::removeTranslator(&m_Translator);
 }
 
 void CTools::InitResource()
@@ -351,9 +353,8 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     Q_UNUSED(bAllUser)
     
     QString appPath;
-#ifdef HAVE_RABBITCOMMON_GUI
-    appPath = QApplication::applicationFilePath();
-#endif
+    appPath = QCoreApplication::applicationFilePath();
+
     if(!szPath.isEmpty())
         appPath = szPath;
     if(appPath.isEmpty())
@@ -443,17 +444,17 @@ int CTools::GenerateDesktopFile(const QString &szPath,
 
     QString szContent;
     szContent = "[Desktop Entry]\n";
-    szContent += "Name=" + qApp->applicationName() + "\n";
-    szContent += "Comment=" + qApp->applicationName() + "\n";
+    szContent += "Name=" + QCoreApplication::applicationName() + "\n";
+    szContent += "Comment=" + QCoreApplication::applicationName() + "\n";
 #ifdef HAVE_RABBITCOMMON_GUI
-    szContent += "Name[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
-    szContent += "Comment[" + QLocale::system().name() + "]=" + qApp->applicationDisplayName() + "\n";
+    szContent += "Name[" + QLocale::system().name() + "]=" + QApplication::applicationDisplayName() + "\n";
+    szContent += "Comment[" + QLocale::system().name() + "]=" + QApplication::applicationDisplayName() + "\n";
 #else
-    szContent += "Name[" + QLocale::system().name() + "]=" + qApp->applicationName() + "\n";
-    szContent += "Comment[" + QLocale::system().name() + "]=" + qApp->applicationName() + "\n";
+    szContent += "Name[" + QLocale::system().name() + "]=" + QCoreApplication::applicationName() + "\n";
+    szContent += "Comment[" + QLocale::system().name() + "]=" + QCoreApplication::applicationName() + "\n";
 #endif
-    szContent += "Icon=" + qApp->applicationName() + "\n";
-    szContent += "Exec=" + qApp->applicationFilePath() + "\n";
+    szContent += "Icon=" + QCoreApplication::applicationName() + "\n";
+    szContent += "Exec=" + QCoreApplication::applicationFilePath() + "\n";
     szContent += "Categories=Application;Development;\n";
     szContent += "Terminal=false\n";
     szContent += "StartupNotify=true\n";

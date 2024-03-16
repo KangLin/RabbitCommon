@@ -47,8 +47,8 @@
         
 #        QTranslator translator;
 #        translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-#                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
-#        qApp->installTranslator(&translator);
+#                   + "/" + QCoreApplication::applicationName() + "_" + QLocale::system().name() + ".qm");
+#        QCoreApplication::installTranslator(&translator);
 
 #  - 增加目标依赖（可选，如果设置了 ALL 参数，则可以不需要）： 
 
@@ -73,11 +73,11 @@
 #        // 安装翻译
 #        QTranslator translator;
 #        translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-#                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
-#        qApp->installTranslator(&translator);
+#                   + "/" + QCoreApplication::applicationName() + "_" + QLocale::system().name() + ".qm");
+#        QCoreApplication::installTranslator(&translator);
 
 #        //结束时释放翻译资源
-#        qApp->removeTranslator(&translator)
+#        QCoreApplication::removeTranslator(&translator)
 
 #  - 完整的例子：
 #    + CMakeLists.txt
@@ -106,13 +106,13 @@
 #        // 安装翻译对象
 #        QTranslator translator;
 #        translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-#                   + "/" + qApp->applicationName() + "_" + QLocale::system().name() + ".qm");
-#        qApp->installTranslator(&translator);
+#                   + "/" + QCoreApplication::applicationName() + "_" + QLocale::system().name() + ".qm");
+#        QCoreApplication::installTranslator(&translator);
 
 #        ......
 
 #        //结束时释放翻译资源
-#        qApp->removeTranslator(&translator)
+#        QCoreApplication::removeTranslator(&translator)
 #        #if defined (_DEBUG) || defined (DEBUG)
 #           Q_CLEANUP_RESOURCE(translations_${PROJECT_NAME});
 #        #endif
