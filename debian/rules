@@ -27,12 +27,12 @@ PACKAGE_rabbitcommon_dev_DIR = "debian/rabbitcommon-dev"
 # See: man debhelper
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
-    # See: man dh_auto_configure and debhelper
+	# See: man dh_auto_configure and debhelper
 	dh_auto_configure -B$(BUILD_DIR) -- \
             -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=OFF
 
 override_dh_auto_build:
-	cmake  --build $(BUILD_DIR) --config Release
+	cmake  --build $(BUILD_DIR) --config Release --parallel
 
 override_dh_auto_install:
 	cmake --install $(BUILD_DIR) --config Release --component Runtime --prefix $(PACKAGE_rabbitcommon_DIR)/usr
