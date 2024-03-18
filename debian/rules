@@ -36,8 +36,10 @@ override_dh_auto_build:
 		--parallel $(if "`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`", `cat /proc/cpuinfo |grep 'cpu cores' |wc -l`, 1)
 
 override_dh_auto_install:
-	cmake --install $(BUILD_DIR) --config Release --component Runtime --prefix $(PACKAGE_DIR)/usr
-	cmake --install $(BUILD_DIR) --config Release --component Development --prefix $(PACKAGE_dev_DIR)/usr
+	cmake --install $(BUILD_DIR) --config Release \
+		--component Runtime --prefix $(PACKAGE_DIR)/usr
+	cmake --install $(BUILD_DIR) --config Release \
+		--component Development --prefix $(PACKAGE_dev_DIR)/usr
 
 override_dh_builddeb:
 	dh_builddeb --package=rabbitcommon -P$(PACKAGE_DIR)

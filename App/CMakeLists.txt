@@ -37,11 +37,11 @@ endif()
 
 if(NOT ANDROID AND UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
-        DESTINATION "share/applications" COMPONENT Runtime)
+        DESTINATION "share/applications" COMPONENT Application)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
-        DESTINATION "share/pixmaps" COMPONENT Runtime)
+        DESTINATION "share/pixmaps" COMPONENT Application)
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonApp.sh
-        DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
+        DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Application)
 endif()
 
 set(OTHER_FILES
@@ -55,4 +55,4 @@ set(OTHER_FILES
 # Install other files
 INSTALL_FILE(SOURCES ${OTHER_FILES}
     DESTINATION ${CMAKE_INSTALL_DOCDIR}
-        COMPONENT Runtime)
+        COMPONENT Application)
