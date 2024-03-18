@@ -92,6 +92,13 @@ int CDownload::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
             return -2;
         }
         file = m_DownloadFile.at(nIndex);
+        if(!file)
+        {
+            m_szError = "file is null. index: "
+                        + QString::number(nIndex);
+            qCritical(log) << m_szError;
+            return -1;
+        }
     } else {
         if(nIndex < m_DownloadFile.size())
         {
@@ -128,6 +135,13 @@ int CDownload::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
         }
         file->setFileName(szFile);
         m_DownloadFile.insert(nIndex, file);
+    }
+    
+    if(!file)
+    {
+        m_szError = "file is null. index:" + QString::number(nIndex) ;
+        qCritical(log) << m_szError;
+        return -1;
     }
 
     qInfo(log) << "Download file:"
@@ -315,8 +329,8 @@ void CDownload::slotError(QNetworkReply::NetworkError e)
     }
     if(!file)
     {
-        qCritical(log) << "Network error: The file isn't exits."
-                         << file->fileName();
+        qCritical(log) << "Network error: The file is null. index: "
+                              + QString::number(nIndex);
         return;
     }
     file->close();
@@ -365,7 +379,8 @@ void CDownload::slotSslError(const QList<QSslError> e)
     }
     if(!file)
     {
-        qCritical(log) << "ssl error: The file isn't exits." << file->fileName();
+        qCritical(log) << "ssl error: The file null. index:"
+                              + QString::number(nIndex);
         return;
     }
     file->close();
@@ -394,6 +409,11 @@ void CDownload::slotSslError(const QList<QSslError> e)
 void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
+    if(!pReply)
+    {
+        qCritical(log) << "slotDownloadProgress: Teh sender is not reply";
+        return;
+    }
     if(m_Reply.find(pReply) == m_Reply.end())
     {
         qCritical(log) << "slotDownloadProgress: The reply isn't exits"
@@ -404,8 +424,8 @@ void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(!file)
     {
-        qCritical(log) << "slotDownloadProgress: The file isn't exits."
-                         << file->fileName();
+        qCritical(log) << "slotDownloadProgress: The file null. index: "
+                              + QString::number(nIndex);
         return;
     }
 
