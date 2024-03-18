@@ -1,7 +1,8 @@
 ### Version v2.2.0
-- CTools add interfaces:
-  - InstallTranslator
-- Add CDir::GetDirDocument
+- Add interfaces:
+  - CTools::InstallTranslator
+  - CTools::RemoveTranslator
+  - CDir::GetDirDocument
 
 ### Version: v2.1.0
 - Fix: CMake: fix the shared library symlinks bug. #1  

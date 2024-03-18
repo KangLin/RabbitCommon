@@ -89,9 +89,9 @@ inline void g_RabbitCommon_CleanResource()
 namespace RabbitCommon {
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Tools")
+static Q_LOGGING_CATEGORY(logTranslation, "RabbitCommon.Tools.Translation")
 
-CTools::CTools() : m_bTranslator(false),
-    m_bTranslatorQt(false),
+CTools::CTools() : 
     m_Initialized(false)
 {   
 }
@@ -262,10 +262,39 @@ void CTools::Init(const QString szLanguage)
                 << "android.permission.ACCESS_NETWORK_STATE"
                 << "android.permission.CHANGE_NETWORK_STATE";
     AndroidRequestPermission(permissions);
-    SetLanguage(szLanguage);
     RabbitCommon::CLog::Instance();
+    SetLanguage(szLanguage);
+    qInfo(logTranslation) << "Language:" << szLanguage;
     InitResource();
-    InitTranslator(szLanguage);
+    InstallTranslator("RabbitCommon", TranslationType::Library, szLanguage);
+    //Init qt translation
+    QString szQtTranslationPath;
+#if defined(Q_OS_LINUX)
+    szQtTranslationPath = "/usr/share/qt"
+                          + QString::number(QT_VERSION_MAJOR)
+                          + QDir::separator() + "translations";
+    QDir d(szQtTranslationPath);
+    if(!d.exists())
+    {
+        szQtTranslationPath = CDir::Instance()->GetDirApplication()
+                              + QDir::separator() + "translations";
+    }
+#else
+    szQtTranslationPath = CDir::Instance()->GetDirApplication()
+                          + QDir::separator() + "translations";
+#endif
+    QStringList qtTranslations;
+    qtTranslations << "qt" << "qtbase" << "qtmultimedia" << "qtwebengine"
+                   << "qtlocation";
+    foreach(auto f, qtTranslations) {
+        QString szFile = szQtTranslationPath + QDir::separator()
+                 + f + "_" + szLanguage + ".qm";
+        QFile file(szFile);
+        if(file.exists())
+            InstallTranslatorFile(szFile);
+        else
+            qWarning(logTranslation) << "The file isn't exists:" << szFile;
+    }
     
 #ifdef HAVE_RABBITCOMMON_GUI
     CStyle::Instance()->LoadStyle();
@@ -274,46 +303,104 @@ void CTools::Init(const QString szLanguage)
 
 void CTools::Clean()
 {
-    CleanTranslator();
+    foreach(auto t, m_Translator) {
+        QCoreApplication::removeTranslator(t.data());
+    }
     CleanResource();
 }
 
-void CTools::InitTranslator(const QString szLanguage)
+QSharedPointer<QTranslator> CTools::InstallTranslatorFile(const QString szFile)
 {
-    qInfo(log) << "Language:" << szLanguage;
-    QString szFile = CDir::Instance()->GetDirTranslations()
-            + "/RabbitCommon_" + szLanguage + ".qm";
-    m_bTranslator = m_Translator.load(szFile);
-    if(m_bTranslator)
+    QSharedPointer<QTranslator> translator
+        = QSharedPointer<QTranslator>(new QTranslator());
+    if(!translator) {
+        qCritical(logTranslation) << "new QTranslator fail";
+        return translator;
+    }
+    bool bRet = translator->load(szFile);
+    if(bRet)
     {
-        m_bTranslator = QCoreApplication::installTranslator(&m_Translator);
-        if(m_bTranslator)
-            qDebug(log) << "Install translator:" << szFile;
-        else
-            qCritical(log) << "Install translator fail:" << szFile;
+        bRet = QCoreApplication::installTranslator(translator.data());
+        if(bRet)
+        {
+            m_Translator.push_back(translator);
+            qDebug(logTranslation) << "Install translator:" << szFile;
+            return translator;
+        }
+        else {
+            qCritical(logTranslation) << "Install translator fail:" << szFile;
+        }
     } else
-        qCritical(log) << "Load translator file fail:" << szFile;
-
-    szFile = CDir::Instance()->GetDirApplication()
-            + QDir::separator() + "translations"
-            + QDir::separator() + "qt_" + szLanguage + ".qm";
-    m_bTranslatorQt = m_TranslatorQt.load(szFile);
-    if(m_bTranslatorQt)
-    {
-        m_bTranslatorQt = QCoreApplication::installTranslator(&m_TranslatorQt);
-        if(m_bTranslatorQt)
-            qDebug(log) << "Install qt translator:" << szFile;
-        else
-            qCritical(log) << "Install qt translator fail:" << szFile;
-    } else
-        qCritical(log) << "Load qt translator file fail:" << szFile;
+        qCritical(logTranslation) << "Load translator file fail:" << szFile;
+    return QSharedPointer<QTranslator>();
 }
 
-void CTools::CleanTranslator()
+QSharedPointer<QTranslator> CTools::InstallTranslator(
+    const QString szName,
+    TranslationType type,
+    const QString szPluginDir,
+    const QString szLanguage)
 {
-    QCoreApplication::removeTranslator(&m_TranslatorQt);
-    if(m_bTranslator)
-        QCoreApplication::removeTranslator(&m_Translator);
+    QString szTranslationName = szName;
+
+    QString szSuffix;
+    QString szPath;
+    szSuffix = QDir::separator() + szTranslationName + "_" + szLanguage + ".qm";
+    switch(type) {
+    case TranslationType::Application:
+        szPath = CDir::Instance()->GetDirTranslations();
+        if(szTranslationName.isEmpty())
+            szTranslationName = QCoreApplication::applicationName();
+        break;
+    case TranslationType::Library: {
+        szPath = CDir::Instance()->GetDirTranslations();
+        if(szTranslationName.isEmpty()) {
+            qCritical(logTranslation) << "Please set translation name";
+            Q_ASSERT(false);
+        }
+#if defined(Q_OS_LINUX)
+        QFile file(szPath + szSuffix);
+        if(!file.exists()) {
+            szPath = CDir::Instance()->GetDirTranslations("/usr/share/");
+        }
+        file.setFileName(szPath + szSuffix);
+        if(!file.exists()) {
+            szPath = CDir::Instance()->GetDirTranslations(
+                "/usr/local/share/");
+        }
+#endif
+        break;
+    }
+    case TranslationType::Plugin:
+        szPath = CDir::Instance()->GetDirPluginsTranslation(szPluginDir);
+        if(szTranslationName.isEmpty()) {
+            qCritical(logTranslation) << "Please set translation name";
+            Q_ASSERT(false);
+        }
+        break;
+    }
+
+    QString szFile = szPath + szSuffix;
+    QFile file(szFile);
+    if(!file.exists())
+    {
+        qCritical(logTranslation) << "File isn't exit:" << szFile;
+        return QSharedPointer<QTranslator>();
+    }
+
+    return InstallTranslatorFile(szFile);
+}
+
+int CTools::RemoveTranslator(QSharedPointer<QTranslator> translator)
+{
+    foreach(auto t, m_Translator) {
+        if(t == translator) {
+            QCoreApplication::removeTranslator(t.data());
+            m_Translator.removeAll(t);
+            return 0;
+        }
+    }
+    return -1;
 }
 
 void CTools::InitResource()

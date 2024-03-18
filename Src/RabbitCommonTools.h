@@ -16,6 +16,7 @@
 #include <QTranslator>
 #include "rabbitcommon_export.h"
 #include <QLocale>
+#include <QSharedPointer>
 
 #ifdef HAVE_RABBITCOMMON_GUI
     #include <QMenu>
@@ -107,6 +108,27 @@ public:
     
     int SetLanguage(const QString szLanguage);
     QString GetLanguage();
+    
+    enum class TranslationType {
+        Application,
+        Library,
+        Plugin
+    };
+    /*!
+     * \brief Install translation
+     * \param szName: translation name
+     * \param szLanguage: language
+     * \param type: TranslationType
+     * \param szPluginDir: plugin directory
+     * \return QSharedPointer<QTranslator>
+     * \see CDir::GetDirTranslations cmake/Translations.cmake
+     */
+    QSharedPointer<QTranslator> InstallTranslator(
+        const QString szName = QString(),
+        TranslationType type = TranslationType::Application,
+        const QString szPluginDir = "plugins",
+        const QString szLanguage = QLocale::system().name());
+    int RemoveTranslator(QSharedPointer<QTranslator> translator);
 
     //! RabbitCommon version
     static QString Version();
@@ -214,13 +236,11 @@ private:
     CTools();
     virtual ~CTools();
 
-    void InitTranslator(const QString szLanguage = QLocale::system().name());
-    void CleanTranslator();
     void InitResource();
     void CleanResource();
     
-    QTranslator m_Translator, m_TranslatorQt;
-    bool m_bTranslator, m_bTranslatorQt;
+    QSharedPointer<QTranslator> InstallTranslatorFile(const QString szFile);
+    QVector<QSharedPointer<QTranslator> > m_Translator;
     
     QString m_szLanguage;
     bool m_Initialized;

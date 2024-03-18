@@ -1,7 +1,8 @@
 ### 版本： v2.2.0
-- CTools 增加接口：
-  - InstallTranslator
-- 增加 CDir::GetDirDocument
+- 增加接口：
+  - CTools::InstallTranslator
+  - CTools::RemoveTranslator
+  - CDir::GetDirDocument
 
 ### 版本： v2.1.0
 - 修复 linux 下动态库接错误 #1  

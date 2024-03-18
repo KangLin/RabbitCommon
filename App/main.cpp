@@ -36,14 +36,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("RabbitCommon");
 
     RabbitCommon::CTools::Instance()->Init();
-
-    QString qm = RabbitCommon::CDir::Instance()->GetDirTranslations()
-            + "/RabbitCommonApp_" + QLocale::system().name() + ".qm";
-    QTranslator tApp;
-    if(tApp.load(qm))
-        a.installTranslator(&tApp);
-    else
-        qDebug(log()) << "Load translations fail:" << qm;
+    RabbitCommon::CTools::Instance()->InstallTranslator("RabbitCommonApp");
 
     qDebug(log) << "GetDirApplication:"
                     << RabbitCommon::CDir::Instance()->GetDirApplication();
@@ -54,7 +47,7 @@ int main(int argc, char *argv[])
 
     // Must after install translator
     a.setApplicationDisplayName(QObject::tr("RabbitCommon"));
-    
+
     // [Use CFrmUpdater GenerateUpdateJson]
     QCommandLineParser parser;
     parser.addHelpOption();
@@ -75,11 +68,11 @@ int main(int argc, char *argv[])
 #endif
 
     // [Use CFrmUpdater GenerateUpdateJson]
-    
+
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));
     m->setWindowTitle(a.applicationDisplayName());
-    
+
 #ifdef BUILD_QUIWidget
     QUIWidget quiwidget;
    // quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
@@ -91,13 +84,12 @@ int main(int argc, char *argv[])
 #else
     m->show();
 #endif
-     
+
     int nRet = a.exec();
-    
+
 #ifndef  BUILD_QUIWidget
      delete m;
 #endif
-    a.removeTranslator(&tApp);
-    
+
     return nRet;
 }

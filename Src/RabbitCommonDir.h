@@ -88,7 +88,7 @@ class RABBITCOMMON_EXPORT CDir
 {
 public:
     static CDir* Instance();
-     
+
     QString GetDirApplication();
     int SetDirApplication(const QString &szPath);
     QString GetDirApplicationInstallRoot();
@@ -122,11 +122,12 @@ public:
                                bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirIcons(bool bReadOnly = false);
-    QString GetDirTranslations();
+    //! \see cmake/Translations.cmake
+    QString GetDirTranslations(QString szPrefix = QString());
     QString GetDirPluginsTranslation(QString szDir = "plugins");
     QString GetDirPlugins(const QString &szDir = "");
     QString GetFileApplicationConfigure(bool bReadOnly = false);
-    
+
     QString GetDirUserDocument();
     int SetDirUserDocument(QString szPath);
     QString GetDirUserConfig();
@@ -136,7 +137,7 @@ public:
     QString GetDirUserXml();
     QString GetDirUserImage();
     QString GetFileUserConfigure();
-    
+
     static int CopyDirectory(const QString &fromDir,
                       const QString &toDir,
                       bool bCoverIfFileExists = true);

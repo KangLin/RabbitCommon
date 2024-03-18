@@ -31,7 +31,7 @@ extern CDockDebugLog* g_pDcokDebugLog;
 
 namespace RabbitCommon {
 
-QLoggingCategory Logger("RabbitCommon");
+static Q_LOGGING_CATEGORY(Logger, "RabbitCommon.log")
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
 

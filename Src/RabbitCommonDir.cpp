@@ -257,14 +257,19 @@ QString CDir::GetDirUserImage()
     return szPath;
 }
 
-QString CDir::GetDirTranslations()
+QString CDir::GetDirTranslations(QString szPrefix)
 {
 #if defined(_DEBUG) || defined(DEBUG)
     return ":/translations";
 #elif defined (Q_OS_ANDROID)
     return "assets:/translations";
 #endif
-    return GetDirApplicationInstallRoot() + QDir::separator() + "translations";
+    QString szPath(szPrefix);
+    if(szPath.isEmpty())
+    {
+        szPath = GetDirApplicationInstallRoot();
+    }
+    return szPath + QDir::separator() + "translations";
 }
 
 QString CDir::GetDirIcons(bool bReadOnly)
