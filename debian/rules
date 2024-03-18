@@ -32,7 +32,8 @@ override_dh_auto_configure:
             -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=OFF
 
 override_dh_auto_build:
-	cmake  --build $(BUILD_DIR) --config Release --parallel
+	cmake  --build $(BUILD_DIR) --config Release \
+		--parallel $(if "`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`", `cat /proc/cpuinfo |grep 'cpu cores' |wc -l`, 1)
 
 override_dh_auto_install:
 	cmake --install $(BUILD_DIR) --config Release --component Runtime --prefix $(PACKAGE_DIR)/usr
