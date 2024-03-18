@@ -293,13 +293,6 @@ if(BUILD_ADMINAUTHORISER)
         list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_dummy.cpp)
     endif()
 endif(BUILD_ADMINAUTHORISER)
-
-OPTION(INSTALL_LOG_CONFIG_FILE "Install configure files" OFF)
-if(INSTALL_LOG_CONFIG_FILE)
-    INSTALL_FILE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
-        DESTINATION etc
-            COMPONENT Runtime)
-endif()
     
 if(WIN32)
     list(APPEND RABBITCOMMON_HEAD_FILES CoreDump/MiniDumper.h)
@@ -436,3 +429,10 @@ INSTALL_STYLE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)
 #    DESTINATION data)
 # Install QIcon theme
 INSTALL_ICON_THEME(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons)
+
+OPTION(INSTALL_LOG_CONFIG_FILE "Install configure files" OFF)
+if(INSTALL_LOG_CONFIG_FILE)
+    INSTALL_FILE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/etc/logqt.ini
+        DESTINATION etc
+            COMPONENT Runtime)
+endif()
