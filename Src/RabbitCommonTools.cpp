@@ -361,12 +361,14 @@ QSharedPointer<QTranslator> CTools::InstallTranslator(
 #if defined(Q_OS_LINUX)
         QFile file(szPath + szSuffix);
         if(!file.exists()) {
-            szPath = CDir::Instance()->GetDirTranslations("/usr/share/");
-        }
-        file.setFileName(szPath + szSuffix);
-        if(!file.exists()) {
-            szPath = CDir::Instance()->GetDirTranslations(
-                "/usr/local/share/");
+            //TODO: rename /usr to /usr/share
+            szPath = CDir::Instance()->GetDirTranslations("/usr");
+            file.setFileName(szPath + szSuffix);
+            if(!file.exists()) {
+                //TODO: rename /usr/local to "/usr/local/share"
+                szPath = CDir::Instance()->GetDirTranslations(
+                    "/usr/local");
+            }
         }
 #endif
         break;

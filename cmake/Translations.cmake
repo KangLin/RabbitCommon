@@ -15,6 +15,7 @@
 #    **注意**：翻译对象为此名字加上前缀 translations_ 
 #  - [可选] TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
 #  - [可选] QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
+#  - [可选] INSTALL_COMPONENT: 安装组件名。默认值：Runtime
 #+ 输出值参数：
 #  - [可选] OUT_QRC: 生成的翻译资源文件(.qrc) 变量。默认为：TRANSLATIONS_RESOURCE_FILES
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
@@ -338,7 +339,7 @@ function(GENERATED_QT_TRANSLATIONS)
                 set(${PARA_OUT_QRC_NAME} ${OUT_QRC_NAME} PARENT_SCOPE)
             endif()
 
-            if(NOT DEFINED INSTALL_COMPONENT)
+            if(NOT PARA_INSTALL_COMPONENT)
                 set(PARA_INSTALL_COMPONENT Runtime)
             endif()
 #            INSTALL_FILE(TARGET translations_${PARA_TARGET}
@@ -346,7 +347,7 @@ function(GENERATED_QT_TRANSLATIONS)
 #                DESTINATION "${PARA_QM_INSTALL_DIR}"
 #                    COMPONENT ${PARA_INSTALL_COMPONENT}
 #                )
-            
+
             install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
                 COMPONENT ${PARA_INSTALL_COMPONENT})
             # Copy to build tree for develop

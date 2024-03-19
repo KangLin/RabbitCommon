@@ -864,12 +864,27 @@ function(ADD_TARGET)
         else()
             set(QM_INSTALL_DIR translations)
         endif()
+
+        if(NOT DEFINED PARA_COMPONENT)
+            if(PARA_ISEXE)
+                set(TRANSLATIONS_COMPONENT ${PARA_COMPONENT_PREFIX}Application)
+            elseif(PARA_ISPLUGIN)
+                set(TRANSLATIONS_COMPONENT ${PARA_COMPONENT_PREFIX}Plugin)
+            else()
+                set(TRANSLATIONS_COMPONENT ${PARA_COMPONENT_PREFIX}Runtime)
+            endif()
+        else()
+                set(TRANSLATIONS_COMPONENT ${PARA_COMPONENT})
+        endif()
+
         GENERATED_QT_TRANSLATIONS(
             ALL
             TARGET ${PARA_NAME}
             SOURCES ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES}
             OUT_QRC TRANSLATIONS_QRC_FILES
-            QM_INSTALL_DIR ${QM_INSTALL_DIR})
+            QM_INSTALL_DIR ${QM_INSTALL_DIR}
+            INSTALL_COMPONENT ${TRANSLATIONS_COMPONENT}
+        )
         #TODO: 非优雅的方法
         if(CMAKE_BUILD_TYPE)
             string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
