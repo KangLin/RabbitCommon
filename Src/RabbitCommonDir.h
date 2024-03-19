@@ -28,6 +28,8 @@ namespace RabbitCommon {
  *       |- translations                           GetDirTranslations()
  *       |- log                                    GetDirLog()
  *       |- share                                  GetDirData()
+ *       |   |- doc                                GetDirDocument()
+ *       |   |   |- ProjectName                    GetDirDocument(QCoreApplication::applicationName())
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -98,13 +100,26 @@ public:
      * \param bReadOnly
      * \return data directory
      * \note the data directory is ${CMAKE_INSTALL_DATADIR} in CMakeLists.txt
-     * \see 
+     * \see
      *   - [GNU installation Directories in cmake](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
      *   - [GNU installation Directories](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
      */
     QString GetDirData(bool bReadOnly = false);
+    /*!
+     * \brief GetDirDocument
+     * \param szProjectName: project name
+     * \param bReadOnly
+     * \return the document directory
+     * \note the data directory is ${CMAKE_INSTALL_DOCDIR} in CMakeLists.txt
+     * \see
+     *   - [GNU installation Directories in cmake](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+     *   - [GNU installation Directories](https://www.gnu.org/prep/standards/html_node/Directory-Variables.html)
+     */
+    QString GetDirDocument(QString szProjectName = QString(),
+                           bool bReadOnly = false);
     QString GetDirDatabase(bool bReadOnly = false);
-    QString GetDirDatabaseFile(const QString &szFile = QString(), bool bReadOnly = false);
+    QString GetDirDatabaseFile(const QString &szFile = QString(),
+                               bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirIcons(bool bReadOnly = false);
     QString GetDirTranslations();

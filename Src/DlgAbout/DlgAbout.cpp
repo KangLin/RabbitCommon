@@ -171,15 +171,16 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
     QDir d;
     QString szFileLocation;
 
-    szFileLocation = RabbitCommon::CDir::Instance()->GetDirData()
-                     + QDir::separator() + "doc" + QDir::separator()
-                     + QApplication::applicationName() + QDir::separator()
+    szFileLocation = RabbitCommon::CDir::Instance()->GetDirDocument(
+                         QApplication::applicationName())
+                     + QDir::separator()
                      + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     if(!d.exists(szFileLocation))
-        szFileLocation = RabbitCommon::CDir::Instance()->GetDirData()
-                         + QDir::separator() + "doc" + QDir::separator()
-                         + QApplication::applicationName() + QDir::separator()
+        szFileLocation = RabbitCommon::CDir::Instance()->GetDirDocument(
+                             QApplication::applicationName())
+                         + QDir::separator()
                          + szFile + ".md";
+    //TODO: be will remove in 3.0
     if(!d.exists(szFileLocation))
         szFileLocation = RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + QDir::separator()
             + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";

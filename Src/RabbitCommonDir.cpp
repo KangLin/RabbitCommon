@@ -139,6 +139,14 @@ QString CDir::GetDirData(bool bReadOnly)
     return szPath;
 }
 
+QString CDir::GetDirDocument(QString szProjectName, bool bReadOnly)
+{
+    QString szPath = GetDirData(bReadOnly) + QDir::separator() + "doc";
+    if(!szProjectName.isEmpty())
+        szPath += QDir::separator() + szProjectName;
+    return szPath;
+}
+
 QString CDir::GetDirDatabase(bool bReadOnly)
 {
     QString szPath = GetDirData(bReadOnly) + QDir::separator() + "db";

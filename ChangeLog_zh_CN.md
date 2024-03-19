@@ -1,3 +1,8 @@
+### 版本： v2.2.0
+- CTools 增加接口：
+  - InstallTranslator
+- 增加 CDir::GetDirDocument
+
 ### 版本： v2.1.0
 - 修复 linux 下动态库接错误 #1  
   8 in https://github.com/KangLin/RabbitRemoteControl/issues/20
