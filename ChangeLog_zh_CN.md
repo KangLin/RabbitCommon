@@ -3,6 +3,10 @@
   - CTools::InstallTranslator
   - CTools::RemoveTranslator
   - CDir::GetDirDocument
+- 修复:
+  - INSTALL_LOG_CONFIG_FILE 错误
+  - 下载: 修复 file 指针是空错误
+- CMake: windeployqt 使用 --compiler-runtime
 
 ### 版本： v2.1.0
 - 修复 linux 下动态库接错误 #1  

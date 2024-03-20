@@ -3,6 +3,9 @@
   - CTools::InstallTranslator
   - CTools::RemoveTranslator
   - CDir::GetDirDocument
+- Fix: INSTALL_LOG_CONFIG_FILE bug
+- Download: fix check file is null
+- CMake: windeployqt with --compiler-runtime
 
 ### Version: v2.1.0
 - Fix: CMake: fix the shared library symlinks bug. #1  
