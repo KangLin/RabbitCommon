@@ -1,3 +1,6 @@
+### Version v2.2.1
+- CMAKE: Modify install dependencies runtime dlls
+
 ### Version v2.2.0
 - Add interfaces:
   - CTools::InstallTranslator

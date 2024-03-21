@@ -16,6 +16,7 @@ Author：Kang Lin（kl222@126.com)
   - https://gitlab.com/kl222/RabbitCommon
   - https://invent.kde.org/kanglin/RabbitCommon
   - https://gitee.com/kl222/RabbitCommon
+  - https://bitbucket.org/kl222/rabbitcommon
 ### Developer documents
 
 [Online developer documents](https://kanglin.github.io/RabbitCommon/English/html/index.html)

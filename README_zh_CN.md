@@ -16,6 +16,7 @@
   - https://launchpad.net/rabbitcommon
   - https://invent.kde.org/kanglin/RabbitCommon
   - https://gitee.com/kl222/RabbitCommon
+  - https://bitbucket.org/kl222/rabbitcommon
 
 ### 开发文档
 

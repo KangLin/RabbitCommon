@@ -411,7 +411,7 @@ void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(!pReply)
     {
-        qCritical(log) << "slotDownloadProgress: Teh sender is not reply";
+        qCritical(log) << "slotDownloadProgress: The sender is not reply";
         return;
     }
     if(m_Reply.find(pReply) == m_Reply.end())

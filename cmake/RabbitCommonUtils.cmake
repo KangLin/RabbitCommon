@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.21)
 MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
 get_filename_component(RabbitCommonUtils_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
-message("RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
+message(STATUS "RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
 set_property(GLOBAL APPEND PROPERTY RabbitCommonUtils_DIR ${RabbitCommonUtils_DIR})
 
 include(CMakePackageConfigHelpers)
@@ -160,10 +160,12 @@ endfunction()
 #   TARGET: project name
 #   SOURCES: [MUST] source folder
 #   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
-#   COMPONENT
+#   COMPONENT: component
 # NOTE: If not TARGET, it must be after ADD_TARGET
 # #与 INSTALL(DIRECTORY ...) 功能相似，android 安装到 assets
-option(INSTALL_TO_BUILD_PATH "Install to build path" ON)
+option(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH
+    "Install to build path. It only needs to be used when it is first configured"
+    ON)
 function(INSTALL_DIR)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
@@ -198,7 +200,7 @@ function(INSTALL_DIR)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
     endif()
 
-    if(INSTALL_TO_BUILD_PATH OR ANDROID)
+    if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH OR ANDROID)
         file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
 #        add_custom_command(
 #            TARGET ${PARA_TARGET} POST_BUILD
@@ -245,7 +247,7 @@ function(INSTALL_FILE)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
     endif()
 
-    if(INSTALL_TO_BUILD_PATH OR ANDROID)
+    if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH OR ANDROID)
         #file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
         add_custom_command(
             TARGET ${PARA_TARGET} PRE_BUILD
@@ -283,7 +285,6 @@ endfunction()
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
 #   DESTINATION: Default is share/style
 # NOTE: If not TARGET, it must be after ADD_TARGET
-option(INSTALL_STYLE_TO_BUILD_PATH "Install style to build path" ON)
 function(INSTALL_STYLE)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
 
@@ -302,12 +303,18 @@ endfunction()
 # [必须]TARGETS      需要安装的目标
 # [必须]DESTINATION  安装的位置
 # [可选]COMPONENT    组件
+option(RABBIT_ENABLE_INSTALL_TARGETS
+    "Enable install the targets. It only needs to be used when it is first configured"
+    OFF)
 function(INSTALL_TARGETS)
     cmake_parse_arguments(PARA "" "DESTINATION;COMPONENT" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
         message(FATAL_ERROR "Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ... [COMPONENT ...])")
     endif()
 
+    if(NOT RABBIT_ENABLE_INSTALL_TARGETS)
+        return()
+    endif()
     if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION "libs/${ANDROID_ABI}")
@@ -323,6 +330,21 @@ function(INSTALL_TARGETS)
     endif()
 
     foreach(component ${PARA_TARGETS})
+        if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH)
+            if(WIN32)
+                set(BUILD_PATH ${CMAKE_BINARY_DIR}/bin)
+            else()
+                set(BUILD_PATH ${CMAKE_BINARY_DIR}/lib)
+            endif()
+            add_custom_command(
+                TARGET ${PARA_TARGET} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "Copy files ${PARA_SOURCES} to ${BUILD_PATH}"
+                COMMAND ${CMAKE_COMMAND} -E make_directory "${BUILD_PATH}"
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${component}> "${BUILD_PATH}"
+                COMPONENT ${PARA_COMPONENT}
+                COMMAND_EXPAND_LISTS
+                VERBATIM)
+        endif()
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
@@ -334,7 +356,17 @@ function(INSTALL_TARGETS)
     endforeach()
 endfunction()
 
-option(INSTALL_QT "Install qt libraries" ON)
+# Install dependencies runtime dlls
+option(RABBIT_ENABLE_INSTALL_DEPENDENT
+    "Enable install dependent runtime dlls"
+    OFF
+)
+
+option(RABBIT_ENABLE_INSTALL_QT
+    "Install qt libraries. It only needs to be used when it is first configured."
+    ON
+)
+
 # 安装目标
 #    [必须]NAME                  目标名
 #    ISEXE                      是执行程序目标还是库目标
@@ -409,6 +441,36 @@ function(INSTALL_TARGET)
         set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT})
     endif()
 
+    # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
+    # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
+    # See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
+    # Install target
+    if(ANDROID)
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "libs/${ANDROID_ABI}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "libs/${ANDROID_ABI}")
+        endif()
+    elseif(WIN32)
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "${CMAKE_INSTALL_BINDIR}")
+        endif()
+    else()
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "${CMAKE_INSTALL_LIBDIR}")
+        endif()
+    endif()
+    if(NOT DEFINED PARA_ARCHIVE)
+        set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
+    endif()
+
     if(PARA_ISPLUGIN)
 
         if(NOT DEFINED PARA_COMPONENT)
@@ -434,86 +496,23 @@ function(INSTALL_TARGET)
                 )
         endif()
 
-        # TODO: 是否需要安装其它的依赖库？
-        # vcpkg 会把依赖库安装到目标文件夹
-        #INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PARA_NAME}>/"
-        #    DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
-        #        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY}
-        #    )
-
-        # 分发
-        IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
-            IF(MINGW)
-                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                    COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
-                    )
-            ENDIF(MINGW)
-
-            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                --verbose 7
-                --no-translations
-                --no-quick-import
-                --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                "$<TARGET_FILE:${PARA_NAME}>"
-                )
-            # TODO: Test it
-            INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
-                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
-        ENDIF()
-        
     else(PARA_ISPLUGIN) # Is not plugin
-        
-        # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
-        # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
-        # See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
-        # Install target
-        if(ANDROID)
-            if(NOT DEFINED PARA_RUNTIME)
-                set(PARA_RUNTIME "libs/${ANDROID_ABI}")
-            endif()
-            if(NOT DEFINED PARA_LIBRARY)
-                set(PARA_LIBRARY "libs/${ANDROID_ABI}")
-            endif()
-        elseif(WIN32)
-            if(NOT DEFINED PARA_RUNTIME)
-                set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
-            endif()
-            if(NOT DEFINED PARA_LIBRARY)
-                set(PARA_LIBRARY "${CMAKE_INSTALL_BINDIR}")
-            endif()
-        else()
-            if(NOT DEFINED PARA_RUNTIME)
-                set(PARA_RUNTIME "${CMAKE_INSTALL_BINDIR}")
-            endif()
-            if(NOT DEFINED PARA_LIBRARY)
-                set(PARA_LIBRARY "${CMAKE_INSTALL_LIBDIR}")
-            endif()
-        endif()
-        if(NOT DEFINED PARA_ARCHIVE)
-            set(PARA_ARCHIVE "${CMAKE_INSTALL_LIBDIR}")
-        endif()
 
         if(PARA_ISEXE)
 
             if(NOT DEFINED PARA_COMPONENT)
                 set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Application)
             endif()
-            
-            set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${PARA_RUNTIME}")
+
+            if(RABBIT_ENABLE_INSTALL_DEPENDENT)
+                set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${PARA_RUNTIME}")
+                set(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT ${PARA_COMPONENT})
+                set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+                include(InstallRequiredSystemLibraries)
+            endif()
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT ${PARA_COMPONENT}
-                #LIBRARY DESTINATION "${PARA_LIBRARY}"
-                #    COMPONENT ${PARA_COMPONENT}
-                #ARCHIVE DESTINATION "${PARA_ARCHIVE}"
-                #    COMPONENT ${PARA_COMPONENT}
                 )
 
             #分发
@@ -526,7 +525,7 @@ function(INSTALL_TARGET)
                 GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
                     ANDROID_SOURCES_DIR ${PARA_ANDROID_SOURCES_DIR}
                     APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PARA_NAME}.so")
-                
+
                 if(CMAKE_BUILD_TYPE)
                     string(TOLOWER ${CMAKE_BUILD_TYPE} LOWER_BUILD_TYPE)
                 endif()
@@ -558,7 +557,7 @@ function(INSTALL_TARGET)
                                 --android-platform ${ANDROID_PLATFORM}
                             )
                     endif()
-                    
+
                 else()
                     add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
@@ -578,7 +577,7 @@ function(INSTALL_TARGET)
                             --android-platform ${ANDROID_PLATFORM}
                         )
                 endif()
-                
+
             ENDIF() # ANDROID AND QT_VERSION_MAJOR VERSION_LESS 6
 
         else(PARA_ISEXE) # Is library
@@ -676,54 +675,55 @@ function(INSTALL_TARGET)
                     COMPONENT ${PARA_COMPONENT_DEV})
             endif()
         endif(PARA_ISEXE)
-
-        # Install dependencies runtime dlls
-#        if(NOT ANDROID)
-#            install(FILES $<TARGET_RUNTIME_DLLS:${PARA_NAME}>
-#                DESTINATION "${CMAKE_INSTALL_BINDIR}"
-#                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
-#        endif()
-
-        # Windows 下分发
-        IF(WIN32 AND BUILD_SHARED_LIBS AND INSTALL_QT)
-            IF(MINGW)
-                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
-                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                    COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
-                    )
-                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                    COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                    --verbose 7
-                    --no-quick-import
-                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    "$<TARGET_FILE:${PARA_NAME}>"
-                    )
-            ELSE(MINGW)
-                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                    COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    --compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                    --verbose 7
-                    --no-quick-import
-                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    "$<TARGET_FILE:${PARA_NAME}>"
-                    )
-            ENDIF(MINGW)
-
-            if(DEFINED PARA_ISEXE)
-                INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
-                    DESTINATION "${CMAKE_INSTALL_BINDIR}"
-                        COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
-            endif()
-        ENDIF()
-        
     endif(PARA_ISPLUGIN)
+
+    if(RABBIT_ENABLE_INSTALL_DEPENDENT AND (NOT ANDROID))
+        install(FILES $<TARGET_RUNTIME_DLLS:${PARA_NAME}>
+            DESTINATION "${PARA_LIBRARY}"
+                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
+    endif()
+
+    # Windows 下分发
+    IF(WIN32 AND BUILD_SHARED_LIBS
+        AND (RABBIT_ENABLE_INSTALL_DEPENDENT OR RABBIT_ENABLE_INSTALL_QT))
+        IF(MINGW)
+            # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
+            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
+                )
+            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
+                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                    --verbose 7
+                    --no-quick-import
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    "$<TARGET_FILE:${PARA_NAME}>"
+                )
+        ELSE(MINGW)
+            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
+                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                    --verbose 7
+                    --no-quick-import
+                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
+                    "$<TARGET_FILE:${PARA_NAME}>"
+                )
+        ENDIF(MINGW)
+
+        if(PARA_ISEXE AND RABBIT_ENABLE_INSTALL_QT)
+            INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
+                DESTINATION "${PARA_LIBRARY}"
+                    COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
+        endif()
+    ENDIF()
 endfunction()
 
 # 增加目标
@@ -983,11 +983,11 @@ function(ADD_TARGET)
         endif()
         if(WIN32)
             if(LOWER_BUILD_TYPE STREQUAL "debug")
-                option(WITH_LIBRARY_SUFFIX_VERSION "Library suffix plus version number" OFF)
+                option(RABBIT_WITH_LIBRARY_SUFFIX_VERSION "Library suffix plus version number" OFF)
             else()
-                option(WITH_LIBRARY_SUFFIX_VERSION "Library suffix plus version number" ON)
+                option(RABBIT_WITH_LIBRARY_SUFFIX_VERSION "Library suffix plus version number" ON)
             endif()
-            if(WITH_LIBRARY_SUFFIX_VERSION)
+            if(RABBIT_WITH_LIBRARY_SUFFIX_VERSION)
                 if(NOT PARA_VERSION)
                     get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
                     if(NOT PARA_VERSION)
@@ -1007,7 +1007,7 @@ function(ADD_TARGET)
                         endforeach()
                     endif()
                 endif(PARA_VERSION_FOUND OR PARA_VERSION)
-            endif(WITH_LIBRARY_SUFFIX_VERSION)
+            endif(RABBIT_WITH_LIBRARY_SUFFIX_VERSION)
         endif()
 
         string(TOLOWER ${PARA_NAME} LOWER_PROJECT_NAME)
@@ -1157,11 +1157,11 @@ function(ADD_TARGET)
     # Target compile options
     IF(MSVC)
         # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-        OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
-        MARK_AS_ADVANCED(WIN32_USE_MP)
-        IF(WIN32_USE_MP)
+        OPTION(RABBIT_WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
+        MARK_AS_ADVANCED(RABBIT_WIN32_USE_MP)
+        IF(RABBIT_WIN32_USE_MP)
             target_compile_options(${PARA_NAME} PRIVATE /MP)
-        ENDIF(WIN32_USE_MP)
+        ENDIF(RABBIT_WIN32_USE_MP)
     ENDIF(MSVC)
     target_compile_options(${PARA_NAME} PRIVATE
         "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
@@ -1188,15 +1188,18 @@ function(ADD_TARGET)
         target_compile_features(${PARA_NAME} PRIVATE ${PARA_PRIVATE_FEATURES})
     endif()
 
+    # 因为只会复制直接依赖。不会复制间接依赖。所以，只复制了Qt库，而不会复制平台插件。所以导致以下错误：
+    #  This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+    #
     # Copy the target's dependent dynamic library
-    if(INSTALL_TO_BUILD_PATH)
-        add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E echo "Copy ${PARA_NAME}'s dependent dynamic library $<TARGET_RUNTIME_DLLS:${PARA_NAME}>"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PARA_NAME}> $<TARGET_FILE:${PARA_NAME}> $<TARGET_FILE_DIR:${PARA_NAME}> 
-            COMMAND_EXPAND_LISTS
-            VERBATIM
-        )
-    endif()
+    #if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH AND RABBIT_ENABLE_INSTALL_DEPENDENT)
+    #    add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+    #        COMMAND ${CMAKE_COMMAND} -E echo "Copy ${PARA_NAME}'s dependent dynamic library $<TARGET_RUNTIME_DLLS:${PARA_NAME}>"
+    #        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PARA_NAME}> $<TARGET_FILE:${PARA_NAME}> $<TARGET_FILE_DIR:${PARA_NAME}>
+    #        COMMAND_EXPAND_LISTS
+    #        VERBATIM
+    #    )
+    #endif()
 
     if(NOT PARA_NO_INSTALL)
         # Install target
@@ -1340,3 +1343,10 @@ function(ADD_PLUGIN_TARGET)
         INSTALL_PLUGIN_LIBRARY_DIR ${PARA_INSTALL_DIR}
         )
 endfunction()
+
+message(STATUS "RABBIT_ENABLE_INSTALL_TO_BUILD_PATH:${RABBIT_ENABLE_INSTALL_TO_BUILD_PATH}")
+message(STATUS "RABBIT_ENABLE_INSTALL_DEPENDENT:${RABBIT_ENABLE_INSTALL_DEPENDENT}")
+message(STATUS "RABBIT_ENABLE_INSTALL_QT:${RABBIT_ENABLE_INSTALL_QT}")
+message(STATUS "RABBIT_ENABLE_INSTALL_TARGETS:${RABBIT_ENABLE_INSTALL_TARGETS}")
+message(STATUS "RABBIT_WITH_LIBRARY_SUFFIX_VERSION:${RABBIT_WITH_LIBRARY_SUFFIX_VERSION}")
+message(STATUS "RABBIT_WIN32_USE_MP:${RABBIT_WIN32_USE_MP}")

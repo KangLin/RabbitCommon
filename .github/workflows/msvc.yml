@@ -129,7 +129,9 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
               -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
-              -DINSTALL_QT=ON ^
+              -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
+              -DRABBIT_ENABLE_INSTALL_QT=ON ^
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON ^
               -DBUILD_APP=ON ^
               -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
@@ -159,7 +161,9 @@ jobs:
               -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake  ^
               -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
               -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON ^
-              -DINSTALL_QT=OFF ^
+              -DRABBIT_ENABLE_INSTALL_DEPENDENT=OFF ^
+              -DRABBIT_ENABLE_INSTALL_QT=OFF ^
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
               -DBUILD_APP=OFF ^
               -DBUILD_TEST=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
