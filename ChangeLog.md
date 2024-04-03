@@ -1,5 +1,6 @@
 ### Version v2.2.1
 - CMAKE: Modify install dependencies runtime dlls
+- move translations to share/translations
 
 ### Version v2.2.0
 - Add interfaces:

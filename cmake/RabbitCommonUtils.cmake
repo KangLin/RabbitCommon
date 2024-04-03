@@ -862,7 +862,7 @@ function(ADD_TARGET)
         if(PARA_ISPLUGIN)
             set(QM_INSTALL_DIR ${PARA_INSTALL_PLUGIN_LIBRARY_DIR}/translations)
         else()
-            set(QM_INSTALL_DIR translations)
+            set(QM_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/translations)
         endif()
 
         if(NOT DEFINED PARA_COMPONENT)

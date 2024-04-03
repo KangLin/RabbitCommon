@@ -1,5 +1,6 @@
 ### 版本： v2.2.1
 - CMAKE：修改安装依赖库
+- 移动 translations 到 share/translations
 
 ### 版本： v2.2.0
 - 增加接口：

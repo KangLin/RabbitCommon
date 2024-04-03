@@ -25,9 +25,9 @@ namespace RabbitCommon {
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetFileApplicationConfigure()
- *       |- translations                           GetDirTranslations()
  *       |- log                                    GetDirLog()
  *       |- share                                  GetDirData()
+ *       |   |- translations                       GetDirTranslations()
  *       |   |- doc                                GetDirDocument()
  *       |   |   |- ProjectName                    GetDirDocument(QCoreApplication::applicationName())
  *       |   |- icons                              GetDirIcons()
@@ -54,8 +54,8 @@ namespace RabbitCommon {
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetFileApplicationConfigure()
- *       |- translations                           GetDirTranslations()
  *       |- share                                  GetDirData()
+ *       |   |- translations                       GetDirTranslations()
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -122,7 +122,10 @@ public:
                                bool bReadOnly = false);
     QString GetDirApplicationXml(bool bReadOnly = false);
     QString GetDirIcons(bool bReadOnly = false);
-    //! \see cmake/Translations.cmake
+    /*!
+     * \see cmake/Translations.cmake
+     * \see CTools::InstallTranslator
+     */
     QString GetDirTranslations(QString szPrefix = QString());
     QString GetDirPluginsTranslation(QString szDir = "plugins");
     QString GetDirPlugins(const QString &szDir = "");

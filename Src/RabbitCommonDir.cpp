@@ -260,14 +260,12 @@ QString CDir::GetDirUserImage()
 QString CDir::GetDirTranslations(QString szPrefix)
 {
 #if defined(_DEBUG) || defined(DEBUG)
-    return ":/translations";
-#elif defined (Q_OS_ANDROID)
-    return "assets:/translations";
+    return ":/share/translations";
 #endif
     QString szPath(szPrefix);
     if(szPath.isEmpty())
     {
-        szPath = GetDirApplicationInstallRoot();
+        szPath = GetDirData(true);
     }
     return szPath + QDir::separator() + "translations";
 }

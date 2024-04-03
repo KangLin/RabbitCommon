@@ -14,13 +14,14 @@
 #  - [可选] TARGET: 生成的翻译对象，默认值 ${PROJECT_NAME}。
 #    **注意**：翻译对象为此名字加上前缀 translations_ 
 #  - [可选] TSDIR: 翻译源文件(.ts)存放的目录，默认值：${CMAKE_CURRENT_SOURCE_DIR}/Resource/Translations
-#  - [可选] QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTAL_PREFIX}/translations
+#  - [可选] QM_INSTALL_DIR: 指定翻译文件（.qm）的安装目录。默认值：${CMAKE_INSTALL_DATADIR}/translations
 #  - [可选] INSTALL_COMPONENT: 安装组件名。默认值：Runtime
 #+ 输出值参数：
 #  - [可选] OUT_QRC: 生成的翻译资源文件(.qrc) 变量。默认为：TRANSLATIONS_RESOURCE_FILES
 #    如果需要使用翻译资源文件，则把它加入到add_executable 或 add_library 中。
 #  - [可选] OUT_QRC_NAME: 翻译资源文件(.qrc)名变量，它用于代码使用库中的资源时，
 #    调用 Q_INIT_RESOURCE 初始化此翻译资源
+#+ 参见： CTools::InstallTranslator
 #+ 使用：
 #  - 在 CMakeLists.txt加入包含此文件
 
@@ -124,9 +125,10 @@
 #
 # Android:
 #     assets                                       GetDirApplicationInstallRoot()  (Only read)
-#        |- translations                           GetDirTranslations()
-#        |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
-#        |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#        |- share
+#        |   |- translations                       GetDirTranslations()
+#        |        |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#        |        |- ${TRANSLATIONS_NAME}_zh_TW.qm
 #        |- plugins
 #             |- translations                      GetDirPluginsTranslation()
 #             |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
@@ -144,9 +146,10 @@
 #           |   |- App.exe
 #           |- lib
 #           |
-#           |- translations                          GetDirTranslations()
-#           |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
-#           |   |- ${TRANSLATIONS_NAME}_zh_TW.qm
+#           |- share
+#           |   |- translations                      GetDirTranslations()
+#           |        |- ${TRANSLATIONS_NAME}_zh_CN.qm
+#           |        |- ${TRANSLATIONS_NAME}_zh_TW.qm
 #           |- plugins
 #               |- translations                      GetDirPluginsTranslation()
 #               |   |- ${TRANSLATIONS_NAME}_zh_CN.qm
@@ -309,7 +312,7 @@ function(GENERATED_QT_TRANSLATIONS)
             endif()
 
             if(NOT PARA_QM_INSTALL_DIR)
-                set(PARA_QM_INSTALL_DIR translations)
+                set(PARA_QM_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/translations)
             endif()
 
             set(RESOUCE_PREFIX "/${PARA_QM_INSTALL_DIR}")
@@ -351,7 +354,7 @@ function(GENERATED_QT_TRANSLATIONS)
             install(FILES ${QM_FILES} DESTINATION "${PARA_QM_INSTALL_DIR}"
                 COMPONENT ${PARA_INSTALL_COMPONENT})
             # Copy to build tree for develop
-            if(INSTALL_TO_BUILD_PATH OR ANDROID)
+            if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH OR ANDROID)
                 if(ANDROID)
                     set(_QM_INSTALL_DIR ${CMAKE_BINARY_DIR}/assets/${PARA_QM_INSTALL_DIR})
                 else()
