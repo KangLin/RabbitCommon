@@ -364,8 +364,10 @@ bool EvpAES::encrypt(const QByteArray &in, QByteArray &out,
 //TODO: only install the dependencies libraries(libssl)
 int EvpAES::testSSL()
 {
+#if OPENSSL_VERSION_NUMBER >= 0x3000000fL
     SSL_CTX *ssl_ctx = SSL_CTX_new(TLS_client_method());
     if(ssl_ctx)
         SSL_CTX_free(ssl_ctx);
+#endif
     return 0;
 }
