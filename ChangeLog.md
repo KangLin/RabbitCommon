@@ -1,3 +1,6 @@
+### Version v2.2.2
+- Test: add CFrmUpdater::CompareVersion test case
+
 ### Version v2.2.1
 - CMAKE: Modify install dependencies runtime dlls
 - move translations to share/translations

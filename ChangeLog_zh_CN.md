@@ -1,3 +1,6 @@
+### 版本： v2.2.2
+- 测试： 增加 CFrmUpdater::CompareVersion 测试用例
+
 ### 版本： v2.2.1
 - CMAKE：修改安装依赖库
 - 移动 translations 到 share/translations

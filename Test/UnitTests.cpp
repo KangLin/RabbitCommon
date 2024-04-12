@@ -71,6 +71,13 @@ void CUnitTests::testCFrmUpdaterCompareVersion()
     QVERIFY(updater.CompareVersion("", "") == 0);
     QVERIFY(updater.CompareVersion("v0.0.21", "") > 0);
     
+    QVERIFY(updater.CompareVersion("3b48ef5", "v0.0.21") == 0);
+    QVERIFY(updater.CompareVersion("v0.0.21", "3b48ef5") == 0);
+    QVERIFY(updater.CompareVersion("v0.0.21", "348564") < 0);
+    QVERIFY(updater.CompareVersion("348564", "v0.0.21") > 0);
+    QVERIFY(updater.CompareVersion("3b48ef5", "v1.0.21") < 0);
+    QVERIFY(updater.CompareVersion("v1.0.21", "3b48ef5") > 0);
+    
     QVERIFY(updater.CompareVersion("v0.1.20", "v1.0") < 0);
     QVERIFY(updater.CompareVersion("v1.0", "v1.0") == 0);
     QVERIFY(updater.CompareVersion("v1.0", "v0.0.19") > 0);
