@@ -129,6 +129,7 @@ CFrmUpdater::CFrmUpdater(QVector<QUrl> urls, QWidget *parent): CFrmUpdater(paren
 
 CFrmUpdater::~CFrmUpdater()
 {
+    qDebug(log) << "CFrmUpdater::~CFrmUpdater()";
     m_DownloadFile.close();
     if(m_Download)
         m_Download.reset();
