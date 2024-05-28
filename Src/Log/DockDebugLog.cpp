@@ -15,9 +15,11 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::CDockDebugLog)
 {
+    // Must set ObjectName then restore it. See: saveState help document
+    setObjectName("dockDebugLog");
     ui->setupUi(this);
     this->hide();
-    
+
     bool check = connect(this, &QDockWidget::visibilityChanged, this, [=](bool visible) {
         if (visible) {
             ui->txtDebugLog->horizontalScrollBar()->setValue(0);

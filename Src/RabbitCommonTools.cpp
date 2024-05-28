@@ -656,6 +656,8 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
 int CTools::RestoreWidget(QWidget *pWidget)
 {
     int nRet = 0;
+    Q_ASSERT(pWidget);
+    if(!pWidget) return -1;
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     QByteArray geometry
@@ -678,9 +680,10 @@ int CTools::RestoreWidget(QWidget *pWidget)
 int CTools::SaveWidget(QWidget *pWidget)
 {
     int nRet = 0;
+    Q_ASSERT(pWidget);
+    if(!pWidget) return -1;
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-
     set.setValue("MainWindow/Status/Geometry", pWidget->saveGeometry());
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
     if(pMainWindow) {
