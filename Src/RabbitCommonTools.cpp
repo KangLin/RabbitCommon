@@ -660,13 +660,17 @@ int CTools::RestoreWidget(QWidget *pWidget)
                   QSettings::IniFormat);
     QByteArray geometry
             = set.value("MainWindow/Status/Geometry").toByteArray();
-    if(!geometry.isEmpty())
-        pWidget->restoreGeometry(geometry);
+    if(!geometry.isEmpty()) {
+        if(!pWidget->restoreGeometry(geometry))
+            qWarning(log) << "Restore geometry fail";
+    }
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(pWidget);
     if(pMainWindow) {
         QByteArray state = set.value("MainWindow/Status/State").toByteArray();
-        if(!state.isEmpty())
-            pMainWindow->restoreState(state);
+        if(!state.isEmpty()) {
+            if(!pMainWindow->restoreState(state))
+                qWarning(log) << "Restore state fail";
+        }
     }
     return nRet;
 }
