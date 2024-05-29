@@ -9,47 +9,47 @@
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="130"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="129"/>
         <source>Author:KangLin</source>
         <translation>作者： 康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="221"/>
-        <source>Informatioin</source>
-        <translation>信息</translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="266"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="265"/>
         <source>Details</source>
         <translation>详细</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="329"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="328"/>
         <source>Donation</source>
         <translation>捐赠</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="294"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="293"/>
         <source>Home page: https://github.com/KangLin/Tasks.git</source>
         <translation>主页： https://github.com/KangLin/Tasks.git</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="250"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="220"/>
+        <source>Information</source>
+        <translation>信息</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="249"/>
         <source>Version: 1.0.0.0</source>
         <translation>版本： 1.0.0.0</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="105"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="104"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="186"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="185"/>
         <source> Copyright (C) 2018 KangLin Studio</source>
         <translation>版权(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.ui" line="193"/>
+        <location filename="../../DlgAbout/DlgAbout.ui" line="192"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -206,43 +206,43 @@
 <context>
     <name>CDockDebugLog</name>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="40"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="42"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="43"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="56"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="62"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="79"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="45"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="58"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="64"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="81"/>
         <source>Wrap</source>
         <translation>捆绑行</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="51"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="53"/>
         <source>Clear</source>
         <translation>清理</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="65"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="74"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="67"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="76"/>
         <source>No wrap</source>
         <translation>不捆绑行</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="92"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="94"/>
         <source>Filter</source>
         <translation>过滤器</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="108"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="111"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="112"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="110"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="113"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="114"/>
         <source>Set maximum block count</source>
         <translation>设置最大块数</translation>
     </message>
     <message>
-        <location filename="../../Log/DockDebugLog.cpp" line="129"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="131"/>
         <source>Open log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
@@ -1062,40 +1062,40 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="589"/>
-        <location filename="../../RabbitCommonTools.cpp" line="600"/>
+        <location filename="../../RabbitCommonTools.cpp" line="588"/>
+        <location filename="../../RabbitCommonTools.cpp" line="599"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="611"/>
+        <location filename="../../RabbitCommonTools.cpp" line="610"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="615"/>
+        <location filename="../../RabbitCommonTools.cpp" line="614"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="628"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="123"/>
+        <location filename="../../RabbitCommonTools.cpp" line="627"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="125"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="631"/>
-        <location filename="../../Log/DockDebugLog.cpp" line="126"/>
+        <location filename="../../RabbitCommonTools.cpp" line="630"/>
+        <location filename="../../Log/DockDebugLog.cpp" line="128"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="634"/>
+        <location filename="../../RabbitCommonTools.cpp" line="633"/>
         <source>Open log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="646"/>
+        <location filename="../../RabbitCommonTools.cpp" line="645"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>

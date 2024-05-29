@@ -68,7 +68,7 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
     }
     if(!QIcon::themeName().isEmpty())
         ui->cbIconTheme->setCurrentText(QIcon::themeName());
-    
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
     QDir fallbackDir(RabbitCommon::CDir::Instance()->GetDirIcons());
     QStringList lstFallback;
