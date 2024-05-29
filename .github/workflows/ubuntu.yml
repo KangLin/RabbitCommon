@@ -102,10 +102,10 @@ jobs:
                 -DBUILD_TEST=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
-          7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip ./install/*
 
       - name: Make deb package
         run: |
+          git clean -xdf
           ./build_debpackage.sh
           cp ../rabbitcommon*.deb .
 
@@ -115,8 +115,6 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}/build/RabbitCommon-*.tar.gz
-            ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_ubuntu_${{matrix.BUILD_TYPE}}.zip
             ${{github.workspace}}/*.deb
 
 #    - name: Upload To Github Release
