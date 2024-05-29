@@ -10,15 +10,17 @@ include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonUtils.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/Translations.cmake")
 
-# Install data directory. It include resource(icon theme, style etc).
-set_and_check(data ${PACKAGE_PREFIX_DIR}/data)
-if(NOT PROJECT_NAME)
-    message(FATAL_ERROR "Move the find_package(RabbitCommon) to the back of the project(...)")
-else()
-    INSTALL_DIR(SOURCES ${data})
+if((NOT (LINUX OR UNIX)) OR ANDROID)
+    if(NOT PROJECT_NAME)
+        message(FATAL_ERROR "Move the find_package(RabbitCommon) to the back of the project(...)")
+    else()
+        # Install data directory. It include resource(icon theme, style etc).
+        set_and_check(data ${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_DATADIR@)
+        INSTALL_DIR(SOURCES ${data})
 
-    # Install translations
-    INSTALL_DIR(SOURCES ${PACKAGE_PREFIX_DIR}/translations)
+        # Install translations
+        INSTALL_DIR(SOURCES ${PACKAGE_PREFIX_DIR}/translations)
+    endif()
 endif()
 
 include(CMakeFindDependencyMacro)

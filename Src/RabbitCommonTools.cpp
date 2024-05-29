@@ -306,6 +306,7 @@ void CTools::Clean()
     foreach(auto t, m_Translator) {
         QCoreApplication::removeTranslator(t.data());
     }
+    m_Translator.clear();
     CleanResource();
 }
 
@@ -361,13 +362,11 @@ QSharedPointer<QTranslator> CTools::InstallTranslator(
 #if defined(Q_OS_LINUX)
         QFile file(szPath + szSuffix);
         if(!file.exists()) {
-            //TODO: rename /usr to /usr/share
-            szPath = CDir::Instance()->GetDirTranslations("/usr");
+            szPath = CDir::Instance()->GetDirTranslations("/usr/share");
             file.setFileName(szPath + szSuffix);
             if(!file.exists()) {
-                //TODO: rename /usr/local to "/usr/local/share"
                 szPath = CDir::Instance()->GetDirTranslations(
-                    "/usr/local");
+                    "/usr/local/share");
             }
         }
 #endif
