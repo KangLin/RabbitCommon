@@ -1,3 +1,8 @@
+### Version v2.2.3
+- CDlgAbout: Fix typo
+- Modify CI
+- Modify logqt.ini to add detailed instructions for use
+
 ### Version v2.2.2
 - Test: add CFrmUpdater::CompareVersion test case
 

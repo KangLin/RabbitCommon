@@ -20,8 +20,7 @@
    <string>About</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="help-about">
-    <normaloff>.</normaloff>.</iconset>
+   <iconset theme="help-about"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">
@@ -218,7 +217,7 @@
        </sizepolicy>
       </property>
       <attribute name="title">
-       <string>Informatioin</string>
+       <string>Information</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
