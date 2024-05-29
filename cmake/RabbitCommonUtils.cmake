@@ -263,7 +263,7 @@ endfunction()
 
 # Install QIcon theme
 #   TARGET: project name
-#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons/
+#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons
 #   DESTINATION: Default is share/icons
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
@@ -282,7 +282,7 @@ endfunction()
 
 # Install style files
 #   TARGET: project name
-#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style/
+#   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style
 #   DESTINATION: Default is share/style
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_STYLE)
