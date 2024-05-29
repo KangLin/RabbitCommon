@@ -265,38 +265,48 @@ endfunction()
 #   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons
 #   DESTINATION: Default is share/icons
+#   COMPONENT: component
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
-    cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
+    endif()
+    if(NOT PARA_COMPONENT)
+        set(PARA_COMPONENT Runtime)
     endif()
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
-        DESTINATION ${PARA_DESTINATION})
+        DESTINATION ${PARA_DESTINATION}
+        COMPONENT ${PARA_COMPONENT})
 endfunction()
 
 # Install style files
 #   TARGET: project name
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style
 #   DESTINATION: Default is share/style
+#   COMPONENT: component
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_STYLE)
-    cmake_parse_arguments(PARA "" "TARGET;DESTINATION" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/style)
+    endif()
+    if(NOT PARA_COMPONENT)
+        set(PARA_COMPONENT Runtime)
     endif()
     if(NOT PARA_DESTINATION)
         set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
-        DESTINATION ${PARA_DESTINATION})
+        DESTINATION ${PARA_DESTINATION}
+        COMPONENT ${PARA_COMPONENT})
 endfunction()
 
 # 安装指定目标文件
