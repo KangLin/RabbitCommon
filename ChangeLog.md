@@ -2,6 +2,7 @@
 - CDlgAbout: Fix typo
 - Modify CI
 - Modify logqt.ini to add detailed instructions for use
+- Modify RabbitCommonUtils.cmake
 
 ### Version v2.2.2
 - Test: add CFrmUpdater::CompareVersion test case

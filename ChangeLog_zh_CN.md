@@ -2,6 +2,7 @@
 - 关于对话框：修复拼写错误
 - 修改自动化编译
 - 修改 logqt.ini ，加入详细的使用说明
+- 修改 RabbitCommonUtils.cmake
 
 ### 版本： v2.2.2
 - 测试： 增加 CFrmUpdater::CompareVersion 测试用例
