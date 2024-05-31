@@ -86,7 +86,7 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
             ui->cbFallbackTheme->addItem(themeName);
         }
     }
-    
+
     if(!QIcon::fallbackThemeName().isEmpty())
     {
         ui->cbFallbackTheme->setCurrentText(QIcon::fallbackThemeName());

@@ -26,13 +26,13 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
 
     m_szDefaultIconTheme = QIcon::themeName();
     if(m_szDefaultIconTheme.isEmpty())
-        m_szDefaultIconTheme = "black"; //TODO: can modify default icon theme
+        m_szDefaultIconTheme = "rabbit-black"; //TODO: can modify default icon theme
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
     if(!QIcon::fallbackThemeName().isEmpty())
         m_szDefaultFallbackIconTheme = QIcon::fallbackThemeName();
     if(m_szDefaultFallbackIconTheme.isEmpty())
-        m_szDefaultFallbackIconTheme = "black"; //TODO: can modify default fallback icon theme
+        m_szDefaultFallbackIconTheme = "rabbit-black"; //TODO: can modify default fallback icon theme
 #endif
 
 }
