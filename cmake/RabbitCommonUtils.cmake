@@ -161,13 +161,14 @@ endfunction()
 #   SOURCES: [MUST] source folder
 #   DESTINATION: destination folder. don't include CMAKE_INSTALL_PREFIX
 #   COMPONENT: component
+#   PARAMETERS: install(DIRECTORY ) other parameters.
 # NOTE: If not TARGET, it must be after ADD_TARGET
 # #与 INSTALL(DIRECTORY ...) 功能相似，android 安装到 assets
 option(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH
     "Install to build path. It only needs to be used when it is first configured"
     ON)
 function(INSTALL_DIR)
-    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES;PARAMETERS" ${ARGN})
 
     if(NOT PARA_SOURCES)
         message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DIR([TARGET ... ]SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
@@ -194,7 +195,9 @@ function(INSTALL_DIR)
 
     install(DIRECTORY ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION}
-            COMPONENT ${PARA_COMPONENT})
+            COMPONENT ${PARA_COMPONENT}
+            ${PARA_PARAMETERS}
+        )
 
     if(ANDROID)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
@@ -266,9 +269,10 @@ endfunction()
 #   SOURCES: Default is ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons
 #   DESTINATION: Default is share/icons
 #   COMPONENT: component
+#   PARAMETERS: install(DIRECTORY ) other parameters
 # NOTE: If not TARGET, it must be after ADD_TARGET
 function(INSTALL_ICON_THEME)
-    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES;PARAMETERS" ${ARGN})
 
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
@@ -282,7 +286,9 @@ function(INSTALL_ICON_THEME)
     INSTALL_DIR(TARGET ${PARA_TARGET}
         SOURCES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION}
-        COMPONENT ${PARA_COMPONENT})
+        COMPONENT ${PARA_COMPONENT}
+        PARAMETERS ${PARA_PARAMETERS}
+    )
 endfunction()
 
 # Install style files

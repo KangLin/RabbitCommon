@@ -1,3 +1,8 @@
+### Version v2.2.4
+- RabbitCommonUtils
+  - add PARAMETERS in INSTALL_DIR and INSTALL_ICON_THEME
+- Rename icons theme rabbit-*
+
 ### Version v2.2.3
 - CDlgAbout: Fix typo
 - Modify CI
