@@ -1,4 +1,7 @@
 debian/files
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/rabbitcommon*
 Src/cmark
 Translations.qrc
 Plugin/PluginStatic.cpp
@@ -14,6 +17,8 @@ Update/Update_*.xml
 *.autosave
 *.qm
 *.user
+*.log
+*.substvars
 test.xml
 .CCodec.h.kate-swp
 .kdev4/
@@ -23,12 +28,6 @@ CMakeSettings.json
 build-*/
 build_*/
 build/
-build_android/
-build_unix_mingw/
-build_windows_mingw/
-build_unix/
-build_windows_msvc/
-RabbitIm/
 *.ncb
 .metadata/
 *~
