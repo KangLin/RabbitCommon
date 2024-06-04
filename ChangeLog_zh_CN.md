@@ -2,6 +2,7 @@
 - RabbitCommonUtils
   - 在 INSTALL_DIR 和 INSTALL_ICON_THEME 增加参数 PARAMETERS
 - 重命名图标方案，增加前缀： rabbit-*
+- CMake：修改版本函数
 
 ### 版本： v2.2.3
 - 关于对话框：修复拼写错误

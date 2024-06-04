@@ -2,6 +2,7 @@
 - RabbitCommonUtils
   - add PARAMETERS in INSTALL_DIR and INSTALL_ICON_THEME
 - Rename icons theme rabbit-*
+- CMake: Modify version
 
 ### Version v2.2.3
 - CDlgAbout: Fix typo

@@ -11,7 +11,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-SET(RabbitCommon_VERSION "v2.2.3")
+SET(RabbitCommon_VERSION "2.2.3")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
@@ -41,8 +41,6 @@ set(VERSION ${RabbitCommon_VERSION})
 
 message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID:${CMAKE_CXX_COMPILER_ARCHITECTURE_ID}")
 message("CMAKE_SYSTEM_PROCESSOR:${CMAKE_SYSTEM_PROCESSOR}")
-
-add_definitions(-DRabbitCommon_VERSION="${RabbitCommon_VERSION}")
 
 if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")

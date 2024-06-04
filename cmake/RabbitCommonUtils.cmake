@@ -143,6 +143,7 @@ function(GET_VERSION)
                 SET(_OUT_VERSION ${_OUT_REVISION})
             ENDIF()
             IF(DEFINED PARA_OUT_VERSION)
+                string(REPLACE "v" "" _OUT_VERSION ${_OUT_VERSION})
                 SET(${PARA_OUT_VERSION} ${_OUT_VERSION} PARENT_SCOPE)
             ENDIF()
             IF(DEFINED PARA_OUT_REVISION)
@@ -672,9 +673,7 @@ function(INSTALL_TARGET)
                 get_target_property(PARA_VERSION ${PARA_NAME} VERSION)
             endif()
             if(PARA_VERSION)
-                if(NOT WIN32)
-                    string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
-                endif()
+                string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
                 write_basic_package_version_file(
                     "${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}ConfigVersion.cmake"
                     VERSION ${PARA_VERSION}

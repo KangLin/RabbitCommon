@@ -6,6 +6,8 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include(CMakeFindDependencyMacro)
 find_dependency(OpenSSL)
 
+set(WITH_GUI @WITH_GUI@)
+
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/RabbitCommonUtils.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/Translations.cmake")

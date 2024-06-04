@@ -31,14 +31,8 @@ if [ -z "$VERSION" ]; then
     VERSION=`git rev-parse --short HEAD`
 fi
 
-sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
-sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
-sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
-sed -i "s/          \"version\":[[:blank:]]*\"v\?[0-9]\+\.[0-9]\+\.[0-9]\+\"/          \"version\":\"${VERSION}\"/g" ${SOURCE_DIR}/Update/update.json
 
-sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
-sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
 #sed -i "s/^\  - export VERSION=.*/\  - export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
@@ -49,6 +43,14 @@ sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_D
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/macos.yml
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
+
+sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
+sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
+sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+
+sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
+sed -i "s/          \"version\":[[:blank:]]*\"v\?[0-9]\+\.[0-9]\+\.[0-9]\+\"/          \"version\":\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Update/update.json
 
 sed -i "s/rabbitcommon (.*)/rabbitcommon (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
 sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
