@@ -166,6 +166,11 @@ QString CStyle::GetStyle()
     QString szPath =  RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style";
+#ifdef Q_OS_LINUX
+    QDir d(szPath);
+    if(!d.exists())
+        szPath = "/usr/share/style";
+#endif
     if(!szFile.isEmpty()) {
         QFileInfo fi(szFile);
         szPath = fi.absoluteFilePath();
