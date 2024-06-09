@@ -74,6 +74,7 @@ echo " -- `git log --pretty=format:'%an <%ae>' HEAD^..HEAD`  `date --rfc-email`"
 MAJOR_VERSION=`echo ${DEBIAN_VERSION}|cut -d "." -f 1`
 #sed -i "s/android:versionCode=.*android/android:versionCode=\"${MAJOR_VERSION}\" android/g"  ${SOURCE_DIR}/Tests/android/AndroidManifest.xml
 
+DATE_TIME_UTC=$(date -u +"%F at %T (UTC)")
 if [ -n "$1" ]; then
     git add .
     git commit -m "Release $1"

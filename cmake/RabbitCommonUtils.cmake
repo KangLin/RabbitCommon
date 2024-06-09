@@ -113,6 +113,8 @@ endmacro()
 # 输出参数：
 #   OUT_VERSION: 版本号
 #   OUT_REVISION: 版本修正号
+# 参见：
+#   语义化版本: https://semver.org/lang/zh-CN/
 function(GET_VERSION)
     cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
     # Find Git Version Patch

@@ -23,8 +23,10 @@ Author：Kang Lin（kl222@126.com)
 
 ### Latest release
 
-[Latest release](https://github.com/KangLin/RabbitCommon/releases/latest)
-
+- [Latest release](https://github.com/KangLin/RabbitCommon/releases/latest)
+- See:
+  - Semantic Versioning: https://semver.org/
+  
 ### Functions
 
 [API](https://kanglin.github.io/RabbitCommon/English/html/group__API.html)

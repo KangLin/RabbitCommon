@@ -1103,6 +1103,7 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
  * \return > 0:
  *         = 0: 相同
  *         < 0
+ * \see https://semver.org/lang/zh-CN/
  */
 int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &currentVersion)
 {

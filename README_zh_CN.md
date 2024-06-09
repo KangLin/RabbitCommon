@@ -24,7 +24,10 @@
 
 ### 最后发行版本
 
-[最后发行版本](https://github.com/KangLin/RabbitCommon/releases/latest)
+- [最后发行版本](https://github.com/KangLin/RabbitCommon/releases/latest)
+
+- 参见：
+  - 语义化版本: https://semver.org/lang/zh-CN/
 
 ### 功能
 
