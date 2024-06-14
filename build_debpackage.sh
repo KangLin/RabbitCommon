@@ -46,8 +46,9 @@ export QT_ROOT=$QT_ROOT
 dpkg-buildpackage -us -uc -b
 
 #The -us -uc tell it there is no need to GPG sign the package. the -S is build source package
-#dpkg-buildpackage -us -uc -S
+#dpkg-buildpackage -us -uc -S  
 
+# See: https://mentors.debian.net/intro-maintainers/
 #dpkg-buildpackage -S
 
 # build source and binary package
