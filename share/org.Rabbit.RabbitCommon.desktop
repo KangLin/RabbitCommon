@@ -1,10 +1,15 @@
+# https://specifications.freedesktop.org/menu-spec/latest/index.html
+
+# https://specifications.freedesktop.org/desktop-entry-spec/latest/
 [Desktop Entry]
 Type=Application
 Icon=/opt/RabbitCommon/share/pixmaps/App.png
 Exec=/opt/RabbitCommon/bin/RabbitCommonApp.sh
 Terminal=false
 StartupNotify=true
-Categories=Application;Development;
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+Categories=Development
+# https://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/
 MimeType=text/plain;
 X-KDE-Protocols=http,https
 
