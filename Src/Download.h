@@ -84,6 +84,7 @@ private:
      * @return 
      */
     int DownloadFile(int nIndex, const QUrl &url, bool bRedirection = false);
+    int CloseReply(QNetworkReply* pReply, bool bAbort = false);
 
 private Q_SLOTS:
     void slotReadyRead();

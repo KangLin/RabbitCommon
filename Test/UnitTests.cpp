@@ -34,7 +34,7 @@ void CUnitTests::testDownloadFileNoExistLocalFile()
     RabbitCommon::CDownload dwonload;
     QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
           [&](int nRet, const QString msg){
-        QVERIFY(tr("The file is not exists: ") + szNoExitFile == msg && -4 == nRet);
+        QVERIFY(tr("The file is not exists: ") + szNoExitFile == msg && -6 == nRet);
     });
     QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
                      [&](const QString szPath){
