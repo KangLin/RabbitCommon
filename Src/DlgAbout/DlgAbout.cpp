@@ -172,12 +172,12 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
     QString szFileLocation;
 
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirDocument(
-                         QApplication::applicationName())
+                         QApplication::applicationName(), true)
                      + QDir::separator()
                      + szFile + "_" + RabbitCommon::CTools::Instance()->GetLanguage() + ".md";
     if(!d.exists(szFileLocation))
         szFileLocation = RabbitCommon::CDir::Instance()->GetDirDocument(
-                             QApplication::applicationName())
+                             QApplication::applicationName(), true)
                          + QDir::separator()
                          + szFile + ".md";
     //TODO: be will remove in 3.0

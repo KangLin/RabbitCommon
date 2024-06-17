@@ -1,3 +1,8 @@
+### 版本： v2.2.5
+  - 修复在 android 上，关于窗口加载文件错误
+  - 修改 share/org.Rabbit.RabbitCommon.desktop 的 Categories 值
+  - debian/rules: 修改并行数
+
 ### 版本： v2.2.4
 - RabbitCommonUtils
   - 在 INSTALL_DIR 和 INSTALL_ICON_THEME 增加参数 PARAMETERS

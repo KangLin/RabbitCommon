@@ -1,3 +1,8 @@
+### Version v2.2.5
+  - Fix about documents for android
+  - Modify org.Rabbit.RabbitCommon.desktop to Categories
+  - debian/rules: modify parallel
+
 ### Version v2.2.4
 - RabbitCommonUtils
   - add PARAMETERS in INSTALL_DIR and INSTALL_ICON_THEME
