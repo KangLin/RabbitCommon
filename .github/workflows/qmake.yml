@@ -21,7 +21,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_qmake
-      RabbitCommon_VERSION: 2.2.4
+      RabbitCommon_VERSION: 2.2.5
 
     steps:
       - name: Checkout Repository

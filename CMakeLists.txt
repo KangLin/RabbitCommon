@@ -13,7 +13,7 @@ endif()
 
 # 参见：
 #   语义化版本: https://semver.org/lang/zh-CN/
-SET(RabbitCommon_VERSION "2.2.4")
+SET(RabbitCommon_VERSION "2.2.5")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
