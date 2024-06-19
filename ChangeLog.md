@@ -1,3 +1,6 @@
+### Version v2.2.6
+  - Modify debian package files
+
 ### Version v2.2.5
   - Fix about documents for android
   - Modify org.Rabbit.RabbitCommon.desktop to Categories

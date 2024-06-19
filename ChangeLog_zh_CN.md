@@ -1,3 +1,6 @@
+### 版本： v2.2.6
+  - 修改 debian 打包文件
+
 ### 版本： v2.2.5
   - 修复在 android 上，关于窗口加载文件错误
   - 修改 share/org.Rabbit.RabbitCommon.desktop 的 Categories 值
