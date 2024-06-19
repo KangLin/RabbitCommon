@@ -1,5 +1,6 @@
 ### Version v2.2.6
   - Modify debian package files
+  - Use installed cmark on system in linux
 
 ### Version v2.2.5
   - Fix about documents for android

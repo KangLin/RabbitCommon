@@ -110,67 +110,15 @@ endif(BUILD_ABOUT)
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
 set(CMARK_STATIC ON CACHE BOOL "Set cmark static library")
 set(CMARK_TESTS OFF CACHE BOOL "Set cmark tests")
-cmake_dependent_option(WITH_CMARK_GFM "Use github cmark. to support Markdown" ON
-    BUILD_ABOUT OFF)
-if(WITH_CMARK_GFM)
-
-    find_package(cmark-gfm)
-    find_package(cmark-gfm-extensions)
-    if(NOT cmark-gfm_FOUND)
-        SET(_CMARK_GFM_VERSION 0.29.0.gfm.13)
-        set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
-        if(NOT EXISTS "${CMARK_GFM_DIR}")
-            DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_GFM_VERSION}"
-                HASH 65f559c2ad9001cfbac1d6977612c320
-                URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_GFM_VERSION}.tar.gz"
-                DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
-                STATUS retval
-                UNPACK
-                #SHOW_PROGRESS
-                )
-            if(NOT retval)
-                FILE(REMOVE "${CMARK_GFM_DIR}")
-            endif()
-            message("Download cmark-gfm:${retval}")
-        endif()
-        if(EXISTS "${CMARK_GFM_DIR}")
-            add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-            add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-            add_subdirectory("${CMARK_GFM_DIR}"
-                ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
-            SET(cmark-gfm_FOUND ON)
-            set(cmark-gfm-extensions_FOUND ON)
-            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
-                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
-                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
-        endif()
-    endif(NOT cmark-gfm_FOUND)
-    if(cmark-gfm_FOUND AND cmark-gfm-extensions_FOUND)
-        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
-        if(CMARK_SHARED)
-            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake parameters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
-            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
-        elseif(CMARK_STATIC)
-            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static libcmark-gfm_static)
-        elseif(TARGET libcmark-gfm)
-            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
-        endif()
-    endif()
-    
-endif(WITH_CMARK_GFM)
-
 cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
-    "BUILD_ABOUT;NOT WITH_CMARK_GFM" OFF)
+    "BUILD_ABOUT" OFF)
 if(WITH_CMARK)
 
     find_package(cmark)
     if(NOT cmark_FOUND)
-        #message("Suggest use cmark: https://github.com/commonmark/cmark to support Markdown. will download cmark ...")
-        
         SET(_CMARK_VERSION 0.30.2)
         set(CMARK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-${_CMARK_VERSION})
+        message("Use cmark: https://github.com/commonmark/cmark/archive/refs/tags/${_CMARK_VERSION}.tar.gz to support Markdown. will download cmark ...")
         if(NOT EXISTS "${CMARK_DIR}")
             DOWNLOAD(FILENAME "cmark-${_CMARK_VERSION}"
                 HASH d3f527fe8451dd9b58974b52c27302a8
@@ -206,6 +154,68 @@ if(WITH_CMARK)
         endif()
     endif()
 endif(WITH_CMARK)
+
+cmake_dependent_option(WITH_CMARK_GFM "Use github cmark-gfm. to support Markdown" ON
+    "BUILD_ABOUT;NOT WITH_CMARK" OFF)
+if(WITH_CMARK_GFM)
+
+    #find_package(PkgConfig)
+    #if(PKG_CONFIG_FOUND)
+    #    pkg_check_modules(cmark-gfm libcmark-gfm)
+    #if(cmark-gfm_FOUND)
+    #    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM ${cmark-gfm_CFLAGS})
+    #    list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS ${cmark-gfm_INCLUDE_DIRS})
+    #    list(APPEND RABBIT_PRIVATE_COMMON_LIBS ${cmark-gfm_LIBRARIES})
+    #endif()
+    find_package(cmark-gfm)
+    find_package(cmark-gfm-extensions)
+    if(NOT cmark-gfm_FOUND)
+
+        SET(_CMARK_GFM_VERSION 0.29.0.gfm.13)
+        set(CMARK_GFM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark/cmark-gfm-${_CMARK_GFM_VERSION}")
+        message("Use cmark-gfm: https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_GFM_VERSION}.tar.gz to support Markdown. will download cmark ...")
+        if(NOT EXISTS "${CMARK_GFM_DIR}")
+            DOWNLOAD(FILENAME "cmark-gfm-${_CMARK_GFM_VERSION}"
+                HASH 65f559c2ad9001cfbac1d6977612c320
+                URL "https://github.com/github/cmark-gfm/archive/refs/tags/${_CMARK_GFM_VERSION}.tar.gz"
+                DESTINATION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmark"
+                STATUS retval
+                UNPACK
+                #SHOW_PROGRESS
+                )
+            if(NOT retval)
+                FILE(REMOVE "${CMARK_GFM_DIR}")
+            endif()
+            message("Download cmark-gfm:${retval}")
+        endif()
+        if(EXISTS "${CMARK_GFM_DIR}")
+            add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+            add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+            add_subdirectory("${CMARK_GFM_DIR}"
+                ${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm)
+            SET(cmark-gfm_FOUND ON)
+            set(cmark-gfm-extensions_FOUND ON)
+            list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/src>"
+                "$<BUILD_INTERFACE:${CMARK_GFM_DIR}/extensions>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/src>"
+                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmark-gfm/extensions>")
+        endif()
+
+    endif(NOT cmark-gfm_FOUND)
+
+    if(cmark-gfm_FOUND AND cmark-gfm-extensions_FOUND)
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK_GFM)
+        if(CMARK_SHARED)
+            message(WARNING "Now use -DCMARK_SHARED=ON. suggest to use static library, set cmake parameters: -DCMARK_SHARED=OFF -DCMARK_STATIC=ON")
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
+        elseif(CMARK_STATIC)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions_static libcmark-gfm_static)
+        elseif(TARGET libcmark-gfm)
+            list(APPEND RABBIT_PRIVATE_COMMON_LIBS libcmark-gfm-extensions libcmark-gfm)
+        endif()
+    endif()
+endif(WITH_CMARK_GFM)
 
 if(cmark_FOUND OR cmark-gfm_FOUND)
     find_package(Qt${QT_VERSION_MAJOR}WebEngineWidgets)

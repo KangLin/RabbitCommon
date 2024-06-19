@@ -3,13 +3,22 @@ set -e
 
 SOURCE_DIR=`pwd`
 
+PRE_TAG=`git tag --sort=-creatordate | head -n 1`
+
 if [ -n "$1" ]; then
     VERSION=`git describe --tags`
     if [ -z "$VERSION" ]; then
-        VERSION=` git rev-parse HEAD`
+        VERSION=`git rev-parse HEAD`
     fi
-    
-    echo "Current version: $VERSION, The version to will be set: $1"
+
+    if [ -n "$2" ]; then
+        MESSAGE="Release $1 $2"
+    else
+        MESSAGE="Release $1"
+    fi
+
+    PRE_TAG=`git tag --sort=-taggerdate | head -n 1`
+    echo "Current version: $VERSION, current tag: $PRE_TAG. The version to will be set tag version: $1 message: $MESSAGE"
     echo "Please check the follow list:"
     echo "    - Test is ok ?"
     echo "    - Translation is ok ?"
@@ -20,9 +29,10 @@ if [ -n "$1" ]; then
     if [ "$INPUT" != "Y" -a "$INPUT" != "y" ]; then
         exit 0
     fi
-    git tag -a $1 -m "Release $1"
+    git tag -a $1 -m "Release $1 ${MESSAGE}"
 else
-    echo "$0 version"
+    echo "Usage: $0 release_version [release_message]"
+    echo "   release_version format: [v][0-9].[0-9].[0-9]"
     exit -1
 fi
 
