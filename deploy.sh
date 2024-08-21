@@ -58,6 +58,7 @@ sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERS
 sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
 sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
 sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+sed -i "s/version:.*'[0-9]\+\.[0-9]\+\.[0-9]\+'/version: '${DEBIAN_VERSION}'/g" ${SOURCE_DIR}/snap/snapcraft.yaml
 
 sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
 sed -i "s/          \"version\":[[:blank:]]*\"v\?[0-9]\+\.[0-9]\+\.[0-9]\+\"/          \"version\":\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Update/update.json
