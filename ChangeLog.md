@@ -1,3 +1,6 @@
+### Version v2.2.7
+  - Fix log file name bug
+
 ### Version v2.2.6
   - Modify debian package files
   - Use installed cmark on system in linux

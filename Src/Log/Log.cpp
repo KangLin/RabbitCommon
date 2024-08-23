@@ -31,11 +31,12 @@ extern CDockDebugLog* g_pDcokDebugLog;
 
 namespace RabbitCommon {
 
-static Q_LOGGING_CATEGORY(Logger, "RabbitCommon.log")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.log")
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
 
 CLog::CLog() : QObject(),
+    m_szName(QCoreApplication::applicationName()),
     m_szFileFormat("yyyy-MM-dd"),
     m_nLength(0),
     m_nCount(0)
@@ -69,11 +70,12 @@ CLog::CLog() : QObject(),
     if (QFile::exists(szConfFile))
     {
         m_szConfigureFile = szConfFile;
-        qInfo(Logger) << "Load log configure file:" << m_szConfigureFile;
+        qInfo(log) << "Load log configure file:" << m_szConfigureFile;
         QSettings setConfig(m_szConfigureFile, QSettings::IniFormat);
         setConfig.beginGroup("Log");
         m_szPath = setConfig.value("Path", m_szPath).toString();
-        m_szFileFormat = setConfig.value("Name", m_szFileFormat).toString();
+        m_szName = setConfig.value("Name", m_szName).toString();
+        m_szFileFormat = setConfig.value("DateFormat", m_szFileFormat).toString();
         szPattern = setConfig.value("Pattern", szPattern).toString();
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
@@ -104,7 +106,7 @@ CLog::CLog() : QObject(),
 
         setConfig.beginGroup("Rules");
         auto keys = setConfig.childKeys();
-        //qDebug(Logger) << "keys" << keys;
+        //qDebug(log) << "keys" << keys;
         szFilterRules.clear();
         foreach(auto k, keys) {
             QString v = setConfig.value(k).toString();
@@ -112,12 +114,13 @@ CLog::CLog() : QObject(),
         }
         setConfig.endGroup();
     } else {
-        qWarning(Logger) << "Log configure file is not exist:" << szConfFile
+        qWarning(log) << "Log configure file is not exist:" << szConfFile
                          << ". Use default settings.";
     }
 
-    qDebug(Logger) << "Log configure:"
+    qDebug(log) << "Log configure:"
                    << "\n    Path:" << m_szPath
+                   << "\n    Name:" << m_szName
                    << "\n    FileNameFormat:" << m_szFileFormat
                    << "\n    szPattern:" << szPattern
                    << "\n    Interval:" << nInterval
@@ -304,26 +307,35 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
 
 void CLog::checkFileCount()
 {
-    if(m_nCount < 2) return;
-    
+    if(0 == m_nCount) return;
+    QString szFile;
     QDir d(m_szPath);
+    d.setNameFilters(QStringList() << getBaseName() + "*");
     auto lstFiles = d.entryInfoList(QDir::Files, QDir::Time);
-    if(lstFiles.size() < m_nCount) return;
+    if(lstFiles.size() <= m_nCount) return;
 
     if(lstFiles.first().lastModified() < lstFiles.back().lastModified())
-    {
-        if(d.remove(lstFiles.first().absoluteFilePath()))
-            qInfo(Logger) << "Remove file:" << lstFiles.first().absoluteFilePath();
-        else
-            qCritical(Logger) << "Remove file fail:"
-                              << lstFiles.first().absoluteFilePath();
-    } else {
-        if(d.remove(lstFiles.back().absoluteFilePath()))
-            qInfo(Logger) << "Remove file:" << lstFiles.back().absoluteFilePath();
-        else
-            qCritical(Logger) << "Remove file fail:"
-                              << lstFiles.back().absoluteFilePath();
-    }
+        szFile = lstFiles.first().absoluteFilePath();
+    else
+        szFile = lstFiles.back().absoluteFilePath();
+
+    if(szFile.isEmpty()) return;
+
+    bool bRet = false;
+    bRet = d.remove(szFile);
+    if(bRet)
+        qDebug(log) << "Remove file:" << szFile;
+    else
+        qCritical(log) << "Remove file fail:" << szFile;
+}
+
+QString CLog::getBaseName()
+{
+    QString szSep("_");
+    return m_szName + szSep
+           + QString::number(QCoreApplication::applicationPid()) + szSep
+           + QDate::currentDate().toString(m_szFileFormat)
+           ;
 }
 
 QString CLog::getFileName()
@@ -334,19 +346,16 @@ QString CLog::getFileName()
     QString szName;
     QString szFile;
     QDir d(m_szPath);
-
-    szFile = m_File.fileName();
-    if(!szFile.isEmpty()) return szFile;
-
-    szName = QDate::currentDate().toString(m_szFileFormat);
+    
+    szName = getBaseName();
     d.setNameFilters(QStringList() << szName + "*");
     auto lstFiles = d.entryInfoList(QDir::Files, QDir::Name);
-    //qDebug(Logger) << "Log files:" << lstFiles;
+    //qDebug(log) << "Log files:" << lstFiles;
     if(lstFiles.isEmpty())
         szFile = m_szPath + QDir::separator() + szName + szSep + szNo + ".log";
     else
         szFile = lstFiles.back().absoluteFilePath();
-
+    
     return szFile;
 }
 
@@ -362,21 +371,13 @@ QString CLog::getNextFileName(const QString szFile)
     QString szName = fi.baseName();
 
     auto s = szName.split(szSep);
-    if(s.size() > 0
-            && QDate::currentDate().toString(m_szFileFormat) == s[0])
+    if(s.size() > 0)
     {
-        if(s.size() == 2) {
-            szNo = s[1];
-            szNo = QString("%1").arg(szNo.toInt() + 1, 4, 10, fill);
-        }
-
-        szName = s[0];
-    } else {
-        szName = QDate::currentDate().toString(m_szFileFormat);
+        szNo = s[s.size() - 1];
+        szNo = QString("%1").arg(szNo.toInt() + 1, 4, 10, fill);
     }
 
-    szName += szSep + szNo;
-    return m_szPath + QDir::separator() + szName + ".log";
+    return m_szPath + QDir::separator() + getBaseName() +szSep + szNo + ".log";
 }
 
 bool CLog::checkFileLength()
@@ -395,6 +396,17 @@ bool CLog::checkFileLength()
     return true;
 }
 
+bool CLog::checkFileName()
+{
+    QString szFile;
+    szFile = m_File.fileName();
+    QFileInfo fi(szFile);
+    szFile = fi.baseName();
+    
+    int nPos = szFile.lastIndexOf("_");
+    return szFile.left(nPos) == getBaseName();
+}
+
 void CLog::slotTimeout()
 {
     QString szFile;
@@ -407,6 +419,8 @@ void CLog::slotTimeout()
     do {
         if(checkFileLength())
             szFile = getNextFileName(m_File.fileName());
+        else if(!checkFileName())
+            szFile = getFileName();
         else
             if(m_File.isOpen()) break;
 #ifdef Q_OS_ANDROID
@@ -419,13 +433,14 @@ void CLog::slotTimeout()
             m_File.close();
 
         m_File.setFileName(szFile);
-        if(!m_File.open(QFile::WriteOnly | QFile::Append))
+        bool bRet = m_File.open(QFile::WriteOnly | QFile::Append);
+        m_Mutex.unlock();
+        if(!bRet)
         {
             //NOTE: Do not use qDebug or qCritical. Causes a deadlock.
             fprintf(stderr, "Open log file fail. %s\n",
                     m_File.fileName().toStdString().c_str());
         }
-        m_Mutex.unlock();
     } while(0);
     
     checkFileCount();
@@ -438,7 +453,7 @@ void OpenLogConfigureFile()
     QString f = RabbitCommon::CLog::Instance()->OpenLogConfigureFile();
     if(f.isEmpty())
     {
-        qCritical(Logger) << "Configure file is empty";
+        qCritical(log) << "Configure file is empty";
         return;
     }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));
@@ -449,7 +464,7 @@ void OpenLogFile()
     QString d = RabbitCommon::CLog::Instance()->GetLogFile();
     if(d.isEmpty())
     {
-        qCritical(Logger) << "Log file is empty";
+        qCritical(log) << "Log file is empty";
         return;
     }
     QDesktopServices::openUrl(d);
@@ -460,7 +475,7 @@ void OpenLogFolder()
     QString f = RabbitCommon::CLog::Instance()->GetLogDir();
     if(f.isEmpty())
     {
-        qCritical(Logger) << "Log folder is empty";
+        qCritical(log) << "Log folder is empty";
         return;
     }
     QDesktopServices::openUrl(QUrl::fromLocalFile(f));

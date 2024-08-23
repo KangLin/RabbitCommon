@@ -140,7 +140,6 @@ if(WITH_CMARK)
                 ${CMAKE_CURRENT_BINARY_DIR}/cmark)
             SET(cmark_FOUND TRUE)
         endif()
-        
     endif()
     if(cmark_FOUND)
         list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CMARK)
