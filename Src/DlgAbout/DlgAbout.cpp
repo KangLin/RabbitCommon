@@ -251,6 +251,8 @@ QString CDlgAbout::MarkDownToHtml(const QString &szText)
     {
         szRetureText = pHtml;
         free(pHtml);
+    } else {
+        qCritical(log) << "cmark_markdown_to_html fail";
     }
 
 #endif

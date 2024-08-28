@@ -113,7 +113,7 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         return;
     }
 
-#if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
     if(!pEdit) return;
     pEdit->setHtml(CDlgAbout::MarkDownToHtml(szContext));
