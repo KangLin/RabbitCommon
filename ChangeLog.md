@@ -1,5 +1,6 @@
 ### Version v2.2.7
   - Fix log file name bug
+  - Add environment in about dialog
 
 ### Version v2.2.6
   - Modify debian package files

@@ -1,9 +1,3 @@
-#include "Information.h"
-#include "ui_Information.h"
-#include "RabbitCommonTools.h"
-#include "DlgAbout.h"
-#include "Log/Log.h"
-
 #include <QLibraryInfo>
 #include <QHostInfo>
 #ifdef HAVE_WebEngineWidgets
@@ -11,6 +5,13 @@
 #endif
 #include <QTextEdit>
 #include <QStandardPaths>
+#include <QProcessEnvironment>
+
+#include "Information.h"
+#include "ui_Information.h"
+#include "RabbitCommonTools.h"
+#include "DlgAbout.h"
+#include "Log/Log.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout.Information")
 
@@ -92,8 +93,13 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
     szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
 #endif
-    szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName();
+    szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName() + "\n";
 #endif
+    szHost += "- " + tr("Environment:") + "\n";
+    auto env = QProcessEnvironment::systemEnvironment();
+    foreach (auto key, env.keys()) {
+        szHost += "  - " + key + "=" + env.value(key) + "\n";
+    }
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost);
 
