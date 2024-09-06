@@ -10,7 +10,7 @@
 
 namespace RabbitCommon {
 
-static Q_LOGGING_CATEGORY(dirLog, "RabbitCommon.Dir")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Dir")
 
 CDir::CDir()
 {
@@ -19,14 +19,14 @@ CDir::CDir()
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
-    qInfo(dirLog) << "Document path:" << m_szDocumentPath;
+    qInfo(log) << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
-            qCritical(dirLog) << "mkdir documents dir fail:" << m_szDocumentPath;
+            qCritical(log) << "mkdir documents dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  QCoreApplication::applicationDirPath();
-    qInfo(dirLog) << "Application dir:" << m_szApplicationDir;
+    qInfo(log) << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationRootDir = "assets:";
 #else
@@ -35,7 +35,7 @@ CDir::CDir()
     else
         m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
 #endif
-    qInfo(dirLog) << "Application root dir:" << m_szApplicationRootDir;
+    qInfo(log) << "Application root dir:" << m_szApplicationRootDir;
 }
 
 CDir* CDir::Instance()
@@ -48,7 +48,7 @@ CDir* CDir::Instance()
 
 QString CDir::GetDirApplication()
 {
-    //qDebug(dirLog) << "GetDirApplication:" << qApp->applicationDirPath();
+    //qDebug(log) << "GetDirApplication:" << qApp->applicationDirPath();
     return m_szApplicationDir;
 }
 
@@ -97,21 +97,21 @@ QString CDir::GetDirConfig(bool bReadOnly)
 QString CDir::GetDirLog()
 {
     QString szPath;
-#if defined (Q_OS_ANDROID)
+    szPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)
+             + QDir::separator() + "log"
+             + QDir::separator() + "Rabbit"
+             + QDir::separator() + QCoreApplication::applicationName();
+/*#if defined (Q_OS_ANDROID)
     szPath = GetDirUserDocument() + QDir::separator() + "root" + QDir::separator() + "log";
-    QDir d;
-    if(!d.exists(szPath))
-    {
-        d.mkpath(szPath);
-        //Todo: Copy assets:/etc to here.
-        //CopyDirectory("assets:/etc", szPath);
-    }
+#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    szPath = "/var/log/" + QCoreApplication::applicationName();
 #else
     szPath = GetDirApplicationInstallRoot() + QDir::separator() + "log";
+#endif*/
     QDir d;
     if(!d.exists(szPath))
-        d.mkpath(szPath);
-#endif
+        if(!d.mkpath(szPath))
+            qCritical(log) << "Make path fail:" << szPath;
     return szPath;
 }
 

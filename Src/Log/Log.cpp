@@ -61,12 +61,18 @@ CLog::CLog() : QObject(),
 #endif
 
     m_szPath = CDir::Instance()->GetDirLog();
-    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirUserConfig()
             + QDir::separator() + qApp->applicationName() + "_logqt.ini";
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if(!QFile::exists(szConfFile))
         szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
-                     + QDir::separator() + "logqt.in";
+            + QDir::separator() + qApp->applicationName() + "_logqt.ini";
+    if(!QFile::exists(szConfFile))
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirUserConfig()
+                     + QDir::separator() + "logqt.ini";
+    if(!QFile::exists(szConfFile))
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+                     + QDir::separator() + "logqt.ini";
     if (QFile::exists(szConfFile))
     {
         m_szConfigureFile = szConfFile;

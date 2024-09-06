@@ -25,11 +25,10 @@ namespace RabbitCommon {
  *       |- etc                                    GetDirConfig()
  *       |   |- xml                                GetDirApplicationXml()
  *       |   |- applicationName.conf               GetFileApplicationConfigure()
- *       |- log                                    GetDirLog()
  *       |- share                                  GetDirData()
  *       |   |- translations                       GetDirTranslations()
  *       |   |- doc                                GetDirDocument()
- *       |   |   |- ProjectName                    GetDirDocument(QCoreApplication::applicationName())
+ *       |   |   |- ${ProjectName}                 GetDirDocument(QCoreApplication::applicationName())
  *       |   |- icons                              GetDirIcons()
  *       |   |- db                                 GetDirDatabase()
  *       |       |- database.db                    GetDirDatabaseFile()
@@ -38,15 +37,20 @@ namespace RabbitCommon {
  *       |   |- szDir                              GetDirPlugins("plugins/szDir")
  *       |       | - translations                  GetDirPluginsTranslation("plugins/szDir")
  *
+ *
  * The follow folder is write and read:
- * DocumentRoot/Rabbit/applicationName             GetDirUserDocument()
+ * ${DocumentRoot}/Rabbit/${ApplicationName}       GetDirUserDocument()
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- etc                                    GetDirUserConfig()
  *       |- share                                  GetDirUserData()
  *       |    |- image                             GetDirUserImage()
  *       |    |- db                                GetDirUserDatabase()
- *       |       |- database.db                    GetDirUserDatabaseFile()
+ *       |    |   |- database.db                   GetDirUserDatabaseFile()
  *       |    |- xml                               GetDirUserXml()
+ *
+ * System temp folder
+ *       |- log
+ *       |   |- ${ApplicationName}                 GetDirLog()
  *
  *
  * Android:
@@ -64,7 +68,7 @@ namespace RabbitCommon {
  *       |   |- szDir
  *       |       | - translations                  GetDirPluginsTranslation("plugins/szDir")
  *       
- *    DocumentRoot/Rabbit/applicationName          (Write and read)
+ *    ${DocumentRoot}/Rabbit/${applicationName}    (Write and read)
  *       |- root
  *       |    |- etc                               GetDirConfig(true)
  *       |    |   |- xml                           GetDirApplicationXml(true)
@@ -72,7 +76,7 @@ namespace RabbitCommon {
  *       |    |- log                               GetDirLog()
  *       |    |- share                             GetDirData(true)
  *       |    |   |- db                            GetDirDatabase(true)
- *       |        |- database.db                   GetDirDatabaseFile(true)
+ *       |           |- database.db                GetDirDatabaseFile(true)
  *
  * \endcode
  *

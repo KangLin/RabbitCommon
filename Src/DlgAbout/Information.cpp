@@ -53,17 +53,31 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
     szQt += "- " + tr("Standard paths:") + "\n";
-    for(int i = 0; i < 19; i++)
+    for(int i = 0; i <= 22; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
-        szQt += "  - " + QStandardPaths::displayName(type) + ": ";
         QStringList lstPath = QStandardPaths::standardLocations(type);
-        if(lstPath.size() == 1)
-            szQt += lstPath.at(0);
-        else
-            foreach (auto p, lstPath) {
-                szQt += QString("\n") + "    - " + p;
-            }
+        if(!lstPath.isEmpty())
+        {
+            szQt += "  - " + QStandardPaths::displayName(type) + "[" + QString::number(type) + "]: ";
+            if(lstPath.size() == 1)
+                szQt += lstPath.at(0);
+            else
+                foreach (auto p, lstPath) {
+                    szQt += QString("\n") + "    - " + p;
+                }
+        }
+        szQt += "\n";
+    }
+    szQt += "- " + tr("Writable Location:") + "\n";
+    for(int i = 0; i <= 22; i++)
+    {
+        QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
+        QString szPath = QStandardPaths::writableLocation(type);
+        if(!szPath.isEmpty()) {
+            szQt += "  - " + QStandardPaths::displayName(type) + "[" + QString::number(type) + "]: ";
+            szQt += szPath;
+        }
         szQt += "\n";
     }
     szQt += "\n";
@@ -71,7 +85,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     
     QString szOS;
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
-    szOS = tr("### OS") + "\n";
+    szOS = "### " + tr("OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
     szOS += "  - " + tr("product type: ") + QSysInfo::productType() + "\n";
     szOS += "  - " + tr("product version: ") + QSysInfo::productVersion() + "\n";
@@ -85,25 +99,26 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     szOS += "- " + tr("CPU: ") + "\n";
     szOS += "  - " + tr("Architecture: ") + QSysInfo::currentCpuArchitecture() + "\n";
     szOS += "  - " + tr("Build architecture: ") + QSysInfo::buildCpuArchitecture() + "\n";
-    if(!szOS.isEmpty())
-        SetContext(tr("OS"), szOS);
     
     QString szHost;
-    szHost = tr("### Host") + "\n";
+    szHost = "### " + tr("Host") + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
     szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
 #endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName() + "\n";
 #endif
-    szHost += "- " + tr("Environment:") + "\n";
+
+    QString szEnv;
+    szEnv += "### " + tr("Environment:") + "\n";
     auto env = QProcessEnvironment::systemEnvironment();
     foreach (auto key, env.keys()) {
-        szHost += "  - " + key + "=" + env.value(key) + "\n";
+        szEnv += "  - " + key + "=" + env.value(key) + "\n";
     }
-    if(!szHost.isEmpty())
-        SetContext(tr("Host"), szHost);
 
-    //qDebug(log) << szRabbitCommon << szOS << szQt << szHost;
+    if(!szHost.isEmpty())
+        SetContext(tr("Host"), szHost + szOS + szEnv);
+
+    //qDebug(log) << szRabbitCommon << szQt << szOS << szHost << szEnv;
 }
 
 CInformation::~CInformation()

@@ -29,9 +29,9 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
         COPYONLY)
 
 endif()
-if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini)
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini)
     configure_file(${CMAKE_SOURCE_DIR}/Src/etc/logqt.ini
-        ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini
+        ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
         COPYONLY)
 endif()
 
