@@ -1,15 +1,15 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "RabbitCommonRegister.h"
-#include "RabbitCommonDir.h"
-#include "Log/Log.h"
-#include "RabbitCommonTools.h"
-
 #include <QSettings>
 #include <QCoreApplication>
 #include <QDir>
 #include <QStandardPaths>
+#include <QLoggingCategory>
+
+#include "RabbitCommonRegister.h"
+#include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 
 namespace RabbitCommon {
 

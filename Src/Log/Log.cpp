@@ -1,26 +1,33 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "Log.h"
-#include "RabbitCommonDir.h"
 #include <string>
 #include <QDebug>
 #include <QSettings>
 #include <QDir>
 #include <QFileInfo>
 #include <QUrl>
-#ifdef HAVE_RABBITCOMMON_GUI
-    #include <QDesktopServices>
-#endif
 #include <QRegularExpression>
 #include <QDateTime>
 #include <QtGlobal>
 #include <QMutex>
 #include <QCoreApplication>
+#include <QProcessEnvironment>
+#include <QStandardPaths>
+#include <QLoggingCategory>
+#include <QTextEdit>
 #ifdef HAVE_RABBITCOMMON_GUI
-#include "DockDebugLog.h"
-extern CDockDebugLog* g_pDcokDebugLog;
+    #include <QDesktopServices>
+    #include <QMessageBox>
+
+    #include "DockDebugLog.h"
+    #include "DockFolderBrowser.h"
+    extern CDockDebugLog* g_pDcokDebugLog;
 #endif
+
+#include "Log.h"
+#include "RabbitCommonDir.h"
+#include "DlgEdit.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     QtMessageHandler g_originalMessageHandler = Q_NULLPTR;
@@ -30,14 +37,13 @@ extern CDockDebugLog* g_pDcokDebugLog;
     
 
 namespace RabbitCommon {
-
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.log")
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
 
 CLog::CLog() : QObject(),
     m_szName(QCoreApplication::applicationName()),
-    m_szFileFormat("yyyy-MM-dd"),
+    m_szDateFormat("yyyy-MM-dd"),
     m_nLength(0),
     m_nCount(0)
 {    
@@ -61,15 +67,16 @@ CLog::CLog() : QObject(),
 #endif
 
     m_szPath = CDir::Instance()->GetDirLog();
-    QString szConfFile = RabbitCommon::CDir::Instance()->GetDirUserConfig()
-            + QDir::separator() + qApp->applicationName() + "_logqt.ini";
+    QString szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                            QCoreApplication::applicationName() + "_logqt.ini");
     szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
     if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
-            + QDir::separator() + qApp->applicationName() + "_logqt.ini";
+        szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                     "logqt.ini");
     if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirUserConfig()
-                     + QDir::separator() + "logqt.ini";
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+                     + QDir::separator() + QCoreApplication::applicationName()
+                     + "_logqt.ini";
     if(!QFile::exists(szConfFile))
         szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
                      + QDir::separator() + "logqt.ini";
@@ -81,7 +88,7 @@ CLog::CLog() : QObject(),
         setConfig.beginGroup("Log");
         m_szPath = setConfig.value("Path", m_szPath).toString();
         m_szName = setConfig.value("Name", m_szName).toString();
-        m_szFileFormat = setConfig.value("DateFormat", m_szFileFormat).toString();
+        m_szDateFormat = setConfig.value("DateFormat", m_szDateFormat).toString();
         szPattern = setConfig.value("Pattern", szPattern).toString();
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
@@ -127,7 +134,8 @@ CLog::CLog() : QObject(),
     qDebug(log) << "Log configure:"
                    << "\n    Path:" << m_szPath
                    << "\n    Name:" << m_szName
-                   << "\n    FileNameFormat:" << m_szFileFormat
+                   << "\n    DateFormat:" << m_szDateFormat
+                   << "(Base file name: " + getBaseName() + ")"
                    << "\n    szPattern:" << szPattern
                    << "\n    Interval:" << nInterval
                    << "\n    Count:" << m_nCount
@@ -137,23 +145,24 @@ CLog::CLog() : QObject(),
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
-    #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-        qSetMessagePattern(szPattern);
-        g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
-    #else
-        g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
-    #endif
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    qSetMessagePattern(szPattern);
+    g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
+#else
+    g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
+#endif
 
     QDir d;
     if(!d.exists(m_szPath))
     {
-        if(!d.mkpath(m_szPath))
+        if(!d.mkpath(m_szPath)) {
+            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
             fprintf(stderr, "Create log directory fail. %s\n",
                     m_szPath.toStdString().c_str());
+        }
     }
 
     slotTimeout();
-
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          this, SLOT(slotTimeout()));
     Q_ASSERT(check);
@@ -329,10 +338,11 @@ void CLog::checkFileCount()
 
     bool bRet = false;
     bRet = d.remove(szFile);
+    //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
     if(bRet)
-        qDebug(log) << "Remove file:" << szFile;
+        printf("Remove file: %s\n", szFile.toStdString().c_str());
     else
-        qCritical(log) << "Remove file fail:" << szFile;
+        printf("Remove file fail: %s", szFile.toStdString().c_str());
 }
 
 QString CLog::getBaseName()
@@ -340,7 +350,7 @@ QString CLog::getBaseName()
     QString szSep("_");
     return m_szName + szSep
            + QString::number(QCoreApplication::applicationPid()) + szSep
-           + QDate::currentDate().toString(m_szFileFormat)
+           + QDate::currentDate().toString(m_szDateFormat)
            ;
 }
 
@@ -356,12 +366,11 @@ QString CLog::getFileName()
     szName = getBaseName();
     d.setNameFilters(QStringList() << szName + "*");
     auto lstFiles = d.entryInfoList(QDir::Files, QDir::Name);
-    //qDebug(log) << "Log files:" << lstFiles;
     if(lstFiles.isEmpty())
         szFile = m_szPath + QDir::separator() + szName + szSep + szNo + ".log";
     else
         szFile = lstFiles.back().absoluteFilePath();
-    
+
     return szFile;
 }
 
@@ -441,9 +450,12 @@ void CLog::slotTimeout()
         m_File.setFileName(szFile);
         bool bRet = m_File.open(QFile::WriteOnly | QFile::Append);
         m_Mutex.unlock();
-        if(!bRet)
-        {
-            //NOTE: Do not use qDebug or qCritical. Causes a deadlock.
+        if(bRet) {
+            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
+            fprintf(stderr, "Log file: %s\n",
+                    m_File.fileName().toStdString().c_str());
+        } else {
+            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
             fprintf(stderr, "Open log file fail. %s\n",
                     m_File.fileName().toStdString().c_str());
         }
@@ -462,29 +474,98 @@ void OpenLogConfigureFile()
         qCritical(log) << "Configure file is empty";
         return;
     }
-    QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+
+    auto env = QProcessEnvironment::systemEnvironment();
+    bool bRet = false;
+    if(env.value("SNAP").isEmpty()) {
+        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+    }
+    if(bRet)
+        return;
+
+    qCritical(log) << "Open configure file fail:" << f;
+    CDlgEdit e(QObject::tr("Log configure file"), f, false);
+    if(e.exec() != QDialog::Accepted)
+        return;
+
+    QFile file(f);
+    if(file.open(QFile::WriteOnly)) {
+        QString szText = e.getContext();
+        file.write(szText.toStdString().c_str(), szText.length());
+        file.close();
+        return;
+    }
+    qDebug(log) << file.errorString() << f;
+    QString szFile
+        = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save as..."),
+                                       QStandardPaths::writableLocation(
+                                           QStandardPaths::ConfigLocation));
+    if(!szFile.isEmpty()) {
+        QFile f(szFile);
+        if(f.open(QFile::WriteOnly)) {
+            QString szText = e.getContext();
+            f.write(szText.toStdString().c_str(), szText.length());
+            f.close();
+            QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                          QSettings::IniFormat);
+            set.setValue("Log/ConfigFile", szFile);
+        }
+    }
 }
 
 void OpenLogFile()
 {
-    QString d = RabbitCommon::CLog::Instance()->GetLogFile();
-    if(d.isEmpty())
+    QString f = RabbitCommon::CLog::Instance()->GetLogFile();
+    if(f.isEmpty())
     {
         qCritical(log) << "Log file is empty";
         return;
     }
-    QDesktopServices::openUrl(d);
+    bool bRet = false;
+    auto env = QProcessEnvironment::systemEnvironment();
+    if(env.value("SNAP").isEmpty()) {
+        bRet = QDesktopServices::openUrl(f);
+    }
+    if(!bRet) {
+        //qCritical(log) << "Open log file fail:" << f;
+        CDlgEdit e(QObject::tr("Log file"), f);
+        e.exec();
+    }
 }
 
 void OpenLogFolder()
 {
-    QString f = RabbitCommon::CLog::Instance()->GetLogDir();
-    if(f.isEmpty())
+    QString d = RabbitCommon::CLog::Instance()->GetLogDir();
+    if(d.isEmpty())
     {
         qCritical(log) << "Log folder is empty";
         return;
     }
-    QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+    bool bRet = false;
+    auto env = QProcessEnvironment::systemEnvironment();
+    if(env.value("SNAP").isEmpty()) {
+        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
+    }
+    if(!bRet) {
+        CDockFolderBrowser* pDock
+            = new CDockFolderBrowser(QObject::tr("Folder browser"));
+        if(!pDock) {
+            qCritical(log) << "Open log folder fail:" << d;
+            return;
+        }
+        bool check = QObject::connect(pDock,
+                       &CDockFolderBrowser::sigDoubleClicked,
+                       [](const QString& file, bool bDir) {
+            if(!bDir) {
+                CDlgEdit e(QObject::tr("Log file"), file);
+                e.exec();
+            }
+        });
+        Q_ASSERT(check);
+        pDock->setAttribute(Qt::WA_DeleteOnClose, true);
+        pDock->setRootPath(d);
+        pDock->show();
+    }
 }
 
 #endif

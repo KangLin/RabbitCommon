@@ -63,6 +63,7 @@ if(WITH_GUI)
         Style/Style.h
         Log/DockDebugLog.h
         Log/DlgFilter.h
+        Log/DlgEdit.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
@@ -72,12 +73,14 @@ if(WITH_GUI)
         DockFolderBrowser/DockFolderBrowser.cpp
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
+        Log/DlgEdit.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
         DockFolderBrowser/DockFolderBrowser.ui
         Log/DockDebugLog.ui
         Log/DlgFilter.ui
+        Log/DlgEdit.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>

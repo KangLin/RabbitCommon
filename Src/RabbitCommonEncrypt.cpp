@@ -1,12 +1,13 @@
 // Author Kang Lin <kl222@126.com>
 
-#include "RabbitCommonEncrypt.h"
-#include "Log/Log.h"
 #include <string.h>
+#include <QLoggingCategory>
 
 #if defined (HAVE_OPENSSL)
 #include "EvpAES.h"
 #endif
+
+#include "RabbitCommonEncrypt.h"
 
 namespace RabbitCommon {
 

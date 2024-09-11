@@ -7,6 +7,9 @@
 #include <QMenu>
 #include <QDir>
 #include <QSettings>
+#include <QLoggingCategory>
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.DockFolderBrowser")
 
 CDockFolderBrowser::CDockFolderBrowser(const QString &title,
                              QWidget *parent,
@@ -117,6 +120,7 @@ CDockFolderBrowser::CDockFolderBrowser(QWidget *parent, Qt::WindowFlags flags) :
 
 CDockFolderBrowser::~CDockFolderBrowser()
 {
+    qDebug(log) << "CDockFolderBrowser::~CDockFolderBrowser()";
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     uint flitersFlag = m_pModel->filter();

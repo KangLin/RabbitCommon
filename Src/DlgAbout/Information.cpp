@@ -6,12 +6,12 @@
 #include <QTextEdit>
 #include <QStandardPaths>
 #include <QProcessEnvironment>
+#include <QLoggingCategory>
 
 #include "Information.h"
 #include "ui_Information.h"
 #include "RabbitCommonTools.h"
 #include "DlgAbout.h"
-#include "Log/Log.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout.Information")
 

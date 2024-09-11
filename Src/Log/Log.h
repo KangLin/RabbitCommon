@@ -51,7 +51,7 @@ private:
 
     QString m_szPath;
     QString m_szName;
-    QString m_szFileFormat;
+    QString m_szDateFormat;
     QFile m_File;
     QMutex m_Mutex;
     qint64 m_nLength;   // Unit: byte

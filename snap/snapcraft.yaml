@@ -27,7 +27,6 @@ parts:
     plugin: cmake
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DRabbitCommon_DIR=/
     source: .
     build-packages:
       - qttools5-dev
@@ -43,36 +42,24 @@ parts:
       - libcrypt-dev
     stage-packages:
       - libcmark0.30.2
-      - libopengl0
-      - libgl1
-      - libglx0
-      - libglu1-mesa
       - libssl3
       - libcrypt1
       - libqt5scxml5
-#      - libqt5webengine5
-#      - libqt5webenginewidgets5
+      #- libqt5webengine5
+      - libqt5webenginewidgets5
       - libqt5svg5
       - libqt5xml5
-      - libc6
-      - libgcc-s1
-      - libstdc++6
-      - zlib1g
 
 # App directives: https://snapcraft.io/docs/snapcraft-yaml-schema#app-directives
 apps:
  rabbitcommon:
    command: usr/local/bin/RabbitCommonApp
-   environment:
-     QTWEBENGINEPROCESS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/libexec
+#   environment:
+#     QTWEBENGINEPROCESS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/libexec
    # List extensions, run `snapcraft extensions`
    extensions:
      - kde-neon
    # See: https://snapcraft.io/docs/supported-interfaces
    plugs:
      - network
-     - network-status
-     - network-control
-     - network-bind
-     - network-manager
      - home

@@ -29,11 +29,17 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
         COPYONLY)
 
 endif()
+INSTALL(FILES ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
+    DESTINATION etc
+    COMPONENT Application)
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini)
     configure_file(${CMAKE_SOURCE_DIR}/Src/etc/logqt.ini
         ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
         COPYONLY)
 endif()
+INSTALL(FILES ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
+    DESTINATION etc
+    COMPONENT Application)
 
 if(NOT ANDROID AND UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
