@@ -136,21 +136,23 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
 
 #if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
-    if(!pEdit) return;
-    pEdit->setHtml(CDlgAbout::MarkDownToHtml(szContext));
-    pEdit->show();
-    ui->tabWidget->addTab(pEdit, szTitle);
-#else
-    QTextEdit* pEdit = new QTextEdit(ui->tabWidget);
-    if(!pEdit) return;
-    pEdit->setReadOnly(true);
-    pEdit->setWordWrapMode(QTextOption::NoWrap);
-    ui->tabWidget->addTab(pEdit, szTitle);
-    pEdit->append(szContext);
-    //把光标移动文档开始处  
-        QTextCursor cursor = pEdit->textCursor();
-    cursor.movePosition(QTextCursor::Start);
-    pEdit->setTextCursor(cursor);
-    pEdit->show();
+    if(pEdit) {
+        pEdit->setHtml(CDlgAbout::MarkDownToHtml(szContext));
+        pEdit->show();
+        ui->tabWidget->addTab(pEdit, szTitle);
+    } else
 #endif
+    {
+        QTextEdit* pEdit = new QTextEdit(ui->tabWidget);
+        if(!pEdit) return;
+        pEdit->setReadOnly(true);
+        pEdit->setWordWrapMode(QTextOption::NoWrap);
+        ui->tabWidget->addTab(pEdit, szTitle);
+        pEdit->append(szContext);
+        //把光标移动文档开始处
+        QTextCursor cursor = pEdit->textCursor();
+        cursor.movePosition(QTextCursor::Start);
+        pEdit->setTextCursor(cursor);
+        pEdit->show();
+    }
 }

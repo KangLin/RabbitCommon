@@ -49,7 +49,10 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout")
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::CDlgAbout)
+    ui(new Ui::CDlgAbout),
+    m_pLicense(nullptr),
+    m_pChangeLog(nullptr),
+    m_pThanks(nullptr)
 {
 #ifdef HAVE_CMARK_GFM
     cmark_gfm_core_extensions_ensure_registered();
@@ -99,22 +102,31 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 
 #if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
     m_pLicense = new QWebEngineView(ui->tabWidget);
-    ui->tabWidget->addTab(m_pLicense, tr("License"));
     m_pChangeLog = new QWebEngineView(ui->tabWidget);
-    ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
     m_pThanks = new QWebEngineView(ui->tabWidget);
-    ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
-#else
-    m_pLicense = new QTextEdit(ui->tabWidget);
-    qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
-    ui->tabWidget->addTab(m_pLicense, tr("License"));
-    m_pChangeLog = new QTextEdit(ui->tabWidget);
-    qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
-    ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
-    m_pThanks = new QTextEdit(ui->tabWidget);
-    qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
-    ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
 #endif
+    if(!m_pLicense) {
+        m_pLicense = new QTextEdit(ui->tabWidget);
+        if(m_pLicense)
+            qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
+    }
+    if(!m_pChangeLog) {
+        m_pChangeLog = new QTextEdit(ui->tabWidget);
+        if(m_pChangeLog)
+            qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
+    }
+    if(!m_pThanks) {
+        m_pThanks = new QTextEdit(ui->tabWidget);
+        if(m_pThanks)
+            qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
+    }
+
+    if(m_pLicense)
+        ui->tabWidget->addTab(m_pLicense, tr("License"));
+    if(m_pChangeLog)
+        ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
+    if(m_pThanks)
+        ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
 
     AppendFile(m_pChangeLog, "ChangeLog");
     AppendFile(m_pLicense, "License");
@@ -195,18 +207,24 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
         text = readme.readAll();
 #if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
         QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
-        QString szText = MarkDownToHtml(text);
-        if(szText.isEmpty())
-            szText = text;
-        pEdit->setHtml(szText);
-#else
-        QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
-        pEdit->append(text);
-        //把光标移动文档开始处  
-        QTextCursor cursor = pEdit->textCursor();
-        cursor.movePosition(QTextCursor::Start);
-        pEdit->setTextCursor(cursor);
+        if(pEdit) {
+            QString szText = MarkDownToHtml(text);
+            if(szText.isEmpty())
+                szText = text;
+            pEdit->setHtml(szText);
+        } else
 #endif
+        {
+            QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
+            if(pEdit) {
+                pEdit->append(text);
+                //把光标移动文档开始处
+                QTextCursor cursor = pEdit->textCursor();
+                cursor.movePosition(QTextCursor::Start);
+                pEdit->setTextCursor(cursor);
+            }
+        }
+
         readme.close();
     }
     return 0;
