@@ -45,7 +45,8 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/TitleBar.cpp \
         $$PWD/DockFolderBrowser/DockFolderBrowser.cpp \
         $$PWD/Log/DockDebugLog.cpp \
-        $$PWD/Log/DlgFilter.cpp
+        $$PWD/Log/DlgFilter.cpp \
+        $$PWD/Log/DlgEdit.cpp
     INSTALL_HEADERS += \
         $$PWD/Style/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
@@ -54,12 +55,14 @@ DEFINES *= QT_MESSAGELOGCONTEXT
     HEADERS += $${INSTALL_HEADERS} \
         $$PWD/Style/Style.h \
         $$PWD/Log/DockDebugLog.h \
-        $$PWD/Log/DlgFilter.h
-    INCLUDEPATH += $$PWD/Style
+        $$PWD/Log/DlgFilter.h \
+        $$PWD/Log/DlgEdit.h
+    INCLUDEPATH += $$PWD/Style $$PWD/DockFolderBrowser
     FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui \
        $$PWD/Log/DockDebugLog.ui \
-       $$PWD/Log/DlgFilter.ui
+       $$PWD/Log/DlgFilter.ui \
+       $$PWD/Log/DlgEdit.ui
 
     equals(BUILD_QUIWidget, "ON"){
         SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
