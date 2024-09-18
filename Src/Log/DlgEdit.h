@@ -14,15 +14,17 @@ class CDlgEdit : public QDialog
 public:
     explicit CDlgEdit(const QString &szTitle = QString(),
                       const QString &szFile = QString(),
+                      const QString &szInfo = QString(),
                       bool bReadOnly = true,
                       QWidget *parent = nullptr);
     ~CDlgEdit();
 
-    void setFile(const QString &szFile);
     QString getContext();
 
 private:
     Ui::CDlgEdit *ui;
+
+    void setFile(const QString &szFile);
 
     // QDialog interface
 public slots:

@@ -7,6 +7,7 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgEdit")
 
 CDlgEdit::CDlgEdit(const QString &szTitle,
                    const QString &szFile,
+                   const QString &szInfo,
                    bool bReadOnly,
                    QWidget *parent)
     : QDialog(parent)
@@ -18,7 +19,8 @@ CDlgEdit::CDlgEdit(const QString &szTitle,
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Cancel);
     if(!szTitle.isEmpty())
         setWindowTitle(szTitle);
-
+    if(!szInfo.isEmpty())
+        ui->lbFile->setText(szInfo);
     setFile(szFile);
 }
 
@@ -47,7 +49,8 @@ void CDlgEdit::setFile(const QString &szFile)
         qCritical(log) << file.errorString() << szFile;
     }
 
-    ui->lbFile->setText(tr("File:") + " " + szFile);
+    if(ui->lbFile->text().isEmpty())
+        ui->lbFile->setText(tr("File:") + " " + szFile);
     ui->textEdit->setText(szText);
 }
 

@@ -21,7 +21,7 @@
     #include <QMessageBox>
 
     #include "DockDebugLog.h"
-    #include "DockFolderBrowser.h"
+    #include "FileBrowser.h"
     extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
@@ -484,7 +484,8 @@ void OpenLogConfigureFile()
         return;
 
     qCritical(log) << "Open configure file fail:" << f;
-    CDlgEdit e(QObject::tr("Log configure file"), f, false);
+    CDlgEdit e(QObject::tr("Log configure file"), f,
+               QObject::tr("Log configure file:") + f, false);
     if(e.exec() != QDialog::Accepted)
         return;
 
@@ -528,7 +529,7 @@ void OpenLogFile()
     }
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
-        CDlgEdit e(QObject::tr("Log file"), f);
+        CDlgEdit e(QObject::tr("Log file"), f, QObject::tr("Log file:") + f);
         e.exec();
     }
 }
@@ -547,24 +548,10 @@ void OpenLogFolder()
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
     }
     if(!bRet) {
-        CDockFolderBrowser* pDock
-            = new CDockFolderBrowser(QObject::tr("Folder browser"));
-        if(!pDock) {
-            qCritical(log) << "Open log folder fail:" << d;
-            return;
-        }
-        bool check = QObject::connect(pDock,
-                       &CDockFolderBrowser::sigDoubleClicked,
-                       [](const QString& file, bool bDir) {
-            if(!bDir) {
-                CDlgEdit e(QObject::tr("Log file"), file);
-                e.exec();
-            }
-        });
-        Q_ASSERT(check);
-        pDock->setAttribute(Qt::WA_DeleteOnClose, true);
-        pDock->setRootPath(d);
-        pDock->show();
+        CFileBrowser f;
+        f.setWindowTitle(QObject::tr("Log folder"));
+        f.setRootPath(d);
+        f.exec();
     }
 }
 
