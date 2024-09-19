@@ -175,7 +175,7 @@
     </message>
     <message>
         <location filename="../../Log/DlgEdit.ui" line="39"/>
-        <location filename="../../Log/DlgEdit.cpp" line="50"/>
+        <location filename="../../Log/DlgEdit.cpp" line="53"/>
         <source>File:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -299,6 +299,70 @@
         <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="90"/>
         <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="106"/>
         <source>Show details</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CFileBrowser</name>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="35"/>
+        <source>File browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="95"/>
+        <source>Option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="98"/>
+        <source>Hidden file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="120"/>
+        <source>Open with the System Associated Program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="135"/>
+        <source>Horizontal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="75"/>
+        <source>New folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="78"/>
+        <source>NewFolder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="82"/>
+        <source>Delete folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="73"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="299"/>
+        <source>File size is too big.
+You can read files up to %1 MB.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="310"/>
+        <source>Error opening the File!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="316"/>
+        <source>Filetype not supported!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1112,24 +1176,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="484"/>
+        <location filename="../../Log/Log.cpp" line="487"/>
         <source>Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="497"/>
+        <location filename="../../Log/Log.cpp" line="488"/>
+        <source>Log configure file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/Log.cpp" line="501"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="528"/>
-        <location filename="../../Log/Log.cpp" line="557"/>
+        <location filename="../../Log/Log.cpp" line="532"/>
         <source>Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="548"/>
-        <source>Folder browser</source>
+        <location filename="../../Log/Log.cpp" line="532"/>
+        <source>Log file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Log/Log.cpp" line="552"/>
+        <source>Log folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

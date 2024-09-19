@@ -58,6 +58,7 @@ if(WITH_GUI)
         Style/FrmStyle.h
         TitleBar.h
         DockFolderBrowser/DockFolderBrowser.h
+        FileBrowser/FileBrowser.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
@@ -71,6 +72,7 @@ if(WITH_GUI)
         Style/FrmStyle.cpp
         TitleBar.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
+        FileBrowser/FileBrowser.cpp
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
         Log/DlgEdit.cpp
@@ -84,7 +86,8 @@ if(WITH_GUI)
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>)
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FileBrowser>)
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON

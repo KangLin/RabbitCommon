@@ -64,22 +64,23 @@
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="170"/>
+        <location filename="../../MainWindow.ui" line="169"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="46"/>
+        <location filename="../../MainWindow.ui" line="174"/>
+        <location filename="../../MainWindow.cpp" line="47"/>
         <source>Folder browser</source>
         <translation>文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="129"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="129"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>
@@ -87,7 +88,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="49"/>
+        <location filename="../../main.cpp" line="48"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
     </message>

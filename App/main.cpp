@@ -18,7 +18,6 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #include "MainWindow.h"
-
 #ifdef HAVE_UPDATE
     #include "FrmUpdater.h"
 #endif

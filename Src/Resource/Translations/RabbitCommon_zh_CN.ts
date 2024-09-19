@@ -175,7 +175,7 @@
     </message>
     <message>
         <location filename="../../Log/DlgEdit.ui" line="39"/>
-        <location filename="../../Log/DlgEdit.cpp" line="50"/>
+        <location filename="../../Log/DlgEdit.cpp" line="53"/>
         <source>File:</source>
         <translation>文件：</translation>
     </message>
@@ -300,6 +300,71 @@
         <location filename="../../DockFolderBrowser/DockFolderBrowser.cpp" line="106"/>
         <source>Show details</source>
         <translation>详细信息</translation>
+    </message>
+</context>
+<context>
+    <name>CFileBrowser</name>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="35"/>
+        <source>File browser</source>
+        <translation>文件浏览器</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="95"/>
+        <source>Option</source>
+        <translation>选项</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="98"/>
+        <source>Hidden file</source>
+        <translation>隐藏文件</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="120"/>
+        <source>Open with the System Associated Program</source>
+        <translation>用系统关联程序打开</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="135"/>
+        <source>Horizontal</source>
+        <translation>水平</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="75"/>
+        <source>New folder</source>
+        <translation>新建文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="78"/>
+        <source>NewFolder</source>
+        <translation>新文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="82"/>
+        <source>Delete folder</source>
+        <translation>删除文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="73"/>
+        <source>Close</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="299"/>
+        <source>File size is too big.
+You can read files up to %1 MB.</source>
+        <translation>文件太在。
+你能从文件中读 %1 兆字节。</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="310"/>
+        <source>Error opening the File!</source>
+        <translation>打开文件错误！</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="316"/>
+        <source>Filetype not supported!</source>
+        <translation>文件类型不支持</translation>
     </message>
 </context>
 <context>
@@ -1128,25 +1193,38 @@
         <translation type="vanished">转储文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="484"/>
+        <location filename="../../Log/Log.cpp" line="487"/>
         <source>Log configure file</source>
         <translation>日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="497"/>
+        <location filename="../../Log/Log.cpp" line="488"/>
+        <source>Log configure file:</source>
+        <translation>日志配置文件：</translation>
+    </message>
+    <message>
+        <location filename="../../Log/Log.cpp" line="501"/>
         <source>Save as...</source>
         <translation>另存为...</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="528"/>
-        <location filename="../../Log/Log.cpp" line="557"/>
+        <location filename="../../Log/Log.cpp" line="532"/>
         <source>Log file</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="548"/>
+        <location filename="../../Log/Log.cpp" line="532"/>
+        <source>Log file:</source>
+        <translation>日志文件：</translation>
+    </message>
+    <message>
+        <location filename="../../Log/Log.cpp" line="552"/>
+        <source>Log folder</source>
+        <translation>日志文件夹</translation>
+    </message>
+    <message>
         <source>Folder browser</source>
-        <translation>文件夹浏览器</translation>
+        <translation type="vanished">文件夹浏览器</translation>
     </message>
 </context>
 <context>

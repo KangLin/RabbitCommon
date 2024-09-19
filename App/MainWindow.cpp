@@ -18,6 +18,7 @@
 #include "RabbitCommonEncrypt.h"
 #ifdef HAVE_RABBITCOMMON_GUI
 #include "DockFolderBrowser.h"
+#include "FileBrowser.h"
 #endif
 #include "RabbitCommonDir.h"
 
@@ -171,3 +172,10 @@ void MainWindow::slotDownloadError(int nErr, const QString szErr)
 {
     qDebug(log) << "Download file error:" << nErr << szErr;
 }
+
+void MainWindow::on_actionFolder_browser_triggered()
+{
+    CFileBrowser *pBF = new CFileBrowser();
+    pBF->exec();
+}
+

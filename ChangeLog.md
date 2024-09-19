@@ -1,7 +1,8 @@
-### Version v2.2.7
+### Version v2.3.0
   - Fix log file name bug
   - Add environment in about dialog
   - Add CDlgEdit
+  - Add CFileBrowser
 
 ### Version v2.2.6
   - Modify debian package files

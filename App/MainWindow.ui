@@ -23,16 +23,16 @@
          <string>Log</string>
         </property>
         <property name="popupMode">
-         <enum>QToolButton::MenuButtonPopup</enum>
+         <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
         </property>
         <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonIconOnly</enum>
+         <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
         </property>
         <property name="autoRaise">
          <bool>false</bool>
         </property>
         <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
+         <enum>Qt::ArrowType::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -133,7 +133,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -147,6 +147,7 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionFolder_browser"/>
    </widget>
    <addaction name="menuAbout"/>
    <addaction name="menuTools"/>
@@ -154,8 +155,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="help-about"/>
    </property>
    <property name="text">
     <string>About</string>
@@ -163,11 +163,15 @@
   </action>
   <action name="actionUpdate">
    <property name="icon">
-    <iconset theme="system-software-update">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="system-software-update"/>
    </property>
    <property name="text">
     <string>Update</string>
+   </property>
+  </action>
+  <action name="actionFolder_browser">
+   <property name="text">
+    <string>Folder browser</string>
    </property>
   </action>
  </widget>
