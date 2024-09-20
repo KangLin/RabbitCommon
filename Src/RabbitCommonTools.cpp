@@ -350,8 +350,10 @@ QSharedPointer<QTranslator> CTools::InstallTranslator(
     switch(type) {
     case TranslationType::Application:
         szPath = CDir::Instance()->GetDirTranslations();
-        if(szTranslationName.isEmpty())
+        if(szTranslationName.isEmpty()) {
             szTranslationName = QCoreApplication::applicationName();
+            szSuffix = QDir::separator() + szTranslationName + "_" + szLanguage + ".qm";
+        }
         break;
     case TranslationType::Library: {
         szPath = CDir::Instance()->GetDirTranslations();
@@ -597,6 +599,9 @@ void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
 {
     QAction* pAction = new QAction(QIcon::fromTheme("style"),
                                    QObject::tr("Style"), parent);
+    if(!pAction)
+        return;
+    pAction->setStatusTip(QObject::tr("Style"));
     QObject::connect(pAction, &QAction::triggered, [=](){
         CFrmStyle* s = new CFrmStyle(parent);
         if(s)
@@ -609,8 +614,9 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
 {
     QMenu* pMenu = new QMenu(QObject::tr("Log"), parentMainWindow);
     if(!pMenu) return pMenu;
+    pMenu->setStatusTip(QObject::tr("Log"));
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
-    pMenu->addAction(QIcon::fromTheme("emblem-system"),
+    QAction* pAction = pMenu->addAction(QIcon::fromTheme("emblem-system"),
                      QObject::tr("Settings"),
                      [](){
                          CDlgFilter dlg;
@@ -623,15 +629,19 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
                              CLog::Instance()->SetFilter(szInclude, szExclude);
                          }
                      });
-    pMenu->addAction(QIcon::fromTheme("document-open"),
+    pAction->setStatusTip(QObject::tr("Settings"));
+    pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
                      QObject::tr("Open Log configure file"),
                      [](){RabbitCommon::OpenLogConfigureFile();});
-    pMenu->addAction(QIcon::fromTheme("document-open"),
+    pAction->setStatusTip(QObject::tr("Open Log configure file"));
+    pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
                      QObject::tr("Open Log file"),
                      [](){RabbitCommon::OpenLogFile();});
-    pMenu->addAction(QIcon::fromTheme("folder-open"),
+    pAction->setStatusTip(QObject::tr("Open Log file"));
+    pAction = pMenu->addAction(QIcon::fromTheme("folder-open"),
                      QObject::tr("Open log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
+    pAction->setStatusTip(QObject::tr("Open Log folder"));
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parentMainWindow);
     if(pMainWindow) {
         if(!g_pDcokDebugLog)
@@ -644,6 +654,7 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
         pMenu->addAction(pDock);
         pDock->setText(QObject::tr("Log dock"));
         pDock->setIcon(QIcon::fromTheme("floating"));
+        pDock->setStatusTip(QObject::tr("Log dock"));
     } else {
         qWarning(log) << "CTools::GetLogMenu: Don't use dock debug log."
                          <<  "The parent suggest is MainWindow pointer";

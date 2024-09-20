@@ -19,20 +19,24 @@
 #include <QCheckBox>
 #include "FileBrowser.h"
 #include "RabbitCommonDir.h"
+#include <FileBroserTreeView.h>
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Browser.File")
 CFileBrowser::CFileBrowser(QWidget *parent)
-    : QDialog{parent}
-    , m_pModel(new QFileSystemModel(this))
+    : QWidget{parent}
+    , m_pModel(nullptr)
     , m_pTree(nullptr)
     , m_pList(nullptr)
     , m_pTable(nullptr)
     , m_pTextEdit(nullptr)
-    , m_bAssociated(true)
+    , m_pHiddenFile(nullptr)
+    , m_pAssociated(nullptr)
+    , m_pOrientation(nullptr)
 {
     bool check = false;
-    //setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(tr("File browser"));
+    setWindowIcon(QIcon::fromTheme("browser"));
 
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -53,15 +57,16 @@ CFileBrowser::CFileBrowser(QWidget *parent)
     rect.setHeight(nHeight);
     setGeometry(rect);
 
-    QVBoxLayout* pLayout = new QVBoxLayout();
+    QVBoxLayout* pLayout = new QVBoxLayout(this);
     m_pSpliter = new QSplitter(this);
-    m_pTree = new QTreeView(m_pSpliter);
+    m_pTree = new CFileBroserTreeView(m_pSpliter);
     m_pTable = new QTableView(m_pSpliter);
     //m_pList = new QListView(pSpliter);
     m_pTextEdit = new QTextEdit(m_pSpliter);
     if(!pLayout) return;
 
     do {
+        m_pModel = new QFileSystemModel(this);
         if(!m_pModel) return;
   //      m_pModel->setReadOnly(false);
         /*m_pModel->setFilter(QDir::AllDirs | QDir::Drives
@@ -69,95 +74,107 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         setLayout(pLayout);
         if(!m_pSpliter) break;
 
+        QString szTitle;
         QToolBar* pToolBar = new QToolBar();
-        pToolBar->addAction(QIcon::fromTheme("window-close"), tr("Close"),
-                            this, &CFileBrowser::reject);
-        pToolBar->addAction(QIcon::fromTheme("folder-new"), tr("New folder"),
+        szTitle = tr("Close");
+        QAction* pAction = pToolBar->addAction(QIcon::fromTheme("window-close"),
+                                       szTitle, this, &CFileBrowser::close);
+        pAction->setStatusTip(szTitle);
+        szTitle = tr("New folder");
+        pAction = pToolBar->addAction(QIcon::fromTheme("folder-new"), szTitle,
                             this, [&](){
                                 QModelIndex index = m_pTree->currentIndex();
                                 index = m_pModel->mkdir(index, tr("NewFolder"));
                                 if(!index.isValid())
                                     qCritical(log) << "New folder fail";
                             });
-        pToolBar->addAction(QIcon::fromTheme("edit-delete"), tr("Delete folder"),
-                            this, [&](){
-                                QString szDir;
-                                QModelIndex index = m_pTree->currentIndex();
-                                szDir = m_pModel->data(index).toString();
-                                bool bRet = m_pModel->rmdir(index);
-                                if(bRet)
-                                    qDebug(log) << "Delete folder:" << szDir;
-                                else
-                                    qCritical(log) << "Delete folder fail" << szDir;
-                            });
+        pAction->setStatusTip(szTitle);
+        szTitle = tr("Delete folder");
+        pAction = pToolBar->addAction(
+            QIcon::fromTheme("edit-delete"), szTitle,
+            this, [&](){
+                QString szDir;
+                QModelIndex index = m_pTree->currentIndex();
+                szDir = m_pModel->data(index).toString();
+                bool bRet = m_pModel->rmdir(index);
+                if(bRet)
+                    qDebug(log) << "Delete folder:" << szDir;
+                else
+                    qCritical(log) << "Delete folder fail" << szDir;
+            });
+        pAction->setStatusTip(szTitle);
+        szTitle = tr("Option");
         QToolButton* pButtonOption = new QToolButton(pToolBar);
         pButtonOption->setIcon(QIcon::fromTheme("emblem-system"));
-        QMenu* pMenuOption = new QMenu(tr("Option"), pButtonOption);
+        pButtonOption->setStatusTip(szTitle);
+        QMenu* pMenuOption = new QMenu(szTitle, pButtonOption);
         pButtonOption->setMenu(pMenuOption);
         pToolBar->addWidget(pButtonOption);
-        QCheckBox* pHiddenFile = new QCheckBox(tr("Hidden file"));
-        check = set.value("FileBrowser/HiddenFile", check).toBool();
-        pHiddenFile->setCheckable(true);
-        pHiddenFile->setChecked(check);
+
+        szTitle = tr("Hidden file");
+        m_pHiddenFile = pMenuOption->addAction(
+            szTitle, this,
+            [&]() {
+                bool checked = m_pHiddenFile->isChecked();
+                if(checked)
+                    m_pModel->setFilter(m_pModel->filter() | QDir::Hidden);
+                else
+                    m_pModel->setFilter(m_pModel->filter() & (~QDir::Hidden));
+                QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                              QSettings::IniFormat);
+                set.setValue(GetSetPrefix() + "/HiddenFile", checked);
+            });
+        check = set.value(GetSetPrefix() + "/HiddenFile", check).toBool();
+        m_pHiddenFile->setStatusTip(szTitle);
+        m_pHiddenFile->setToolTip(szTitle);
+        m_pHiddenFile->setCheckable(true);
+        m_pHiddenFile->setChecked(check);
         if(check)
             m_pModel->setFilter(m_pModel->filter() | QDir::Hidden);
         else
             m_pModel->setFilter(m_pModel->filter() & (~QDir::Hidden));
-        check = connect(pHiddenFile, &QCheckBox::clicked, this,
-                [&](bool checked){
-                    if(checked)
-                        m_pModel->setFilter(m_pModel->filter() | QDir::Hidden);
-                    else
-                        m_pModel->setFilter(m_pModel->filter() & (~QDir::Hidden));
-                    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                                  QSettings::IniFormat);
-                    set.setValue("FileBrowser/HiddenFile", checked);
-        });
-        Q_ASSERT(check);
-        QWidgetAction *pAction = new QWidgetAction(this);
-        pAction->setDefaultWidget(pHiddenFile);
-        pMenuOption->addAction(qobject_cast<QAction*>(pAction));
-        QCheckBox* pAssociated = new QCheckBox(tr("Open with the System Associated Program"));
-        m_bAssociated = set.value("FileBrowser/SystemAssociatedProgram", m_bAssociated).toBool();
-        pAssociated->setCheckable(true);
-        pAssociated->setChecked(m_bAssociated);
-        check = connect(pAssociated, &QCheckBox::clicked, this,
-                [&](bool checked){
-                            m_bAssociated = checked;
-                            QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                                          QSettings::IniFormat);
-                            set.setValue("FileBrowser/SystemAssociatedProgram", checked);
-                        });
-        Q_ASSERT(check);
-        pAction = new QWidgetAction(this);
-        pAction->setDefaultWidget(pAssociated);
-        pMenuOption->addAction(qobject_cast<QAction*>(pAction));
-        QCheckBox* pOrientation = new QCheckBox(tr("Horizontal"));
-        pOrientation->setCheckable(true);
+
+        szTitle = tr("Open with the System Associated Program");
+        m_pAssociated = pMenuOption->addAction(
+            szTitle, this, [&](){
+                QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                              QSettings::IniFormat);
+                set.setValue(GetSetPrefix() + "/SystemAssociatedProgram", m_pAssociated->isChecked());
+            });
+        m_pAssociated->setStatusTip(szTitle);
+        m_pAssociated->setToolTip(szTitle);
+        m_pAssociated->setCheckable(true);
+        m_pAssociated->setChecked(
+            set.value(
+                   GetSetPrefix() + "/SystemAssociatedProgram",
+                   m_pAssociated->isChecked()).toBool());
+
+        szTitle = tr("Horizontal");
+        m_pOrientation = pMenuOption->addAction(
+            szTitle, this, [&](){
+                bool checked = m_pOrientation->isChecked();
+                if(checked)
+                    m_pSpliter->setOrientation(Qt::Horizontal);
+                else
+                    m_pSpliter->setOrientation(Qt::Vertical);
+                QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                              QSettings::IniFormat);
+                set.setValue(GetSetPrefix() + "/Spliter/Horizontal", checked);
+            });
+        m_pOrientation->setStatusTip(szTitle);
+        m_pOrientation->setToolTip(szTitle);
+        m_pOrientation->setCheckable(true);
 #if defined(Q_OS_ANDROID)
         check = false;
 #else
         check = true;
 #endif
-        check = set.value("FileBrowser/Spliter/Horizontal", check).toBool();
-        pOrientation->setChecked(check);
+        check = set.value(GetSetPrefix() + "/Spliter/Horizontal", check).toBool();
+        m_pOrientation->setChecked(check);
         if(check)
             m_pSpliter->setOrientation(Qt::Horizontal);
         else
             m_pSpliter->setOrientation(Qt::Vertical);
-        check = connect(pOrientation, &QCheckBox::clicked, this,
-                        [&](bool checked){
-                            if(checked)
-                                m_pSpliter->setOrientation(Qt::Horizontal);
-                            else
-                                m_pSpliter->setOrientation(Qt::Vertical);
-                            QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                                          QSettings::IniFormat);
-                            set.setValue("FileBrowser/Spliter/Horizontal", checked);
-        });
-        pAction = new QWidgetAction(this);
-        pAction->setDefaultWidget(pOrientation);
-        pMenuOption->addAction(qobject_cast<QAction*>(pAction));
 
         pLayout->addWidget(pToolBar);
         pLayout->addWidget(m_pSpliter);
@@ -207,14 +224,18 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                 m_pTree, &QTreeView::doubleClicked,
                 this, [&](const QModelIndex &index) {
                     if (m_pModel) {
+                        QString szFile = m_pModel->filePath(index);
+                        emit sigDoubleClicked(szFile, m_pModel->isDir(index));
                         if(m_pModel->isDir(index)) {
                             return;
                         }
                         m_pTable->hide();
-                        QString szFile = m_pModel->filePath(index);
                         ShowFile(szFile);
                     }
                 });
+            Q_ASSERT(check);
+            check = connect(m_pTree, &CFileBroserTreeView::sigChanged,
+                            this, &CFileBrowser::sigChanged);
             Q_ASSERT(check);
         }
 
@@ -233,11 +254,12 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                 m_pTable, &QTableView::clicked,
                 this, [&](const QModelIndex &index) {
                     if (m_pModel) {
+                        QString szDir = m_pModel->filePath(index);
                         m_pTree->setCurrentIndex(index);
+                        m_pTree->expand(index);
                         if(m_pModel->isDir(index)) {
-                            QString dir = m_pModel->filePath(index);
-                            m_pModel->setRootPath(dir);
-                            m_pTable->setRootIndex(m_pModel->index(dir));
+                            m_pModel->setRootPath(szDir);
+                            m_pTable->setRootIndex(m_pModel->index(szDir));
                             if(!m_pTextEdit->isHidden())
                                 m_pTextEdit->hide();
                         }
@@ -248,6 +270,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                             this, [&](const QModelIndex &index){
                 QString szFile = m_pModel->filePath(index);
                 ShowFile(szFile);
+                emit sigDoubleClicked(szFile, m_pModel->isDir(index));
             });
             Q_ASSERT(check);
         }
@@ -259,8 +282,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         setRootPath("");
         return;
     } while(0);
-    if(m_pModel)
-        delete m_pModel;
+
     if(m_pModel)
         delete m_pModel;
     if(pLayout)
@@ -275,6 +297,11 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         delete m_pTable;
 }
 
+CFileBrowser::~CFileBrowser()
+{
+    qDebug(log) << "CFileBrowser::~CFileBrowser()";
+}
+
 void CFileBrowser::setRootPath(const QString dir)
 {
     m_pModel->setRootPath(dir);
@@ -284,6 +311,14 @@ void CFileBrowser::setRootPath(const QString dir)
 QString CFileBrowser::rootPath() const
 {
     return m_pModel->rootPath();
+}
+
+QString CFileBrowser::GetSetPrefix()
+{
+    QString szPrefix("FileBrowser");
+    if(!this->objectName().isEmpty())
+        szPrefix = szPrefix + "/" + this->objectName();
+    return szPrefix;
 }
 
 QString CFileBrowser::readFile(const QString &filePath)
@@ -318,7 +353,7 @@ QString CFileBrowser::readFile(const QString &filePath)
 
 int CFileBrowser::ShowFile(const QString &szFile)
 {
-    if(m_bAssociated) {
+    if(m_pAssociated->isChecked()) {
         QUrl url = QUrl::fromLocalFile(szFile);
         if(QDesktopServices::openUrl(url))
             return 0;
@@ -330,7 +365,24 @@ int CFileBrowser::ShowFile(const QString &szFile)
     return 0;
 }
 
-int CFileBrowser::exec()
+CDlgFileBrowser::CDlgFileBrowser(QWidget *parent) : QDialog(parent)
+    ,m_pFileBrowser(nullptr)
+{
+    m_pFileBrowser = new CFileBrowser(this);
+    setWindowIcon(m_pFileBrowser->windowIcon());
+    setWindowTitle(m_pFileBrowser->windowTitle());
+
+    bool check = connect(m_pFileBrowser, SIGNAL(destroyed(QObject*)),
+                         this, SLOT(close()));
+    Q_ASSERT(check);
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->addWidget(m_pFileBrowser);
+    layout->setContentsMargins(0, 0, 0, 0);
+    setLayout(layout);
+}
+
+int CDlgFileBrowser::exec()
 {
 #if defined(Q_OS_ANDROID)
     showMaximized();

@@ -18,6 +18,7 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
 PACKAGE_DIR = "debian/rabbitcommon"
 PACKAGE_dev_DIR = "debian/rabbitcommon-dev"
+PACKAGE_FILEBROWSER_DIR = "debian/filebrowser"
 
 %:
 	dh $@
@@ -40,7 +41,10 @@ override_dh_auto_install:
 		--component Runtime --prefix $(PACKAGE_DIR)/usr
 	cmake --install $(BUILD_DIR) --config Release \
 		--component Development --prefix $(PACKAGE_dev_DIR)/usr
+	cmake --install $(BUILD_DIR) --config Release \
+        --component Application --prefix $(PACKAGE_FILEBROWSER_DIR)/usr
 
 override_dh_builddeb:
 	dh_builddeb --package=rabbitcommon -P$(PACKAGE_DIR)
 	dh_builddeb --package=rabbitcommon-dev -P$(PACKAGE_dev_DIR)
+	dh_builddeb --package=filebrowser -P$(PACKAGE_FILEBROWSER_DIR)

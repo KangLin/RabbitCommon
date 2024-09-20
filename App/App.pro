@@ -66,7 +66,7 @@ msvc {
 include($$_PRO_FILE_PWD_/../pri/Translations.pri)
 
 #VERSION=$$RabbitCommon_VERSION
-INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/Log $$_PRO_FILE_PWD_/../Src/export
+INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src $$_PRO_FILE_PWD_/../Src/Log $$_PRO_FILE_PWD_/../Src/export $$_PRO_FILE_PWD_/../Src/FileBrowser
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 DEPENDPATH = $$DESTDIR
 LIBS *= "-L$$DESTDIR" -lRabbitCommon

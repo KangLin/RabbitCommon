@@ -1,6 +1,8 @@
-# Author: Kang Lin(kl222@126.com)
+# Author: Kang Lin <kl222@126.com>
 
 project(RabbitCommonApp)
+
+include(GNUInstallDirs)
 
 set(SOURCE_FILES
     main.cpp
@@ -27,18 +29,17 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)
     configure_file(${CMAKE_SOURCE_DIR}/Src/etc/log4qt.conf
         ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
         COPYONLY)
-
 endif()
-INSTALL(FILES ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
-    DESTINATION etc
+INSTALL_FILE(SOURCES ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf
+    DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}
     COMPONENT Application)
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini)
     configure_file(${CMAKE_SOURCE_DIR}/Src/etc/logqt.ini
         ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
         COPYONLY)
 endif()
-INSTALL(FILES ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
-    DESTINATION etc
+INSTALL_FILE(SOURCES ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
+    DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}
     COMPONENT Application)
 
 if(NOT ANDROID AND UNIX)

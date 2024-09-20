@@ -10,13 +10,16 @@
 #include <QTableView>
 #include <QTextEdit>
 #include <QSplitter>
+#include <QAction>
 #include "rabbitcommon_export.h"
 
-class RABBITCOMMON_EXPORT CFileBrowser : public QDialog
+class CFileBroserTreeView;
+class RABBITCOMMON_EXPORT CFileBrowser : public QWidget
 {
     Q_OBJECT
 public:
     explicit CFileBrowser(QWidget *parent = nullptr);
+    virtual ~CFileBrowser();
 
     //! Set root path
     void setRootPath(const QString dir);
@@ -24,25 +27,38 @@ public:
     QString rootPath() const;
 
 Q_SIGNALS:
-    //! emit when Double clicked
     //! \param szItem: item of double clicked
     //! \param bDir:
     //!          - true: item is directory
     //!          - false: item is folder
     void sigDoubleClicked(const QString &szItem, bool bDir);
+    void sigChanged(const QString &szItem, bool bDir);
 
 private:
     QString readFile(const QString &filePath);
     int ShowFile(const QString &szFile);
+    QString GetSetPrefix();
 
 private:
     QSplitter* m_pSpliter;
     QFileSystemModel *m_pModel;
-    QTreeView* m_pTree;
+    CFileBroserTreeView* m_pTree;
     QListView* m_pList;
     QTableView* m_pTable;
     QTextEdit* m_pTextEdit;
-    bool m_bAssociated;
+
+    QAction* m_pHiddenFile;
+    QAction* m_pAssociated;
+    QAction* m_pOrientation;
+};
+
+class RABBITCOMMON_EXPORT CDlgFileBrowser : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit CDlgFileBrowser(QWidget* parent = nullptr);
+
+    CFileBrowser *m_pFileBrowser;
 
     // QDialog interface
 public slots:

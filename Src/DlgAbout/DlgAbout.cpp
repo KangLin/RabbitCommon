@@ -121,16 +121,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
             qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
     }
 
-    if(m_pLicense)
-        ui->tabWidget->addTab(m_pLicense, tr("License"));
-    if(m_pChangeLog)
-        ui->tabWidget->addTab(m_pChangeLog, tr("Change log"));
-    if(m_pThanks)
-        ui->tabWidget->addTab(m_pThanks, tr("Thanks"));
-
-    AppendFile(m_pChangeLog, "ChangeLog");
-    AppendFile(m_pLicense, "License");
-    AppendFile(m_pThanks, "Authors");
+    AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
+    AppendFile(m_pLicense, "License", tr("License"));
+    AppendFile(m_pThanks, "Authors", tr("Thanks"));
 
 #if defined (Q_OS_ANDROID)
     ui->lbDonation->installEventFilter(this);
@@ -178,7 +171,7 @@ CDlgAbout::~CDlgAbout()
     delete ui;
 }
 
-int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
+int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString &szTitle)
 {
     QDir d;
     QString szFileLocation;
@@ -226,6 +219,8 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile)
         }
 
         readme.close();
+        if(pWidget)
+            ui->tabWidget->addTab(pWidget, szTitle);
     }
     return 0;
 }

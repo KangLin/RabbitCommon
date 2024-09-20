@@ -2,6 +2,7 @@ debian/files
 debian/.debhelper/
 debian/debhelper-build-stamp
 debian/rabbitcommon*
+debian/filebrowser/
 Src/cmark
 Translations.qrc
 Plugin/PluginStatic.cpp

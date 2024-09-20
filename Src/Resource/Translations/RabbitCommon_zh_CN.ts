@@ -64,7 +64,7 @@
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="167"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="160"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
@@ -74,94 +74,94 @@
         <translation>许可协议</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="127"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="124"/>
         <source>Change log</source>
         <translation>修改日志</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="126"/>
         <source>Thanks</source>
         <translation>感谢</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="338"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="345"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="333"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="340"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="338"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="352"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="333"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="347"/>
         <source>Arch: </source>
         <translation>架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="345"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="340"/>
         <source> (From revision: </source>
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="360"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="355"/>
         <source>Failed:</source>
         <translation>失败:</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="360"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="355"/>
         <source>Download file is Failed.</source>
         <translation>下载文件失败。</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="379"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="374"/>
         <source>Build Date/Time: </source>
         <translation>编译日期/时间：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="380"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="375"/>
         <source>File Path: </source>
         <translation>文件路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="381"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="376"/>
         <source>Arguments: </source>
         <translation>参数：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="157"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="150"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="158"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="151"/>
         <source> Email: </source>
         <translation> 邮箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="162"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="155"/>
         <source>Home page: </source>
         <translation>主页：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="169"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="162"/>
         <source>Copyright (C)</source>
         <translation>版权所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="289"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="284"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="299"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="294"/>
         <source>Save donation picture</source>
         <translation>保存捐赠图片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="301"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="296"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>图片(*.png *.xpm *.jpg)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="377"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="372"/>
         <source>### </source>
         <translation></translation>
     </message>
@@ -310,59 +310,59 @@
         <translation>文件浏览器</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="95"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="101"/>
         <source>Option</source>
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="98"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="108"/>
         <source>Hidden file</source>
         <translation>隐藏文件</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="120"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="134"/>
         <source>Open with the System Associated Program</source>
         <translation>用系统关联程序打开</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="135"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="153"/>
         <source>Horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="75"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="79"/>
         <source>New folder</source>
         <translation>新建文件夹</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="78"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="83"/>
         <source>NewFolder</source>
         <translation>新文件夹</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="82"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="88"/>
         <source>Delete folder</source>
         <translation>删除文件夹</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="73"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="75"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="299"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="326"/>
         <source>File size is too big.
 You can read files up to %1 MB.</source>
         <translation>文件太在。
 你能从文件中读 %1 兆字节。</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="310"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="337"/>
         <source>Error opening the File!</source>
         <translation>打开文件错误！</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="316"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="343"/>
         <source>Filetype not supported!</source>
         <translation>文件类型不支持</translation>
     </message>
@@ -1139,58 +1139,73 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="588"/>
-        <location filename="../../RabbitCommonTools.cpp" line="599"/>
+        <location filename="../../RabbitCommonTools.cpp" line="590"/>
+        <location filename="../../RabbitCommonTools.cpp" line="601"/>
+        <location filename="../../RabbitCommonTools.cpp" line="604"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="610"/>
+        <location filename="../../RabbitCommonTools.cpp" line="615"/>
+        <location filename="../../RabbitCommonTools.cpp" line="617"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="614"/>
+        <location filename="../../RabbitCommonTools.cpp" line="620"/>
+        <location filename="../../RabbitCommonTools.cpp" line="632"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="627"/>
+        <location filename="../../RabbitCommonTools.cpp" line="634"/>
+        <location filename="../../RabbitCommonTools.cpp" line="636"/>
         <location filename="../../Log/DockDebugLog.cpp" line="125"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="630"/>
+        <location filename="../../RabbitCommonTools.cpp" line="638"/>
+        <location filename="../../RabbitCommonTools.cpp" line="640"/>
         <location filename="../../Log/DockDebugLog.cpp" line="128"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="633"/>
+        <location filename="../../RabbitCommonTools.cpp" line="642"/>
         <source>Open log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="645"/>
+        <location filename="../../RabbitCommonTools.cpp" line="644"/>
+        <source>Open Log folder</source>
+        <translation>打开日志文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="655"/>
+        <location filename="../../RabbitCommonTools.cpp" line="657"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="58"/>
         <source>Application Error</source>
-        <translation type="vanished">应用错误</translation>
+        <translation>应用错误</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="59"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation type="vanished">应用崩溃！</translation>
+        <translation>应用崩溃！</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="60"/>
         <source>The current path: </source>
-        <translation type="vanished">当前目录：</translation>
+        <translation>当前目录：</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="61"/>
         <source>The dump file: </source>
-        <translation type="vanished">转储文件：</translation>
+        <translation>转储文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="487"/>

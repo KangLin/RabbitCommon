@@ -483,7 +483,7 @@ void OpenLogConfigureFile()
     if(bRet)
         return;
 
-    qCritical(log) << "Open configure file fail:" << f;
+    qDebug(log) << "Open log configure file:" << f;
     CDlgEdit e(QObject::tr("Log configure file"), f,
                QObject::tr("Log configure file:") + f, false);
     if(e.exec() != QDialog::Accepted)
@@ -496,11 +496,14 @@ void OpenLogConfigureFile()
         file.close();
         return;
     }
-    qDebug(log) << file.errorString() << f;
+    qWarning(log) << "Save log configure file fail:" << file.errorString() << f;
+    QFileInfo fi(f);
     QString szFile
         = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save as..."),
                                        QStandardPaths::writableLocation(
-                                           QStandardPaths::ConfigLocation));
+                                           QStandardPaths::ConfigLocation)
+                                       + QDir::separator() + fi.fileName()
+                                       );
     if(!szFile.isEmpty()) {
         QFile f(szFile);
         if(f.open(QFile::WriteOnly)) {
@@ -510,6 +513,7 @@ void OpenLogConfigureFile()
             QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                           QSettings::IniFormat);
             set.setValue("Log/ConfigFile", szFile);
+            qInfo(log) << "Save log configure file:" << szFile;
         }
     }
 }
@@ -548,10 +552,14 @@ void OpenLogFolder()
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
     }
     if(!bRet) {
-        CFileBrowser f;
-        f.setWindowTitle(QObject::tr("Log folder"));
-        f.setRootPath(d);
-        f.exec();
+        CFileBrowser* f = new CFileBrowser();
+        f->setWindowTitle(QObject::tr("Log folder"));
+        f->setRootPath(d);
+#if defined(Q_OS_ANDROID)
+        f->showMaximized();
+#else
+        f->show();
+#endif
     }
 }
 

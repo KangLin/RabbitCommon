@@ -2,6 +2,8 @@
 
 project(RabbitCommon)
 
+include(GNUInstallDirs)
+
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -65,6 +67,7 @@ if(WITH_GUI)
         Log/DockDebugLog.h
         Log/DlgFilter.h
         Log/DlgEdit.h
+        FileBrowser/FileBroserTreeView.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
@@ -73,6 +76,7 @@ if(WITH_GUI)
         TitleBar.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
         FileBrowser/FileBrowser.cpp
+        FileBrowser/FileBroserTreeView.cpp
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
         Log/DlgEdit.cpp
@@ -289,7 +293,7 @@ if(BUILD_ADMINAUTHORISER)
         list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_dummy.cpp)
     endif()
 endif(BUILD_ADMINAUTHORISER)
-    
+
 if(WIN32)
     list(APPEND RABBITCOMMON_HEAD_FILES CoreDump/MiniDumper.h)
     list(APPEND RABBITCOMMON_SOURCE_FILES CoreDump/MiniDumper.cpp

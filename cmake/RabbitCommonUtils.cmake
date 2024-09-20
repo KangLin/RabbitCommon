@@ -219,6 +219,7 @@ function(INSTALL_DIR)
 
 endfunction()
 
+# https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs
 #与 INSTALL(FILES ...) 功能相似，android 安装到 assets
 function(INSTALL_FILE)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})

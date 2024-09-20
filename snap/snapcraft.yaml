@@ -27,6 +27,8 @@ parts:
     plugin: cmake
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_APP=OFF
+      - -DBUILD_TESTS=OFF
     source: .
     build-packages:
       - qttools5-dev
@@ -49,13 +51,18 @@ parts:
       - libqt5webenginewidgets5
       - libqt5svg5
       - libqt5xml5
+    stage:
+      - -usr/local/include
+      - -usr/local/lib/cmake
+      - -usr/local/lib/pkgconfig
 
 # App directives: https://snapcraft.io/docs/snapcraft-yaml-schema#app-directives
 apps:
- rabbitcommon:
-   command: usr/local/bin/RabbitCommonApp
-#   environment:
-#     QTWEBENGINEPROCESS_PATH: ${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/qt5/libexec
+ FileBrowser:
+   command: usr/local/bin/FileBrowser
+   environment:
+     LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/local/lib
+     PATH: $SNAP/usr/local/bin:$PATH
    # List extensions, run `snapcraft extensions`
    extensions:
      - kde-neon

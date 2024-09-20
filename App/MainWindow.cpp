@@ -175,7 +175,7 @@ void MainWindow::slotDownloadError(int nErr, const QString szErr)
 
 void MainWindow::on_actionFolder_browser_triggered()
 {
-    CFileBrowser *pBF = new CFileBrowser();
-    pBF->exec();
+    CDlgFileBrowser fb;
+    fb.exec();
 }
 

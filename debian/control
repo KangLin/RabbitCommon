@@ -47,3 +47,19 @@ Description: Rabbit common devel library using Qt
  https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
  https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
  https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
+
+Package: filebrowser
+Architecture: any
+Depends: rabbitcommon (>= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: File browser
+ FileBrowser is a cross-platform file browser software.
+ .
+ Author: Kang Lin <kl222@126.com>
+ .
+ Donation:
+ .
+ https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+ .
+ https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png

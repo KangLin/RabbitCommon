@@ -3,6 +3,7 @@
   - Add environment in about dialog
   - Add CDlgEdit
   - Add CFileBrowser
+  - Add file browser application
 
 ### Version v2.2.6
   - Modify debian package files
