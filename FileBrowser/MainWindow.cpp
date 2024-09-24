@@ -74,9 +74,8 @@ void MainWindow::on_actionAbout_A_triggered()
     dlg->setAttribute(Qt::WA_QuitOnClose, true);
 #if defined (Q_OS_ANDROID)
     dlg->showMaximized();
-#else
-    dlg->show();
 #endif
+    dlg->exec();
 #endif
 
 #ifdef BUILD_QUIWidget
