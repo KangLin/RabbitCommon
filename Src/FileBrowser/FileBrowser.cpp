@@ -19,11 +19,14 @@
 #include <QCheckBox>
 #include "FileBrowser.h"
 #include "RabbitCommonDir.h"
+#include "UndoCommand.h"
 #include <FileBroserTreeView.h>
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Browser.File")
 CFileBrowser::CFileBrowser(QWidget *parent)
     : QWidget{parent}
+    , m_pSpliter(nullptr)
+    , m_pUndoStack(nullptr)
     , m_pModel(nullptr)
     , m_pTree(nullptr)
     , m_pList(nullptr)
@@ -58,51 +61,74 @@ CFileBrowser::CFileBrowser(QWidget *parent)
     setGeometry(rect);
 
     QVBoxLayout* pLayout = new QVBoxLayout(this);
-    m_pSpliter = new QSplitter(this);
-    m_pTree = new CFileBroserTreeView(m_pSpliter);
-    m_pTable = new QTableView(m_pSpliter);
-    //m_pList = new QListView(pSpliter);
-    m_pTextEdit = new QTextEdit(m_pSpliter);
-    if(!pLayout) return;
 
     do {
         m_pModel = new QFileSystemModel(this);
-        if(!m_pModel) return;
+        if(!m_pModel) break;;
   //      m_pModel->setReadOnly(false);
         /*m_pModel->setFilter(QDir::AllDirs | QDir::Drives
                                 | QDir::NoDotAndDotDot);*/
+        if(!pLayout) break;
         setLayout(pLayout);
+        m_pSpliter = new QSplitter(this);
         if(!m_pSpliter) break;
 
+        m_pTree = new CFileBroserTreeView(m_pSpliter);
+        m_pTable = new QTableView(m_pSpliter);
+        //m_pList = new QListView(pSpliter);
+        m_pTextEdit = new QTextEdit(m_pSpliter);
+
         QString szTitle;
-        QToolBar* pToolBar = new QToolBar();
+        QToolBar* pToolBar = new QToolBar(this);
         szTitle = tr("Close");
         QAction* pAction = pToolBar->addAction(QIcon::fromTheme("window-close"),
                                        szTitle, this, &CFileBrowser::close);
         pAction->setStatusTip(szTitle);
+
+        m_pUndoStack = new QUndoStack(this);
+        if(!m_pUndoStack) break;
+#ifndef QT_NO_ACTION
+        QList<QAction*> lstUndo;
+        pAction = m_pUndoStack->createUndoAction(this);
+        pAction->setIcon(QIcon::fromTheme("edit-undo"));
+        lstUndo << pAction;
+        pAction = m_pUndoStack->createRedoAction(this);
+        pAction->setIcon(QIcon::fromTheme("edit-redo"));
+        lstUndo << pAction;
+        pToolBar->addActions(lstUndo);
+#endif
+
         szTitle = tr("New folder");
-        pAction = pToolBar->addAction(QIcon::fromTheme("folder-new"), szTitle,
-                            this, [&](){
-                                QModelIndex index = m_pTree->currentIndex();
-                                index = m_pModel->mkdir(index, tr("NewFolder"));
-                                if(!index.isValid())
-                                    qCritical(log) << "New folder fail";
-                            });
+        pAction = pToolBar->addAction(
+            QIcon::fromTheme("folder-new"), szTitle,
+            this, [&](){
+                QModelIndex index = m_pTree->currentIndex();
+                if(m_pModel->isDir(index))
+                    m_pUndoStack->push(new CNewFolder(m_pModel->filePath(index)
+                                       + QDir::separator() + tr("NewFolder")));
+            });
         pAction->setStatusTip(szTitle);
+
         szTitle = tr("Delete folder");
         pAction = pToolBar->addAction(
             QIcon::fromTheme("edit-delete"), szTitle,
             this, [&](){
                 QString szDir;
                 QModelIndex index = m_pTree->currentIndex();
-                szDir = m_pModel->data(index).toString();
-                bool bRet = m_pModel->rmdir(index);
-                if(bRet)
-                    qDebug(log) << "Delete folder:" << szDir;
-                else
-                    qCritical(log) << "Delete folder fail" << szDir;
+                szDir = m_pModel->filePath(index);
+                m_pUndoStack->push(new CDeleteFolder(szDir));
             });
         pAction->setStatusTip(szTitle);
+
+        szTitle = tr("Update");
+        pAction = pToolBar->addAction(
+            QIcon::fromTheme("system-software-update"), szTitle,
+            this, [&](){
+                QModelIndex index = m_pTree->currentIndex();
+                m_pTree->update(index);
+            });
+        pAction->setStatusTip(szTitle);
+
         szTitle = tr("Option");
         QToolButton* pButtonOption = new QToolButton(pToolBar);
         pButtonOption->setIcon(QIcon::fromTheme("emblem-system"));
@@ -283,18 +309,22 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         return;
     } while(0);
 
+    if(m_pSpliter)
+        delete m_pSpliter;
+    if(m_pUndoStack)
+        delete m_pUndoStack;
     if(m_pModel)
         delete m_pModel;
     if(pLayout)
         delete pLayout;
-    if(m_pSpliter)
-        delete m_pSpliter;
     if(m_pTree)
         delete m_pTree;
     if(m_pList)
         delete m_pList;
     if(m_pTable)
         delete m_pTable;
+    if(m_pTextEdit)
+        delete m_pTextEdit;
 }
 
 CFileBrowser::~CFileBrowser()

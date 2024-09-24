@@ -11,6 +11,8 @@
 #include <QTextEdit>
 #include <QSplitter>
 #include <QAction>
+#include <QUndoCommand>
+#include <QUndoStack>
 #include "rabbitcommon_export.h"
 
 class CFileBroserTreeView;
@@ -41,6 +43,7 @@ private:
 
 private:
     QSplitter* m_pSpliter;
+    QUndoStack* m_pUndoStack;
     QFileSystemModel *m_pModel;
     CFileBroserTreeView* m_pTree;
     QListView* m_pList;

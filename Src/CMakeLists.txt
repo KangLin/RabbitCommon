@@ -68,6 +68,7 @@ if(WITH_GUI)
         Log/DlgFilter.h
         Log/DlgEdit.h
         FileBrowser/FileBroserTreeView.h
+        FileBrowser/UndoCommand.h
         )
     list(APPEND RABBITCOMMON_SOURCE_FILES
         RabbitRecentMenu.cpp
@@ -77,6 +78,7 @@ if(WITH_GUI)
         DockFolderBrowser/DockFolderBrowser.cpp
         FileBrowser/FileBrowser.cpp
         FileBrowser/FileBroserTreeView.cpp
+        FileBrowser/UndoCommand.cpp
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
         Log/DlgEdit.cpp

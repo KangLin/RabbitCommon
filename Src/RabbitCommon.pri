@@ -46,6 +46,7 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/DockFolderBrowser/DockFolderBrowser.cpp \
         $$PWD/FileBrowser/FileBrowser.cpp \
         $$PWD/FileBrowser/FileBroserTreeView.cpp \
+        $$PWD/FileBrowser/UndoCommand.cpp \
         $$PWD/Log/DockDebugLog.cpp \
         $$PWD/Log/DlgFilter.cpp \
         $$PWD/Log/DlgEdit.cpp
@@ -59,6 +60,7 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/Style/Style.h \
         $$PWD/Log/DockDebugLog.h \
         $$PWD/FileBrowser/FileBroserTreeView.h \
+        $$PWD/FileBrowser/UndoCommand.h \
         $$PWD/Log/DlgFilter.h \
         $$PWD/Log/DlgEdit.h
     INCLUDEPATH += $$PWD/Style $$PWD/DockFolderBrowser $$PWD/FileBrowser

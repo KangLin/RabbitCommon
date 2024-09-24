@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     Q_ASSERT(check);
     check = connect(pFB, &CFileBrowser::sigChanged, this,
                     [&](const QString& szDir, bool bDir){
-        qDebug(log) << "CFileBrowser::sigChanged" << szDir << bDir;
+        //qDebug(log) << "CFileBrowser::sigChanged" << szDir << bDir;
     });
     Q_ASSERT(check);
 
