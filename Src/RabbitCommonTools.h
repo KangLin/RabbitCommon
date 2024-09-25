@@ -148,7 +148,7 @@ public:
      * \param arguments
      */
     static bool executeByRoot(const QString &program, const QStringList &arguments = QStringList());
-    
+
     /*!
      * \brief InstallStartRun: auto run when startup
      * \param szName: The programe name
@@ -227,8 +227,15 @@ public:
 
     static int RestoreWidget(QWidget* pWidget);
     static int SaveWidget(QWidget* pWidget);
+
+    /*!
+     * \brief Fit the platform to display the dialog or widget. Use macro RC_SHOW_WINDOW
+     * \param pWin
+     * \return if pWin is dialog, return exec()
+     */
+    int ShowWidget(QWidget *pWin);
 #endif
-    
+
     static int AndroidRequestPermission(const QStringList& permissions);
     static int AndroidRequestPermission(const QString& permission);
 
@@ -238,13 +245,18 @@ private:
 
     void InitResource();
     void CleanResource();
-    
+
     QSharedPointer<QTranslator> InstallTranslatorFile(const QString szFile);
     QVector<QSharedPointer<QTranslator> > m_Translator;
-    
+
     QString m_szLanguage;
     bool m_Initialized;
+
+    bool m_bShowMaxWindow;
 };
+
+//! Fit the platform to display the dialog or widget.
+#define RC_SHOW_WINDOW(win) RabbitCommon::CTools::Instance()->ShowWidget(win)
 
 } //namespace RabbitCommon
 

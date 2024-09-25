@@ -26,9 +26,6 @@ private:
 
     void setFile(const QString &szFile);
 
-    // QDialog interface
-public slots:
-    virtual int exec() override;
 };
 
 #endif // DLGEDIT_H

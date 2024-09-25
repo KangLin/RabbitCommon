@@ -27,6 +27,7 @@
 
 #include "Log.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 #include "DlgEdit.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
@@ -486,7 +487,7 @@ void OpenLogConfigureFile()
     qDebug(log) << "Open log configure file:" << f;
     CDlgEdit e(QObject::tr("Log configure file"), f,
                QObject::tr("Log configure file:") + f, false);
-    if(e.exec() != QDialog::Accepted)
+    if(RC_SHOW_WINDOW(&e) != QDialog::Accepted)
         return;
 
     QFile file(f);
@@ -534,7 +535,7 @@ void OpenLogFile()
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
         CDlgEdit e(QObject::tr("Log file"), f, QObject::tr("Log file:") + f);
-        e.exec();
+        RC_SHOW_WINDOW(&e);
     }
 }
 

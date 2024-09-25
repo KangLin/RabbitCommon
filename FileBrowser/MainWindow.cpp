@@ -72,14 +72,7 @@ void MainWindow::on_actionAbout_A_triggered()
 #ifdef HAVE_ABOUT
     CDlgAbout* dlg = new CDlgAbout();
     dlg->setAttribute(Qt::WA_QuitOnClose, true);
-#if defined (Q_OS_ANDROID)
-    dlg->showMaximized();
-#endif
-    dlg->exec();
-#endif
-
-#ifdef BUILD_QUIWidget
-    QUIWidget::setFormInCenter(dlg);
+    RC_SHOW_WINDOW(dlg);
 #endif
 }
 
@@ -95,14 +88,7 @@ void MainWindow::on_actionUpdate_U_triggered()
     QPixmap p = icon.pixmap(*sizeList.begin());
     m_pfrmUpdater->SetTitle(p.toImage());
     m_pfrmUpdater->SetInstallAutoStartup();
-#if defined (Q_OS_ANDROID)
-    m_pfrmUpdater->showMaximized();
-#else
-    m_pfrmUpdater->show();
-#endif
+    RC_SHOW_WINDOW(m_pfrmUpdater);
     // [Use CFrmUpdater]
-#endif
-#ifdef BUILD_QUIWidget
-    QUIWidget::setFormInCenter(m_pfrmUpdater);
 #endif
 }

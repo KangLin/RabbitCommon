@@ -2,6 +2,7 @@
 #include <QLoggingCategory>
 #include "DlgEdit.h"
 #include "ui_DlgEdit.h"
+#include "RabbitCommonTools.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgEdit")
 
@@ -52,12 +53,4 @@ void CDlgEdit::setFile(const QString &szFile)
     if(ui->lbFile->text().isEmpty())
         ui->lbFile->setText(tr("File:") + " " + szFile);
     ui->textEdit->setText(szText);
-}
-
-int CDlgEdit::exec()
-{
-#if defined(Q_OS_ANDROID)
-    showMaximized();
-#endif
-    return QDialog::exec();
 }

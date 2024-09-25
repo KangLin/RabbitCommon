@@ -17,10 +17,11 @@
 #include <QHeaderView>
 #include <QMimeDatabase>
 #include <QCheckBox>
-#include "FileBrowser.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 #include "UndoCommand.h"
-#include <FileBroserTreeView.h>
+#include "FileBroserTreeView.h"
+#include "FileBrowser.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Browser.File")
 CFileBrowser::CFileBrowser(QWidget *parent)
@@ -410,12 +411,4 @@ CDlgFileBrowser::CDlgFileBrowser(QWidget *parent) : QDialog(parent)
     layout->addWidget(m_pFileBrowser);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
-}
-
-int CDlgFileBrowser::exec()
-{
-#if defined(Q_OS_ANDROID)
-    showMaximized();
-#endif
-    return QDialog::exec();
 }

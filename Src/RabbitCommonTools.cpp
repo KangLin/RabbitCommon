@@ -91,10 +91,14 @@ namespace RabbitCommon {
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Tools")
 static Q_LOGGING_CATEGORY(logTranslation, "RabbitCommon.Tools.Translation")
 
-CTools::CTools() : 
-    m_Initialized(false)
-{   
-}
+CTools::CTools()
+    : m_Initialized(false)
+#if defined(Q_OS_ANDROID)
+    , m_bShowMaxWindow(true)
+#else
+    , m_bShowMaxWindow(false)
+#endif
+{}
 
 CTools::~CTools()
 {
@@ -297,6 +301,10 @@ void CTools::Init(const QString szLanguage)
     }
     
 #ifdef HAVE_RABBITCOMMON_GUI
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    m_bShowMaxWindow = set.value("Tools/Window/ShowMax", m_bShowMaxWindow).toBool();
+
     CStyle::Instance()->LoadStyle();
 #endif //HAVE_RABBITCOMMON_GUI
 }
@@ -623,7 +631,7 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
                          QString szInclude, szExclude;
                          CLog::Instance()->GetFilter(szInclude, szExclude);
                          dlg.SetFilter(szInclude, szExclude);
-                         if(QDialog::Accepted == dlg.exec())
+                         if(QDialog::Accepted == RC_SHOW_WINDOW(&dlg))
                          {
                              dlg.GetFilter(szInclude, szExclude);
                              CLog::Instance()->SetFilter(szInclude, szExclude);
@@ -702,6 +710,27 @@ int CTools::SaveWidget(QWidget *pWidget)
     return nRet;
 }
 
+int CTools::ShowWidget(QWidget *pWin)
+{
+    if(!pWin) {
+        Q_ASSERT(pWin);
+        return -1;
+    }
+
+    QDialog* pDlg = qobject_cast<QDialog*>(pWin);
+    if(pDlg) {
+        if(m_bShowMaxWindow) {
+            pDlg->showMaximized();
+        }
+        return pDlg->exec();
+    } else {
+        if(m_bShowMaxWindow) {
+            pWin->showMaximized();
+        } else
+            pWin->show();
+    }
+    return 0;
+}
 #endif
 
 } //namespace RabbitCommon

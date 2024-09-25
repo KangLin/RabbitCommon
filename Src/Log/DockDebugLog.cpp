@@ -1,13 +1,15 @@
+#include <QMenu>
+#include <QSettings>
+#include <QScrollBar>
+#include <QInputDialog>
+
 #include "DockDebugLog.h"
 #include "ui_DockDebugLog.h"
 #include "TitleBar.h"
 #include "Log.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 #include "DlgFilter.h"
-#include <QMenu>
-#include <QSettings>
-#include <QScrollBar>
-#include <QInputDialog>
 
 CDockDebugLog* g_pDcokDebugLog = nullptr;
 
@@ -96,7 +98,7 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
             QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
             CDlgFilter f(this);
             f.SetFilter(szInclude, szExclude);
-            if(QDialog::Accepted == f.exec()) {
+            if(QDialog::Accepted == RC_SHOW_WINDOW(&f)) {
                 f.GetFilter(szInclude, szExclude);
                 this->SetInclude(szInclude);
                 this->SetExclude(szExclude);

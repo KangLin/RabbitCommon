@@ -62,10 +62,6 @@ public:
     explicit CDlgFileBrowser(QWidget* parent = nullptr);
 
     CFileBrowser *m_pFileBrowser;
-
-    // QDialog interface
-public slots:
-    virtual int exec() override;
 };
 
 #endif // FILEBROWSER_H

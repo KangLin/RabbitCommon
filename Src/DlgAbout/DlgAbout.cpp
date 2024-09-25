@@ -381,6 +381,6 @@ void CDlgAbout::on_pbDetails_clicked()
 #if defined (Q_OS_ANDROID)
     info.showMaximized();
 #endif
-    info.exec();
+    RC_SHOW_WINDOW(&info);
     setCursor(cursor);
 }
