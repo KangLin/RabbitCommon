@@ -66,7 +66,10 @@ CLog::CLog() : QObject(),
 #if !(defined(DEBUG) || defined(_DEBUG) || ANDROID)
     szFilterRules = "*.debug = false";
 #endif
-
+    bool bReadOnly = false;
+#if defined(Q_OS_ANDROID)
+    bReadOnly = true;
+#endif
     m_szPath = CDir::Instance()->GetDirLog();
     QString szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                             QCoreApplication::applicationName() + "_logqt.ini");
@@ -75,11 +78,11 @@ CLog::CLog() : QObject(),
         szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                      "logqt.ini");
     if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
                      + QDir::separator() + QCoreApplication::applicationName()
                      + "_logqt.ini";
     if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig()
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
                      + QDir::separator() + "logqt.ini";
     if (QFile::exists(szConfFile))
     {
