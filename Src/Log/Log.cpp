@@ -30,24 +30,36 @@
 #include "RabbitCommonTools.h"
 #include "DlgEdit.h"
 
+#if defined(Q_OS_WIN)
+    #include <process.h>
+    #include <Windows.h>
+    #include <dbghelp.h>
+#elif !defined(Q_OS_ANDROID)
+    #include <execinfo.h>
+    #include <cxxabi.h>
+#endif
+
+namespace RabbitCommon {
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     QtMessageHandler g_originalMessageHandler = Q_NULLPTR;
 #else
     QtMsgHandler g_originalMessageHandler = Q_NULLPTR;
 #endif
-    
-
-namespace RabbitCommon {
-static Q_LOGGING_CATEGORY(log, "RabbitCommon.log")
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
+bool g_bPrintStackTrace = false;
 
+QString PrintStackTrace();
+QStringList PrintStackTrace(uint index, unsigned int max_frames = 63);
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.log")
 CLog::CLog() : QObject(),
     m_szName(QCoreApplication::applicationName()),
     m_szDateFormat("yyyy-MM-dd"),
     m_nLength(0),
     m_nCount(0)
-{    
+{
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     
@@ -96,6 +108,7 @@ CLog::CLog() : QObject(),
         szPattern = setConfig.value("Pattern", szPattern).toString();
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
+        g_bPrintStackTrace = setConfig.value("PrintStackTrace", g_bPrintStackTrace).toBool();
         QString szLength = setConfig.value("Length", 0).toString();
         if(!szLength.isEmpty()) {
             QRegularExpression e("(\\d+)([mkg]?)",
@@ -273,14 +286,25 @@ void CLog::myMessageOutput(QtMsgType type,
         QTextStream s(&CLog::Instance()->m_File);
         CLog::Instance()->m_Mutex.lock();
         s << szMsg << "\r\n";
+        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        {
+            s << PrintStackTrace();
+        }
         //s.flush();
         CLog::Instance()->m_Mutex.unlock();
     }
 
     //f.close();
 
-    if(g_originalMessageHandler)
+    if(g_originalMessageHandler) {
         g_originalMessageHandler(type, context, msg);
+        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        {
+            QString szStrace = PrintStackTrace();
+            QMessageLogContext c;
+            g_originalMessageHandler(type, c, szStrace);
+        }
+    }
 }
 #else
 void CLog::myMessageOutput(QtMsgType type, const char* msg)
@@ -314,13 +338,23 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
         QTextStream s(&CLog::Instance()->m_File);
         CLog::Instance()->m_Mutex.lock();
         s << szMsg << "\r\n";
+        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        {
+            s << PrintStackTrace();
+        }
         CLog::Instance()->m_Mutex.unlock();
     }
 
     //f.close();
 
-    if(g_originalMessageHandler)
+    if(g_originalMessageHandler) {
         g_originalMessageHandler(type, msg);
+        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        {
+            QString szStrace = PrintStackTrace();
+            g_originalMessageHandler(type, szStrace);
+        }
+    }
 }
 #endif
 
@@ -567,6 +601,153 @@ void OpenLogFolder()
     }
 }
 
-#endif
+#endif // #ifdef HAVE_RABBITCOMMON_GUI
+
+#if defined(Q_OS_WIN)
+
+// See: https://segmentfault.com/q/1010000042761513
+#define TRACE_MAX_STACK_FRAMES 62
+#define TRACE_MAX_FUNCTION_NAME_LENGTH 1024
+QStringList PrintStackTrace(uint index, unsigned int max_frames)
+{
+    QStringList szStack;
+    void *stack[TRACE_MAX_STACK_FRAMES];
+    HANDLE process = GetCurrentProcess();
+    SymInitialize(process, NULL, TRUE);
+    WORD numberOfFrames = CaptureStackBackTrace(index, TRACE_MAX_STACK_FRAMES, stack, NULL);
+    char buf[sizeof(SYMBOL_INFO) + (TRACE_MAX_FUNCTION_NAME_LENGTH - 1) * sizeof(TCHAR)];
+    SYMBOL_INFO* symbol = (SYMBOL_INFO*)buf;
+    symbol->MaxNameLen = TRACE_MAX_FUNCTION_NAME_LENGTH;
+    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+    DWORD displacement;
+    IMAGEHLP_LINE64 line;
+    line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+    char bufStack[1024];
+    for (int i = 0; i < numberOfFrames; i++)
+    {
+        DWORD64 address = (DWORD64)(stack[i]);
+        SymFromAddr(process, address, NULL, symbol);
+        if (SymGetLineFromAddr64(process, address, &displacement, &line))
+        {
+            snprintf(bufStack, 1024, "%s in (%s:%lu) address: 0x%0X", symbol->Name, line.FileName, line.LineNumber, symbol->Address);
+        }
+        else
+        {
+            //printf("\tSymGetLineFromAddr64 returned error code %lu.", GetLastError());
+            snprintf(bufStack, 1024, "%s address: 0x%0X", symbol->Name, symbol->Address);
+        }
+        szStack << bufStack;
+    }
+    return szStack;
+}
+#elif defined(Q_OS_ANDROID)
+QStringList PrintStackTrace(uint index, unsigned int max_frames)
+{
+    return QStringList();
+}
+#else
+// See: https://segmentfault.com/q/1010000042689957
+/** Print a demangled stack backtrace of the caller function to FILE* out. */
+QStringList PrintStackTrace(uint index, unsigned int max_frames)
+{
+    QStringList szMsg;
+
+    int nBufferSize = 1024;
+    QScopedPointer<char> buffer(new char[nBufferSize]);
+    if(!buffer)
+    {
+        printf("new buffer fail");
+        return szMsg;
+    }
+
+    // storage array for stack trace address data
+    void* addrlist[max_frames+1];
+
+    // retrieve current stack addresses
+    int addrlen = backtrace(addrlist, sizeof(addrlist) / sizeof(void*));
+    if (addrlen == 0) {
+        printf("empty, possibly corrupt");
+        return szMsg;
+    }
+
+    // resolve addresses into strings containing "filename(function+address)",
+    // this array must be free()-ed
+    char** symbollist = backtrace_symbols(addrlist, addrlen);
+
+    // allocate string which will be filled with the demangled function name
+    size_t funcnamesize = 256;
+    char* funcname = (char*)malloc(funcnamesize);
+
+    // iterate over the returned symbol lines. skip the first, it is the
+    // address of this function.
+    for (int i = index; i < addrlen; i++)
+    {
+        char *begin_name = 0, *begin_offset = 0, *end_offset = 0;
+
+        // find parentheses and +address offset surrounding the mangled name:
+        // ./module(function+0x15c) [0x8048a6d]
+        for (char *p = symbollist[i]; *p; ++p)
+        {
+            if (*p == '(')
+                begin_name = p;
+            else if (*p == '+')
+                begin_offset = p;
+            else if (*p == ')' && begin_offset) {
+                end_offset = p;
+                break;
+            }
+        }
+
+        if (begin_name && begin_offset && end_offset
+            && begin_name < begin_offset)
+        {
+            *begin_name++ = '\0';
+            *begin_offset++ = '\0';
+            *end_offset = '\0';
+
+            // mangled name is now in [begin_name, begin_offset) and caller
+            // offset in [begin_offset, end_offset). now apply
+            // __cxa_demangle():
+
+            int status;
+            char* ret = abi::__cxa_demangle(begin_name,
+                                            funcname, &funcnamesize, &status);
+            if (status == 0) {
+                funcname = ret; // use possibly realloc()-ed string
+
+                snprintf(buffer.data(), nBufferSize, "%s in (%s) address: 0x%0X",
+                         funcname, symbollist[i], begin_offset);
+            } else {
+                // demangling failed. Output function name as a C function with
+                // no arguments.
+                snprintf(buffer.data(), nBufferSize, "%s in (%s) address: 0x%0X",
+                         begin_name, symbollist[i], begin_offset);
+            }
+            szMsg << buffer.data();
+        }
+        else
+        {
+            // couldn't parse the line? print the whole line.
+            printf("  %s\n", symbollist[i]);
+        }
+    }
+
+    if(funcname)
+        free(funcname);
+    if(symbollist)
+        free(symbollist);
+    return szMsg;
+}
+#endif // #if defined(Q_OS_WIN)
+
+QString PrintStackTrace()
+{
+    QString szMsg("Stack:\n");
+    QStringList szTrace = PrintStackTrace(5);
+    for(int i = 0; i < szTrace.length(); i++) {
+        szMsg += "    " + QString::number(i + 1) + " " + szTrace[i] + "\n";
+    }
+    return szMsg;
+}
 
 } // namespace RabbitCommon

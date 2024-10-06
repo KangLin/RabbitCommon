@@ -4,6 +4,7 @@
   - 增加 CDlgEdit
   - 增加 CFileBrowser
   - 增加文件浏览器应用程序
+  - 增加打印调用堆栈
 
 ### 版本： v2.2.6
   - 修改 debian 打包文件

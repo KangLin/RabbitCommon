@@ -4,6 +4,7 @@
   - Add CDlgEdit
   - Add CFileBrowser
   - Add file browser application
+  - Add print stack trace
 
 ### Version v2.2.6
   - Modify debian package files
