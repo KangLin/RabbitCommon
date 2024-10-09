@@ -8,6 +8,7 @@ set(SOURCE_FILES
     main.cpp
     MainWindow.cpp
     MainWindow.h
+    Resource/FileBrowser.rc
 )
 
 set(SOURCE_UI_FILES MainWindow.ui)
