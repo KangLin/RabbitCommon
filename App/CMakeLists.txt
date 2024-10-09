@@ -1,6 +1,8 @@
 # Author: Kang Lin <kl222@126.com>
 
-project(RabbitCommonApp)
+project(RabbitCommonApp
+    DESCRIPTION "Rabbit common example applicattion"
+    )
 
 include(GNUInstallDirs)
 
@@ -23,6 +25,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
+    VERSION ${RabbitCommon_VERSION}
     )
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}.conf)

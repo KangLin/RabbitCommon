@@ -1,0 +1,38 @@
+#if defined(UNDER_CE)
+    #include <winbase.h>
+#else
+    #include <winver.h>
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION ${PARA_MSVC_VERSION}
+ PRODUCTVERSION ${PARA_MSVC_VERSION}
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "CompanyName", "${PARA_NAME}"
+            VALUE "FileDescription", "${${PARA_NAME}_DESCRIPTION}"
+            VALUE "FileVersion", "${PARA_VERSION}"
+            VALUE "InternalName", "${PARA_NAME}"
+            VALUE "LegalCopyright", "Copyright (C) 2019 Kang Lin studio <kl222@126.com>"
+            VALUE "OriginalFilename", "${PARA_NAME}"
+            VALUE "ProductName", "${PARA_NAME}"
+            VALUE "ProductVersion", "${PARA_VERSION}"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END

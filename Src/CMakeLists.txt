@@ -1,6 +1,8 @@
 # Author: Kang Lin <kl222@126.com>
 
-project(RabbitCommon)
+project(RabbitCommon
+    DESCRIPTION "Rabbit common library"
+    )
 
 include(GNUInstallDirs)
 

@@ -5,7 +5,7 @@ MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
 get_filename_component(RabbitCommonUtils_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 message(STATUS "RabbitCommonUtils_DIR:${RabbitCommonUtils_DIR}")
-set_property(GLOBAL APPEND PROPERTY RabbitCommonUtils_DIR ${RabbitCommonUtils_DIR})
+set_property(GLOBAL PROPERTY RabbitCommonUtils_DIR ${RabbitCommonUtils_DIR})
 
 include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
@@ -116,13 +116,16 @@ endmacro()
 # 参见：
 #   语义化版本: https://semver.org/lang/zh-CN/
 function(GET_VERSION)
-    cmake_parse_arguments(PARA "" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
+    cmake_parse_arguments(PARA "MATCH_PATTEN" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
     # Find Git Version Patch
 
     if(NOT DEFINED PARA_SOURCE_DIR)
         set(PARA_SOURCE_DIR "${CMAKE_SOURCE_DIR}")
     endif()
 
+    if(NOT PARA_MATCH_PATTEN)
+        set(PARA_MATCH_PATTEN "v*")
+    endif()
     IF(EXISTS "${PARA_SOURCE_DIR}/.git")
         if(NOT GIT)
             SET(GIT $ENV{GIT})
@@ -133,7 +136,7 @@ function(GET_VERSION)
         IF(GIT)
             EXECUTE_PROCESS(
                 WORKING_DIRECTORY ${PARA_SOURCE_DIR}
-                COMMAND ${GIT} describe --tags
+                COMMAND ${GIT} describe --tags --match "${PARA_MATCH_PATTEN}"
                 OUTPUT_VARIABLE _OUT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
             )
             EXECUTE_PROCESS(
@@ -1053,7 +1056,8 @@ function(ADD_TARGET)
         if(RabbitCommon_DIR)
             set(PC_FILE ${RabbitCommon_DIR}/cmake/RabbitCommon.pc.in)
         else()
-            set(PC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in)
+            get_property(PARA_RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+            set(PC_FILE ${PARA_RabbitCommonUtils_DIR}/RabbitCommon.pc.in)
         endif()
         if(EXISTS ${PC_FILE})
             configure_file(${PC_FILE}
@@ -1117,10 +1121,20 @@ function(ADD_TARGET)
             )
     endif()
 
+    if(NOT PARA_VERSION)
+        set(PARA_VERSION ${PROJECT_VERSION})
+    endif()
     if(PARA_VERSION)
-        if(NOT WIN32)
-            string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
+        string(REPLACE "v" "" PARA_VERSION ${PARA_VERSION})
+        if(WIN32)
+            string(FIND ${PARA_VERSION} "-" _VERSION_GIT_POS)
+            string(SUBSTRING ${PARA_VERSION} 0 ${_VERSION_GIT_POS} PARA_MSVC_VERSION)
+            string(REPLACE "." "," PARA_MSVC_VERSION ${PARA_MSVC_VERSION})
+            if(NOT(PARA_MSVC_VERSION MATCHES "[0-9]+\,[0-9]+\,[0-9]+"))
+                set(PARA_MSVC_VERSION "0,0,0")
+            endif()
         endif()
+
         if(NOT PARA_SOVERSION)
             string(FIND ${PARA_VERSION} "." _VERSION_MAJOR_POS)
             string(SUBSTRING ${PARA_VERSION} 0 ${_VERSION_MAJOR_POS} PARA_SOVERSION)
@@ -1129,6 +1143,19 @@ function(ADD_TARGET)
         set_target_properties(${PARA_NAME} PROPERTIES
             VERSION ${PARA_VERSION}
         )
+        if(MSVC)
+            get_property(PARA_RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+            if(RabbitCommon_DIR)
+                set(VERSION_RC_FILE ${RabbitCommon_DIR}/cmake/Version.rc.in)
+            else()
+                set(VERSION_RC_FILE ${PARA_RabbitCommonUtils_DIR}/Version.rc.in)
+            endif()
+            configure_file("${VERSION_RC_FILE}"
+                           ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}_Version.rc)
+            target_sources(${PARA_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}_Version.rc)
+        endif()
+    else()
+        message(AUTHOR_WARNING "Please set VERSION in project(${PARA_NAME})")
     endif()
 
     if(PARA_SOVERSION)
