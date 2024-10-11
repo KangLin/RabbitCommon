@@ -16,6 +16,10 @@
 #include "rabbitcommon_export.h"
 
 class CFileBroserTreeView;
+/*!
+ * \brief File browser
+ * \ingroup API
+ */
 class RABBITCOMMON_EXPORT CFileBrowser : public QWidget
 {
     Q_OBJECT
@@ -55,6 +59,10 @@ private:
     QAction* m_pOrientation;
 };
 
+/*!
+ * \brief File browser dialog
+ * \ingroup API
+ */
 class RABBITCOMMON_EXPORT CDlgFileBrowser : public QDialog
 {
     Q_OBJECT

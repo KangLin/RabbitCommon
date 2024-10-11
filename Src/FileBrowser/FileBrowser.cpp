@@ -244,6 +244,10 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                             return;
                         }
                         m_pTable->hide();
+#if defined(Q_OS_ANDROID)
+                        QString szFile = m_pModel->filePath(index);
+                        ShowFile(szFile);
+#endif
                     }
                 });
             Q_ASSERT(check);
@@ -290,6 +294,11 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                             if(!m_pTextEdit->isHidden())
                                 m_pTextEdit->hide();
                         }
+#if defined(Q_OS_ANDROID)
+                        else {
+                            ShowFile(szDir);
+                        }
+#endif
                     }
                 });
             Q_ASSERT(check);
