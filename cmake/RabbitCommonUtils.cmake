@@ -773,6 +773,7 @@ endfunction()
 #    FEATURES                       公有特性
 #    PRIVATE_FEATURES               私有特性
 #    NO_INSTALL_ANDROID_OPENSSL     当是 android 时，不安装 openssl 库
+#    QT_ANDROID_EXTRA_LIBS          Android 外部库
 #    NO_INSTALL                     不安装
 #    INSTALL_RPATH                  INSTALL_RPATH
 #    INSTALL_HEADER_FILES           如果是库，要安装的头文件
@@ -813,6 +814,7 @@ function(ADD_TARGET)
         FEATURES                 #公有特性
         PRIVATE_FEATURES         #私有特性
         INSTALL_INCLUDES         #导出包安装的头文件目录
+        QT_ANDROID_EXTRA_LIBS    #Android 外部库
         )
     SET(SINGLE_PARAS
         NAME
@@ -937,16 +939,27 @@ function(ADD_TARGET)
                 endif()
             endif()
 
-            if (ANDROID AND NOT PARA_NO_INSTALL_ANDROID_OPENSSL)
+            if (NOT PARA_NO_INSTALL_ANDROID_OPENSSL)
                 include(FetchContent)
                 FetchContent_Declare(
-                  android_openssl
-                  DOWNLOAD_EXTRACT_TIMESTAMP true
-                  URL      https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
+                    android_openssl
+                    DOWNLOAD_EXTRACT_TIMESTAMP true
+                    URL https://github.com/KDAB/android_openssl/archive/refs/heads/master.zip
                 )
                 FetchContent_MakeAvailable(android_openssl)
                 include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
+                get_target_property(VAR_QT_ANDROID_EXTRA_LIBS ${PARA_NAME} QT_ANDROID_EXTRA_LIBS)
+                SET(PARA_QT_ANDROID_EXTRA_LIBS
+                    ${PARA_QT_ANDROID_EXTRA_LIBS} ${VAR_QT_ANDROID_EXTRA_LIBS})
                 add_android_openssl_libraries(${PROJECT_NAME})
+            endif()
+
+            if(PARA_QT_ANDROID_EXTRA_LIBS)
+                get_target_property(VAR_QT_ANDROID_EXTRA_LIBS ${PARA_NAME} QT_ANDROID_EXTRA_LIBS)
+                SET(PARA_QT_ANDROID_EXTRA_LIBS
+                    ${PARA_QT_ANDROID_EXTRA_LIBS} ${VAR_QT_ANDROID_EXTRA_LIBS})
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    QT_ANDROID_EXTRA_LIBS ${PARA_QT_ANDROID_EXTRA_LIBS})
             endif()
 
             # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE

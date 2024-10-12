@@ -410,22 +410,12 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INSTALL_CMAKE_CONFIG_IN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonConfig.cmake.in
     )
 
-#foreach(d ${RabbitCommon_DEFINITIONS})
-#    SET(RabbitCommon_DEFINITIONS_PC "${RabbitCommon_DEFINITIONS_PC} -D${d}")
-#endforeach()
-
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RabbitCommon
         COMPONENT Development
     )
-# Install pc files
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
-#    ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc @ONLY)
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/RabbitCommon.pc
-#    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-#    COMPONENT Development)
 
 ## Install style files
 INSTALL_STYLE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)

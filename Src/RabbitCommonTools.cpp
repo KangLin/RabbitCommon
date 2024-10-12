@@ -33,6 +33,8 @@
 
 #if defined(HAVE_OPENSSL)
     #include "openssl/opensslv.h"
+    #include "openssl/crypto.h"
+    #include "openssl/ssl.h"
 #endif
 
 #ifdef WINDOWS
@@ -199,7 +201,8 @@ QString CTools::Information()
     szInfo += QObject::tr("- Dependent libraries:") + "\n";
     szInfo += QObject::tr("  - OpenSSL:") + "\n";
 #if defined(HAVE_OPENSSL)
-    szInfo += "    - " + QObject::tr("RabbitCommon Build Version: ") + OPENSSL_VERSION_TEXT + "\n";
+    szInfo += "    - " + QObject::tr("Build Version: ") + OPENSSL_VERSION_TEXT + "\n";
+    szInfo += "    - " + QObject::tr("Runtime Version: ") + OpenSSL_version(OPENSSL_VERSION) + "\n";
 #endif
     if(QSslSocket::supportsSsl())
     {
@@ -307,6 +310,11 @@ void CTools::Init(const QString szLanguage)
 
     CStyle::Instance()->LoadStyle();
 #endif //HAVE_RABBITCOMMON_GUI
+
+#if defined(HAVE_OPENSSL)
+    qDebug(log) << QObject::tr("Build Version: ") + OPENSSL_VERSION_TEXT + "\n"
+        << QObject::tr("Runtime Version: ") + OpenSSL_version(OPENSSL_VERSION);
+#endif
 }
 
 void CTools::Clean()

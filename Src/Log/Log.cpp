@@ -15,20 +15,20 @@
 #include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <QLoggingCategory>
-#include <QTextEdit>
+
 #ifdef HAVE_RABBITCOMMON_GUI
     #include <QDesktopServices>
     #include <QMessageBox>
 
     #include "DockDebugLog.h"
     #include "FileBrowser.h"
+    #include "DlgEdit.h"
     extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
 #include "Log.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "DlgEdit.h"
 
 #if defined(Q_OS_WIN)
     #include <process.h>
@@ -149,15 +149,16 @@ CLog::CLog() : QObject(),
     }
 
     qDebug(log) << "Log configure:"
-                   << "\n    Path:" << m_szPath
-                   << "\n    Name:" << m_szName
-                   << "\n    DateFormat:" << m_szDateFormat
-                   << "(Base file name: " + getBaseName() + ")"
-                   << "\n    szPattern:" << szPattern
-                   << "\n    Interval:" << nInterval
-                   << "\n    Count:" << m_nCount
-                   << "\n    Length:" << m_nLength
-                   << "\n    Rules:" << szFilterRules;
+                << "\n    Path:" << m_szPath
+                << "\n    Name:" << m_szName
+                << "\n    DateFormat:" << m_szDateFormat
+                << "(Base file name: " + getBaseName() + ")"
+                << "\n    szPattern:" << szPattern
+                << "\n    Interval:" << nInterval
+                << "\n    Count:" << m_nCount
+                << "\n    Length:" << m_nLength
+                << "\n    PrintStackTrace" << g_bPrintStackTrace
+                << "\n    Rules:" << szFilterRules;
 
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
