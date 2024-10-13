@@ -49,6 +49,7 @@ namespace RabbitCommon {
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
 bool g_bPrintStackTrace = false;
+QList<QtMsgType> g_lstPrintStackTraceLevel(QtMsgType::QtCriticalMsg);
 
 QString PrintStackTrace();
 QStringList PrintStackTrace(uint index, unsigned int max_frames = 63);
@@ -109,6 +110,15 @@ CLog::CLog() : QObject(),
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
         g_bPrintStackTrace = setConfig.value("PrintStackTrace", g_bPrintStackTrace).toBool();
+        QStringList lstPrintStackTraceLevel;
+        foreach(auto l, g_lstPrintStackTraceLevel) {
+            lstPrintStackTraceLevel << QString::number(l);
+        }
+        lstPrintStackTraceLevel = setConfig.value("PrintStackTraceLevel", lstPrintStackTraceLevel).toStringList();
+        g_lstPrintStackTraceLevel.clear();
+        foreach (auto level, lstPrintStackTraceLevel) {
+            g_lstPrintStackTraceLevel << (QtMsgType)level.toInt();
+        }
         QString szLength = setConfig.value("Length", 0).toString();
         if(!szLength.isEmpty()) {
             QRegularExpression e("(\\d+)([mkg]?)",
@@ -157,7 +167,8 @@ CLog::CLog() : QObject(),
                 << "\n    Interval:" << nInterval
                 << "\n    Count:" << m_nCount
                 << "\n    Length:" << m_nLength
-                << "\n    PrintStackTrace" << g_bPrintStackTrace
+                << "\n    PrintStackTrace:" << g_bPrintStackTrace
+                << "\n    PrintStackTraceLevel:" << g_lstPrintStackTraceLevel
                 << "\n    Rules:" << szFilterRules;
 
     if(!szFilterRules.isEmpty())
@@ -268,6 +279,11 @@ void CLog::myMessageOutput(QtMsgType type,
         }
     }
 
+    if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+    {
+        szMsg += "\n" + PrintStackTrace();
+    }
+
 #ifdef HAVE_RABBITCOMMON_GUI
         if(g_pDcokDebugLog)
             emit g_pDcokDebugLog->sigAddLog(szMsg);
@@ -287,10 +303,6 @@ void CLog::myMessageOutput(QtMsgType type,
         QTextStream s(&CLog::Instance()->m_File);
         CLog::Instance()->m_Mutex.lock();
         s << szMsg << "\r\n";
-        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
-        {
-            s << PrintStackTrace();
-        }
         //s.flush();
         CLog::Instance()->m_Mutex.unlock();
     }
@@ -298,13 +310,12 @@ void CLog::myMessageOutput(QtMsgType type,
     //f.close();
 
     if(g_originalMessageHandler) {
-        g_originalMessageHandler(type, context, msg);
-        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        QString szRawMsg = msg;
+        if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
         {
-            QString szStrace = PrintStackTrace();
-            QMessageLogContext c;
-            g_originalMessageHandler(type, c, szStrace);
+            szRawMsg += "\n" + PrintStackTrace();
         }
+        g_originalMessageHandler(type, context, szRawMsg);
     }
 }
 #else
@@ -324,7 +335,17 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
             return;
         }
     }
-    
+
+    if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+    {
+        szMsg += "\n" + PrintStackTrace();
+    }
+
+#ifdef HAVE_RABBITCOMMON_GUI
+    if(g_pDcokDebugLog)
+        emit g_pDcokDebugLog->sigAddLog(szMsg);
+#endif
+
     /*
     QFile f(CLog::Instance()->GetLogFile());
     if(!f.open(QFile::WriteOnly | QFile::Append))
@@ -339,22 +360,18 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
         QTextStream s(&CLog::Instance()->m_File);
         CLog::Instance()->m_Mutex.lock();
         s << szMsg << "\r\n";
-        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
-        {
-            s << PrintStackTrace();
-        }
         CLog::Instance()->m_Mutex.unlock();
     }
 
     //f.close();
 
     if(g_originalMessageHandler) {
-        g_originalMessageHandler(type, msg);
-        if((QtMsgType::QtCriticalMsg == type) && g_bPrintStackTrace)
+        QString szRawMsg = msg;
+        if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
         {
-            QString szStrace = PrintStackTrace();
-            g_originalMessageHandler(type, szStrace);
+            szRawMsg += "\n" + PrintStackTrace();
         }
+        g_originalMessageHandler(type, szRawMsg);
     }
 }
 #endif
