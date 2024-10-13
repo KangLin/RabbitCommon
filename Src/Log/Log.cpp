@@ -659,12 +659,51 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
     return szStack;
 }
 #elif defined(Q_OS_ANDROID)
+// See: https://blog.csdn.net/taohongtaohuyiwei/article/details/105147933
+#include <unwind.h>
+#include <dlfcn.h>
+#include <vector>
+
+static _Unwind_Reason_Code unwindCallback(struct _Unwind_Context* context, void* arg)
+{
+    std::vector<_Unwind_Word> &stack = *(std::vector<_Unwind_Word>*)arg;
+    stack.push_back(_Unwind_GetIP(context));
+    return _URC_NO_REASON;
+}
+
 QStringList PrintStackTrace(uint index, unsigned int max_frames)
 {
-    return QStringList();
+    QStringList lstStack;
+    QString dump;
+    std::vector<_Unwind_Word> stack;
+    _Unwind_Backtrace(unwindCallback, (void*)&stack);
+
+    int nBufferSize = 1024;
+    QScopedPointer<char> buffer(new char[nBufferSize]);
+    if(!buffer)
+    {
+        printf("new buffer fail");
+        return lstStack;
+    }
+    for (int i = 0; i < stack.size(); i++) {
+        Dl_info info;
+        if (!dladdr((void*)stack[i], &info)) {
+            continue;
+        }
+        int addr = (char*)stack[i] - (char*)info.dli_fbase - 1;
+        if (info.dli_sname == NULL || strlen(info.dli_sname) == 0) {
+            sprintf(buffer.data(), "#%02x pc %08x  %s\n", i, addr, info.dli_fname);
+        } else {
+            sprintf(buffer.data(), "#%02x pc %08x  %s (%s+00)\n", i, addr, info.dli_fname, info.dli_sname);
+        }
+        dump = buffer.data();
+        lstStack << dump;
+    }
+    return lstStack;
 }
 #else
 // See: https://segmentfault.com/q/1010000042689957
+//      http://skyscribe.github.io/blog/2012/11/27/linuxshang-ru-he-cong-c-plus-plus-cheng-xu-zhong-huo-qu-backtracexin-xi/
 /** Print a demangled stack backtrace of the caller function to FILE* out. */
 QStringList PrintStackTrace(uint index, unsigned int max_frames)
 {
