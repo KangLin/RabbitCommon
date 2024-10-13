@@ -48,8 +48,8 @@ namespace RabbitCommon {
 #endif
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
-bool g_bPrintStackTrace = false;
-QList<QtMsgType> g_lstPrintStackTraceLevel(QtMsgType::QtCriticalMsg);
+static bool g_bPrintStackTrace = false;
+QList<QtMsgType> g_lstPrintStackTraceLevel;
 
 QString PrintStackTrace();
 QStringList PrintStackTrace(uint index, unsigned int max_frames = 63);
@@ -61,6 +61,7 @@ CLog::CLog() : QObject(),
     m_nLength(0),
     m_nCount(0)
 {
+    g_lstPrintStackTraceLevel << QtMsgType::QtCriticalMsg;
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     
