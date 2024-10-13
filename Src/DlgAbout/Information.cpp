@@ -15,7 +15,8 @@
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout.Information")
 
-CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget *parent) :
+CInformation::CInformation(const QString &szApp,
+                           const QString &szInfo, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CInformation)
 {
@@ -118,7 +119,7 @@ CInformation::CInformation(const QString &szApp, const QString &szInfo, QWidget 
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost + szOS + szEnv);
 
-    //qDebug(log) << szRabbitCommon << szQt << szOS << szHost << szEnv;
+    qDebug(log) << ("\n" + szApp + szInfo + szRabbitCommon + szQt + szOS + szHost + szEnv).toStdString().c_str();
 }
 
 CInformation::~CInformation()

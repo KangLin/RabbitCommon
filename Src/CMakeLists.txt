@@ -5,6 +5,7 @@ project(RabbitCommon
     )
 
 include(GNUInstallDirs)
+include(FetchContent)
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
@@ -305,6 +306,19 @@ if(WIN32)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS
         _UNICODE UNICODE STRSAFE_NO_DEPRECATE)
     list(APPEND RABBIT_PRIVATE_COMMON_LIBS Dbghelp)
+
+    option(WITH_StackWalker "Set to ON to build StackWalk for log stace trace" OFF)
+    if(WITH_StackWalker)
+        FetchContent_Populate(
+            stack_walker
+            DOWNLOAD_EXTRACT_TIMESTAMP true
+            URL https://github.com/JochenKalmbach/StackWalker/archive/refs/heads/master.zip
+        )
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_StackWalker)
+        list(APPEND RABBITCOMMON_PRIVATE_INCLUDE_DIRS ${stack_walker_SOURCE_DIR}/Main/StackWalker)
+        list(APPEND RABBITCOMMON_HEAD_FILES ${stack_walker_SOURCE_DIR}/Main/StackWalker/StackWalker.h)
+        list(APPEND RABBITCOMMON_SOURCE_FILES ${stack_walker_SOURCE_DIR}/Main/StackWalker/StackWalker.cpp)
+    endif()
 endif()
 
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES

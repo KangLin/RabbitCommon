@@ -12,7 +12,9 @@ class CInformation : public QDialog
     Q_OBJECT
     
 public:
-    explicit CInformation(const QString &szApp, const QString &szInfo, QWidget *parent = nullptr);
+    explicit CInformation(const QString &szApp,
+                          const QString &szInfo,
+                          QWidget *parent = nullptr);
     virtual ~CInformation();
 
 private:

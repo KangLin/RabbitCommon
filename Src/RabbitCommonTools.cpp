@@ -216,6 +216,9 @@ QString CTools::Information()
 #endif
         szInfo += "    - " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
+#if HAVE_StackWalker
+    szInfo += QObject::tr("  - StackWalker") + "\n";
+#endif
 #ifdef HAVE_CMARK_GFM
     szInfo += QObject::tr("  - cmark-gfm") + "\n";
 #elif HAVE_CMARK

@@ -34,7 +34,14 @@
     #include <process.h>
     #include <Windows.h>
     #include <dbghelp.h>
-#elif !defined(Q_OS_ANDROID)
+    #if HAVE_StackWalker
+        #include "StackWalker.h"
+    #endif
+#elif defined(Q_OS_ANDROID)
+    #include <unwind.h>
+    #include <dlfcn.h>
+    #include <vector>
+#else
     #include <execinfo.h>
     #include <cxxabi.h>
 #endif
@@ -648,22 +655,99 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
         SymFromAddr(process, address, NULL, symbol);
         if (SymGetLineFromAddr64(process, address, &displacement, &line))
         {
-            snprintf(bufStack, 1024, "%s in (%s:%lu) address: 0x%0X", symbol->Name, line.FileName, line.LineNumber, symbol->Address);
+            snprintf(bufStack, 1024, "%s in (%s:%lu) address: %p", symbol->Name, line.FileName, line.LineNumber, (LPVOID)symbol->Address);
         }
         else
         {
             //printf("\tSymGetLineFromAddr64 returned error code %lu.", GetLastError());
-            snprintf(bufStack, 1024, "%s address: 0x%0X", symbol->Name, symbol->Address);
+            snprintf(bufStack, 1024, "%s address: %p", symbol->Name, (LPVOID)symbol->Address);
         }
         szStack << bufStack;
     }
     return szStack;
 }
+
+
+#if HAVE_StackWalker
+// See: https://github.com/JochenKalmbach/StackWalker
+static void MyStrCpy(char* szDest, size_t nMaxDestSize, const char* szSrc)
+{
+    if (nMaxDestSize <= 0)
+        return;
+    strncpy_s(szDest, nMaxDestSize, szSrc, _TRUNCATE);
+    // INFO: _TRUNCATE will ensure that it is null-terminated;
+    // but with older compilers (<1400) it uses "strncpy" and this does not!)
+    szDest[nMaxDestSize - 1] = 0;
+} // MyStrCpy
+class MyStackWalker : public StackWalker
+{
+public:
+    MyStackWalker(QStringList *lstText,
+                  int index,
+                  int options = OptionsAll, // 'int' is by design, to combine the enum-flags
+                  LPCSTR szSymPath = NULL,
+                  DWORD  dwProcessId = GetCurrentProcessId(),
+                  HANDLE hProcess = GetCurrentProcess())
+        : StackWalker(options, szSymPath, dwProcessId, hProcess)
+    {
+        m_lstText = lstText;
+        m_Index = index + 1;
+    }
+    QStringList *m_lstText;
+    int m_Index;
+
+protected:
+    virtual void OnCallstackEntry(CallstackEntryType eType, CallstackEntry &entry) override;
+    virtual void OnOutput(LPCSTR szText) override
+    {}
+};
+
+void MyStackWalker::OnCallstackEntry(CallstackEntryType eType, CallstackEntry &entry)
+{
+    if(m_Index) {
+        m_Index--;
+        return;
+    }
+
+    CHAR   buffer[STACKWALK_MAX_NAMELEN];
+    size_t maxLen = STACKWALK_MAX_NAMELEN;
+#if _MSC_VER >= 1400
+    maxLen = _TRUNCATE;
+#endif
+    if ((eType != lastEntry) && (entry.offset != 0))
+    {
+        if (entry.name[0] == 0)
+            MyStrCpy(entry.name, STACKWALK_MAX_NAMELEN, "(function-name not available)");
+        if (entry.undName[0] != 0)
+            MyStrCpy(entry.name, STACKWALK_MAX_NAMELEN, entry.undName);
+        if (entry.undFullName[0] != 0)
+            MyStrCpy(entry.name, STACKWALK_MAX_NAMELEN, entry.undFullName);
+        if (entry.moduleName[0] == 0)
+            MyStrCpy(entry.moduleName, STACKWALK_MAX_NAMELEN, "(module-name not available)");
+        if (entry.lineFileName[0] == 0)
+        {
+            MyStrCpy(entry.lineFileName, STACKWALK_MAX_NAMELEN, "(filename not available)");
+        }
+        _snprintf_s(buffer, maxLen, "%s in [%s] (%s:%d) address: %p",
+                    entry.name, entry.moduleName,
+                    entry.lineFileName, entry.lineNumber,
+                    (LPVOID)entry.offset);
+        buffer[STACKWALK_MAX_NAMELEN - 1] = 0;
+        *m_lstText << buffer;
+    }
+}
+
+QStringList PrintStackTrace1(uint index, unsigned int max_frames)
+{
+    QStringList lstStack;
+    MyStackWalker sw(&lstStack, index, StackWalker::RetrieveSymbol);
+    sw.ShowCallstack();
+    return lstStack;
+}
+#endif //#if HAVE_StackWalker
+
 #elif defined(Q_OS_ANDROID)
 // See: https://blog.csdn.net/taohongtaohuyiwei/article/details/105147933
-#include <unwind.h>
-#include <dlfcn.h>
-#include <vector>
 
 static _Unwind_Reason_Code unwindCallback(struct _Unwind_Context* context, void* arg)
 {
@@ -675,7 +759,7 @@ static _Unwind_Reason_Code unwindCallback(struct _Unwind_Context* context, void*
 QStringList PrintStackTrace(uint index, unsigned int max_frames)
 {
     QStringList lstStack;
-    QString dump;
+
     std::vector<_Unwind_Word> stack;
     _Unwind_Backtrace(unwindCallback, (void*)&stack);
 
@@ -686,20 +770,21 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
         printf("new buffer fail");
         return lstStack;
     }
-    for (int i = 0; i < stack.size(); i++) {
+    for (int i = index; i < stack.size(); i++) {
         Dl_info info;
         if (!dladdr((void*)stack[i], &info)) {
             continue;
         }
         int addr = (char*)stack[i] - (char*)info.dli_fbase - 1;
         if (info.dli_sname == NULL || strlen(info.dli_sname) == 0) {
-            sprintf(buffer.data(), "#%02x pc %08x  %s\n", i, addr, info.dli_fname);
+            sprintf(buffer.data(), "%s address: 0x%0X", info.dli_fname, addr);
         } else {
-            sprintf(buffer.data(), "#%02x pc %08x  %s (%s+00)\n", i, addr, info.dli_fname, info.dli_sname);
+            sprintf(buffer.data(), "%s in %s address: 0x%0X",
+                    info.dli_sname, info.dli_fname, addr);
         }
-        dump = buffer.data();
-        lstStack << dump;
+        lstStack << buffer.data();
     }
+
     return lstStack;
 }
 #else
@@ -801,7 +886,7 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
 QString PrintStackTrace()
 {
     QString szMsg("Stack:\n");
-    QStringList szTrace = PrintStackTrace(5);
+    QStringList szTrace = PrintStackTrace(3);
     for(int i = 0; i < szTrace.length(); i++) {
         szMsg += "    " + QString::number(i + 1) + " " + szTrace[i] + "\n";
     }
