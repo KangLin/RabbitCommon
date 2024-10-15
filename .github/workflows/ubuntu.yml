@@ -80,8 +80,8 @@ jobs:
                 -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
                 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
                 -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-                -DINSTALL_QT=ON \
-                -DBUILD_APP=ON \
+                -DRABBIT_ENABLE_INSTALL_QT=ON \
+                -DBUILD_APP=OFF \
                 -DBUILD_TEST=ON
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
@@ -100,7 +100,7 @@ jobs:
                 -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
                 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
                 -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }}/lib/cmake \
-                -DINSTALL_QT=OFF \
+                -DRABBIT_ENABLE_INSTALL_QT=OFF \
                 -DBUILD_APP=OFF \
                 -DBUILD_TEST=OFF
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
@@ -109,6 +109,7 @@ jobs:
       - name: Make deb package
         run: |
           git clean -xdf
+          export QT_ROOT=/usr/lib/`uname -a`-linux-gnu/cmake/Qt6
           ./build_debpackage.sh
           cp ../rabbitcommon*.deb .
 

@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ -f /usr/lib/`uname -m`-linux-gnu/qt5/bin/qmake -a -z "$QT_ROOT" ]; then
-    QT_ROOT=/usr/lib/`uname -m`-linux-gnu/qt5
+if [ -f /usr/lib/`uname -a`-linux-gnu/cmake/Qt6 -a -z "$QT_ROOT" ]; then
+    QT_ROOT=/usr/lib/`uname -a`-linux-gnu/cmake/Qt6
 fi
 
 if [ -n "$1" ]; then
 	QT_ROOT=$1
 fi
 
-if [ ! -f /usr/bin/qmake -a -z "$QT_ROOT" ]; then
+if [ -z "$QT_ROOT" ]; then
 	echo "$0 QT_ROOT"
     exit -1
 fi
