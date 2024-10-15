@@ -37,6 +37,7 @@
     #if HAVE_StackWalker
         #include "StackWalker.h"
     #endif
+    #include "CoreDump/MiniDumper.h"
 #elif defined(Q_OS_ANDROID)
     #include <unwind.h>
     #include <dlfcn.h>
@@ -163,6 +164,10 @@ CLog::CLog() : QObject(),
         }
         setConfig.endGroup();
     }
+
+#ifdef Q_OS_WIN
+    RabbitCommon::EnableMiniDumper();
+#endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
     qSetMessagePattern(szPattern);
@@ -568,7 +573,7 @@ void OpenLogFile()
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
     if(env.value("SNAP").isEmpty()) {
-        bRet = QDesktopServices::openUrl(f);
+        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
     }
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
@@ -623,21 +628,26 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
     DWORD displacement;
     IMAGEHLP_LINE64 line;
     line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-    char bufStack[1024];
+    QScopedArrayPointer<char> bufStack(new char[1024]);
+    if(!bufStack)
+    {
+        qCritical(log) << "new buffer fail";
+        return szStack;
+    }
     for (int i = 0; i < numberOfFrames; i++)
     {
         DWORD64 address = (DWORD64)(stack[i]);
         SymFromAddr(process, address, NULL, symbol);
         if (SymGetLineFromAddr64(process, address, &displacement, &line))
         {
-            snprintf(bufStack, 1024, "%s in (%s:%lu) address: %p", symbol->Name, line.FileName, line.LineNumber, (LPVOID)symbol->Address);
+            snprintf(bufStack.data(), 1024, "%s in (%s:%lu) address: %p", symbol->Name, line.FileName, line.LineNumber, (LPVOID)symbol->Address);
         }
         else
         {
             //printf("\tSymGetLineFromAddr64 returned error code %lu.", GetLastError());
-            snprintf(bufStack, 1024, "%s address: %p", symbol->Name, (LPVOID)symbol->Address);
+            snprintf(bufStack.data(), 1024, "%s address: %p", symbol->Name, (LPVOID)symbol->Address);
         }
-        szStack << bufStack;
+        szStack << bufStack.data();
     }
     return szStack;
 }
@@ -739,10 +749,10 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
     _Unwind_Backtrace(unwindCallback, (void*)&stack);
 
     int nBufferSize = 1024;
-    QScopedPointer<char> buffer(new char[nBufferSize]);
+    QScopedArrayPointer<char> buffer(new char[nBufferSize]);
     if(!buffer)
     {
-        printf("new buffer fail");
+        qCritical(log) << "new buffer fail";
         return lstStack;
     }
     for (int i = index; i < stack.size(); i++) {
@@ -771,10 +781,10 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
     QStringList szMsg;
 
     int nBufferSize = 1024;
-    QScopedPointer<char> buffer(new char[nBufferSize]);
+    QScopedArrayPointer<char> buffer(new char[nBufferSize]);
     if(!buffer)
     {
-        printf("new buffer fail");
+        qCritical(log) << "new buffer fail";
         return szMsg;
     }
 

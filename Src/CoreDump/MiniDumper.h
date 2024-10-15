@@ -2,6 +2,7 @@
 #define __MiniDumper_H_KL_2022_07_19__
 
 #include <windows.h>
+#include <QString>
 
 namespace RabbitCommon {
 

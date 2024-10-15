@@ -140,6 +140,7 @@ public:
      * \param bPrompt: prompt
      * \note It must be called first in the main function
      */
+    Q_DECL_DEPRECATED_X("Setting in log configure file")
     static bool EnableCoreDump(bool bPrompt = true);
 
     /*!

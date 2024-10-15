@@ -14,26 +14,131 @@
 #endif
 #include <QTranslator>
 #include <QCoreApplication>
+#include <QLoggingCategory>
+#include <QDesktopServices>
+#include <QPushButton>
+#include <QSettings>
 #include "MiniDumper.h"
+#include "Log/Log.h"
+#include "RabbitCommonDir.h"
 
 //#pragma comment( lib, "Dbghelp.lib" )
 
 namespace RabbitCommon {
 
-LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.CoreDump.QMinDumper")
+const int MaxNameLen = 256;
+void PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace based on context record
 {
-	if (!QDir("logs").exists())
+    BOOL    result = false;
+    HANDLE  process = NULL;
+    HANDLE  thread = NULL;
+    HMODULE hModule = NULL;
+
+    STACKFRAME64        stack;
+    ULONG               frame = 0;
+    DWORD64             displacement = 0;
+
+    DWORD disp = 0;
+
+    QScopedArrayPointer<char> buffer(new char[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]);
+    QScopedArrayPointer<char> name(new char[MaxNameLen]);
+    QScopedArrayPointer<char> module(new char[MaxNameLen]);
+    PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)buffer.data();
+
+    qCritical(log, "*** Exception 0x%x occurred ***\n\n", pException->ExceptionRecord->ExceptionCode);
+    PCONTEXT ctx = pException->ContextRecord;
+
+    // On x64, StackWalk64 modifies the context record, that could
+    // cause crashes, so we create a copy to prevent it
+    CONTEXT ctxCopy;
+    memcpy(&ctxCopy, ctx, sizeof(CONTEXT));
+
+    memset(&stack, 0, sizeof( STACKFRAME64 ));
+
+    process                = GetCurrentProcess();
+    thread                 = GetCurrentThread();
+    displacement           = 0;
+#if !defined(_M_AMD64)
+    stack.AddrPC.Offset    = (*ctx).Eip;
+    stack.AddrPC.Mode      = AddrModeFlat;
+    stack.AddrStack.Offset = (*ctx).Esp;
+    stack.AddrStack.Mode   = AddrModeFlat;
+    stack.AddrFrame.Offset = (*ctx).Ebp;
+    stack.AddrFrame.Mode   = AddrModeFlat;
+#endif
+
+    SymInitialize( process, NULL, TRUE ); //load symbols
+
+    for( frame = 0; ; frame++ )
+    {
+        //get next call from stack
+        result = StackWalk64
+            (
+#if defined(_M_AMD64)
+                IMAGE_FILE_MACHINE_AMD64
+#else
+                IMAGE_FILE_MACHINE_I386
+#endif
+                ,
+                process,
+                thread,
+                &stack,
+                &ctxCopy,
+                NULL,
+                SymFunctionTableAccess64,
+                SymGetModuleBase64,
+                NULL
+                );
+
+        if( !result ) break;
+
+        //get symbol name for address
+        pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        pSymbol->MaxNameLen = MAX_SYM_NAME;
+        SymFromAddr(process, ( ULONG64 )stack.AddrPC.Offset, &displacement, pSymbol);
+
+        QScopedPointer<IMAGEHLP_LINE64> line(new IMAGEHLP_LINE64());
+        line->SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+
+        //try to get line
+        if (SymGetLineFromAddr64(process, stack.AddrPC.Offset, &disp, line.data()))
+        {
+            qCritical(log, "\tat %s in %s: line: %lu: address: 0x%0X", pSymbol->Name, line->FileName, line->LineNumber, pSymbol->Address);
+        }
+        else
+        {
+            //failed to get line
+            hModule = NULL;
+            lstrcpyA(module.data(), "");
+            GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                              (LPCTSTR)(stack.AddrPC.Offset), &hModule);
+
+            //at least print module name
+            if(hModule != NULL)
+                GetModuleFileNameA(hModule, module.data(), MaxNameLen);
+
+            qCritical(log, "\tat %s, address 0x%0X. in %s", pSymbol->Name, pSymbol->Address, module.data());
+        }
+    }
+}
+
+QString CoreDump(struct _EXCEPTION_POINTERS *pException)
+{
+    QString szPath = CDir::Instance()->GetDirLog() + QDir::separator() + "Core";
+	if (!QDir(szPath).exists())
 	{
-		QDir().mkdir("logs");
+		QDir().mkdir(szPath);
 	}
 
-	QString dumpName = QDir::toNativeSeparators(
-	    QCoreApplication::applicationDirPath() + QDir::separator()
-               + qApp->applicationName() + QString("_%1_%2_%3.dmp")
-		.arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"))
-		.arg(GetCurrentProcessId())
-		.arg(GetCurrentThreadId())
-		);
+    QString dumpName = QDir::toNativeSeparators(
+        szPath + QDir::separator()
+        + qApp->applicationName()
+        + QString("_%1_%2_%3.dmp")
+              .arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"))
+              .arg(GetCurrentProcessId())
+              .arg(GetCurrentThreadId())
+        );
 
 	QString msg;
 	HANDLE hDumpFile = CreateFileW(dumpName.toStdWString().c_str(),
@@ -44,26 +149,62 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *ExceptionInfo)
 	{
 		MINIDUMP_EXCEPTION_INFORMATION ExpParam;
 		ExpParam.ThreadId = GetCurrentThreadId();
-		ExpParam.ExceptionPointers = ExceptionInfo;
+		ExpParam.ExceptionPointers = pException;
 		ExpParam.ClientPointers = TRUE;
 
 		// 创建Dump文件
 		MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(),
                           hDumpFile, MiniDumpWithDataSegs,
-                          ExceptionInfo ? &ExpParam : nullptr, nullptr, nullptr);
+                          pException ? &ExpParam : nullptr, nullptr, nullptr);
 		CloseHandle(hDumpFile);
 	}
 
-	// 提示
-    QString strTitle = QObject::tr("Application Error");
-    QString strContent = QObject::tr("I'm Sorry, Application is Crash!") + "\n\n"
-                         + QObject::tr("The current path: ") + QDir::currentPath() + "\n\n"
-                         + QObject::tr("The dump file: ") + dumpName;
+    qCritical(log) << "The core dump file:" << dumpName;
+    return dumpName;
+}
+
+LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
+{
+    QString dumpName;
+    bool bDumpToLogFile = true;
+    bool bDumpFile = true;
+    QString szConfigure = CLog::Instance()->OpenLogConfigureFile();
+    if(!szConfigure.isEmpty()) {
+        QSettings set(szConfigure, QSettings::IniFormat);
+        bDumpToLogFile = set.value("Core/DumpToLogFile", true).toBool();
+        bDumpFile = set.value("Core/DumpFile", true).toBool();
+    }
+    if(!(bDumpFile || bDumpToLogFile))
+        return EXCEPTION_CONTINUE_SEARCH;
+    if(bDumpToLogFile)
+        PrintStack(pException);
+    if(bDumpFile)
+        dumpName = CoreDump(pException);
+
+    // 提示
+    QString szTitle = QObject::tr("Application Error");
+    QString szContent
+        = QObject::tr("I'm Sorry, Application is Crash!") + "\n\n"
+          + QObject::tr("Current path: ") + QDir::currentPath() + "\n\n";
+    if(bDumpFile)
+          szContent += QObject::tr("Dump file: ") + dumpName + "\n\n";
+    if(bDumpToLogFile)
+        szContent += QObject::tr("Log file: ") + RabbitCommon::CLog::Instance()->GetLogFile();
 #ifdef HAVE_RABBITCOMMON_GUI
-    QMessageBox::critical(0, strTitle, strContent, QMessageBox::Ok);
+    QMessageBox msg(QMessageBox::Icon::Critical, szTitle, szContent, QMessageBox::StandardButton::Close);
+    QPushButton* pOpenLogFile = msg.addButton(QObject::tr("Open log file"), QMessageBox::ActionRole);
+    QPushButton* pOpenCoreDumpFolder = msg.addButton(QObject::tr("Open core dump folder"), QMessageBox::ActionRole);
+    msg.exec();
+    if(msg.clickedButton() == pOpenLogFile)
+    {
+        OpenLogFile();
+    } else if (msg.clickedButton() == pOpenCoreDumpFolder) {
+        QFileInfo info(dumpName);
+        QDesktopServices::openUrl(QUrl::fromLocalFile(info.absolutePath()));
+    }
 #endif
 
-	return EXCEPTION_EXECUTE_HANDLER;
+    return EXCEPTION_EXECUTE_HANDLER;
 }
 
 void EnableMiniDumper()

@@ -26,8 +26,6 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.main")
 
 int main(int argc, char *argv[])
 {
-    RabbitCommon::CTools::EnableCoreDump();
-
     QApplication a(argc, argv);
 #ifdef RabbitCommon_VERSION
     a.setApplicationVersion(RabbitCommon_VERSION);
@@ -35,6 +33,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("RabbitCommon");
 
     RabbitCommon::CTools::Instance()->Init();
+    RabbitCommon::CTools::EnableCoreDump();
     RabbitCommon::CTools::Instance()->InstallTranslator("RabbitCommonApp");
 
     qDebug(log) << "GetDirApplication:"
