@@ -16,6 +16,7 @@
     #include <QMainWindow>
     #include "Style.h"
     #include <QApplication>
+    #include "Information.h"
 #else
     #include <QCoreApplication>
 #endif
@@ -312,6 +313,8 @@ void CTools::Init(const QString szLanguage)
     m_bShowMaxWindow = set.value("Tools/Window/ShowMax", m_bShowMaxWindow).toBool();
 
     CStyle::Instance()->LoadStyle();
+
+    CInformation info("## RabbitCommon, Qt and System information:", "");
 #endif //HAVE_RABBITCOMMON_GUI
 
 #if defined(HAVE_OPENSSL)
@@ -327,6 +330,7 @@ void CTools::Clean()
     }
     m_Translator.clear();
     CleanResource();
+    delete RabbitCommon::CLog::Instance();
 }
 
 QSharedPointer<QTranslator> CTools::InstallTranslatorFile(const QString szFile)

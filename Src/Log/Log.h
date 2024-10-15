@@ -35,6 +35,7 @@ class CLog : QObject
 
 public:
     static CLog* Instance();
+    virtual ~CLog();
 
     QString OpenLogConfigureFile();
     QString GetLogFile();
@@ -45,15 +46,12 @@ public:
 
 private:
     CLog();
-    virtual ~CLog();
 
     QString m_szConfigureFile;
 
     QString m_szPath;
     QString m_szName;
     QString m_szDateFormat;
-    QFile m_File;
-    QMutex m_Mutex;
     qint64 m_nLength;   // Unit: byte
     int m_nCount;
     QTimer m_Timer;

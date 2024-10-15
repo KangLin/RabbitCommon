@@ -18,7 +18,6 @@ Abstract:
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
 
-#include "Log/Log.h"
 #include "Information.h"
 
 #ifdef HAVE_WebEngineWidgets

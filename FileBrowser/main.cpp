@@ -34,5 +34,7 @@ int main(int argc, char *argv[])
     }*/
     MainWindow w;
     w.show();
-    return a.exec();
+    int nRet = a.exec();
+    RabbitCommon::CTools::Instance()->Clean();
+    return nRet;
 }

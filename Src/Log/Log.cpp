@@ -48,15 +48,17 @@
 
 namespace RabbitCommon {
 
+static QFile g_File;
+static QMutex g_Mutex;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    QtMessageHandler g_originalMessageHandler = Q_NULLPTR;
+    static QtMessageHandler g_originalMessageHandler = Q_NULLPTR;
 #else
-    QtMsgHandler g_originalMessageHandler = Q_NULLPTR;
+    static QtMsgHandler g_originalMessageHandler = Q_NULLPTR;
 #endif
 QRegularExpression g_reInclude;
 QRegularExpression g_reExclude;
 static bool g_bPrintStackTrace = false;
-QList<QtMsgType> g_lstPrintStackTraceLevel;
+QList<QtMsgType> g_lstPrintStackTraceLevel{QtMsgType::QtCriticalMsg};
 
 QString PrintStackTrace();
 QStringList PrintStackTrace(uint index, unsigned int max_frames = 63);
@@ -68,7 +70,6 @@ CLog::CLog() : QObject(),
     m_nLength(0),
     m_nCount(0)
 {
-    g_lstPrintStackTraceLevel << QtMsgType::QtCriticalMsg;
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
     
@@ -91,6 +92,7 @@ CLog::CLog() : QObject(),
 #if defined(Q_OS_ANDROID)
     bReadOnly = true;
 #endif
+
     m_szPath = CDir::Instance()->GetDirLog();
     QString szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                             QCoreApplication::applicationName() + "_logqt.ini");
@@ -108,7 +110,6 @@ CLog::CLog() : QObject(),
     if (QFile::exists(szConfFile))
     {
         m_szConfigureFile = szConfFile;
-        qInfo(log) << "Load log configure file:" << m_szConfigureFile;
         QSettings setConfig(m_szConfigureFile, QSettings::IniFormat);
         setConfig.beginGroup("Log");
         m_szPath = setConfig.value("Path", m_szPath).toString();
@@ -161,11 +162,21 @@ CLog::CLog() : QObject(),
             szFilterRules += k + "=" + v + "\n";
         }
         setConfig.endGroup();
-    } else {
-        qWarning(log) << "Log configure file is not exist:" << szConfFile
-                         << ". Use default settings.";
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    qSetMessagePattern(szPattern);
+    g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
+#else
+    g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
+#endif
+
+    slotTimeout();
+    if (QFile::exists(szConfFile))
+        qInfo(log) << "Load log configure file:" << m_szConfigureFile;
+    else
+        qWarning(log) << "Log configure file is not exist:" << szConfFile
+                      << ". Use default settings.";
     qDebug(log) << "Log configure:"
                 << "\n    Path:" << m_szPath
                 << "\n    Name:" << m_szName
@@ -182,24 +193,14 @@ CLog::CLog() : QObject(),
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    qSetMessagePattern(szPattern);
-    g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
-#else
-    g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
-#endif
-
     QDir d;
     if(!d.exists(m_szPath))
     {
         if(!d.mkpath(m_szPath)) {
-            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
-            fprintf(stderr, "Create log directory fail. %s\n",
-                    m_szPath.toStdString().c_str());
+            qDebug(log) << "Create log directory fail." << m_szPath;
         }
     }
 
-    slotTimeout();
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          this, SLOT(slotTimeout()));
     Q_ASSERT(check);
@@ -208,8 +209,9 @@ CLog::CLog() : QObject(),
 
 CLog::~CLog()
 {
-    if(m_File.isOpen())
-        m_File.close();
+    qDebug(log) << "CLog::~CLog()";
+    if(g_File.isOpen())
+        g_File.close();
     if(m_Timer.isActive())
         m_Timer.stop();
 }
@@ -226,7 +228,7 @@ CLog* CLog::Instance()
 
 QString CLog::GetLogFile()
 {
-    return m_File.fileName();
+    return g_File.fileName();
 }
 
 QString CLog::OpenLogConfigureFile()
@@ -287,7 +289,7 @@ void CLog::myMessageOutput(QtMsgType type,
         }
     }
 
-    if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+    if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
     {
         szMsg += "\n" + PrintStackTrace();
     }
@@ -297,29 +299,18 @@ void CLog::myMessageOutput(QtMsgType type,
             emit g_pDcokDebugLog->sigAddLog(szMsg);
 #endif
 
-    /*
-    QFile f(CLog::Instance()->GetLogFile());
-    if(!f.open(QFile::WriteOnly | QFile::Append))
+    if(g_File.isOpen())
     {
-        fprintf(stderr, "Open log file fail. %s\n",
-                f.fileName().toStdString().c_str());
-        return;
-    }//*/
-
-    if(CLog::Instance()->m_File.isOpen())
-    {
-        QTextStream s(&CLog::Instance()->m_File);
-        CLog::Instance()->m_Mutex.lock();
+        QTextStream s(&g_File);
+        g_Mutex.lock();
         s << szMsg << "\r\n";
         //s.flush();
-        CLog::Instance()->m_Mutex.unlock();
+        g_Mutex.unlock();
     }
-
-    //f.close();
 
     if(g_originalMessageHandler) {
         QString szRawMsg = msg;
-        if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+        if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
         {
             szRawMsg += "\n" + PrintStackTrace();
         }
@@ -344,7 +335,7 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
         }
     }
 
-    if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+    if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
     {
         szMsg += "\n" + PrintStackTrace();
     }
@@ -354,28 +345,17 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
         emit g_pDcokDebugLog->sigAddLog(szMsg);
 #endif
 
-    /*
-    QFile f(CLog::Instance()->GetLogFile());
-    if(!f.open(QFile::WriteOnly | QFile::Append))
+    if(g_File.isOpen())
     {
-        fprintf(stderr, "Open log file fail. %s\n",
-                f.fileName().toStdString().c_str());
-        return;
-    } //*/
-    
-    if(CLog::Instance()->m_File.isOpen())
-    {
-        QTextStream s(&CLog::Instance()->m_File);
-        CLog::Instance()->m_Mutex.lock();
+        QTextStream s(&g_File);
+        g_Mutex.lock();
         s << szMsg << "\r\n";
-        CLog::Instance()->m_Mutex.unlock();
+        g_Mutex.unlock();
     }
-
-    //f.close();
 
     if(g_originalMessageHandler) {
         QString szRawMsg = msg;
-        if(g_lstPrintStackTraceLevel.contains(type) && g_bPrintStackTrace)
+        if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
         {
             szRawMsg += "\n" + PrintStackTrace();
         }
@@ -402,11 +382,10 @@ void CLog::checkFileCount()
 
     bool bRet = false;
     bRet = d.remove(szFile);
-    //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
     if(bRet)
-        printf("Remove file: %s\n", szFile.toStdString().c_str());
+        qDebug(log) << "Remove file:" << szFile;
     else
-        printf("Remove file fail: %s", szFile.toStdString().c_str());
+        qCritical(log) << "Remove file fail:" << szFile;
 }
 
 QString CLog::getBaseName()
@@ -463,9 +442,9 @@ bool CLog::checkFileLength()
 {
     if(m_nLength == 0) return false;
 
-    if(m_File.fileName().isEmpty()) return false;
+    if(g_File.fileName().isEmpty()) return false;
 
-    QFileInfo fi(m_File.fileName());
+    QFileInfo fi(g_File.fileName());
     if(fi.exists()) {
         if(fi.size() < m_nLength) return false;
     } else {
@@ -478,7 +457,7 @@ bool CLog::checkFileLength()
 bool CLog::checkFileName()
 {
     QString szFile;
-    szFile = m_File.fileName();
+    szFile = g_File.fileName();
     QFileInfo fi(szFile);
     szFile = fi.baseName();
     
@@ -489,39 +468,35 @@ bool CLog::checkFileName()
 void CLog::slotTimeout()
 {
     QString szFile;
-    if(m_File.fileName().isEmpty())
+    if(g_File.fileName().isEmpty())
     {
         szFile = getFileName();
-        m_File.setFileName(szFile);
+        g_File.setFileName(szFile);
     }
 
     do {
         if(checkFileLength())
-            szFile = getNextFileName(m_File.fileName());
+            szFile = getNextFileName(g_File.fileName());
         else if(!checkFileName())
             szFile = getFileName();
         else
-            if(m_File.isOpen()) break;
+            if(g_File.isOpen()) break;
 #ifdef Q_OS_ANDROID
         if(szFile.isEmpty()) return;
 #endif
         Q_ASSERT(!szFile.isEmpty());
 
-        m_Mutex.lock();
-        if(m_File.isOpen())
-            m_File.close();
+        g_Mutex.lock();
+        if(g_File.isOpen())
+            g_File.close();
 
-        m_File.setFileName(szFile);
-        bool bRet = m_File.open(QFile::WriteOnly | QFile::Append);
-        m_Mutex.unlock();
+        g_File.setFileName(szFile);
+        bool bRet = g_File.open(QFile::WriteOnly | QFile::Append);
+        g_Mutex.unlock();
         if(bRet) {
-            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
-            fprintf(stderr, "Log file: %s\n",
-                    m_File.fileName().toStdString().c_str());
+            qDebug(log) << "Log file:" << g_File.fileName();
         } else {
-            //NOTE: Do not use qDebug or qCritical. Causes recursive calls, stuck in an endless loop.
-            fprintf(stderr, "Open log file fail. %s\n",
-                    m_File.fileName().toStdString().c_str());
+            qCritical(log) << "Open log file fail." << g_File.fileName();
         }
     } while(0);
     
