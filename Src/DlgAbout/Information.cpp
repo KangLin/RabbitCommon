@@ -119,7 +119,7 @@ CInformation::CInformation(const QString &szApp,
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost + szOS + szEnv);
 
-    qDebug(log) << ("\n" + szApp + szInfo + szRabbitCommon + szQt + szOS + szHost + szEnv).toStdString().c_str();
+    qDebug(log) << (szApp + szInfo + szRabbitCommon + szQt + szOS + szHost + szEnv).toStdString().c_str();
 }
 
 CInformation::~CInformation()

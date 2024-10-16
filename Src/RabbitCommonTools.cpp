@@ -370,7 +370,7 @@ void CTools::Init(QString szApplicationName,
 
     CStyle::Instance()->LoadStyle();
 
-    CInformation info("## RabbitCommon, Qt and System information:", "");
+    CInformation info("RabbitCommon, Qt and System information:", "");
 #endif //HAVE_RABBITCOMMON_GUI
 }
 
