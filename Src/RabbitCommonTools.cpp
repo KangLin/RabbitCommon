@@ -43,20 +43,22 @@
     #include "openssl/ssl.h"
 #endif
 
-#ifdef WINDOWS
+#if defined(Q_OS_WIN)
     #include <windows.h>
     #include <tchar.h>
 //    #include <stdio.h>
     //#include "lm.h"
     //#pragma comment(lib,"netapi32.lib")
-#elif UNIX
+#else
     #include <pwd.h>
     #include <unistd.h>
+    #include <signal.h>
 #endif
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
     #include "CoreDump/MiniDumper.h"
 #endif
+#include "CoreDump/StackTrace.h"
 
 #ifdef HAVE_RABBITCOMMON_GUI
     #include "Log/DockDebugLog.h"
@@ -99,6 +101,8 @@ namespace RabbitCommon {
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Tools")
 static Q_LOGGING_CATEGORY(logTranslation, "RabbitCommon.Tools.Translation")
 
+static CCallTrace* g_pCallStack = nullptr;
+
 CTools::CTools() : QObject()
     , m_Initialized(false)
 #if defined(Q_OS_ANDROID)
@@ -106,10 +110,7 @@ CTools::CTools() : QObject()
 #else
     , m_bShowMaxWindow(false)
 #endif
-    ,m_hMainThread(nullptr)
-{
-    m_hMainThread = QThread::currentThreadId();
-}
+{}
 
 CTools::~CTools()
 {
@@ -293,6 +294,7 @@ void CTools::Init(QString szApplicationName,
 {
     if(m_Initialized) {
         qWarning(log) << "CTools is already initialized";
+        Q_ASSERT(false);
         return;
     }
 
@@ -329,6 +331,7 @@ void CTools::Init(QString szApplicationName,
                 << "android.permission.ACCESS_NETWORK_STATE"
                 << "android.permission.CHANGE_NETWORK_STATE";
     AndroidRequestPermission(permissions);
+    EnableCoreDump();
     RabbitCommon::CLog::Instance();
     SetLanguage(szLanguage);
     qInfo(logTranslation) << "Language:" << szLanguage;
@@ -490,15 +493,43 @@ void CTools::CleanResource()
     g_RabbitCommon_CleanResource();
 }
 
+#if defined(Q_OS_UNIX)
+void SigHandler(int sig)
+{
+    switch(sig)
+    {
+    case SIGSEGV: // 试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.
+    case SIGBUS:  // 非法地址, 包括内存地址对齐(alignment)出错。比如访问一个四个字长的整数, 但其地址不是4的倍数。它与SIGSEGV的区别在于后者是由于对合法存储地址的非法访问触发的(如访问不属于自己存储空间或只读存储空间)。
+    case SIGILL:  // illeage，非法的。执行了非法指令， 通常是因为可执行文件本身出现错误, 或者试图执行数据段. 堆栈溢出也有可能产生这个信号。
+        qCritical(log) << "Receive exception signal:" << sig << "\n"
+                       << g_pCallStack->GetStack(3).toStdString().c_str();
+        break;
+    default:
+        qDebug(log) << "Receive signal:" << sig;
+        return;
+    };
+    exit(-1);
+}
+
+#endif
+
 bool CTools::EnableCoreDump(bool bPrompt)
 {
     Q_UNUSED(bPrompt);
+    g_pCallStack = new CCallTrace();
+
 #ifdef Q_OS_WIN
     //static RabbitCommon::CMiniDumper dumper(bPrompt);
     RabbitCommon::EnableMiniDumper();
-    return true;
+#else
+    //SIGSEGV: 试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.
+    signal(SIGSEGV, SigHandler);
+    // 非法地址, 包括内存地址对齐(alignment)出错。比如访问一个四个字长的整数, 但其地址不是4的倍数。它与SIGSEGV的区别在于后者是由于对合法存储地址的非法访问触发的(如访问不属于自己存储空间或只读存储空间)。
+    signal(SIGBUS, SigHandler);
+    // illeage，非法的。执行了非法指令， 通常是因为可执行文件本身出现错误, 或者试图执行数据段. 堆栈溢出也有可能产生这个信号。
+    signal(SIGILL, SigHandler);
 #endif
-    return false;
+    return true;
 }
 
 bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
@@ -800,59 +831,9 @@ int CTools::ShowWidget(QWidget *pWin)
 
 void CTools::ShowCoreDialog(QString szTitle, QString szContent, QString szDetail, QString szCoreDumpFile)
 {
-    if(QThread::currentThreadId() == m_hMainThread) {
-        qDebug(log) << "Main thread:" << m_hMainThread << "core";
-        return slotShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
-    }
-    qDebug(log) << "Thread:" << QThread::currentThreadId() << "core."
-                << "main thread:" << m_hMainThread;
-    bool check = false;
-    check = connect(this, SIGNAL(sigShowCoreDialog(QString,QString,QString,QString)),
-                    this, SLOT(slotShowCoreDialog(QString,QString,QString,QString)),
-                    Qt::BlockingQueuedConnection);
-    Q_ASSERT(check);
-    emit sigShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
+    g_pCallStack->ShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
 }
 
-void CTools::slotShowCoreDialog(QString szTitle, QString szContent,
-                                QString szDetail, QString szCoreDumpFile)
-{
-    qDebug(log) << "CTools::slotShowCoreDialog";
-    QMessageBox msg(QMessageBox::Icon::Critical, szTitle, szContent, QMessageBox::StandardButton::Close);
-    QPushButton* pOpenLogFile = msg.addButton(QObject::tr("Open log file"), QMessageBox::ActionRole);
-    QPushButton* pOpenCoreDumpFolder = msg.addButton(QObject::tr("Open core dump folder"), QMessageBox::ActionRole);
-#ifndef QT_NO_CLIPBOARD
-    QPushButton* pCopyClipboard = msg.addButton(tr("Copy to clipboard"), QMessageBox::ActionRole);
-#endif
-    if(!szDetail.isEmpty())
-        msg.setDetailedText(szDetail);
-    msg.exec();
-    if(msg.clickedButton() == pOpenLogFile)
-    {
-        OpenLogFile();
-    } else if (msg.clickedButton() == pOpenCoreDumpFolder) {
-        QFileInfo info(szCoreDumpFile);
-        QDesktopServices::openUrl(QUrl::fromLocalFile(info.absolutePath()));
-#ifndef QT_NO_CLIPBOARD
-    } else if(msg.clickedButton() == pCopyClipboard) {
-        QClipboard* cb = QGuiApplication::clipboard();
-        if(!cb) {
-            qCritical(log) << "The application has not clipboard";
-            return;
-        }
-        QMimeData* m = new QMimeData();
-        if(!m) {
-            qCritical(log) << "new QMimeData fail";
-            return;
-        }
-        QList<QUrl> lstUrl;
-        lstUrl << CLog::Instance()->GetLogFile() << szCoreDumpFile;
-        m->setUrls(lstUrl);
-        cb->setMimeData(m);
-        qDebug(log) << "Clipboard urls" << cb->mimeData()->urls();
-#endif
-    }
-}
-#endif
+#endif // #ifdef HAVE_RABBITCOMMON_GUI
 
 } //namespace RabbitCommon

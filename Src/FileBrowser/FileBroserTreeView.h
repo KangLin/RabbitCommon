@@ -1,3 +1,7 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+// File browser
+
 #ifndef FILEBROSERTREEVIEW_H
 #define FILEBROSERTREEVIEW_H
 

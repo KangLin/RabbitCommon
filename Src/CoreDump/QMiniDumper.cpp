@@ -1,3 +1,6 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+
 // Window以及Ubuntu下的core dump调试方法: https://blog.csdn.net/zhoukehu_CSDN/article/details/125152019?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-125152019-blog-109705192.235^v38^pc_relevant_sort_base3&spm=1001.2101.3001.4242.1&utm_relevant_index=3
 // Windows平台coredump处理: https://blog.csdn.net/mumufan05/article/details/109705192?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2-109705192-blog-7306282.pc_relevant_aa&utm_relevant_index=5
 // Visual Studio 调试器中的转储文件: https://learn.microsoft.com/zh-cn/visualstudio/debugger/using-dump-files?view=vs-2022
@@ -23,17 +26,20 @@
 
 namespace RabbitCommon {
 
+LPTOP_LEVEL_EXCEPTION_FILTER g_UnhandledException = nullptr;
+
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.CoreDump.QMinDumper")
 const int MaxNameLen = 256;
 QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace based on context record
 {
     QString szStack;
+    int no = 1;
     BOOL    result = false;
     HANDLE  process = NULL;
     HANDLE  thread = NULL;
     HMODULE hModule = NULL;
 
-    STACKFRAME64        stack;
+    STACKFRAME          stack;
     ULONG               frame = 0;
     DWORD64             displacement = 0;
 
@@ -52,7 +58,7 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
     CONTEXT ctxCopy;
     memcpy(&ctxCopy, ctx, sizeof(CONTEXT));
 
-    memset(&stack, 0, sizeof( STACKFRAME64 ));
+    memset(&stack, 0, sizeof( STACKFRAME ));
 
     process                = GetCurrentProcess();
     thread                 = GetCurrentThread();
@@ -71,7 +77,7 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
     for( frame = 0; ; frame++ )
     {
         //get next call from stack
-        result = StackWalk64
+        result = StackWalk
             (
 #if defined(_M_AMD64)
                 IMAGE_FILE_MACHINE_AMD64
@@ -84,8 +90,8 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
                 &stack,
                 &ctxCopy,
                 NULL,
-                SymFunctionTableAccess64,
-                SymGetModuleBase64,
+                SymFunctionTableAccess,
+                SymGetModuleBase,
                 NULL
                 );
 
@@ -96,15 +102,16 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
         pSymbol->MaxNameLen = MAX_SYM_NAME;
         SymFromAddr(process, ( ULONG64 )stack.AddrPC.Offset, &displacement, pSymbol);
 
-        QScopedPointer<IMAGEHLP_LINE64> line(new IMAGEHLP_LINE64());
-        line->SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+        QScopedPointer<IMAGEHLP_LINE> line(new IMAGEHLP_LINE());
+        line->SizeOfStruct = sizeof(IMAGEHLP_LINE);
 
         //try to get line
-        if (SymGetLineFromAddr64(process, stack.AddrPC.Offset, &disp, line.data()))
+        if (SymGetLineFromAddr(process, stack.AddrPC.Offset, &disp, line.data()))
         {
-            szStack += "\tat " +  QString(pSymbol->Name) + " in "
-                       + QString(line->FileName) + ":" + QString::number(line->LineNumber)
-                       + "address: 0x" + QString::number(pSymbol->Address, 16)
+            szStack += QString::number(no++) + " 0x" + QString::number(pSymbol->Address, 16)
+                       + " [" +  QString(pSymbol->Name) + "] in "
+                       + QString(line->FileName)
+                       + ":" + QString::number(line->LineNumber)
                        + "\n";
         }
         else
@@ -112,16 +119,17 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
             //failed to get line
             hModule = NULL;
             lstrcpyA(module.data(), "");
-            GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
+                              | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                               (LPCTSTR)(stack.AddrPC.Offset), &hModule);
 
             //at least print module name
             if(hModule != NULL)
                 GetModuleFileNameA(hModule, module.data(), MaxNameLen);
 
-            szStack += "\tat " + QString(pSymbol->Name)
-                       + " address：0x" +  QString::number(pSymbol->Address, 16)
-                       + " in " + module.data() + "\n";
+            szStack += QString::number(no++) + " 0x" + QString::number(pSymbol->Address, 16)
+                       + " [" + QString(pSymbol->Name)
+                       + "] in " + module.data() + "\n";
         }
     }
     qCritical(log) << szStack.toStdString().c_str();
@@ -144,6 +152,7 @@ QString CoreDump(struct _EXCEPTION_POINTERS *pException)
               .arg(GetCurrentProcessId())
               .arg(GetCurrentThreadId())
         );
+    qCritical(log) << "The core dump file:" << dumpName;
 
 	QString msg;
 	HANDLE hDumpFile = CreateFileW(dumpName.toStdWString().c_str(),
@@ -162,9 +171,9 @@ QString CoreDump(struct _EXCEPTION_POINTERS *pException)
                           hDumpFile, MiniDumpWithDataSegs,
                           pException ? &ExpParam : nullptr, nullptr, nullptr);
 		CloseHandle(hDumpFile);
-	}
+	} else
+        qCritical(log) << "Core write file fail.";
 
-    qCritical(log) << "The core dump file:" << dumpName;
     return dumpName;
 }
 
@@ -200,12 +209,18 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
     CTools::Instance()->ShowCoreDialog(szTitle, szContent, szStack, dumpName);
 #endif
 
-    return EXCEPTION_EXECUTE_HANDLER;
+    LONG ret = EXCEPTION_EXECUTE_HANDLER;
+    if(g_UnhandledException) {
+        qCritical(log) << "Call system default exception";
+        ret = g_UnhandledException(pException);
+    }
+    qCritical(log) << "Exception exit:" << ret;
+    return ret;
 }
 
 void EnableMiniDumper()
 {
-	SetUnhandledExceptionFilter(AppExceptionCallback);
+	g_UnhandledException = SetUnhandledExceptionFilter(AppExceptionCallback);
 }
 
 } // namespace RabbitCommon

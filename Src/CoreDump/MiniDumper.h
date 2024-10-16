@@ -1,3 +1,6 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+
 #ifndef __MiniDumper_H_KL_2022_07_19__
 #define __MiniDumper_H_KL_2022_07_19__
 

@@ -1,4 +1,7 @@
 /*
+ * Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+ * Author Kang Lin <kl222@126.com>
+ *
  * Windows下dump文件生成与分析: https://blog.csdn.net/icandoit_2014/article/details/78739962
  * windows下C++程序崩溃时能够产生core文件: https://blog.csdn.net/Manketon/article/details/81565154
  * windows下生成core dump文件: https://blog.csdn.net/freedom8531/article/details/53195919
