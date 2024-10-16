@@ -268,10 +268,57 @@ int CTools::AndroidRequestPermission(const QStringList &permissions)
     return 0;
 }
 
-void CTools::Init(const QString szLanguage)
+void CTools::Init(int argc, char *argv[], QString szApplicationName)
 {
-    if(m_Initialized)
+    if(1 > argc || !argv) {
+        qCritical(log) << "The parameters is error";
         return;
+    }
+
+    QString szName;
+    QString szPath;
+    QFileInfo fi(argv[0]);
+    if(szApplicationName.isEmpty())
+        szName = fi.baseName();
+    else
+        szName = szApplicationName;
+    szPath = fi.absolutePath();
+    Init(szName, szPath, szPath + QDir::separator() + "..");
+}
+
+void CTools::Init(QString szApplicationName,
+                  QString szApplicationDirPath,
+                  QString szApplicationInstallRoot,
+                  const QString szLanguage)
+{
+    if(m_Initialized) {
+        qWarning(log) << "CTools is already initialized";
+        return;
+    }
+
+    if(QCoreApplication::applicationName().isEmpty())
+    {
+        QCoreApplication::setApplicationName(szApplicationName);
+        CDir::Instance()->SetDirUserDocument();
+    }
+    if(QCoreApplication::applicationDirPath().isEmpty()
+        && CDir::Instance()->GetDirApplication().isEmpty())
+        CDir::Instance()->SetDirApplication(szApplicationDirPath);
+    if(CDir::Instance()->GetDirApplicationInstallRoot().isEmpty())
+        CDir::Instance()->SetDirApplicationInstallRoot(szApplicationInstallRoot);
+    if(QCoreApplication::applicationName().isEmpty()
+        || CDir::Instance()->GetDirApplication().isEmpty()
+        || CDir::Instance()->GetDirApplicationInstallRoot().isEmpty())
+    {
+        qCritical(log)
+            << "CTools::Instance()->Init() is called after QApplication a(argc, argv);"
+               "Or call this function with the parameters"
+               "szApplicationName, "
+               "szApplicationDirPath, "
+               "and szApplicationInstallRoot";
+        Q_ASSERT(false);
+        return;
+    }
 
     QStringList permissions;
     permissions << "android.permission.WRITE_EXTERNAL_STORAGE"

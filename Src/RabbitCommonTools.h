@@ -14,6 +14,7 @@
 #pragma once
 
 #include <QTranslator>
+#include <QCoreApplication>
 #include "rabbitcommon_export.h"
 #include <QLocale>
 #include <QSharedPointer>
@@ -47,7 +48,9 @@ public:
 
     /*!
      * \~chinese
-     * \note 初始化资源，只在程序开始时调用一次，一般在 main() 函数的开始处　QApplication a(argc, argv) 之后：
+     * 初始化资源，只在程序开始时调用一次。
+     * \note
+     * - 在 main() 函数的开始处 QApplication a(argc, argv) 之后调用：
      * \code
      * int main(int argc, char* argv[]) {
      *     QApplication a(argc, argv);
@@ -56,50 +59,84 @@ public:
      *     ......
      * }
      * \endcode
-     * 如果放到 QApplication a(argc, argv) 之前，
-     * 则需要先调用 CDir::Instance()->SetDirApplication()
-     * 和 CDir::Instance()->SetDirApplicationInstallRoot()
-     * 
-     * \code
-     * int main(int argc, char* argv[]) {
-     *     CDir::Instance()->SetDirApplication();
-     *     CDir::Instance()->SetDirApplicationInstallRoot();
-     *     RabbitCommon::CTools::Instance->Init();
-     *     QApplication a(argc, argv);
-     *     a.setApplicationName(......);
-     *     ......
-     * }
-     * \endcode
-     * 
+     * - 如果要放到 QApplication a(argc, argv) 之前调用，
+     *   - 则在调用此函数之前需要先调用:
+     *     - QCoreApplication::setApplicationName()
+     *     - CDir::Instance()->SetDirApplication()
+     *     - CDir::Instance()->SetDirApplicationInstallRoot()
+     *   \code
+     *   int main(int argc, char* argv[]) {
+     *       QCoreApplication::setApplicationName(...);
+     *       CDir::Instance()->SetDirApplication(...);
+     *       CDir::Instance()->SetDirApplicationInstallRoot(...);
+     *       RabbitCommon::CTools::Instance->Init();
+     *       QApplication a(argc, argv);
+     *       ......
+     *   }
+     *   \endcode
+     *   - 带参数调用：
+     *   \code
+     *   int main(int argc, char* argv[]) {
+     *       RabbitCommon::CTools::Instance->Init(szName, szPath, szInstallRoot);
+     *       QApplication a(argc, argv);
+     *       ......
+     *   }
+     *   \endcode
+     *
      * \~english
-     * \note Initialize the resource,
-     *       which is called only once at the beginning of the program,
-     *       usually after QApplication a(argc, argv)
-     *       at the beginning of the main() function
-     * \code
-     * int main(int argc, char* argv[]) {
-     *     QApplication a(argc, argv);
-     *     a.setApplicationName(......);
-     *     RabbitCommon::CTools::Instance->Init();
-     *     ......
-     * }
-     * \endcode
+     * Initialize the resource,
+     * which is called only once at the beginning of the program,
+     * \note
+     * - Be called after QApplication a(argc, argv)
+     *   at the beginning of the main() function
+     *   \code
+     *   int main(int argc, char* argv[]) {
+     *       QApplication a(argc, argv);
+     *       a.setApplicationName(......);
+     *       RabbitCommon::CTools::Instance->Init();
+     *       ......
+     *   }
+     *   \endcode
      * 
-     * If you put it before QApplication a(argc, argv),
-     * you need to call CDir::Instance()->SetDirApplication()
-     * and CDir::Instance()->SetDirApplicationInstallRoot()
-     * \code
-     * int main(int argc, char* argv[]) {
-     *     CDir::Instance()->SetDirApplication();
-     *     CDir::Instance()->SetDirApplicationInstallRoot();
-     *     RabbitCommon::CTools::Instance->Init();
-     *     QApplication a(argc, argv);
-     *     a.setApplicationName(......);
-     *     ......
-     * }
-     * \endcode
+     * - If you are called before QApplication a(argc, argv)
+     *   - you need to call:
+     *     - QCoreApplication::setApplicationName()
+     *     - CDir::Instance()->SetDirApplication()
+     *     - CDir::Instance()->SetDirApplicationInstallRoot()
+     *   \code
+     *   int main(int argc, char* argv[]) {
+     *       QCoreApplication::setApplicationName(...);
+     *       CDir::Instance()->SetDirApplication(...);
+     *       CDir::Instance()->SetDirApplicationInstallRoot(...);
+     *       RabbitCommon::CTools::Instance->Init();
+     *       QApplication a(argc, argv);
+     *       ......
+     *   }
+     *   \endcode
+     *  - Be called with the parameters
+     *   \code
+     *   int main(int argc, char* argv[]) {
+     *       RabbitCommon::CTools::Instance->Init(szName, szPath, szInstallRoot);
+     *       QApplication a(argc, argv);
+     *       ......
+     *   }
+     *   \endcode
+     *
+     *\~
+     *\see Init(int argc, char* argv[], QString szApplicationName)
      */
-    void Init(const QString szLanguage = QLocale::system().name());
+    void Init(QString szApplicationName = QCoreApplication::applicationName(),
+              QString szApplicationDirPath = QCoreApplication::applicationDirPath(),
+              QString szApplicationInstallRoot = QString(),
+              const QString szLanguage = QLocale::system().name());
+    /*!
+     * \brief Init. It can called before QApplication a(argc, argv);
+     *        It is parse the application name and path from command line parameters.
+     * \param szApplicationName: Set if the application name is not same the program.
+     * \see void Init()
+     */
+    void Init(int argc, char* argv[], QString szApplicationName = QString());
+
     /*! 
      * \~chinese
      * \note 释放资源，只在程序结束前调用一次

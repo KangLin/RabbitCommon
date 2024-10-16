@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
     a.setApplicationName("RabbitCommon");
 
     RabbitCommon::CTools::Instance()->Init();
-    RabbitCommon::CTools::EnableCoreDump();
     RabbitCommon::CTools::Instance()->InstallTranslator("RabbitCommonApp");
 
     qDebug(log) << "GetDirApplication:"

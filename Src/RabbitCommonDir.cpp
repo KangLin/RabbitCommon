@@ -193,6 +193,14 @@ QString CDir::GetDirUserDocument()
 int CDir::SetDirUserDocument(QString szPath)
 {
     m_szDocumentPath = szPath;
+    if(m_szDocumentPath.isEmpty())
+    {
+        m_szDocumentPath = QStandardPaths::writableLocation(
+            QStandardPaths::DocumentsLocation)
+            + QDir::separator() + "Rabbit"
+            + QDir::separator() + QCoreApplication::applicationName();
+    }
+
     QDir d;
     if(!d.exists(szPath))
         d.mkpath(szPath);

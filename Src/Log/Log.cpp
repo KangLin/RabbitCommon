@@ -177,6 +177,12 @@ CLog::CLog() : QObject(),
 #endif
 
     slotTimeout();
+
+    qDebug(log) << "Application name:" << QCoreApplication::applicationName();
+    qDebug(log) << "Application path:" << CDir::Instance()->GetDirApplication();
+    qDebug(log) << "Application install root:" << CDir::Instance()->GetDirApplicationInstallRoot();
+    qDebug(log) << "Document:" << CDir::Instance()->GetDirUserDocument();
+
     if (QFile::exists(szConfFile))
         qInfo(log) << "Load log configure file:" << m_szConfigureFile;
     else
@@ -798,8 +804,15 @@ QStringList PrintStackTrace(uint index, unsigned int max_frames)
         return szMsg;
     }
 
-    // resolve addresses into strings containing "filename(function+address)",
-    // this array must be free()-ed
+    /*! ~/english resolve addresses into strings containing "filename(function+address)",
+     *       this array must be free()-ed
+     *
+     * ~/chinese 接受 backtrace 返回的 buffer 和 size，
+     *  将每一个函数地址通过符号表进行翻译，生成一个包含函数名，
+     *  内部指令偏移和实际返回地址的字符串，
+     *  并返回一个malloc出来的字符串数组，用户需要手工释放数组本身，
+     *  但是数组的每一个指针本身则不必被用户释放
+     */
     char** symbollist = backtrace_symbols(addrlist, addrlen);
 
     // allocate string which will be filled with the demangled function name

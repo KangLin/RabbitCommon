@@ -136,7 +136,11 @@ public:
     QString GetFileApplicationConfigure(bool bReadOnly = false);
 
     QString GetDirUserDocument();
-    int SetDirUserDocument(QString szPath);
+    /*!
+     * \brief Set user document directory
+     * \param szPath: If is empty, set system user document
+     */
+    int SetDirUserDocument(QString szPath = QString());
     QString GetDirUserConfig();
     QString GetDirUserData();
     QString GetDirUserDatabase();
