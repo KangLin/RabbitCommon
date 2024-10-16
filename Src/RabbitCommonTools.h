@@ -17,7 +17,7 @@
 #include "rabbitcommon_export.h"
 #include <QLocale>
 #include <QSharedPointer>
-
+#include <QObject>
 #ifdef HAVE_RABBITCOMMON_GUI
     #include <QMenu>
 #endif
@@ -38,8 +38,10 @@ namespace RabbitCommon {
  * @brief Tools
  * @ingroup API
  */
-class RABBITCOMMON_EXPORT CTools
+class RABBITCOMMON_EXPORT CTools : QObject
 {
+    Q_OBJECT
+
 public:
     static CTools* Instance();
 
@@ -140,7 +142,7 @@ public:
      * \param bPrompt: prompt
      * \note It must be called first in the main function
      */
-    Q_DECL_DEPRECATED_X("Setting in log configure file")
+    Q_DECL_DEPRECATED_X("Setting in log configure file. Will be remote in v3")
     static bool EnableCoreDump(bool bPrompt = true);
 
     /*!
@@ -235,8 +237,18 @@ public:
      * \return if pWin is dialog, return exec()
      */
     int ShowWidget(QWidget *pWin);
-#endif
 
+    void ShowCoreDialog(QString szTitle, QString szContent,
+                        QString szDetail, QString szCoreDumpFile);
+private Q_SLOTS:
+    void slotShowCoreDialog(QString szTitle, QString szContent,
+                            QString szDetail, QString szCoreDumpFile);
+Q_SIGNALS:
+    void sigShowCoreDialog(QString szTitle, QString szContent,
+                           QString szDetail, QString szCoreDumpFile);
+#endif #ifdef HAVE_RABBITCOMMON_GUI
+
+public:
     static int AndroidRequestPermission(const QStringList& permissions);
     static int AndroidRequestPermission(const QString& permission);
 
@@ -252,6 +264,7 @@ private:
 
     QString m_szLanguage;
     bool m_Initialized;
+    Qt::HANDLE m_hMainThread;
 
     bool m_bShowMaxWindow;
 };

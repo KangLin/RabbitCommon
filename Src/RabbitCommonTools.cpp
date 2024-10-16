@@ -1,6 +1,34 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
+#include <QLocale>
+#include <QDir>
+#include <QStandardPaths>
+#include <QSslSocket>
+#include <QThread>
+#include <QSettings>
+#include <QMimeData>
+
+#if defined(Q_OS_ANDROID)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtCore/private/qandroidextras_p.h>
+#endif
+#endif
+
+#ifdef HAVE_RABBITCOMMON_GUI
+    #include <QIcon>
+    #include <QMainWindow>
+    #include <QMessageBox>
+    #include <QPushButton>
+    #include <QApplication>
+    #include <QDesktopServices>
+    #include <QClipboard>
+    #include "Style.h"
+    #include "Information.h"
+#else
+    #include <QCoreApplication>
+#endif
+
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #ifdef HAVE_ADMINAUTHORISER
@@ -8,29 +36,6 @@
 #endif
 #include "RabbitCommonRegister.h"
 #include "Log/Log.h"
-
-#include <QSettings>
-
-#ifdef HAVE_RABBITCOMMON_GUI
-    #include <QIcon>
-    #include <QMainWindow>
-    #include "Style.h"
-    #include <QApplication>
-    #include "Information.h"
-#else
-    #include <QCoreApplication>
-#endif
-
-#include <QLocale>
-#include <QDir>
-#include <QStandardPaths>
-#include <QSslSocket>
-
-#if defined(Q_OS_ANDROID)
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    #include <QtCore/private/qandroidextras_p.h>
-#endif
-#endif
 
 #if defined(HAVE_OPENSSL)
     #include "openssl/opensslv.h"
@@ -94,17 +99,21 @@ namespace RabbitCommon {
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Tools")
 static Q_LOGGING_CATEGORY(logTranslation, "RabbitCommon.Tools.Translation")
 
-CTools::CTools()
-    : m_Initialized(false)
+CTools::CTools() : QObject()
+    , m_Initialized(false)
 #if defined(Q_OS_ANDROID)
     , m_bShowMaxWindow(true)
 #else
     , m_bShowMaxWindow(false)
 #endif
-{}
+    ,m_hMainThread(nullptr)
+{
+    m_hMainThread = QThread::currentThreadId();
+}
 
 CTools::~CTools()
 {
+    qDebug(log) << "CTools::~CTools()";
 #if HAVE_RABBITCOMMON_GUI
     if(g_pDcokDebugLog)
         delete g_pDcokDebugLog;
@@ -316,11 +325,6 @@ void CTools::Init(const QString szLanguage)
 
     CInformation info("## RabbitCommon, Qt and System information:", "");
 #endif //HAVE_RABBITCOMMON_GUI
-
-#if defined(HAVE_OPENSSL)
-    qDebug(log) << QObject::tr("Build Version: ") + OPENSSL_VERSION_TEXT + "\n"
-        << QObject::tr("Runtime Version: ") + OpenSSL_version(OPENSSL_VERSION);
-#endif
 }
 
 void CTools::Clean()
@@ -745,6 +749,62 @@ int CTools::ShowWidget(QWidget *pWin)
             pWin->show();
     }
     return 0;
+}
+
+void CTools::ShowCoreDialog(QString szTitle, QString szContent, QString szDetail, QString szCoreDumpFile)
+{
+    if(QThread::currentThreadId() == m_hMainThread) {
+        qDebug(log) << "Main thread:" << m_hMainThread << "core";
+        return slotShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
+    }
+    qDebug(log) << "Thread:" << QThread::currentThreadId() << "core."
+                << "main thread:" << m_hMainThread;
+    bool check = false;
+    check = connect(this, SIGNAL(sigShowCoreDialog(QString,QString,QString,QString)),
+                    this, SLOT(slotShowCoreDialog(QString,QString,QString,QString)),
+                    Qt::BlockingQueuedConnection);
+    Q_ASSERT(check);
+    emit sigShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
+}
+
+void CTools::slotShowCoreDialog(QString szTitle, QString szContent,
+                                QString szDetail, QString szCoreDumpFile)
+{
+    qDebug(log) << "CTools::slotShowCoreDialog";
+    QMessageBox msg(QMessageBox::Icon::Critical, szTitle, szContent, QMessageBox::StandardButton::Close);
+    QPushButton* pOpenLogFile = msg.addButton(QObject::tr("Open log file"), QMessageBox::ActionRole);
+    QPushButton* pOpenCoreDumpFolder = msg.addButton(QObject::tr("Open core dump folder"), QMessageBox::ActionRole);
+#ifndef QT_NO_CLIPBOARD
+    QPushButton* pCopyClipboard = msg.addButton(tr("Copy to clipboard"), QMessageBox::ActionRole);
+#endif
+    if(!szDetail.isEmpty())
+        msg.setDetailedText(szDetail);
+    msg.exec();
+    if(msg.clickedButton() == pOpenLogFile)
+    {
+        OpenLogFile();
+    } else if (msg.clickedButton() == pOpenCoreDumpFolder) {
+        QFileInfo info(szCoreDumpFile);
+        QDesktopServices::openUrl(QUrl::fromLocalFile(info.absolutePath()));
+#ifndef QT_NO_CLIPBOARD
+    } else if(msg.clickedButton() == pCopyClipboard) {
+        QClipboard* cb = QGuiApplication::clipboard();
+        if(!cb) {
+            qCritical(log) << "The application has not clipboard";
+            return;
+        }
+        QMimeData* m = new QMimeData();
+        if(!m) {
+            qCritical(log) << "new QMimeData fail";
+            return;
+        }
+        QList<QUrl> lstUrl;
+        lstUrl << CLog::Instance()->GetLogFile() << szCoreDumpFile;
+        m->setUrls(lstUrl);
+        cb->setMimeData(m);
+        qDebug(log) << "Clipboard urls" << cb->mimeData()->urls();
+#endif
+    }
 }
 #endif
 

@@ -9,18 +9,15 @@
 #include "dbghelp.h"
 #include <QDir>
 #include <QDateTime>
-#ifdef HAVE_RABBITCOMMON_GUI
-#include <QMessageBox>
-#endif
 #include <QTranslator>
 #include <QCoreApplication>
 #include <QLoggingCategory>
-#include <QDesktopServices>
-#include <QPushButton>
+
 #include <QSettings>
 #include "MiniDumper.h"
 #include "Log/Log.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 
 //#pragma comment( lib, "Dbghelp.lib" )
 
@@ -28,8 +25,9 @@ namespace RabbitCommon {
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.CoreDump.QMinDumper")
 const int MaxNameLen = 256;
-void PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace based on context record
+QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace based on context record
 {
+    QString szStack;
     BOOL    result = false;
     HANDLE  process = NULL;
     HANDLE  thread = NULL;
@@ -46,7 +44,7 @@ void PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace bas
     QScopedArrayPointer<char> module(new char[MaxNameLen]);
     PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)buffer.data();
 
-    qCritical(log, "*** Exception 0x%x occurred ***\n\n", pException->ExceptionRecord->ExceptionCode);
+    szStack = "*** Exception 0x" + QString::number(pException->ExceptionRecord->ExceptionCode, 16) + " occurred ***\n\n";
     PCONTEXT ctx = pException->ContextRecord;
 
     // On x64, StackWalk64 modifies the context record, that could
@@ -104,7 +102,10 @@ void PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace bas
         //try to get line
         if (SymGetLineFromAddr64(process, stack.AddrPC.Offset, &disp, line.data()))
         {
-            qCritical(log, "\tat %s in %s: line: %lu: address: 0x%0X", pSymbol->Name, line->FileName, line->LineNumber, pSymbol->Address);
+            szStack += "\tat " +  QString(pSymbol->Name) + " in "
+                       + QString(line->FileName) + ":" + QString::number(line->LineNumber)
+                       + "address: 0x" + QString::number(pSymbol->Address, 16)
+                       + "\n";
         }
         else
         {
@@ -118,9 +119,13 @@ void PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace bas
             if(hModule != NULL)
                 GetModuleFileNameA(hModule, module.data(), MaxNameLen);
 
-            qCritical(log, "\tat %s, address 0x%0X. in %s", pSymbol->Name, pSymbol->Address, module.data());
+            szStack += "\tat " + QString(pSymbol->Name)
+                       + " address：0x" +  QString::number(pSymbol->Address, 16)
+                       + " in " + module.data() + "\n";
         }
     }
+    qCritical(log) << szStack.toStdString().c_str();
+    return szStack;
 }
 
 QString CoreDump(struct _EXCEPTION_POINTERS *pException)
@@ -165,6 +170,7 @@ QString CoreDump(struct _EXCEPTION_POINTERS *pException)
 
 LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
 {
+    QString szStack;
     QString dumpName;
     bool bDumpToLogFile = true;
     bool bDumpFile = true;
@@ -177,7 +183,7 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
     if(!(bDumpFile || bDumpToLogFile))
         return EXCEPTION_CONTINUE_SEARCH;
     if(bDumpToLogFile)
-        PrintStack(pException);
+        szStack = PrintStack(pException);
     if(bDumpFile)
         dumpName = CoreDump(pException);
 
@@ -191,17 +197,7 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
     if(bDumpToLogFile)
         szContent += QObject::tr("Log file: ") + RabbitCommon::CLog::Instance()->GetLogFile();
 #ifdef HAVE_RABBITCOMMON_GUI
-    QMessageBox msg(QMessageBox::Icon::Critical, szTitle, szContent, QMessageBox::StandardButton::Close);
-    QPushButton* pOpenLogFile = msg.addButton(QObject::tr("Open log file"), QMessageBox::ActionRole);
-    QPushButton* pOpenCoreDumpFolder = msg.addButton(QObject::tr("Open core dump folder"), QMessageBox::ActionRole);
-    msg.exec();
-    if(msg.clickedButton() == pOpenLogFile)
-    {
-        OpenLogFile();
-    } else if (msg.clickedButton() == pOpenCoreDumpFolder) {
-        QFileInfo info(dumpName);
-        QDesktopServices::openUrl(QUrl::fromLocalFile(info.absolutePath()));
-    }
+    CTools::Instance()->ShowCoreDialog(szTitle, szContent, szStack, dumpName);
 #endif
 
     return EXCEPTION_EXECUTE_HANDLER;
