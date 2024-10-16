@@ -1,3 +1,6 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+
 #ifndef DOCKDEBUGLOG_H
 #define DOCKDEBUGLOG_H
 

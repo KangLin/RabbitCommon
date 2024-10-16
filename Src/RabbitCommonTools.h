@@ -277,13 +277,7 @@ public:
 
     void ShowCoreDialog(QString szTitle, QString szContent,
                         QString szDetail, QString szCoreDumpFile);
-private Q_SLOTS:
-    void slotShowCoreDialog(QString szTitle, QString szContent,
-                            QString szDetail, QString szCoreDumpFile);
-Q_SIGNALS:
-    void sigShowCoreDialog(QString szTitle, QString szContent,
-                           QString szDetail, QString szCoreDumpFile);
-#endif #ifdef HAVE_RABBITCOMMON_GUI
+#endif //#ifdef HAVE_RABBITCOMMON_GUI
 
 public:
     static int AndroidRequestPermission(const QStringList& permissions);
@@ -301,7 +295,6 @@ private:
 
     QString m_szLanguage;
     bool m_Initialized;
-    Qt::HANDLE m_hMainThread;
 
     bool m_bShowMaxWindow;
 };

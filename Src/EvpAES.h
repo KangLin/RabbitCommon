@@ -1,3 +1,5 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
 // https://gitee.com/bailiyang/cdemo/tree/master/Qt/49OpenSSL/OpenSSL/Cipher
 // DES加密算法中，ECB和CBC模式有什么区别 https://blog.51cto.com/u_15060462/4692785
 

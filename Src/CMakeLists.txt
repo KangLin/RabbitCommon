@@ -331,9 +331,11 @@ list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
     RabbitCommonRegister.h
     Log/Log.h
+    CoreDump/StackTrace.h
     )
 list(APPEND RABBITCOMMON_SOURCE_FILES
     Log/Log.cpp
+    CoreDump/StackTrace.cpp
     RabbitCommonDir.cpp
     RabbitCommonTools.cpp
     RabbitCommonRegister.cpp

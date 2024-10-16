@@ -157,6 +157,7 @@ win32 {
 
 SOURCES += \
     $$PWD/Log/Log.cpp \
+    $$PWD/CoreDump/CallStack.cpp \
     $$PWD/RabbitCommonDir.cpp \
     $$PWD/RabbitCommonRegister.cpp \
     $$PWD/RabbitCommonTools.cpp \
@@ -174,6 +175,7 @@ INSTALL_HEADERS += \
 
 HEADERS += $$INSTALL_HEADERS \
     $$PWD/Log/Log.h \
+    $$PWD/CoreDump/CallStack.h \
     $$PWD/RabbitCommonRegister.h
 
 RESOURCES += \

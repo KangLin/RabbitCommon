@@ -28,13 +28,14 @@ private slots:
     void on_pushButton_clicked();
     void on_pbEncrypt_clicked();
     void on_pbGenerateCoreFile_clicked();
-    
+    void on_pbThreadCore_clicked();
+
+    void on_actionFolder_browser_triggered();
+
     void on_pbAddFile_clicked();
     void on_pbDownload_clicked();
     void slotDownloadFile(const QString szFile);
     void slotDownloadError(int nErr, const QString szErr);
-    
-    void on_actionFolder_browser_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -55,6 +55,7 @@ private:
     qint64 m_nLength;   // Unit: byte
     int m_nCount;
     QTimer m_Timer;
+
     #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         static void myMessageOutput(QtMsgType type,
                                 const QMessageLogContext &context,

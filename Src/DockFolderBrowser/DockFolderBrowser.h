@@ -1,3 +1,6 @@
+// Copyright Copyright (c) Kang Lin studio, All Rights Reserved
+// Author Kang Lin <kl222@126.com>
+
 #ifndef FOLDERBROWSER_H
 #define FOLDERBROWSER_H
 

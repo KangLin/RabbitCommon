@@ -27,6 +27,7 @@
 #include <QDockWidget>
 #include <QFileDialog>
 #include <QLoggingCategory>
+#include <QThread>
 
 Q_LOGGING_CATEGORY(log, "RabbitCommon.MainWindow")
 
@@ -121,11 +122,6 @@ void MainWindow::on_pbEncrypt_clicked()
     }
 }
 
-void MainWindow::on_pbGenerateCoreFile_clicked()
-{
-    strcpy(0,0);
-}
-
 void MainWindow::on_pbAddFile_clicked()
 {
     ui->cmbDownloadFiles->addItem(ui->cmbDownloadFiles->currentText());
@@ -165,4 +161,46 @@ void MainWindow::on_actionFolder_browser_triggered()
 {
     CDlgFileBrowser fb;
     RC_SHOW_WINDOW(&fb);
+}
+
+class CCoreThread : public QThread
+{
+public:
+    CCoreThread(QObject *parent = nullptr) : QThread(parent)
+    {
+        connect(this, SIGNAL(destroyed(QObject*)),
+                this, SLOT(deleteLater()));
+    }
+    virtual ~CCoreThread()
+    {
+        qDebug(log) << "CCoreThread::~CCoreThread()";
+    }
+
+    // QThread interface
+protected:
+    virtual void run() override;
+};
+
+void CCoreThread::run()
+{
+#if defined(Q_OS_WIN)
+    strcpy(0,0);
+#else
+    free((void*)11);
+#endif
+}
+
+void MainWindow::on_pbThreadCore_clicked()
+{
+    CCoreThread* pThread = new CCoreThread(this);
+    pThread->start();
+}
+
+void MainWindow::on_pbGenerateCoreFile_clicked()
+{
+#if defined(Q_OS_WIN)
+    strcpy(0,0);
+#else
+    free((void*)11);
+#endif
 }
