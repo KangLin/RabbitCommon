@@ -55,12 +55,76 @@ CLog::CLog() : QObject(),
     m_nLength(0),
     m_nCount(0)
 {
+    if(!g_pStack) g_pStack = new CCallTrace();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
+#else
+    g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
+#endif
+
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-    
+
     SetFilter(set.value("Log/Filter/include").toString(),
               set.value("Log/Filter/Exclude").toString());
-    
+
+    bool bReadOnly = false;
+#if defined(Q_OS_ANDROID)
+    bReadOnly = true;
+#endif
+
+    m_szPath = CDir::Instance()->GetDirLog();
+    QString szConfFile = QStandardPaths::locate(
+        QStandardPaths::ConfigLocation,
+        QCoreApplication::applicationName() + "_logqt.ini");
+    szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
+    if(!QFile::exists(szConfFile))
+        szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                            "logqt.ini");
+    if(!QFile::exists(szConfFile))
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
+                     + QDir::separator() + QCoreApplication::applicationName()
+                     + "_logqt.ini";
+    if(!QFile::exists(szConfFile))
+        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
+                     + QDir::separator() + "logqt.ini";
+    LoadConfigure(szConfFile);
+
+    qInfo(log) << "Application name:" << QCoreApplication::applicationName();
+    qInfo(log) << "Application folder:" << CDir::Instance()->GetDirApplication();
+    qInfo(log) << "Application install root folder:"
+               << CDir::Instance()->GetDirApplicationInstallRoot();
+    qInfo(log) << "Document folder:" << CDir::Instance()->GetDirUserDocument();
+
+    bool check = false;
+    check = connect(&m_Watcher, SIGNAL(fileChanged(QString)),
+                    this, SLOT(slotFileChanged(QString)));
+    Q_ASSERT(check);
+}
+
+CLog::~CLog()
+{
+    qDebug(log) << "CLog::~CLog()";
+    if(g_File.isOpen()) g_File.close();
+    if(m_Timer.isActive()) m_Timer.stop();
+    if(g_pStack) delete g_pStack;
+}
+
+CLog* CLog::Instance()
+{
+    static CLog* p = NULL;
+    if(!p)
+    {
+        p = new CLog();
+    }
+    return p;
+}
+
+int CLog::LoadConfigure(const QString &szFile)
+{
+    int nRet = 0;
+
     QString szPattern = "[%{time hh:mm:ss.zzz} %{pid}|%{threadid} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}E%{endif}%{if-fatal}F%{endif}] %{category} - %{message}";
 #ifdef QT_MESSAGELOGCONTEXT
     // Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release
@@ -73,46 +137,20 @@ CLog::CLog() : QObject(),
 #if !(defined(DEBUG) || defined(_DEBUG) || ANDROID)
     szFilterRules = "*.debug = false";
 #endif
-    bool bReadOnly = false;
-#if defined(Q_OS_ANDROID)
-    bReadOnly = true;
-#endif
 
-    m_szPath = CDir::Instance()->GetDirLog();
-    QString szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                            QCoreApplication::applicationName() + "_logqt.ini");
-    szConfFile = set.value("Log/ConfigFile", szConfFile).toString();
-    if(!QFile::exists(szConfFile))
-        szConfFile = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                     "logqt.ini");
-    if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
-                     + QDir::separator() + QCoreApplication::applicationName()
-                     + "_logqt.ini";
-    if(!QFile::exists(szConfFile))
-        szConfFile = RabbitCommon::CDir::Instance()->GetDirConfig(bReadOnly)
-                     + QDir::separator() + "logqt.ini";
-    if (QFile::exists(szConfFile))
-    {
-        m_szConfigureFile = szConfFile;
+    if (QFile::exists(szFile)) {
+        m_szConfigureFile = szFile;
         QSettings setConfig(m_szConfigureFile, QSettings::IniFormat);
         setConfig.beginGroup("Log");
+        szPattern = setConfig.value("Pattern", szPattern).toString();
+
+        // Log file
         m_szPath = setConfig.value("Path", m_szPath).toString();
         m_szName = setConfig.value("Name", m_szName).toString();
-        m_szDateFormat = setConfig.value("DateFormat", m_szDateFormat).toString();
-        szPattern = setConfig.value("Pattern", szPattern).toString();
+        m_szDateFormat = setConfig.value("DateFormat",
+                                         m_szDateFormat).toString();
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
-        g_bPrintStackTrace = setConfig.value("PrintStackTrace", g_bPrintStackTrace).toBool();
-        QStringList lstPrintStackTraceLevel;
-        foreach(auto l, g_lstPrintStackTraceLevel) {
-            lstPrintStackTraceLevel << QString::number(l);
-        }
-        lstPrintStackTraceLevel = setConfig.value("PrintStackTraceLevel", lstPrintStackTraceLevel).toStringList();
-        g_lstPrintStackTraceLevel.clear();
-        foreach (auto level, lstPrintStackTraceLevel) {
-            g_lstPrintStackTraceLevel << (QtMsgType)level.toInt();
-        }
         QString szLength = setConfig.value("Length", 0).toString();
         if(!szLength.isEmpty()) {
             QRegularExpression e("(\\d+)([mkg]?)",
@@ -136,7 +174,24 @@ CLog::CLog() : QObject(),
                 m_nLength = len;
             }
         }
-        setConfig.endGroup();
+        // Log file end
+
+        g_bPrintStackTrace = setConfig.value(
+                                          "PrintStackTrace",
+                                          g_bPrintStackTrace).toBool();
+        QStringList lstPrintStackTraceLevel;
+        foreach(auto l, g_lstPrintStackTraceLevel) {
+            lstPrintStackTraceLevel << QString::number(l);
+        }
+        lstPrintStackTraceLevel =
+            setConfig.value("PrintStackTraceLevel",
+                            lstPrintStackTraceLevel).toStringList();
+        g_lstPrintStackTraceLevel.clear();
+        foreach (auto level, lstPrintStackTraceLevel) {
+            g_lstPrintStackTraceLevel << (QtMsgType)level.toInt();
+        }
+
+        setConfig.endGroup(); // Log end
 
         setConfig.beginGroup("Rules");
         auto keys = setConfig.childKeys();
@@ -146,76 +201,68 @@ CLog::CLog() : QObject(),
             QString v = setConfig.value(k).toString();
             szFilterRules += k + "=" + v + "\n";
         }
-        setConfig.endGroup();
+        setConfig.endGroup(); // Rules end
     }
-
-    if(!g_pStack) g_pStack = new CCallTrace();
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    qSetMessagePattern(szPattern);
-    g_originalMessageHandler = qInstallMessageHandler(myMessageOutput);
-#else
-    g_originalMessageHandler = qInstallMsgHandler(myMessageOutput);
-#endif
-
-    slotTimeout();
-
-    qDebug(log) << "Application name:" << QCoreApplication::applicationName();
-    qDebug(log) << "Application path:" << CDir::Instance()->GetDirApplication();
-    qDebug(log) << "Application install root:" << CDir::Instance()->GetDirApplicationInstallRoot();
-    qDebug(log) << "Document:" << CDir::Instance()->GetDirUserDocument();
-
-    if (QFile::exists(szConfFile))
-        qInfo(log) << "Load log configure file:" << m_szConfigureFile;
-    else
-        qWarning(log) << "Log configure file is not exist:" << szConfFile
-                      << ". Use default settings.";
-    qDebug(log) << "Log configure:"
-                << "\n    Path:" << m_szPath
-                << "\n    Name:" << m_szName
-                << "\n    DateFormat:" << m_szDateFormat
-                << "(Base file name: " + getBaseName() + ")"
-                << "\n    szPattern:" << szPattern
-                << "\n    Interval:" << nInterval
-                << "\n    Count:" << m_nCount
-                << "\n    Length:" << m_nLength
-                << "\n    PrintStackTrace:" << g_bPrintStackTrace
-                << "\n    PrintStackTraceLevel:" << g_lstPrintStackTraceLevel
-                << "\n    Rules:" << szFilterRules;
 
     if(!szFilterRules.isEmpty())
         QLoggingCategory::setFilterRules(szFilterRules);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+    qSetMessagePattern(szPattern);
+#endif
 
     QDir d;
     if(!d.exists(m_szPath))
     {
         if(!d.mkpath(m_szPath)) {
-            qDebug(log) << "Create log directory fail." << m_szPath;
+            qCritical(log) << "Create log directory fail." << m_szPath;
         }
     }
 
+    g_Mutex.lock();
+    if(g_File.isOpen())
+        g_File.close();
+    g_Mutex.unlock();
+    g_File.setFileName(QString());
+    slotTimeout();
+
+    if (QFile::exists(szFile))
+        qInfo(log) << "Load log configure file:" << m_szConfigureFile;
+    else
+        qWarning(log) << "Log configure file is not exist:" << szFile
+                      << ". Use default settings.";
+
+    qInfo(log) << "Log configure:"
+               << "\n    Path:" << m_szPath
+               << "\n    Name:" << m_szName
+               << "\n    DateFormat:" << m_szDateFormat
+               << "(Base file name: " + getBaseName() + ")"
+               << "\n    Interval:" << nInterval
+               << "\n    Count:" << m_nCount
+               << "\n    Length:" << m_nLength
+               << "\n    PrintStackTrace:" << g_bPrintStackTrace
+               << "\n    PrintStackTraceLevel:" << g_lstPrintStackTraceLevel
+               << "\n    szPattern:" << szPattern
+               << "\n    Rules:" << szFilterRules;
+
+    m_Watcher.addPath(m_szConfigureFile);
+
+    if(m_Timer.isActive())
+        m_Timer.stop();
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          this, SLOT(slotTimeout()));
     Q_ASSERT(check);
     m_Timer.start(nInterval * 1000);
+
+    return nRet;
 }
 
-CLog::~CLog()
+void CLog::slotFileChanged(const QString &szPath)
 {
-    qDebug(log) << "CLog::~CLog()";
-    if(g_File.isOpen()) g_File.close();
-    if(m_Timer.isActive()) m_Timer.stop();
-    if(g_pStack) delete g_pStack;
-}
-
-CLog* CLog::Instance()
-{
-    static CLog* p = NULL;
-    if(!p)
-    {
-        p = new CLog();
-    }
-    return p;
+    qDebug(log) << "File changed:" << szPath;
+    if(GetLogConfigureFile() != szPath)
+        return;
+    LoadConfigure(szPath);
 }
 
 QString CLog::GetLogFile()
@@ -223,7 +270,7 @@ QString CLog::GetLogFile()
     return g_File.fileName();
 }
 
-QString CLog::OpenLogConfigureFile()
+QString CLog::GetLogConfigureFile()
 {
     return m_szConfigureFile;
 }
@@ -262,12 +309,12 @@ void CLog::myMessageOutput(QtMsgType type,
                            const QString &msg)
 {
     QString szMsg;
-    #if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
-        szMsg = qFormatLogMessage(type, context, msg);
-    #else
-        szMsg = msg;
-    #endif
-        
+#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+    szMsg = qFormatLogMessage(type, context, msg);
+#else
+    szMsg = msg;
+#endif
+
     if(g_reInclude.isValid() && !g_reInclude.pattern().isEmpty()) {
         QRegularExpressionMatch m = g_reInclude.match(szMsg);
         if(!m.hasMatch()) {
@@ -283,28 +330,33 @@ void CLog::myMessageOutput(QtMsgType type,
 
     if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
     {
-        szMsg += "\n" + g_pStack->GetStack();
+        szMsg += "\n";
+        if(g_pStack)
+            szMsg += g_pStack->GetStack();
     }
 
 #ifdef HAVE_RABBITCOMMON_GUI
-        if(g_pDcokDebugLog)
-            emit g_pDcokDebugLog->sigAddLog(szMsg);
+    if(g_pDcokDebugLog)
+        emit g_pDcokDebugLog->sigAddLog(szMsg);
 #endif
 
+    g_Mutex.lock();
     if(g_File.isOpen())
     {
         QTextStream s(&g_File);
-        g_Mutex.lock();
+
         s << szMsg << "\r\n";
         //s.flush();
-        g_Mutex.unlock();
     }
+    g_Mutex.unlock();
 
     if(g_originalMessageHandler) {
         QString szRawMsg = msg;
         if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
         {
-            szRawMsg += "\n" + g_pStack->GetStack();
+            szRawMsg += "\n";
+            if(g_pStack)
+                szRawMsg += g_pStack->GetStack();
         }
         g_originalMessageHandler(type, context, szRawMsg);
     }
@@ -329,7 +381,9 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
 
     if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
     {
-        szMsg += "\n" + g_pStack->GetStack();
+        szMsg += "\n";
+        if(g_pStack)
+            szMsg += g_pStack->GetStack();
     }
 
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -337,19 +391,21 @@ void CLog::myMessageOutput(QtMsgType type, const char* msg)
         emit g_pDcokDebugLog->sigAddLog(szMsg);
 #endif
 
+    g_Mutex.lock();
     if(g_File.isOpen())
     {
         QTextStream s(&g_File);
-        g_Mutex.lock();
         s << szMsg << "\r\n";
-        g_Mutex.unlock();
     }
+    g_Mutex.unlock();
 
     if(g_originalMessageHandler) {
         QString szRawMsg = msg;
         if(g_bPrintStackTrace && g_lstPrintStackTraceLevel.contains(type))
         {
-            szRawMsg += "\n" + g_pStack->GetStack();
+            szRawMsg += "\n";
+            if(g_pStack)
+                szRawMsg += g_pStack->GetStack();
         }
         g_originalMessageHandler(type, szRawMsg);
     }
@@ -386,7 +442,7 @@ QString CLog::getBaseName()
     return m_szName + szSep
            + QString::number(QCoreApplication::applicationPid()) + szSep
            + QDate::currentDate().toString(m_szDateFormat)
-           ;
+        ;
 }
 
 QString CLog::getFileName()
@@ -486,7 +542,7 @@ void CLog::slotTimeout()
         bool bRet = g_File.open(QFile::WriteOnly | QFile::Append);
         g_Mutex.unlock();
         if(bRet) {
-            qDebug(log) << "Log file:" << g_File.fileName();
+            qInfo(log) << "Log file:" << g_File.fileName();
         } else {
             qCritical(log) << "Open log file fail." << g_File.fileName();
         }
@@ -499,7 +555,7 @@ void CLog::slotTimeout()
 
 void OpenLogConfigureFile()
 {
-    QString f = RabbitCommon::CLog::Instance()->OpenLogConfigureFile();
+    QString f = RabbitCommon::CLog::Instance()->GetLogConfigureFile();
     if(f.isEmpty())
     {
         qCritical(log) << "Configure file is empty";
@@ -533,7 +589,7 @@ void OpenLogConfigureFile()
         = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save as..."),
                                        QStandardPaths::writableLocation(
                                            QStandardPaths::ConfigLocation)
-                                       + QDir::separator() + fi.fileName()
+                                           + QDir::separator() + fi.fileName()
                                        );
     if(!szFile.isEmpty()) {
         QFile f(szFile);

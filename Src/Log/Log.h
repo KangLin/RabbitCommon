@@ -1,4 +1,4 @@
-/** \copyright Copyright (c) Kang Lin studio, All Rights Reserved
+/*! \copyright Copyright (c) Kang Lin studio, All Rights Reserved
  *  \author Kang Lin <kl222@126.com>
  *  \abstract log
  *  The log interface is deprecated.
@@ -16,6 +16,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTimer>
+#include <QFileSystemWatcher>
 
 namespace RabbitCommon {
 
@@ -37,7 +38,7 @@ public:
     static CLog* Instance();
     virtual ~CLog();
 
-    QString OpenLogConfigureFile();
+    QString GetLogConfigureFile();
     QString GetLogFile();
     QString GetLogDir();
     
@@ -55,6 +56,7 @@ private:
     qint64 m_nLength;   // Unit: byte
     int m_nCount;
     QTimer m_Timer;
+    QFileSystemWatcher m_Watcher;
 
     #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
         static void myMessageOutput(QtMsgType type,
@@ -69,9 +71,11 @@ private:
     QString getFileName();
     QString getNextFileName(const QString szFile);
     QString getBaseName();
+    int LoadConfigure(const QString &szFile);
 
 private Q_SLOTS:
     void slotTimeout();
+    void slotFileChanged(const QString &szPath);
 };
 
 } // End namespace RabbitCommon

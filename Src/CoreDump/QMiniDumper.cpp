@@ -183,7 +183,7 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
     QString dumpName;
     bool bDumpToLogFile = true;
     bool bDumpFile = true;
-    QString szConfigure = CLog::Instance()->OpenLogConfigureFile();
+    QString szConfigure = CLog::Instance()->GetLogConfigureFile();
     if(!szConfigure.isEmpty()) {
         QSettings set(szConfigure, QSettings::IniFormat);
         bDumpToLogFile = set.value("Core/DumpToLogFile", true).toBool();
