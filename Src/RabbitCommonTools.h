@@ -179,7 +179,7 @@ public:
      * \param bPrompt: prompt
      * \note It must be called first in the main function
      */
-    Q_DECL_DEPRECATED_X("Setting in log configure file. Will be remote in v3")
+    Q_DECL_DEPRECATED_X("Setting in log configure file. Will be move to private in v3")
     static bool EnableCoreDump(bool bPrompt = true);
 
     /*!

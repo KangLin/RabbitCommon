@@ -57,7 +57,8 @@ CInformation::CInformation(const QString &szApp,
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
     szQt += "- " + tr("Standard paths:") + "\n";
-    for(int i = 0; i <= 22; i++)
+    int nMaxType = 20;
+    for(int i = 0; i <= nMaxType; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QStringList lstPath = QStandardPaths::standardLocations(type);
@@ -74,7 +75,7 @@ CInformation::CInformation(const QString &szApp,
         szQt += "\n";
     }
     szQt += "- " + tr("Writable Location:") + "\n";
-    for(int i = 0; i <= 22; i++)
+    for(int i = 0; i <= nMaxType; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QString szPath = QStandardPaths::writableLocation(type);
