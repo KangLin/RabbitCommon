@@ -9,6 +9,7 @@ if [ $# -lt 4 ]; then
 	echo "ag:"
 	echo "$0 ../Src/Resource/icons/rabbit-green \"#00ff00\" ../Src/Resource/icons/rabbit-white \"#ffffff\""
 	echo "$0 ../Src/Resource/icons/rabbit-black \"#000000\" ../Src/Resource/icons/rabbit-white \"#ffffff\""
+    echo "$0 ../Src/Resource/icons/rabbit-red \"#ff0000\" ../Src/Resource/icons/rabbit-white \"#ffffff\""
     exit
 fi
 
