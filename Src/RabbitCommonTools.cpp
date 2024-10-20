@@ -508,9 +508,8 @@ void SigHandler(int sig)
         qDebug(log) << "Receive signal:" << sig;
         return;
     };
-    exit(-1);
+    exit(sig);
 }
-
 #endif
 
 bool CTools::EnableCoreDump(bool bPrompt)
