@@ -74,7 +74,6 @@ CLog::CLog() : QObject(),
     bReadOnly = true;
 #endif
 
-    m_szPath = CDir::Instance()->GetDirLog();
     QString szConfFile = QStandardPaths::locate(
         QStandardPaths::ConfigLocation,
         QCoreApplication::applicationName() + "_logqt.ini");
@@ -145,10 +144,9 @@ int CLog::LoadConfigure(const QString &szFile)
         szPattern = setConfig.value("Pattern", szPattern).toString();
 
         // Log file
-        m_szPath = setConfig.value("Path", m_szPath).toString();
+        m_szPath = setConfig.value("Path", CDir::Instance()->GetDirLog()).toString();
         m_szName = setConfig.value("Name", m_szName).toString();
-        m_szDateFormat = setConfig.value("DateFormat",
-                                         m_szDateFormat).toString();
+        m_szDateFormat = setConfig.value("DateFormat", "yyyy-MM-dd").toString();
         nInterval = setConfig.value("Interval", nInterval).toUInt();
         m_nCount = setConfig.value("Count", 0).toULongLong();
         QString szLength = setConfig.value("Length", 0).toString();
