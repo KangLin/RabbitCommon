@@ -10,6 +10,7 @@
 #include <QStandardPaths>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
+#include <QMetaEnum>
 
 #include "Information.h"
 #include "ui_Information.h"
@@ -39,7 +40,8 @@ CInformation::CInformation(const QString &szApp,
     szQt += "- " + tr("Qt runtime version: ") + QString(qVersion()) + "\n";
     szQt += "- " + tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
-    szQt += "- " + tr("Qt library version: ") + QLibraryInfo::version().toString() + "\n";
+    szQt += "- " + tr("Qt library version: ")
+            + QLibraryInfo::version().toString() + "\n";
 #endif
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
     szQt += "\n";
@@ -47,24 +49,30 @@ CInformation::CInformation(const QString &szApp,
     if(QSslSocket::supportsSsl())
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szQt += "  - " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+        szQt += "  - " + tr("Build Version: ")
+                + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szQt += "  - " + tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
+        szQt += "  - " + tr("Installed Version: ")
+                + QSslSocket::sslLibraryVersionString() + "\n";
     } else {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szQt += "  - " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+        szQt += "  - " + tr("Build Version: ")
+                + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
     szQt += "- " + tr("Standard paths:") + "\n";
-    int nMaxType = 20;
+    QMetaEnum metaEnum = QMetaEnum::fromType<QStandardPaths::StandardLocation>();
+    int nMaxType = metaEnum.keyCount();
     for(int i = 0; i <= nMaxType; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QStringList lstPath = QStandardPaths::standardLocations(type);
         if(!lstPath.isEmpty())
         {
-            szQt += "  - " + QStandardPaths::displayName(type) + "[" + QString::number(type) + "]: ";
+            szQt += "  - " + QStandardPaths::displayName(type) + "["
+                    + QString(metaEnum.valueToKey(i))
+                    + "(" + QString::number(type) + ")]: ";
             if(lstPath.size() == 1)
                 szQt += lstPath.at(0);
             else
@@ -80,7 +88,9 @@ CInformation::CInformation(const QString &szApp,
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QString szPath = QStandardPaths::writableLocation(type);
         if(!szPath.isEmpty()) {
-            szQt += "  - " + QStandardPaths::displayName(type) + "[" + QString::number(type) + "]: ";
+            szQt += "  - " + QStandardPaths::displayName(type) + "["
+                    + QString(metaEnum.valueToKey(i))
+                    + "(" + QString::number(type) + ")]: ";
             szQt += szPath;
         }
         szQt += "\n";
@@ -102,8 +112,10 @@ CInformation::CInformation(const QString &szApp,
 #endif
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
     szOS += "- " + tr("CPU: ") + "\n";
-    szOS += "  - " + tr("Architecture: ") + QSysInfo::currentCpuArchitecture() + "\n";
-    szOS += "  - " + tr("Build architecture: ") + QSysInfo::buildCpuArchitecture() + "\n";
+    szOS += "  - " + tr("Architecture: ")
+            + QSysInfo::currentCpuArchitecture() + "\n";
+    szOS += "  - " + tr("Build architecture: ")
+            + QSysInfo::buildCpuArchitecture() + "\n";
     
     QString szHost;
     szHost = "### " + tr("Host") + "\n";
@@ -123,7 +135,8 @@ CInformation::CInformation(const QString &szApp,
     if(!szHost.isEmpty())
         SetContext(tr("Host"), szHost + szOS + szEnv);
 
-    qDebug(log) << (szApp + szInfo + szRabbitCommon + szQt + szOS + szHost + szEnv).toStdString().c_str();
+    qDebug(log) << (szApp + szInfo + szRabbitCommon
+                    + szQt + szOS + szHost + szEnv).toStdString().c_str();
 }
 
 CInformation::~CInformation()
