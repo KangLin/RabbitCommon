@@ -151,10 +151,10 @@ QString CTools::Version()
         szReturn = QObject::tr("Version: ") + szVersion;
     } else {
         szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: "); 
-#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
-            szReturn += "[" + szRevision + "](http://github.com/KangLin/RabbitCommon/tree/" + szRevision + ")";
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
+        szReturn += "[" + szRevision + "](http://github.com/KangLin/RabbitCommon/tree/" + szRevision + ")";
 #else
-            szReturn += szRevision;
+        szReturn += szRevision;
 #endif
         szReturn += ") ";
     }
@@ -170,14 +170,11 @@ QString CTools::Information()
 #endif
 #if defined(HAVE_ABOUT)
     szInfo += QObject::tr("  - Have about diaglog") + "\n";
-//    #ifdef HAVE_CMARK_GFM
-//    szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
-//    #elif HAVE_CMARK
-//    szInfo += QObject::tr("    - Use cmark") + "\n";
-//    #endif
-//    #ifdef HAVE_WebEngineWidgets
-//    szInfo += QObject::tr("    - Use WebEngineWidgets") + "\n";
-//    #endif
+#ifdef HAVE_CMARK_GFM
+    szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
+#elif HAVE_CMARK
+    szInfo += QObject::tr("    - Use cmark") + "\n";
+#endif
 #endif
 #if defined(HAVE_UPDATE)
     szInfo += QObject::tr("  - Have update") + "\n";
@@ -234,9 +231,6 @@ QString CTools::Information()
     szInfo += QObject::tr("  - cmark-gfm") + "\n";
 #elif HAVE_CMARK
     szInfo += QObject::tr("  - cmark") + "\n";
-#endif
-#ifdef HAVE_WebEngineWidgets
-    szInfo += QObject::tr("  - WebEngineWidgets") + "\n";
 #endif
     return szInfo;
 }

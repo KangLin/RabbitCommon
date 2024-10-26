@@ -34,9 +34,6 @@ parts:
       - qttools5-dev
       - qtbase5-dev
       - libqt5scxml5-dev
-      # - qtwebengine5-dev
-      # - qtwebengine5-dev-tools
-      # - qtwebengine5-private-dev
       - libqt5svg5-dev
       - cmark
       - libcmark-dev
@@ -47,8 +44,6 @@ parts:
       - libssl3
       - libcrypt1
       - libqt5scxml5
-      #- libqt5webengine5
-      - libqt5webenginewidgets5
       - libqt5svg5
       - libqt5xml5
     stage:

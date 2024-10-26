@@ -231,14 +231,6 @@ if(WITH_CMARK_GFM)
     endif()
 endif(WITH_CMARK_GFM)
 
-if(cmark_FOUND OR cmark-gfm_FOUND)
-    find_package(Qt${QT_VERSION_MAJOR}WebEngineWidgets)
-    if(Qt${QT_VERSION_MAJOR}WebEngineWidgets_FOUND)
-        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_WebEngineWidgets)
-        LIST(APPEND _QT_COMPONENTS WebEngineWidgets)
-    endif()
-endif()
-
 cmake_dependent_option(BUILD_UPDATE "Set to ON to build update function" ON
     WITH_GUI OFF)
 if(BUILD_UPDATE)

@@ -20,9 +20,6 @@ Abstract:
 
 #include "Information.h"
 
-#ifdef HAVE_WebEngineWidgets
-    #include <QWebEngineView>
-#endif
 #include <QTextEdit>
 #include <QFile>
 #include <QDir>
@@ -99,26 +96,17 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     Q_ASSERT(check);
     m_Download->Start(urls);
 
-#if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
-    m_pLicense = new QWebEngineView(ui->tabWidget);
-    m_pChangeLog = new QWebEngineView(ui->tabWidget);
-    m_pThanks = new QWebEngineView(ui->tabWidget);
-#endif
-    if(!m_pLicense) {
-        m_pLicense = new QTextEdit(ui->tabWidget);
-        if(m_pLicense)
-            qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
-    }
-    if(!m_pChangeLog) {
-        m_pChangeLog = new QTextEdit(ui->tabWidget);
-        if(m_pChangeLog)
-            qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
-    }
-    if(!m_pThanks) {
-        m_pThanks = new QTextEdit(ui->tabWidget);
-        if(m_pThanks)
-            qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
-    }
+    m_pLicense = new QTextEdit(ui->tabWidget);
+    if(m_pLicense)
+        qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
+
+    m_pChangeLog = new QTextEdit(ui->tabWidget);
+    if(m_pChangeLog)
+        qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
+
+    m_pThanks = new QTextEdit(ui->tabWidget);
+    if(m_pThanks)
+        qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
 
     AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
     AppendFile(m_pLicense, "License", tr("License"));
@@ -196,25 +184,19 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
     if(readme.open(QFile::ReadOnly))
     {
         QByteArray text;
+        QString szHtml;
         text = readme.readAll();
-#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
-        QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
+        szHtml = MarkDownToHtml(text);
+        if(szHtml.isEmpty())
+            szHtml = text;
+
+        QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
         if(pEdit) {
-            QString szText = MarkDownToHtml(text);
-            if(szText.isEmpty())
-                szText = text;
-            pEdit->setHtml(szText);
-        } else
-#endif
-        {
-            QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
-            if(pEdit) {
-                pEdit->append(text);
-                //把光标移动文档开始处
-                QTextCursor cursor = pEdit->textCursor();
-                cursor.movePosition(QTextCursor::Start);
-                pEdit->setTextCursor(cursor);
-            }
+            pEdit->setHtml(szHtml);
+            //把光标移动文档开始处
+            QTextCursor cursor = pEdit->textCursor();
+            cursor.movePosition(QTextCursor::Start);
+            pEdit->setTextCursor(cursor);
         }
 
         readme.close();
@@ -337,7 +319,7 @@ QString CDlgAbout::Version()
                     m_szHomePage + "/tree/" + m_szVersionRevision;
         }
         szVersion = tr("Version: ") + m_szVersion + tr(" (From revision: ")
-#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
                     + "<a href=\"" + m_szVersionRevisionUrl + "\">"
                     + m_szVersionRevision + "</a>"
 #else

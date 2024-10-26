@@ -22,7 +22,7 @@ jobs:
             VCPKG_PLATFORM_TOOLSET: v143
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
-            qt_modules: qtscxml qtwebchannel qtwebsockets qtwebview qtpositioning
+            qt_modules: qtscxml
 
           - qt_version: 5.15.2
             VCPKG_TARGET_TRIPLET: x64-windows
@@ -49,7 +49,7 @@ jobs:
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitCommon_VERSION: v2.2.6
       VCPKGGITCOMMITID: 59aeb8fe8fe1c980de6bd5ba634cf21024522d81
-      qt_modules: qtwebengine ${{matrix.qt_modules}}
+      qt_modules: ${{matrix.qt_modules}}
       artifact_name: build_msvc
 
     # Map the job outputs to step outputs

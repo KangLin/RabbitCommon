@@ -47,7 +47,6 @@ jobs:
               debhelper fakeroot \
               qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
               qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev \
-              qtpositioning5-dev qtwebengine5-dev \
               libcmark-gfm-dev libcmark-gfm-extensions-dev
 
       - name: Build RabbitCommon
