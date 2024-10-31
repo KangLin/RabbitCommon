@@ -48,6 +48,19 @@ CInformation::CInformation(const QString &szApp,
     szQt += "  - " + tr("Path: ") + "\n";
     szQt += GetLibrariesLocation();
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
+    szQt += "- " + tr("Icon: ") + "\n";
+    szQt += "  - " + tr("Theme: ") + QIcon::themeName() + "\n";
+    szQt += "    - " + tr("Search paths:") + "\n";
+    foreach(auto iconPath, QIcon::themeSearchPaths())
+    {
+        szQt += "      - " + iconPath + "\n";
+    }
+    szQt += "  - " + tr("Fallback theme: ") + QIcon::fallbackThemeName() + "\n";
+    szQt += "    - " + tr("Fallback search paths:") + "\n";
+    foreach(auto iconFallback, QIcon::fallbackSearchPaths())
+    {
+        szQt += "      - " + iconFallback + "\n";
+    }
     szQt += "### " + tr("Dependency libraries:") + "\n";
     szQt += tr("- OpenSSL:") + "\n";
     if(QSslSocket::supportsSsl())
