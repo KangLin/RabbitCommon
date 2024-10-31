@@ -34,14 +34,21 @@ CInformation::CInformation(const QString &szApp,
     
     QString szQt;
     szQt = tr("### Qt") + "\n";
-    szQt += "- " + tr("Qt runtime version: ") + QString(qVersion()) + "\n";
-    szQt += "- " + tr("Qt compile version: ") + QString(QT_VERSION_STR) + "\n";
+    szQt += "- " + tr("Runtime version: ") + QString(qVersion()) + "\n";
+    szQt += "- " + tr("Compile version: ") + QString(QT_VERSION_STR) + "\n";
+    szQt += "- " + tr("Libraries:") + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
-    szQt += "- " + tr("Qt library version: ")
+    szQt += "  - " + tr("Version: ")
             + QLibraryInfo::version().toString() + "\n";
 #endif
+    szQt += "  - " + tr("Is debug build: ") + QString::number(QLibraryInfo::isDebugBuild()) + "\n";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    szQt += "  - " + tr("Is shared build: ") + QString::number(QLibraryInfo::isSharedBuild()) + "\n";
+#endif
+    szQt += "  - " + tr("Path: ") + "\n";
+    szQt += GetLibrariesLocation();
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
-    szQt += "\n";
+    szQt += "### " + tr("Dependency libraries:") + "\n";
     szQt += tr("- OpenSSL:") + "\n";
     if(QSslSocket::supportsSsl())
     {
@@ -58,10 +65,11 @@ CInformation::CInformation(const QString &szApp,
 #endif
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
+    szQt += "### " + tr("Standard paths:") + "\n";
     szQt += "- " + tr("Standard paths:") + "\n";
     QMetaEnum metaEnum = QMetaEnum::fromType<QStandardPaths::StandardLocation>();
     int nMaxType = metaEnum.keyCount();
-    for(int i = 0; i <= nMaxType; i++)
+    for(int i = 0; i < nMaxType; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QStringList lstPath = QStandardPaths::standardLocations(type);
@@ -80,7 +88,7 @@ CInformation::CInformation(const QString &szApp,
         szQt += "\n";
     }
     szQt += "- " + tr("Writable Location:") + "\n";
-    for(int i = 0; i <= nMaxType; i++)
+    for(int i = 0; i < nMaxType; i++)
     {
         QStandardPaths::StandardLocation type = (QStandardPaths::StandardLocation)i;
         QString szPath = QStandardPaths::writableLocation(type);
@@ -160,4 +168,47 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
     cursor.movePosition(QTextCursor::Start);
     pEdit->setTextCursor(cursor);
     pEdit->show();
+}
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+QString CInformation::GetLibrariesLocation(QLibraryInfo::LibraryLocation path)
+#else
+QString CInformation::GetLibrariesLocation(QLibraryInfo::LibraryPath path)
+#endif
+{
+    QString szQt;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    szQt += QLibraryInfo::location(path);
+#elif QT_VERSION < QT_VERSION_CHECK(6, 8, 0)
+    szQt += QLibraryInfo::path(path);
+#else
+    foreach(auto s, QLibraryInfo::paths(path))
+    {
+        szQt += s;
+    }
+#endif
+    szQt += "\n";
+    return szQt;
+}
+
+QString CInformation::GetLibrariesLocation()
+{
+    QString szQt;
+    szQt += "    - PrefixPath: " + GetLibrariesLocation(QLibraryInfo::PrefixPath);
+    szQt += "    - DocumentationPath: " + GetLibrariesLocation(QLibraryInfo::DocumentationPath);
+    szQt += "    - HeadersPath: " + GetLibrariesLocation(QLibraryInfo::HeadersPath);
+    szQt += "    - LibrariesPath: " + GetLibrariesLocation(QLibraryInfo::LibrariesPath);
+    szQt += "    - LibraryExecutablesPath: " + GetLibrariesLocation(QLibraryInfo::LibraryExecutablesPath);
+    szQt += "    - BinariesPath: " + GetLibrariesLocation(QLibraryInfo::BinariesPath);
+    szQt += "    - PluginsPath: " + GetLibrariesLocation(QLibraryInfo::PluginsPath);
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+    szQt += "    - QmlImportsPath: " + GetLibrariesLocation(QLibraryInfo::QmlImportsPath);
+#endif
+    szQt += "    - ArchDataPath: " + GetLibrariesLocation(QLibraryInfo::ArchDataPath);
+    szQt += "    - DataPath: " + GetLibrariesLocation(QLibraryInfo::DataPath);
+    szQt += "    - TranslationsPath: " + GetLibrariesLocation(QLibraryInfo::TranslationsPath);
+    szQt += "    - ExamplesPath: " + GetLibrariesLocation(QLibraryInfo::ExamplesPath);
+    szQt += "    - TestsPath: " + GetLibrariesLocation(QLibraryInfo::TestsPath);
+    szQt += "    - SettingsPath: " + GetLibrariesLocation(QLibraryInfo::SettingsPath);
+    return szQt;
 }

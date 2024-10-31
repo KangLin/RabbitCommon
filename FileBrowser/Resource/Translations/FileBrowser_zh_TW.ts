@@ -60,7 +60,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="17"/>
+        <location filename="../../main.cpp" line="20"/>
         <source>File browser</source>
         <translation>文件瀏覽器</translation>
     </message>
