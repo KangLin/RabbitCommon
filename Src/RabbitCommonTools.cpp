@@ -333,22 +333,13 @@ void CTools::Init(QString szApplicationName,
     InstallTranslator("RabbitCommon", TranslationType::Library, szLanguage);
     //Init qt translation
     QString szQtTranslationPath;
-#if defined(Q_OS_LINUX)
-    szQtTranslationPath = "/usr/share/qt"
-                          + QString::number(QT_VERSION_MAJOR)
-                          + QDir::separator() + "translations";
-    QDir d(szQtTranslationPath);
-    if(!d.exists())
-    {
-        szQtTranslationPath = CDir::Instance()->GetDirApplication()
-                              + QDir::separator() + "translations";
-    }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    szQtTranslationPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 #else
-    szQtTranslationPath = CDir::Instance()->GetDirApplication()
-                          + QDir::separator() + "translations";
+    szQtTranslationPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
 #endif
     QStringList qtTranslations;
-    qtTranslations << "qt" << "qtbase" << "qtmultimedia" << "qtwebengine"
+    qtTranslations << "qt" << "qtbase" << "qtmultimedia"
                    << "qtlocation";
     foreach(auto f, qtTranslations) {
         QString szFile = szQtTranslationPath + QDir::separator()
