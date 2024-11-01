@@ -23,7 +23,7 @@ CInformation::CInformation(const QString &szApp,
 {
     ui->setupUi(this);
     ui->tabWidget->removeTab(0);
-    
+
     SetContext(tr("Application"), szApp + szInfo);
     
     QString szRabbitCommon;
