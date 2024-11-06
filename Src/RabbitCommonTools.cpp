@@ -217,12 +217,12 @@ QString CTools::Information()
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szInfo += "    - " + QObject::tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
+        szInfo += "    - Qt " + QObject::tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
     } else {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szInfo += "    - " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+        szInfo += "    - Qt " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
 #if HAVE_StackWalker
     szInfo += QObject::tr("  - StackWalker") + "\n";
@@ -359,6 +359,8 @@ void CTools::Init(QString szApplicationName,
     CStyle::Instance()->LoadStyle();
 
     CInformation info("RabbitCommon, Qt and System information:", "");
+#else
+    qDebug(log) << "RabbitCommon:" << "\n" << Information();
 #endif //HAVE_RABBITCOMMON_GUI
 }
 
