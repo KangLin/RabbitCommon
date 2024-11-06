@@ -796,6 +796,7 @@ int CTools::SaveWidget(QWidget *pWidget)
 int CTools::ShowWidget(QWidget *pWin)
 {
     if(!pWin) {
+        qCritical(log) << __FUNCTION__ << "The parameter is nullptr";
         Q_ASSERT(pWin);
         return -1;
     }
