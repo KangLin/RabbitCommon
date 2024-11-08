@@ -3,6 +3,7 @@
 
 #include <QLocale>
 #include <QDir>
+#include <QLibraryInfo>
 #include <QStandardPaths>
 #include <QSslSocket>
 #include <QThread>
@@ -24,7 +25,9 @@
     #include <QDesktopServices>
     #include <QClipboard>
     #include "Style.h"
+#ifdef HAVE_ABOUT
     #include "Information.h"
+#endif
 #else
     #include <QCoreApplication>
 #endif
@@ -357,8 +360,9 @@ void CTools::Init(QString szApplicationName,
     m_bShowMaxWindow = set.value("Tools/Window/ShowMax", m_bShowMaxWindow).toBool();
 
     CStyle::Instance()->LoadStyle();
-
+#ifdef HAVE_ABOUT
     CInformation info("RabbitCommon, Qt and System information:", "");
+#endif
 #else
     qDebug(log) << "RabbitCommon:" << "\n" << Information();
 #endif //HAVE_RABBITCOMMON_GUI
