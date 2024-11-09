@@ -5,6 +5,7 @@
   "homepage": "https://github.com/KangLin/RabbitCommon",
 
   "dependencies": [
-    "openssl"
+    "openssl",
+    "cmark"
   ]
 }
