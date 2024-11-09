@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
     Q_ASSERT(check);
     check = connect(pFB, &CFileBrowser::sigChanged, this,
                     [&](const QString& szDir, bool bDir){
-        //qDebug(log) << "CFileBrowser::sigChanged" << szDir << bDir;
-    });
+                        //qDebug(log) << "CFileBrowser::sigChanged" << szDir << bDir;
+                    });
     Q_ASSERT(check);
 
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
@@ -85,11 +85,13 @@ void MainWindow::on_actionUpdate_U_triggered()
     // [Use CFrmUpdater]
     CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
     QIcon icon = windowIcon();
-    if(icon.isNull()) return;
-    auto sizeList = icon.availableSizes();
-    if(sizeList.isEmpty()) return;
-    QPixmap p = icon.pixmap(*sizeList.begin());
-    m_pfrmUpdater->SetTitle(p.toImage());
+    if(!icon.isNull()) {
+        auto sizeList = icon.availableSizes();
+        if(!sizeList.isEmpty()) {
+            QPixmap p = icon.pixmap(*sizeList.begin());
+            m_pfrmUpdater->SetTitle(p.toImage());
+        }
+    }
     m_pfrmUpdater->SetInstallAutoStartup();
     RC_SHOW_WINDOW(m_pfrmUpdater);
     // [Use CFrmUpdater]

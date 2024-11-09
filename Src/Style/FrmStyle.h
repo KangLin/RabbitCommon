@@ -4,7 +4,6 @@
 #ifndef CFRMSTYLE_H
 #define CFRMSTYLE_H
 
-#include "rabbitcommon_export.h"
 #include <QWidget>
 
 namespace Ui {

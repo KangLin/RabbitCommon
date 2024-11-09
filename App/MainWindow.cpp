@@ -6,13 +6,13 @@
 #include "ui_MainWindow.h"
 
 #ifdef HAVE_ABOUT
-    #include "DlgAbout.h"
+#include "DlgAbout.h"
 #endif
 #ifdef HAVE_UPDATE
-    #include "FrmUpdater.h"
+#include "FrmUpdater.h"
 #endif
 #ifdef BUILD_QUIWidget
-    #include "QUIWidget/QUIWidget.h"
+#include "QUIWidget/QUIWidget.h"
 #endif
 #include "RabbitCommonTools.h"
 #include "RabbitCommonEncrypt.h"
@@ -76,11 +76,13 @@ void MainWindow::on_actionUpdate_triggered()
     // [Use CFrmUpdater]
     CFrmUpdater* m_pfrmUpdater = new CFrmUpdater();
     QIcon icon = windowIcon();
-    if(icon.isNull()) return;
-    auto sizeList = icon.availableSizes();
-    if(sizeList.isEmpty()) return;
-    QPixmap p = icon.pixmap(*sizeList.begin());
-    m_pfrmUpdater->SetTitle(p.toImage());
+    if(!icon.isNull()) {
+        auto sizeList = icon.availableSizes();
+        if(!sizeList.isEmpty()) {
+            QPixmap p = icon.pixmap(*sizeList.begin());
+            m_pfrmUpdater->SetTitle(p.toImage());
+        }
+    }
     m_pfrmUpdater->SetInstallAutoStartup();
     RC_SHOW_WINDOW(m_pfrmUpdater);
     // [Use CFrmUpdater]
@@ -138,7 +140,7 @@ void MainWindow::on_pbDownload_clicked()
     }
     m_pDownload = new RabbitCommon::CDownload();
     bool check = connect(m_pDownload, SIGNAL(sigFinished(const QString)),
-            this, SLOT(slotDownloadFile(const QString)));
+                         this, SLOT(slotDownloadFile(const QString)));
     Q_ASSERT(check);
     check = connect(m_pDownload, SIGNAL(sigError(int, const QString)),
                     this, SLOT(slotDownloadError(int, const QString)));

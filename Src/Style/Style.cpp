@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QRegularExpression>
+#include <QLoggingCategory>
 #include <QDir>
 #include <QColor>
 #include <QPalette>
@@ -15,26 +16,38 @@
 
 namespace RabbitCommon {
 
-Q_LOGGING_CATEGORY(LoggerStyle, "RabbitCommon.Style")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Style")
 
 CStyle::CStyle(QObject *parent) : QObject(parent)
 {
+    qDebug(log) << __FUNCTION__;
     m_szDefaultFile = QString(); /*RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style" + QDir::separator()
             + "white.qss"; //TODO: can modify default style //*/
 
     m_szDefaultIconTheme = QIcon::themeName();
-    if(m_szDefaultIconTheme.isEmpty())
+    if(m_szDefaultIconTheme.isEmpty()) {
         m_szDefaultIconTheme = "rabbit-black"; //TODO: can modify default icon theme
-
+        QIcon::setThemeName(m_szDefaultIconTheme);
+    }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
     if(!QIcon::fallbackThemeName().isEmpty())
-        m_szDefaultFallbackIconTheme = QIcon::fallbackThemeName();
-    if(m_szDefaultFallbackIconTheme.isEmpty())
-        m_szDefaultFallbackIconTheme = "rabbit-black"; //TODO: can modify default fallback icon theme
+        qDebug(log) << "Old icon fallback theme:" << QIcon::fallbackThemeName();
+    //Note: the fallback icon theme must set "rabbit-*"
+    m_szDefaultFallbackIconTheme = "rabbit-black"; //TODO: can modify default fallback icon theme
+    QIcon::setFallbackThemeName(m_szDefaultFallbackIconTheme);
 #endif
-
+    qDebug(log)
+        << "Icon theme name:" << QIcon::themeName() << "\n"
+        << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
+        #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        << "Fallback theme name:" << QIcon::fallbackThemeName() << "\n"
+        #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+        << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
+        #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+        ;
 }
 
 CStyle* CStyle::Instance()
@@ -60,8 +73,9 @@ int CStyle::LoadStyle()
                   QSettings::IniFormat);
     bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
     if(bIconTheme) {
-        QIcon::setThemeSearchPaths(QIcon::themeSearchPaths()
-                          << RabbitCommon::CDir::Instance()->GetDirIcons(true));
+        QIcon::setThemeSearchPaths(
+            QIcon::themeSearchPaths()
+            << RabbitCommon::CDir::Instance()->GetDirIcons(true));
         QString szThemeName = QIcon::themeName();
         if(szThemeName.isEmpty())
             szThemeName = m_szDefaultIconTheme;
@@ -69,26 +83,28 @@ int CStyle::LoadStyle()
                                       szThemeName).toString());
         
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
-        QIcon::setFallbackSearchPaths(QIcon::fallbackSearchPaths()
-                          << RabbitCommon::CDir::Instance()->GetDirIcons(true));
+        QIcon::setFallbackSearchPaths(
+            QIcon::fallbackSearchPaths()
+            << RabbitCommon::CDir::Instance()->GetDirIcons(true));
         QString szFallbackThemeName = QIcon::fallbackThemeName();
         if(szFallbackThemeName.isEmpty())
             szFallbackThemeName = m_szDefaultFallbackIconTheme;
         QIcon::setFallbackThemeName(set.value("Style/Icon/Theme/Fallback",
                                               szFallbackThemeName).toString());
 #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-        
-        qDebug(LoggerStyle) << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
-                            << "Icon theme name:" << QIcon::themeName() << "\n"
-                       #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                            << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
-                       #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
-                       #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                            << "Fallback theme name:" << QIcon::fallbackThemeName() << "\n"
-                       #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-                               ;
+
+        qDebug(log) << __FUNCTION__ << "\n"
+                    << "Icon theme name:" << QIcon::themeName() << "\n"
+                    << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                    << "Fallback theme name:" << QIcon::fallbackThemeName() << "\n"
+                    #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+                    #if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                    << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
+                    #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+                    ;
     }
-    
+
     QString szFile = set.value("Style/File", m_szFile).toString();
     return LoadStyle(szFile);
 }
@@ -106,7 +122,7 @@ int CStyle::LoadStyle(const QString &szFile)
         QFile file(szFile);
         if(file.open(QFile::ReadOnly))
         {
-            qInfo(LoggerStyle) << "Load style file:" << szFile;
+            qInfo(log) << "Load style file:" << szFile;
             QString stylesheet= file.readAll();
             QString pattern("QPalette\\{background:#[0-9a-fA-F]+;\\}");
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -145,7 +161,7 @@ int CStyle::LoadStyle(const QString &szFile)
         }
         else
         {
-            qCritical(LoggerStyle) << "file open file fail:" << szFile;
+            qCritical(log) << "file open file fail:" << szFile;
         }
     }
     return 0;
@@ -164,8 +180,8 @@ QString CStyle::GetStyle()
                   QSettings::IniFormat);
     szFile = set.value("Style/File", szFile).toString();
     QString szPath =  RabbitCommon::CDir::Instance()->GetDirData(true)
-            + QDir::separator()
-            + "style";
+                     + QDir::separator()
+                     + "style";
 #ifdef Q_OS_LINUX
     QDir d(szPath);
     if(!d.exists())
@@ -175,11 +191,11 @@ QString CStyle::GetStyle()
         QFileInfo fi(szFile);
         szPath = fi.absoluteFilePath();
     }
-    qDebug(LoggerStyle) << "Path:" << szPath;
+    qDebug(log) << "Path:" << szPath;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
     szFile = QFileDialog::getOpenFileName(pParent, tr("Open sink"),
-                 szPath,
-                 tr("Style files(*.qss *.css);; All files(*.*)"));
+                                          szPath,
+                                          tr("Style files(*.qss *.css);; All files(*.*)"));
     return szFile;
 }
 

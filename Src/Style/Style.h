@@ -12,7 +12,6 @@
 #include <QtGlobal>
 
 #include "FrmStyle.h"
-#include <QLoggingCategory>
 
 namespace RabbitCommon {
 
@@ -54,8 +53,6 @@ private:
 
     friend CFrmStyle;
 };
-
-Q_DECLARE_LOGGING_CATEGORY(LoggerStyle);
 
 } //namespace RabbitCommon
 
