@@ -584,11 +584,11 @@ void OpenLogConfigureFile()
     qWarning(log) << "Save log configure file fail:" << file.errorString() << f;
     QFileInfo fi(f);
     QString szFile
-        = QFileDialog::getSaveFileName(nullptr, QObject::tr("Save as..."),
-                                       QStandardPaths::writableLocation(
-                                           QStandardPaths::ConfigLocation)
-                                           + QDir::separator() + fi.fileName()
-                                       );
+        = QFileDialog::getSaveFileName(
+            nullptr, QObject::tr("Save as..."),
+            RabbitCommon::CDir::Instance()->GetDirUserConfig()
+                + QDir::separator() + fi.fileName()
+            );
     if(!szFile.isEmpty()) {
         QFile f(szFile);
         if(f.open(QFile::WriteOnly)) {
@@ -613,9 +613,8 @@ void OpenLogFile()
     }
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty()) {
+    if(env.value("SNAP").isEmpty())
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
-    }
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
         CDlgEdit e(QObject::tr("Log file"), f, QObject::tr("Log file:") + f);
@@ -633,9 +632,8 @@ void OpenLogFolder()
     }
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty()) {
+    if(env.value("SNAP").isEmpty())
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
-    }
     if(!bRet) {
         CFileBrowser* f = new CFileBrowser();
         f->setWindowTitle(QObject::tr("Log folder"));
