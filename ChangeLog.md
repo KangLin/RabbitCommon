@@ -6,6 +6,7 @@
   - Add CFileBrowser
   - Add file browser application
   - Add stack trace
+  - Add CTools::HasAdministratorPrivilege()
 
 ### Version v2.2.6
   - Modify debian package files

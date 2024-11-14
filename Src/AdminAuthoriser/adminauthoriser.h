@@ -30,10 +30,9 @@ public:
 
     static CAdminAuthoriser* Instance();
     virtual bool execute(const QString &program, const QStringList &arguments);
-
+    //! Tests whether this program already has elevated rights or not
+    virtual bool hasAdminRights() = 0;
 protected:
-	//! Tests whether this program already has elevated rights or not
-	virtual bool hasAdminRights() = 0;
 	//! Runs a program with the given arguments with elevated rights
 	virtual bool executeAsAdmin(const QString &program, const QStringList &arguments) = 0;
 };

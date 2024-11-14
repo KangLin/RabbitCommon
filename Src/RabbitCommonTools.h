@@ -183,11 +183,17 @@ public:
     static bool EnableCoreDump(bool bPrompt = true);
 
     /*!
+     * \brief Has administrator privilege.
+     *        Since v2.3.0
+     */
+    static bool HasAdministratorPrivilege();
+    /*!
      * \brief executeByRoot: Run with administrator privileges
      * \param program
      * \param arguments
      */
-    static bool executeByRoot(const QString &program, const QStringList &arguments = QStringList());
+    static bool executeByRoot(const QString &program,
+                              const QStringList &arguments = QStringList());
 
     /*!
      * \brief InstallStartRun: auto run when startup

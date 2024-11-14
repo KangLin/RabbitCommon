@@ -32,13 +32,20 @@
 **
 **************************************************************************/
 
-#include "adminauthorization_p.h"
-
-#include <QDebug>
+#include <QLoggingCategory>
 #include <QFile>
 #include <QCoreApplication>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QProcess>
+#include <QStandardPaths>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QRegExp>
+#else
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#endif
 
 #include <cstdlib>
 #include <sys/resource.h>
@@ -55,23 +62,21 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <QProcess>
-#include <QStandardPaths>
 #include <cerrno>
 
-using namespace RabbitCommon;
+#include "adminauthorization_p.h"
 
 #define SU_COMMAND "/usr/bin/sudo"
 
-namespace {
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Admin.Rights")
+
+namespace RabbitCommon {
 
 bool execAdminFallback(const QString &program, const QStringList &arguments);
-const QList<QPair<QString, QStringList>> suFontends = {
-    {QStringLiteral("kdesu"), {QStringLiteral("-c")}},
-    {QStringLiteral("gksu"), {}}
+const QList<QPair<QString, QStringList> > suFontends = {
+    {"kdesu", {"-c"}},
+    {"gksu", {}}
 };
-
-}
 
 bool CAdminAuthorization::hasAdminRights()
 {
@@ -80,27 +85,22 @@ bool CAdminAuthorization::hasAdminRights()
 
 bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringList &arguments)
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 7, 0))
-    for(const auto &su : qAsConst(suFontends)) {
-#else
     for(const auto &su : suFontends) {
-#endif
         auto command = QStandardPaths::findExecutable(su.first);
-        if(!command.isEmpty()) {
-            auto args = su.second;
-            
-            QStringList tmpList{program};
-            tmpList.append(arguments);
-            args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
-            
-            return QProcess::startDetached(command, args);
-        }
+        if(command.isEmpty()) continue;
+
+        auto args = su.second;
+
+        QStringList tmpList{program};
+        tmpList.append(arguments);
+        args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
+
+        qDebug(log) << command << args;
+        return QProcess::startDetached(command, args);
     }
-    
+
     return execAdminFallback(program, arguments);
 }
-
-namespace {
 
 bool execAdminFallback(const QString &program, const QStringList &arguments)
 {
@@ -161,8 +161,11 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         ::close(slaveFD);
         //close writing end of pipe
         ::close(pipedData[1]);
-        
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QRegExp re{QLatin1String("[Pp]assword.*:")};
+#else
+        QRegularExpression re{QLatin1String("[Pp]assword.*:")};
+#endif
         QByteArray data;
         QByteArray errData;
         int bytes = 0;
@@ -185,31 +188,39 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
             auto errBytes = static_cast<int>(::read(pipedData[0], errBuf, 1023));
             if (errBytes > 0)
                 errData.append(errBuf, errBytes);
-            
+
             if (bytes > 0) {
                 const auto line = QString::fromLatin1(data);
-                if (re.indexIn(line) != -1) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                if (re.indexIn(line) != -1)
+#else
+                QRegularExpressionMatch match = re.match(line);
+                if(match.hasMatch())
+#endif
+                {
                     if(!errData.isEmpty()) {
                         QMessageBox::critical(nullptr, QObject::tr("Critical"),
                                               QString::fromLocal8Bit(errData));
                         errData.clear();
                     }
-                    
+
                     bool ok = false;
-                    const auto password = QInputDialog::getText(nullptr,
-                               QCoreApplication::translate("AdminAuthorization",
-                                                              "Enter Password"),
-                               QCoreApplication::translate("AdminAuthorization",
-                                "Enter your root password to run the program:"),
-                                                            QLineEdit::Password,
-                                                                      QString(),
-                                                                            &ok,
-                          Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
-                    
+                    const auto password = QInputDialog::getText(
+                        nullptr,
+                        QObject::tr("AdminAuthorization",
+                                    "Enter Password"),
+                        QObject::tr("AdminAuthorization",
+                                    "Enter your root password to run the program:"),
+                        QLineEdit::Password,
+                        QString(),
+                        &ok,
+                        Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
+
                     if (!ok) {
                         const auto pwd = password.toLatin1();
                         for (int i = 0; i < 3; ++i) {
-                            ::write(masterFD, pwd.data(), static_cast<size_t>(pwd.length()));
+                            ::write(masterFD, pwd.data(),
+                                    static_cast<size_t>(pwd.length()));
                             ::write(masterFD, "\n", 1);
                         }
                         return false;
@@ -223,13 +234,13 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
             if (bytes == 0)
                 ::usleep(100000);
         }
-        
+
         if (!errData.isEmpty()) {
             QMessageBox::critical(nullptr, QObject::tr("Critical"),
                                   QString::fromLocal8Bit(errData));
             return false;
         }
-        
+
         int status;
         ::wait(&status);
         ::close(pipedData[1]);
@@ -240,23 +251,23 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         for (int sig = 1; sig < NSIG; ++sig)
             signal(sig, SIG_DFL);
         signal(SIGHUP, SIG_IGN);
-        
+
         ::setsid();
-        
+
         ::ioctl(slaveFD, TIOCSCTTY, 1);
         int pgrp = ::getpid();
         ::tcsetpgrp(slaveFD, pgrp);
-        
+
         ::dup2(slaveFD, 0);
         ::dup2(slaveFD, 1);
         ::dup2(pipedData[1], 2);
-        
+
         // close all file descriptors
         struct rlimit rlp;
         getrlimit(RLIMIT_NOFILE, &rlp);
         for (int i = 3; i < static_cast<int>(rlp.rlim_cur); ++i)
             ::close(i);
-        
+
         QList<QByteArray> args;
         args.push_back(SU_COMMAND);
         args.push_back("-b");
@@ -282,11 +293,10 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
                 ::unsetenv("LC_ALL");
                 
         ::execv(SU_COMMAND, argp);//*/
-        
+
         _exit(EXIT_FAILURE);
         return false;
     }
 }
 
-}
-
+} // namespace RabbitCommon

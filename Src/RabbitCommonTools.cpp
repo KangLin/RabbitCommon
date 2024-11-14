@@ -522,6 +522,15 @@ bool CTools::EnableCoreDump(bool bPrompt)
     return true;
 }
 
+bool CTools::HasAdministratorPrivilege()
+{
+#ifdef HAVE_ADMINAUTHORISER
+    return CAdminAuthoriser::Instance()->hasAdminRights();
+#else
+    return false;
+#endif
+}
+
 bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 {
 #ifdef HAVE_ADMINAUTHORISER
