@@ -1,5 +1,6 @@
 ### Version v2.3.0
   - Fix log file name bug
+  - Fix log handler bug
   - Add watch log configure file changed
   - Add environment in about dialog
   - Add CDlgEdit

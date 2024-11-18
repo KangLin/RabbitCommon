@@ -105,7 +105,10 @@ CLog::CLog() : QObject(),
 CLog::~CLog()
 {
     qDebug(log) << "CLog::~CLog()";
+    g_Mutex.lock();
+    qInstallMessageHandler(g_originalMessageHandler);
     if(g_File.isOpen()) g_File.close();
+    g_Mutex.unlock();
     if(m_Timer.isActive()) m_Timer.stop();
     if(g_pStack) delete g_pStack;
 }
@@ -346,7 +349,6 @@ void CLog::myMessageOutput(QtMsgType type,
         s << szMsg << "\r\n";
         //s.flush();
     }
-    g_Mutex.unlock();
 
     if(g_originalMessageHandler) {
         QString szRawMsg = msg;
@@ -358,6 +360,7 @@ void CLog::myMessageOutput(QtMsgType type,
         }
         g_originalMessageHandler(type, context, szRawMsg);
     }
+    g_Mutex.unlock();
 }
 #else
 void CLog::myMessageOutput(QtMsgType type, const char* msg)
