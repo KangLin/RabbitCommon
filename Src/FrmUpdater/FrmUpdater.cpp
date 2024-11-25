@@ -1123,7 +1123,7 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     int count = qMin(szNew.length(), szCur.length());
     qDebug(log) << "count:" << count;
 
-    if(count < 1)
+    if(count <= 1)
         return szNew.length() - szCur.length();
 
     QString firstNew = szNew.at(0);
