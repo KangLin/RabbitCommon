@@ -70,8 +70,9 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         m_pModel = new QFileSystemModel(this);
         if(!m_pModel) break;;
   //      m_pModel->setReadOnly(false);
-        /*m_pModel->setFilter(QDir::AllDirs | QDir::Drives
-                                | QDir::NoDotAndDotDot);*/
+        /*
+        m_pModel->setFilter(QDir::AllDirs | QDir::Drives
+                                | QDir::NoDotAndDotDot);//*/
         if(!pLayout) break;
         setLayout(pLayout);
         m_pSpliter = new QSplitter(this);
@@ -136,7 +137,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         pAction->setStatusTip(szTitle);
         */
 
-        pToolBar->addAction(QIcon::fromTheme("go-up"), tr("Up"),
+        pToolBar->addAction(QIcon::fromTheme("go-up"), tr("Up folder"),
                             this, [&](){
             QString szDir;
             QModelIndex index = m_pTree->currentIndex();

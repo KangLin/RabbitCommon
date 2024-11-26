@@ -305,69 +305,70 @@
 <context>
     <name>CFileBrowser</name>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="42"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="45"/>
         <source>File browser</source>
         <translation>文件瀏覽器</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="124"/>
         <source>Update</source>
-        <translation>更新</translation>
+        <translation type="vanished">更新</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="133"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="164"/>
         <source>Option</source>
         <translation>選項</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="141"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="173"/>
         <source>Hidden file</source>
         <translation>隱藏文件</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="164"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="196"/>
         <source>Open with the System Associated Program</source>
         <translation>用系統關聯程序打開</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="179"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="211"/>
         <source>Horizontal</source>
         <translation>水平</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="102"/>
         <source>New folder</source>
-        <translation>新建文件夾</translation>
+        <translation type="vanished">新建文件夾</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="109"/>
         <source>NewFolder</source>
-        <translation>新文件夾</translation>
+        <translation type="vanished">新文件夾</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="113"/>
         <source>Delete folder</source>
-        <translation>刪除文件夾</translation>
+        <translation type="vanished">刪除文件夾</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="84"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="89"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="374"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="140"/>
+        <source>Up folder</source>
+        <translation>向上目錄</translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="407"/>
         <source>File size is too big.
 You can read files up to %1 MB.</source>
         <translation>文件太在。
 你能從文件中讀 %1 兆字節。</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="385"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="418"/>
         <source>Error opening the File!</source>
         <translation>打開文件錯誤！</translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="391"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="424"/>
         <source>Filetype not supported!</source>
         <translation>文件類型不支持</translation>
     </message>
@@ -1271,32 +1272,32 @@ You can read files up to %1 MB.</source>
         <translation type="vanished">轉儲文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="572"/>
+        <location filename="../../Log/Log.cpp" line="575"/>
         <source>Log configure file</source>
         <translation>日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="573"/>
+        <location filename="../../Log/Log.cpp" line="576"/>
         <source>Log configure file:</source>
         <translation>日誌配置文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="588"/>
+        <location filename="../../Log/Log.cpp" line="591"/>
         <source>Save as...</source>
         <translation>另存為...</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="620"/>
+        <location filename="../../Log/Log.cpp" line="623"/>
         <source>Log file</source>
         <translation>日誌文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="620"/>
+        <location filename="../../Log/Log.cpp" line="623"/>
         <source>Log file:</source>
         <translation>日誌文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="639"/>
+        <location filename="../../Log/Log.cpp" line="642"/>
         <source>Log folder</source>
         <translation>日誌文件夾</translation>
     </message>
@@ -1315,19 +1316,19 @@ You can read files up to %1 MB.</source>
         <translation>打開內核崩潰文件夾</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="207"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="244"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="239"/>
         <source>Critical</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="210"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
         <translation>輸入密碼</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="217"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="212"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
         <translation>輸入 root 密碼運行程序：</translation>

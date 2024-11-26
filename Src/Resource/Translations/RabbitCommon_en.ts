@@ -305,68 +305,53 @@
 <context>
     <name>CFileBrowser</name>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="42"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="45"/>
         <source>File browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="124"/>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="133"/>
-        <source>Option</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="141"/>
-        <source>Hidden file</source>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="140"/>
+        <source>Up folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../FileBrowser/FileBrowser.cpp" line="164"/>
+        <source>Option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="173"/>
+        <source>Hidden file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="196"/>
         <source>Open with the System Associated Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="179"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="211"/>
         <source>Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="102"/>
-        <source>New folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="109"/>
-        <source>NewFolder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="113"/>
-        <source>Delete folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="84"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="89"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="374"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="407"/>
         <source>File size is too big.
 You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="385"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="418"/>
         <source>Error opening the File!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="391"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="424"/>
         <source>Filetype not supported!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1254,32 +1239,32 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="572"/>
+        <location filename="../../Log/Log.cpp" line="575"/>
         <source>Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="573"/>
+        <location filename="../../Log/Log.cpp" line="576"/>
         <source>Log configure file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="588"/>
+        <location filename="../../Log/Log.cpp" line="591"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="620"/>
+        <location filename="../../Log/Log.cpp" line="623"/>
         <source>Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="620"/>
+        <location filename="../../Log/Log.cpp" line="623"/>
         <source>Log file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="639"/>
+        <location filename="../../Log/Log.cpp" line="642"/>
         <source>Log folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1294,19 +1279,19 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="207"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="244"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="239"/>
         <source>Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="210"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="217"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="212"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
         <translation type="unfinished"></translation>
