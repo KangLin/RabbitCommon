@@ -2,6 +2,7 @@
 
 #include <QSettings>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QToolButton>
 #include <QMenu>
 #include <QWidgetAction>
@@ -77,6 +78,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         if(!m_pSpliter) break;
 
         m_pTree = new CFileBroserTreeView(m_pSpliter);
+        m_pTree->setAutoScroll(true);
         m_pTable = new QTableView(m_pSpliter);
         //m_pList = new QListView(pSpliter);
         m_pTextEdit = new QTextEdit(m_pSpliter);
@@ -101,6 +103,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         pToolBar->addActions(lstUndo);
 #endif
 
+        /*
         szTitle = tr("New folder");
         pAction = pToolBar->addAction(
             QIcon::fromTheme("folder-new"), szTitle,
@@ -131,6 +134,31 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                 m_pTree->update(index);
             });
         pAction->setStatusTip(szTitle);
+        */
+
+        pToolBar->addAction(QIcon::fromTheme("go-up"), tr("Up"),
+                            this, [&](){
+            QString szDir;
+            QModelIndex index = m_pTree->currentIndex();
+            szDir = m_pModel->filePath(index);
+            QDir d(szDir);
+            if(d.exists()) {
+                szDir = szDir + QDir::separator() + "..";
+            } else {
+                QFileInfo fi(szDir);
+                szDir = fi.absolutePath();
+            }
+            qDebug(log) << "Dir" << szDir;
+            auto i = m_pModel->index(szDir);
+            if(i.isValid())
+            {
+                m_pUndoStack->push(new CChange(i, this));
+                m_pTree->setCurrentIndex(i);
+                slotClicked(i);
+                m_pTree->doItemsLayout();
+                m_pTree->scrollTo(i);
+            }
+        });
 
         szTitle = tr("Option");
         QToolButton* pButtonOption = new QToolButton(pToolBar);
@@ -236,6 +264,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
             m_pTree->header()->hideSection(3);
             m_pSpliter->addWidget(m_pTree);
 
+            /*
             if(m_pTable) {
                 check = connect(m_pTree, &QTreeView::clicked,
                                 m_pTable, &QTableView::setRootIndex);
@@ -245,22 +274,12 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                 check = connect(m_pTree, &QTreeView::clicked,
                                 m_pList, &QListView::setRootIndex);
                 Q_ASSERT(check);
-            }
+            }//*/
             check = connect(
                 m_pTree, &QTreeView::clicked,
-                this, [&](const QModelIndex &index) {
-                    if (m_pModel) {
-                        if(m_pModel->isDir(index)) {
-                            m_pTable->show();
-                            m_pTextEdit->hide();
-                            return;
-                        }
-                        m_pTable->hide();
-#if defined(Q_OS_ANDROID)
-                        QString szFile = m_pModel->filePath(index);
-                        ShowFile(szFile);
-#endif
-                    }
+                this, [&](const QModelIndex& index){
+                    m_pUndoStack->push(new CChange(index, this));
+                    slotClicked(index);
                 });
             Q_ASSERT(check);
             check = connect(
@@ -297,6 +316,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
                 m_pTable, &QTableView::clicked,
                 this, [&](const QModelIndex &index) {
                     if (m_pModel) {
+                        m_pUndoStack->push(new CChange(index, this));
                         QString szDir = m_pModel->filePath(index);
                         m_pTree->setCurrentIndex(index);
                         m_pTree->expand(index);
@@ -415,6 +435,24 @@ int CFileBrowser::ShowFile(const QString &szFile)
     if(m_pTextEdit->isHidden())
         m_pTextEdit->show();
     return 0;
+}
+
+void CFileBrowser::slotClicked(const QModelIndex &index)
+{
+    qDebug(log) << "CFileBrowser::slotClicked" << index;
+    if (m_pModel) {
+        if(m_pModel->isDir(index)) {
+            m_pTable->setRootIndex(index);
+            m_pTable->show();
+            m_pTextEdit->hide();
+            return;
+        }
+        m_pTable->hide();
+#if defined(Q_OS_ANDROID)
+        QString szFile = m_pModel->filePath(index);
+        ShowFile(szFile);
+#endif
+    }
 }
 
 CDlgFileBrowser::CDlgFileBrowser(QWidget *parent) : QDialog(parent)

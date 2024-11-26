@@ -6,6 +6,8 @@
 
 #include <QUndoCommand>
 #include <QFileSystemModel>
+#include "FileBroserTreeView.h"
+#include "FileBrowser.h"
 
 class CNewFolder : public QUndoCommand
 {
@@ -27,6 +29,19 @@ public:
     virtual void redo() override;
 private:
     QString m_szPath;
+};
+
+class CChange: public QUndoCommand
+{
+public:
+    CChange(const QModelIndex &index, CFileBrowser* pThis);
+    virtual ~CChange();
+    virtual void undo() override;
+    virtual void redo() override;
+
+private:
+    CFileBrowser* m_pThis;
+    QModelIndex m_Index;
 };
 
 #endif // UNDOCOMMAND_H

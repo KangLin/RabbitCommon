@@ -16,6 +16,7 @@
 #include "rabbitcommon_export.h"
 
 class CFileBroserTreeView;
+class CChange;
 /*!
  * \brief File browser
  * \ingroup API
@@ -40,6 +41,9 @@ Q_SIGNALS:
     void sigDoubleClicked(const QString &szItem, bool bDir);
     void sigChanged(const QString &szItem, bool bDir);
 
+public Q_SLOTS:
+    void slotClicked(const QModelIndex &index);
+
 private:
     QString readFile(const QString &filePath);
     int ShowFile(const QString &szFile);
@@ -57,6 +61,8 @@ private:
     QAction* m_pHiddenFile;
     QAction* m_pAssociated;
     QAction* m_pOrientation;
+
+    friend class CChange;
 };
 
 /*!

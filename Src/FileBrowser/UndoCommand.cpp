@@ -53,3 +53,36 @@ void CDeleteFolder::redo()
     setObsolete(!bRet);
     qDebug(log) << "CDeleteFolder::redo()" << bRet << m_szPath;
 }
+
+CChange::CChange(const QModelIndex &index, CFileBrowser *pThis)
+    : QUndoCommand()
+    , m_pThis(pThis)
+    , m_Index(index)
+{
+    QFileSystemModel* model = m_pThis->m_pModel;
+    if(model)
+        setText(model->filePath(index));
+}
+
+CChange::~CChange()
+{
+    qDebug(log) << "CChange::~CChange()";
+}
+
+void CChange::undo()
+{
+    qDebug(log) << "CChange::undo()" << m_Index;
+    m_pThis->m_pTree->setCurrentIndex(m_Index);
+    m_pThis->slotClicked(m_Index);
+    m_pThis->m_pTree->doItemsLayout();
+    m_pThis->m_pTree->scrollTo(m_Index);
+}
+
+void CChange::redo()
+{
+    qDebug(log) << "CChange::redo()" << m_Index;
+    m_pThis->slotClicked(m_Index);
+    m_pThis->m_pTree->setCurrentIndex(m_Index);
+    m_pThis->m_pTree->doItemsLayout();
+    m_pThis->m_pTree->scrollTo(m_Index);
+}
