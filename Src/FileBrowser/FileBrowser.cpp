@@ -17,6 +17,8 @@
 #include <QHeaderView>
 #include <QMimeDatabase>
 #include <QCheckBox>
+#include <QLineEdit>
+#include <QDir>
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
 #include "UndoCommand.h"
@@ -134,6 +136,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         QToolButton* pButtonOption = new QToolButton(pToolBar);
         pButtonOption->setIcon(QIcon::fromTheme("emblem-system"));
         pButtonOption->setStatusTip(szTitle);
+        pButtonOption->setPopupMode(QToolButton::InstantPopup);
         QMenu* pMenuOption = new QMenu(szTitle, pButtonOption);
         pButtonOption->setMenu(pMenuOption);
         pToolBar->addWidget(pButtonOption);
@@ -202,6 +205,15 @@ CFileBrowser::CFileBrowser(QWidget *parent)
             m_pSpliter->setOrientation(Qt::Horizontal);
         else
             m_pSpliter->setOrientation(Qt::Vertical);
+
+        QLineEdit* pLineEdit = new QLineEdit(pToolBar);
+        check = connect(pLineEdit, &QLineEdit::textChanged, this,
+                        [&](const QString &szText){
+                            QDir d(szText);
+                            if(d.exists())
+                                setRootPath(szText);
+        });
+        pToolBar->addWidget(pLineEdit);
 
         pLayout->addWidget(pToolBar);
         pLayout->addWidget(m_pSpliter);
