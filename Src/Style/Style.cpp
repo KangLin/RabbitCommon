@@ -20,7 +20,7 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.Style")
 
 CStyle::CStyle(QObject *parent) : QObject(parent)
 {
-    qDebug(log) << __FUNCTION__;
+    qDebug(log) << Q_FUNC_INFO;
     m_szDefaultFile = QString(); /*RabbitCommon::CDir::Instance()->GetDirData(true)
             + QDir::separator()
             + "style" + QDir::separator()
@@ -93,7 +93,7 @@ int CStyle::LoadStyle()
                                               szFallbackThemeName).toString());
 #endif //QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
 
-        qDebug(log) << __FUNCTION__ << "\n"
+        qDebug(log) << Q_FUNC_INFO << "\n"
                     << "Icon theme name:" << QIcon::themeName() << "\n"
                     << "Icon theme search paths:" << QIcon::themeSearchPaths() << "\n"
                     #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)

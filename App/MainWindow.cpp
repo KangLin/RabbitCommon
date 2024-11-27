@@ -28,6 +28,20 @@
 #include <QFileDialog>
 #include <QLoggingCategory>
 #include <QThread>
+//#include <source_location>
+
+/*! \see Use Q_FUNC_INFO
+ *  - https://en.cppreference.com/w/cpp/utility/source_location
+ *  - https://cplusplus.com/forum/general/179020/
+ *  - https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Predefined-Macros.html
+ *  - https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
+ */
+#if defined(Q_OS_WIN)
+// See: https://learn.microsoft.com/zh-cn/cpp/preprocessor/predefined-macros?view=msvc-170
+#define __FUN__ Q_FUNC_INFO
+#else
+#define __FUN__ __PRETTY_FUNCTION__
+#endif
 
 Q_LOGGING_CATEGORY(log, "RabbitCommon.MainWindow")
 
@@ -37,7 +51,23 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pDownload(nullptr)
 {
     ui->setupUi(this);
-    
+
+    //https://en.cppreference.com/w/cpp/utility/source_location
+    qDebug(log) << "\n"
+                << "Q_FUNC_INFO         " << Q_FUNC_INFO << "\n"
+                << "__func__            " << __func__ << "\n"
+                << "__FUNCTION__        " << __FUNCTION__ << "\n"
+#if defined(Q_OS_WIN)
+                << "__FUNCDNAME__       " << __FUNCDNAME__ << "\n"
+                << "__FUNCSIG__         " << __FUNCSIG__ << "\n"
+#else
+                << "__PRETTY_FUNCTION__ " << __PRETTY_FUNCTION__ << "\n"
+#endif
+        ;
+        // std::source_location location = std::source_location::current();
+        //         << "std::source_location" << location.function_name()
+        // ;
+
 #ifdef HAVE_RABBITCOMMON_GUI
     RabbitCommon::CTools::AddStyleMenu(ui->menuTools);
     ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));

@@ -19,7 +19,7 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f),
     ui(new Ui::CFrmStyle)
 {
-    qDebug(log) << __FUNCTION__;
+    qDebug(log) << Q_FUNC_INFO;
     setAttribute(Qt::WA_DeleteOnClose, true);
     ui->setupUi(this);
 

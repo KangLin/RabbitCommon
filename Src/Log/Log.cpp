@@ -129,7 +129,7 @@ int CLog::LoadConfigure(const QString &szFile)
 
     QString szPattern = "[%{time hh:mm:ss.zzz} %{pid}|%{threadid} %{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}E%{endif}%{if-fatal}F%{endif}] %{category} - %{message}";
 #ifdef QT_MESSAGELOGCONTEXT
-    // Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release
+    // Use qt message log context(__FILE__, __LIEN__, Q_FUNC_INFO) in release
     szPattern += " [%{file}:%{line}, %{function}]";
 #elif defined(DEBUG) || defined(_DEBUG)
     szPattern += " [%{file}:%{line}, %{function}]";
