@@ -19,6 +19,9 @@
 #include <QMimeDatabase>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QProcess>
 #include <QDir>
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
@@ -235,14 +238,14 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         else
             m_pSpliter->setOrientation(Qt::Vertical);
 
-        QLineEdit* pLineEdit = new QLineEdit(pToolBar);
-        check = connect(pLineEdit, &QLineEdit::textChanged, this,
+        QLineEdit* pUrl = new QLineEdit(pToolBar);
+        check = connect(pUrl, &QLineEdit::textChanged, this,
                         [&](const QString &szText){
                             QDir d(szText);
                             if(d.exists())
                                 setRootPath(szText);
         });
-        pToolBar->addWidget(pLineEdit);
+        pToolBar->addWidget(pUrl);
 
         pLayout->addWidget(pToolBar);
         pLayout->addWidget(m_pSpliter);
@@ -403,25 +406,49 @@ QString CFileBrowser::readFile(const QString &filePath)
 
     QFile file(filePath);
 
-    if (file.size() >= 2000000)
-        return tr("File size is too big.\nYou can read files up to %1 MB.").arg(2);
-
     static const QMimeDatabase db;
     const QMimeType mime = db.mimeTypeForFile(QFileInfo(file));
+    qDebug(log) << mime << filePath;
 
-    // Check if the mimetype is supported and return the content.
-    const auto mimeTypesForFile = mime.parentMimeTypes();
-    for (const auto &m : mimeTypesForFile) {
-        if (m.contains("text", Qt::CaseInsensitive)
-            || mime.comment().contains("text", Qt::CaseInsensitive)) {
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-                return tr("Error opening the File!");
+    if(mime.name() =="application/x-executable")
+    {
+        if(QProcess::startDetached(filePath))
+            return QString();
+        else
+            qCritical(log) << "Start fail:" << filePath;
+    } else if(mime.name().contains("image", Qt::CaseInsensitive)) {
+        QImage img;
+        if(img.load(filePath)) {
+            QTextCursor cursor = m_pTextEdit->textCursor();
+            QTextDocument *document = m_pTextEdit->document();
+            if(document) {
+                document->clear();
+                document->addResource(
+                    QTextDocument::ImageResource, QUrl("image"), img);
+            }
+            cursor.insertImage("image");
+            return QString();
+        } else
+            qCritical(log) << "Error: load image" << filePath;
+    } else {
+        if (file.size() >= 2000000)
+            return tr("File size is too big.\nYou can read files up to %1 MB.").arg(2);
 
-            QTextStream stream(&file);
-            return stream.readAll();
+        // Check if the mimetype is supported and return the content.
+        const auto mimeTypesForFile = mime.parentMimeTypes();
+        for (const auto &m : mimeTypesForFile) {
+            qDebug(log) << "m" << m;
+            if (m.contains("text", Qt::CaseInsensitive)
+                || mime.comment().contains("text", Qt::CaseInsensitive)) {
+                if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+                    return tr("Error opening the File!");
+
+                QTextStream stream(&file);
+                return stream.readAll();
+            }
         }
     }
-    return tr("Filetype not supported!");
+    return tr("Filetype ") + mime.name() + " not supported!";
 }
 
 int CFileBrowser::ShowFile(const QString &szFile)
@@ -432,7 +459,9 @@ int CFileBrowser::ShowFile(const QString &szFile)
             return 0;
     }
 
-    m_pTextEdit->setText(readFile(szFile));
+    QString szText = readFile(szFile);
+    if(!szText.isEmpty())
+        m_pTextEdit->setText(szText);
     if(m_pTextEdit->isHidden())
         m_pTextEdit->show();
     return 0;

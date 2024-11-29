@@ -75,17 +75,17 @@
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="181"/>
-        <location filename="../../MainWindow.cpp" line="48"/>
+        <location filename="../../MainWindow.cpp" line="78"/>
         <source>Folder browser</source>
         <translation>文件夾瀏覽器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="119"/>
+        <location filename="../../MainWindow.cpp" line="151"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="119"/>
+        <location filename="../../MainWindow.cpp" line="151"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>

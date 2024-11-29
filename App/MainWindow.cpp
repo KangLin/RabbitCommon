@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug(log) << "\n"
                 << "Q_FUNC_INFO         " << Q_FUNC_INFO << "\n"
                 << "__func__            " << __func__ << "\n"
-                << "__FUNCTION__        " << __FUNCTION__ << "\n"
+                << "Q_FUNC_INFO        " << Q_FUNC_INFO << "\n"
 #if defined(Q_OS_WIN)
                 << "__FUNCDNAME__       " << __FUNCDNAME__ << "\n"
                 << "__FUNCSIG__         " << __FUNCSIG__ << "\n"
