@@ -5,6 +5,7 @@
 
 #include <QDialog>
 #include <QFileSystemModel>
+#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QListView>
 #include <QTableView>
@@ -52,7 +53,8 @@ private:
 private:
     QSplitter* m_pSpliter;
     QUndoStack* m_pUndoStack;
-    QFileSystemModel *m_pModel;
+    QFileSystemModel* m_pModel;
+    QSortFilterProxyModel* m_pFilter;
     CFileBroserTreeView* m_pTree;
     QListView* m_pList;
     QTableView* m_pTable;

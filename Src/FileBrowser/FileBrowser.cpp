@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QToolButton>
+#include <QComboBox>
 #include <QMenu>
 #include <QWidgetAction>
 #include <QDesktopServices>
@@ -35,6 +36,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
     , m_pSpliter(nullptr)
     , m_pUndoStack(nullptr)
     , m_pModel(nullptr)
+    , m_pFilter(nullptr)
     , m_pTree(nullptr)
     , m_pList(nullptr)
     , m_pTable(nullptr)
@@ -76,6 +78,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         /*
         m_pModel->setFilter(QDir::AllDirs | QDir::Drives
                                 | QDir::NoDotAndDotDot);//*/
+
         if(!pLayout) break;
         setLayout(pLayout);
         m_pSpliter = new QSplitter(this);
@@ -83,6 +86,17 @@ CFileBrowser::CFileBrowser(QWidget *parent)
 
         m_pTree = new CFileBroserTreeView(m_pSpliter);
         m_pTree->setAutoScroll(true);
+
+        /*
+        m_pFilter = new QSortFilterProxyModel(m_pTree);
+        m_pFilter->setSourceModel(m_pModel);
+        m_pFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);  //大小写不敏感
+        m_pFilter->setAutoAcceptChildRows(true);                   //父项满足时不过滤子项
+        m_pFilter->setRecursiveFilteringEnabled(true);             //递归匹配满足的子节点，父类可见
+        //指定初始化过滤列
+        m_pFilter->setFilterKeyColumn(0);
+        m_pTree->setModel(m_pFilter); //*/
+
         m_pTable = new QTableView(m_pSpliter);
         //m_pList = new QListView(pSpliter);
         m_pTextEdit = new QTextEdit(m_pSpliter);
@@ -238,13 +252,29 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         else
             m_pSpliter->setOrientation(Qt::Vertical);
 
-        QLineEdit* pUrl = new QLineEdit(pToolBar);
-        check = connect(pUrl, &QLineEdit::textChanged, this,
-                        [&](const QString &szText){
-                            QDir d(szText);
-                            if(d.exists())
-                                setRootPath(szText);
-        });
+        QComboBox* pUrl = new QComboBox(pToolBar);
+        pUrl->setEditable(true);
+        pUrl->setSizePolicy(QSizePolicy::Policy::Expanding,
+                            QSizePolicy::Policy::Preferred);
+        check = connect(
+            pUrl, &QComboBox::currentTextChanged, this,
+            [&](const QString &szText) {
+                qDebug(log) << "QComboBox::currentTextChanged";
+                QComboBox* pUrl = qobject_cast<QComboBox*>(sender());
+                if(!pUrl) return;
+                QModelIndex index = m_pModel->index(szText);
+                if(index.isValid()) {
+                    m_pUndoStack->push(new CChange(index, this));
+                    m_pTree->setCurrentIndex(index);
+                    slotClicked(index);
+                    m_pTree->doItemsLayout();
+                    m_pTree->scrollTo(index);
+                    int index = pUrl->findText(szText);
+                    if(-1 == index)
+                        pUrl->addItem(szText);
+                }
+            });
+        Q_ASSERT(check);
         pToolBar->addWidget(pUrl);
 
         pLayout->addWidget(pToolBar);
