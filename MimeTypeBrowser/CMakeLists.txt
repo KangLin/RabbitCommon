@@ -7,7 +7,7 @@ project(MimeTypeBrowser
     DESCRIPTION "Mime type browser"
     )
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+include(GNUInstallDirs)
 
 set(SOURCE_FILES
     main.cpp
@@ -19,4 +19,5 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    VERSION ${RabbitCommon_VERSION}
     )

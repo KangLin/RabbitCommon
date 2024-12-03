@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     parser.process(app);
 
     MainWindow mainWindow;
-    const QRect availableGeometry = mainWindow.screen()->availableGeometry();
+    const QRect availableGeometry = app.primaryScreen()->availableGeometry();
     mainWindow.resize(availableGeometry.width() / 3, availableGeometry.height() / 2);
     mainWindow.show();
 

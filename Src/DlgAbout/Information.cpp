@@ -55,12 +55,14 @@ CInformation::CInformation(const QString &szApp,
     {
         szQt += "      - " + iconPath + "\n";
     }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     szQt += "  - " + tr("Fallback theme: ") + QIcon::fallbackThemeName() + "\n";
     szQt += "    - " + tr("Fallback search paths:") + "\n";
     foreach(auto iconFallback, QIcon::fallbackSearchPaths())
     {
         szQt += "      - " + iconFallback + "\n";
     }
+#endif
     szQt += "### " + tr("Dependency libraries:") + "\n";
     szQt += tr("- OpenSSL:") + "\n";
     if(QSslSocket::supportsSsl())
@@ -78,6 +80,7 @@ CInformation::CInformation(const QString &szApp,
 #endif
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
     szQt += "### " + tr("Standard paths:") + "\n";
     szQt += "- " + tr("Standard paths:") + "\n";
     QMetaEnum metaEnum = QMetaEnum::fromType<QStandardPaths::StandardLocation>();
@@ -113,6 +116,7 @@ CInformation::CInformation(const QString &szApp,
         }
         szQt += "\n";
     }
+#endif
     szQt += "\n";
     SetContext(tr("Qt"), szQt);
     

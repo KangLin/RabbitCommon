@@ -25,7 +25,9 @@ void CNewFolder::redo()
     QDir d(m_szPath);
     if(!d.exists())
         bRet = d.mkdir(m_szPath);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     setObsolete(!bRet);
+#endif
     qDebug(log) << "CNewFolder::redo()" << bRet << m_szPath;
 }
 
@@ -40,7 +42,9 @@ void CDeleteFolder::undo()
     QDir d(m_szPath);
     if(!d.exists())
         bRet = d.mkdir(m_szPath);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     setObsolete(!bRet);
+#endif
     qDebug(log) << "CDeleteFolder::undo()" << bRet << m_szPath;
 }
 
@@ -50,7 +54,9 @@ void CDeleteFolder::redo()
     QDir d(m_szPath);
     if(d.exists())
         bRet = d.rmdir(m_szPath);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     setObsolete(!bRet);
+#endif
     qDebug(log) << "CDeleteFolder::redo()" << bRet << m_szPath;
 }
 

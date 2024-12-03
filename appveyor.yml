@@ -1,0 +1,107 @@
+# 作者：康林<kl222@126.com>
+
+#TODO: Change version
+version: 'v2.2.6.{build}'
+
+environment:
+  STOREPASS:
+    secure: l9BZEU39F1a4vSkhwl0CHR+yh6CD1c7byGzMv+1NUa4=
+  QT_USER:
+    secure: EoBPaPuJ6u9UDYpQWjKhUg==
+  QT_PASSWORD:
+    secure: ejAYGgB+3sBispRxUSr0xw==
+  RabbitCommon_VERSION: "v2.2.6"
+
+  matrix:
+  ##### msvc 2015 ########
+  - GENERATORS: "Visual Studio 14 2015"
+    TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.6\msvc2015
+    BUILD_ARCH: x86
+
+matrix:
+  fast_finish: false
+
+init:
+  - set varch=%BUILD_ARCH%
+  - if "%BUILD_ARCH%" == "x64" set varch=amd64
+  - if %TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %varch%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %varch%)
+  - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
+  - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
+  - if NOT "%QT_ROOT%" == "NO" for /f "delims=" %%i in ('%QT_ROOT%/bin/qmake -query QT_VERSION') do (set QT_VERSION=%%i)
+  - echo QT_ROOT=%QT_ROOT%
+  - echo QT_VERSION=%QT_VERSION%
+
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+
+  - set OTHER_SOURCE=%APPVEYOR_BUILD_FOLDER%\..\other_source
+  - set INSTALL_DIR=%OTHER_SOURCE%\install_dir
+  - if not exist "%OTHER_SOURCE%" ( mkdir "%OTHER_SOURCE%" )
+  - if not exist "%INSTALL_DIR%" (mkdir "%INSTALL_DIR%")
+
+  - cd %OTHER_SOURCE%
+  - set CMAKE_VERSION=3.28.3
+  - if not exist cmake-%CMAKE_VERSION%-windows-i386 (curl -fsSL -o cmake-%CMAKE_VERSION%-windows-i386.zip https://github.com/Kitware/CMake/releases/download/v%CMAKE_VERSION%/cmake-%CMAKE_VERSION%-windows-i386.zip && 7z x cmake-%CMAKE_VERSION%-windows-i386.zip)
+  - cd cmake-%CMAKE_VERSION%-windows-i386
+  - set PATH="%CD%/bin";%PATH%
+  - echo %PATH%
+  - set
+
+  - cd %OTHER_SOURCE%
+  - set VCPKG_ROOT=%OTHER_SOURCE%\vcpkg
+  - ps: |
+      if( -not (Test-Path -Path ${env:VCPKG_ROOT}) )
+      {
+          git clone -q "https://github.com/microsoft/vcpkg.git"
+          cd ${env:VCPKG_ROOT}
+          git checkout -q -b 898b728edc5e0d12b50015f9cd18247c4257a3eb 898b728edc5e0d12b50015f9cd18247c4257a3eb
+          bootstrap-vcpkg.bat
+      }
+
+before_build:
+
+build_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - mkdir build
+  - cd build
+  - cmake %APPVEYOR_BUILD_FOLDER% ^
+        -G"%GENERATORS%" ^
+        -DCMARK_SHARED=OFF ^
+        -DCMARK_TESTS=OFF ^
+        -DCMARK_STATIC=ON ^
+        -DQT_DIR=%QT_ROOT%/lib/cmake/Qt5 ^
+        -DQt5_DIR=%QT_ROOT%/lib/cmake/Qt5 ^
+        -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
+        -DRABBIT_ENABLE_INSTALL_QT=ON ^
+        -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=OFF ^
+        -DCMAKE_BUILD_TYPE=Release ^
+        -DCMAKE_INSTALL_PREFIX="%cd%/install" ^
+        -DCMAKE_PREFIX_PATH="%INSTALL_DIR%" ^
+        -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake" ^
+        -DVCPKG_MANIFEST_DIR="%APPVEYOR_BUILD_FOLDER%/vcpkg/manifests" ^
+        -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
+        -DVCPKG_APPLOCAL_DEPS=ON
+  - cmake --build . --config Release
+  - cmake --build . --config Release --target install
+  - if "%BUILD_ARCH%" == "x86" (copy /Y c:\OpenSSL-Win32\bin\ssleay32.dll install\bin && copy /Y c:\OpenSSL-Win32\bin\libeay32.dll install\bin)
+  - if "%BUILD_ARCH%" == "x64" (copy /Y c:\OpenSSL-Win64\bin\ssleay32.dll install\bin && copy /Y c:\OpenSSL-Win64\bin\libeay32.dll install\bin)
+  - 7z a RabbitCommon_%RabbitCommon_VERSION%_windowsxp.zip .\install\*
+
+artifacts:
+  - path: build\RabbitCommon_%RabbitCommon_VERSION%_windowsxp.zip
+
+deploy:
+  - provider: GitHub
+    #release: TransformCoordinate-$(appveyor_TransformCoordinate_VERSION)
+    description: 'Release TransformCoordinate $(APPVEYOR_REPO_TAG_NAME) on windows'
+    #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
+    auth_token:
+      secure: g7JyppMs3R6LHgau/3Ud1X0Mmj4sXkeo75Jy5saIwp75E+f5vFbJPUTAm0VXULKh
+    on:
+      BUILD_TARGERT: windows_msvc
+      TOOLCHAIN_VERSION: 14
+      QT_VERSION: 5.6.3
+      BUILD_ARCH: x86
+      appveyor_repo_tag: true        # deploy on tag push only
