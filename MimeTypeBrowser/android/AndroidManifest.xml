@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.KangLinStudio.FileBrowser"
+    package="org.KangLinStudio.MimeTypeBrowser"
     android:installLocation="auto"
     android:versionCode="0"
     android:versionName="2.3.0">
@@ -33,7 +33,7 @@
 
           <meta-data
                 android:name="android.app.lib_name"
-                android:value="FileBrowser" />
+                android:value="MimeTypeBrowser" />
 
           <meta-data
                 android:name="android.app.arguments"

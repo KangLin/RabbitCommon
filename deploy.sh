@@ -70,6 +70,7 @@ sed -i "s/rabbitcommon (.*)/rabbitcommon (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/de
 sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
 sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/README*.md
 sed -i "s/versionName=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
+sed -i "s/versionName=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${DEBIAN_VERSION}/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${DEBIAN_VERSION}/g" ${SOURCE_DIR}/.github/workflows/qmake.yml
 if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
@@ -77,13 +78,13 @@ if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
 fi
 
 
-CHANGLOG_TMP=${SOURCE_DIR}/debian/changelog.tmp
-CHANGLOG_FILE=${SOURCE_DIR}/debian/changelog
-echo "rabbitcommon (${DEBIAN_VERSION}) unstable; urgency=medium" > ${CHANGLOG_FILE}
-echo "" >> ${CHANGLOG_FILE}
-echo "`git log --pretty=format:'    * %s' ${PRE_TAG}..HEAD`" >> ${CHANGLOG_FILE}
-echo "" >> ${CHANGLOG_FILE}
-echo " -- `git log --pretty=format:'%an <%ae>' HEAD^..HEAD`  `date --rfc-email`" >> ${CHANGLOG_FILE}
+#CHANGLOG_TMP=${SOURCE_DIR}/debian/changelog.tmp
+#CHANGLOG_FILE=${SOURCE_DIR}/debian/changelog
+#echo "rabbitcommon (${DEBIAN_VERSION}) unstable; urgency=medium" > ${CHANGLOG_FILE}
+#echo "" >> ${CHANGLOG_FILE}
+#echo "`git log --pretty=format:'    * %s' ${PRE_TAG}..HEAD`" >> ${CHANGLOG_FILE}
+#echo "" >> ${CHANGLOG_FILE}
+#echo " -- `git log --pretty=format:'%an <%ae>' HEAD^..HEAD`  `date --rfc-email`" >> ${CHANGLOG_FILE}
 
 MAJOR_VERSION=`echo ${DEBIAN_VERSION}|cut -d "." -f 1`
 #sed -i "s/android:versionCode=.*android/android:versionCode=\"${MAJOR_VERSION}\" android/g"  ${SOURCE_DIR}/Tests/android/AndroidManifest.xml

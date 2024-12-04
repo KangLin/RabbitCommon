@@ -16,7 +16,7 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         qt_arch: [android_arm64_v8a, android_x86_64]
-        qt_version: [6.6.2]
+        qt_version: [6.8.1]
         include:
           - qt_arch: android_arm64_v8a
             VCPKG_TARGET_TRIPLET: arm-android
@@ -32,15 +32,14 @@ jobs:
 
     env:
       artifact_name: build_android
-      STOREPASS: ${{secrets.STOREPASS}}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      RabbitCommon_VERSION: v2.2.6
+      RabbitCommon_VERSION: v2.3.0
       VCPKGGITCOMMITID: 59aeb8fe8fe1c980de6bd5ba634cf21024522d81
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
-      ANDROID_PLATFORM: android-28
-      ANDROID_NATIVE_API_LEVEL: 28
+      ANDROID_PLATFORM: android-35
+      ANDROID_NATIVE_API_LEVEL: 35
       qt_modules: 'qtscxml'
 
     # Map the job outputs to step outputs
@@ -74,9 +73,9 @@ jobs:
         with:
           dir: '${{env.TOOSL_DIR}}' # optional
           version: '${{matrix.qt_version}}'
-          #host: 'linux'
+          host: 'linux'
           target: 'desktop'
-          arch: 'gcc_64'
+          arch: 'linux_gcc_64'
           set-env: false
           cache: true
           cache-key-prefix: cached_qt
@@ -112,6 +111,10 @@ jobs:
 
       - name: build RabbitCommon
         working-directory: ${{github.workspace}}/build
+        env:
+          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
+          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
+          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
         run: |
           echo "ls ${Qt6_DIR}/.."
           ls ${Qt6_DIR}/..
@@ -131,13 +134,20 @@ jobs:
               -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
               -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
               -DBUILD_TEST=OFF \
               -DBUILD_APP=OFF
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target install
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip ./install/*
-          APK_FILE=`find . -name "android-*.apk"`
-          cp $APK_FILE RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+          cd ${{github.workspace}}/build/FileBrowser
+          APK_FILEBROWSER=`find . -name "android-*.apk"`
+          echo "Find $APK_FILEBROWSER"
+          mv $APK_FILEBROWSER ${{github.workspace}}/build/FileBrowser_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+          cd ${{github.workspace}}/build/MimeTypeBrowser
+          APK_MimeTypeBrowser=`find . -name "android-*.apk"`
+          echo "Find $APK_MimeTypeBrowser"
+          mv $APK_MimeTypeBrowser ${{github.workspace}}/build/MimeTypeBrowser_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -146,4 +156,4 @@ jobs:
           name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
           path: |
             ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.zip
-            ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+            ${{github.workspace}}/build/*.apk

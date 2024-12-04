@@ -1,6 +1,3 @@
-rabbitcommon (2.2.6) unstable; urgency=medium
+rabbitcommon (2.3.0) unstable; urgency=medium
 
-    * Use installed cmark in linux
-    * Modify debian package
-
- -- Kang Lin <kl222@126.com>  Wed, 19 Jun 2024 15:09:58 +0800
+ -- Kang Lin <kl222@126.com>  Thu, 05 Dec 2024 16:14:47 +0800

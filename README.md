@@ -6,6 +6,7 @@ Author：Kang Lin（kl222@126.com)
 
 [![master status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 [![develop status](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
+[![Build status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
 
 [:cn: Chinese](README_zh_CN.md)
 
@@ -415,7 +416,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
       <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v2.2.6</VERSION>
+              <VERSION>v2.3.0</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>
@@ -472,8 +473,9 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
       RabbitCommon::CTools::GetHostName();
 
 ### Other projects using this project
-- [Rabbit IM](https://github.com/KangLin/RabbitCommon)
+
 - [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)
+- [Rabbit IM](https://github.com/KangLin/RabbitCommon)
 - [Calendar](https://github.com/KangLin/Calendar)
 - [LunarCalendar](https://github.com/KangLin/LunarCalendar)
 - [SerialPortAssistant](https://github.com/KangLin/SerialPortAssistant)

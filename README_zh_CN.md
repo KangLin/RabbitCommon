@@ -6,6 +6,7 @@
 
 [![master 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
 [![develop 编译状态](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/KangLin/RabbitCommon/actions/workflows/build.yml)
+[![Build status](https://ci.appveyor.com/api/projects/status/cy6jwbbysuj7t1wp?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitcommon)
 
 [:us: 英语](README.md)
 
@@ -403,7 +404,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
       <?xml version="1.0" encoding="UTF-8"?>
       <REDIRECT>
-           <VERSION>v2.2.6</VERSION>
+           <VERSION>v2.3.0</VERSION>
            <WINDOWS>
                 <URL>url</URL>
            </WINDOWS>
@@ -460,8 +461,9 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
         RabbitCommon::CTools::GetHostName();
         
 ### 使用本项目的项目
-- [玉兔即时通讯](https://github.com/KangLin/RabbitIm)
+
 - [玉兔远程控制](https://github.com/KangLin/RabbitRemoteControl)
+- [玉兔即时通讯](https://github.com/KangLin/RabbitIm)
 - [日历](https://github.com/KangLin/Calendar)
 - [农历日历](https://github.com/KangLin/LunarCalendar)
 - [串口助手](https://github.com/KangLin/SerialPortAssistant)

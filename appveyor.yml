@@ -1,7 +1,7 @@
 # 作者：康林<kl222@126.com>
 
 #TODO: Change version
-version: 'v2.2.6.{build}'
+version: "v2.3.0.{build}"
 
 environment:
   STOREPASS:
@@ -10,7 +10,7 @@ environment:
     secure: EoBPaPuJ6u9UDYpQWjKhUg==
   QT_PASSWORD:
     secure: ejAYGgB+3sBispRxUSr0xw==
-  RabbitCommon_VERSION: "v2.2.6"
+  RabbitCommon_VERSION: "v2.3.0"
 
   matrix:
   ##### msvc 2015 ########
@@ -100,7 +100,6 @@ deploy:
     auth_token:
       secure: g7JyppMs3R6LHgau/3Ud1X0Mmj4sXkeo75Jy5saIwp75E+f5vFbJPUTAm0VXULKh
     on:
-      BUILD_TARGERT: windows_msvc
       TOOLCHAIN_VERSION: 14
       QT_VERSION: 5.6.3
       BUILD_ARCH: x86
