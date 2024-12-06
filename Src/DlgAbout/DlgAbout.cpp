@@ -13,13 +13,6 @@ Abstract:
     This file contains about dialog implement.
  */
 
-#include "DlgAbout.h"
-#include "ui_DlgAbout.h"
-#include "RabbitCommonDir.h"
-#include "RabbitCommonTools.h"
-
-#include "Information.h"
-
 #include <QTextEdit>
 #include <QFile>
 #include <QDir>
@@ -30,6 +23,13 @@ Abstract:
 #include <QCursor>
 #include <QLoggingCategory>
 #include <QApplication>
+
+#include "DlgAbout.h"
+#include "ui_DlgAbout.h"
+#include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
+#include "Download.h"
+#include "Information.h"
 
 #ifdef HAVE_CMARK
     #include "cmark.h"

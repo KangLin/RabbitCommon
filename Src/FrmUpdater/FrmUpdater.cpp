@@ -1,10 +1,6 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "FrmUpdater.h"
-#include "RabbitCommonDir.h"
-#include "RabbitCommonTools.h"
-#include "ui_FrmUpdater.h"
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFinalState>
@@ -24,6 +20,13 @@
 #include <QSettings>
 #include <QLoggingCategory>
 #include <QRegularExpression>
+#include <QStateMachine>
+
+#include "Download.h"
+#include "FrmUpdater.h"
+#include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
+#include "ui_FrmUpdater.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Updater")
 
@@ -33,6 +36,7 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     m_InstallAutoStartupType(false),
     m_ButtonGroup(this),
     m_bDownload(false),
+    m_StateMachine(nullptr),
     m_pStateDownloadSetupFile(nullptr)
 {
     bool check = false;
@@ -133,6 +137,8 @@ CFrmUpdater::~CFrmUpdater()
     m_DownloadFile.close();
     if(m_Download)
         m_Download.reset();
+    if(m_StateMachine)
+        m_StateMachine->deleteLater();
     delete ui;
 }
 
@@ -234,11 +240,13 @@ int CFrmUpdater::InitStateMachine()
     check = connect(sUpdate, SIGNAL(entered()), this, SLOT(slotUpdate()));
     Q_ASSERT(check);
 
-    m_StateMachine.addState(sCheck);    
-    m_StateMachine.addState(s);
-    m_StateMachine.addState(sFinal);
-    m_StateMachine.setInitialState(sCheck);
-    m_StateMachine.start();
+    if(!m_StateMachine)
+        m_StateMachine = new QStateMachine(this);
+    m_StateMachine->addState(sCheck);
+    m_StateMachine->addState(s);
+    m_StateMachine->addState(sFinal);
+    m_StateMachine->setInitialState(sCheck);
+    m_StateMachine->start();
     return 0;    
 }
 
@@ -1198,7 +1206,7 @@ void CFrmUpdater::on_pbOK_clicked()
 
 void CFrmUpdater::on_pbClose_clicked()
 {
-    if(m_StateMachine.isRunning())
+    if(m_StateMachine->isRunning())
     {
         QMessageBox::StandardButton ret = QMessageBox::warning(this, tr("Close"),
                         tr("Is updating, be sure to close?"), QMessageBox::Yes|QMessageBox::No);
@@ -1616,8 +1624,8 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
 void CFrmUpdater::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
-    if(!m_StateMachine.isRunning())
-        m_StateMachine.start();
+    if(!m_StateMachine->isRunning())
+        m_StateMachine->start();
 }
 
 void CFrmUpdater::slotShowWindow(QSystemTrayIcon::ActivationReason reason)

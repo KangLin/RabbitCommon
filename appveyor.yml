@@ -10,7 +10,7 @@ environment:
     secure: EoBPaPuJ6u9UDYpQWjKhUg==
   QT_PASSWORD:
     secure: ejAYGgB+3sBispRxUSr0xw==
-  RabbitCommon_VERSION: "v2.3.0"
+  RabbitCommon_VERSION: "v2.3.1"
 
   matrix:
   ##### msvc 2015 ########

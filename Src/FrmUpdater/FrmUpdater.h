@@ -11,17 +11,22 @@
 #include <QFile>
 #include <QPixmap>
 #include <QApplication>
-#include <QStateMachine>
+
 #include <QUrl>
 #include <QButtonGroup>
 #include <QCommandLineParser>
 #include "rabbitcommon_export.h"
 
-#include "Download.h"
+namespace RabbitCommon {
+class CDownload;
+}
 
 namespace Ui {
 class CFrmUpdater;
 }
+
+class QStateMachine;
+class QState;
 
 /*!
  * \~chinese
@@ -170,7 +175,7 @@ private:
     QSharedPointer<RabbitCommon::CDownload> m_Download;
     // [Instantiate the object of RabbitCommon::CDownload]
 
-    QStateMachine m_StateMachine;
+    QStateMachine* m_StateMachine;
     QState *m_pStateDownloadSetupFile;
 
     enum class CONFIG_TYPE{

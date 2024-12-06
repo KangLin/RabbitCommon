@@ -3,6 +3,7 @@
 #include <QtTest>
 
 #include "FrmUpdater.h"
+#include "Download.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.Updater")
 

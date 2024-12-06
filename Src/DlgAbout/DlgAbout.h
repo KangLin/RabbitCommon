@@ -29,10 +29,13 @@ Abstract:
 #include <QDialog>
 
 #include "rabbitcommon_export.h"
-#include "Download.h"
 
 namespace Ui {
 class CDlgAbout;
+}
+
+namespace RabbitCommon {
+class CDownload;
 }
 
 /*!

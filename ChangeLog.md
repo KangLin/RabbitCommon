@@ -8,6 +8,7 @@
   - Add file browser application
   - Add stack trace
   - Add CTools::HasAdministratorPrivilege()
+  - CMake: modify qt libraries to private
 
 ### Version v2.2.6
   - Modify debian package files

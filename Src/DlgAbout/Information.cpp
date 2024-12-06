@@ -8,6 +8,7 @@
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
 #include <QMetaEnum>
+#include <QSslSocket>
 
 #include "Information.h"
 #include "ui_Information.h"
