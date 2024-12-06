@@ -100,4 +100,12 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../main.cpp" line="13"/>
+        <source>Mime type browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

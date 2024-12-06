@@ -172,16 +172,22 @@ QString CTools::Information()
     szInfo += QObject::tr("  - Have GUI") + "\n";
 #endif
 #if defined(HAVE_ABOUT)
-    szInfo += QObject::tr("  - Have about diaglog") + "\n";
+    szInfo += QObject::tr("    - Have about diaglog") + "\n";
 #ifdef HAVE_CMARK_GFM
     szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
 #elif HAVE_CMARK
-    szInfo += QObject::tr("    - Use cmark") + "\n";
+    szInfo += QObject::tr("      - Use cmark") + "\n";
 #endif
 #endif
 #if defined(HAVE_UPDATE)
-    szInfo += QObject::tr("  - Have update") + "\n";
+    szInfo += QObject::tr("    - Have update") + "\n";
 #endif
+    szInfo += QObject::tr("    - The cursom title bar for QWidget") + "\n";
+    szInfo += QObject::tr("    - Dock Folder browser") + "\n";
+    szInfo += QObject::tr("    - Recent menu") + "\n";
+    szInfo += QObject::tr("    - Style") + "\n";
+    szInfo += QObject::tr("  - Log") + "\n";
+    szInfo += QObject::tr("    - Core dump") + "\n";
 #if defined(HAVE_OPENSSL)
     szInfo += QObject::tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
