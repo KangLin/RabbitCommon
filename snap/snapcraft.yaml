@@ -2,7 +2,7 @@
 # Snapcraft.yaml schema: https://snapcraft.io/docs/snapcraft-yaml-schema
 name: rabbitcommon # you probably want to 'snapcraft register <name>'
 base: core22 # the base snap is the execution environment for this snap
-version: '2.3.0'
+version: '2.3.1'
 license: GPL-3.0+
 contact: kl222@126.com
 donation:

@@ -416,7 +416,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
       <?xml version="1.0" encoding="UTF-8"?>
           <REDIRECT>
-              <VERSION>v2.3.0</VERSION>
+              <VERSION>v2.3.1</VERSION>
               <WINDOWS>
                   <URL>url</URL>
               </WINDOWS>

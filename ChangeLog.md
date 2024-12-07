@@ -1,3 +1,6 @@
+### Version v2.3.1
+  - Fix updater download url
+
 ### Version v2.3.0
   - Fix log file name bug
   - Fix log handler bug
