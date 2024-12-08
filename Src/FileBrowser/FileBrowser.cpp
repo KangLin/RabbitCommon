@@ -25,7 +25,6 @@
 #include <QProcess>
 #include <QDir>
 #include "RabbitCommonDir.h"
-#include "RabbitCommonTools.h"
 #include "UndoCommand.h"
 #include "FileBroserTreeView.h"
 #include "FileBrowser.h"
