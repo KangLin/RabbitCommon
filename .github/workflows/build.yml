@@ -20,7 +20,6 @@ jobs:
     uses: ./.github/workflows/msvc.yml
 
   mingw:
-    if: false
     uses: ./.github/workflows/mingw.yml
 
   macos:

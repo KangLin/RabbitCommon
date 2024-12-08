@@ -13,6 +13,19 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
+if(NOT DEFINED QT_VERSION_MAJOR)
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+endif()
+
+if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_C_STANDARD 17)
+else()
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_C_STANDARD 11)
+endif()
+
+
 # 参见：
 #   语义化版本: https://semver.org/lang/zh-CN/
 SET(RabbitCommon_VERSION "2.3.1")
@@ -65,10 +78,6 @@ IF(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 ENDIF(MSVC)
-
-IF(MINGW)
-    add_compile_options("-std=c++0x")
-ENDIF()
 
 SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
 if (BUILD_SHARED_LIBS)

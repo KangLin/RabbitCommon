@@ -708,22 +708,24 @@ function(INSTALL_TARGET)
     IF(WIN32 AND BUILD_SHARED_LIBS
         AND (RABBIT_ENABLE_INSTALL_DEPENDENT OR RABBIT_ENABLE_INSTALL_QT))
         IF(MINGW)
-            # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
-                )
-            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
-                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                    #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                    --verbose 7
-                    --no-quick-import
-                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    "$<TARGET_FILE:${PARA_NAME}>"
-                )
+            if(QT_VERSION_MAJOR VERSION_LESS 6)
+                # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
+                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                    COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
+                    )
+                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
+                    COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                        #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                        --verbose 7
+                        --no-quick-import
+                        --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                        --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                        --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
+                        "$<TARGET_FILE:${PARA_NAME}>"
+                    )
+            endif()
         ELSE(MINGW)
             #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             add_custom_command(TARGET ${PARA_NAME} POST_BUILD
