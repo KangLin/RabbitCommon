@@ -473,7 +473,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 ### 捐赠
 
-![捐赠](Src/Resource/image/Contribute.png "捐赠")
+![捐赠](Src/Resource/image/Contribute_zh_CN.png "捐赠")
 
 ### 许可协议
 

@@ -80,12 +80,20 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_szCopyrightStartTime = "2019";
     m_AppIcon = QImage(":/icon/RabbitCommon/App");
     m_CopyrightIcon = QImage(":/icon/RabbitCommon/CopyRight");
-    m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute");
-    
+
+    QString szLangUage = RabbitCommon::CTools::Instance()->GetLanguage();
     QVector<QUrl> urls;
-    urls << QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png")
-         << QUrl("https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png")
-         << QUrl("https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png");
+    if("zh_CN" == szLangUage) {
+        m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute_zh_CN");
+        urls << QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute_zh_CN.png")
+             << QUrl("https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute_zh_CN.png")
+             << QUrl("https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute_zh_CN.png");
+    } else {
+        m_DonationIcon = QImage(":/icon/RabbitCommon/Contribute_en");
+        urls << QUrl("https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute_en.png")
+             << QUrl("https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute_en.png")
+             << QUrl("https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute_en.png");
+    }
     m_Download = QSharedPointer<RabbitCommon::CDownload>(
         new RabbitCommon::CDownload(), &QObject::deleteLater);
     bool check = connect(m_Download.data(), SIGNAL(sigFinished(const QString)),

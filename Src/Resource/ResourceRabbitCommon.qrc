@@ -4,5 +4,8 @@
         <file alias="Download">image/download.png</file>
         <file alias="App">image/App.png</file>
         <file alias="CopyRight">image/copyright.png</file>
+        <file alias="bitcoin">image/bitcoin.png</file>
+        <file alias="Contribute_en">image/Contribute_en.png</file>
+        <file alias="Contribute_zh_CN">image/Contribute_zh_CN.png</file>
     </qresource>
 </RCC>

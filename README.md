@@ -485,7 +485,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
 ### Donation
 
-![Donation](Src/Resource/image/Contribute.png "Donation")
+![Donation](Src/Resource/image/Contribute_en.png "Donation")
 
 ### License
 
