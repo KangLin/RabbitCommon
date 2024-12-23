@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 << "Q_FUNC_INFO         " << Q_FUNC_INFO << "\n"
                 << "__func__            " << __func__ << "\n"
                 << "Q_FUNC_INFO        " << Q_FUNC_INFO << "\n"
-#if MSVC
+#if defined(_MSC_VER)
                 << "__FUNCDNAME__       " << __FUNCDNAME__ << "\n"
                 << "__FUNCSIG__         " << __FUNCSIG__ << "\n"
 #else

@@ -14,10 +14,6 @@ set(SOURCE_FILES
 
 set(SOURCE_UI_FILES MainWindow.ui)
 
-if(MSVC)
-    list(APPEND App_PRIVATE_DEFINITIONS MSVC)
-endif()
-
 #翻译
 #include(${CMAKE_SOURCE_DIR}/cmake/Qt5CorePatches.cmake)
 #include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
