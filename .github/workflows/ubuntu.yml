@@ -108,7 +108,7 @@ jobs:
       - name: Make deb package
         run: |
           git clean -xdf
-          export QT_ROOT=/usr/lib/`uname -a`-linux-gnu/cmake/Qt6
+          export QT_ROOT=/usr/lib/`uname -m`-linux-gnu/cmake/Qt6
           ./build_debpackage.sh
           cp ../rabbitcommon*.deb .
 

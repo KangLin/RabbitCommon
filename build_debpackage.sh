@@ -1,19 +1,38 @@
 #!/bin/bash
 
-if [ -f /usr/lib/`uname -a`-linux-gnu/cmake/Qt6 -a -z "$QT_ROOT" ]; then
-    QT_ROOT=/usr/lib/`uname -a`-linux-gnu/cmake/Qt6
-fi
-
-if [ -n "$1" ]; then
+if [ -n "$1" -a -z "$QT_ROOT" ]; then
 	QT_ROOT=$1
 fi
 
+if [ -d "/usr/lib/`uname -m`-linux-gnu" -a -z "$QT_ROOT" ]; then
+    QT_ROOT="/usr/lib/`uname -m`-linux-gnu"
+fi
+
 if [ -z "$QT_ROOT" ]; then
-	echo "$0 QT_ROOT"
+    echo "QT_ROOT=$QT_ROOT"
+	echo "$0 QT_ROOT RabbitCommon_DIR"
+    exit -1
+fi
+
+if [ -n "$2" -a -z "$RabbitCommon_DIR" ]; then
+	RabbitCommon_DIR=$2
+fi
+
+if [ -z "$RabbitCommon_DIR" ]; then
+	RabbitCommon_DIR=`pwd`/../RabbitCommon
+    echo "RabbitCommon_DIR=$RabbitCommon_DIR"
+fi
+
+if [ ! -d "$RabbitCommon_DIR" ]; then
+    echo "QT_ROOT=$QT_ROOT"
+    echo "RabbitCommon_DIR=$RabbitCommon_DIR"
+	echo "$0 QT_ROOT RabbitCommon_DIR"
     exit -1
 fi
 
 export QT_ROOT=$QT_ROOT
+export RabbitCommon_DIR=$RabbitCommon_DIR
+export PATH=$QT_ROOT/bin:$PATH
 
 #fakeroot debian/rules binary
 
