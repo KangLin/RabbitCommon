@@ -441,8 +441,8 @@ QString CLog::getBaseName()
 {
     QString szSep("_");
     return m_szName + szSep
-           + QString::number(QCoreApplication::applicationPid()) + szSep
-           + QDate::currentDate().toString(m_szDateFormat)
+           + QDate::currentDate().toString(m_szDateFormat) + szSep
+           + QString::number(QCoreApplication::applicationPid())
         ;
 }
 
