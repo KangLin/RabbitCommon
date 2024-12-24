@@ -158,7 +158,7 @@ private:
 
     QString m_szDocumentPath;
     QString m_szApplicationDir;
-    QString m_szApplicationRootDir;
+    QString m_szApplicationInstallRootDir;
 
 };
 

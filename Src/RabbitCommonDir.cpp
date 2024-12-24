@@ -28,14 +28,16 @@ CDir::CDir()
     m_szApplicationDir =  QCoreApplication::applicationDirPath();
     qInfo(log) << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
-    m_szApplicationRootDir = "assets:";
+    m_szApplicationInstallRootDir = "assets:";
 #else
     if(m_szApplicationDir.isEmpty())
-        m_szApplicationRootDir = "..";
+        m_szApplicationInstallRootDir = "..";
     else
-        m_szApplicationRootDir = m_szApplicationDir + QDir::separator() + "..";
+        m_szApplicationInstallRootDir = m_szApplicationDir + QDir::separator() + "..";
+    QDir r(m_szApplicationInstallRootDir);
+    m_szApplicationInstallRootDir = r.absolutePath();
 #endif
-    qInfo(log) << "Application root dir:" << m_szApplicationRootDir;
+    qInfo(log) << "Application root dir:" << m_szApplicationInstallRootDir;
 }
 
 CDir* CDir::Instance()
@@ -60,12 +62,12 @@ int CDir::SetDirApplication(const QString &szPath)
 
 QString CDir::GetDirApplicationInstallRoot()
 {
-    return m_szApplicationRootDir;
+    return m_szApplicationInstallRootDir;
 }
 
 int CDir::SetDirApplicationInstallRoot(const QString &szPath)
 {
-    m_szApplicationRootDir = szPath;
+    m_szApplicationInstallRootDir = szPath;
     return 0;
 }
 
