@@ -5,8 +5,8 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  RabbitCommon_VERSION: v2.3.1
-  RabbitCommon_VERSION_PRE: v2.3.0
+  RabbitCommon_VERSION: v2.3.2
+  RabbitCommon_VERSION_PRE: v2.3.1
 
 on:
   push:
@@ -93,13 +93,15 @@ jobs:
           echo "Full Changelog: [${{env.RabbitCommon_VERSION_PRE}}...${{env.RabbitCommon_VERSION}}](https://github.com/KangLin/RabbitCommon/compare/${{env.RabbitCommon_VERSION_PRE}}...${{env.RabbitCommon_VERSION}})" >> ${{github.workspace}}/Note.md
           echo "" >> ${{github.workspace}}/Note.md
           echo "File checksum:" >> ${{github.workspace}}/Note.md
+          echo "|File|Checksum(md5)|" >> ${{github.workspace}}/Note.md
+          echo "| :- |    :-       |" >> ${{github.workspace}}/Note.md
           for file in *
           do
               echo "$file"
               if [ -f $file ]; then
                   if [ "${file##*.}" != "xml" ] && [ "${file##*.}" != "json" ]; then
                       md5sum $file > $file.md5sum
-                      cat $file.md5sum >> ${{github.workspace}}/Note.md
+                      awk '{print  "|", $2, "|", $1, "|"}' ${file}.md5sum >> ${{github.workspace}}/Note.md
                   fi
               else
                  rm -fr $file

@@ -1,3 +1,7 @@
+### Version v2.3.2
+  - Modify install root dir
+  - Log: modify log file name
+  
 ### Version v2.3.1
   - Fix updater download url
 
