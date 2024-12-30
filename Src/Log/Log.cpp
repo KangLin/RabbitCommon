@@ -530,9 +530,11 @@ void CLog::slotTimeout()
             szFile = getFileName();
         else
             if(g_File.isOpen()) break;
-#ifdef Q_OS_ANDROID
-        if(szFile.isEmpty()) return;
-#endif
+
+        if(szFile.isEmpty()){
+            qCritical(log) << "The file is empty";
+            return;
+        }
         Q_ASSERT(!szFile.isEmpty());
 
         g_Mutex.lock();
