@@ -2,6 +2,7 @@
 // Author Kang Lin <kl222@126.com>
 
 // See: https://github.com/KangLin/Documents/blob/master/qt/theme.md
+// - Icon Theme Specification: https://specifications.freedesktop.org/icon-theme-spec/latest/
 // - Icon Naming Specification: https://specifications.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 // - Icon Theme Specification: https://specifications.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html
 
