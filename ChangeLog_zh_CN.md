@@ -1,3 +1,6 @@
+### 版本： v2.3.3
+  - 修改在 linux 下用管理员权限启动程序
+
 ### 版本： v2.3.2
   - 修改日志文件名
   - 修改安装目录
@@ -92,7 +95,7 @@
 - 删除 RabbitCommonLog
 - 自动化 ( github action ) 完成
 - 增加调试日志停泊条
-- Andoird 需要 Qt 版本大于或等于 6
+- Android 需要 Qt 版本大于或等于 6
 - CMake:
   - 增加 INSTALL_DIR
   - 增加 INSTALL_FILE

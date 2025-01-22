@@ -74,6 +74,7 @@ namespace RabbitCommon {
 
 bool execAdminFallback(const QString &program, const QStringList &arguments);
 const QList<QPair<QString, QStringList> > suFontends = {
+    {"pkexec", {}}, // freedesktop
     {"kdesu", {"-c"}},
     {"gksu", {}}
 };
@@ -90,13 +91,10 @@ bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringLi
         if(command.isEmpty()) continue;
 
         auto args = su.second;
-
-        QStringList tmpList{program};
-        tmpList.append(arguments);
-        args.append(QLatin1Char('\"') + tmpList.join(QStringLiteral("\" \"")) + QLatin1Char('\"'));
-
-        qDebug(log) << command << args;
-        return QProcess::startDetached(command, args);
+        args << program << arguments;
+        bool bRet = QProcess::startDetached(command, args);
+        qDebug(log) << "exec" << bRet << command << args;
+        return bRet;
     }
 
     return execAdminFallback(program, arguments);
@@ -268,8 +266,9 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         for (int i = 3; i < static_cast<int>(rlp.rlim_cur); ++i)
             ::close(i);
 
-        QList<QByteArray> args;
-        args.push_back(SU_COMMAND);
+        QList<QString> args;
+        QString command = QStandardPaths::findExecutable(SU_COMMAND);
+        args.push_back(command);
         args.push_back("-b");
         args.push_back("-p");
         args.push_back("password:");
@@ -279,9 +278,9 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         QString szCmd;
         for(auto &b: args)
         {
-            szCmd += QString(b) + " ";
+            szCmd += b + " ";
         }
-        ::system(szCmd.toStdString().c_str());
+        int nRet = ::system(szCmd.toStdString().c_str());
         /*
                 int i = 0;
         char **argp = reinterpret_cast<char **>(::malloc(static_cast<ulong>(args.count()) * sizeof(char *)));
@@ -294,8 +293,8 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
                 
         ::execv(SU_COMMAND, argp);//*/
 
-        _exit(EXIT_FAILURE);
-        return false;
+        _exit(nRet);
+        return !nRet;
     }
 }
 

@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // [Use CDockFolderBrowser]
     CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
     pDock->setRootPath(RabbitCommon::CDir::Instance()->GetDirIcons(true));
-    qDebug() << pDock->rootPath();
+    qDebug(log) << pDock->rootPath();
     addDockWidget(Qt::LeftDockWidgetArea, pDock);
     // Add the action of dock to menu
     ui->menuTools->addAction(pDock->toggleViewAction());
@@ -128,7 +128,7 @@ void MainWindow::on_pushButton_clicked()
     QString szCmd = "mkdir";
     QStringList paras;
     paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-    qDebug() << "RabbitCommon::CTools::executeByRoot(szCmd, paras):"
+    qDebug(log) << "RabbitCommon::CTools::executeByRoot(szCmd, paras):"
              << RabbitCommon::CTools::executeByRoot(szCmd, paras);
     RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
 #elif defined(Q_OS_WINDOWS)

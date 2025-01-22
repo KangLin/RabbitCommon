@@ -1,3 +1,6 @@
+### Version v2.3.3
+  - CAdminAuthorization: Add pkexec in linux
+
 ### Version v2.3.2
   - Modify install root dir
   - Log: modify log file name
