@@ -73,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuTools->addMenu(RabbitCommon::CTools::GetLogMenu(this));
     ui->tbLog->setMenu(RabbitCommon::CTools::GetLogMenu(this));
 
-
     // [Use CDockFolderBrowser]
     CDockFolderBrowser* pDock = new CDockFolderBrowser(tr("Folder browser"), this);
     pDock->setRootPath(RabbitCommon::CDir::Instance()->GetDirIcons(true));
@@ -82,6 +81,14 @@ MainWindow::MainWindow(QWidget *parent) :
     // Add the action of dock to menu
     ui->menuTools->addAction(pDock->toggleViewAction());
     // [Use CDockFolderBrowser]
+#endif
+
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    ui->leCommand->setText("mkdir");
+    ui->lePara->setText("-p /opt/RabbitCommonAdminAuthoriseTest");
+#endif
+#if Q_OS_WIN
+    ui->leExecWithRoot->setText("regedit");
 #endif
 }
 
@@ -124,16 +131,13 @@ void MainWindow::on_actionUpdate_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    QString szCmd = "mkdir";
+    //RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
     QStringList paras;
-    paras << "-p" << "/opt/RabbitCommonAdminAuthoriseTest";
-    qDebug(log) << "RabbitCommon::CTools::executeByRoot(szCmd, paras):"
-             << RabbitCommon::CTools::executeByRoot(szCmd, paras);
-    RabbitCommon::CTools::GenerateDesktopFile(QDir::currentPath());
-#elif defined(Q_OS_WINDOWS)
-    RabbitCommon::CTools::executeByRoot("regedit", QStringList());
-#endif
+    if(!ui->lePara->text().isEmpty())
+        paras = ui->lePara->text().split(' ');
+    qDebug(log) << "RabbitCommon::CTools::executeByRoot("
+                       + ui->leCommand->text() + "," + ui->lePara->text() + ");"
+                << RabbitCommon::CTools::executeByRoot(ui->leCommand->text(), paras);
 }
 
 void MainWindow::on_pbEncrypt_clicked()

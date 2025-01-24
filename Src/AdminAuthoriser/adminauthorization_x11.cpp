@@ -152,10 +152,7 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         ::close(pipedData[0]);
         ::close(pipedData[1]);
         return false;
-    }
-    
-    // parent process
-    else if (child > 0) {
+    } else if (child > 0) { // parent process
         ::close(slaveFD);
         //close writing end of pipe
         ::close(pipedData[1]);
