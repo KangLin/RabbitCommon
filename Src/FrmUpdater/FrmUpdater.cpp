@@ -616,25 +616,36 @@ int CFrmUpdater::CheckUpdateConfigFile()
         return -5;
     }
 
+    QString szSystem = QSysInfo::productType();
+#if defined(Q_OS_LINUX)
+    QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
+    if(!szAppImage.isEmpty())
+        szSystem = "AppImage";
+#endif
     QString szArchitecture = QSysInfo::currentCpuArchitecture();
     CONFIG_FILE file;
     foreach (auto f, info.files) {
-        if(f.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive))
+        if(f.szSystem.compare(szSystem, Qt::CaseInsensitive))
             continue;
 
-#if defined(Q_OS_WIN) ||  defined(Q_OS_LINUX)
-        if(!szArchitecture.compare("i386", Qt::CaseInsensitive)
-            && !f.szArchitecture.compare("x86_64", Qt::CaseInsensitive))
-            continue;
+        if(szArchitecture != f.szArchitecture) {
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+            if(!szArchitecture.compare("x86_64", Qt::CaseInsensitive)
+                && !f.szArchitecture.compare("i386", Qt::CaseInsensitive))
+            {
+                ;
+            } else
+                continue;
 #else
-        if(szArchitecture != f.szArchitecture)
             continue;
 #endif
+        }
+
         file = f;
         break;
     }
 
-    if(file.szSystem.compare(QSysInfo::productType(), Qt::CaseInsensitive)) {
+    if(file.szSystem.compare(szSystem, Qt::CaseInsensitive)) {
         QString szErr;
         szErr = tr("Failed:")
               + tr("The system or architecture is not exist in the configure file ")
@@ -959,8 +970,46 @@ void CFrmUpdater::slotUpdate()
 
         QProcess proc;
         QFileInfo fi(m_DownloadFile.fileName());
-        if(fi.suffix().compare("gz", Qt::CaseInsensitive))
-        {
+        if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive)) {
+
+            QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
+            bool bRet = false;
+            if(!szAppImage.isEmpty()) {
+                QFile f(fi.filePath());
+                QFileInfo cf(szAppImage);
+                QString szExec;
+                szExec = cf.absoluteDir().absolutePath()
+                         + QDir::separator() + fi.fileName();
+                bRet = f.copy(szExec);
+                if(bRet) {
+                    QString szMsg(tr("Please exec:") + szExec);
+                    ui->lbState->setText(szMsg);
+                    qInfo(log) << szMsg;
+                    QUrl url = QUrl::fromLocalFile(cf.absoluteDir().absolutePath());
+                    if(!QDesktopServices::openUrl(url))
+                    {
+                        QString szErr;
+                        szErr = tr("Failed:") + tr("Open the folder fail:")
+                                + cf.absoluteDir().absolutePath();
+                        qCritical(log) << szErr;
+                    }
+                }
+            }
+            if(!bRet) {
+                QString szMsg(tr("Please exec: ") + fi.absoluteFilePath());
+                ui->lbState->setText(szMsg);
+                qInfo(log) << szMsg;
+                QUrl url = QUrl::fromLocalFile(fi.absoluteDir().absolutePath());
+                if(!QDesktopServices::openUrl(url))
+                {
+                    QString szErr;
+                    szErr = tr("Failed:") + tr("Open the folder fail:")
+                            + fi.absoluteDir().absolutePath();
+                    qCritical(log) << szErr;
+                }
+            }
+
+        } else if(fi.suffix().compare("gz", Qt::CaseInsensitive)) {
             QString szCmd;
             szCmd = m_DownloadFile.fileName();
             //启动安装程序
@@ -1444,13 +1493,24 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/CONFIG_INFO &info,
                          /*[out]*/CONFIG_TYPE &type)
 {
+    QString szSystem = QSysInfo::productType();
+#if defined(Q_OS_LINUX)
+    QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
+    if(!szAppImage.isEmpty())
+        szSystem = "AppImage";
+#endif
+
     QString szFileName;
 #if defined (Q_OS_WIN)
     szFileName = qApp->applicationName() + "_" + m_szCurrentVersion + "_Setup" + ".exe";
 #elif defined(Q_OS_ANDROID)
     szFileName = qApp->applicationName().toLower() + "_" + m_szCurrentVersion + ".apk";
 #elif defined(Q_OS_LINUX)
-    QFileInfo f(qApp->applicationFilePath());
+    QFileInfo f;
+    if(szAppImage.isEmpty())
+        f = QFileInfo(qApp->applicationFilePath());
+    else
+        f = QFileInfo(szAppImage);
     if(f.suffix().compare("AppImage", Qt::CaseInsensitive))
     {
         QString szVersion = m_szCurrentVersion;
@@ -1459,7 +1519,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 + "_" + szVersion + "_amd64.deb";
     } else {
         szFileName = qApp->applicationName()
-                + "_" + m_szCurrentVersion + ".tar.gz";
+                + "_" + m_szCurrentVersion + ".AppImage";
     }
 #endif
 
@@ -1504,7 +1564,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     QCommandLineOption oSystem(QStringList() << "s" << "system",
                              tr("Operating system"),
                              "Operating system",
-                             QSysInfo::productType());
+                             szSystem);
     parser.addOption(oSystem);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),

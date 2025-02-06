@@ -87,8 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->leCommand->setText("mkdir");
     ui->lePara->setText("-p /opt/RabbitCommonAdminAuthoriseTest");
 #endif
-#if Q_OS_WIN
-    ui->leExecWithRoot->setText("regedit");
+#if defined(Q_OS_WIN)
+    ui->leCommand->setText("regedit");
 #endif
 }
 
