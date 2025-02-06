@@ -521,9 +521,10 @@ int CFrmUpdater::CheckRedirectConfigFile()
                         + qApp->applicationName() + "/releases/download/"
                         + redirect.szVersion + "/update.json");
             m_Urls.push_back(github);
+            // https://master.dl.sourceforge.net/project/serialportassistant/v0.5.29/update.json?viasf=1
             QUrl sourceforge("https://sourceforge.net/projects/"
-                             + qApp->applicationName() +"/files/"
-                             + redirect.szVersion + "/update.json");
+                             + qApp->applicationName() +"/"
+                             + redirect.szVersion + "/update.json?viasf=1");
             m_Urls.push_back(sourceforge);
             // [Update configure file default urls]
         } else {
@@ -782,8 +783,8 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
  *       "name": "RabbitCommon_setup.exe",
  *       "md5": "",
  *       "urls": [
- *         "github.com/kanglin/rabbitcommon/windows",
- *         "gitlab.com/kl222/rabbitcommon/windows"
+ *         "https://github.com/kanglin/rabbitcommon/windows",
+ *         "https://gitlab.com/kl222/rabbitcommon/windows"
  *       ]
  *     },
  *     {
@@ -794,8 +795,8 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
  *       "name": "rabbitcommon_setup.deb",
  *       "md5": "",
  *       "urls": [
- *         "github.com/kanglin/rabbitcommon/ubuntu",
- *         "gitlab.com/kl222/rabbitcommon/ubuntu"
+ *         "https://github.com/kanglin/rabbitcommon/ubuntu",
+ *         "https://gitlab.com/kl222/rabbitcommon/ubuntu"
  *       ]
  *     }
  *   ]

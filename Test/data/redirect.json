@@ -56,8 +56,8 @@
                     "os": "XXXX",
                     "arch": "x86",
                     "urls": [
-                        "github.com/kanglin/rabbitcommon/windows/update_windows.json",
-                        "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+                        "https://github.com/kanglin/rabbitcommon/windows/update_windows.json",
+                        "https://gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
                     ]
                 }
             ]
@@ -69,16 +69,16 @@
                     "os": "windows",
                     "arch": "x86",
                     "urls": [
-                        "github.com/kanglin/rabbitcommon/windows/update_windows.json",
-                        "gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
+                        "https://github.com/kanglin/rabbitcommon/windows/update_windows.json",
+                        "https://gitlab.com/kl222/rabbitcommon/windows/update_windows.json"
                     ]
                 },
                 {
                     "os": "ubuntu",
                     "arch": "x86_64",
                     "urls": [
-                        "github.com/kanglin/rabbitcommon/windows/update_ubuntu.json",
-                        "gitlab.com/kl222/rabbitcommon/windows/update_ubuntu.json"
+                        "https://github.com/kanglin/rabbitcommon/windows/update_ubuntu.json",
+                        "https://gitlab.com/kl222/rabbitcommon/windows/update_ubuntu.json"
                     ]
                 }
             ]
