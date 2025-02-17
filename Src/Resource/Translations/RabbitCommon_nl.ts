@@ -64,104 +64,104 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="147"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="155"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="112"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="120"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="111"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="119"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="113"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="121"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="314"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="322"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="329"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="314"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="328"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="322"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="336"/>
         <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="321"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="329"/>
         <source> (From revision: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="336"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="344"/>
         <source>Failed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="336"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="344"/>
         <source>Download file is Failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="355"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="363"/>
         <source>Build Date/Time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="356"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="364"/>
         <source>File Path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="357"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="365"/>
         <source>Arguments: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="137"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="145"/>
         <source>Author: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="138"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="146"/>
         <source> Email: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="142"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="150"/>
         <source>Home page: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="149"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="157"/>
         <source>Copyright (C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="265"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="273"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="275"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="283"/>
         <source>Save donation picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="277"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="285"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="353"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="361"/>
         <source>### </source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,53 +305,53 @@
 <context>
     <name>CFileBrowser</name>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="50"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="49"/>
         <source>File browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="157"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="156"/>
         <source>Up folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="181"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="180"/>
         <source>Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="190"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="189"/>
         <source>Hidden file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="213"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="212"/>
         <source>Open with the System Associated Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="228"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="227"/>
         <source>Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="481"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="480"/>
         <source>Filetype </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="106"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="105"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="465"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="464"/>
         <source>File size is too big.
 You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileBrowser/FileBrowser.cpp" line="474"/>
+        <location filename="../../FileBrowser/FileBrowser.cpp" line="473"/>
         <source>Error opening the File!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -455,7 +455,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="196"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="420"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="601"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="602"/>
         <source>There is laster version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -497,7 +497,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="355"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="229"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="664"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="676"/>
         <source>OK(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -532,47 +532,47 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="532"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="533"/>
         <source>Don&apos;t find the urls in configure file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="650"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="662"/>
         <source>New version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="652"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="664"/>
         <source>New architecture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="701"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="713"/>
         <source>Parse file %1 fail. It isn&apos;t configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="654"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="666"/>
         <source>There is a new version, is it updated?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="691"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="703"/>
         <source>Open file fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="882"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="894"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="883"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="895"/>
         <source>Download ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="897"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="909"/>
         <source>Being install update ......</source>
         <translation type="unfinished"></translation>
     </message>
@@ -580,17 +580,19 @@ You can read files up to %1 MB.</source>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="315"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="454"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="469"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="531"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="590"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="610"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="638"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="908"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="918"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="927"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="977"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="989"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1004"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1048"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="532"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="591"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="611"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="650"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="920"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="930"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="939"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="992"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1006"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1027"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1039"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1054"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1098"/>
         <source>Failed:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -606,7 +608,7 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="454"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="590"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="591"/>
         <source>%2 process the file: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -616,179 +618,195 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="534"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="535"/>
         <source>Current version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="535"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="536"/>
         <source>version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="536"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="537"/>
         <source>min update version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="610"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="611"/>
         <source>There is not files in the configure file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="639"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="651"/>
         <source>The system or architecture is not exist in the configure file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="908"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="918"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="920"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="930"/>
         <source>Don&apos;t open download file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="927"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="939"/>
         <source>Md5sum is different. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="928"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="940"/>
         <source>Download file md5sum: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="930"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="942"/>
         <source>md5sum in Update.xml:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="978"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="985"/>
+        <source>Please exec:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="992"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1006"/>
+        <source>Open the folder fail:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="999"/>
+        <source>Please exec: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1028"/>
         <source>Execute install program error.%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="990"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1040"/>
         <source>Open file %1 fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1004"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1054"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1031"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1081"/>
         <source>The installer has started, Please close the application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1048"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1064"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1098"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1114"/>
         <source>Open home page fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1095"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1145"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1096"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1146"/>
         <source>Run after install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1211"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1261"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1212"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1262"/>
         <source>Is updating, be sure to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1475"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1536"/>
         <source>Configure file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1480"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1541"/>
         <source>Configure file output content:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1481"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1542"/>
         <source>: content is version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1482"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1543"/>
         <source>: content is file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1483"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1544"/>
         <source>: content is version and file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1488"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1549"/>
         <source>Package version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1493"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1554"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1498"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1559"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1504"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1565"/>
         <source>Operating system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1509"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1570"/>
         <source>Architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1514"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1575"/>
         <source>MD5 checksum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1518"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1579"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1523"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1584"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1528"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1589"/>
         <source>Package download urls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1534"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1595"/>
         <source>Project home url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1539"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1600"/>
         <source>Min update version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1544"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1605"/>
         <source>Set force flag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1069,7 +1087,7 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="188"/>
-        <source>  - Style</source>
+        <source>    - Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1269,32 +1287,32 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="575"/>
+        <location filename="../../Log/Log.cpp" line="577"/>
         <source>Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="576"/>
+        <location filename="../../Log/Log.cpp" line="578"/>
         <source>Log configure file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="591"/>
+        <location filename="../../Log/Log.cpp" line="593"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="623"/>
+        <location filename="../../Log/Log.cpp" line="625"/>
         <source>Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="623"/>
+        <location filename="../../Log/Log.cpp" line="625"/>
         <source>Log file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="642"/>
+        <location filename="../../Log/Log.cpp" line="644"/>
         <source>Log folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1309,19 +1327,19 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="202"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="239"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="197"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="234"/>
         <source>Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="210"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="212"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="207"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
         <translation type="unfinished"></translation>

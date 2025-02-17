@@ -36,7 +36,7 @@
     <message>
         <location filename="../../MainWindow.ui" line="56"/>
         <source>Thread core</source>
-        <translation type="unfinished"></translation>
+        <translation>線程崩潰</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="104"/>

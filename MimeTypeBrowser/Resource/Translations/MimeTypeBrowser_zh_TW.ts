@@ -104,7 +104,7 @@
     <message>
         <location filename="../../main.cpp" line="13"/>
         <source>Mime type browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Mime類型瀏覽器</translation>
     </message>
 </context>
 </TS>
