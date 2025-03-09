@@ -635,10 +635,10 @@ function(INSTALL_TARGET)
                 )
             # Install cmake configure files
             if(DEFINED PARA_NAMESPACE)
-                export(TARGETS ${PARA_NAME}
-                    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
-                    NAMESPACE ${PARA_NAMESPACE}::
-                    )
+                #export(TARGETS ${PARA_NAME}
+                #    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
+                #    NAMESPACE ${PARA_NAMESPACE}::
+                #    )
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
                         COMPONENT ${PARA_COMPONENT_DEV}
@@ -646,9 +646,9 @@ function(INSTALL_TARGET)
                     )
             else()
                 set(PARA_NAMESPACE ${PARA_NAME})
-                export(TARGETS ${PARA_NAME}
-                    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
-                    )
+                #export(TARGETS ${PARA_NAME}
+                #    APPEND FILE ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}Config.cmake
+                #    )
                 # Install cmake configure files
                 install(EXPORT ${PARA_EXPORT_NAME}
                     DESTINATION "${PARA_ARCHIVE}/cmake/${PARA_NAMESPACE}"
