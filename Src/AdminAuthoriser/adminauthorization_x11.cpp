@@ -74,7 +74,7 @@ namespace RabbitCommon {
 
 bool execAdminFallback(const QString &program, const QStringList &arguments);
 const QList<QPair<QString, QStringList> > suFontends = {
-    {"pkexec", {}}, // freedesktop
+    {"pkexec", {"env", "DISPLAY=" + QString::fromLocal8Bit(qgetenv("DISPLAY")), "XAUTHORITY=" + QString::fromLocal8Bit(qgetenv("XAUTHORITY"))}}, // freedesktop
     {"kdesu", {"-c"}},
     {"gksu", {}}
 };
@@ -91,6 +91,10 @@ bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringLi
         if(command.isEmpty()) continue;
 
         auto args = su.second;
+        // if("pkexec" == su.first) {
+        //     args << "env" << "DISPLAY=" + QString::fromLocal8Bit(qgetenv("DISPLAY"))
+        //          << "XAUTHORITY=" + QString::fromLocal8Bit(qgetenv("XAUTHORITY"));
+        // }
         args << program << arguments;
         bool bRet = QProcess::startDetached(command, args);
         qDebug(log) << "exec" << bRet << command << args;
