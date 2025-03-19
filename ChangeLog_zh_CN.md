@@ -2,6 +2,7 @@
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec
   - 更新：修改 AppImage
   - 移除捐赠比特币
+  - RabbitCommonUtils: 修改 RPATH 为 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
 
 ### 版本： v2.3.2
   - 修改日志文件名

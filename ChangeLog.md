@@ -2,6 +2,7 @@
   - CAdminAuthorization: Add pkexec in linux
   - Update: Modify install AppImage
   - Remove donate bitcoin
+  - RabbitCommonUtils: modify RPATH to "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
   
 ### Version v2.3.2
   - Modify install root dir

@@ -1087,14 +1087,14 @@ function(ADD_TARGET)
         if(APPLE)
             if(PARA_ISEXE)
                 SET(PARA_INSTALL_RPATH
-                    "@executable_path:@executable_path/../lib:@executable_path/../lib/${CMAKE_LIBRARY_ARCHITECTURE}:lib:../lib:../lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+                    "@executable_path:@executable_path/../${CMAKE_INSTALL_LIBDIR}")
             else()
                 SET(PARA_INSTALL_RPATH
-                    "@loader_path:@loader_path/../lib:@loader_path/../lib/${CMAKE_LIBRARY_ARCHITECTURE}:lib:../lib:../lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+                    "@loader_path:@loader_path/../${CMAKE_INSTALL_LIBDIR}")
             endif()
         else()
             SET(PARA_INSTALL_RPATH
-                "$ORIGIN:$ORIGIN/../lib:$ORIGIN/../lib/${CMAKE_LIBRARY_ARCHITECTURE}:lib:../lib:../lib/${CMAKE_LIBRARY_ARCHITECTURE}")
+                "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
         endif()
     endif()
     # setup rpath to where binary is at.
