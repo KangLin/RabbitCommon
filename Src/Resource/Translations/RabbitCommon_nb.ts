@@ -1238,51 +1238,51 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="700"/>
-        <location filename="../../RabbitCommonTools.cpp" line="711"/>
-        <location filename="../../RabbitCommonTools.cpp" line="714"/>
+        <location filename="../../RabbitCommonTools.cpp" line="715"/>
+        <location filename="../../RabbitCommonTools.cpp" line="726"/>
+        <location filename="../../RabbitCommonTools.cpp" line="729"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="725"/>
-        <location filename="../../RabbitCommonTools.cpp" line="727"/>
+        <location filename="../../RabbitCommonTools.cpp" line="740"/>
+        <location filename="../../RabbitCommonTools.cpp" line="742"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="730"/>
-        <location filename="../../RabbitCommonTools.cpp" line="742"/>
+        <location filename="../../RabbitCommonTools.cpp" line="745"/>
+        <location filename="../../RabbitCommonTools.cpp" line="757"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="744"/>
-        <location filename="../../RabbitCommonTools.cpp" line="746"/>
+        <location filename="../../RabbitCommonTools.cpp" line="759"/>
+        <location filename="../../RabbitCommonTools.cpp" line="761"/>
         <location filename="../../Log/DockDebugLog.cpp" line="130"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="748"/>
-        <location filename="../../RabbitCommonTools.cpp" line="750"/>
+        <location filename="../../RabbitCommonTools.cpp" line="763"/>
+        <location filename="../../RabbitCommonTools.cpp" line="765"/>
         <location filename="../../Log/DockDebugLog.cpp" line="133"/>
         <source>Open Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="752"/>
+        <location filename="../../RabbitCommonTools.cpp" line="767"/>
         <source>Open log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="754"/>
+        <location filename="../../RabbitCommonTools.cpp" line="769"/>
         <source>Open Log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="765"/>
-        <location filename="../../RabbitCommonTools.cpp" line="767"/>
+        <location filename="../../RabbitCommonTools.cpp" line="780"/>
+        <location filename="../../RabbitCommonTools.cpp" line="782"/>
         <source>Log dock</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1327,21 +1327,28 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="197"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="234"/>
-        <source>Critical</source>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="200"/>
+        <source>Application Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
-        <source>AdminAuthorization</source>
-        <comment>Enter Password</comment>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="202"/>
+        <source>I&apos;m Sorry, Application is Crash!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="207"/>
-        <source>AdminAuthorization</source>
-        <comment>Enter your root password to run the program:</comment>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="203"/>
+        <source>Current path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="205"/>
+        <source>Dump file: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="207"/>
+        <source>Log file: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

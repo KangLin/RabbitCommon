@@ -546,6 +546,29 @@ bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 #endif
 }
 
+bool CTools::StartByRoot(bool bQuitOld)
+{
+    bool bRet = true;
+    if(!HasAdministratorPrivilege()) {
+        auto para = QApplication::arguments();
+        if(!para.isEmpty())
+            para.removeFirst();
+        if(para.isEmpty())
+            bRet = executeByRoot(QApplication::applicationFilePath());
+        else
+            bRet = executeByRoot(QApplication::applicationFilePath(),
+                                 para);
+        if(bRet) {
+            if(bQuitOld)
+                QApplication::quit();
+        }
+        else
+            qCritical(log) << "Start by root fail:" << QApplication::applicationFilePath()
+                           << para;
+    }
+    return bRet;
+}
+
 int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool bAllUser)
 {
     Q_UNUSED(szName)

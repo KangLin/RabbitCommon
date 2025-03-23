@@ -106,7 +106,7 @@ bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringLi
 	SHELLEXECUTEINFOW shellExecuteInfo;
 	ZeroMemory(&shellExecuteInfo, sizeof(SHELLEXECUTEINFOW));
 	shellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
-	shellExecuteInfo.lpVerb = L"runas";
+	shellExecuteInfo.lpVerb = L"runas";  // 操作（runas表示以管理员身份运行）
 	shellExecuteInfo.lpFile = (wchar_t *)file.utf16();
 	shellExecuteInfo.lpParameters = (wchar_t *)args.utf16();
 	shellExecuteInfo.nShow = SW_SHOW;

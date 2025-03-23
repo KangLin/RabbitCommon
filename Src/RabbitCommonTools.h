@@ -194,6 +194,7 @@ public:
      */
     static bool executeByRoot(const QString &program,
                               const QStringList &arguments = QStringList());
+    static bool StartByRoot(bool bQuitOld = false);
 
     /*!
      * \brief InstallStartRun: auto run when startup

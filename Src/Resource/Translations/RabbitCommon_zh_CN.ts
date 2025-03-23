@@ -1259,69 +1259,78 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="700"/>
-        <location filename="../../RabbitCommonTools.cpp" line="711"/>
-        <location filename="../../RabbitCommonTools.cpp" line="714"/>
+        <location filename="../../RabbitCommonTools.cpp" line="715"/>
+        <location filename="../../RabbitCommonTools.cpp" line="726"/>
+        <location filename="../../RabbitCommonTools.cpp" line="729"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="725"/>
-        <location filename="../../RabbitCommonTools.cpp" line="727"/>
+        <location filename="../../RabbitCommonTools.cpp" line="740"/>
+        <location filename="../../RabbitCommonTools.cpp" line="742"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="730"/>
-        <location filename="../../RabbitCommonTools.cpp" line="742"/>
+        <location filename="../../RabbitCommonTools.cpp" line="745"/>
+        <location filename="../../RabbitCommonTools.cpp" line="757"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="744"/>
-        <location filename="../../RabbitCommonTools.cpp" line="746"/>
+        <location filename="../../RabbitCommonTools.cpp" line="759"/>
+        <location filename="../../RabbitCommonTools.cpp" line="761"/>
         <location filename="../../Log/DockDebugLog.cpp" line="130"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="748"/>
-        <location filename="../../RabbitCommonTools.cpp" line="750"/>
+        <location filename="../../RabbitCommonTools.cpp" line="763"/>
+        <location filename="../../RabbitCommonTools.cpp" line="765"/>
         <location filename="../../Log/DockDebugLog.cpp" line="133"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="752"/>
+        <location filename="../../RabbitCommonTools.cpp" line="767"/>
         <source>Open log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="754"/>
+        <location filename="../../RabbitCommonTools.cpp" line="769"/>
         <source>Open Log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="765"/>
-        <location filename="../../RabbitCommonTools.cpp" line="767"/>
+        <location filename="../../RabbitCommonTools.cpp" line="780"/>
+        <location filename="../../RabbitCommonTools.cpp" line="782"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="200"/>
         <source>Application Error</source>
-        <translation type="vanished">应用错误</translation>
+        <translation>应用错误</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="202"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation type="vanished">应用崩溃！</translation>
+        <translation>应用崩溃！</translation>
     </message>
     <message>
-        <source>The current path: </source>
-        <translation type="vanished">当前目录：</translation>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="203"/>
+        <source>Current path: </source>
+        <translation>录前目录：</translation>
     </message>
     <message>
-        <source>The dump file: </source>
-        <translation type="vanished">转储文件：</translation>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="205"/>
+        <source>Dump file: </source>
+        <translation>崩溃文件：</translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="207"/>
+        <source>Log file: </source>
+        <translation>日志文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="577"/>
@@ -1368,22 +1377,18 @@ You can read files up to %1 MB.</source>
         <translation>打开内核崩溃文件夹</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="197"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="234"/>
         <source>Critical</source>
-        <translation>错误</translation>
+        <translation type="vanished">错误</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation>输入密码</translation>
+        <translation type="vanished">输入密码</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="207"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation>输入 root 密码运行程序：</translation>
+        <translation type="vanished">输入 root 密码运行程序：</translation>
     </message>
 </context>
 <context>
