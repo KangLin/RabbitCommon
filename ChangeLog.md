@@ -3,7 +3,8 @@
   - Update: Modify install AppImage
   - Remove donate bitcoin
   - RabbitCommonUtils: modify RPATH to "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
-  
+  - Add bool CTools::StartByRoot(bool bQuitOld)
+
 ### Version v2.3.2
   - Modify install root dir
   - Log: modify log file name
