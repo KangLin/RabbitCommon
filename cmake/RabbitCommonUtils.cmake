@@ -113,10 +113,11 @@ endmacro()
 # 输出参数：
 #   OUT_VERSION: 版本号
 #   OUT_REVISION: 版本修正号
+#   OUT_TAG: 标签
 # 参见：
 #   语义化版本: https://semver.org/lang/zh-CN/
 function(GET_VERSION)
-    cmake_parse_arguments(PARA "MATCH_PATTEN" "SOURCE_DIR;OUT_VERSION;OUT_REVISION" "" ${ARGN})
+    cmake_parse_arguments(PARA "MATCH_PATTEN" "SOURCE_DIR;OUT_VERSION;OUT_REVISION;OUT_TAG" "" ${ARGN})
     # Find Git Version Patch
 
     if(NOT DEFINED PARA_SOURCE_DIR)
@@ -144,6 +145,15 @@ function(GET_VERSION)
                 COMMAND ${GIT} rev-parse --short HEAD
                 OUTPUT_VARIABLE _OUT_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE
             )
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${PARA_SOURCE_DIR}
+                COMMAND ${GIT} describe --abbrev=0 --tags --match "${PARA_MATCH_PATTEN}"
+                OUTPUT_VARIABLE _OUT_TAG OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+            IF(_OUT_TAG AND DEFINED PARA_OUT_TAG)
+                string(REPLACE "v" "" _OUT_TAG ${_OUT_TAG})
+                SET(${PARA_OUT_TAG} ${_OUT_TAG} PARENT_SCOPE)
+            ENDIF()
             IF(NOT _OUT_VERSION)
                 SET(_OUT_VERSION ${_OUT_REVISION})
             ENDIF()
