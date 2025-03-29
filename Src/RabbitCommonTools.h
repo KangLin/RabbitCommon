@@ -192,9 +192,13 @@ public:
      * \param program
      * \param arguments
      */
+    Q_DECL_DEPRECATED_X("Will be move to private in v3, with executeWithAdministratorPrivilege")
     static bool executeByRoot(const QString &program,
                               const QStringList &arguments = QStringList());
-    static bool StartByRoot(bool bQuitOld = false);
+    static bool ExecuteWithAdministratorPrivilege(
+        const QString &program,
+        const QStringList &arguments = QStringList());
+    static bool StartWithAdministratorPrivilege(bool bQuitOld = false);
 
     /*!
      * \brief InstallStartRun: auto run when startup

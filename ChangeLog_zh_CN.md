@@ -3,7 +3,9 @@
   - 更新：修改 AppImage
   - 移除捐赠比特币
   - RabbitCommonUtils: 修改 RPATH 为 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
-  - 增加 bool CTools::StartByRoot(bool bQuitOld)
+  - CTools
+    - 增加 bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
+    - 重命名 executeByRoot 为 ExecuteWithAdministratorPrivilege
 
 ### 版本： v2.3.2
   - 修改日志文件名

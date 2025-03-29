@@ -537,7 +537,7 @@ bool CTools::HasAdministratorPrivilege()
 #endif
 }
 
-bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
+bool CTools::ExecuteWithAdministratorPrivilege(const QString &program, const QStringList &arguments)
 {
 #ifdef HAVE_ADMINAUTHORISER
     return CAdminAuthoriser::Instance()->execute(program, arguments);
@@ -546,7 +546,12 @@ bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
 #endif
 }
 
-bool CTools::StartByRoot(bool bQuitOld)
+bool CTools::executeByRoot(const QString &program, const QStringList &arguments)
+{
+    return ExecuteWithAdministratorPrivilege(program, arguments);
+}
+
+bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
 {
     bool bRet = true;
     if(!HasAdministratorPrivilege()) {
@@ -554,10 +559,12 @@ bool CTools::StartByRoot(bool bQuitOld)
         if(!para.isEmpty())
             para.removeFirst();
         if(para.isEmpty())
-            bRet = executeByRoot(QApplication::applicationFilePath());
+            bRet = ExecuteWithAdministratorPrivilege(
+                QApplication::applicationFilePath());
         else
-            bRet = executeByRoot(QApplication::applicationFilePath(),
-                                 para);
+            bRet = ExecuteWithAdministratorPrivilege(
+                QApplication::applicationFilePath(),
+                para);
         if(bRet) {
             if(bQuitOld)
                 QApplication::quit();
