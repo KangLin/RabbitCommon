@@ -428,11 +428,11 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
               </LINUX_APPIMAGE>
               <ANDROID>
                   <URL>url</URL>
-              </ANDROID>   
+              </ANDROID>
       </REDIRECT>
-  
+
 - See: https://github.com/KangLin/SerialPortAssistant
-  
+
 ![Updater](documents/image/updater_en.png "Updater")
 
 #### Execute the program with administrator privileges
@@ -449,7 +449,7 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
 - Public interface:
 
-      RabbitCommon::CTools::executeByRoot("regedit", QStringList());
+      RabbitCommon::CTools::ExecuteWithAdministratorPrivilege("regedit", QStringList());
 
 #### The program starts automatically
 

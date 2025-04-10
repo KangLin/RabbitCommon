@@ -437,7 +437,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
 + 公开接口：
 
-      RabbitCommon::CTools::executeByRoot("regedit", QStringList());
+      RabbitCommon::CTools::ExecuteWithAdministratorPrivilege("regedit", QStringList());
 
 #### 程序开机自启动
 
