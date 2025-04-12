@@ -567,7 +567,8 @@ void OpenLogConfigureFile()
 
     auto env = QProcessEnvironment::systemEnvironment();
     bool bRet = false;
-    if(env.value("SNAP").isEmpty() && env.value("APPDIR").isEmpty()) {
+    if(env.value("SNAP").isEmpty() && env.value("APPDIR").isEmpty()
+        && env.value("FLATPAK_ID").isEmpty()) {
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
     }
     if(bRet)
@@ -618,7 +619,7 @@ void OpenLogFile()
     }
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty())
+    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty())
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
@@ -637,7 +638,7 @@ void OpenLogFolder()
     }
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty())
+    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty())
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
     if(!bRet) {
         CFileBrowser* f = new CFileBrowser();
