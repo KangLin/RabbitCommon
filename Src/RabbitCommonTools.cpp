@@ -556,14 +556,17 @@ bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
     bool bRet = true;
     if(!HasAdministratorPrivilege()) {
         auto para = QApplication::arguments();
+        QString szApp = QApplication::applicationFilePath();
+        QString szAppImage = qEnvironmentVariable("APPIMAGE");
+        qDebug(log) << "App:" << szApp << szAppImage;
+        if(!szAppImage.isEmpty())
+            szApp = szAppImage;
         if(!para.isEmpty())
             para.removeFirst();
         if(para.isEmpty())
-            bRet = ExecuteWithAdministratorPrivilege(
-                QApplication::applicationFilePath());
+            bRet = ExecuteWithAdministratorPrivilege(szApp);
         else
-            bRet = ExecuteWithAdministratorPrivilege(
-                QApplication::applicationFilePath(),
+            bRet = ExecuteWithAdministratorPrivilege(szApp,
                 para);
         if(bRet) {
             if(bQuitOld)
