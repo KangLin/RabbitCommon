@@ -52,6 +52,7 @@ public:
     explicit CTitleBar(QWidget *parent);
 
     /* The default button */
+    int VisibleIconButton(bool bVisible);
     int VisibleTitleButton(bool bVisible);
     int VisibleMaximizeButton(bool bVisible);
     int VisibleMinimizeButton(bool bVisible);
@@ -70,7 +71,7 @@ private Q_SLOTS:
     void slotTopLevelChanged(bool topLevel);
 
 private:
-    QLabel *m_pTitle;
+    QLabel *m_pTitle, *m_pIcon;
     QPushButton *m_pCloseButton, *m_pFloatButton, *m_pMaxButton, *m_pMinButton;
     QList<QWidget*> m_pLstWdiget;    
 };

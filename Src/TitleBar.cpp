@@ -4,6 +4,7 @@
 #include "TitleBar.h"
 #include <QHBoxLayout>
 #include <QDockWidget>
+#include <QMargins>
 
 namespace RabbitCommon {
 
@@ -23,6 +24,7 @@ QPushButton* CTitleBar::CreateSmallPushButton(QIcon icon, QWidget *parent) {
 CTitleBar::CTitleBar(QWidget *parent)
     : QWidget{parent},
     m_pTitle(nullptr),
+    m_pIcon(nullptr),
     m_pCloseButton(nullptr),
     m_pFloatButton(nullptr),
     m_pMaxButton(nullptr),
@@ -44,6 +46,33 @@ CTitleBar::CTitleBar(QWidget *parent)
     #else
         layout->setSpacing(0);
     #endif
+
+    m_pIcon = new QLabel(this);
+    Q_ASSERT(m_pIcon);
+    m_pIcon->setWindowIcon(parent->windowIcon());
+    check = connect(parent, &QWidget::windowIconChanged,
+                    this, [&](const QIcon &icon){
+                        do {
+                            if(icon.isNull())
+                                break;
+                            auto sizeList = icon.availableSizes();
+                            if(sizeList.isEmpty())
+                                break;
+                            QPixmap p = icon.pixmap(*sizeList.begin());
+                            if(p.isNull())
+                                break;
+                            QMargins cm = m_pIcon->contentsMargins();
+                            int w = m_pIcon->height() - cm.top() - cm.bottom();
+                            p = p.scaled(w, w, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                            m_pIcon->setPixmap(p);
+                            //m_pIcon->setScaledContents(true);
+                            return;
+                        }while(0);
+                        m_pIcon->setPixmap(QPixmap());
+                    });
+    Q_ASSERT(check);
+    layout->addWidget(m_pIcon);
+    m_pIcon->show();
 
     m_pTitle = new QLabel(this);
     Q_ASSERT(m_pTitle);
@@ -117,8 +146,15 @@ int CTitleBar::AddWidgets(QList<QWidget*> pLstWidget)
     QHBoxLayout *layout = qobject_cast<QHBoxLayout*>(this->layout());
     foreach (auto w, pLstWidget) {
         if(layout)
-            layout->insertWidget(1, w);
+            layout->insertWidget(2, w);
     }
+    return 0;
+}
+
+int CTitleBar::VisibleIconButton(bool bVisible)
+{
+    if(m_pIcon)
+        m_pIcon->setVisible(bVisible);
     return 0;
 }
 
