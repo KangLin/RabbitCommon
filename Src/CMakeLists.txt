@@ -395,7 +395,7 @@ message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
 message("RabbitCommon_QT_COMPONENTS:${RabbitCommon_QT_COMPONENTS}")
 
 # 设置 Release 时，qDebug 打印文件名与行号
-option(QT_MESSAGELOGCONTEXT "Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release" OFF)
+option(QT_MESSAGELOGCONTEXT "Use qt message log context(__FILE__, __LIEN__, __FUNCTION__) in release" ON)
 if(QT_MESSAGELOGCONTEXT)
     list(APPEND RabbitCommon_DEFINITIONS QT_MESSAGELOGCONTEXT)
 endif()
