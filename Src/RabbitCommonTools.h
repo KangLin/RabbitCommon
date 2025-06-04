@@ -271,7 +271,7 @@ public:
     static void InsertStyleMenu(QMenu* pMenu, QAction* before, QWidget *parent = nullptr);
     /*!
      * \brief Get log menu
-     * \param parentMainWindow: QMainWindow pointer
+     * \param parentMainWindow: QMainWindow pointer isn't nullptr, then add log QDockWidget
      * \return 
      */
     static QMenu* GetLogMenu(QWidget *parentMainWindow = nullptr);
