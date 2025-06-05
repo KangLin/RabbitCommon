@@ -1,7 +1,7 @@
 # 作者：康林<kl222@126.com>
 
 #TODO: Change version
-version: "v2.3.2.{build}"
+version: "v2.3.3.{build}"
 
 environment:
   STOREPASS:
@@ -10,7 +10,7 @@ environment:
     secure: EoBPaPuJ6u9UDYpQWjKhUg==
   QT_PASSWORD:
     secure: ejAYGgB+3sBispRxUSr0xw==
-  RabbitCommon_VERSION: "v2.3.2"
+  RabbitCommon_VERSION: "v2.3.3"
 
   matrix:
   ##### msvc 2015 ########

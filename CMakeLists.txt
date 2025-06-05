@@ -28,7 +28,7 @@ endif()
 
 # 参见：
 #   语义化版本: https://semver.org/lang/zh-CN/
-SET(RabbitCommon_VERSION "2.3.2")
+SET(RabbitCommon_VERSION "2.3.3")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
