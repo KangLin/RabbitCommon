@@ -557,7 +557,12 @@ bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
     if(!HasAdministratorPrivilege()) {
         auto para = QApplication::arguments();
         QString szApp = QApplication::applicationFilePath();
-        QString szAppImage = qEnvironmentVariable("APPIMAGE");
+        QString szAppImage;
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) && defined(Q_OS_WIN)
+        szAppImage = qEnvironmentVariable("APPIMAGE");
+#else
+        szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
+#endif
         qDebug(log) << "App:" << szApp << szAppImage;
         if(!szAppImage.isEmpty())
             szApp = szAppImage;
