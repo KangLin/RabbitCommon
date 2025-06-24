@@ -23,6 +23,9 @@ Abstract:
 #include <QCursor>
 #include <QLoggingCategory>
 #include <QApplication>
+#ifdef HAVE_WebEngineWidgets
+#include <QWebEngineView>
+#endif
 
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
@@ -104,18 +107,23 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     Q_ASSERT(check);
     m_Download->Start(urls);
 
+#if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
+    m_pLicense = new QWebEngineView(ui->tabWidget);
+    m_pChangeLog = new QWebEngineView(ui->tabWidget);
+    m_pThanks = new QWebEngineView(ui->tabWidget);
+#else
     m_pLicense = new QTextEdit(ui->tabWidget);
     if(m_pLicense)
         qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
-
+    
     m_pChangeLog = new QTextEdit(ui->tabWidget);
     if(m_pChangeLog)
         qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
-
+    
     m_pThanks = new QTextEdit(ui->tabWidget);
     if(m_pThanks)
         qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
-
+#endif
     AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
     AppendFile(m_pLicense, "License", tr("License"));
     AppendFile(m_pThanks, "Authors", tr("Thanks"));
@@ -194,10 +202,19 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
         QByteArray text;
         QString szHtml;
         text = readme.readAll();
+
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
         szHtml = MarkDownToHtml(text);
+#else
+        szHtml = text;
+#endif
         if(szHtml.isEmpty())
             szHtml = text;
 
+#if defined(HAVE_WebEngineWidgets)
+        QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
+        pEdit->setHtml(szHtml);
+#else
         QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
         if(pEdit) {
             pEdit->setHtml(szHtml);
@@ -206,7 +223,8 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
             cursor.movePosition(QTextCursor::Start);
             pEdit->setTextCursor(cursor);
         }
-
+#endif
+        pEdit->show();
         readme.close();
         if(pWidget)
             ui->tabWidget->addTab(pWidget, szTitle);

@@ -521,8 +521,8 @@ int CFrmUpdater::CheckRedirectConfigFile()
                         + qApp->applicationName() + "/releases/download/"
                         + redirect.szVersion + "/update.json");
             m_Urls.push_back(github);
-            // https://master.dl.sourceforge.net/project/serialportassistant/v0.5.29/update.json?viasf=1
-            QUrl sourceforge("https://sourceforge.net/projects/"
+            // https://master.dl.sourceforge.net/project/rabbitremotecontrol/v0.0.36/update.json?viasf=1
+            QUrl sourceforge("https://master.dl.sourceforge.net/project/"
                              + qApp->applicationName() +"/"
                              + redirect.szVersion + "/update.json?viasf=1");
             m_Urls.push_back(sourceforge);

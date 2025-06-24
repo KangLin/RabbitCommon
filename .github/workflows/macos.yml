@@ -37,7 +37,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      qt_modules: ${{matrix.qt_modules}}
+      qt_modules: qtwebengine ${{matrix.qt_modules}}
       VCPKGGITCOMMITID: 59aeb8fe8fe1c980de6bd5ba634cf21024522d81
       RabbitCommon_VERSION: v2.3.3
       artifact_name: build_macos

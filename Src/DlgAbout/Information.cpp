@@ -9,6 +9,9 @@
 #include <QLoggingCategory>
 #include <QMetaEnum>
 #include <QSslSocket>
+#ifdef HAVE_WebEngineWidgets
+#include <QWebEngineView>
+#endif
 
 #include "Information.h"
 #include "ui_Information.h"
@@ -174,18 +177,28 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         qCritical(log) << "Title or context is empty";
         return;
     }
+    QString szHtml = szContext;
+#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
+    szHtml = CDlgAbout::MarkDownToHtml(szContext);
+#endif
 
+#if defined(HAVE_WebEngineWidgets)
+    QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
+    if(!pEdit) return;
+    pEdit->setHtml(szHtml);
+#else
     QTextEdit* pEdit = new QTextEdit(ui->tabWidget);
     if(!pEdit) return;
     pEdit->setReadOnly(true);
     pEdit->setWordWrapMode(QTextOption::NoWrap);
-    ui->tabWidget->addTab(pEdit, szTitle);
-    pEdit->setHtml(CDlgAbout::MarkDownToHtml(szContext));
+    pEdit->setHtml(szHtml);
     //把光标移动文档开始处
     QTextCursor cursor = pEdit->textCursor();
     cursor.movePosition(QTextCursor::Start);
     pEdit->setTextCursor(cursor);
+#endif
     pEdit->show();
+    ui->tabWidget->addTab(pEdit, szTitle);
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
