@@ -45,7 +45,7 @@ Q_SIGNALS:
     //! \param szItem: item of double clicked
     //! \param bDir:
     //!          - true: item is directory
-    //!          - false: item is folder
+    //!          - false: item is file
     void sigDoubleClicked(const QString &szItem, bool bDir);
 
 private:

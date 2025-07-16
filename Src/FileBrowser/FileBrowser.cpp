@@ -409,8 +409,8 @@ CFileBrowser::~CFileBrowser()
 
 void CFileBrowser::setRootPath(const QString dir)
 {
-    m_pModel->setRootPath(dir);
-    m_pTree->setRootIndex(m_pModel->index(dir));
+    auto index = m_pModel->setRootPath(dir);
+    m_pTree->setRootIndex(index);
 }
 
 QString CFileBrowser::rootPath() const
