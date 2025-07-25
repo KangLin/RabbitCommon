@@ -213,6 +213,8 @@ int CLog::LoadConfigure(const QString &szFile)
 #endif
 
     QDir d;
+    if(m_szPath.isEmpty())
+        m_szPath =  CDir::Instance()->GetDirLog();
     if(!d.exists(m_szPath))
     {
         if(!d.mkpath(m_szPath)) {
