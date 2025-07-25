@@ -203,11 +203,8 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
         QString szHtml;
         text = readme.readAll();
 
-#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
-        szHtml = MarkDownToHtml(text);
-#else
-        szHtml = text;
-#endif
+        szHtml = RabbitCommon::CTools::MarkDownToHtml(text);
+
         if(szHtml.isEmpty())
             szHtml = text;
 
@@ -230,53 +227,6 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
             ui->tabWidget->addTab(pWidget, szTitle);
     }
     return 0;
-}
-
-QString CDlgAbout::MarkDownToHtml(const QString &szText)
-{
-    QString szRetureText = szText;
-
-#ifdef HAVE_CMARK_GFM
-
-    // TODO make this method which takes input and provides output: cmark_to_html()
-    cmark_mem* mem = cmark_get_default_mem_allocator();
-    // TODO control which extensions to use in MindForger config
-    cmark_llist* syntax_extensions = cmark_list_syntax_extensions(mem);
-    // TODO parse options
-    cmark_parser* parser = cmark_parser_new(CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE);
-    for (cmark_llist* tmp = syntax_extensions; tmp; tmp = tmp->next) {
-        cmark_parser_attach_syntax_extension(parser, (cmark_syntax_extension*)tmp->data);
-    }
-    cmark_parser_feed(parser, szText.toStdString().c_str(), szText.toStdString().length());
-
-    //cmark_node* doc = cmark_parse_document (markdown->c_str(), markdown->size(), CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE);
-    cmark_node* doc = cmark_parser_finish(parser);
-    if(doc) {
-        char *rendered_html = cmark_render_html_with_mem(doc, CMARK_OPT_DEFAULT | CMARK_OPT_UNSAFE, parser->syntax_extensions, mem);
-        if (rendered_html) {
-            szRetureText = rendered_html;
-            free(rendered_html);
-        }
-        cmark_node_free(doc);
-    }
-    cmark_llist_free(mem, syntax_extensions);
-    cmark_parser_free(parser);
-
-#elif HAVE_CMARK
-
-    char* pHtml = cmark_markdown_to_html(szText.toStdString().c_str(),
-                                         szText.toStdString().length(),
-                                         0);
-    if(pHtml)
-    {
-        szRetureText = pHtml;
-        free(pHtml);
-    } else {
-        qCritical(log) << "cmark_markdown_to_html fail";
-    }
-
-#endif
-    return szRetureText;
 }
 
 void CDlgAbout::on_pbOK_clicked()

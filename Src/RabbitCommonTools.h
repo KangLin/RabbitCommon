@@ -220,7 +220,9 @@ public:
 
     static QString GetCurrentUser();
     static QString GetHostName();
-    
+
+    static QString MarkDownToHtml(const QString &szText);
+
     /*!
      * \brief GenerateDesktopFile: Generate desktop file
      * \param szPath: the path of desktop file.
@@ -229,7 +231,7 @@ public:
      */
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szName = QString());
-    
+
 #ifdef HAVE_RABBITCOMMON_GUI
     /*!
      * \brief Add style menu after pMenu

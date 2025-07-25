@@ -178,9 +178,8 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         return;
     }
     QString szHtml = szContext;
-#if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
-    szHtml = CDlgAbout::MarkDownToHtml(szContext);
-#endif
+
+    szHtml = RabbitCommon::CTools::MarkDownToHtml(szContext);
 
 #if defined(HAVE_WebEngineWidgets)
     QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);

@@ -123,7 +123,6 @@ private:
     QWidget* m_pChangeLog;
     QWidget* m_pThanks;
     int AppendFile(QWidget *pWidget, const QString &szFile, const QString &szTitle);
-    static QString MarkDownToHtml(const QString &szText);
     friend class CInformation;
     
 protected:
