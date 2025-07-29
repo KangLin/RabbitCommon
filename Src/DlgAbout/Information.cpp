@@ -3,7 +3,7 @@
 
 #include <QLibraryInfo>
 #include <QHostInfo>
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QStandardPaths>
 #include <QProcessEnvironment>
 #include <QLoggingCategory>
@@ -188,8 +188,10 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
     if(!pEdit) return;
     pEdit->setHtml(szHtml);
 #else
-    QTextEdit* pEdit = new QTextEdit(ui->tabWidget);
+    QTextBrowser* pEdit = new QTextBrowser(ui->tabWidget);
     if(!pEdit) return;
+    pEdit->setOpenExternalLinks(true);
+    pEdit->setOpenLinks(true);
     pEdit->setReadOnly(true);
     pEdit->setWordWrapMode(QTextOption::NoWrap);
     #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)

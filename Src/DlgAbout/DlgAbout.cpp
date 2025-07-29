@@ -13,7 +13,7 @@ Abstract:
     This file contains about dialog implement.
  */
 
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QFile>
 #include <QDir>
 #include <QMenu>
@@ -96,17 +96,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_pChangeLog = new QWebEngineView(ui->tabWidget);
     m_pThanks = new QWebEngineView(ui->tabWidget);
 #else
-    m_pLicense = new QTextEdit(ui->tabWidget);
-    if(m_pLicense)
-        qobject_cast<QTextEdit*>(m_pLicense)->setReadOnly(true);
-    
-    m_pChangeLog = new QTextEdit(ui->tabWidget);
-    if(m_pChangeLog)
-        qobject_cast<QTextEdit*>(m_pChangeLog)->setReadOnly(false);
-    
-    m_pThanks = new QTextEdit(ui->tabWidget);
-    if(m_pThanks)
-        qobject_cast<QTextEdit*>(m_pThanks)->setReadOnly(false);
+    m_pLicense = new QTextBrowser(ui->tabWidget);
+    m_pChangeLog = new QTextBrowser(ui->tabWidget);
+    m_pThanks = new QTextBrowser(ui->tabWidget);
 #endif
     AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
     AppendFile(m_pLicense, "License", tr("License"));
@@ -195,8 +187,11 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
         QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
         pEdit->setHtml(szHtml);
 #else
-        QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
+        QTextBrowser* pEdit = qobject_cast<QTextBrowser*>(pWidget);
         if(pEdit) {
+            pEdit->setOpenExternalLinks(true);
+            pEdit->setOpenLinks(true);
+            pEdit->setReadOnly(true);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
             pEdit->setMarkdown(text);
 #else
