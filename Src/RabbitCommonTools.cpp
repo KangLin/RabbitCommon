@@ -75,8 +75,6 @@
 #ifdef HAVE_CMARK_GFM
 #include "cmark-gfm.h"
 #include "cmark-gfm-core-extensions.h"
-#include "registry.h"
-#include "parser.h"
 #endif
 
 inline void g_RabbitCommon_InitResource()
@@ -123,7 +121,13 @@ CTools::CTools() : QObject()
 #else
     , m_bShowMaxWindow(false)
 #endif
-{}
+{
+#ifdef HAVE_CMARK_GFM
+    cmark_gfm_core_extensions_ensure_registered();
+//     // free extensions at application exit (cmark-gfm is not able to register/unregister more than once)
+//     std::atexit(cmark_release_plugins);
+#endif
+}
 
 CTools::~CTools()
 {
@@ -744,7 +748,20 @@ QString CTools::GetHostName()
 QString CTools::MarkDownToHtml(const QString &szText)
 {
     QString szHtml = szText;
-
+#if defined(HAVE_CMARK_GFM) || defined(HAVE_CMARK)
+    char* pHtml = cmark_markdown_to_html(szText.toStdString().c_str(),
+                                         szText.toStdString().length(),
+                                         CMARK_OPT_DEFAULT);
+    if(pHtml)
+    {
+        szHtml = pHtml;
+        free(pHtml);
+    } else {
+        qCritical(log) << "cmark_markdown_to_html fail";
+    }
+    return szHtml;
+#endif
+/*
 #ifdef HAVE_CMARK_GFM
 
     // TODO make this method which takes input and provides output: cmark_to_html()
@@ -771,20 +788,8 @@ QString CTools::MarkDownToHtml(const QString &szText)
     cmark_llist_free(mem, syntax_extensions);
     cmark_parser_free(parser);
 
-#elif HAVE_CMARK
-
-    char* pHtml = cmark_markdown_to_html(szText.toStdString().c_str(),
-                                         szText.toStdString().length(),
-                                         0);
-    if(pHtml)
-    {
-        szHtml = pHtml;
-        free(pHtml);
-    } else {
-        qCritical(log) << "cmark_markdown_to_html fail";
-    }
-
 #endif
+*/
     return szHtml;
 }
 

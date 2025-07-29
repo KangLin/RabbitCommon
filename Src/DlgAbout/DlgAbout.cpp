@@ -34,16 +34,6 @@ Abstract:
 #include "Download.h"
 #include "Information.h"
 
-#ifdef HAVE_CMARK
-    #include "cmark.h"
-#endif
-#ifdef HAVE_CMARK_GFM
-    #include "cmark-gfm.h"
-    #include "cmark-gfm-core-extensions.h"
-    #include "registry.h"
-    #include "parser.h"
-#endif
-
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout")
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
@@ -53,12 +43,6 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_pChangeLog(nullptr),
     m_pThanks(nullptr)
 {
-#ifdef HAVE_CMARK_GFM
-    cmark_gfm_core_extensions_ensure_registered();
-    // free extensions at application exit (cmark-gfm is not able to register/unregister more than once)
-    std::atexit(cmark_release_plugins);
-#endif
-
     ui->setupUi(this);
 
     setAttribute(Qt::WA_QuitOnClose, true);
@@ -200,21 +184,24 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
     if(readme.open(QFile::ReadOnly))
     {
         QByteArray text;
-        QString szHtml;
         text = readme.readAll();
-
+        QString szHtml;
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         szHtml = RabbitCommon::CTools::MarkDownToHtml(text);
-
+#endif
         if(szHtml.isEmpty())
             szHtml = text;
-
 #if defined(HAVE_WebEngineWidgets)
         QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
         pEdit->setHtml(szHtml);
 #else
         QTextEdit* pEdit = qobject_cast<QTextEdit*>(pWidget);
         if(pEdit) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+            pEdit->setMarkdown(text);
+#else
             pEdit->setHtml(szHtml);
+#endif
             //把光标移动文档开始处
             QTextCursor cursor = pEdit->textCursor();
             cursor.movePosition(QTextCursor::Start);

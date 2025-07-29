@@ -177,10 +177,12 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         qCritical(log) << "Title or context is empty";
         return;
     }
-    QString szHtml = szContext;
-
+    QString szHtml;
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     szHtml = RabbitCommon::CTools::MarkDownToHtml(szContext);
-
+#endif
+    if(szHtml.isEmpty())
+        szHtml = szContext;
 #if defined(HAVE_WebEngineWidgets)
     QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
     if(!pEdit) return;
@@ -190,7 +192,11 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
     if(!pEdit) return;
     pEdit->setReadOnly(true);
     pEdit->setWordWrapMode(QTextOption::NoWrap);
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    pEdit->setMarkdown(szContext);
+#else
     pEdit->setHtml(szHtml);
+#endif
     //把光标移动文档开始处
     QTextCursor cursor = pEdit->textCursor();
     cursor.movePosition(QTextCursor::Start);
