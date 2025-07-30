@@ -1,3 +1,9 @@
+### Version v2.3.4
+  - QTextBrowser replace QTextEdit
+  - Modify markdown to html
+  - Log: fix m_szPath is empty bug
+  - Add icon
+
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux
   - Update: Modify install AppImage

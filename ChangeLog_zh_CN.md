@@ -1,3 +1,9 @@
+### 版本： v2.3.4
+  - QTextBrowser 替换 QTextEdit
+  - 修改 markdown 到 html
+  - 日志：修复 m_szPath 是空错误
+  - 增加图标
+
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec
   - 更新：修改 AppImage
