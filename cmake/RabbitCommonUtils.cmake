@@ -363,21 +363,21 @@ function(INSTALL_TARGETS)
     endif()
 
     foreach(component ${PARA_TARGETS})
-        if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH)
-            if(WIN32)
-                set(BUILD_PATH ${CMAKE_BINARY_DIR}/bin)
-            else()
-                set(BUILD_PATH ${CMAKE_BINARY_DIR}/lib)
-            endif()
-            add_custom_command(
-                TARGET ${PARA_TARGET} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E echo "Copy files ${PARA_SOURCES} to ${BUILD_PATH}"
-                COMMAND ${CMAKE_COMMAND} -E make_directory "${BUILD_PATH}"
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${component}> "${BUILD_PATH}"
-                COMPONENT ${PARA_COMPONENT}
-                COMMAND_EXPAND_LISTS
-                VERBATIM)
-        endif()
+        # if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH)
+        #     if(WIN32)
+        #         set(BUILD_PATH ${CMAKE_BINARY_DIR}/bin)
+        #     else()
+        #         set(BUILD_PATH ${CMAKE_BINARY_DIR}/lib)
+        #     endif()
+        #     add_custom_command(
+        #         TARGET ${component} POST_BUILD
+        #         COMMAND ${CMAKE_COMMAND} -E echo "Copy files ${PARA_SOURCES} to ${BUILD_PATH}"
+        #         COMMAND ${CMAKE_COMMAND} -E make_directory "${BUILD_PATH}"
+        #         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${component}> "${BUILD_PATH}"
+        #         COMPONENT ${PARA_COMPONENT}
+        #         COMMAND_EXPAND_LISTS
+        #         VERBATIM)
+        # endif()
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
