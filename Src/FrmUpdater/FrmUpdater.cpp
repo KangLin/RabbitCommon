@@ -1171,7 +1171,8 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
  * \return > 0:
  *         = 0: 相同
  *         < 0
- * \see https://semver.org/lang/zh-CN/
+ * \see [Semantic Versioning](https://semver.org)
+ * \see [rpm version](https://rpm-software-management.github.io/rpm/manual/spec.html)
  */
 int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &currentVersion)
 {
@@ -1182,8 +1183,8 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     if(sN.isEmpty() || sC.isEmpty())
         return sN.length() - sC.length();
 
-    sN = sN.replace("-", ".");
-    sC = sC.replace("-", ".");
+    sN = sN.replace(QRegularExpression("[-~]"), ".");
+    sC = sC.replace(QRegularExpression("[-~]"), ".");
 
     QStringList szNew = sN.split(".");
     QStringList szCur = sC.split(".");
@@ -1210,7 +1211,13 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
 
     if(count < 3)
         return sN.length() - sC.length();
-    return szNew.at(2).toInt() - szCur.at(2).toInt();
+    nRet = szNew.at(2).toInt() - szCur.at(2).toInt();
+    if(nRet)
+        return nRet;
+    
+    if(count < 4)
+        return sC.length() - sN.length();
+    return szNew.at(3).toInt() - szCur.at(3).toInt();
 }
 
 /*!

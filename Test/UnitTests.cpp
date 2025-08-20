@@ -96,7 +96,14 @@ void CUnitTests::testCFrmUpdaterCompareVersion()
     QVERIFY(updater.CompareVersion("v0.0.20-f", "v0.0.19-w") > 0);
     
     QVERIFY(updater.CompareVersion("va.b.20-f", "vc.0.19-w") > 0);
+
+    QVERIFY(updater.CompareVersion("v1.1.20", "v1.1.20-w") > 0);
+    QVERIFY(updater.CompareVersion("v1.1.20-alpha", "v1.1.20") < 0);
+    QVERIFY(updater.CompareVersion("v1.1.20-alpha", "v1.1.20-alpha") == 0);
     
+    QVERIFY(updater.CompareVersion("v1.1.20", "v1.1.20~w") > 0);
+    QVERIFY(updater.CompareVersion("v1.1.20~alpha", "v1.1.20") < 0);
+    QVERIFY(updater.CompareVersion("v1.1.20~alpha", "v1.1.20~alpha") == 0);
 }
 
 void CUnitTests::test_os()
