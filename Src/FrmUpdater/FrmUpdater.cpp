@@ -957,17 +957,52 @@ void CFrmUpdater::slotUpdate()
     }
     
     // Exec download file
-    bSuccess = false;
+    int nRet = Execute(m_DownloadFile.fileName());
+    if(0 == nRet) {
+        ui->lbState->setText(tr("The installer has started, Please close the application"));
+    }
+
+    QProcess procHome;
+    QString szHome = m_Info.version.szHome;
+    if((nRet || ui->cbHomePage->isChecked()) && !szHome.isEmpty())
+        if(!procHome.startDetached(szHome))
+        {
+            QUrl url(szHome);
+            if(!QDesktopServices::openUrl(url))
+            {
+                QString szErr = tr("Failed:") + tr("Open home page fail");
+                ui->lbState->setText(szErr);
+            }
+        }
+
+    if(0 == nRet)
+    {
+        emit sigFinished();
+        qApp->quit();
+        return;
+    }
+    
+    emit sigError();
+    QUrl url(szHome);
+    if(!QDesktopServices::openUrl(url))
+    {
+        QString szErr = tr("Open home page fail");
+        qCritical(log) << szErr;
+    }
+}
+
+int CFrmUpdater::Execute(const QString szFile)
+{
+    int nRet = 0;
     do {
         
         if(m_pcbUpdate) {
-            int nRet = m_pcbUpdate(m_DownloadFile.fileName());
+            int nRet = m_pcbUpdate(szFile);
             if(0 == nRet) {
-                bSuccess = true;
-                break;
+                return 0;
             }
         }
-           
+        
         //修改文件执行权限  
         /*QFileInfo info(m_szDownLoadFile);
         if(!info.permission(QFile::ExeUser))
@@ -977,11 +1012,11 @@ void CFrmUpdater::slotUpdate()
             slotError(-2, szErr);
             return;
         }*/
-
+        
         QProcess proc;
-        QFileInfo fi(m_DownloadFile.fileName());
+        QFileInfo fi(szFile);
         if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive)) {
-
+            
             QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
             bool bRet = false;
             if(!szAppImage.isEmpty()) {
@@ -1018,112 +1053,118 @@ void CFrmUpdater::slotUpdate()
                     qCritical(log) << szErr;
                 }
             }
-
-        } else if(fi.suffix().compare("gz", Qt::CaseInsensitive)) {
-            QString szCmd;
-            szCmd = m_DownloadFile.fileName();
-            //启动安装程序
-            qInfo(log) << "Start"
-                              << szCmd
-                              << "in a new process, and detaches from it.";
-            if(!proc.startDetached(szCmd))
-            {
-                qInfo(log) << "Start new process fail."
-                                  << "Use system installer to install"
-                                  << m_DownloadFile.fileName();
-                QUrl url(m_DownloadFile.fileName());
+            
+        } else if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
+                   || !fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
+            
+            QStringList lstPara;
+            lstPara << "install" << "-y" << szFile;
+            QString szCmd = "apt";
+            if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
+                szCmd = "dnf";
+            bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
+            if(!bRet) {
+                qCritical(log) << "Execute:" << szCmd << lstPara
+                               << "fail. nRet:" << nRet;
+                // Open file folder
+                QDesktopServices::openUrl(QUrl::fromLocalFile(fi.absolutePath()));
+                // Open with the default program
+                QUrl url(szFile);
                 if(!QDesktopServices::openUrl(url))
                 {
                     QString szErr = tr("Failed:")
-                                    + tr("Execute install program error.%1")
-                            .arg(m_DownloadFile.fileName());
+                    + tr("Execute install program error.%1")
+                         .arg(szFile);
                     ui->lbState->setText(szErr);
+                    qCritical(log) << szErr;
+                    nRet = -1;
                     break;
                 }
             }
-        } else {
+            qDebug(log) << "Success: Install" << szCmd << lstPara;
+
+        } else if(!fi.suffix().compare("gz", Qt::CaseInsensitive)) {
+
             QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
             QFile f(szInstall);
             if(!f.open(QFile::WriteOnly))
             {
                 QString szErr = tr("Failed:")
-                    + tr("Open file %1 fail").arg(fi.absolutePath());
+                + tr("Open file %1 fail").arg(fi.absolutePath());
                 ui->lbState->setText(szErr);
+                nRet = -1;
                 break;
             }
-            QString szCmd = InstallScript(m_DownloadFile.fileName(),
-                                          qApp->applicationName());
+            QString szCmd = InstallScript(szFile, qApp->applicationName());
             f.write(szCmd.toStdString().c_str());
             qDebug(log) << szCmd << szInstall;
             f.close();
-
+            
             //启动安装程序
-            if(!RabbitCommon::CTools::executeByRoot("/bin/bash",
-                                                    QStringList() << szInstall))
+            if(!RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(
+                    "/bin/bash",
+                    QStringList() << szInstall))
             {
                 QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
                                 + szInstall + "fail";
                 ui->lbState->setText(szErr);
+                nRet = -1;
                 break;
             }
-
+            
             //启动程序
-//            int nRet = QMessageBox::information(this, tr("Run"),
-//                                        tr("Run after install"),
-//                              QMessageBox::Yes|QMessageBox::No,
-//                                             QMessageBox::Yes);
-//            if(QMessageBox::No == nRet)
-//                break;
-//            QString szProgram = "/opt/"
-//                    + qApp->applicationName()
-//                    + "/install1.sh start "
-//                    + qApp->applicationName();
-//            QProcess exe;
-//            if(!exe.startDetached(szProgram))
-//            {
-//                QString szErr = tr("Failed:") + tr("Execute program error.%1")
-//                        .arg(szProgram);
-//                ui->lbState->setText(szErr);
-//                break;
-//            }
-        }
+            //            int nRet = QMessageBox::information(this, tr("Run"),
+            //                                        tr("Run after install"),
+            //                              QMessageBox::Yes|QMessageBox::No,
+            //                                             QMessageBox::Yes);
+            //            if(QMessageBox::No == nRet)
+            //                break;
+            //            QString szProgram = "/opt/"
+            //                    + qApp->applicationName()
+            //                    + "/install1.sh start "
+            //                    + qApp->applicationName();
+            //            QProcess exe;
+            //            if(!exe.startDetached(szProgram))
+            //            {
+            //                QString szErr = tr("Failed:") + tr("Execute program error.%1")
+            //                        .arg(szProgram);
+            //                ui->lbState->setText(szErr);
+            //                nRet = -1;
+            //                break;
+            //            }
 
-        ui->lbState->setText(tr("The installer has started, Please close the application"));
-
-        //system(m_DownloadFile.fileName().toStdString().c_str());
-        //int nRet = QProcess::execute(m_DownloadFile.fileName());
-        //qDebug(log) << "QProcess::execute return: " << nRet;
-        
-        bSuccess = true;
-    } while(0);
-
-    QProcess procHome;
-    QString szHome = m_Info.version.szHome;
-    if((!bSuccess || ui->cbHomePage->isChecked()) && !szHome.isEmpty())
-        if(!procHome.startDetached(szHome))
-        {
-            QUrl url(szHome);
-            if(!QDesktopServices::openUrl(url))
+        } else {
+            
+            QString szCmd;
+            szCmd = szFile;
+            //启动安装程序
+            qInfo(log) << "Start"
+                       << szCmd
+                       << "in a new process, and detaches from it.";
+            if(!proc.startDetached(szCmd))
             {
-                QString szErr = tr("Failed:") + tr("Open home page fail");
-                ui->lbState->setText(szErr);
+                qInfo(log) << "Start new process fail."
+                           << "Use system installer to install"
+                           << szFile;
+                QUrl url(szFile);
+                if(!QDesktopServices::openUrl(url))
+                {
+                    QString szErr = tr("Failed:")
+                    + tr("Execute install program error.%1")
+                         .arg(szFile);
+                    ui->lbState->setText(szErr);
+                    nRet = -1;
+                    break;
+                }
             }
+
         }
 
-    if(bSuccess)
-    {
-        emit sigFinished();
-        qApp->quit();
-        return;
-    }
-    
-    emit sigError();
-    QUrl url(szHome);
-    if(!QDesktopServices::openUrl(url))
-    {
-        QString szErr = tr("Open home page fail");
-        qCritical(log) << szErr;
-    }
+        //int nRet = QProcess::execute(szFile);
+        //qDebug(log) << "QProcess::execute return: " << nRet;
+
+    } while(0);
+    return nRet;
 }
 
 QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
@@ -1183,8 +1224,8 @@ int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &curren
     if(sN.isEmpty() || sC.isEmpty())
         return sN.length() - sC.length();
 
-    sN = sN.replace(QRegularExpression("[-~]"), ".");
-    sC = sC.replace(QRegularExpression("[-~]"), ".");
+    sN = sN.replace(QRegularExpression("[-~_]"), ".");
+    sC = sC.replace(QRegularExpression("[-~_]"), ".");
 
     QStringList szNew = sN.split(".");
     QStringList szCur = sC.split(".");

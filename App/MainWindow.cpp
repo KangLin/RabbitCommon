@@ -22,6 +22,7 @@
 #endif
 #include "RabbitCommonDir.h"
 
+#include <QMetaObject>
 #include <QDir>
 #include <QDesktopServices>
 #include <QDockWidget>
@@ -239,4 +240,29 @@ void MainWindow::on_pbGenerateCoreFile_clicked()
 #else
     free((void*)11);
 #endif
+}
+
+void MainWindow::on_pbExecuteUpdate_clicked()
+{
+#ifdef HAVE_UPDATE
+    int nRet = 0;
+    CFrmUpdater updater;
+    bool bRet = QMetaObject::invokeMethod(
+        &updater,
+        "Execute",
+        Qt::DirectConnection,
+        Q_RETURN_ARG(int, nRet),
+        Q_ARG(QString, ui->leUpdateFIle->text()));
+    if(!bRet || nRet) {
+        qCritical(log) << "Execute update fail." << nRet;
+    }
+#endif    
+}
+
+void MainWindow::on_pbUpdateBrowse_clicked()
+{
+    QString szFile = QFileDialog::getOpenFileName(this);
+    if(szFile.isEmpty())
+        return;
+    ui->leUpdateFIle->setText(szFile);
 }

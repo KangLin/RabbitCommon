@@ -6,13 +6,14 @@
 #include <QFileInfo>
 #include <QProcess>
 
-RabbitCommon::CAdminAuthoriser::CAdminAuthoriser() = default;
+RabbitCommon::CAdminAuthoriser::CAdminAuthoriser() : m_bDetached(true)
+{}
 
 RabbitCommon::CAdminAuthoriser::~CAdminAuthoriser() = default;
 
 RabbitCommon::CAdminAuthoriser* RabbitCommon::CAdminAuthoriser::Instance()
 {
-    RabbitCommon::CAdminAuthoriser* p = nullptr;
+    static RabbitCommon::CAdminAuthoriser* p = nullptr;
     if(!p)
         p = new RabbitCommon::CAdminAuthorization();
     return p;
@@ -23,10 +24,24 @@ bool RabbitCommon::CAdminAuthoriser::execute(const QString &program, const QStri
     if(hasAdminRights())
     {
         QFileInfo fi(program);
-        return QProcess::startDetached(fi.absoluteFilePath(),
+        if(GetDetached())
+            return QProcess::startDetached(fi.absoluteFilePath(),
                                        arguments,
                                        fi.absolutePath());
+        else
+            return QProcess::execute(fi.absoluteFilePath(),
+                                           arguments);
     } else {
         return executeAsAdmin(program, arguments);
     }
+}
+
+void RabbitCommon::CAdminAuthoriser::SetDetached(bool bDetached)
+{
+    m_bDetached = bDetached;
+}
+
+bool RabbitCommon::CAdminAuthoriser::GetDetached()
+{
+    return m_bDetached;
 }

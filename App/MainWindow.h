@@ -36,7 +36,11 @@ private slots:
     void on_pbDownload_clicked();
     void slotDownloadFile(const QString szFile);
     void slotDownloadError(int nErr, const QString szErr);
-
+    
+    void on_pbExecuteUpdate_clicked();
+    
+    void on_pbUpdateBrowse_clicked();
+    
 private:
     Ui::MainWindow *ui;
     

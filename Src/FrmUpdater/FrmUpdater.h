@@ -165,6 +165,7 @@ private:
     bool CheckPrompt(const QString &szVersion);
     QString InstallScript(const QString szDownLoadFile,
                           const QString szApplicationName);
+    Q_INVOKABLE int Execute(const QString szFile);
 
 private:
     Ui::CFrmUpdater *ui;

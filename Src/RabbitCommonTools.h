@@ -197,7 +197,8 @@ public:
                               const QStringList &arguments = QStringList());
     static bool ExecuteWithAdministratorPrivilege(
         const QString &program,
-        const QStringList &arguments = QStringList());
+        const QStringList &arguments = QStringList(),
+        bool bDetached = true);
     static bool StartWithAdministratorPrivilege(bool bQuitOld = false);
 
     /*!

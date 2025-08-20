@@ -32,9 +32,15 @@ public:
     virtual bool execute(const QString &program, const QStringList &arguments);
     //! Tests whether this program already has elevated rights or not
     virtual bool hasAdminRights() = 0;
+    
+    void SetDetached(bool bDetached);
+    bool GetDetached();
+
 protected:
 	//! Runs a program with the given arguments with elevated rights
 	virtual bool executeAsAdmin(const QString &program, const QStringList &arguments) = 0;
+    
+    bool m_bDetached;
 };
 
 }

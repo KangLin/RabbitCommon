@@ -3,6 +3,8 @@
   - Modify markdown to html
   - Log: fix m_szPath is empty bug
   - Add icon
+  - Update: add update callback function
+  - QTextBrowser replace QTextEdit
 
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux

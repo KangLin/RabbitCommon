@@ -96,7 +96,11 @@ bool CAdminAuthorization::executeAsAdmin(const QString &program, const QStringLi
         //          << "XAUTHORITY=" + QString::fromLocal8Bit(qgetenv("XAUTHORITY"));
         // }
         args << program << arguments;
-        bool bRet = QProcess::startDetached(command, args);
+        bool bRet = false;
+        if(GetDetached())
+            bRet = QProcess::startDetached(command, args);
+        else
+            bRet = QProcess::execute(command, args);
         qDebug(log) << "exec" << bRet << command << args;
         return bRet;
     }

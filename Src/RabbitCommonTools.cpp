@@ -551,9 +551,12 @@ bool CTools::HasAdministratorPrivilege()
 #endif
 }
 
-bool CTools::ExecuteWithAdministratorPrivilege(const QString &program, const QStringList &arguments)
+bool CTools::ExecuteWithAdministratorPrivilege(const QString &program,
+                                               const QStringList &arguments,
+                                               bool bDetached)
 {
 #ifdef HAVE_ADMINAUTHORISER
+    CAdminAuthoriser::Instance()->SetDetached(bDetached);
     return CAdminAuthoriser::Instance()->execute(program, arguments);
 #else
     return false;
@@ -641,7 +644,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     if(!ret)
     {
         QString szCmd = "ln -s " + appPath + " " + szLink;
-        if(!executeByRoot(szCmd))
+        if(!ExecuteWithAdministratorPrivilege(szCmd))
             qCritical(log) << "CTools::InstallStartRun: file link"
                               << f.fileName() << " to " << szLink << f.error();
         return -1;
@@ -667,7 +670,7 @@ int CTools::RemoveStartRun(const QString &szName, bool bAllUser)
     if(d.remove(szLink)) return 0;
     
     QString szCmd = "rm " + szLink;
-    if(executeByRoot(szCmd)) return 0;
+    if(ExecuteWithAdministratorPrivilege(szCmd)) return 0;
     qCritical(log) << "execute" << szCmd << "fail";
     return -1;
 

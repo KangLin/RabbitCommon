@@ -3,6 +3,8 @@
   - 修改 markdown 到 html
   - 日志：修复 m_szPath 是空错误
   - 增加图标
+  - 更新: 增加更新回调函数
+  - 用　QTextBrowser 替换 QTextEdit
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

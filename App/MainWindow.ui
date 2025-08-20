@@ -37,16 +37,16 @@
          <string>Log</string>
         </property>
         <property name="popupMode">
-         <enum>QToolButton::MenuButtonPopup</enum>
+         <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
         </property>
         <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonIconOnly</enum>
+         <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
         </property>
         <property name="autoRaise">
          <bool>false</bool>
         </property>
         <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
+         <enum>Qt::ArrowType::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -84,6 +84,34 @@
      </layout>
     </item>
     <item row="2" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Update file:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="leUpdateFIle"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbUpdateBrowse">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbExecuteUpdate">
+        <property name="text">
+         <string>Execute update</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -129,7 +157,7 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="0">
+    <item row="4" column="0">
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
        <string>Download file</string>
