@@ -28,6 +28,8 @@ class CFrmUpdater;
 class QStateMachine;
 class QState;
 
+typedef int (*pUpdateCallback)(const QString szFile);
+
 /*!
  * \~chinese
  * \brief 更新软件
@@ -122,6 +124,12 @@ public:
      * \return 
      */
     int SetInstallAutoStartup(bool bAutoStart = true);
+
+    /*!
+     * \brief SetUpdateCallback
+     * \param pCb
+     */
+    int SetUpdateCallback(pUpdateCallback pCb);
 
 protected Q_SLOTS:
     // [Add the slot functions of RabbitCommon::CDownload]
@@ -228,6 +236,8 @@ private:
     int GenerateJsonFile(const QString &szFile,
                          const CONFIG_INFO &info,
                          CONFIG_TYPE type);
+    
+    pUpdateCallback m_pcbUpdate;
 
     // QWidget interface
 protected:

@@ -37,7 +37,8 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     m_ButtonGroup(this),
     m_bDownload(false),
     m_StateMachine(nullptr),
-    m_pStateDownloadSetupFile(nullptr)
+    m_pStateDownloadSetupFile(nullptr),
+    m_pcbUpdate(nullptr)
 {
     bool check = false;
     setAttribute(Qt::WA_DeleteOnClose);
@@ -936,10 +937,10 @@ void CFrmUpdater::slotUpdate()
         if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
         {
             QString szFail;
-            szFail = tr("Failed:") + tr("Md5sum is different. ")
+            szFail = tr("Failed:") + tr("Md5sum is different.")
                     + "\n" + tr("Download file md5sum: ")
                     + md5sum.result().toHex()
-                    + "\n" + tr("md5sum in Update.xml:")
+                    + "\n" + tr("md5sum in Update configure file: ")
                     + m_ConfigFile.szMd5sum;
             ui->lbState->setText(szFail);
             qCritical(log) << szFail;
@@ -947,7 +948,7 @@ void CFrmUpdater::slotUpdate()
         }
         bSuccess = true;
     } while(0);
-    
+
     m_DownloadFile.close();
     if(!bSuccess)
     {
@@ -958,6 +959,15 @@ void CFrmUpdater::slotUpdate()
     // Exec download file
     bSuccess = false;
     do {
+        
+        if(m_pcbUpdate) {
+            int nRet = m_pcbUpdate(m_DownloadFile.fileName());
+            if(0 == nRet) {
+                bSuccess = true;
+                break;
+            }
+        }
+           
         //修改文件执行权限  
         /*QFileInfo info(m_szDownLoadFile);
         if(!info.permission(QFile::ExeUser))
@@ -1731,5 +1741,11 @@ void CFrmUpdater::on_cbHomePage_clicked(bool checked)
 int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 {
     m_InstallAutoStartupType = bAutoStart;
+    return 0;
+}
+
+int CFrmUpdater::SetUpdateCallback(pUpdateCallback pCb)
+{
+    m_pcbUpdate = pCb;
     return 0;
 }
