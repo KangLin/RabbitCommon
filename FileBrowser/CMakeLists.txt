@@ -15,7 +15,7 @@ set(SOURCE_FILES
 )
 
 set(SOURCE_UI_FILES MainWindow.ui)
-
+set(APP_ID "io.github.KangLin.FileBrowser")
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
@@ -23,6 +23,8 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
     VERSION ${RabbitCommon_VERSION}
+    BUNDLE_GUI_IDENTIFIER ${APP_ID}
+    BUNDLE_ICON_FILE ${APP_ID}
     )
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini)
@@ -32,14 +34,21 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini)
 endif()
 INSTALL_FILE(SOURCES ${CMAKE_BINARY_DIR}/etc/${PROJECT_NAME}_logqt.ini
     DESTINATION etc
-    COMPONENT Application)
+        COMPONENT Application)
 
 if(NOT ANDROID AND UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.FileBrower.desktop
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/${APP_ID}.desktop
         DESTINATION "share/applications" COMPONENT Application)
+    
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
-        RENAME org.Rabbit.FileBrower.svg
+        RENAME ${APP_ID}.svg
         DESTINATION "share/pixmaps" COMPONENT Application)
+endif()
+
+if(APPLE)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
+        RENAME ${APP_ID}.svg
+        DESTINATION "Resources" COMPONENT Application)
 endif()
 
 set(OTHER_FILES

@@ -11,6 +11,7 @@ include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
@@ -184,10 +185,10 @@ option(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH
     "Install to build path. It only needs to be used when it is first configured"
     ON)
 function(INSTALL_DIR)
-    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES;PARAMETERS" ${ARGN})
+    cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT;SOURCE" "PARAMETERS" ${ARGN})
 
-    if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_DIR([TARGET ... ]SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
+    if(NOT PARA_SOURCE)
+        message(FATAL_ERROR "Please set SOURCE\nUsage: INSTALL_DIR([TARGET ... ] SOURCE ... [DESTINATION ... ] [COMPONENT ...])")
     endif()
     if(NOT PARA_TARGET)
         if(NOT TARGET ${PROJECT_NAME})
@@ -204,12 +205,12 @@ function(INSTALL_DIR)
     endif()
 
 #    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
-#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+#        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCE})
 #        set_property(TARGET ${PARA_TARGET} APPEND PROPERTY
-#            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
+#            ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCE})
 #    endif()
 
-    install(DIRECTORY ${PARA_SOURCES}
+    install(DIRECTORY ${PARA_SOURCE}
         DESTINATION ${PARA_DESTINATION}
             COMPONENT ${PARA_COMPONENT}
             ${PARA_PARAMETERS}
@@ -220,13 +221,13 @@ function(INSTALL_DIR)
     endif()
 
     if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH OR ANDROID)
-        file(COPY ${PARA_SOURCES} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
+        file(COPY ${PARA_SOURCE} DESTINATION ${CMAKE_BINARY_DIR}/${PARA_DESTINATION})
 #        add_custom_command(
 #            TARGET ${PARA_TARGET} POST_BUILD
-#            COMMAND ${CMAKE_COMMAND} -E echo "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMAND ${CMAKE_COMMAND} -E echo "Copy directory ${PARA_SOURCE} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
 #            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCES} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
-#            COMMENT "Copy directory ${PARA_SOURCES} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PARA_SOURCE} "${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
+#            COMMENT "Copy directory ${PARA_SOURCE} to ${CMAKE_BINARY_DIR}/${PARA_DESTINATION}"
 #            VERBATIM)
     endif()
 
@@ -238,7 +239,7 @@ function(INSTALL_FILE)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
     if(NOT PARA_SOURCES)
-        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_FILE([TARGET ... ]SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
+        message(FATAL_ERROR "Please set SOURCES\nUsage: INSTALL_FILE([TARGET ... ] SOURCES ... [DESTINATION ... ] [COMPONENT ...])")
     endif()
     if(NOT PARA_TARGET)
         if(NOT TARGET ${PROJECT_NAME})
@@ -257,11 +258,12 @@ function(INSTALL_FILE)
 #    if(ANDROID AND (QT_VERSION_MAJOR GREATER 5))
 #        list(APPEND CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
 #        set_property(TARGET ${PARA_TARGET} APPEND PROPERTY
+#            CMAKE_ANDROID_ASSETS_DIRECTORIES ${PARA_SOURCES})
 #        endif()
 
     install(FILES ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION}
-        COMPONENT ${PARA_COMPONENT})
+            COMPONENT ${PARA_COMPONENT})
 
     if(ANDROID)
         set(PARA_DESTINATION "assets/${PARA_DESTINATION}")
@@ -291,6 +293,14 @@ endfunction()
 function(INSTALL_ICON_THEME)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES;PARAMETERS" ${ARGN})
 
+    if(NOT PARA_TARGET)
+        if(NOT TARGET ${PROJECT_NAME})
+            message(FATAL_ERROR "Move the INSTALL_ICON_THEME(...) to the back of the add_executable(...) or add_library(...)")
+        else()
+            set(PARA_TARGET ${PROJECT_NAME})
+        endif()
+    endif()
+
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/icons)
     endif()
@@ -301,7 +311,7 @@ function(INSTALL_ICON_THEME)
         set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
-        SOURCES ${PARA_SOURCES}
+        SOURCE ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION}
         COMPONENT ${PARA_COMPONENT}
         PARAMETERS ${PARA_PARAMETERS}
@@ -317,6 +327,14 @@ endfunction()
 function(INSTALL_STYLE)
     cmake_parse_arguments(PARA "" "TARGET;DESTINATION;COMPONENT" "SOURCES" ${ARGN})
 
+    if(NOT PARA_TARGET)
+        if(NOT TARGET ${PROJECT_NAME})
+            message(FATAL_ERROR "Move the INSTALL_STYLE(...) to the back of the add_executable(...) or add_library(...)")
+        else()
+            set(PARA_TARGET ${PROJECT_NAME})
+        endif()
+    endif()
+
     if(NOT PARA_SOURCES)
         set(PARA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../Src/Resource/style)
     endif()
@@ -327,9 +345,9 @@ function(INSTALL_STYLE)
         set(PARA_DESTINATION ${CMAKE_INSTALL_DATADIR})
     endif()
     INSTALL_DIR(TARGET ${PARA_TARGET}
-        SOURCES ${PARA_SOURCES}
+        SOURCE ${PARA_SOURCES}
         DESTINATION ${PARA_DESTINATION}
-        COMPONENT ${PARA_COMPONENT})
+            COMPONENT ${PARA_COMPONENT})
 endfunction()
 
 # 安装指定目标文件
@@ -404,7 +422,8 @@ option(RABBIT_ENABLE_INSTALL_QT
 #    [必须]NAME                  目标名
 #    ISEXE                      是执行程序目标还是库目标
 #    ISPLUGIN                   是插件
-#    RUNTIME
+#    RUNTIME                    执行程序安装位置
+#    BUNDLE                     安装 APPLE BUNDLE 位置(默认　MacOS)
 #    LIBRARY                    库安装位置
 #    INSTALL_PLUGIN_LIBRARY_DIR 插件库安装位置
 #    ARCHIVE
@@ -434,6 +453,7 @@ function(INSTALL_TARGET)
         EXPORT_NAME
         NAMESPACE
         RUNTIME
+        BUNDLE
         LIBRARY
         ARCHIVE
         PUBLIC_HEADER
@@ -455,6 +475,7 @@ function(INSTALL_TARGET)
                 [ISPULGIN]
                 [INSTALL_PLUGIN_LIBRARY_DIR ...]
                 [RUNTIME ...]
+                [BUNDLE ...]
                 [LIBRARY ...]
                 [ARCHIVE ...]
                 [PUBLIC_HEADER ...]
@@ -478,7 +499,20 @@ function(INSTALL_TARGET)
     # See: https://gitlab.kitware.com/cmake/cmake/-/issues/20565
     # See: [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs)
     # Install target
-    if(ANDROID)
+    if(APPLE)
+        if(NOT PARA_BUNDLE)
+            set(PARA_BUNDLE ".")
+        endif()
+        if(NOT PARA_FRAMEWORK)
+            set(PARA_FRAMEWORK "FrameWorks")
+        endif()
+        if(NOT DEFINED PARA_RUNTIME)
+            set(PARA_RUNTIME "MacOS")
+        endif()
+        if(NOT DEFINED PARA_LIBRARY)
+            set(PARA_LIBRARY "FrameWorks")
+        endif()
+    elseif(ANDROID)
         if(NOT DEFINED PARA_RUNTIME)
             set(PARA_RUNTIME "libs/${ANDROID_ABI}")
         endif()
@@ -510,7 +544,20 @@ function(INSTALL_TARGET)
             set(PARA_COMPONENT ${PARA_COMPONENT_PREFIX}Plugin)
         endif()
 
-        if(WIN32)
+        if(APPLE)
+            INSTALL(TARGETS ${PARA_NAME}
+                FRAMEWORK DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
+                        COMPONENT ${PARA_COMPONENT}
+                LIBRARY DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
+                        COMPONENT ${PARA_COMPONENT}
+                )
+            # #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            # add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+            #     COMMAND ${CMAKE_COMMAND} -E echo "exec macdeployqt for ${PARA_NAME}"
+            #     COMMAND "${QT_INSTALL_DIR}/bin/macdeployqt"
+            #          "$<TARGET_BUNDLE_DIR:${PARA_NAME}>" -dmg -verbose=3
+            #     )
+        elseif(WIN32)
             INSTALL(TARGETS ${PARA_NAME}
                 RUNTIME DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                         COMPONENT ${PARA_COMPONENT}
@@ -543,10 +590,29 @@ function(INSTALL_TARGET)
                 set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
                 include(InstallRequiredSystemLibraries)
             endif()
-            INSTALL(TARGETS ${PARA_NAME}
-                RUNTIME DESTINATION "${PARA_RUNTIME}"
-                    COMPONENT ${PARA_COMPONENT}
+
+            if(APPLE AND CMAKE_MACOSX_BUNDLE)
+                INSTALL(TARGETS ${PARA_NAME}
+                    BUNDLE DESTINATION ${PARA_BUNDLE}
+                        COMPONENT ${PARA_COMPONENT}
                 )
+            else()
+                INSTALL(TARGETS ${PARA_NAME}
+                    RUNTIME DESTINATION "${PARA_RUNTIME}"
+                        COMPONENT ${PARA_COMPONENT}
+                )
+            endif()
+
+            # if(APPLE)
+            #     #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            #     # https://doc.qt.io/qt-6/macos-deployment.html
+            #     # https://developer.apple.com/documentation/bundleresources/placing-content-in-a-bundle
+            #     add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+            #         COMMAND ${CMAKE_COMMAND} -E echo "exec macdeployqt for ${PARA_NAME}"
+            #         COMMAND "${QT_INSTALL_DIR}/bin/macdeployqt"
+            #              "$<TARGET_BUNDLE_DIR:${PARA_NAME}>" -dmg -verbose=3
+            #         )
+            # endif(APPLE)
 
             #分发
             IF( ANDROID AND (QT_VERSION_MAJOR VERSION_LESS 6) )
@@ -635,6 +701,8 @@ function(INSTALL_TARGET)
                 EXPORT ${PARA_EXPORT_NAME}
                 RUNTIME DESTINATION "${PARA_RUNTIME}"
                     COMPONENT ${PARA_COMPONENT}
+                FRAMEWORK DESTINATION ${PARA_FRAMEWORK}
+                    COMPONENT ${PARA_COMPONENT}
                 LIBRARY DESTINATION "${PARA_LIBRARY}"
                     COMPONENT ${PARA_COMPONENT}
                 ARCHIVE DESTINATION "${PARA_ARCHIVE}"
@@ -717,6 +785,7 @@ function(INSTALL_TARGET)
     # Windows 下分发
     IF(WIN32 AND BUILD_SHARED_LIBS
         AND (RABBIT_ENABLE_INSTALL_DEPENDENT OR RABBIT_ENABLE_INSTALL_QT))
+
         IF(MINGW)
             if(QT_VERSION_MAJOR VERSION_LESS 6)
                 # windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用 mingw 编译时,qt 没有自动 strip
@@ -809,6 +878,8 @@ endfunction()
 #         - 应用程序组件名为： ${COMPONENT_PREFIX}Appliatoin
 #         - 插件组件名为： ${COMPONENT_PREFIX}Plugin
 #         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
+#    BUNDLE_GUI_IDENTIFIER         BUNDLE 的 ID
+#    BUNDLE_ICON_FILE              BUNDLE 的图标文件
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES             #源文件（包括头文件，资源文件等）
@@ -842,6 +913,8 @@ function(ADD_TARGET)
         INSTALL_CMAKE_CONFIG_IN_FILE
         COMPONENT
         COMPONENT_PREFIX
+        BUNDLE_GUI_IDENTIFIER
+        BUNDLE_ICON_FILE
         )
     cmake_parse_arguments(PARA
         "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
@@ -986,6 +1059,7 @@ function(ADD_TARGET)
                 VERBATIM)
 
         else() # NO ANDROID
+
             if(PARA_ISWINDOWS AND WIN32)
                 set(WINDOWS_APP WIN32)
             endif()
@@ -1012,6 +1086,20 @@ function(ADD_TARGET)
                 set_target_properties(${PARA_NAME} PROPERTIES
                     WIN32_EXECUTABLE TRUE)
             endif()
+
+            if(APPLE)
+                # set_target_properties(${PARA_NAME} PROPERTIES
+                #     MACOSX_BUNDLE TRUE)
+                # See: https://developer.apple.com/documentation/bundleresources/information-property-list
+                if(PARA_BUNDLE_GUI_IDENTIFIER)
+                    set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+                        MACOSX_BUNDLE_GUI_IDENTIFIER ${PARA_BUNDLE_GUI_IDENTIFIER})
+                endif()
+                if(PARA_BUNDLE_ICON_FILE)
+                    set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+                        MACOSX_BUNDLE_ICON_FILE ${PARA_BUNDLE_ICON_FILE})
+                endif()
+            endif(APPLE)
 
         endif()
 
@@ -1066,6 +1154,11 @@ function(ADD_TARGET)
             add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
         endif()
 
+        # if(APPLE)
+        #     set_target_properties(${PARA_NAME} PROPERTIES
+        #         FRAMEWORK TRUE)
+        # endif()
+
         GENERATE_EXPORT_HEADER(${PARA_NAME})
         file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
             DESTINATION ${CMAKE_BINARY_DIR})
@@ -1093,15 +1186,19 @@ function(ADD_TARGET)
     endif(PARA_ISEXE)
 
     if(NOT PARA_INSTALL_RPATH)
+        # https://cmake.org/cmake/help/v3.26/prop_tgt/INSTALL_RPATH.html#prop_tgt:INSTALL_RPATH
         # setup rpath to where binary is at.
         if(APPLE)
             if(PARA_ISEXE)
                 SET(PARA_INSTALL_RPATH
-                    "@executable_path:@executable_path/../${CMAKE_INSTALL_LIBDIR}")
+                    "@executable_path:@executable_path/../Frameworks:@executable_path/../${CMAKE_INSTALL_LIBDIR}")
             else()
                 SET(PARA_INSTALL_RPATH
-                    "@loader_path:@loader_path/../${CMAKE_INSTALL_LIBDIR}")
+                    "@loader_path:@loader_path/../Frameworks:@loader_path/../${CMAKE_INSTALL_LIBDIR}")
             endif()
+            # See: https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_RPATH.html#prop_tgt:MACOSX_RPATH
+            SET_TARGET_PROPERTIES(${PARA_NAME}
+                PROPERTIES MACOSX_RPATH ON)
         else()
             SET(PARA_INSTALL_RPATH
                 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
@@ -1111,9 +1208,12 @@ function(ADD_TARGET)
     SET_TARGET_PROPERTIES(${PARA_NAME}
         PROPERTIES INSTALL_RPATH
             ${PARA_INSTALL_RPATH})
-    #set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
-    # 使用构建时的链接路径作为安装后的RPATH
-    #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+    # 如果为 TRUE ,编译时直接使用安装时的动态连接为搜索路径
+    # Use RPATHs from build tree _in_ the build tree
+    #set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    # 如果为 TRUE ,把构建时的链接路径加到 INSTALL_RPATH 之后
+    # Do not add default linker search paths to RPATH
+    #set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
 
     if(DEFINED PARA_OUTPUT_DIR)
         set_target_properties(${PARA_NAME} PROPERTIES
@@ -1122,11 +1222,17 @@ function(ADD_TARGET)
             ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         )
     else()
-        if(NOT (ANDROID AND (QT_VERSION_MAJOR GREATER_EQUAL 6)))
+        if(APPLE)
+            set_target_properties(${PARA_NAME} PROPERTIES
+                RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS
+                ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+                LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/FrameWorks
+                )
+        elseif(NOT (ANDROID AND (QT_VERSION_MAJOR GREATER_EQUAL 6)))
             set_target_properties(${PARA_NAME} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
                 ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-            )
+                )
             if(WIN32)
                 set_target_properties(${PARA_NAME} PROPERTIES
                     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

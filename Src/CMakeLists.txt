@@ -445,7 +445,7 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake
 
 ## Install style files
 INSTALL_STYLE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)
-#INSTALL_DIR(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget/Resource/qss
+#INSTALL_DIR(SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget/Resource/qss
 #    DESTINATION data)
 # Install QIcon theme
 INSTALL_ICON_THEME(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons)

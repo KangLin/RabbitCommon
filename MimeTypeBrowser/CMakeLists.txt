@@ -15,9 +15,13 @@ set(SOURCE_FILES
     mimetypemodel.cpp mimetypemodel.h
 )
 
+set(APP_ID "io.github.KangLin.MimeTypeBrowser")
+
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
     VERSION ${RabbitCommon_VERSION}
+    BUNDLE_GUI_IDENTIFIER ${APP_ID}
+    BUNDLE_ICON_FILE ${APP_ID}
     )

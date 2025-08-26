@@ -5,6 +5,7 @@
   - 增加图标
   - 更新: 增加更新回调函数
   - 用　QTextBrowser 替换 QTextEdit
+  - 完成　MacOS 打包
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

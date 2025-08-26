@@ -19,6 +19,7 @@ set(SOURCE_UI_FILES MainWindow.ui)
 #include(${CMAKE_SOURCE_DIR}/cmake/Translations.cmake)
 #include(${CMAKE_SOURCE_DIR}/cmake/RabbitCommonUtils.cmake)
 
+set(APP_ID "io.github.KangLin.RabbitCommon")
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
@@ -47,12 +48,19 @@ INSTALL_FILE(SOURCES ${CMAKE_BINARY_DIR}/etc/RabbitCommon_logqt.ini
     COMPONENT Application)
 
 if(NOT ANDROID AND UNIX)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/${APP_ID}.desktop
         DESTINATION "share/applications" COMPONENT Application)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
+        RENAME ${APP_ID}.png
         DESTINATION "share/pixmaps" COMPONENT Application)
+    
     INSTALL(PROGRAMS ${CMAKE_SOURCE_DIR}/share/RabbitCommonApp.sh
         DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Application)
+endif()
+if(APPLE)
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
+        RENAME ${APP_ID}.png
+        DESTINATION "Resources" COMPONENT Application)
 endif()
 
 set(OTHER_FILES

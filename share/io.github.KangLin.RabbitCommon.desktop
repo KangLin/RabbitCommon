@@ -3,7 +3,7 @@
 # https://specifications.freedesktop.org/desktop-entry-spec/latest/
 [Desktop Entry]
 Type=Application
-Icon=/opt/RabbitCommon/share/pixmaps/App.png
+Icon=/opt/RabbitCommon/share/pixmaps/io.github.KangLin.RabbitCommon.png
 Exec=/opt/RabbitCommon/bin/RabbitCommonApp.sh
 Terminal=false
 StartupNotify=true

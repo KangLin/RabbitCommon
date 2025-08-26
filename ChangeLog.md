@@ -5,6 +5,7 @@
   - Add icon
   - Update: add update callback function
   - QTextBrowser replace QTextEdit
+  - Package MacOS to end
 
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux
