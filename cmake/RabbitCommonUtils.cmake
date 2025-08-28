@@ -545,6 +545,12 @@ function(INSTALL_TARGET)
         endif()
 
         if(APPLE)
+            # 配置应用程序的 Info.plist
+            configure_file(
+                ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in
+                ${CMAKE_CURRENT_BINARY_DIR}/Info.plist
+                @ONLY
+                )
             INSTALL(TARGETS ${PARA_NAME}
                 FRAMEWORK DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                         COMPONENT ${PARA_COMPONENT}
