@@ -132,7 +132,7 @@ jobs:
             if [ -n "${Qt6_DIR}" ]; then
               QT_ROOT=${Qt6_DIR}
             fi
-            #${QT_ROOT}/bin/macdeployqt `pwd`/install/install/FileBrowser.app -dmg -verbose=3
+            ${QT_ROOT}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
             lipo -info install/FileBrowser.app/Contents/MacOS/FileBrowser
             #lipo -info install/FileBrowser.app/FrameWorks/QtGui.framework/Versions/5/QtGui
             otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
