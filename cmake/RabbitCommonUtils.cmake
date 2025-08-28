@@ -551,6 +551,10 @@ function(INSTALL_TARGET)
                 LIBRARY DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                         COMPONENT ${PARA_COMPONENT}
                 )
+            # 查找 macdeployqt
+            find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+                DOC "Path to macdeployqt executable"
+                )
             # #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             # add_custom_command(TARGET ${PARA_NAME} POST_BUILD
             #     COMMAND ${CMAKE_COMMAND} -E echo "exec macdeployqt for ${PARA_NAME}"
@@ -878,8 +882,6 @@ endfunction()
 #         - 应用程序组件名为： ${COMPONENT_PREFIX}Appliatoin
 #         - 插件组件名为： ${COMPONENT_PREFIX}Plugin
 #         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
-#    BUNDLE_GUI_IDENTIFIER         BUNDLE 的 ID
-#    BUNDLE_ICON_FILE              BUNDLE 的图标文件
 function(ADD_TARGET)
     SET(MUT_PARAS
         SOURCE_FILES             #源文件（包括头文件，资源文件等）
@@ -913,8 +915,6 @@ function(ADD_TARGET)
         INSTALL_CMAKE_CONFIG_IN_FILE
         COMPONENT
         COMPONENT_PREFIX
-        BUNDLE_GUI_IDENTIFIER
-        BUNDLE_ICON_FILE
         )
     cmake_parse_arguments(PARA
         "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
