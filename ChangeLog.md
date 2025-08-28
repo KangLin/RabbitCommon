@@ -6,6 +6,14 @@
   - Update: add update callback function
   - QTextBrowser replace QTextEdit
   - Package MacOS to end
+    - CMake
+      - Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
+        - It is not generte Info.plist file
+        - Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks"
+        - Users are required to generate Info.plist and BUNDLE directory
+      - Use MACOSX_BUNDLE propertie
+        - Generate Info.plist file and the BUNDEL directory
+        - Users only set IS_MACOSX_BUNDLE in ADD_TARGET
   - Fix Unable to change "Icon theme" after disabling it. See: https://github.com/KangLin/RabbitRemoteControl/issues/69
   - Fix the theme to other color when the system theme is dark. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
 

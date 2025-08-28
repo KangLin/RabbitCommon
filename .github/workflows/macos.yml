@@ -119,10 +119,9 @@ jobs:
               -DCMARK_STATIC=ON \
               -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-              -DCMAKE_INSTALL_PREFIX=`pwd`/install/RabbitCommon.App/Contents \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
-              -DINSTALL_QT=OFF \
-              -DBUILD_APP=OFF
+              -DINSTALL_QT=OFF
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target package
           if [ "${{ matrix.BUILD_TYPE }}" == "Release" ]; then
@@ -132,9 +131,13 @@ jobs:
             if [ -n "${Qt6_DIR}" ]; then
               QT_ROOT=${Qt6_DIR}
             fi
-            ${QT_ROOT}/bin/macdeployqt `pwd`/install/RabbitCommon.App -dmg -verbose=3
-            otool -L install/RabbitCommon.App/Contents/MacOS/FileBrowser
-            otool -L install/RabbitCommon.App/Contents/FrameWorks/libRabbitCommon.dylib
+            #${QT_ROOT}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
+            lipo -info install/FileBrowser.app/Contents/MacOS/FileBrowser
+            #lipo -info install/FileBrowser.app/FrameWorks/QtGui.framework/Versions/5/QtGui
+            otool -l install/FileBrowser.app/Contents/MacOS/FileBrowser | grep -A2 LC_RPATH
+            otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
+            otool -l install/FrameWorks/libRabbitCommon.dylib | grep -A3 -B1 "LC_RPATH"
+            otool -L install/FrameWorks/libRabbitCommon.dylib
             7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           fi
 
@@ -145,8 +148,7 @@ jobs:
           name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
           path: |
             ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip
-
-#           ${{github.workspace}}/build/rabbitcommon_*.tar.gz
+            ${{github.workspace}}/build/rabbitcommon_*.tar.gz
 
 #    - name: Upload To Github Release
 #      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}

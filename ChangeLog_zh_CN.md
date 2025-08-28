@@ -6,6 +6,14 @@
   - 更新: 增加更新回调函数
   - 用　QTextBrowser 替换 QTextEdit
   - 完成　MacOS 打包
+    - CMake
+      - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
+      - 不产生 Info.plist 文件和 BUNDLE 目录
+      - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks"
+      - 用户需要生成 Info.plist 和 BUNDLE 目录
+    - 使用 MACOSX_BUNDLE 属性
+      - 自动产生 Info.plist 和 BUNDEL 目录
+      - 用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE
   - 修复禁用“图标主题”后，不能选择的错误。 See: https://github.com/KangLin/RabbitRemoteControl/issues/69
   - 修复在黑暗主题下系统托盘图标为白色. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
 

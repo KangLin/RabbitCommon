@@ -11,7 +11,16 @@ include(CMakePackageConfigHelpers)
 include(CMakeParseArguments)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
+else()
+    if(RabbitCommon_ROOT)
+        include(${RabbitCommon_ROOT}/cmake/macos.cmake)
+    else()
+        get_property(PARA_RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
+        include(${PARA_RabbitCommonUtils_DIR}/cmake/macos.cmake)
+    endif()
+endif()
 
 # 产生android平台分发设置
 # 详见： ${QT_INSTALL_DIR}/features/android/android_deployment_settings.prf
@@ -422,6 +431,7 @@ option(RABBIT_ENABLE_INSTALL_QT
 #    [必须]NAME                  目标名
 #    ISEXE                      是执行程序目标还是库目标
 #    ISPLUGIN                   是插件
+#    IS_MACOSX_BUNDLE           安装 MACOSX BUNDLE 目录
 #    RUNTIME                    执行程序安装位置
 #    LIBRARY                    库安装位置
 #    INSTALL_PLUGIN_LIBRARY_DIR 插件库安装位置
@@ -461,7 +471,7 @@ function(INSTALL_TARGET)
         COMPONENT_PREFIX
         INSTALL_CMAKE_CONFIG_IN_FILE
         )
-    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
+    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;IS_MACOSX_BUNDLE"
         "${SINGLE_PARAS}"
         "INCLUDES"
         ${ARGN})
@@ -471,6 +481,7 @@ function(INSTALL_TARGET)
                 NAME name
                 [ISEXE]
                 [ISPULGIN]
+                [IS_MACOSX_BUNDLE]
                 [INSTALL_PLUGIN_LIBRARY_DIR ...]
                 [RUNTIME ...]
                 [LIBRARY ...]
@@ -498,7 +509,11 @@ function(INSTALL_TARGET)
     # Install target
     if(APPLE)
         if(NOT DEFINED PARA_RUNTIME)
-            set(PARA_RUNTIME "MacOS")
+            if(PARA_IS_MACOSX_BUNDLE)
+                set(PARA_RUNTIME ".")
+            else()
+                set(PARA_RUNTIME "MacOS")
+            endif()
         endif()
         if(NOT DEFINED PARA_LIBRARY)
             set(PARA_LIBRARY "FrameWorks")
@@ -574,34 +589,48 @@ function(INSTALL_TARGET)
                 include(InstallRequiredSystemLibraries)
             endif()
 
-            INSTALL(TARGETS ${PARA_NAME}
-                RUNTIME DESTINATION "${PARA_RUNTIME}"
-                COMPONENT ${PARA_COMPONENT}
-            )
+            if(PARA_IS_MACOSX_BUNDLE AND APPLE)
+                INSTALL(TARGETS ${PARA_NAME}
+                    BUNDLE DESTINATION .
+                        COMPONENT ${PARA_COMPONENT}
+                    )
 
-            if(APPLE)
-                # 检查安装位置为 ${PARA_NAME}.app/Contents
-                if("${CMAKE_INSTALL_PREFIX}" MATCHES "Contents$")
-                    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
-                        HINTS ${QT_INSTALL_DIR}/bin
-                        DOC "Path to macdeployqt executable"
-                    )
-                    if(MACDEPLOYQT_EXECUTABLE)
-                        message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
-                    else()
-                        message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
-                    endif()
-                    # Create dmg file
-                    INSTALL(CODE [[
-                                    message(STATUS "Execute macdeployqt ......")
-                                    execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} ${CMAKE_INSTALL_PREFIX}/../.. -dmg -verbose=3)
-                                ]]
-                                COMPONENT ${PARA_COMPONENT}
-                    )
+                find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+                    HINTS ${QT_INSTALL_DIR}/bin
+                    DOC "Path to macdeployqt executable"
+                )
+                if(MACDEPLOYQT_EXECUTABLE)
+                    message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
                 else()
-                    message(FATAL_ERROR "The CMAKE_INSTALL_PREFIX is not meet the package path requirements. "
-                        "Recommended use: ${CMAKE_INSTALL_PREFIX}/${PARA_NAME}.app/Contents")
+                    message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
                 endif()
+                # 将变量值直接嵌入到代码字符串中
+                string(CONFIGURE [[
+                    message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> ......")
+                    file(COPY "$<INSTALL_PREFIX>/"
+                        DESTINATION "$<INSTALL_PREFIX>/$<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents"
+                        PATTERN $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> EXCLUDE)
+                    ]] copy_dir_string @ONLY)
+                INSTALL(CODE ${copy_dir_string}
+                        COMPONENT ${PARA_COMPONENT}
+                )
+                # Create dmg file
+                option(RABBIT_WITH_MACDEPLOY "With macdeploy deploy" ON)
+                if(RABBIT_WITH_MACDEPLOY)
+                    string(CONFIGURE [[
+                        message(STATUS "Execute macdeployqt to deploy @PARA_NAME@.app ......")
+                        execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/@PARA_NAME@.app" -dmg -verbose=3)
+                        ]] macdeploy_string @ONLY
+                    )
+                    INSTALL(CODE ${macdeploy_string}
+                            COMPONENT ${PARA_COMPONENT}
+                    )
+                endif()
+            else()
+                INSTALL(TARGETS ${PARA_NAME}
+                    RUNTIME DESTINATION "${PARA_RUNTIME}"
+                        COMPONENT ${PARA_COMPONENT}
+                    )
             endif()
 
             #分发
@@ -632,7 +661,7 @@ function(INSTALL_TARGET)
                                 --gradle
                                 --release
                                 --android-platform ${ANDROID_PLATFORM}
-                                --sign ${RabbitCommon_DIR}/RabbitCommon.keystore rabbitcommon 
+                                --sign ${RabbitCommon_ROOT}/RabbitCommon.keystore rabbitcommon
                                 --storepass ${STOREPASS}
                             )
                     else()
@@ -833,6 +862,7 @@ endfunction()
 #    ISPLUGIN                       是插件
 #    NO_TRANSLATION                 不产生翻译资源
 #    ISWINDOWS                      窗口程序
+#    IS_MACOSX_BUNDLE               产生 MACOSX BUNDLE 目录
 #    NAME                           目标名。注意：翻译资源文件名(.ts)默认是 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
@@ -910,7 +940,7 @@ function(ADD_TARGET)
         COMPONENT_PREFIX
         )
     cmake_parse_arguments(PARA
-        "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
+        "ISEXE;ISPLUGIN;ISWINDOWS;IS_MACOSX_BUNDLE;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -921,6 +951,7 @@ function(ADD_TARGET)
                 [ISEXE]
                 [ISPLUGIN]
                 [ISWINDOWS]
+                [IS_MACOSX_BUNDLE]
                 [NO_TRANSLATION]
                 [NO_INSTALL]
                 [NO_INSTALL_ANDROID_OPENSSL]
@@ -1079,6 +1110,9 @@ function(ADD_TARGET)
                 set_target_properties(${PARA_NAME} PROPERTIES
                     WIN32_EXECUTABLE TRUE)
             endif()
+            if(PARA_IS_MACOSX_BUNDLE AND APPLE)
+                set_target_properties(${PARA_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
+            endif()
 
         endif()
 
@@ -1142,11 +1176,11 @@ function(ADD_TARGET)
         foreach(d ${PARA_DEFINITIONS})
             SET(PC_DEFINITIONS "${PC_DEFINITIONS} -D${d}")
         endforeach()
-        if(NOT RabbitCommon_DIR)
-            set(RabbitCommon_DIR ${RabbitCommon_ROOT})
+        if(NOT RabbitCommon_ROOT)
+            set(RabbitCommon_ROOT ${RabbitCommon_ROOT})
         endif()
-        if(RabbitCommon_DIR)
-            set(PC_FILE ${RabbitCommon_DIR}/cmake/RabbitCommon.pc.in)
+        if(RabbitCommon_ROOT)
+            set(PC_FILE ${RabbitCommon_ROOT}/cmake/RabbitCommon.pc.in)
         else()
             get_property(PARA_RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
             set(PC_FILE ${PARA_RabbitCommonUtils_DIR}/RabbitCommon.pc.in)
@@ -1200,8 +1234,14 @@ function(ADD_TARGET)
         )
     else()
         if(APPLE)
+            if(PARA_IS_MACOSX_BUNDLE)
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.)
+            else()
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS)
+            endif()
             set_target_properties(${PARA_NAME} PROPERTIES
-                RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS
                 ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
                 LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/FrameWorks
                 )
@@ -1253,8 +1293,8 @@ function(ADD_TARGET)
         )
         if(MSVC)
             get_property(PARA_RabbitCommonUtils_DIR GLOBAL PROPERTY RabbitCommonUtils_DIR)
-            if(RabbitCommon_DIR)
-                set(VERSION_RC_FILE ${RabbitCommon_DIR}/cmake/Version.rc.in)
+            if(RabbitCommon_ROOT)
+                set(VERSION_RC_FILE ${RabbitCommon_ROOT}/cmake/Version.rc.in)
             else()
                 set(VERSION_RC_FILE ${PARA_RabbitCommonUtils_DIR}/Version.rc.in)
             endif()
@@ -1369,8 +1409,12 @@ function(ADD_TARGET)
         elseif(PARA_ISEXE)
 
             if(NOT ANDROID)
+                if(PARA_IS_MACOSX_BUNDLE)
+                    set(_HAS_PARAS IS_MACOSX_BUNDLE)
+                endif()
                 INSTALL_TARGET(NAME ${PARA_NAME}
                     ISEXE
+                    ${_HAS_PARAS}
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                     INCLUDES ${PARA_INSTALL_INCLUDES}
                     COMPONENT ${PARA_COMPONENT}
