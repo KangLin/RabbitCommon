@@ -58,9 +58,11 @@ if(NOT ANDROID AND UNIX)
         DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Application)
 endif()
 if(APPLE)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
-        RENAME ${APP_ID}.png
-        DESTINATION "Resources" COMPONENT Application)
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER ${APP_ID})
+    set(MACOSX_BUNDLE_ICON_FILE ${APP_ID})
+    file(COPY_FILE ${CMAKE_SOURCE_DIR}/Src/Resource/image/App.png
+        ${APP_ID}.svg)
+    target_add_resources(${PROJECT_NAME} . ${APP_ID}.svg)
 endif()
 
 set(OTHER_FILES
