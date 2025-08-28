@@ -601,7 +601,8 @@ function(INSTALL_TARGET)
                 include(InstallRequiredSystemLibraries)
             endif()
 
-            if(APPLE AND CMAKE_MACOSX_BUNDLE)
+            get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
+            if(APPLE AND _MACOSX_BUNDLE)
                 INSTALL(TARGETS ${PARA_NAME}
                     BUNDLE DESTINATION ${PARA_BUNDLE}
                         COMPONENT ${PARA_COMPONENT}
@@ -1094,8 +1095,8 @@ function(ADD_TARGET)
             endif()
 
             if(APPLE)
-                # set_target_properties(${PARA_NAME} PROPERTIES
-                #     MACOSX_BUNDLE TRUE)
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    MACOSX_BUNDLE TRUE)
                 # See: https://developer.apple.com/documentation/bundleresources/information-property-list
                 if(PARA_BUNDLE_GUI_IDENTIFIER)
                     set_property(TARGET ${PARA_NAME} APPEND PROPERTY
