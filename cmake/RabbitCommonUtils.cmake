@@ -602,16 +602,16 @@ function(INSTALL_TARGET)
             endif()
 
             get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
-            if(APPLE AND _MACOSX_BUNDLE)
+            if(_MACOSX_BUNDLE)
                 INSTALL(TARGETS ${PARA_NAME}
                     BUNDLE DESTINATION ${PARA_BUNDLE}
                         COMPONENT ${PARA_COMPONENT}
-                )
+                    )
             else()
                 INSTALL(TARGETS ${PARA_NAME}
                     RUNTIME DESTINATION "${PARA_RUNTIME}"
                         COMPONENT ${PARA_COMPONENT}
-                )
+                    )
             endif()
 
             # if(APPLE)
@@ -1095,8 +1095,8 @@ function(ADD_TARGET)
             endif()
 
             if(APPLE)
-                set_target_properties(${PARA_NAME} PROPERTIES
-                    MACOSX_BUNDLE TRUE)
+                #set_target_properties(${PARA_NAME} PROPERTIES
+                #    MACOSX_BUNDLE TRUE)
                 # See: https://developer.apple.com/documentation/bundleresources/information-property-list
                 if(PARA_BUNDLE_GUI_IDENTIFIER)
                     set_property(TARGET ${PARA_NAME} APPEND PROPERTY
@@ -1230,8 +1230,15 @@ function(ADD_TARGET)
         )
     else()
         if(APPLE)
+            get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
+            if(_MACOSX_BUNDLE)
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+            else()
+                set_target_properties(${PARA_NAME} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS)
+            endif()
             set_target_properties(${PARA_NAME} PROPERTIES
-                RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS
                 ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
                 LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/FrameWorks
                 )

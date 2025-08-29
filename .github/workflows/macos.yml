@@ -135,7 +135,9 @@ jobs:
             ${QT_ROOT}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
             lipo -info install/FileBrowser.app/Contents/MacOS/FileBrowser
             #lipo -info install/FileBrowser.app/FrameWorks/QtGui.framework/Versions/5/QtGui
+            otool -l install/FileBrowser.app/Contents/MacOS/FileBrowser
             otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
+            otool -l install/FrameWorks/libRabbitCommon.dylib
             otool -L install/FrameWorks/libRabbitCommon.dylib
             7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           fi
