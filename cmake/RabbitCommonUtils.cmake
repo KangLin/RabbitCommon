@@ -1105,19 +1105,19 @@ function(ADD_TARGET)
                     WIN32_EXECUTABLE TRUE)
             endif()
 
-            if(APPLE)
-                #set_target_properties(${PARA_NAME} PROPERTIES
-                #    MACOSX_BUNDLE TRUE)
-                # See: https://developer.apple.com/documentation/bundleresources/information-property-list
-                if(PARA_BUNDLE_GUI_IDENTIFIER)
-                    set_property(TARGET ${PARA_NAME} APPEND PROPERTY
-                        MACOSX_BUNDLE_GUI_IDENTIFIER ${PARA_BUNDLE_GUI_IDENTIFIER})
-                endif()
-                if(PARA_BUNDLE_ICON_FILE)
-                    set_property(TARGET ${PARA_NAME} APPEND PROPERTY
-                        MACOSX_BUNDLE_ICON_FILE ${PARA_BUNDLE_ICON_FILE})
-                endif()
-            endif(APPLE)
+            # if(APPLE)
+            #     #set_target_properties(${PARA_NAME} PROPERTIES
+            #     #    MACOSX_BUNDLE TRUE)
+            #     # See: https://developer.apple.com/documentation/bundleresources/information-property-list
+            #     if(PARA_BUNDLE_GUI_IDENTIFIER)
+            #         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+            #             MACOSX_BUNDLE_GUI_IDENTIFIER ${PARA_BUNDLE_GUI_IDENTIFIER})
+            #     endif()
+            #     if(PARA_BUNDLE_ICON_FILE)
+            #         set_property(TARGET ${PARA_NAME} APPEND PROPERTY
+            #             MACOSX_BUNDLE_ICON_FILE ${PARA_BUNDLE_ICON_FILE})
+            #     endif()
+            # endif(APPLE)
 
         endif()
 

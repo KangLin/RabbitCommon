@@ -121,10 +121,7 @@ jobs:
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
-              -DINSTALL_QT=OFF \
-              -DBUILD_APP=OFF \
-              -DBUILD_MimeTypeBrowser=OFF \
-              -DBUILD_APP=OFF
+              -DINSTALL_QT=OFF
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target package
           if [ "${{ matrix.BUILD_TYPE }}" == "Release" ]; then
