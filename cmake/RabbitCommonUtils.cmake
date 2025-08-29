@@ -607,7 +607,7 @@ function(INSTALL_TARGET)
                 include(InstallRequiredSystemLibraries)
             endif()
 
-            if(PARA_IS_MACOSX_BUNDLE)
+            if(PARA_IS_MACOSX_BUNDLE AND APPLE)
                 INSTALL(TARGETS ${PARA_NAME}
                     BUNDLE DESTINATION ${PARA_BUNDLE}
                         COMPONENT ${PARA_COMPONENT}
