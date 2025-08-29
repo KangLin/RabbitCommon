@@ -422,6 +422,7 @@ option(RABBIT_ENABLE_INSTALL_QT
 #    [必须]NAME                  目标名
 #    ISEXE                      是执行程序目标还是库目标
 #    ISPLUGIN                   是插件
+#    IS_MACOSX_BUNDLE            MACOSX BUNDLE
 #    RUNTIME                    执行程序安装位置
 #    BUNDLE                     安装 APPLE BUNDLE 位置(默认　MacOS)
 #    LIBRARY                    库安装位置
@@ -463,7 +464,7 @@ function(INSTALL_TARGET)
         COMPONENT_PREFIX
         INSTALL_CMAKE_CONFIG_IN_FILE
         )
-    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN"
+    cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;IS_MACOSX_BUNDLE"
         "${SINGLE_PARAS}"
         "INCLUDES"
         ${ARGN})
@@ -473,6 +474,7 @@ function(INSTALL_TARGET)
                 NAME name
                 [ISEXE]
                 [ISPULGIN]
+                [IS_MACOSX_BUNDLE]
                 [INSTALL_PLUGIN_LIBRARY_DIR ...]
                 [RUNTIME ...]
                 [BUNDLE ...]
@@ -507,7 +509,11 @@ function(INSTALL_TARGET)
             set(PARA_FRAMEWORK "FrameWorks")
         endif()
         if(NOT DEFINED PARA_RUNTIME)
-            set(PARA_RUNTIME "MacOS")
+            if(PARA_IS_MACOSX_BUNDLE)
+                set(PARA_RUNTIME ".")
+            else()
+                set(PARA_RUNTIME "MacOS")
+            endif()
         endif()
         if(NOT DEFINED PARA_LIBRARY)
             set(PARA_LIBRARY "FrameWorks")
@@ -601,12 +607,12 @@ function(INSTALL_TARGET)
                 include(InstallRequiredSystemLibraries)
             endif()
 
-            get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
-            if(_MACOSX_BUNDLE)
+            if(PARA_IS_MACOSX_BUNDLE)
                 INSTALL(TARGETS ${PARA_NAME}
                     BUNDLE DESTINATION ${PARA_BUNDLE}
                         COMPONENT ${PARA_COMPONENT}
                     )
+                INSTALL(CODE "file(COPY ${CMAKE_INSTALL_PREFIX}/ DESTINATION ${CMAKE_INSTALL_PREFIX}/$<TARGET_BUNDLE_DIR_NAME:${PARA_NAME}>/Contents PATTERN $<TARGET_BUNDLE_DIR_NAME:${PARA_NAME}> EXCLUDE)")
             else()
                 INSTALL(TARGETS ${PARA_NAME}
                     RUNTIME DESTINATION "${PARA_RUNTIME}"
@@ -847,6 +853,7 @@ endfunction()
 #    ISPLUGIN                       是插件
 #    NO_TRANSLATION                 不产生翻译资源
 #    ISWINDOWS                      窗口程序
+#    IS_MACOSX_BUNDLE                Apple bundle
 #    NAME                           目标名。注意：翻译资源文件名(.ts)默认是 ${PROJECT_NAME}
 #    OUTPUT_DIR                     目标生成目录
 #    VERSION                        版本
@@ -924,7 +931,7 @@ function(ADD_TARGET)
         COMPONENT_PREFIX
         )
     cmake_parse_arguments(PARA
-        "ISEXE;ISPLUGIN;ISWINDOWS;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
+        "ISEXE;ISPLUGIN;ISWINDOWS;IS_MACOSX_BUNDLE;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -935,6 +942,7 @@ function(ADD_TARGET)
                 [ISEXE]
                 [ISPLUGIN]
                 [ISWINDOWS]
+                [IS_MACOSX_BUNDLE]
                 [NO_TRANSLATION]
                 [NO_INSTALL]
                 [NO_INSTALL_ANDROID_OPENSSL]
@@ -1230,8 +1238,8 @@ function(ADD_TARGET)
         )
     else()
         if(APPLE)
-            get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
-            if(_MACOSX_BUNDLE)
+            if(PARA_IS_MACOSX_BUNDLE)
+                set_target_properties(${PARA_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
                 set_target_properties(${PARA_NAME} PROPERTIES
                     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.)
             else()
@@ -1406,8 +1414,12 @@ function(ADD_TARGET)
         elseif(PARA_ISEXE)
 
             if(NOT ANDROID)
+                if(PARA_IS_MACOSX_BUNDLE)
+                    set(_HAS_PARAS IS_MACOSX_BUNDLE)
+                endif()
                 INSTALL_TARGET(NAME ${PARA_NAME}
                     ISEXE
+                    ${_HAS_PARAS}
                     PUBLIC_HEADER ${PARA_INSTALL_PUBLIC_HEADER}
                     INCLUDES ${PARA_INSTALL_INCLUDES}
                     COMPONENT ${PARA_COMPONENT}

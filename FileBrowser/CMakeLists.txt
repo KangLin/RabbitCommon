@@ -18,6 +18,7 @@ set(SOURCE_UI_FILES MainWindow.ui)
 set(APP_ID "io.github.KangLin.FileBrowser")
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
+    IS_MACOSX_BUNDLE
     SOURCE_FILES ${SOURCE_FILES} ${RESOURCE_FILES} ${SOURCE_UI_FILES}
     PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
     INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
@@ -44,7 +45,6 @@ if(NOT ANDROID AND UNIX)
 endif()
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
     set(MACOSX_BUNDLE_GUI_IDENTIFIER ${APP_ID})
     set(MACOSX_BUNDLE_ICON_FILE ${APP_ID})
     file(COPY_FILE ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
