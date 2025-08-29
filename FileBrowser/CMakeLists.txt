@@ -45,8 +45,14 @@ if(NOT ANDROID AND UNIX)
 endif()
 
 if(APPLE)
-    set(MACOSX_BUNDLE_GUI_IDENTIFIER ${APP_ID})
-    set(MACOSX_BUNDLE_ICON_FILE ${APP_ID})
+    # 设置 bundle 属性 (如果是 GUI 应用)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        MACOSX_BUNDLE_GUI_IDENTIFIER "${APP_ID}"
+        MACOSX_BUNDLE_ICON_FILE "${APP_ID}.icns"
+        MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+        )
     file(COPY_FILE ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
         ${APP_ID}.svg)
     target_add_resources(${PROJECT_NAME} . ${APP_ID}.svg)
