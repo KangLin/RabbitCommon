@@ -122,6 +122,8 @@ jobs:
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DINSTALL_QT=OFF \
+              -DBUILD_APP=OFF \
+              -DBUILD_MimeTypeBrowser=OFF \
               -DBUILD_APP=OFF
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target install
           cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target package
@@ -135,9 +137,9 @@ jobs:
             ${QT_ROOT}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
             lipo -info install/FileBrowser.app/Contents/MacOS/FileBrowser
             #lipo -info install/FileBrowser.app/FrameWorks/QtGui.framework/Versions/5/QtGui
-            otool -l install/FileBrowser.app/Contents/MacOS/FileBrowser
+            otool -l install/FileBrowser.app/Contents/MacOS/FileBrowser | grep -A2 LC_RPATH
             otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
-            otool -l install/FrameWorks/libRabbitCommon.dylib
+            otool -l install/FrameWorks/libRabbitCommon.dylib | grep -A3 -B1 "LC_RPATH"
             otool -L install/FrameWorks/libRabbitCommon.dylib
             7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           fi

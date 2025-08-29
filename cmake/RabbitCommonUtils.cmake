@@ -1233,7 +1233,7 @@ function(ADD_TARGET)
             get_target_property(_MACOSX_BUNDLE ${PARA_NAME} MACOSX_BUNDLE)
             if(_MACOSX_BUNDLE)
                 set_target_properties(${PARA_NAME} PROPERTIES
-                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+                    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.)
             else()
                 set_target_properties(${PARA_NAME} PROPERTIES
                     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/MacOS)
