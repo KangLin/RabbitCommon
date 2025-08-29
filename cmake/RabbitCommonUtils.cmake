@@ -1192,6 +1192,9 @@ function(ADD_TARGET)
             if(PARA_ISEXE)
                 SET(PARA_INSTALL_RPATH
                     "@executable_path/../Frameworks")
+            elseif(PARA_ISPLUGIN)
+                SET(PARA_INSTALL_RPATH
+                    "@loader_path")
             else()
                 SET(PARA_INSTALL_RPATH
                     "@loader_path/../Frameworks")
