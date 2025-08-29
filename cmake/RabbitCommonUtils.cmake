@@ -552,11 +552,11 @@ function(INSTALL_TARGET)
 
         if(APPLE)
             # 配置应用程序的 Info.plist
-            configure_file(
-                ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in
-                ${CMAKE_CURRENT_BINARY_DIR}/Info.plist
-                @ONLY
-                )
+            # configure_file(
+            #     ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in
+            #     ${CMAKE_CURRENT_BINARY_DIR}/Info.plist
+            #     @ONLY
+            #     )
             INSTALL(TARGETS ${PARA_NAME}
                 FRAMEWORK DESTINATION "${PARA_INSTALL_PLUGIN_LIBRARY_DIR}"
                         COMPONENT ${PARA_COMPONENT}
@@ -564,9 +564,9 @@ function(INSTALL_TARGET)
                         COMPONENT ${PARA_COMPONENT}
                 )
             # 查找 macdeployqt
-            find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
-                DOC "Path to macdeployqt executable"
-                )
+            # find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+            #     DOC "Path to macdeployqt executable"
+            #     )
             # #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             # add_custom_command(TARGET ${PARA_NAME} POST_BUILD
             #     COMMAND ${CMAKE_COMMAND} -E echo "exec macdeployqt for ${PARA_NAME}"
@@ -624,6 +624,9 @@ function(INSTALL_TARGET)
             #     #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
             #     # https://doc.qt.io/qt-6/macos-deployment.html
             #     # https://developer.apple.com/documentation/bundleresources/placing-content-in-a-bundle
+            #     find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+            #         DOC "Path to macdeployqt executable"
+            #     )
             #     add_custom_command(TARGET ${PARA_NAME} POST_BUILD
             #         COMMAND ${CMAKE_COMMAND} -E echo "exec macdeployqt for ${PARA_NAME}"
             #         COMMAND "${QT_INSTALL_DIR}/bin/macdeployqt"
