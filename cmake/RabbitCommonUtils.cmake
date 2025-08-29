@@ -1191,10 +1191,10 @@ function(ADD_TARGET)
         if(APPLE)
             if(PARA_ISEXE)
                 SET(PARA_INSTALL_RPATH
-                    "@executable_path:@executable_path/../Frameworks:@executable_path/../${CMAKE_INSTALL_LIBDIR}")
+                    "@executable_path/../Frameworks")
             else()
                 SET(PARA_INSTALL_RPATH
-                    "@loader_path:@loader_path/../Frameworks:@loader_path/../${CMAKE_INSTALL_LIBDIR}")
+                    "@loader_path/../Frameworks")
             endif()
             # See: https://cmake.org/cmake/help/v3.15/prop_tgt/MACOSX_RPATH.html#prop_tgt:MACOSX_RPATH
             SET_TARGET_PROPERTIES(${PARA_NAME}
