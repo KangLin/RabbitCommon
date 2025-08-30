@@ -71,11 +71,11 @@ int CStyle::LoadStyle()
     // Load icons theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
+    QIcon::setThemeSearchPaths(
+        QIcon::themeSearchPaths()
+        << RabbitCommon::CDir::Instance()->GetDirIcons(true));
     bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
     if(bIconTheme) {
-        QIcon::setThemeSearchPaths(
-            QIcon::themeSearchPaths()
-            << RabbitCommon::CDir::Instance()->GetDirIcons(true));
         QString szThemeName = QIcon::themeName();
         if(szThemeName.isEmpty())
             szThemeName = m_szDefaultIconTheme;

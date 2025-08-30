@@ -6,6 +6,7 @@
   - 更新: 增加更新回调函数
   - 用　QTextBrowser 替换 QTextEdit
   - 完成　MacOS 打包
+  - 修复禁用“图标主题”后，不能选择的错误。 See: https://github.com/KangLin/RabbitRemoteControl/issues/69
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

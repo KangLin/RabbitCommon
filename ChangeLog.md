@@ -6,6 +6,7 @@
   - Update: add update callback function
   - QTextBrowser replace QTextEdit
   - Package MacOS to end
+  - Fix Unable to change "Icon theme" after disabling it. See: https://github.com/KangLin/RabbitRemoteControl/issues/69
 
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux
