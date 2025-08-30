@@ -43,8 +43,9 @@ private:
     QString GetStyleFile();
 
 private Q_SLOTS:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     void slotColorSchemeChanged(Qt::ColorScheme colorScheme);
-
+#endif
 private:
     CStyle(QObject *parent = nullptr);
 

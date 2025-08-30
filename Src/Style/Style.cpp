@@ -52,12 +52,14 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
         ;
 
     bool check = false;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     if(QApplication::instance()) {
         check = connect(QApplication::styleHints(),
                         SIGNAL(colorSchemeChanged(Qt::ColorScheme)),
                         this, SLOT(slotColorSchemeChanged(Qt::ColorScheme)));
         Q_ASSERT(check);
     }
+#endif
 }
 
 CStyle* CStyle::Instance()
@@ -236,9 +238,9 @@ QString CStyle::GetStyleFile()
     return m_szFile;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
 void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     QRegularExpression re("black|[Dd]ark");
     QRegularExpressionMatch match = re.match(QIcon::themeName());
     if (Qt::ColorScheme::Dark == colorScheme && match.hasMatch()) {
@@ -261,7 +263,7 @@ void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
             szThemeName = set.value("Style/Icon/Theme", szThemeName).toString();
         }
     }
-#endif // QT_VERSION
 }
+#endif // QT_VERSION
 
 } //namespace RabbitCommon
