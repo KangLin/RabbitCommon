@@ -8,6 +8,11 @@
 
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QPalette>
+#include <QIcon>
+#include <QStyleHints>
+#include <QApplication>
+#include <QMessageBox>
 
 #include "FrmStyle.h"
 #include "ui_FrmStyle.h"
@@ -113,9 +118,27 @@ CFrmStyle::~CFrmStyle()
 
 void CFrmStyle::on_pbOK_clicked()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    const auto colorScheme = QGuiApplication::styleHints()->colorScheme();
+    QRegularExpression re("black|[Dd]ark");
+    QRegularExpressionMatch match = re.match(ui->cbIconTheme->currentText());
+    if (Qt::ColorScheme::Dark == colorScheme && match.hasMatch()) {
+        QString szThemeName;
+        QString szInfo = tr("Current system theme is dark, current select theme is ")
+                         + QString("\"") + ui->cbIconTheme->currentText() + "\". \n";
+        szInfo += tr("it's almost impossible to find the icon because it matches the color.") + "\n"
+                  + tr("Are you sure you want to modify it?");
+        auto ret = QMessageBox::information(nullptr, tr("Change theme"),
+                                            szInfo,
+                                            QMessageBox::Ok | QMessageBox::No,
+                                            QMessageBox::No);
+        if(QMessageBox::No == ret)
+            return;
+    }
+#endif // QT_VERSION
+
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
-
     bool bIconTheme = ui->gpIconTheme->isChecked();
     set.setValue("Style/Icon/Theme/Enable", bIconTheme);
     if(bIconTheme) {

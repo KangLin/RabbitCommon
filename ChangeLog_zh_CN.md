@@ -7,6 +7,7 @@
   - 用　QTextBrowser 替换 QTextEdit
   - 完成　MacOS 打包
   - 修复禁用“图标主题”后，不能选择的错误。 See: https://github.com/KangLin/RabbitRemoteControl/issues/69
+  - 修复在黑暗主题下系统托盘图标为白色. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

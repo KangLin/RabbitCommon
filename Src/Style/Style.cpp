@@ -13,6 +13,8 @@
 #include <QColor>
 #include <QPalette>
 #include <QIcon>
+#include <QStyleHints>
+#include <QMessageBox>
 
 namespace RabbitCommon {
 
@@ -48,6 +50,14 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
         << "Fallback search paths:" << QIcon::fallbackSearchPaths() << "\n"
         #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
         ;
+
+    bool check = false;
+    if(QApplication::instance()) {
+        check = connect(QApplication::styleHints(),
+                        SIGNAL(colorSchemeChanged(Qt::ColorScheme)),
+                        this, SLOT(slotColorSchemeChanged(Qt::ColorScheme)));
+        Q_ASSERT(check);
+    }
 }
 
 CStyle* CStyle::Instance()
@@ -79,8 +89,27 @@ int CStyle::LoadStyle()
         QString szThemeName = QIcon::themeName();
         if(szThemeName.isEmpty())
             szThemeName = m_szDefaultIconTheme;
-        QIcon::setThemeName(set.value("Style/Icon/Theme",
-                                      szThemeName).toString());
+        szThemeName = set.value("Style/Icon/Theme", szThemeName).toString();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+        const auto scheme = QGuiApplication::styleHints()->colorScheme();
+        //qDebug(log) << "Scheme:" << scheme;
+        QRegularExpression re("black|[Dd]ark");
+        QRegularExpressionMatch match = re.match(szThemeName);
+        if (Qt::ColorScheme::Dark == scheme && match.hasMatch()) {
+            QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + szThemeName + "\". ";
+            szInfo += tr("it's almost impossible to find the icon because it matches the color.");
+#if defined(Q_OS_WIN)
+            szThemeName = "rabbit-green";
+#else
+            szThemeName = "rabbit-white";
+#endif
+            szInfo += " " + tr("change to ") + szThemeName;
+            qInfo(log) << szInfo;
+        }
+#endif // QT_VERSION
+
+        QIcon::setThemeName(szThemeName);
         
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0) && !defined(Q_OS_WINDOWS)
         QIcon::setFallbackSearchPaths(
@@ -205,6 +234,34 @@ QString CStyle::GetStyleFile()
         if(!QFile::exists(m_szFile))
             return "";
     return m_szFile;
+}
+
+void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    QRegularExpression re("black|[Dd]ark");
+    QRegularExpressionMatch match = re.match(QIcon::themeName());
+    if (Qt::ColorScheme::Dark == colorScheme && match.hasMatch()) {
+        QString szThemeName;
+        QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + QIcon::themeName() + "\". ";
+        szInfo += tr("it's almost impossible to find the icon because it matches the color.");
+#if defined(Q_OS_WIN)
+        szThemeName = "rabbit-green";
+#else
+        szThemeName = "rabbit-white";
+#endif
+        szInfo += " " + tr("change to ") + "\"" + szThemeName + "\"?";
+        auto ret = QMessageBox::information(nullptr, tr("Change theme"), szInfo,
+                                            QMessageBox::Ok | QMessageBox::No,
+                                            QMessageBox::Ok);
+        if(QMessageBox::Ok == ret) {
+            QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                          QSettings::IniFormat);
+            QIcon::setThemeName(szThemeName);
+            szThemeName = set.value("Style/Icon/Theme", szThemeName).toString();
+        }
+    }
+#endif // QT_VERSION
 }
 
 } //namespace RabbitCommon

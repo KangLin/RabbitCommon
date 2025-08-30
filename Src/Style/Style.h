@@ -42,6 +42,9 @@ private:
     void SetFile(const QString& file);
     QString GetStyleFile();
 
+private Q_SLOTS:
+    void slotColorSchemeChanged(Qt::ColorScheme colorScheme);
+
 private:
     CStyle(QObject *parent = nullptr);
 
