@@ -119,7 +119,7 @@ jobs:
               -DCMARK_STATIC=ON \
               -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
               -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
-              -DCMAKE_INSTALL_PREFIX=`pwd`/install/Contents \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install/RabbitCommon.App/Contents \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DINSTALL_QT=OFF \
               -DBUILD_APP=OFF
@@ -132,9 +132,9 @@ jobs:
             if [ -n "${Qt6_DIR}" ]; then
               QT_ROOT=${Qt6_DIR}
             fi
-            ${QT_ROOT}/bin/macdeployqt `pwd`/install -dmg -verbose=3
-            #otool -L install/Contents/MacOS/FileBrowser
-            #otool -L install/Contents/FrameWorks/libRabbitCommon.dylib
+            ${QT_ROOT}/bin/macdeployqt `pwd`/install/RabbitCommon.App -dmg -verbose=3
+            otool -L install/RabbitCommon.App/Contents/MacOS/FileBrowser
+            otool -L install/RabbitCommon.App/Contents/FrameWorks/libRabbitCommon.dylib
             7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
           fi
 
