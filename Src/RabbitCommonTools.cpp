@@ -383,7 +383,7 @@ void CTools::Init(QString szApplicationName,
         if(file.exists())
             InstallTranslatorFile(szFile);
         else
-            qWarning(logTranslation) << "The file doesn't exists:" << szFile;
+            qWarning(logTranslation) << "The file doesn't exists: " << szFile;
     }
     
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -649,7 +649,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     QFile f(appPath);
     if(!f.exists())
     {
-        qCCritical(log) << "The desktop file doesn't exist." << appPath;
+        qCCritical(log) << "The desktop file doesn't exist: " << appPath;
         return -2;
     }
     bool ret = f.link(szLink);
