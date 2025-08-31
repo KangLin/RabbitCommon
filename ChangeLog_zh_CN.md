@@ -11,8 +11,8 @@
       - 不产生 Info.plist 文件和 BUNDLE 目录
       - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks"
       - 用户需要生成 Info.plist 和 BUNDLE 目录
-    - 使用 MACOSX_BUNDLE 属性
-      - 自动产生 Info.plist 和 BUNDEL 目录
+    - 使用 MACOSX_BUNDLE 属性 (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
+      - 自动产生 Info.plist 和 BUNDLE 目录
       - 用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE
   - 修复禁用“图标主题”后，不能选择的错误。 See: https://github.com/KangLin/RabbitRemoteControl/issues/69
   - 修复在黑暗主题下系统托盘图标为白色. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
