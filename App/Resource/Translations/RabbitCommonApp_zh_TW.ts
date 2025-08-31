@@ -9,83 +9,108 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="42"/>
-        <source>Exec program use root</source>
-        <translation>用超級用戶權限執行程序</translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="69"/>
+        <location filename="../../MainWindow.ui" line="121"/>
         <source>Password:</source>
         <translation>密碼：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="93"/>
+        <location filename="../../MainWindow.ui" line="145"/>
         <source>Encrypt</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="49"/>
+        <location filename="../../MainWindow.ui" line="23"/>
         <source>Generate core file</source>
         <translation>產生崩潰文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="23"/>
+        <location filename="../../MainWindow.ui" line="37"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="56"/>
+        <location filename="../../MainWindow.ui" line="30"/>
         <source>Thread core</source>
         <translation>線程崩潰</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="104"/>
+        <location filename="../../MainWindow.ui" line="60"/>
+        <source>Command:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="70"/>
+        <source>Parameters:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="80"/>
+        <source>Exec program with root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="91"/>
+        <source>Update file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="101"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="108"/>
+        <source>Execute update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="156"/>
         <source>Download file</source>
         <translation>下載文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="119"/>
+        <location filename="../../MainWindow.ui" line="171"/>
         <source>Add file</source>
         <translation>增加文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="126"/>
+        <location filename="../../MainWindow.ui" line="178"/>
         <source>Download</source>
         <translation>下載</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="148"/>
+        <location filename="../../MainWindow.ui" line="200"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="155"/>
+        <location filename="../../MainWindow.ui" line="207"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="168"/>
+        <location filename="../../MainWindow.ui" line="220"/>
         <source>About</source>
         <translation>關於</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="176"/>
+        <location filename="../../MainWindow.ui" line="228"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="181"/>
+        <location filename="../../MainWindow.ui" line="233"/>
         <location filename="../../MainWindow.cpp" line="78"/>
         <source>Folder browser</source>
         <translation>文件夾瀏覽器</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="151"/>
+        <location filename="../../MainWindow.cpp" line="156"/>
         <source>Encrypt:</source>
         <translation>加密：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="151"/>
+        <location filename="../../MainWindow.cpp" line="156"/>
         <source>Source:</source>
         <translation>源：</translation>
     </message>

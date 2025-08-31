@@ -82,7 +82,7 @@ CInformation::CInformation(const QString &szApp,
         szQt += "  - " + tr("Build Version: ")
                 + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+        szQt += "  - " + tr("Doesn't have OPENSSL dynamic library installed. Please install it") + "\n";
     }
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
     szQt += "### " + tr("Standard paths:") + "\n";
@@ -128,8 +128,8 @@ CInformation::CInformation(const QString &szApp,
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
     szOS = "### " + tr("OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
-    szOS += "  - " + tr("product type: ") + QSysInfo::productType() + "\n";
-    szOS += "  - " + tr("product version: ") + QSysInfo::productVersion() + "\n";
+    szOS += "  - " + tr("Product type: ") + QSysInfo::productType() + "\n";
+    szOS += "  - " + tr("Product version: ") + QSysInfo::productVersion() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
@@ -152,7 +152,7 @@ CInformation::CInformation(const QString &szApp,
 #endif
 
     QString szEnv;
-    szEnv += "### " + tr("Environment:") + "\n";
+    szEnv += "### " + tr("Environment Variables:") + "\n";
     auto env = QProcessEnvironment::systemEnvironment();
     foreach (auto key, env.keys()) {
         szEnv += "  - " + key + "=" + env.value(key) + "\n";

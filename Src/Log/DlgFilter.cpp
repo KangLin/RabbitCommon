@@ -39,7 +39,7 @@ void CDlgFilter::on_leInclude_editingFinished()
     if(r.isValid())
         return;
     QString szMsg;
-    szMsg = tr("Filter of include is error: ") + r.errorString();
+    szMsg = tr("Filter of include is wrong: ") + r.errorString();
     qCritical() << szMsg;
     QMessageBox::critical(this, tr("Error"), szMsg);
 }
@@ -50,7 +50,7 @@ void CDlgFilter::on_leExclude_editingFinished()
     if(r.isValid())
         return;
     QString szMsg;
-    szMsg = tr("Filter of exclude is error: ") + r.errorString();
+    szMsg = tr("Filter of exclude is wrong: ") + r.errorString();
     qCritical() << szMsg;
     QMessageBox::critical(this, tr("Error"), szMsg);
 }

@@ -199,7 +199,7 @@ LONG WINAPI AppExceptionCallback(struct _EXCEPTION_POINTERS *pException)
     // 提示
     QString szTitle = QObject::tr("Application Error");
     QString szContent
-        = QObject::tr("I'm Sorry, Application is Crash!") + "\n\n"
+        = QObject::tr("I'm Sorry, Application has Crashed!") + "\n\n"
           + QObject::tr("Current path: ") + QDir::currentPath() + "\n\n";
     if(bDumpFile)
           szContent += QObject::tr("Dump file: ") + dumpName + "\n\n";

@@ -189,7 +189,10 @@
      <item>
       <widget class="QPushButton" name="pbOK">
        <property name="text">
-        <string>OK</string>
+        <string>OK(&amp;O)</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -262,7 +265,7 @@
            <item>
             <widget class="QPushButton" name="pbDetails">
              <property name="text">
-              <string>Details</string>
+              <string>Details(&amp;D)</string>
              </property>
             </widget>
            </item>

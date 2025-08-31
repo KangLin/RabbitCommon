@@ -225,13 +225,13 @@ void CDownload::slotReadyRead()
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
     {
-        qCritical(log) << "The reply isn't exits";
+        qCritical(log) << "The reply doesn't exits";
         return;
     }
     QSharedPointer<QFile> file = m_DownloadFile[m_Reply[pReply]];
     if(!file)
     {
-        qCritical(log) << "The file isn't exits.";
+        qCritical(log) << "The file doesn't exits.";
         return;
     }
     if(file && file->isOpen())
@@ -247,7 +247,7 @@ void CDownload::slotFinished()
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
     {
-        qCritical(log) << "The reply isn't exits" << pReply->url();
+        qCritical(log) << "The reply doesn't exits" << pReply->url();
         return;
     }
     int nIndex = m_Reply[pReply];
@@ -286,7 +286,7 @@ void CDownload::slotFinished()
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(!file)
     {
-        qCritical(log) << "The file isn't exits. index:" << nIndex;
+        qCritical(log) << "The file doesn't exits. index:" << nIndex;
         return;
     }   
     file->close();
@@ -298,7 +298,7 @@ void CDownload::slotError(QNetworkReply::NetworkError e)
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
     {
-        qCritical(log) << "Network error: The reply isn't exits."
+        qCritical(log) << "Network error: The reply doesn't exits."
                          << pReply->url() << "NetworkError:" << e;
         return;
     }
@@ -343,7 +343,7 @@ void CDownload::slotSslError(const QList<QSslError> e)
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(m_Reply.find(pReply) == m_Reply.end())
     {
-        qCritical(log) << "ssl error: The reply isn't exits. QSslError:" << e;
+        qCritical(log) << "ssl error: The reply doesn't exits. QSslError:" << e;
         return;
     }
     int nIndex = m_Reply[pReply];
@@ -354,7 +354,7 @@ void CDownload::slotSslError(const QList<QSslError> e)
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(!file)
     {
-        qCritical(log) << "ssl error: The file null. index: "
+        qCritical(log) << "ssl error: The file is null. index: "
                         + QString::number(nIndex);
         return;
     }
@@ -390,12 +390,12 @@ void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     QNetworkReply* pReply = dynamic_cast<QNetworkReply*>(this->sender());
     if(!pReply)
     {
-        qCritical(log) << "slotDownloadProgress: The sender is not reply";
+        qCritical(log) << "slotDownloadProgress: The sender doesn't reply";
         return;
     }
     if(m_Reply.find(pReply) == m_Reply.end())
     {
-        qCritical(log) << "slotDownloadProgress: The reply isn't exits"
+        qCritical(log) << "slotDownloadProgress: The reply doesn't exits"
                        << pReply->url();
         return;
     }
@@ -403,7 +403,7 @@ void CDownload::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     QSharedPointer<QFile> file = m_DownloadFile[nIndex];
     if(!file)
     {
-        qCritical(log) << "slotDownloadProgress: The file null. index: "
+        qCritical(log) << "slotDownloadProgress: The file is null. index: "
                               + QString::number(nIndex);
         return;
     }

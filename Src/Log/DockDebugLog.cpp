@@ -133,7 +133,7 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
                          QObject::tr("Open Log file"),
                          [](){RabbitCommon::OpenLogFile();});
         pMenu->addAction(QIcon::fromTheme("folder-open"),
-                         tr("Open log folder"), [](){
+                         tr("Open Log folder"), [](){
            RabbitCommon::OpenLogFolder();
         });
     }

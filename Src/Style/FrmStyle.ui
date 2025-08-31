@@ -51,7 +51,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="gpIconTheme">
      <property name="title">
-      <string>Icon theme: </string>
+      <string>Icon theme:</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -121,7 +121,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="lbIconThemeChanged">
         <property name="text">
-         <string>You need to restart the programe after the icon theme checked is changed.</string>
+         <string>You need to restart the program after the icon theme checkbox is changed.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -170,6 +170,9 @@
       <widget class="QPushButton" name="pbOK">
        <property name="text">
         <string>Ok(&amp;O)</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -177,7 +177,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
             }
         });
 
-        szTitle = tr("Option");
+        szTitle = tr("Options");
         QToolButton* pButtonOption = new QToolButton(pToolBar);
         pButtonOption->setIcon(QIcon::fromTheme("emblem-system"));
         pButtonOption->setStatusTip(szTitle);
@@ -186,7 +186,7 @@ CFileBrowser::CFileBrowser(QWidget *parent)
         pButtonOption->setMenu(pMenuOption);
         pToolBar->addWidget(pButtonOption);
 
-        szTitle = tr("Hidden file");
+        szTitle = tr("Hidden files");
         m_pHiddenFile = pMenuOption->addAction(
             szTitle, this,
             [&]() {

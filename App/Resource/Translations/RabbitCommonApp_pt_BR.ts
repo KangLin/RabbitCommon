@@ -6,88 +6,113 @@
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Janela Principal</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="37"/>
+        <source>Log</source>
+        <translation>Log</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="23"/>
-        <source>Log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="42"/>
-        <source>Exec program use root</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="49"/>
         <source>Generate core file</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerar arquivo de despejo de memória</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="56"/>
+        <location filename="../../MainWindow.ui" line="30"/>
         <source>Thread core</source>
-        <translation type="unfinished"></translation>
+        <translation>Thread de despejo de memória</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="69"/>
+        <location filename="../../MainWindow.ui" line="60"/>
+        <source>Command:</source>
+        <translation>Comando:</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="70"/>
+        <source>Parameters:</source>
+        <translation>Parâmetros:</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="80"/>
+        <source>Exec program with root</source>
+        <translation>Executar programa como administrador</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="91"/>
+        <source>Update file:</source>
+        <translation>Arquivo de atualização:</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="101"/>
+        <source>Browse</source>
+        <translation>Procurar</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="108"/>
+        <source>Execute update</source>
+        <translation>Executar atualização</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="121"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Senha:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="93"/>
+        <location filename="../../MainWindow.ui" line="145"/>
         <source>Encrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Criptografar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="104"/>
+        <location filename="../../MainWindow.ui" line="156"/>
         <source>Download file</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixar arquivo</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="119"/>
+        <location filename="../../MainWindow.ui" line="171"/>
         <source>Add file</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar arquivo</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="126"/>
+        <location filename="../../MainWindow.ui" line="178"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="148"/>
+        <location filename="../../MainWindow.ui" line="200"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="155"/>
+        <location filename="../../MainWindow.ui" line="207"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferramentas</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="168"/>
+        <location filename="../../MainWindow.ui" line="220"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="176"/>
+        <location filename="../../MainWindow.ui" line="228"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Atualizar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="181"/>
+        <location filename="../../MainWindow.ui" line="233"/>
         <location filename="../../MainWindow.cpp" line="78"/>
         <source>Folder browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Navegador de pasta</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="151"/>
+        <location filename="../../MainWindow.cpp" line="156"/>
         <source>Encrypt:</source>
-        <translation type="unfinished"></translation>
+        <translation>Criptografado:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="151"/>
+        <location filename="../../MainWindow.cpp" line="156"/>
         <source>Source:</source>
-        <translation type="unfinished"></translation>
+        <translation>Origem:</translation>
     </message>
 </context>
 <context>
@@ -95,7 +120,7 @@
     <message>
         <location filename="../../main.cpp" line="46"/>
         <source>RabbitCommon</source>
-        <translation type="unfinished"></translation>
+        <translation>RabbitCommon</translation>
     </message>
 </context>
 </TS>

@@ -198,7 +198,7 @@ QString CTools::Information()
     szInfo += QObject::tr("  - Have GUI") + "\n";
 #endif
 #if defined(HAVE_ABOUT)
-    szInfo += QObject::tr("    - Have about diaglog") + "\n";
+    szInfo += QObject::tr("    - Have About dialog") + "\n";
 #ifdef HAVE_CMARK_GFM
     szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
 #elif HAVE_CMARK
@@ -206,9 +206,9 @@ QString CTools::Information()
 #endif
 #endif
 #if defined(HAVE_UPDATE)
-    szInfo += QObject::tr("    - Have update") + "\n";
+    szInfo += QObject::tr("    - Have Update") + "\n";
 #endif
-    szInfo += QObject::tr("    - The cursom title bar for QWidget") + "\n";
+    szInfo += QObject::tr("    - Custom title bar for QWidget") + "\n";
     szInfo += QObject::tr("    - Dock Folder browser") + "\n";
     szInfo += QObject::tr("    - Recent menu") + "\n";
     szInfo += QObject::tr("    - Style") + "\n";
@@ -220,8 +220,8 @@ QString CTools::Information()
 #if defined(BUILD_QUIWidget)
     szInfo += QObject::tr("  - Have QUIWidget") + "\n";
 #endif
-    szInfo += QObject::tr("  - Applicatoin paths and files: ") + "\n";
-    szInfo += QObject::tr("    - Install root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
+    szInfo += QObject::tr("  - Application paths and files: ") + "\n";
+    szInfo += QObject::tr("    - Installation root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
     szInfo += QObject::tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";
     szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirConfig() + "\n";
     szInfo += QObject::tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileApplicationConfigure() + "\n";
@@ -257,7 +257,7 @@ QString CTools::Information()
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
         szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szInfo += "    - Qt " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+        szInfo += "    - Qt " + QObject::tr("Doesn't have OPENSSL dynamic library installed. Please install it") + "\n";
     }
 #if HAVE_StackWalker
     szInfo += QObject::tr("  - StackWalker") + "\n";
@@ -864,7 +864,7 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
                      [](){RabbitCommon::OpenLogFile();});
     pAction->setStatusTip(QObject::tr("Open Log file"));
     pAction = pMenu->addAction(QIcon::fromTheme("folder-open"),
-                     QObject::tr("Open log folder"),
+                     QObject::tr("Open Log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
     pAction->setStatusTip(QObject::tr("Open Log folder"));
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parentMainWindow);

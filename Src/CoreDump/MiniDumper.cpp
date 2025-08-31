@@ -329,7 +329,7 @@ LONG CMiniDumper::writeMiniDump( _EXCEPTION_POINTERS *pExceptionInfo )
         else
         {
             TCHAR msg[1024];
-            wsprintf(msg, _T("I'm Sorry, Application is Crash! The path: %s"), m_szMiniDumpPath);
+            wsprintf(msg, _T("I'm Sorry, Application has Crashed! The path: %s"), m_szMiniDumpPath);
             ::MessageBox(NULL, msg, _T("Application Error"), MB_OK);
         }
     }
