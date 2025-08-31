@@ -9,6 +9,7 @@
 #include <QThread>
 #include <QSettings>
 #include <QMimeData>
+#include <QProcessEnvironment>
 
 #if defined(Q_OS_ANDROID)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -154,8 +155,19 @@ int CTools::SetLanguage(const QString szLanguage)
 
 QString CTools::GetLanguage()
 {
-    if(m_szLanguage.isEmpty())
-        return QLocale::system().name();
+    QString szLANG = QProcessEnvironment::systemEnvironment().value("LANG");
+    if(szLANG.isEmpty()) {
+        if(m_szLanguage.isEmpty())
+            return QLocale::system().name();
+    } else {
+        int underscoreIndex = szLANG.indexOf('.');
+
+        if (underscoreIndex != -1) { // Check if '_' exists in the string
+            szLANG.truncate(underscoreIndex);
+        }
+
+        return szLANG;
+    }
     return m_szLanguage;
 }
 
@@ -350,10 +362,10 @@ void CTools::Init(QString szApplicationName,
     AndroidRequestPermission(permissions);
     EnableCoreDump();
     RabbitCommon::CLog::Instance();
-    SetLanguage(szLanguage);
-    qInfo(logTranslation) << "Language:" << szLanguage;
+    SetLanguage(GetLanguage());
+    qInfo(logTranslation) << "Language:" << m_szLanguage;
     InitResource();
-    InstallTranslator("RabbitCommon", TranslationType::Library, szLanguage);
+    InstallTranslator("RabbitCommon", TranslationType::Library, m_szLanguage);
     //Init qt translation
     QString szQtTranslationPath;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -366,12 +378,12 @@ void CTools::Init(QString szApplicationName,
                    << "qtlocation";
     foreach(auto f, qtTranslations) {
         QString szFile = szQtTranslationPath + QDir::separator()
-                 + f + "_" + szLanguage + ".qm";
+                 + f + "_" + m_szLanguage + ".qm";
         QFile file(szFile);
         if(file.exists())
             InstallTranslatorFile(szFile);
         else
-            qWarning(logTranslation) << "The file isn't exists:" << szFile;
+            qWarning(logTranslation) << "The file doesn't exists:" << szFile;
     }
     
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -434,13 +446,13 @@ QSharedPointer<QTranslator> CTools::InstallTranslator(
 
     QString szSuffix;
     QString szPath;
-    szSuffix = QDir::separator() + szTranslationName + "_" + szLanguage + ".qm";
+    szSuffix = QDir::separator() + szTranslationName + "_" + m_szLanguage + ".qm";
     switch(type) {
     case TranslationType::Application:
         szPath = CDir::Instance()->GetDirTranslations();
         if(szTranslationName.isEmpty()) {
             szTranslationName = QCoreApplication::applicationName();
-            szSuffix = QDir::separator() + szTranslationName + "_" + szLanguage + ".qm";
+            szSuffix = QDir::separator() + szTranslationName + "_" + m_szLanguage + ".qm";
         }
         break;
     case TranslationType::Library: {
