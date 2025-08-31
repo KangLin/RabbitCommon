@@ -9,6 +9,7 @@
 #include <QThread>
 #include <QSettings>
 #include <QMimeData>
+#include <QProcessEnvironment>
 
 #if defined(Q_OS_ANDROID)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -146,17 +147,27 @@ CTools* CTools::Instance()
     return pTools;
 }
 
+static QString g_szLanguage;
 int CTools::SetLanguage(const QString szLanguage)
 {
-    m_szLanguage = szLanguage;
+    g_szLanguage = szLanguage;
     return 0;
 }
 
 QString CTools::GetLanguage()
 {
-    if(m_szLanguage.isEmpty())
-        return QLocale::system().name();
-    return m_szLanguage;
+    QString szLANG = QProcessEnvironment::systemEnvironment().value("LANG");
+    if(szLANG.isEmpty()) {
+        if(g_szLanguage.isEmpty())
+            return QLocale::system().name();
+    } else {
+        int underscoreIndex = szLANG.indexOf('.');
+        if (underscoreIndex != -1) {
+            szLANG.truncate(underscoreIndex);
+        }
+        return szLANG;
+    }
+    return g_szLanguage;
 }
 
 QString CTools::Version()
@@ -371,7 +382,7 @@ void CTools::Init(QString szApplicationName,
         if(file.exists())
             InstallTranslatorFile(szFile);
         else
-            qWarning(logTranslation) << "The file isn't exists:" << szFile;
+            qWarning(logTranslation) << "The file doesn't exists: " << szFile;
     }
     
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -637,7 +648,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     QFile f(appPath);
     if(!f.exists())
     {
-        qCCritical(log) << "The desktop file is not exist." << appPath;
+        qCCritical(log) << "The desktop file doesn't exist: " << appPath;
         return -2;
     }
     bool ret = f.link(szLink);

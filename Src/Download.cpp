@@ -165,7 +165,7 @@ int CDownload::DownloadFile(int nIndex, const QUrl &url, bool bRedirection)
             return 0;
         }
 
-        QString szErr = tr("The file is not exists: ") + file->fileName();
+        QString szErr = tr("The file doesn't exists: ") + file->fileName();
         qCritical(log) << szErr;
         emit sigError(-6, szErr);
         return -6;

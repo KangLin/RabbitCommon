@@ -144,10 +144,10 @@ public:
      * \note Free up the resource and call it only once before the program ends
      */
     void Clean();
-    
-    int SetLanguage(const QString szLanguage);
-    QString GetLanguage();
-    
+
+    static int SetLanguage(const QString szLanguage);
+    static QString GetLanguage();
+
     enum class TranslationType {
         Application,
         Library,
@@ -166,7 +166,7 @@ public:
         const QString szName = QString(),
         TranslationType type = TranslationType::Application,
         const QString szPluginDir = "plugins",
-        const QString szLanguage = QLocale::system().name());
+        const QString szLanguage = GetLanguage());
     int RemoveTranslator(QSharedPointer<QTranslator> translator);
 
     //! RabbitCommon version
@@ -307,7 +307,6 @@ private:
     QSharedPointer<QTranslator> InstallTranslatorFile(const QString szFile);
     QVector<QSharedPointer<QTranslator> > m_Translator;
 
-    QString m_szLanguage;
     bool m_Initialized;
 
     bool m_bShowMaxWindow;
