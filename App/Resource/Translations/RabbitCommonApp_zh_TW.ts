@@ -9,10 +9,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Exec program use root</source>
-        <translation type="vanished">用超級用戶權限執行程序</translation>
-    </message>
-    <message>
         <location filename="../../MainWindow.ui" line="128"/>
         <source>Password:</source>
         <translation>密碼：</translation>
@@ -40,37 +36,37 @@
     <message>
         <location filename="../../MainWindow.ui" line="60"/>
         <source>Command:</source>
-        <translation type="unfinished"></translation>
+        <translation>命令：</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="70"/>
         <source>Parameters:</source>
-        <translation type="unfinished"></translation>
+        <translation>參數：</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="80"/>
         <source>Exec program with root</source>
-        <translation type="unfinished"></translation>
+        <translation>用超級用戶權限執行程序</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="91"/>
         <source>Update file:</source>
-        <translation type="unfinished"></translation>
+        <translation>更新文件：</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="101"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>瀏覽</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="108"/>
         <source>Execute update</source>
-        <translation type="unfinished"></translation>
+        <translation>執行更新</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="121"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="163"/>
