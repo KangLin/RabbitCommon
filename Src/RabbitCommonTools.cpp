@@ -649,7 +649,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     QFile f(appPath);
     if(!f.exists())
     {
-        qCCritical(log) << "The desktop file is not exist." << appPath;
+        qCCritical(log) << "The desktop file doesn't exist." << appPath;
         return -2;
     }
     bool ret = f.link(szLink);

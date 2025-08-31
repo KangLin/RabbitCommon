@@ -177,7 +177,7 @@ void CRecentMenu::updateRecentFileActions()
         if(fi.exists())
             szMsg = tr("Recent open: ") + szFile;
         else
-            szMsg = tr("The file is not exists. ") + szFile;
+            szMsg = tr("The file doesn't exists. ") + szFile;
         recentFileAct->setToolTip(szMsg);
         recentFileAct->setStatusTip(szMsg);
         recentFileAct->setWhatsThis(szMsg);

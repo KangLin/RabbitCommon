@@ -68,7 +68,7 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
                 qDebug(log) << "Theme:" << themeName;
                 ui->cbIconTheme->addItem(themeName);
             } else {
-                qCritical(log) << "index.theme is not exists:" << fi.fileName()
+                qCritical(log) << "index.theme doesn't exists: " << fi.fileName()
                                << "Theme:" << themeName;
             }
         }
