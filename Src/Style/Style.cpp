@@ -193,7 +193,7 @@ QString CStyle::GetStyle()
     }
     qDebug(log) << "Path:" << szPath;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
-    szFile = QFileDialog::getOpenFileName(pParent, tr("Open sink"),
+    szFile = QFileDialog::getOpenFileName(pParent, tr("Open style"),
                                           szPath,
                                           tr("Style files(*.qss *.css);; All files(*.*)"));
     return szFile;
