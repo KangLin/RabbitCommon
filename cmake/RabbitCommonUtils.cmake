@@ -795,7 +795,7 @@ function(INSTALL_TARGET)
 
         find_program(WINDEPLOYQT_EXECUTABLE windeployqt
             HINTS ${QT_INSTALL_DIR}/bin
-            DOC "Path to macdeployqt executable"
+            DOC "Path to windeployqt executable"
         )
         if(WINDEPLOYQT_EXECUTABLE)
             message("find windeployqt: ${WINDEPLOYQT_EXECUTABLE}")
