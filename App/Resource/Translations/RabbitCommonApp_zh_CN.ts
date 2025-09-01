@@ -9,12 +9,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="128"/>
+        <location filename="../../MainWindow.ui" line="121"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="152"/>
+        <location filename="../../MainWindow.ui" line="145"/>
         <source>Encrypt</source>
         <translation>加密</translation>
     </message>
@@ -64,47 +64,42 @@
         <translation>执行更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="121"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="163"/>
+        <location filename="../../MainWindow.ui" line="156"/>
         <source>Download file</source>
         <translation>下载文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="178"/>
+        <location filename="../../MainWindow.ui" line="171"/>
         <source>Add file</source>
         <translation>增加文件</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="185"/>
+        <location filename="../../MainWindow.ui" line="178"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="207"/>
+        <location filename="../../MainWindow.ui" line="200"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="214"/>
+        <location filename="../../MainWindow.ui" line="207"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="227"/>
+        <location filename="../../MainWindow.ui" line="220"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="235"/>
+        <location filename="../../MainWindow.ui" line="228"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="240"/>
+        <location filename="../../MainWindow.ui" line="233"/>
         <location filename="../../MainWindow.cpp" line="78"/>
         <source>Folder browser</source>
         <translation>文件夹浏览器</translation>
