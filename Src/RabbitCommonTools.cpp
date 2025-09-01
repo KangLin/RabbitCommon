@@ -177,9 +177,9 @@ QString CTools::Version()
     QString szVersion(RabbitCommon_VERSION);
     QString szRevision(RabbitCommon_REVISION);
     if(szRevision.isEmpty()) {
-        szReturn = QObject::tr("Version: ") + szVersion;
+        szReturn = tr("Version: ") + szVersion;
     } else {
-        szReturn = QObject::tr("Version: ") + szVersion + QObject::tr(" (From revision: "); 
+        szReturn = tr("Version: ") + szVersion + tr(" (From revision: "); 
 #if (defined(HAVE_CMARK) || defined(HAVE_CMARK_GFM))
         szReturn += "[" + szRevision + "](http://github.com/KangLin/RabbitCommon/tree/" + szRevision + ")";
 #else
@@ -193,79 +193,83 @@ QString CTools::Version()
 QString CTools::Information()
 {
     QString szInfo;
-    szInfo = QObject::tr("- Functions:") + "\n";
+    szInfo = tr("- Functions:") + "\n";
+    szInfo += tr("  - Locale: ") + GetLanguage() + "\n";
 #if defined(HAVE_RABBITCOMMON_GUI)
-    szInfo += QObject::tr("  - Have GUI") + "\n";
-#endif
+    szInfo += tr("  - Have GUI") + "\n";
 #if defined(HAVE_ABOUT)
-    szInfo += QObject::tr("    - Have About dialog") + "\n";
+    szInfo += tr("    - Have About dialog") + "\n";
 #ifdef HAVE_CMARK_GFM
-    szInfo += QObject::tr("    - Use cmark-gfm") + "\n";
+    szInfo += tr("    - Use cmark-gfm") + "\n";
 #elif HAVE_CMARK
-    szInfo += QObject::tr("      - Use cmark") + "\n";
+    szInfo += tr("      - Use cmark") + "\n";
 #endif
 #endif
 #if defined(HAVE_UPDATE)
-    szInfo += QObject::tr("    - Have Update") + "\n";
+    szInfo += tr("    - Have Update") + "\n";
 #endif
-    szInfo += QObject::tr("    - Custom title bar for QWidget") + "\n";
-    szInfo += QObject::tr("    - Dock Folder browser") + "\n";
-    szInfo += QObject::tr("    - Recent menu") + "\n";
-    szInfo += QObject::tr("    - Style") + "\n";
-    szInfo += QObject::tr("  - Log") + "\n";
-    szInfo += QObject::tr("    - Core dump") + "\n";
+    szInfo += tr("    - Custom title bar for QWidget") + "\n";
+    szInfo += tr("    - Dock Folder browser") + "\n";
+    szInfo += tr("    - Recent menu") + "\n";
+    szInfo += tr("    - Style") + "\n";
+    szInfo += tr("      - Icon theme: ") + QIcon::themeName() + "\n";
+    szInfo += tr("      - Fall back icon theme: ") + QIcon::fallbackThemeName() + "\n";
+#endif // #if defined(HAVE_RABBITCOMMON_GUI)
+    szInfo += tr("  - Log") + "\n";
+    szInfo += tr("    - Core dump") + "\n";
+    szInfo += tr("    - Log file: ") + CLog::Instance()->GetLogFile() + "\n";
 #if defined(HAVE_OPENSSL)
-    szInfo += QObject::tr("  - Have encrypt(OPENSSL)") + "\n";
+    szInfo += tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
 #if defined(BUILD_QUIWidget)
-    szInfo += QObject::tr("  - Have QUIWidget") + "\n";
+    szInfo += tr("  - Have QUIWidget") + "\n";
 #endif
-    szInfo += QObject::tr("  - Application paths and files: ") + "\n";
-    szInfo += QObject::tr("    - Installation root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
-    szInfo += QObject::tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";
-    szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirConfig() + "\n";
-    szInfo += QObject::tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileApplicationConfigure() + "\n";
-    szInfo += QObject::tr("    - Translations path: ") + RabbitCommon::CDir::Instance()->GetDirTranslations() + "\n";
-    szInfo += QObject::tr("    - Log path: ") + RabbitCommon::CDir::Instance()->GetDirLog() + "\n";
-    szInfo += QObject::tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirData() + "\n";
-    szInfo += QObject::tr("    - Icons path: ") + RabbitCommon::CDir::Instance()->GetDirIcons() + "\n";
-    szInfo += QObject::tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirDatabase() + "\n";
-    szInfo += QObject::tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirDatabaseFile() + "\n";
-    szInfo += QObject::tr("    - Plugins path: ") + RabbitCommon::CDir::Instance()->GetDirPlugins() + "\n";
-    szInfo += QObject::tr("  - User folders and files: ") + "\n";
-    szInfo += QObject::tr("    - Documents path: ") + RabbitCommon::CDir::Instance()->GetDirUserDocument() + "\n";
-    szInfo += QObject::tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirUserConfig() + "\n";
-    szInfo += QObject::tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileUserConfigure() + "\n";
-    szInfo += QObject::tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirUserData() + "\n";
-    szInfo += QObject::tr("    - Image path: ") + RabbitCommon::CDir::Instance()->GetDirUserImage() + "\n";
-    szInfo += QObject::tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabase() + "\n";
-    szInfo += QObject::tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabaseFile() + "\n";
+    szInfo += tr("  - Application paths and files: ") + "\n";
+    szInfo += tr("    - Installation root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
+    szInfo += tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";
+    szInfo += tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirConfig() + "\n";
+    szInfo += tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileApplicationConfigure() + "\n";
+    szInfo += tr("    - Translations path: ") + RabbitCommon::CDir::Instance()->GetDirTranslations() + "\n";
+    szInfo += tr("    - Log path: ") + RabbitCommon::CDir::Instance()->GetDirLog() + "\n";
+    szInfo += tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirData() + "\n";
+    szInfo += tr("    - Icons path: ") + RabbitCommon::CDir::Instance()->GetDirIcons() + "\n";
+    szInfo += tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirDatabase() + "\n";
+    szInfo += tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirDatabaseFile() + "\n";
+    szInfo += tr("    - Plugins path: ") + RabbitCommon::CDir::Instance()->GetDirPlugins() + "\n";
+    szInfo += tr("  - User folders and files: ") + "\n";
+    szInfo += tr("    - Documents path: ") + RabbitCommon::CDir::Instance()->GetDirUserDocument() + "\n";
+    szInfo += tr("    - Configure path: ") + RabbitCommon::CDir::Instance()->GetDirUserConfig() + "\n";
+    szInfo += tr("    - Configure file: ") + RabbitCommon::CDir::Instance()->GetFileUserConfigure() + "\n";
+    szInfo += tr("    - Data path: ") + RabbitCommon::CDir::Instance()->GetDirUserData() + "\n";
+    szInfo += tr("    - Image path: ") + RabbitCommon::CDir::Instance()->GetDirUserImage() + "\n";
+    szInfo += tr("    - Database path: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabase() + "\n";
+    szInfo += tr("    - Database file: ") + RabbitCommon::CDir::Instance()->GetDirUserDatabaseFile() + "\n";
 
-    szInfo += QObject::tr("- Dependent libraries:") + "\n";
-    szInfo += QObject::tr("  - OpenSSL:") + "\n";
+    szInfo += tr("- Dependent libraries:") + "\n";
+    szInfo += tr("  - OpenSSL:") + "\n";
 #if defined(HAVE_OPENSSL)
-    szInfo += "    - " + QObject::tr("Build Version: ") + OPENSSL_VERSION_TEXT + "\n";
-    szInfo += "    - " + QObject::tr("Runtime Version: ") + OpenSSL_version(OPENSSL_VERSION) + "\n";
+    szInfo += "    - " + tr("Build Version: ") + OPENSSL_VERSION_TEXT + "\n";
+    szInfo += "    - " + tr("Runtime Version: ") + OpenSSL_version(OPENSSL_VERSION) + "\n";
 #endif
     if(QSslSocket::supportsSsl())
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+        szInfo += "    - Qt " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szInfo += "    - Qt " + QObject::tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
+        szInfo += "    - Qt " + tr("Installed Version: ") + QSslSocket::sslLibraryVersionString() + "\n";
     } else {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szInfo += "    - Qt " + QObject::tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
+        szInfo += "    - Qt " + tr("Build Version: ") + QSslSocket::sslLibraryBuildVersionString() + "\n";
 #endif
-        szInfo += "    - Qt " + QObject::tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
+        szInfo += "    - Qt " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
 #if HAVE_StackWalker
-    szInfo += QObject::tr("  - StackWalker") + "\n";
+    szInfo += tr("  - StackWalker") + "\n";
 #endif
 #ifdef HAVE_CMARK_GFM
-    szInfo += QObject::tr("  - cmark-gfm") + "\n";
+    szInfo += tr("  - cmark-gfm") + "\n";
 #elif HAVE_CMARK
-    szInfo += QObject::tr("  - cmark") + "\n";
+    szInfo += tr("  - cmark") + "\n";
 #endif
     return szInfo;
 }
@@ -812,7 +816,7 @@ QString CTools::MarkDownToHtml(const QString &szText)
 QAction* CTools::AddStyleMenu(QMenu *pMenu, QWidget *parent)
 {
     return pMenu->addAction(QIcon::fromTheme("style"),
-                            QObject::tr("Style"),
+                            tr("Style"),
                             [=](){
                                 CFrmStyle* s = new CFrmStyle(parent);
                                 if(s)
@@ -823,10 +827,10 @@ QAction* CTools::AddStyleMenu(QMenu *pMenu, QWidget *parent)
 void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
 {
     QAction* pAction = new QAction(QIcon::fromTheme("style"),
-                                   QObject::tr("Style"), parent);
+                                   tr("Style"), parent);
     if(!pAction)
         return;
-    pAction->setStatusTip(QObject::tr("Style"));
+    pAction->setStatusTip(tr("Style"));
     QObject::connect(pAction, &QAction::triggered, [=](){
         CFrmStyle* s = new CFrmStyle(parent);
         if(s)
@@ -837,12 +841,12 @@ void CTools::InsertStyleMenu(QMenu *pMenu, QAction *before, QWidget *parent)
 
 QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
 {
-    QMenu* pMenu = new QMenu(QObject::tr("Log"), parentMainWindow);
+    QMenu* pMenu = new QMenu(tr("Log"), parentMainWindow);
     if(!pMenu) return pMenu;
-    pMenu->setStatusTip(QObject::tr("Log"));
+    pMenu->setStatusTip(tr("Log"));
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
     QAction* pAction = pMenu->addAction(QIcon::fromTheme("emblem-system"),
-                     QObject::tr("Settings"),
+                     tr("Settings"),
                      [](){
                          CDlgFilter dlg;
                          QString szInclude, szExclude;
@@ -854,19 +858,19 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
                              CLog::Instance()->SetFilter(szInclude, szExclude);
                          }
                      });
-    pAction->setStatusTip(QObject::tr("Settings"));
+    pAction->setStatusTip(tr("Settings"));
     pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
-                     QObject::tr("Open Log configure file"),
+                     tr("Open Log configure file"),
                      [](){RabbitCommon::OpenLogConfigureFile();});
-    pAction->setStatusTip(QObject::tr("Open Log configure file"));
+    pAction->setStatusTip(tr("Open Log configure file"));
     pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
-                     QObject::tr("Open Log file"),
+                     tr("Open Log file"),
                      [](){RabbitCommon::OpenLogFile();});
-    pAction->setStatusTip(QObject::tr("Open Log file"));
+    pAction->setStatusTip(tr("Open Log file"));
     pAction = pMenu->addAction(QIcon::fromTheme("folder-open"),
-                     QObject::tr("Open Log folder"),
+                     tr("Open Log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
-    pAction->setStatusTip(QObject::tr("Open Log folder"));
+    pAction->setStatusTip(tr("Open Log folder"));
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parentMainWindow);
     if(pMainWindow) {
         if(!g_pDcokDebugLog)
@@ -877,9 +881,9 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
         g_pDcokDebugLog->setObjectName("dockDebugLog");
         QAction* pDock = g_pDcokDebugLog->toggleViewAction();
         pMenu->addAction(pDock);
-        pDock->setText(QObject::tr("Log dock"));
+        pDock->setText(tr("Log dock"));
         pDock->setIcon(QIcon::fromTheme("floating"));
-        pDock->setStatusTip(QObject::tr("Log dock"));
+        pDock->setStatusTip(tr("Log dock"));
     } else {
         qWarning(log) << "CTools::GetLogMenu: Don't use dock debug log."
                          <<  "The parent suggest is MainWindow pointer";
