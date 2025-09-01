@@ -16,6 +16,7 @@
         - Users only set IS_MACOSX_BUNDLE in ADD_TARGET
   - Fix Unable to change "Icon theme" after disabling it. See: https://github.com/KangLin/RabbitRemoteControl/issues/69
   - Fix the theme to other color when the system theme is dark. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
+  - Added Fetching Languages from Environment Variables (LANG). See: https://github.com/KangLin/RabbitCommon/pull/5
 
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux

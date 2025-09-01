@@ -14,8 +14,9 @@
     - 使用 MACOSX_BUNDLE 属性 (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
       - 自动产生 Info.plist 和 BUNDLE 目录
       - 用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE
-  - 修复禁用“图标主题”后，不能选择的错误。 See: https://github.com/KangLin/RabbitRemoteControl/issues/69
-  - 修复在黑暗主题下系统托盘图标为白色. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
+  - 修复禁用“图标主题”后，不能选择的错误。详见： https://github.com/KangLin/RabbitRemoteControl/issues/69
+  - 修复在黑暗主题下系统托盘图标为白色。详见： https://github.com/KangLin/RabbitRemoteControl/pull/68
+  - 增加从环境变量(LANG)获取语言。详见： https://github.com/KangLin/RabbitCommon/pull/5
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

@@ -596,7 +596,7 @@ function(INSTALL_TARGET)
                 endif()
                 # 将变量值直接嵌入到代码字符串中
                 string(CONFIGURE [[
-                    message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> ......")
+                    message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents ......")
                     file(COPY "$<INSTALL_PREFIX>/"
                         DESTINATION "$<INSTALL_PREFIX>/$<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents"
                         PATTERN $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> EXCLUDE)

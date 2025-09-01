@@ -128,7 +128,7 @@ public:
     void Init(QString szApplicationName = QCoreApplication::applicationName(),
               QString szApplicationDirPath = QCoreApplication::applicationDirPath(),
               QString szApplicationInstallRoot = QString(),
-              const QString szLanguage = QLocale::system().name());
+              const QString szLanguage = GetLanguage());
     /*!
      * \brief Init. It can called before QApplication a(argc, argv);
      *        It is parse the application name and path from command line parameters.
@@ -146,6 +146,19 @@ public:
     void Clean();
 
     static int SetLanguage(const QString szLanguage);
+    /*!
+     * \~chinese
+     * \brief 得到语言
+     *   获取顺序：
+     *     - 环境变量(LANG)
+     *     - SetLanguage() 设置的值
+     *     - QLocale::system().name()
+     * \~english Get language
+     *   Acquisition order:
+     *     - Environment Variable (LANG)
+     *     - The value set by SetLanguage().
+     *     - QLocale::system().name()
+     */
     static QString GetLanguage();
 
     enum class TranslationType {

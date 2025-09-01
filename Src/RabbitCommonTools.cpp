@@ -161,6 +161,7 @@ QString CTools::GetLanguage()
         if(g_szLanguage.isEmpty())
             return QLocale::system().name();
     } else {
+        // Separate zh_CN from zh_CN.utf-8
         int underscoreIndex = szLANG.indexOf('.');
         if (underscoreIndex != -1) {
             szLANG.truncate(underscoreIndex);
