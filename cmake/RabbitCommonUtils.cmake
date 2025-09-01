@@ -579,23 +579,27 @@ function(INSTALL_TARGET)
                 include(InstallRequiredSystemLibraries)
             endif()
 
+            option(RABBIT_WITH_MACDEPLOY "With macdeploy deploy" ON)
+            if(RABBIT_WITH_MACDEPLOY AND APPLE)
+                # See: https://doc.qt.io/qt-6/macos-deployment.html
+                find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+                    HINTS ${QT_INSTALL_DIR}/bin
+                    DOC "Path to macdeployqt executable"
+                )
+                if(MACDEPLOYQT_EXECUTABLE)
+                    message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
+                else()
+                    message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
+                endif()
+            endif()
+            # MACOSX_BUNDLE
             if(PARA_IS_MACOSX_BUNDLE AND APPLE)
                 INSTALL(TARGETS ${PARA_NAME}
                     BUNDLE DESTINATION .
                         COMPONENT ${PARA_COMPONENT}
                     )
 
-                option(RABBIT_WITH_MACDEPLOY "With macdeploy deploy" ON)
                 if(RABBIT_WITH_MACDEPLOY)
-                    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
-                        HINTS ${QT_INSTALL_DIR}/bin
-                        DOC "Path to macdeployqt executable"
-                    )
-                    if(MACDEPLOYQT_EXECUTABLE)
-                        message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
-                    else()
-                        message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
-                    endif()
                     # 将变量值直接嵌入到代码字符串中
                     string(CONFIGURE [[
                         message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents ......")
@@ -616,11 +620,30 @@ function(INSTALL_TARGET)
                             COMPONENT ${PARA_COMPONENT}
                     )
                 endif()
-            else()
+            else() # NOT MACOSX_BUNDLE
                 INSTALL(TARGETS ${PARA_NAME}
                     RUNTIME DESTINATION "${PARA_RUNTIME}"
                         COMPONENT ${PARA_COMPONENT}
                     )
+
+                if(APPLE)
+                    # 使用正则表达式检查结尾
+                    if("${CMAKE_INSTALL_PREFIX}" MATCHES "Contents$")
+                        if(RABBIT_WITH_MACDEPLOY)
+                            # Create dmg file
+                            string(CONFIGURE [[
+                                message(STATUS "Execute macdeployqt to deploy @PARA_NAME@.app ......")
+                                execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/.." -dmg -verbose=3)
+                                ]] macdeploy_string @ONLY
+                                )
+                            INSTALL(CODE ${macdeploy_string}
+                                COMPONENT ${PARA_COMPONENT}
+                            )
+                        endif()
+                    else()
+                        message(FATAL_ERROR "The CMAKE_INSTALL_PREFIX is not in BUNDLE directory format. It is recommended to use: ${CMAKE_INSTALL_PREFIX}/${PARA_NAME}/Contents")
+                    endif()
+                endif()
             endif()
 
             #分发
