@@ -51,7 +51,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="gpIconTheme">
      <property name="title">
-      <string>Icon theme: </string>
+      <string>Icon theme:</string>
      </property>
      <property name="checkable">
       <bool>true</bool>

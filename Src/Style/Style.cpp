@@ -100,7 +100,7 @@ int CStyle::LoadStyle()
         QRegularExpressionMatch match = re.match(szThemeName);
         if (Qt::ColorScheme::Dark == scheme && match.hasMatch()) {
             QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + szThemeName + "\". ";
-            szInfo += tr("it's almost impossible to find the icon because it matches the color.");
+            szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
 #if defined(Q_OS_WIN)
             szThemeName = "rabbit-green";
 #else
@@ -224,7 +224,7 @@ QString CStyle::GetStyle()
     }
     qDebug(log) << "Path:" << szPath;
     QWidget* pParent = dynamic_cast<QWidget*>(this->parent());
-    szFile = QFileDialog::getOpenFileName(pParent, tr("Open sink"),
+    szFile = QFileDialog::getOpenFileName(pParent, tr("Open style"),
                                           szPath,
                                           tr("Style files(*.qss *.css);; All files(*.*)"));
     return szFile;
@@ -246,7 +246,7 @@ void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
     if (Qt::ColorScheme::Dark == colorScheme && match.hasMatch()) {
         QString szThemeName;
         QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + QIcon::themeName() + "\". ";
-        szInfo += tr("it's almost impossible to find the icon because it matches the color.");
+        szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
 #if defined(Q_OS_WIN)
         szThemeName = "rabbit-green";
 #else

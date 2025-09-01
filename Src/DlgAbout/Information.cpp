@@ -128,8 +128,8 @@ CInformation::CInformation(const QString &szApp,
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
     szOS = "### " + tr("OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
-    szOS += "  - " + tr("product type: ") + QSysInfo::productType() + "\n";
-    szOS += "  - " + tr("product version: ") + QSysInfo::productVersion() + "\n";
+    szOS += "  - " + tr("Product type: ") + QSysInfo::productType() + "\n";
+    szOS += "  - " + tr("Product version: ") + QSysInfo::productVersion() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)

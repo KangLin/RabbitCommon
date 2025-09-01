@@ -286,7 +286,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Every date</string>
+           <string>Every day</string>
           </property>
          </widget>
         </item>
@@ -353,6 +353,9 @@
        </property>
        <property name="text">
         <string>OK(&amp;O)</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

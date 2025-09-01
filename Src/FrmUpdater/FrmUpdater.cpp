@@ -79,7 +79,7 @@ CFrmUpdater::CFrmUpdater(QWidget *parent) :
     Q_ASSERT(check);
     SetTitle();
 
-    ui->lbCurrentArch->setText(tr("Current archecture: %1")
+    ui->lbCurrentArch->setText(tr("Current architecture: %1")
                  .arg(QSysInfo::currentCpuArchitecture()));
 
     QString szVerion = qApp->applicationVersion();
@@ -218,7 +218,7 @@ int CFrmUpdater::InitStateMachine()
     s->addTransition(this, SIGNAL(sigFinished()), sFinal);
 
     s->setInitialState(sDownloadConfigFile);
-    sDownloadConfigFile->assignProperty(ui->lbState, "text", tr("Being Download config file"));
+    sDownloadConfigFile->assignProperty(ui->lbState, "text", tr("Downloading config file"));
     sDownloadConfigFile->addTransition(this, SIGNAL(sigFinished()), sCheckConfigFile);
     check = connect(sDownloadConfigFile, SIGNAL(entered()),
                      this, SLOT(slotDownloadFile()));
@@ -233,11 +233,11 @@ int CFrmUpdater::InitStateMachine()
 
     m_pStateDownloadSetupFile = sDownloadSetupFile;
     sDownloadSetupFile->addTransition(this, SIGNAL(sigFinished()), sUpdate);
-    sDownloadSetupFile->assignProperty(ui->lbState, "text", tr("Being download update file"));
+    sDownloadSetupFile->assignProperty(ui->lbState, "text", tr("Downloading update file"));
     check = connect(sDownloadSetupFile, SIGNAL(entered()), this, SLOT(slotDownloadSetupFile()));
     Q_ASSERT(check);
 
-    sUpdate->assignProperty(ui->lbState, "text", tr("Being install update"));
+    sUpdate->assignProperty(ui->lbState, "text", tr("Installing update"));
     check = connect(sUpdate, SIGNAL(entered()), this, SLOT(slotUpdate()));
     Q_ASSERT(check);
 
@@ -893,7 +893,7 @@ void CFrmUpdater::slotDownloadSetupFile()
 {
     qDebug(log) << "CFrmUpdater::slotDownloadSetupFile()";
     ui->pbOK->setText(tr("Hide"));
-    ui->lbState->setText(tr("Download ......"));
+    ui->lbState->setText(tr("Downloading ......"));
     if(IsDownLoad())
         emit sigFinished();
     else
@@ -907,7 +907,7 @@ void CFrmUpdater::slotUpdate()
 {
     m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName());
-    ui->lbState->setText(tr("Being install update ......"));
+    ui->lbState->setText(tr("Installing update ......"));
     ui->progressBar->hide();
     ui->progressBar->setRange(0, 100);;
     //qDebug(log) << "CFrmUpdater::slotUpdate()";
@@ -1027,14 +1027,14 @@ int CFrmUpdater::Execute(const QString szFile)
                          + QDir::separator() + fi.fileName();
                 bRet = f.copy(szExec);
                 if(bRet) {
-                    QString szMsg(tr("Please exec:") + szExec);
+                    QString szMsg(tr("Please exec: ") + szExec);
                     ui->lbState->setText(szMsg);
                     qInfo(log) << szMsg;
                     QUrl url = QUrl::fromLocalFile(cf.absoluteDir().absolutePath());
                     if(!QDesktopServices::openUrl(url))
                     {
                         QString szErr;
-                        szErr = tr("Failed:") + tr("Open the folder fail:")
+                        szErr = tr("Failed:") + tr("Open the folder fail: ")
                                 + cf.absoluteDir().absolutePath();
                         qCritical(log) << szErr;
                     }
@@ -1048,7 +1048,7 @@ int CFrmUpdater::Execute(const QString szFile)
                 if(!QDesktopServices::openUrl(url))
                 {
                     QString szErr;
-                    szErr = tr("Failed:") + tr("Open the folder fail:")
+                    szErr = tr("Failed:") + tr("Open the folder fail: ")
                             + fi.absoluteDir().absolutePath();
                     qCritical(log) << szErr;
                 }

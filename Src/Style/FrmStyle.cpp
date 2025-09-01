@@ -126,7 +126,7 @@ void CFrmStyle::on_pbOK_clicked()
         QString szThemeName;
         QString szInfo = tr("Current system theme is dark, current select theme is ")
                          + QString("\"") + ui->cbIconTheme->currentText() + "\". \n";
-        szInfo += tr("it's almost impossible to find the icon because it matches the color.") + "\n"
+        szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.") + "\n"
                   + tr("Are you sure you want to modify it?");
         auto ret = QMessageBox::information(nullptr, tr("Change theme"),
                                             szInfo,
