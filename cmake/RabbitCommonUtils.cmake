@@ -585,28 +585,28 @@ function(INSTALL_TARGET)
                         COMPONENT ${PARA_COMPONENT}
                     )
 
-                find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
-                    HINTS ${QT_INSTALL_DIR}/bin
-                    DOC "Path to macdeployqt executable"
-                )
-                if(MACDEPLOYQT_EXECUTABLE)
-                    message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
-                else()
-                    message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
-                endif()
-                # 将变量值直接嵌入到代码字符串中
-                string(CONFIGURE [[
-                    message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents ......")
-                    file(COPY "$<INSTALL_PREFIX>/"
-                        DESTINATION "$<INSTALL_PREFIX>/$<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents"
-                        PATTERN $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> EXCLUDE)
-                    ]] copy_dir_string @ONLY)
-                INSTALL(CODE ${copy_dir_string}
-                        COMPONENT ${PARA_COMPONENT}
-                )
-                # Create dmg file
                 option(RABBIT_WITH_MACDEPLOY "With macdeploy deploy" ON)
                 if(RABBIT_WITH_MACDEPLOY)
+                    find_program(MACDEPLOYQT_EXECUTABLE macdeployqt
+                        HINTS ${QT_INSTALL_DIR}/bin
+                        DOC "Path to macdeployqt executable"
+                    )
+                    if(MACDEPLOYQT_EXECUTABLE)
+                        message("Find macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
+                    else()
+                        message(FATAL_ERROR "Don't find macdeployqt in ${QT_INSTALL_DIR}/bin")
+                    endif()
+                    # 将变量值直接嵌入到代码字符串中
+                    string(CONFIGURE [[
+                        message(STATUS "Copy directory to $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents ......")
+                        file(COPY "$<INSTALL_PREFIX>/"
+                            DESTINATION "$<INSTALL_PREFIX>/$<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@>/Contents"
+                            PATTERN $<TARGET_BUNDLE_DIR_NAME:@PARA_NAME@> EXCLUDE)
+                        ]] copy_dir_string @ONLY)
+                    INSTALL(CODE ${copy_dir_string}
+                            COMPONENT ${PARA_COMPONENT}
+                    )
+                    # Create dmg file
                     string(CONFIGURE [[
                         message(STATUS "Execute macdeployqt to deploy @PARA_NAME@.app ......")
                         execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/@PARA_NAME@.app" -dmg -verbose=3)
