@@ -1,6 +1,6 @@
 /** @copyright Copyright (c) Kang Lin studio, All Rights Reserved
  *  @author Kang Lin <kl222@126.com>
- *  @abstract Style load
+ *  @abstract Load style(theme)
  */
 
 #ifndef CSTYLE_H
@@ -31,31 +31,40 @@ public:
     int LoadStyle();
 
 private:
-    QString GetStyle();
-    QString GetDefaultStyle();
-
-    /*!
-     * \brief Load style from the file
-     * \param szFile: style file(*.qss)
-     */
-    int LoadStyle(const QString &szFile);
-    void SetFile(const QString& file);
-    QString GetStyleFile();
-
-private Q_SLOTS:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    void slotColorSchemeChanged(Qt::ColorScheme colorScheme);
-#endif
-private:
+    int ReLoadStyle();
     CStyle(QObject *parent = nullptr);
 
-    QString m_szDefaultFile;
-    QString m_szFile;
+    /*!
+     * \brief Open get style sheet dialog
+     * \return 
+     */
+    QString GetStyleSheet();
+
+    /*!
+     * \brief Load style sheet from the file
+     * \param szFile: style file(*.qss)
+     */
+    int LoadStyleSheet(const QString &szFile);
+    QString GetStyleSheetFile();
+    void SetStyleSheetFile(const QString& file);
+    QString m_szStyleSheetFile;
+    bool m_bModifyStyleSheetFile;
+    
+    int LoadStyle(const QString &szName);
+    QString GetStyleName();
+    void SetStyleName(const QString &szName);
+    QString m_szStyleName;
+    bool m_bModifyStyleName;
 
     QString m_szDefaultIconTheme;
     QString m_szDefaultFallbackIconTheme;
 
     friend CFrmStyle;
+
+private Q_SLOTS:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    void slotColorSchemeChanged(Qt::ColorScheme colorScheme);
+#endif
 };
 
 } //namespace RabbitCommon

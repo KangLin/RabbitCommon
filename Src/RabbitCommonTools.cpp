@@ -213,7 +213,9 @@ QString CTools::Information()
     szInfo += tr("    - Recent menu") + "\n";
     szInfo += tr("    - Style") + "\n";
     szInfo += tr("      - Icon theme: ") + QIcon::themeName() + "\n";
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     szInfo += tr("      - Fall back icon theme: ") + QIcon::fallbackThemeName() + "\n";
+    #endif
 #endif // #if defined(HAVE_RABBITCOMMON_GUI)
     szInfo += tr("  - Log") + "\n";
     szInfo += tr("    - Core dump") + "\n";

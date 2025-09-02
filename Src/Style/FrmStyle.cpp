@@ -11,6 +11,7 @@
 #include <QPalette>
 #include <QIcon>
 #include <QStyleHints>
+#include <QStyleFactory>
 #include <QApplication>
 #include <QMessageBox>
 
@@ -29,7 +30,18 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
     setAttribute(Qt::WA_DeleteOnClose, true);
     ui->setupUi(this);
 
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyleFile());
+    auto pStyle = RabbitCommon::CStyle::Instance();
+    foreach(auto szName, QStyleFactory::keys()) {
+        if(-1 == ui->cbStyleName->findData(szName))
+            ui->cbStyleName->addItem(szName, szName);
+    }
+    if(!QStyleFactory::keys().isEmpty()) {
+        int index = ui->cbStyleName->findData(pStyle->GetStyleName());
+        if(-1 < index)
+            ui->cbStyleName->setCurrentIndex(index);
+    }
+
+    ui->leStyleSheet->setText(pStyle->GetStyleSheetFile());
 
     ui->lbIconThemeChanged->setVisible(false);
     // Icon theme
@@ -120,12 +132,20 @@ void CFrmStyle::on_pbOK_clicked()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     const auto colorScheme = QGuiApplication::styleHints()->colorScheme();
-    QRegularExpression re("black|[Dd]ark");
+    QString szColorScheme;
+    QRegularExpression re("[Bb]lack|[Dd]ark");
     QRegularExpressionMatch match = re.match(ui->cbIconTheme->currentText());
     if (Qt::ColorScheme::Dark == colorScheme && match.hasMatch()) {
-        QString szThemeName;
-        QString szInfo = tr("Current system theme is dark, current select theme is ")
-                         + QString("\"") + ui->cbIconTheme->currentText() + "\". \n";
+        szColorScheme = tr("Dark");
+    }
+    QRegularExpression reWhite("[Ww]hite|[L|l]ight");
+    match = reWhite.match(ui->cbIconTheme->currentText());
+    if (Qt::ColorScheme::Light == colorScheme && match.hasMatch()) {
+        szColorScheme = tr("Light");
+    }
+    if(!szColorScheme.isEmpty()) {
+        QString szInfo = tr("Current system theme is") + " \"" + szColorScheme + "\", " + tr("current select theme is")
+        + QString(" \"") + ui->cbIconTheme->currentText() + "\". \n";
         szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.") + "\n"
                   + tr("Are you sure you want to modify it?");
         auto ret = QMessageBox::information(nullptr, tr("Change theme"),
@@ -153,7 +173,11 @@ void CFrmStyle::on_pbOK_clicked()
 #endif
     }
 
-    RabbitCommon::CStyle::Instance()->SetFile(ui->leStyleName->text());
+    auto pStyle = RabbitCommon::CStyle::Instance();
+    pStyle->SetStyleSheetFile(ui->leStyleSheet->text());
+    pStyle->SetStyleName(ui->cbStyleName->currentData().toString());
+    pStyle->ReLoadStyle();
+
     close();
 }
 
@@ -164,12 +188,14 @@ void CFrmStyle::on_pbCancel_clicked()
 
 void CFrmStyle::on_pbBrowse_clicked()
 {
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetStyle());
+    ui->leStyleSheet->setText(RabbitCommon::CStyle::Instance()->GetStyleSheet());
 }
 
 void CFrmStyle::on_pbDefault_clicked()
 {
-    ui->leStyleName->setText(RabbitCommon::CStyle::Instance()->GetDefaultStyle());
+    ui->leStyleSheet->setText("");
+    if(ui->cbStyleName->count() > 0)
+        ui->cbStyleName->setCurrentIndex(0);
 
     if(ui->gpIconTheme->isChecked()) {
         ui->cbIconTheme->setCurrentText(

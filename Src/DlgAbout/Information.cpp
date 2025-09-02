@@ -1,6 +1,8 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
+#include <QApplication>
+#include <QStyleHints>
 #include <QLibraryInfo>
 #include <QHostInfo>
 #include <QTextBrowser>
@@ -142,7 +144,23 @@ CInformation::CInformation(const QString &szApp,
             + QSysInfo::currentCpuArchitecture() + "\n";
     szOS += "  - " + tr("Build architecture: ")
             + QSysInfo::buildCpuArchitecture() + "\n";
-    
+
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    szOS += "- " + tr("Theme:") + " ";
+    switch(QApplication::styleHints()->colorScheme()) {
+    case Qt::ColorScheme::Dark:
+        szOS += tr("Dark");
+        break;
+    case Qt::ColorScheme::Light:
+        szOS += tr("Light");
+        break;
+    case Qt::ColorScheme::Unknown:
+        szOS += tr("Unknown");
+        break;
+    }
+    szOS += "\n";
+    #endif
+
     QString szHost;
     szHost = "### " + tr("Host") + "\n";
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
@@ -152,7 +170,7 @@ CInformation::CInformation(const QString &szApp,
 #endif
 
     QString szEnv;
-    szEnv += "### " + tr("Environment:") + "\n";
+    szEnv += "### " + tr("Environment") + "\n";
     auto env = QProcessEnvironment::systemEnvironment();
     foreach (auto key, env.keys()) {
         szEnv += "  - " + key + "=" + env.value(key) + "\n";
