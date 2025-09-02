@@ -5,3 +5,9 @@
 
 Qt (LGPL v2.1)
 http://qt.io/
+
+## 贡献者
+
+- Eduardo Mozart de Oliveira <eduardomozart182@gmail.com>
+
+详见: https://github.com/KangLin/RabbitCommon/graphs/contributors

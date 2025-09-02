@@ -54,10 +54,6 @@
         <translation>版权(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
-    </message>
-    <message>
         <location filename="../../DlgAbout/DlgAbout.cpp" line="63"/>
         <source>KangLin</source>
         <translation>康林</translation>
@@ -314,10 +310,6 @@
         <translation>文件浏览器</translation>
     </message>
     <message>
-        <source>Update</source>
-        <translation type="vanished">更新</translation>
-    </message>
-    <message>
         <location filename="../../FileBrowser/FileBrowser.cpp" line="180"/>
         <source>Option</source>
         <translation>选项</translation>
@@ -389,89 +381,94 @@ You can read files up to %1 MB.</source>
         <translation>设置样式</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="24"/>
+        <location filename="../../Style/FrmStyle.ui" line="23"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="32"/>
+        <location filename="../../Style/FrmStyle.ui" line="31"/>
+        <source>Style sheet:</source>
+        <translation>样式罩</translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.ui" line="52"/>
         <source>Style name:</source>
         <translation>样式名：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="165"/>
+        <location filename="../../Style/FrmStyle.ui" line="185"/>
         <source>Default(&amp;D)</source>
         <translation>默认(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="42"/>
+        <location filename="../../Style/FrmStyle.ui" line="41"/>
         <source>Browse(&amp;B)</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="54"/>
-        <location filename="../../Style/FrmStyle.ui" line="65"/>
+        <location filename="../../Style/FrmStyle.ui" line="74"/>
+        <location filename="../../Style/FrmStyle.ui" line="135"/>
         <source>Icon theme:</source>
         <translation>图标主题：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="84"/>
-        <location filename="../../Style/FrmStyle.ui" line="92"/>
+        <location filename="../../Style/FrmStyle.ui" line="93"/>
+        <location filename="../../Style/FrmStyle.ui" line="101"/>
         <source>Fallback theme:</source>
         <translation>后备主题：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="111"/>
+        <location filename="../../Style/FrmStyle.ui" line="120"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation>后备主题改变需要重启程序。</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="124"/>
+        <location filename="../../Style/FrmStyle.ui" line="83"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
         <translation>图标主题选择改变后,需要重启程序.</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="172"/>
+        <location filename="../../Style/FrmStyle.ui" line="192"/>
         <source>Ok(&amp;O)</source>
         <translation>确认(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="179"/>
+        <location filename="../../Style/FrmStyle.ui" line="199"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="127"/>
+        <location filename="../../Style/FrmStyle.cpp" line="139"/>
         <source>Dark</source>
-        <translation type="unfinished">暗色</translation>
+        <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="132"/>
+        <location filename="../../Style/FrmStyle.cpp" line="144"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="135"/>
+        <location filename="../../Style/FrmStyle.cpp" line="147"/>
         <source>Current system theme is</source>
         <translation>当前系统主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="135"/>
+        <location filename="../../Style/FrmStyle.cpp" line="147"/>
         <source>current select theme is</source>
         <translation>当前选择的主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="137"/>
+        <location filename="../../Style/FrmStyle.cpp" line="149"/>
         <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
         <translation>它们颜色相近，可能看不清图标。</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="138"/>
+        <location filename="../../Style/FrmStyle.cpp" line="150"/>
         <source>Are you sure you want to modify it?</source>
         <translation>确定要修改它？</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="139"/>
+        <location filename="../../Style/FrmStyle.cpp" line="151"/>
         <source>Change theme</source>
         <translation>改变主题</translation>
     </message>
@@ -603,10 +600,6 @@ You can read files up to %1 MB.</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <source>Being install update ......</source>
-        <translation type="vanished">正在安装更新 ……</translation>
-    </message>
-    <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="316"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="455"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="470"/>
@@ -680,25 +673,9 @@ You can read files up to %1 MB.</source>
         <translation>不能打开下载的文件</translation>
     </message>
     <message>
-        <source>Md5sum is different. </source>
-        <translation type="vanished">Md5 校验和不同。</translation>
-    </message>
-    <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
         <source>Download file md5sum: </source>
         <translation>下载文件的 MD5 校验和:</translation>
-    </message>
-    <message>
-        <source>md5sum in Update.xml:</source>
-        <translation type="vanished">Update.xml 文件中的 MD5 校验和:</translation>
-    </message>
-    <message>
-        <source>Please exec:</source>
-        <translation type="vanished">请执行：</translation>
-    </message>
-    <message>
-        <source>Open the folder fail:</source>
-        <translation type="vanished">打开文件夹失败：</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1030"/>
@@ -895,7 +872,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../DlgAbout/Information.ui" line="34"/>
         <source>Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="36"/>
@@ -1134,32 +1111,29 @@ You can read files up to %1 MB.</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <source>Open Log folder</source>
-        <translation type="vanished">打开日志文件夹</translation>
-    </message>
-    <message>
-        <source>Log dock</source>
-        <translation type="vanished">日志 - 停泊条</translation>
-    </message>
-    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="200"/>
         <source>Application Error</source>
-        <translation type="vanished">应用错误</translation>
+        <translation>应用错误</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="202"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation type="vanished">应用崩溃！</translation>
+        <translation>应用崩溃！</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="203"/>
         <source>Current path: </source>
-        <translation type="vanished">录前目录：</translation>
+        <translation>录前目录：</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="205"/>
         <source>Dump file: </source>
-        <translation type="vanished">崩溃文件：</translation>
+        <translation>崩溃文件：</translation>
     </message>
     <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="207"/>
         <source>Log file: </source>
-        <translation type="vanished">日志文件：</translation>
+        <translation>日志文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="580"/>
@@ -1192,10 +1166,6 @@ You can read files up to %1 MB.</source>
         <translation>日志文件夹</translation>
     </message>
     <message>
-        <source>Folder browser</source>
-        <translation type="vanished">文件夹浏览器</translation>
-    </message>
-    <message>
         <location filename="../../CoreDump/StackTrace.cpp" line="72"/>
         <source>Open log file</source>
         <translation>打开日志文件</translation>
@@ -1206,22 +1176,18 @@ You can read files up to %1 MB.</source>
         <translation>打开内核崩溃文件夹</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
         <source>Critical</source>
-        <translation>错误</translation>
+        <translation type="vanished">错误</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation>输入密码</translation>
+        <translation type="vanished">输入密码</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation>输入 root 密码运行程序：</translation>
+        <translation type="vanished">输入 root 密码运行程序：</translation>
     </message>
 </context>
 <context>
@@ -1300,54 +1266,67 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="104"/>
+        <location filename="../../Style/Style.cpp" line="112"/>
+        <location filename="../../Style/Style.cpp" line="143"/>
         <source>Current system theme is dark, current theme is </source>
         <translation>当前系统主题是暗色的，当前主题是 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="111"/>
-        <location filename="../../Style/Style.cpp" line="284"/>
+        <location filename="../../Style/Style.cpp" line="115"/>
+        <location filename="../../Style/Style.cpp" line="124"/>
+        <location filename="../../Style/Style.cpp" line="146"/>
+        <location filename="../../Style/Style.cpp" line="153"/>
+        <location filename="../../Style/Style.cpp" line="373"/>
         <source>change to </source>
         <translation>改变到 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="105"/>
-        <location filename="../../Style/Style.cpp" line="283"/>
+        <location filename="../../Style/Style.cpp" line="113"/>
+        <location filename="../../Style/Style.cpp" line="122"/>
+        <location filename="../../Style/Style.cpp" line="144"/>
+        <location filename="../../Style/Style.cpp" line="151"/>
+        <location filename="../../Style/Style.cpp" line="372"/>
         <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
         <translation>它们颜色相近，可能看不清图标。</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="247"/>
+        <location filename="../../Style/Style.cpp" line="121"/>
+        <location filename="../../Style/Style.cpp" line="150"/>
+        <source>Current system theme is light, current theme is </source>
+        <translation>当前系统主题是亮色，当前主题是 </translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="310"/>
         <source>Open style</source>
         <translation>打开样式</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="249"/>
+        <location filename="../../Style/Style.cpp" line="312"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="271"/>
+        <location filename="../../Style/Style.cpp" line="361"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="279"/>
+        <location filename="../../Style/Style.cpp" line="368"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="282"/>
+        <location filename="../../Style/Style.cpp" line="371"/>
         <source>Current system theme is</source>
         <translation>当前系统主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="282"/>
+        <location filename="../../Style/Style.cpp" line="371"/>
         <source>current theme is</source>
         <translation>当前主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="285"/>
+        <location filename="../../Style/Style.cpp" line="374"/>
         <source>Change theme</source>
         <translation>改变主题</translation>
     </message>
@@ -1392,10 +1371,6 @@ You can read files up to %1 MB.</source>
         <location filename="../../RabbitCommonTools.cpp" line="196"/>
         <source>- Functions:</source>
         <translation>- 功能：</translation>
-    </message>
-    <message>
-        <source>- Locale: </source>
-        <translation type="vanished">- 语言：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="197"/>
