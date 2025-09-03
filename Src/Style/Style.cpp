@@ -83,7 +83,11 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
             m_szStyleName = QStyleFactory::keys().at(0);
     #endif
 #endif
-
+    if(m_szStyleName.isEmpty()) {
+        if(!QStyleFactory::keys().isEmpty())
+            m_szStyleName = QStyleFactory::keys().at(0);
+    }
+    qDebug(log) << "Init sytle name:" << m_szStyleName;
 }
 
 int CStyle::LoadStyle()
@@ -211,6 +215,7 @@ int CStyle::LoadStyle(const QString& szName)
     if(QApplication::style() && QApplication::style()->name() == szName)
         return 0;
 #endif
+    qInfo(log) << "Apply style:" << szName;
     QApplication::setStyle(QStyleFactory::create(szName));
     return 0;
 
