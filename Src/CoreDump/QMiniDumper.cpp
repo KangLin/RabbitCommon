@@ -38,53 +38,78 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
     HANDLE  process = NULL;
     HANDLE  thread = NULL;
     HMODULE hModule = NULL;
-
+    
     STACKFRAME          stack;
     ULONG               frame = 0;
     DWORD64             displacement = 0;
-
+    
     DWORD disp = 0;
-
+    
     QScopedArrayPointer<char> buffer(new char[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]);
     QScopedArrayPointer<char> name(new char[MaxNameLen]);
     QScopedArrayPointer<char> module(new char[MaxNameLen]);
     PSYMBOL_INFO pSymbol = (PSYMBOL_INFO)buffer.data();
-
+    
     szStack = "*** Exception 0x" + QString::number(pException->ExceptionRecord->ExceptionCode, 16) + " occurred ***\n\n";
     PCONTEXT ctx = pException->ContextRecord;
-
+    
+    // 创建上下文副本
     // On x64, StackWalk64 modifies the context record, that could
     // cause crashes, so we create a copy to prevent it
     CONTEXT ctxCopy;
     memcpy(&ctxCopy, ctx, sizeof(CONTEXT));
-
+    
     memset(&stack, 0, sizeof( STACKFRAME ));
-
+    
     process                = GetCurrentProcess();
     thread                 = GetCurrentThread();
     displacement           = 0;
-#if !defined(_M_AMD64)
-    stack.AddrPC.Offset    = (*ctx).Eip;
-    stack.AddrPC.Mode      = AddrModeFlat;
-    stack.AddrStack.Offset = (*ctx).Esp;
-    stack.AddrStack.Mode   = AddrModeFlat;
-    stack.AddrFrame.Offset = (*ctx).Ebp;
-    stack.AddrFrame.Mode   = AddrModeFlat;
+    
+    // ARM64 架构特定的初始化
+#if defined(_M_ARM64)
+    stack.AddrPC.Offset = ctxCopy.Pc;
+    stack.AddrPC.Mode = AddrModeFlat;
+    stack.AddrStack.Offset = ctxCopy.Sp;
+    stack.AddrStack.Mode = AddrModeFlat;
+    stack.AddrFrame.Offset = ctxCopy.Fp;
+    stack.AddrFrame.Mode = AddrModeFlat;
+#elif defined(_M_AMD64)
+    stack.AddrPC.Offset = ctxCopy.Rip;
+    stack.AddrPC.Mode = AddrModeFlat;
+    stack.AddrStack.Offset = ctxCopy.Rsp;
+    stack.AddrStack.Mode = AddrModeFlat;
+    stack.AddrFrame.Offset = ctxCopy.Rbp;
+    stack.AddrFrame.Mode = AddrModeFlat;
+#elif defined(_M_IX86)
+    stack.AddrPC.Offset = ctxCopy.Eip;
+    stack.AddrPC.Mode = AddrModeFlat;
+    stack.AddrStack.Offset = ctxCopy.Esp;
+    stack.AddrStack.Mode = AddrModeFlat;
+    stack.AddrFrame.Offset = ctxCopy.Ebp;
+    stack.AddrFrame.Mode = AddrModeFlat;
+#else
+#error "Unsupported architecture"
 #endif
-
-    SymInitialize( process, NULL, TRUE ); //load symbols
-
+    
+    // 初始化符号
+    SymInitialize(process, NULL, TRUE);
+    
+    // 设置机器类型
+    DWORD machineType;
+#if defined(_M_ARM64)
+    machineType = IMAGE_FILE_MACHINE_ARM64;
+#elif defined(_M_AMD64)
+    machineType = IMAGE_FILE_MACHINE_AMD64;
+#elif defined(_M_IX86)
+    machineType = IMAGE_FILE_MACHINE_I386;
+#endif
+    
     for( frame = 0; ; frame++ )
     {
         //get next call from stack
         result = StackWalk
             (
-#if defined(_M_AMD64)
-                IMAGE_FILE_MACHINE_AMD64
-#else
-                IMAGE_FILE_MACHINE_I386
-#endif
-                ,
+                machineType,
                 process,
                 thread,
                 &stack,
@@ -94,39 +119,57 @@ QString PrintStack(struct _EXCEPTION_POINTERS *pException) //Prints stack trace 
                 SymGetModuleBase,
                 NULL
                 );
-
-        if( !result ) break;
-
+        
+        if( !result || stack.AddrPC.Offset == 0) break;
+        
         //get symbol name for address
         pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
         pSymbol->MaxNameLen = MAX_SYM_NAME;
-        SymFromAddr(process, ( ULONG64 )stack.AddrPC.Offset, &displacement, pSymbol);
-
+        if (!SymFromAddr(process, stack.AddrPC.Offset, &displacement, pSymbol)) {
+            szStack += QString::number(no++) + " 0x" + QString::number(stack.AddrPC.Offset, 16) 
+            + " [Unknown Symbol]\n";
+            continue;
+        }
+        
+        // 尝试获取行号信息
+#if defined(_M_IX86)
         QScopedPointer<IMAGEHLP_LINE> line(new IMAGEHLP_LINE());
         line->SizeOfStruct = sizeof(IMAGEHLP_LINE);
-
+        
         //try to get line
         if (SymGetLineFromAddr(process, stack.AddrPC.Offset, &disp, line.data()))
         {
             szStack += QString::number(no++) + " 0x" + QString::number(pSymbol->Address, 16)
-                       + " [" +  QString(pSymbol->Name) + "] in "
-                       + QString(line->FileName)
-                       + ":" + QString::number(line->LineNumber)
-                       + "\n";
+            + " [" +  QString(pSymbol->Name) + "] in "
+                + QString(line->FileName)
+                + ":" + QString::number(line->LineNumber)
+                + "\n";
         }
+#else
+        QScopedPointer<IMAGEHLP_LINE64> line(new IMAGEHLP_LINE64());
+        line->SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+        
+        if (SymGetLineFromAddr64(process, stack.AddrPC.Offset, &disp, line.data())) {
+            szStack += QString::number(no++) + " 0x" + QString::number(pSymbol->Address, 16)
+            + " [" + QString::fromUtf8(pSymbol->Name) + "] in "
+                + QString::fromUtf8(line->FileName)
+                + ":" + QString::number(line->LineNumber)
+                + "\n";
+        }
+#endif
         else
         {
-            //failed to get line
+            // 获取模块信息
             hModule = NULL;
             lstrcpyA(module.data(), "");
             GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
-                              | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                  | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                               (LPCTSTR)(stack.AddrPC.Offset), &hModule);
-
+            
             //at least print module name
             if(hModule != NULL)
                 GetModuleFileNameA(hModule, module.data(), MaxNameLen);
-
+            
             szStack += QString::number(no++) + " 0x" + QString::number(pSymbol->Address, 16)
                        + " [" + QString(pSymbol->Name)
                        + "] in " + module.data() + "\n";

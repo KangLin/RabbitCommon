@@ -769,7 +769,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
  * 
  * |   os  |         architecture       |platform    |
  * |:-----:|:--------------------------:|:----------:|
- * |windows|        "i386",x86_64       |mingw,cygwin|
+ * |windows|        "i386",x86_64,arm64 |mingw,cygwin|
  * |linux  |        x86,x86_64          |            |
  * |android|armv7, arm64_v8a, x86,x86_64|            |
  * |macos  |        x86,x86_64          |            |

@@ -316,6 +316,15 @@ if(WIN32)
         CoreDump/QMiniDumper.cpp)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS
         _UNICODE UNICODE STRSAFE_NO_DEPRECATE)
+    message("CMAKE_VS_PLATFORM_NAME: ${CMAKE_VS_PLATFORM_NAME}; CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
+    # 根据架构设置编译定义
+    if(CMAKE_GENERATOR_PLATFORM STREQUAL "arm64")
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS _M_ARM64)
+    elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "x64")
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS _M_AMD64)
+    elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "Win32")
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS _M_IX86)
+    endif()    
     list(APPEND RABBIT_PRIVATE_COMMON_LIBS Dbghelp)
 
     option(WITH_StackWalker "Set to ON to build StackWalk for log stace trace" OFF)

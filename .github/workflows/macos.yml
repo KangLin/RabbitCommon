@@ -16,24 +16,27 @@ jobs:
   build_macos:
     strategy:
       matrix:
-        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-        BUILD_TYPE: [Release, Debug]
-        qt_version: [6.6.2, 5.15.2, 5.12.12]
-        qt_arch: [clang_64]
         include:
-          - qt_version: 6.6.2
-            qt_modules: 'qtscxml'
+          - os: macos-13
+            qt_version: 6.9.2
+            qt_arch: clang_64
+            config_arch: x64
+            VCPKG_TARGET_TRIPLET: x64-osx
+            qt_modules: qtscxml
 
-          - qt_version: 5.15.2
-
-          - qt_version: 5.12.12
+          - os: macos-14
+            qt_version: 6.9.2
+            qt_arch: clang_64
+            config_arch: arm64
+            VCPKG_TARGET_TRIPLET: arm64-osx
+            qt_modules: qtscxml
 
     # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
     # See: https://github.com/actions/runner-images/tree/main
     runs-on: macos-13
 
     env:
-      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_TYPE:  Release
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
@@ -67,7 +70,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: macos_install_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
+          key: macos_install_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.config_arch}}
 
       - name: run vcpkg
         uses: lukka/run-vcpkg@v11
@@ -100,14 +103,14 @@ jobs:
               -DCMARK_TESTS=OFF \
               -DCMARK_STATIC=ON \
               -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+              -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DINSTALL_QT=ON \
               -DBUILD_APP=ON \
               -DBUILD_TEST=ON
-          cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+          cmake --build . --config Release
+          cmake --build . --config Release --target install
           ctest -V
 
       - name: Make zip package
@@ -118,13 +121,13 @@ jobs:
               -DCMARK_TESTS=OFF \
               -DCMARK_STATIC=ON \
               -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
-              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+              -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_INSTALL_PREFIX=`pwd`/install \
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
               -DINSTALL_QT=OFF
-          cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target install
-          cmake --build . --verbose --config ${{ matrix.BUILD_TYPE }} --target package
-          if [ "${{ matrix.BUILD_TYPE }}" == "Release" ]; then
+          cmake --build . --verbose --config Release --target install
+          cmake --build . --verbose --config Release --target package
+          if [ "Release" == "Release" ]; then
             if [ -n "${Qt5_DIR}" ]; then
               QT_ROOT=${Qt5_DIR}
             fi
@@ -138,20 +141,18 @@ jobs:
             otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
             otool -l install/FrameWorks/libRabbitCommon.dylib | grep -A3 -B1 "LC_RPATH"
             otool -L install/FrameWorks/libRabbitCommon.dylib
-            7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip ./install/*
+            7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.config_arch}}.zip ./install/*
           fi
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
+          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.config_arch}}
           path: |
-            ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.BUILD_TYPE}}.zip
-            ${{github.workspace}}/build/rabbitcommon_*.tar.gz
+            ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_macos.zip
 
 #    - name: Upload To Github Release
-#      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }}
+#      if: ${{ startsWith(github.ref, 'refs/tags/') }}
 #      uses: softprops/action-gh-release@v1
 #      env:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
