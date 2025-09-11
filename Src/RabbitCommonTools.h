@@ -304,6 +304,8 @@ public:
 
     void ShowCoreDialog(QString szTitle, QString szContent,
                         QString szDetail, QString szCoreDumpFile);
+    
+    static int LocateFileWithExplorer(const QString szFile);
 #endif //#ifdef HAVE_RABBITCOMMON_GUI
 
 public:

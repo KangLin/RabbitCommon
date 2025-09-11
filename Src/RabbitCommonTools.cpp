@@ -961,6 +961,24 @@ void CTools::ShowCoreDialog(QString szTitle, QString szContent, QString szDetail
     g_pCallStack->ShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
 }
 
+int CTools::LocateFileWithExplorer(const QString szFile)
+{
+    // 平台特定的实现
+#ifdef Q_OS_WIN
+    QString command = "explorer";
+    QStringList args = {"/select,", QDir::toNativeSeparators(szFile)};
+    QProcess::startDetached(command, args);
+#elif defined(Q_OS_MAC)
+    QStringList args;
+    args << "-e" << QString("tell application \"Finder\" to reveal POSIX file \"%1\"").arg(szFile);
+    args << "-e" << "tell application \"Finder\" to activate";
+    QProcess::startDetached("osascript", args);
+#else
+    // Linux: 打开目录
+    QDesktopServices::openUrl(QUrl::fromLocalFile(szFile));
+#endif
+    return 0;
+}
 #endif // #ifdef HAVE_RABBITCOMMON_GUI
 
 } //namespace RabbitCommon
