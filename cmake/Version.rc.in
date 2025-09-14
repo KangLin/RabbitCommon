@@ -25,7 +25,7 @@ BEGIN
             VALUE "FileDescription", "${${PARA_NAME}_DESCRIPTION}"
             VALUE "FileVersion", "${PARA_VERSION}"
             VALUE "InternalName", "${PARA_NAME}"
-            VALUE "LegalCopyright", "Copyright (C) 2019 Kang Lin studio <kl222@126.com>"
+            VALUE "LegalCopyright", "Copyright (C) 2019 - ToDay Kang Lin studio <kl222@126.com>"
             VALUE "OriginalFilename", "${PARA_NAME}"
             VALUE "ProductName", "${PARA_NAME}"
             VALUE "ProductVersion", "${PARA_VERSION}"
