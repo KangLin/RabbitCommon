@@ -632,26 +632,33 @@ void OpenLogFile()
 
 void OpenLogFolder()
 {
-    QString d = RabbitCommon::CLog::Instance()->GetLogDir();
+    QString d;
+    d = RabbitCommon::CLog::Instance()->GetLogFile();
     if(d.isEmpty())
     {
         qCritical(log) << "Log folder is empty";
         return;
     }
+#if defined(Q_OS_LINUX)
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty())
-        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(d));
+    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty()) {
+        bRet = RabbitCommon::CTools::LocateFileWithExplorer(d);
+    }
     if(!bRet) {
+        d = RabbitCommon::CLog::Instance()->GetLogDir();
         CFileBrowser* f = new CFileBrowser();
         f->setWindowTitle(QObject::tr("Log folder"));
         f->setRootPath(d);
-#if defined(Q_OS_ANDROID)
+        #if defined(Q_OS_ANDROID)
         f->showMaximized();
-#else
+        #else
         f->show();
-#endif
+        #endif
     }
+#else // #if defined(Q_OS_LINUX)
+       RabbitCommon::CTools::LocateFileWithExplorer(d);
+#endif
 }
 
 #endif // #ifdef HAVE_RABBITCOMMON_GUI

@@ -304,8 +304,14 @@ public:
 
     void ShowCoreDialog(QString szTitle, QString szContent,
                         QString szDetail, QString szCoreDumpFile);
-    
-    static int LocateFileWithExplorer(const QString szFile);
+    /*!
+     * \~chinese
+     * \brief 用系统文件浏览器打开文件所在目录，并选中文件
+     * \param szFile： 要打开的文件
+     * \~english Open the directory where the file is located using the system file browser and select the file.
+     * \brief 
+     */
+    static bool LocateFileWithExplorer(const QString szFile);
 #endif //#ifdef HAVE_RABBITCOMMON_GUI
 
 public:

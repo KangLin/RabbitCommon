@@ -961,23 +961,90 @@ void CTools::ShowCoreDialog(QString szTitle, QString szContent, QString szDetail
     g_pCallStack->ShowCoreDialog(szTitle, szContent, szDetail, szCoreDumpFile);
 }
 
-int CTools::LocateFileWithExplorer(const QString szFile)
+#if defined(Q_OS_LINUX)
+// 检测当前桌面环境
+QString detectDesktopEnvironment() {
+    QString desktop = qgetenv("XDG_CURRENT_DESKTOP");
+    if (desktop.isEmpty()) {
+        desktop = qgetenv("DESKTOP_SESSION");
+    }
+    return desktop.toLower();
+}
+
+// 通用的打开文件目录并选中文件的方法
+bool openFileLocation(const QString &szFile) {
+    bool bRet = false;
+    QFileInfo fileInfo(szFile);
+    if (!fileInfo.exists()) {
+        qCritical(log) << "File does not exist:" << szFile;
+        return false;
+    }
+
+    QString desktopEnv = detectDesktopEnvironment();
+    qDebug(log) << "Detected desktop environment:" << desktopEnv;
+    QStringList lstPara;
+    QString szProgram;
+    lstPara << "--select" << fileInfo.absoluteFilePath();
+    qDebug(log) << "Para:" << lstPara;
+    if (desktopEnv.contains("gnome") || desktopEnv.contains("ubuntu") || desktopEnv.contains("unity")) {
+        szProgram = "nautilus";
+    } else if (desktopEnv.contains("kde") || desktopEnv.contains("plasma")) {
+        szProgram = "dolphin";
+    } else if (desktopEnv.contains("xfce")) {
+        szProgram = "thunar";
+    } else if (desktopEnv.contains("lxde") || desktopEnv.contains("lubuntu")) {
+        szProgram = "pcmanfm";
+    } else if(desktopEnv.contains("mate")) {
+        szProgram = "caja";
+    }
+    if(!szProgram.isEmpty()) {
+        bRet = QProcess::startDetached(szProgram, lstPara);
+    } else {
+        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(fileInfo.absolutePath()));
+    }
+    // if(!bRet) {
+    //     // 或者尝试使用 DBus 方法
+    //     QUrl fileUrl = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+    //     bRet = QProcess::startDetached(
+    //         "dbus-send", QStringList()
+    //             << "--session" 
+    //             << "--type=method_call"
+    //             << "--dest=org.freedesktop.FileManager1"
+    //             << "/org/freedesktop/FileManager1"
+    //             << "org.freedesktop.FileManager1.ShowItems"
+    //             << QString("array:string:%1").arg(fileUrl.toString())
+    //             << "string:");
+    // }
+
+    return bRet;
+}
+#endif
+
+bool CTools::LocateFileWithExplorer(const QString szFile)
 {
-    // 平台特定的实现
+    bool bRet = true;
 #ifdef Q_OS_WIN
     QString command = "explorer";
     QStringList args = {"/select,", QDir::toNativeSeparators(szFile)};
-    QProcess::startDetached(command, args);
+    bRet = QProcess::startDetached(command, args);
 #elif defined(Q_OS_MAC)
     QStringList args;
     args << "-e" << QString("tell application \"Finder\" to reveal POSIX file \"%1\"").arg(szFile);
     args << "-e" << "tell application \"Finder\" to activate";
-    QProcess::startDetached("osascript", args);
-#else
-    // Linux: 打开目录
-    QDesktopServices::openUrl(QUrl::fromLocalFile(szFile));
+    bRet = QProcess::startDetached("osascript", args);
+#elif defined(Q_OS_LINUX)
+    bRet = openFileLocation(szFile);
 #endif
-    return 0;
+    if(!bRet) {
+        // Linux: 打开目录
+        QFileInfo fileInfo(szFile);
+        if (!fileInfo.exists()) {
+            qCritical(log) << "File does not exist:" << szFile;
+            return false;
+        }
+        bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(fileInfo.absolutePath()));
+    }
+    return bRet;
 }
 #endif // #ifdef HAVE_RABBITCOMMON_GUI
 
