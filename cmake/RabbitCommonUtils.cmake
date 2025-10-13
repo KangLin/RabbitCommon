@@ -831,38 +831,70 @@ function(INSTALL_TARGET)
                 add_custom_command(TARGET ${PARA_NAME} POST_BUILD
                     COMMAND strip "$<TARGET_FILE:${PARA_NAME}>"
                     )
-                #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-                add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
-                    COMMAND "${WINDEPLOYQT_EXECUTABLE}"
+                # #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+                # add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+                #     COMMAND ${CMAKE_COMMAND} -E echo "Exec windeployqt for ${PARA_NAME}"
+                #     COMMAND "${WINDEPLOYQT_EXECUTABLE}"
+                #         #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                #         --verbose 7
+                #         --no-quick-import
+                #         --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+                #         --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+                #         --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
+                #         "$<TARGET_FILE:${PARA_NAME}>"
+                #     )
+                string(CONFIGURE [[
+                    message(STATUS "Exec windeployqt for @PARA_NAME@ ......")
+                    execute_process(
+                        COMMAND "@WINDEPLOYQT_EXECUTABLE@"
+                            #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+                            --verbose 7
+                            --no-quick-import
+                            --dir "@CMAKE_BINARY_DIR@/DependLibraries"
+                            --libdir "@CMAKE_BINARY_DIR@/DependLibraries"
+                            --plugindir "@CMAKE_BINARY_DIR@/DependLibraries"
+                            "$<TARGET_FILE:@PARA_NAME@>"
+                    )
+                    ]] code_windeployqt @ONLY)
+                INSTALL(CODE ${code_windeployqt}
+                    COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY}
+                )
+            endif()
+        ELSE(MINGW)
+            # #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+            # add_custom_command(TARGET ${PARA_NAME} POST_BUILD
+            #     COMMAND ${CMAKE_COMMAND} -E echo "Exec windeployqt for ${PARA_NAME}"
+            #     COMMAND "${WINDEPLOYQT_EXECUTABLE}"
+            #         #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
+            #         --verbose 7
+            #         --no-quick-import
+            #         --dir "${CMAKE_BINARY_DIR}/DependLibraries"
+            #         --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
+            #         --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
+            #         "$<TARGET_FILE:${PARA_NAME}>"
+            #     )
+            string(CONFIGURE [[
+                message(STATUS "Exec windeployqt for @PARA_NAME@ ......")
+                execute_process(
+                    COMMAND "@WINDEPLOYQT_EXECUTABLE@"
                         #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
                         --verbose 7
                         --no-quick-import
-                        --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                        --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                        --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                        "$<TARGET_FILE:${PARA_NAME}>"
-                    )
-            endif()
-        ELSE(MINGW)
-            #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-            add_custom_command(TARGET ${PARA_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E echo "exec windeployqt for ${PARA_NAME}"
-                COMMAND "${WINDEPLOYQT_EXECUTABLE}"
-                    #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                    --verbose 7
-                    --no-quick-import
-                    --dir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    --plugindir "${CMAKE_BINARY_DIR}/DependLibraries"
-                    "$<TARGET_FILE:${PARA_NAME}>"
+                        --dir "@CMAKE_BINARY_DIR@/DependLibraries"
+                        --libdir "@CMAKE_BINARY_DIR@/DependLibraries"
+                        --plugindir "@CMAKE_BINARY_DIR@/DependLibraries"
+                        "$<TARGET_FILE:@PARA_NAME@>"
                 )
+                ]] code_windeployqt @ONLY)
+            INSTALL(CODE ${code_windeployqt}
+                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY}
+            )
         ENDIF(MINGW)
 
         if(PARA_ISEXE AND RABBIT_ENABLE_INSTALL_QT)
             INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/DependLibraries/"
                 DESTINATION "${PARA_LIBRARY}"
-                    COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
+                COMPONENT ${PARA_COMPONENT_DEPEND_LIBRARY})
         endif()
     ENDIF()
 endfunction()
