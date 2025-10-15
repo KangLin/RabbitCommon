@@ -332,7 +332,12 @@ void CTools::Init(QString szApplicationName,
         Q_ASSERT(false);
         return;
     }
-
+#if defined(HAVE_WebEngineWidgets)
+    // 修复 qtwebengine 沙箱权限问题
+    if(!qEnvironmentVariable("SNAP").isEmpty()) {
+        qputenv("QTWEBENGINE_DISABLE_SANDBOX", "1");
+    }
+#endif
     if(QCoreApplication::applicationName().isEmpty())
     {
         QCoreApplication::setApplicationName(szApplicationName);
@@ -985,7 +990,6 @@ bool openFileLocation(const QString &szFile) {
     QStringList lstPara;
     QString szProgram;
     lstPara << "--select" << fileInfo.absoluteFilePath();
-    qDebug(log) << "Para:" << lstPara;
     if (desktopEnv.contains("gnome") || desktopEnv.contains("ubuntu") || desktopEnv.contains("unity")) {
         szProgram = "nautilus";
     } else if (desktopEnv.contains("kde") || desktopEnv.contains("plasma")) {
@@ -997,6 +1001,7 @@ bool openFileLocation(const QString &szFile) {
     } else if(desktopEnv.contains("mate")) {
         szProgram = "caja";
     }
+    qDebug(log) << "Program:" << szProgram << "Para:" << lstPara;
     if(!szProgram.isEmpty()) {
         bRet = QProcess::startDetached(szProgram, lstPara);
     } else {
