@@ -1111,29 +1111,24 @@ You can read files up to %1 MB.</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="200"/>
         <source>Application Error</source>
-        <translation>应用错误</translation>
+        <translation type="vanished">应用错误</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="202"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation>应用崩溃！</translation>
+        <translation type="vanished">应用崩溃！</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="203"/>
         <source>Current path: </source>
-        <translation>录前目录：</translation>
+        <translation type="vanished">录前目录：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="205"/>
         <source>Dump file: </source>
-        <translation>崩溃文件：</translation>
+        <translation type="vanished">崩溃文件：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="207"/>
         <source>Log file: </source>
-        <translation>日志文件：</translation>
+        <translation type="vanished">日志文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="580"/>
@@ -1161,7 +1156,7 @@ You can read files up to %1 MB.</source>
         <translation>日志文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="647"/>
+        <location filename="../../Log/Log.cpp" line="651"/>
         <source>Log folder</source>
         <translation>日志文件夹</translation>
     </message>
@@ -1176,18 +1171,22 @@ You can read files up to %1 MB.</source>
         <translation>打开内核崩溃文件夹</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
         <source>Critical</source>
-        <translation type="vanished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation type="vanished">输入密码</translation>
+        <translation>输入密码</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation type="vanished">输入 root 密码运行程序：</translation>
+        <translation>输入 root 密码运行程序：</translation>
     </message>
 </context>
 <context>
@@ -1266,67 +1265,67 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="112"/>
-        <location filename="../../Style/Style.cpp" line="143"/>
+        <location filename="../../Style/Style.cpp" line="116"/>
+        <location filename="../../Style/Style.cpp" line="147"/>
         <source>Current system theme is dark, current theme is </source>
         <translation>当前系统主题是暗色的，当前主题是 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="115"/>
-        <location filename="../../Style/Style.cpp" line="124"/>
-        <location filename="../../Style/Style.cpp" line="146"/>
-        <location filename="../../Style/Style.cpp" line="153"/>
-        <location filename="../../Style/Style.cpp" line="373"/>
+        <location filename="../../Style/Style.cpp" line="119"/>
+        <location filename="../../Style/Style.cpp" line="128"/>
+        <location filename="../../Style/Style.cpp" line="150"/>
+        <location filename="../../Style/Style.cpp" line="157"/>
+        <location filename="../../Style/Style.cpp" line="378"/>
         <source>change to </source>
         <translation>改变到 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="113"/>
-        <location filename="../../Style/Style.cpp" line="122"/>
-        <location filename="../../Style/Style.cpp" line="144"/>
-        <location filename="../../Style/Style.cpp" line="151"/>
-        <location filename="../../Style/Style.cpp" line="372"/>
+        <location filename="../../Style/Style.cpp" line="117"/>
+        <location filename="../../Style/Style.cpp" line="126"/>
+        <location filename="../../Style/Style.cpp" line="148"/>
+        <location filename="../../Style/Style.cpp" line="155"/>
+        <location filename="../../Style/Style.cpp" line="377"/>
         <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
         <translation>它们颜色相近，可能看不清图标。</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="121"/>
-        <location filename="../../Style/Style.cpp" line="150"/>
+        <location filename="../../Style/Style.cpp" line="125"/>
+        <location filename="../../Style/Style.cpp" line="154"/>
         <source>Current system theme is light, current theme is </source>
         <translation>当前系统主题是亮色，当前主题是 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="310"/>
+        <location filename="../../Style/Style.cpp" line="315"/>
         <source>Open style</source>
         <translation>打开样式</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="312"/>
+        <location filename="../../Style/Style.cpp" line="317"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>样式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="361"/>
+        <location filename="../../Style/Style.cpp" line="366"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="368"/>
+        <location filename="../../Style/Style.cpp" line="373"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="371"/>
+        <location filename="../../Style/Style.cpp" line="376"/>
         <source>Current system theme is</source>
         <translation>当前系统主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="371"/>
+        <location filename="../../Style/Style.cpp" line="376"/>
         <source>current theme is</source>
         <translation>当前主题是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="374"/>
+        <location filename="../../Style/Style.cpp" line="379"/>
         <source>Change theme</source>
         <translation>改变主题</translation>
     </message>
@@ -1585,45 +1584,45 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="821"/>
-        <location filename="../../RabbitCommonTools.cpp" line="832"/>
-        <location filename="../../RabbitCommonTools.cpp" line="835"/>
+        <location filename="../../RabbitCommonTools.cpp" line="826"/>
+        <location filename="../../RabbitCommonTools.cpp" line="837"/>
+        <location filename="../../RabbitCommonTools.cpp" line="840"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="846"/>
-        <location filename="../../RabbitCommonTools.cpp" line="848"/>
+        <location filename="../../RabbitCommonTools.cpp" line="851"/>
+        <location filename="../../RabbitCommonTools.cpp" line="853"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="851"/>
-        <location filename="../../RabbitCommonTools.cpp" line="863"/>
+        <location filename="../../RabbitCommonTools.cpp" line="856"/>
+        <location filename="../../RabbitCommonTools.cpp" line="868"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="865"/>
-        <location filename="../../RabbitCommonTools.cpp" line="867"/>
+        <location filename="../../RabbitCommonTools.cpp" line="870"/>
+        <location filename="../../RabbitCommonTools.cpp" line="872"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="869"/>
-        <location filename="../../RabbitCommonTools.cpp" line="871"/>
+        <location filename="../../RabbitCommonTools.cpp" line="874"/>
+        <location filename="../../RabbitCommonTools.cpp" line="876"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="873"/>
-        <location filename="../../RabbitCommonTools.cpp" line="875"/>
+        <location filename="../../RabbitCommonTools.cpp" line="878"/>
+        <location filename="../../RabbitCommonTools.cpp" line="880"/>
         <source>Open Log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="886"/>
-        <location filename="../../RabbitCommonTools.cpp" line="888"/>
+        <location filename="../../RabbitCommonTools.cpp" line="891"/>
+        <location filename="../../RabbitCommonTools.cpp" line="893"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>

@@ -387,6 +387,9 @@ void CTools::Init(QString szApplicationName,
     QStringList qtTranslations;
     qtTranslations << "qt" << "qtbase" << "qtmultimedia"
                    << "qtlocation";
+#if HAVE_WebEngineWidgets
+    qtTranslations << "qtwebengine";
+#endif
     foreach(auto f, qtTranslations) {
         QString szFile = szQtTranslationPath + QDir::separator()
                  + f + "_" + szLanguage + ".qm";
@@ -396,7 +399,7 @@ void CTools::Init(QString szApplicationName,
         else
             qWarning(logTranslation) << "The file doesn't exists: " << szFile;
     }
-    
+
 #ifdef HAVE_RABBITCOMMON_GUI
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
