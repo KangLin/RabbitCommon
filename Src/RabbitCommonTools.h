@@ -21,6 +21,7 @@
 #include <QObject>
 #ifdef HAVE_RABBITCOMMON_GUI
     #include <QMenu>
+    #include <QMainWindow>
 #endif
 
 /*!
@@ -312,6 +313,7 @@ public:
      * \brief 
      */
     static bool LocateFileWithExplorer(const QString szFile);
+    static QMainWindow* GetMainWindow();
 #endif //#ifdef HAVE_RABBITCOMMON_GUI
 
 public:

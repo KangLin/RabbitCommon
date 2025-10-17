@@ -1051,6 +1051,16 @@ bool CTools::LocateFileWithExplorer(const QString szFile)
     }
     return bRet;
 }
+
+QMainWindow* CTools::GetMainWindow()
+{
+    foreach (QWidget *w, qApp->topLevelWidgets()) {
+        if (QMainWindow* mainWin = qobject_cast<QMainWindow*>(w)) {
+            return mainWin;
+        }
+    }
+    return nullptr;
+}
 #endif // #ifdef HAVE_RABBITCOMMON_GUI
 
 } //namespace RabbitCommon
