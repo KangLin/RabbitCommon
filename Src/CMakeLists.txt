@@ -344,6 +344,8 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonDir.h
     RabbitCommonEncrypt.h
     Download.h
+    ThreadPool/ThreadPool.h
+    ThreadPool/Worker.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -359,7 +361,12 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     RabbitCommonRegister.cpp
     RabbitCommonEncrypt.cpp
     Download.cpp
+    ThreadPool/ThreadPool.cpp
+    ThreadPool/Worker.cpp
     )
+
+list(APPEND RABBITCOMMON_INCLUDE_DIRS
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThreadPool>)
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
