@@ -54,114 +54,114 @@
         <translation>版權(C) 2018 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="63"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="62"/>
         <source>KangLin</source>
         <translation>康林</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="66"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="65"/>
         <source>Kang Lin Studio</source>
         <translation>康林工作室</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="104"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="98"/>
         <source>License</source>
         <translation>許可協議</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="103"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="97"/>
         <source>Change log</source>
         <translation>修改日誌</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="105"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="99"/>
         <source>Thanks</source>
         <translation>感謝</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="139"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="133"/>
         <source>%1 - %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="272"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="279"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="260"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="267"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="272"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="286"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="260"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="274"/>
         <source>Arch: </source>
         <translation>架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="279"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="267"/>
         <source> (From revision: </source>
         <translation>(校訂版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="294"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="282"/>
         <source>Failed:</source>
         <translation>失敗:</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="294"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="282"/>
         <source>Download file is Failed.</source>
         <translation>下載文件失敗。</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="311"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="299"/>
         <source>### </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="313"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="301"/>
         <source>Build Date/Time: </source>
         <translation>編譯日期/時間：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="314"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="302"/>
         <source>File Path: </source>
         <translation>文件路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="315"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="303"/>
         <source>Arguments: </source>
         <translation>參數：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="129"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="123"/>
         <source>Author: </source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="130"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="124"/>
         <source> Email: </source>
         <translation> 郵箱：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="134"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="128"/>
         <source>Home page: </source>
         <translation>主頁：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="141"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="135"/>
         <source>Copyright (C)</source>
         <translation>版權所有 (C)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="223"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="211"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="233"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="221"/>
         <source>Save donation picture</source>
         <translation>保存捐贈圖片</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="235"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="223"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>圖片(*.png *.xpm *.jpg)</translation>
     </message>
@@ -1032,37 +1032,42 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="149"/>
+        <location filename="../../DlgAbout/Information.cpp" line="143"/>
+        <source>Number:</source>
+        <translation>個數：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="152"/>
         <source>Theme:</source>
         <translation>主題：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="152"/>
+        <location filename="../../DlgAbout/Information.cpp" line="155"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="155"/>
+        <location filename="../../DlgAbout/Information.cpp" line="158"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="158"/>
+        <location filename="../../DlgAbout/Information.cpp" line="161"/>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="167"/>
+        <location filename="../../DlgAbout/Information.cpp" line="170"/>
         <source>Host name: </source>
         <translation>主機名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="169"/>
+        <location filename="../../DlgAbout/Information.cpp" line="172"/>
         <source>Domain name: </source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="173"/>
+        <location filename="../../DlgAbout/Information.cpp" line="176"/>
         <source>Environment</source>
         <translation>環境變量</translation>
     </message>
@@ -1077,12 +1082,12 @@ You can read files up to %1 MB.</source>
         <translation>玉兔公共庫</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="143"/>
+        <location filename="../../DlgAbout/Information.cpp" line="145"/>
         <source>Architecture: </source>
         <translation>架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="145"/>
+        <location filename="../../DlgAbout/Information.cpp" line="147"/>
         <source>Build architecture: </source>
         <translation>編譯架構：</translation>
     </message>
@@ -1092,8 +1097,8 @@ You can read files up to %1 MB.</source>
         <translation>操作系統</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="165"/>
-        <location filename="../../DlgAbout/Information.cpp" line="180"/>
+        <location filename="../../DlgAbout/Information.cpp" line="168"/>
+        <location filename="../../DlgAbout/Information.cpp" line="183"/>
         <source>Host</source>
         <translation>主機</translation>
     </message>
@@ -1171,22 +1176,18 @@ You can read files up to %1 MB.</source>
         <translation>打開內核崩潰文件夾</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
         <source>Critical</source>
-        <translation>錯誤</translation>
+        <translation type="vanished">錯誤</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation>輸入密碼</translation>
+        <translation type="vanished">輸入密碼</translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation>輸入 root 密碼運行程序：</translation>
+        <translation type="vanished">輸入 root 密碼運行程序：</translation>
     </message>
 </context>
 <context>
@@ -1584,45 +1585,45 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="826"/>
-        <location filename="../../RabbitCommonTools.cpp" line="837"/>
+        <location filename="../../RabbitCommonTools.cpp" line="829"/>
         <location filename="../../RabbitCommonTools.cpp" line="840"/>
+        <location filename="../../RabbitCommonTools.cpp" line="843"/>
         <source>Style</source>
         <translation>樣式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="851"/>
-        <location filename="../../RabbitCommonTools.cpp" line="853"/>
+        <location filename="../../RabbitCommonTools.cpp" line="854"/>
+        <location filename="../../RabbitCommonTools.cpp" line="856"/>
         <source>Log</source>
         <translation>日誌</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="856"/>
-        <location filename="../../RabbitCommonTools.cpp" line="868"/>
+        <location filename="../../RabbitCommonTools.cpp" line="859"/>
+        <location filename="../../RabbitCommonTools.cpp" line="871"/>
         <source>Settings</source>
         <translation>設置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="870"/>
-        <location filename="../../RabbitCommonTools.cpp" line="872"/>
+        <location filename="../../RabbitCommonTools.cpp" line="873"/>
+        <location filename="../../RabbitCommonTools.cpp" line="875"/>
         <source>Open Log configure file</source>
         <translation>打開日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="874"/>
-        <location filename="../../RabbitCommonTools.cpp" line="876"/>
+        <location filename="../../RabbitCommonTools.cpp" line="877"/>
+        <location filename="../../RabbitCommonTools.cpp" line="879"/>
         <source>Open Log file</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="878"/>
-        <location filename="../../RabbitCommonTools.cpp" line="880"/>
+        <location filename="../../RabbitCommonTools.cpp" line="881"/>
+        <location filename="../../RabbitCommonTools.cpp" line="883"/>
         <source>Open Log folder</source>
         <translation>打開日誌文件夾</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="891"/>
-        <location filename="../../RabbitCommonTools.cpp" line="893"/>
+        <location filename="../../RabbitCommonTools.cpp" line="894"/>
+        <location filename="../../RabbitCommonTools.cpp" line="896"/>
         <source>Log dock</source>
         <translation>日誌 - 停泊條</translation>
     </message>

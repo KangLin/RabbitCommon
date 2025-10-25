@@ -11,9 +11,7 @@
 #include <QLoggingCategory>
 #include <QMetaEnum>
 #include <QSslSocket>
-#ifdef HAVE_WebEngineWidgets
-#include <QWebEngineView>
-#endif
+#include <QThread>
 
 #include "Information.h"
 #include "ui_Information.h"
@@ -43,14 +41,14 @@ CInformation::CInformation(const QString &szApp,
     szQt += "- " + tr("Runtime version: ") + QString(qVersion()) + "\n";
     szQt += "- " + tr("Compile version: ") + QString(QT_VERSION_STR) + "\n";
     szQt += "- " + tr("Libraries:") + "\n";
-#if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
-    szQt += "  - " + tr("Version: ")
+    #if QT_VERSION > QT_VERSION_CHECK(5, 8, 0)
+        szQt += "  - " + tr("Version: ")
             + QLibraryInfo::version().toString() + "\n";
-#endif
+    #endif
     szQt += "  - " + tr("Is debug build: ") + QString::number(QLibraryInfo::isDebugBuild()) + "\n";
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    szQt += "  - " + tr("Is shared build: ") + QString::number(QLibraryInfo::isSharedBuild()) + "\n";
-#endif
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+        szQt += "  - " + tr("Is shared build: ") + QString::number(QLibraryInfo::isSharedBuild()) + "\n";
+    #endif
     szQt += "  - " + tr("Path: ") + "\n";
     szQt += GetLibrariesLocation();
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
@@ -61,31 +59,32 @@ CInformation::CInformation(const QString &szApp,
     {
         szQt += "      - " + iconPath + "\n";
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-    szQt += "  - " + tr("Fallback theme: ") + QIcon::fallbackThemeName() + "\n";
-    szQt += "    - " + tr("Fallback search paths:") + "\n";
-    foreach(auto iconFallback, QIcon::fallbackSearchPaths())
-    {
-        szQt += "      - " + iconFallback + "\n";
-    }
-#endif
+    #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        szQt += "  - " + tr("Fallback theme: ") + QIcon::fallbackThemeName() + "\n";
+        szQt += "    - " + tr("Fallback search paths:") + "\n";
+        foreach(auto iconFallback, QIcon::fallbackSearchPaths())
+        {
+            szQt += "      - " + iconFallback + "\n";
+        }
+    #endif
     szQt += "### " + tr("Dependency libraries:") + "\n";
     szQt += tr("- OpenSSL:") + "\n";
     if(QSslSocket::supportsSsl())
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szQt += "  - " + tr("Build Version: ")
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+            szQt += "  - " + tr("Build Version: ")
                 + QSslSocket::sslLibraryBuildVersionString() + "\n";
-#endif
+        #endif
         szQt += "  - " + tr("Installed Version: ")
                 + QSslSocket::sslLibraryVersionString() + "\n";
     } else {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        szQt += "  - " + tr("Build Version: ")
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+            szQt += "  - " + tr("Build Version: ")
                 + QSslSocket::sslLibraryBuildVersionString() + "\n";
-#endif
+        #endif
         szQt += "  - " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
     szQt += "### " + tr("Standard paths:") + "\n";
     szQt += "- " + tr("Standard paths:") + "\n";
@@ -122,10 +121,11 @@ CInformation::CInformation(const QString &szApp,
         }
         szQt += "\n";
     }
-#endif
+#endif // #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+
     szQt += "\n";
     SetContext(tr("Qt"), szQt);
-    
+
     QString szOS;
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
     szOS = "### " + tr("OS") + "\n";
@@ -134,40 +134,44 @@ CInformation::CInformation(const QString &szApp,
     szOS += "  - " + tr("Product version: ") + QSysInfo::productVersion() + "\n";
     szOS += "- " + tr("Kernel type: ") + QSysInfo::kernelType() + "\n";
     szOS += "- " + tr("Kernel version: ") + QSysInfo::kernelVersion() + "\n";
-#if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
-    if(!QSysInfo::bootUniqueId().isEmpty())
-        szOS += "- " + tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
-#endif
+    #if QT_VERSION > QT_VERSION_CHECK(5, 11, 0)
+        if(!QSysInfo::bootUniqueId().isEmpty())
+            szOS += "- " + tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
+    #endif
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
     szOS += "- " + tr("CPU: ") + "\n";
+    int nCPU = QThread::idealThreadCount();
+    szOS += "  - " + tr("Number:") + " " + QString::number(nCPU) + "\n";
+    //szOS += "  - " + tr("Number:") + QString::number(std::thread::hardware_concurrency()) + "\n";
     szOS += "  - " + tr("Architecture: ")
             + QSysInfo::currentCpuArchitecture() + "\n";
     szOS += "  - " + tr("Build architecture: ")
             + QSysInfo::buildCpuArchitecture() + "\n";
 
     #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    szOS += "- " + tr("Theme:") + " ";
-    switch(QApplication::styleHints()->colorScheme()) {
-    case Qt::ColorScheme::Dark:
-        szOS += tr("Dark");
-        break;
-    case Qt::ColorScheme::Light:
-        szOS += tr("Light");
-        break;
-    case Qt::ColorScheme::Unknown:
-        szOS += tr("Unknown");
-        break;
-    }
-    szOS += "\n";
-    #endif
+        szOS += "- " + tr("Theme:") + " ";
+        switch(QApplication::styleHints()->colorScheme()) {
+        case Qt::ColorScheme::Dark:
+            szOS += tr("Dark");
+            break;
+        case Qt::ColorScheme::Light:
+            szOS += tr("Light");
+            break;
+        case Qt::ColorScheme::Unknown:
+            szOS += tr("Unknown");
+            break;
+        }
+        szOS += "\n";
+    #endif // #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
 
     QString szHost;
     szHost = "### " + tr("Host") + "\n";
-#if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
-    szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
-#endif
+    #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
+        szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
+    #endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName() + "\n";
-#endif
+
+#endif // #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
 
     QString szEnv;
     szEnv += "### " + tr("Environment") + "\n";
@@ -196,16 +200,11 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
         return;
     }
     QString szHtml;
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    szHtml = RabbitCommon::CTools::MarkDownToHtml(szContext);
-#endif
+    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+        szHtml = RabbitCommon::CTools::MarkDownToHtml(szContext);
+    #endif
     if(szHtml.isEmpty())
         szHtml = szContext;
-#if defined(HAVE_WebEngineWidgets)
-    QWebEngineView* pEdit = new QWebEngineView(ui->tabWidget);
-    if(!pEdit) return;
-    pEdit->setHtml(szHtml);
-#else
     QTextBrowser* pEdit = new QTextBrowser(ui->tabWidget);
     if(!pEdit) return;
     pEdit->setOpenExternalLinks(true);
@@ -213,15 +212,15 @@ void CInformation::SetContext(const QString& szTitle, const QString& szContext)
     pEdit->setReadOnly(true);
     pEdit->setWordWrapMode(QTextOption::NoWrap);
     #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    pEdit->setMarkdown(szContext);
-#else
-    pEdit->setHtml(szHtml);
-#endif
+        pEdit->setMarkdown(szContext);
+    #else
+        pEdit->setHtml(szHtml);
+    #endif
     //把光标移动文档开始处
     QTextCursor cursor = pEdit->textCursor();
     cursor.movePosition(QTextCursor::Start);
     pEdit->setTextCursor(cursor);
-#endif
+
     pEdit->show();
     ui->tabWidget->addTab(pEdit, szTitle);
 }
@@ -233,16 +232,16 @@ QString CInformation::GetLibrariesLocation(QLibraryInfo::LibraryPath path)
 #endif
 {
     QString szQt;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    szQt += QLibraryInfo::location(path);
-#elif QT_VERSION < QT_VERSION_CHECK(6, 8, 0)
-    szQt += QLibraryInfo::path(path);
-#else
-    foreach(auto s, QLibraryInfo::paths(path))
-    {
-        szQt += s;
-    }
-#endif
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        szQt += QLibraryInfo::location(path);
+    #elif QT_VERSION < QT_VERSION_CHECK(6, 8, 0)
+        szQt += QLibraryInfo::path(path);
+    #else
+        foreach(auto s, QLibraryInfo::paths(path))
+        {
+            szQt += s;
+        }
+    #endif
     szQt += "\n";
     return szQt;
 }
@@ -257,9 +256,9 @@ QString CInformation::GetLibrariesLocation()
     szQt += "    - LibraryExecutablesPath: " + GetLibrariesLocation(QLibraryInfo::LibraryExecutablesPath);
     szQt += "    - BinariesPath: " + GetLibrariesLocation(QLibraryInfo::BinariesPath);
     szQt += "    - PluginsPath: " + GetLibrariesLocation(QLibraryInfo::PluginsPath);
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-    szQt += "    - QmlImportsPath: " + GetLibrariesLocation(QLibraryInfo::QmlImportsPath);
-#endif
+    #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+        szQt += "    - QmlImportsPath: " + GetLibrariesLocation(QLibraryInfo::QmlImportsPath);
+    #endif
     szQt += "    - ArchDataPath: " + GetLibrariesLocation(QLibraryInfo::ArchDataPath);
     szQt += "    - DataPath: " + GetLibrariesLocation(QLibraryInfo::DataPath);
     szQt += "    - TranslationsPath: " + GetLibrariesLocation(QLibraryInfo::TranslationsPath);

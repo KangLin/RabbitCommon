@@ -27,7 +27,7 @@ Abstract:
 #define RABBITCOMMON_DLGABOUT_H
 
 #include <QDialog>
-
+#include <QTextBrowser>
 #include "rabbitcommon_export.h"
 
 namespace Ui {
@@ -119,10 +119,10 @@ private:
     QString BuildTime();
     QString Version();
 
-    QWidget* m_pLicense;
-    QWidget* m_pChangeLog;
-    QWidget* m_pThanks;
-    int AppendFile(QWidget *pWidget, const QString &szFile, const QString &szTitle);
+    QTextBrowser* m_pLicense;
+    QTextBrowser* m_pChangeLog;
+    QTextBrowser* m_pThanks;
+    int AppendFile(QTextBrowser *pEdit, const QString &szFile, const QString &szTitle);
     friend class CInformation;
     
 protected:

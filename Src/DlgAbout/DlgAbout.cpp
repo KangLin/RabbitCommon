@@ -13,7 +13,6 @@ Abstract:
     This file contains about dialog implement.
  */
 
-#include <QTextBrowser>
 #include <QFile>
 #include <QDir>
 #include <QMenu>
@@ -57,7 +56,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
         m_szVersion = RabbitCommon_VERSION;
     }
 #endif
-    
+
     m_szArch = QSysInfo::buildCpuArchitecture();
 
     m_szAuthor = tr("KangLin");
@@ -91,15 +90,10 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     Q_ASSERT(check);
     m_Download->Start(urls);
 
-#if (defined(HAVE_CMARK) || defined (HAVE_CMARK_GFM)) && defined(HAVE_WebEngineWidgets)
-    m_pLicense = new QWebEngineView(ui->tabWidget);
-    m_pChangeLog = new QWebEngineView(ui->tabWidget);
-    m_pThanks = new QWebEngineView(ui->tabWidget);
-#else
     m_pLicense = new QTextBrowser(ui->tabWidget);
     m_pChangeLog = new QTextBrowser(ui->tabWidget);
     m_pThanks = new QTextBrowser(ui->tabWidget);
-#endif
+
     AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
     AppendFile(m_pLicense, "License", tr("License"));
     AppendFile(m_pThanks, "Authors", tr("Thanks"));
@@ -150,11 +144,11 @@ CDlgAbout::~CDlgAbout()
     delete ui;
 }
 
-int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString &szTitle)
+int CDlgAbout::AppendFile(QTextBrowser *pEdit, const QString &szFile, const QString &szTitle)
 {
     QDir d;
     QString szFileLocation;
-
+    if(!pEdit) return -1;
     szFileLocation = RabbitCommon::CDir::Instance()->GetDirDocument(
                          QApplication::applicationName(), true)
                      + QDir::separator()
@@ -178,35 +172,29 @@ int CDlgAbout::AppendFile(QWidget* pWidget, const QString &szFile, const QString
         QByteArray text;
         text = readme.readAll();
         QString szHtml;
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+        #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         szHtml = RabbitCommon::CTools::MarkDownToHtml(text);
-#endif
+        #endif
         if(szHtml.isEmpty())
             szHtml = text;
-#if defined(HAVE_WebEngineWidgets)
-        QWebEngineView* pEdit = qobject_cast<QWebEngineView*>(pWidget);
-        pEdit->setHtml(szHtml);
-#else
-        QTextBrowser* pEdit = qobject_cast<QTextBrowser*>(pWidget);
         if(pEdit) {
             pEdit->setOpenExternalLinks(true);
             pEdit->setOpenLinks(true);
             pEdit->setReadOnly(true);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+            #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
             pEdit->setMarkdown(text);
-#else
+            #else
             pEdit->setHtml(szHtml);
-#endif
+            #endif
             //把光标移动文档开始处
             QTextCursor cursor = pEdit->textCursor();
             cursor.movePosition(QTextCursor::Start);
             pEdit->setTextCursor(cursor);
+            pEdit->show();
         }
-#endif
-        pEdit->show();
         readme.close();
-        if(pWidget)
-            ui->tabWidget->addTab(pWidget, szTitle);
+        if(pEdit)
+            ui->tabWidget->addTab(pEdit, szTitle);
     }
     return 0;
 }
