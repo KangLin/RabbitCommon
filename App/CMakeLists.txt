@@ -75,3 +75,19 @@ set(OTHER_FILES
 INSTALL_FILE(SOURCES ${OTHER_FILES}
     DESTINATION ${CMAKE_INSTALL_DOCDIR}
         COMPONENT Application)
+
+
+
+project(ExampleFileTransfer
+    DESCRIPTION "Download example applicattion"
+)
+set(ExampleFileTransfer_SOURCE
+    ${CMAKE_SOURCE_DIR}/Src/FileTransfer/ExampleFileTransfer.cpp)
+ADD_TARGET(NAME ExampleFileTransfer
+    ISEXE
+    SOURCE_FILES ${ExampleFileTransfer_SOURCE}
+    PRIVATE_LIBS RabbitCommon ${QT_LIBRARIES}
+    INCLUDE_DIRS "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/Src>"
+        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>"
+    VERSION ${RabbitCommon_VERSION}
+    )

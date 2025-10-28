@@ -67,7 +67,7 @@ jobs:
               qt6-l10n-tools qt6-translations-l10n qt6-scxml-dev \
               qt6-webengine-dev qt6-webengine-dev-tools \
               libcmark-gfm-dev libcmark-gfm-extensions-dev \
-              libcmark-dev cmark
+              libcmark-dev cmark libcurl4-openssl-dev
       
       - name: Build and test
         working-directory: ${{github.workspace}}/build_test

@@ -36,7 +36,7 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #ifdef HAVE_ADMINAUTHORISER
-#include "AdminAuthoriser/adminauthoriser.h"
+    #include "AdminAuthoriser/adminauthoriser.h"
 #endif
 #include "RabbitCommonRegister.h"
 #include "Log/Log.h"
@@ -71,11 +71,15 @@
 #endif
 
 #ifdef HAVE_CMARK
-#include "cmark.h"
+    #include "cmark.h"
 #endif
 #ifdef HAVE_CMARK_GFM
-#include "cmark-gfm.h"
-#include "cmark-gfm-core-extensions.h"
+    #include "cmark-gfm.h"
+    #include "cmark-gfm-core-extensions.h"
+#endif
+    
+#ifdef HAVE_CURL
+    #include <curl/curl.h>
 #endif
 
 inline void g_RabbitCommon_InitResource()
@@ -311,6 +315,10 @@ void CTools::Init(int argc, char *argv[], QString szApplicationName)
         return;
     }
 
+#ifdef HAVE_CURL
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+#endif
+
     QString szName;
     QString szPath;
     QFileInfo fi(argv[0]);
@@ -422,6 +430,11 @@ void CTools::Clean()
     m_Translator.clear();
     CleanResource();
     delete RabbitCommon::CLog::Instance();
+    
+#ifdef HAVE_CURL
+    curl_global_cleanup();
+#endif
+    
 }
 
 QSharedPointer<QTranslator> CTools::InstallTranslatorFile(const QString szFile)
