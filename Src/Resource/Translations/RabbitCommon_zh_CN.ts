@@ -875,39 +875,39 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="36"/>
+        <location filename="../../DlgAbout/Information.cpp" line="34"/>
         <source>### RabbitCommon</source>
         <translation>### 玉兔公共库</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="56"/>
+        <location filename="../../DlgAbout/Information.cpp" line="54"/>
         <source>Locale: </source>
         <translation>语言：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="77"/>
-        <location filename="../../DlgAbout/Information.cpp" line="84"/>
+        <location filename="../../DlgAbout/Information.cpp" line="75"/>
+        <location filename="../../DlgAbout/Information.cpp" line="82"/>
         <source>Build Version: </source>
         <translation>编译时版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="80"/>
+        <location filename="../../DlgAbout/Information.cpp" line="78"/>
         <source>Installed Version: </source>
         <translation>安装的版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="87"/>
+        <location filename="../../DlgAbout/Information.cpp" line="85"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安装 OPENSSL 动态库，请安装！</translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/Information.cpp" line="89"/>
         <location filename="../../DlgAbout/Information.cpp" line="90"/>
-        <location filename="../../DlgAbout/Information.cpp" line="91"/>
         <source>Standard paths:</source>
         <translation>标准路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="112"/>
+        <location filename="../../DlgAbout/Information.cpp" line="111"/>
         <source>Writable Location:</source>
         <translation>可写入位置：</translation>
     </message>
@@ -927,77 +927,77 @@ You can read files up to %1 MB.</source>
         <translation>操作系统：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="42"/>
+        <location filename="../../DlgAbout/Information.cpp" line="40"/>
         <source>### Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="43"/>
+        <location filename="../../DlgAbout/Information.cpp" line="41"/>
         <source>Runtime version: </source>
         <translation>运行版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="44"/>
+        <location filename="../../DlgAbout/Information.cpp" line="42"/>
         <source>Compile version: </source>
         <translation>编译版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="45"/>
+        <location filename="../../DlgAbout/Information.cpp" line="43"/>
         <source>Libraries:</source>
         <translation>库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="47"/>
+        <location filename="../../DlgAbout/Information.cpp" line="45"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="50"/>
+        <location filename="../../DlgAbout/Information.cpp" line="48"/>
         <source>Is debug build: </source>
         <translation>是调试编译：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="52"/>
+        <location filename="../../DlgAbout/Information.cpp" line="50"/>
         <source>Is shared build: </source>
         <translation>是动态库编译：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="54"/>
+        <location filename="../../DlgAbout/Information.cpp" line="52"/>
         <source>Path: </source>
         <translation>路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="57"/>
+        <location filename="../../DlgAbout/Information.cpp" line="55"/>
         <source>Icon: </source>
         <translation>图标：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="58"/>
+        <location filename="../../DlgAbout/Information.cpp" line="56"/>
         <source>Theme: </source>
         <translation>主题：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="59"/>
+        <location filename="../../DlgAbout/Information.cpp" line="57"/>
         <source>Search paths:</source>
         <translation>搜索路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="65"/>
+        <location filename="../../DlgAbout/Information.cpp" line="63"/>
         <source>Fallback theme: </source>
         <translation>备份主题：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="66"/>
+        <location filename="../../DlgAbout/Information.cpp" line="64"/>
         <source>Fallback search paths:</source>
         <translation>备份主题搜索路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="72"/>
+        <location filename="../../DlgAbout/Information.cpp" line="70"/>
         <source>Dependency libraries:</source>
         <translation>依赖库：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="73"/>
+        <location filename="../../DlgAbout/Information.cpp" line="71"/>
         <source>- OpenSSL:</source>
         <translation></translation>
     </message>
@@ -1032,7 +1032,7 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="143"/>
+        <location filename="../../DlgAbout/Information.cpp" line="144"/>
         <source>Number:</source>
         <translation>个数：</translation>
     </message>
@@ -1067,27 +1067,27 @@ You can read files up to %1 MB.</source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="176"/>
+        <location filename="../../DlgAbout/Information.cpp" line="177"/>
         <source>Environment</source>
         <translation>环境变量</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="33"/>
+        <location filename="../../DlgAbout/Information.cpp" line="31"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="39"/>
+        <location filename="../../DlgAbout/Information.cpp" line="37"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="145"/>
+        <location filename="../../DlgAbout/Information.cpp" line="146"/>
         <source>Architecture: </source>
         <translation>架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="147"/>
+        <location filename="../../DlgAbout/Information.cpp" line="148"/>
         <source>Build architecture: </source>
         <translation>编译架构：</translation>
     </message>
@@ -1098,7 +1098,7 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="168"/>
-        <location filename="../../DlgAbout/Information.cpp" line="183"/>
+        <location filename="../../DlgAbout/Information.cpp" line="184"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
@@ -1136,32 +1136,32 @@ You can read files up to %1 MB.</source>
         <translation type="vanished">日志文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="580"/>
+        <location filename="../../Log/Log.cpp" line="581"/>
         <source>Log configure file</source>
         <translation>日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="581"/>
+        <location filename="../../Log/Log.cpp" line="582"/>
         <source>Log configure file:</source>
         <translation>日志配置文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="596"/>
+        <location filename="../../Log/Log.cpp" line="597"/>
         <source>Save as...</source>
         <translation>另存为...</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="628"/>
+        <location filename="../../Log/Log.cpp" line="629"/>
         <source>Log file</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="628"/>
+        <location filename="../../Log/Log.cpp" line="629"/>
         <source>Log file:</source>
         <translation>日志文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="651"/>
+        <location filename="../../Log/Log.cpp" line="652"/>
         <source>Log folder</source>
         <translation>日志文件夹</translation>
     </message>
@@ -1176,18 +1176,22 @@ You can read files up to %1 MB.</source>
         <translation>打开内核崩溃文件夹</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
         <source>Critical</source>
-        <translation type="vanished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation type="vanished">输入密码</translation>
+        <translation>输入密码</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation type="vanished">输入 root 密码运行程序：</translation>
+        <translation>输入 root 密码运行程序：</translation>
     </message>
 </context>
 <context>
@@ -1599,33 +1603,39 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="859"/>
-        <location filename="../../RabbitCommonTools.cpp" line="871"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="873"/>
-        <location filename="../../RabbitCommonTools.cpp" line="875"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="877"/>
-        <location filename="../../RabbitCommonTools.cpp" line="879"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="881"/>
-        <location filename="../../RabbitCommonTools.cpp" line="883"/>
         <source>Open Log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="894"/>
         <location filename="../../RabbitCommonTools.cpp" line="896"/>
+        <location filename="../../RabbitCommonTools.cpp" line="898"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="907"/>
+        <source>Copy log file path to clipboard</source>
+        <translation>复制日志文件路径到剪切板</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="911"/>
+        <source>Copy log folder to clipboard</source>
+        <translation>复制日志文件夹到剪切板</translation>
     </message>
 </context>
 </TS>

@@ -868,21 +868,23 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
                              CLog::Instance()->SetFilter(szInclude, szExclude);
                          }
                      });
-    pAction->setStatusTip(tr("Settings"));
+    pAction->setStatusTip(pAction->text());
     pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
                      tr("Open Log configure file"),
                      [](){RabbitCommon::OpenLogConfigureFile();});
-    pAction->setStatusTip(tr("Open Log configure file"));
+    pAction->setStatusTip(pAction->text());
     pAction = pMenu->addAction(QIcon::fromTheme("document-open"),
                      tr("Open Log file"),
                      [](){RabbitCommon::OpenLogFile();});
-    pAction->setStatusTip(tr("Open Log file"));
+    pAction->setStatusTip(pAction->text());
     pAction = pMenu->addAction(QIcon::fromTheme("folder-open"),
                      tr("Open Log folder"),
                      [](){RabbitCommon::OpenLogFolder();});
-    pAction->setStatusTip(tr("Open Log folder"));
+    pAction->setStatusTip(pAction->text());
+    
     QMainWindow* pMainWindow = qobject_cast<QMainWindow*>(parentMainWindow);
     if(pMainWindow) {
+        pMenu->addSeparator();
         if(!g_pDcokDebugLog)
             g_pDcokDebugLog = new CDockDebugLog(pMainWindow);
         pMainWindow->addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea,
@@ -898,6 +900,16 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
         qWarning(log) << "CTools::GetLogMenu: Don't use dock debug log."
                          <<  "The parent suggest is MainWindow pointer";
     }
+    
+    pMenu->addSeparator();
+    pAction = pMenu->addAction(QIcon::fromTheme("edit-copy"),
+                               tr("Copy log file path to clipboard"),
+                               [](){RabbitCommon::CopyLogFileToClipboard();});
+    pAction->setStatusTip(pAction->text());
+    pAction = pMenu->addAction(QIcon::fromTheme("edit-copy"),
+                               tr("Copy log folder to clipboard"),
+                               [](){RabbitCommon::CopyLogFolderToClipboard();});
+    pAction->setStatusTip(pAction->text());
 
     return pMenu;
 }

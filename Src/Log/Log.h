@@ -24,6 +24,8 @@ namespace RabbitCommon {
     void OpenLogConfigureFile();
     void OpenLogFile();
     void OpenLogFolder();
+    void CopyLogFileToClipboard();
+    void CopyLogFolderToClipboard();
 #endif
 
 /*!

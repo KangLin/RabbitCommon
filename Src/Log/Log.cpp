@@ -19,7 +19,8 @@
 #ifdef HAVE_RABBITCOMMON_GUI
     #include <QDesktopServices>
     #include <QMessageBox>
-
+    #include <QClipboard>
+    #include <QApplication>
     #include "DockDebugLog.h"
     #include "FileBrowser.h"
     #include "DlgEdit.h"
@@ -659,6 +660,35 @@ void OpenLogFolder()
 #else // #if defined(Q_OS_LINUX)
        RabbitCommon::CTools::LocateFileWithExplorer(d);
 #endif
+}
+
+void CopyLogFileToClipboard()
+{
+    QString f = RabbitCommon::CLog::Instance()->GetLogFile();
+    if(f.isEmpty())
+    {
+        qCritical(log) << "Log file is empty";
+        return;
+    }
+    auto cb = QApplication::clipboard();
+    if(cb) {
+        cb->setText(f);
+    }
+}
+
+void CopyLogFolderToClipboard()
+{
+    QString d;
+    d = RabbitCommon::CLog::Instance()->GetLogDir();
+    if(d.isEmpty())
+    {
+        qCritical(log) << "Log folder is empty";
+        return;
+    }
+    auto cb = QApplication::clipboard();
+    if(cb) {
+        cb->setText(d);
+    }
 }
 
 #endif // #ifdef HAVE_RABBITCOMMON_GUI
