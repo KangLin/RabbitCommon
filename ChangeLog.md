@@ -1,61 +1,65 @@
+### Version v2.4.0
+- Add threa pool
+- Add file transfer
+
 ### Version v2.3.4
-  - QTextBrowser replace QTextEdit
-  - Modify markdown to html
-  - Log: fix m_szPath is empty bug
-  - Add icon
-  - Update: add update callback function
-  - QTextBrowser replace QTextEdit
-  - Package MacOS to end
-    - CMake
-      - Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
-        - It is not generate Info.plist file
-        - Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks"
-        - Users are required to generate Info.plist and BUNDLE directory
-      - Use MACOSX_BUNDLE properties (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
-        - Generate Info.plist file and the BUNDLE directory
-        - Users only set IS_MACOSX_BUNDLE in ADD_TARGET
-  - Fix Unable to change "Icon theme" after disabling it. See: https://github.com/KangLin/RabbitRemoteControl/issues/69
-  - Fix the theme to other color when the system theme is dark. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
-  - Added Fetching Languages from Environment Variables (LANG). See: https://github.com/KangLin/RabbitCommon/pull/5
-  - Add CTools::LocateFileWithExplorer()
-  - Fix CTools::StartWithAdministratorPrivilege(bool bQuitOld) quit bug
+- QTextBrowser replace QTextEdit
+- Modify markdown to html
+- Log: fix m_szPath is empty bug
+- Add icon
+- Update: add update callback function
+- QTextBrowser replace QTextEdit
+- Package MacOS to end
+- CMake
+  - Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
+	- It is not generate Info.plist file
+	- Only rename "bin" to "MacOS" and rename "lib" to "FrameWorks"
+	- Users are required to generate Info.plist and BUNDLE directory
+  - Use MACOSX_BUNDLE properties (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
+	- Generate Info.plist file and the BUNDLE directory
+	- Users only set IS_MACOSX_BUNDLE in ADD_TARGET
+- Fix Unable to change "Icon theme" after disabling it. See: https://github.com/KangLin/RabbitRemoteControl/issues/69
+- Fix the theme to other color when the system theme is dark. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
+- Added Fetching Languages from Environment Variables (LANG). See: https://github.com/KangLin/RabbitCommon/pull/5
+- Add CTools::LocateFileWithExplorer()
+- Fix CTools::StartWithAdministratorPrivilege(bool bQuitOld) quit bug
 
 ### Version v2.3.3
-  - CAdminAuthorization: Add pkexec in linux
-  - Update: Modify install AppImage
-  - Remove donate bitcoin
-  - RabbitCommonUtils: modify RPATH to "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
-  - CTools
-    - Add bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
-    - Rename executeByRoot to ExecuteWithAdministratorPrivilege
+- CAdminAuthorization: Add pkexec in linux
+- Update: Modify install AppImage
+- Remove donate bitcoin
+- RabbitCommonUtils: modify RPATH to "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+- CTools
+- Add bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
+- Rename executeByRoot to ExecuteWithAdministratorPrivilege
 
 ### Version v2.3.2
-  - Modify install root dir
-  - Log: modify log file name
+- Modify install root dir
+- Log: modify log file name
   
 ### Version v2.3.1
-  - Fix updater download url
+- Fix updater download url
 
 ### Version v2.3.0
-  - Fix log file name bug
-  - Fix log handler bug
-  - Add watch log configure file changed
-  - Add environment in about dialog
-  - Add CDlgEdit
-  - Add CFileBrowser
-  - Add file browser application
-  - Add stack trace
-  - Add CTools::HasAdministratorPrivilege()
-  - CMake: modify qt libraries to private
+- Fix log file name bug
+- Fix log handler bug
+- Add watch log configure file changed
+- Add environment in about dialog
+- Add CDlgEdit
+- Add CFileBrowser
+- Add file browser application
+- Add stack trace
+- Add CTools::HasAdministratorPrivilege()
+- CMake: modify qt libraries to private
 
 ### Version v2.2.6
-  - Modify debian package files
-  - Use installed cmark on system in linux
+- Modify debian package files
+- Use installed cmark on system in linux
 
 ### Version v2.2.5
-  - Fix about documents for android
-  - Modify org.Rabbit.RabbitCommon.desktop to Categories
-  - debian/rules: modify parallel
+- Fix about documents for android
+- Modify org.Rabbit.RabbitCommon.desktop to Categories
+- debian/rules: modify parallel
 
 ### Version v2.2.4
 - RabbitCommonUtils

@@ -30,6 +30,14 @@ public:
     //! Choose worker
     virtual CWorker* ChooseWorker();
 
+    enum class State{
+        Stop,
+        Start,
+        Running
+    };
+    Q_ENUM(State)
+    State GetState();
+
 Q_SIGNALS:
     void sigMessage(const QString &message);
     void sigError(int nErr, const QString &szError = QString());
@@ -37,11 +45,6 @@ Q_SIGNALS:
     void sigFinished(bool success = true, const QString &message = QString());
 
 protected:
-    enum class State{
-        Stop,
-        Start,
-        Running
-    };
     State m_State;
     QVector<QThread*> m_Threads;
     QVector<CWorker*> m_Workers;

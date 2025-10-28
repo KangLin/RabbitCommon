@@ -39,6 +39,7 @@ parts:
       - libcmark-dev
       - libssl-dev
       - libcrypt-dev
+      - libcurl4-openssl-dev
     stage-packages:
       - libcmark0.30.2
       - libssl3
@@ -46,6 +47,7 @@ parts:
       - libqt5scxml5
       - libqt5svg5
       - libqt5xml5
+      - libcurl4
     stage:
       - -usr/local/include
       - -usr/local/lib/cmake

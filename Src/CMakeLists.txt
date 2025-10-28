@@ -339,6 +339,22 @@ if(WIN32)
     endif()
 endif()
 
+find_package(CURL)
+if(CURL_FOUND)
+    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CURL)
+    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
+        FileTransfer/WorkerCurl.h
+        FileTransfer/RequestCurl.h
+    )
+    list(APPEND RABBITCOMMON_SOURCE_FILES
+        FileTransfer/WorkerCurl.cpp
+        FileTransfer/RequestCurl.cpp
+    )
+    list(APPEND RABBITCOMMON_INCLUDE_DIRS
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Download>)
+    list(APPEND RABBIT_PRIVATE_COMMON_LIBS CURL::libcurl)
+endif()
+
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     RabbitCommonTools.h
     RabbitCommonDir.h
@@ -346,6 +362,7 @@ list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
     Download.h
     ThreadPool/ThreadPool.h
     ThreadPool/Worker.h
+    FileTransfer/WorkerFileTransfer.h
     )
 list(APPEND RABBITCOMMON_HEAD_FILES
     ${RABBITCOMMON_INSTALL_HEAD_FILES}
@@ -363,10 +380,13 @@ list(APPEND RABBITCOMMON_SOURCE_FILES
     Download.cpp
     ThreadPool/ThreadPool.cpp
     ThreadPool/Worker.cpp
+    FileTransfer/WorkerFileTransfer.cpp
     )
 
 list(APPEND RABBITCOMMON_INCLUDE_DIRS
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThreadPool>)
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThreadPool>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FileTransfer>
+    )
 
 #翻译
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)

@@ -5,6 +5,12 @@
 #include <QObject>
 #include "rabbitcommon_export.h"
 
+/*!
+ * \brief The CWorker class
+ * \note
+ *   - It is running in worker thread
+ *   - The owner is the CThreadPool
+ */
 class RABBITCOMMON_EXPORT CWorker : public QObject
 {
     Q_OBJECT
@@ -20,7 +26,7 @@ public:
      * \~english Workload
      */
     virtual int Workload() = 0;
-    
+
 Q_SIGNALS:
     void sigFinished();
 };

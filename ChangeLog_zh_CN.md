@@ -1,61 +1,65 @@
+### 版本： v2.4.0
+- 增加线程池
+- 增加文件传输
+
 ### 版本： v2.3.4
-  - QTextBrowser 替换 QTextEdit
-  - 修改 markdown 到 html
-  - 日志：修复 m_szPath 是空错误
-  - 增加图标
-  - 更新: 增加更新回调函数
-  - 用　QTextBrowser 替换 QTextEdit
-  - 完成　MacOS 打包
-    - CMake
-      - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
-      - 不产生 Info.plist 文件和 BUNDLE 目录
-      - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks"
-      - 用户需要生成 Info.plist 和 BUNDLE 目录
-    - 使用 MACOSX_BUNDLE 属性 (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
-      - 自动产生 Info.plist 和 BUNDLE 目录
-      - 用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE
-  - 修复禁用“图标主题”后，不能选择的错误。详见： https://github.com/KangLin/RabbitRemoteControl/issues/69
-  - 修复在黑暗主题下系统托盘图标为白色。详见： https://github.com/KangLin/RabbitRemoteControl/pull/68
-  - 增加从环境变量(LANG)获取语言。详见： https://github.com/KangLin/RabbitCommon/pull/5
-  - 增加用系统浏览器打开文件位置。 CTools::LocateFileWithExplorer()
-  - 修复 CTools::StartWithAdministratorPrivilege(bool bQuitOld) 退出错误
+- QTextBrowser 替换 QTextEdit
+- 修改 markdown 到 html
+- 日志：修复 m_szPath 是空错误
+- 增加图标
+- 更新: 增加更新回调函数
+- 用　QTextBrowser 替换 QTextEdit
+- 完成　MacOS 打包
+- CMake
+  - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)
+  - 不产生 Info.plist 文件和 BUNDLE 目录
+  - 仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks"
+  - 用户需要生成 Info.plist 和 BUNDLE 目录
+- 使用 MACOSX_BUNDLE 属性 (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)
+  - 自动产生 Info.plist 和 BUNDLE 目录
+  - 用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE
+- 修复禁用“图标主题”后，不能选择的错误。详见： https://github.com/KangLin/RabbitRemoteControl/issues/69
+- 修复在黑暗主题下系统托盘图标为白色。详见： https://github.com/KangLin/RabbitRemoteControl/pull/68
+- 增加从环境变量(LANG)获取语言。详见： https://github.com/KangLin/RabbitCommon/pull/5
+- 增加用系统浏览器打开文件位置。 CTools::LocateFileWithExplorer()
+- 修复 CTools::StartWithAdministratorPrivilege(bool bQuitOld) 退出错误
 
 ### 版本： v2.3.3
-  - 修改在 linux 下用管理员权限启动程序。增加 pkexec
-  - 更新：修改 AppImage
-  - 移除捐赠比特币
-  - RabbitCommonUtils: 修改 RPATH 为 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
-  - CTools
-    - 增加 bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
-    - 重命名 executeByRoot 为 ExecuteWithAdministratorPrivilege
+- 修改在 linux 下用管理员权限启动程序。增加 pkexec
+- 更新：修改 AppImage
+- 移除捐赠比特币
+- RabbitCommonUtils: 修改 RPATH 为 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+- CTools
+- 增加 bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
+- 重命名 executeByRoot 为 ExecuteWithAdministratorPrivilege
 
 ### 版本： v2.3.2
-  - 修改日志文件名
-  - 修改安装目录
+- 修改日志文件名
+- 修改安装目录
 
 ### 版本： v2.3.1
-  - 修复更新的下载地址
+- 修复更新的下载地址
 
 ### 版本： v2.3.0
-  - 修复日志文件名错误
-  - 修复日志析构后，默认处理器错误
-  - 增加实时监控日志配置文件，变化后立即更新日志配置
-  - 在关于对话框中增加环境变量
-  - 增加 CDlgEdit
-  - 增加 CFileBrowser
-  - 增加文件浏览器应用程序
-  - 增加打印调用堆栈
-  - 增加 CTools::HasAdministratorPrivilege()
-  - CMake: 修改 qt 库为私有
+- 修复日志文件名错误
+- 修复日志析构后，默认处理器错误
+- 增加实时监控日志配置文件，变化后立即更新日志配置
+- 在关于对话框中增加环境变量
+- 增加 CDlgEdit
+- 增加 CFileBrowser
+- 增加文件浏览器应用程序
+- 增加打印调用堆栈
+- 增加 CTools::HasAdministratorPrivilege()
+- CMake: 修改 qt 库为私有
 
 ### 版本： v2.2.6
-  - 修改 debian 打包文件
-  - LINUX下，使用系统安装的 cmark 
+- 修改 debian 打包文件
+- LINUX下，使用系统安装的 cmark 
 
 ### 版本： v2.2.5
-  - 修复在 android 上，关于窗口加载文件错误
-  - 修改 share/org.Rabbit.RabbitCommon.desktop 的 Categories 值
-  - debian/rules: 修改并行数
+- 修复在 android 上，关于窗口加载文件错误
+- 修改 share/org.Rabbit.RabbitCommon.desktop 的 Categories 值
+- debian/rules: 修改并行数
 
 ### 版本： v2.2.4
 - RabbitCommonUtils

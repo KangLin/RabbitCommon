@@ -36,7 +36,7 @@
 #include "RabbitCommonTools.h"
 #include "RabbitCommonDir.h"
 #ifdef HAVE_ADMINAUTHORISER
-#include "AdminAuthoriser/adminauthoriser.h"
+    #include "AdminAuthoriser/adminauthoriser.h"
 #endif
 #include "RabbitCommonRegister.h"
 #include "Log/Log.h"
@@ -71,11 +71,15 @@
 #endif
 
 #ifdef HAVE_CMARK
-#include "cmark.h"
+    #include "cmark.h"
 #endif
 #ifdef HAVE_CMARK_GFM
-#include "cmark-gfm.h"
-#include "cmark-gfm-core-extensions.h"
+    #include "cmark-gfm.h"
+    #include "cmark-gfm-core-extensions.h"
+#endif
+    
+#ifdef HAVE_CURL
+    #include <curl/curl.h>
 #endif
 
 inline void g_RabbitCommon_InitResource()
@@ -229,7 +233,7 @@ QString CTools::Information()
     szInfo += "    - " + tr("libCurl") + " ";
     curl_version_info_data *version_info = curl_version_info(CURLVERSION_NOW);
     szInfo += tr("Version:") + " " + QString(version_info->version) + "\n";
-    szInfo += "    - " + tr("Supported protocols:") + " ";
+    szInfo += "      - " + tr("Supported protocols:") + " ";
     if (version_info->protocols) {
         for (int i = 0; version_info->protocols[i]; i++) {
             szInfo += " ";
@@ -238,10 +242,10 @@ QString CTools::Information()
     }
     szInfo += "\n";
     #if CURL_VERSION_SSL
-        szInfo += "    - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
+        szInfo += "      - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
     #endif
     #if CURL_VERSION_LIBSSH2
-        szInfo += "    - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
+        szInfo += "      - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
     #endif
 #endif
 #if defined(BUILD_QUIWidget)
@@ -299,7 +303,7 @@ QString CTools::Information()
     szInfo += "  - " + tr("libCurl") + " ";
     version_info = curl_version_info(CURLVERSION_NOW);
     szInfo += tr("Version:") + " " + QString(version_info->version) + "\n";
-    szInfo += "  - " + tr("Supported protocols:") + " ";
+    szInfo += "    - " + tr("Supported protocols:") + " ";
     if (version_info->protocols) {
         for (int i = 0; version_info->protocols[i]; i++) {
             szInfo += " ";
@@ -308,10 +312,10 @@ QString CTools::Information()
     }
     szInfo += "\n";
     #if CURL_VERSION_SSL
-        szInfo += "  - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
+        szInfo += "    - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
     #endif
     #if CURL_VERSION_LIBSSH2
-        szInfo += "  - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
+        szInfo += "    - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
     #endif
 #endif
 
@@ -352,6 +356,10 @@ void CTools::Init(int argc, char *argv[], QString szApplicationName)
         qCritical(log) << "The parameters is error";
         return;
     }
+
+#ifdef HAVE_CURL
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+#endif
 
     QString szName;
     QString szPath;
@@ -464,6 +472,11 @@ void CTools::Clean()
     m_Translator.clear();
     CleanResource();
     delete RabbitCommon::CLog::Instance();
+    
+#ifdef HAVE_CURL
+    curl_global_cleanup();
+#endif
+    
 }
 
 QSharedPointer<QTranslator> CTools::InstallTranslatorFile(const QString szFile)
@@ -663,12 +676,12 @@ bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
                 auto pMainWindow = GetMainWindow();
                 if(pMainWindow) {
                     //pMainWindow->close(); // Note that method is not thread-safe
-                    QMetaObject::invokeMethod(pMainWindow, "close", Qt::QueuedConnection);
+                    QMetaObject::invokeMethod(pMainWindow, "close"); //, Qt::QueuedConnection);
                 } else
 #endif
                     //QCoreApplication::quit(); // Note that method is not thread-safe
                     if(qApp)
-                        QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
+                        QMetaObject::invokeMethod(qApp, "quit"); //, Qt::QueuedConnection);
             }
         }
         else

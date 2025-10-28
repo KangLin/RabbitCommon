@@ -10,12 +10,12 @@ static Q_LOGGING_CATEGORY(log, "Pool.Worker")
 CWorker::CWorker(QObject *parent)
     : QObject{parent}
 {
-    qDebug(log) << Q_FUNC_INFO;
+    //qDebug(log) << Q_FUNC_INFO;
 }
 
 CWorker::~CWorker()
 {
-    qDebug(log) << Q_FUNC_INFO;
+    //qDebug(log) << Q_FUNC_INFO;
 }
 
 CWorkerTest::CWorkerTest(QObject *parent) : CWorker(parent)

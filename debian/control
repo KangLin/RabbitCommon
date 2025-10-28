@@ -8,7 +8,9 @@ Priority: optional
 Build-Depends: debhelper (>=13~), debhelper-compat (=13), fakeroot,
  cmake, libssl-dev, libcmark-dev, cmark,
  qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools,
- qt6-l10n-tools, qt6-translations-l10n, qt6-scxml-dev
+ qt6-l10n-tools, qt6-translations-l10n, qt6-scxml-dev,
+ qt6-webengine-dev, qt6-webengine-dev-tools, qt6-positioning-dev, qt6-webchannel-dev,
+ libcurl4-openssl-dev
 Standards-Version: 4.6.2
 Homepage: https://github.com/KangLin/RabbitCommon
 Vcs-Git: https://github.com/KangLin/RabbitCommon.git

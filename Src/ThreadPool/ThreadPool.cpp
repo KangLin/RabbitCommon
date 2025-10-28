@@ -29,6 +29,9 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
     if (maxThreadCount <= 0) maxThreadCount = QThread::idealThreadCount();
     m_nMaxThreadCount = maxThreadCount;
 
+    if(m_nMaxThreadCount > 0)
+        m_State = State::Start;
+
     m_Threads.clear();
     m_Workers.clear();
     for (int i = 0; i < m_nMaxThreadCount; ++i) {
@@ -54,7 +57,7 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
 
             bool check = connect(thr, &QThread::finished, worker,
                 [this, worker]() {
-                //qDebug(log) << "Thread finished:" << QThread::currentThread();
+                qDebug(log) << "Thread finished:" << QThread::currentThread() << "Worker:" << worker;
                 m_MutexWorkers.lock();
                 m_Workers.removeOne(worker);
                 m_MutexWorkers.unlock();
@@ -62,7 +65,7 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
                 worker->deleteLater();
             }, Qt::DirectConnection);
             Q_ASSERT(check);
-            
+
             check = connect(worker, SIGNAL(sigFinished()), thr, SLOT(exit()));
             Q_ASSERT(check);
 
@@ -74,9 +77,9 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
 
             if(size == m_nMaxThreadCount) {
                 m_State = State::Running;
-                emit sigRunning();
                 QString szMsg = tr("%1 worker threads is running").arg(m_Threads.size());
                 qInfo(log) << szMsg;
+                emit sigRunning();
                 emit sigMessage(szMsg);
             }
         }, Qt::DirectConnection);
@@ -84,15 +87,13 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
 
         check = connect(thr, &QThread::finished, this,
             [this, thr]() {
-            //qDebug(log) << "Thread finished:" << QThread::currentThread() << thr;
+            qDebug(log) << "Thread finished:" << QThread::currentThread() << thr;
             m_Threads.removeOne(thr);
         }, Qt::DirectConnection);
         Q_ASSERT(check);
         m_Threads.append(thr);
         thr->start();
     }
-
-    m_State = State::Start;
 
     return nRet;
 }
@@ -105,9 +106,9 @@ int CThreadPool::Stop()
         auto thr = m_Threads[i];
         if (thr) {
             thr->quit();
-            thr->wait();
+            thr->wait(500);
+            thr->deleteLater();
         }
-        delete thr;
     }
 
     m_Threads.clear();
@@ -132,4 +133,9 @@ CWorker* CThreadPool::ChooseWorker()
     qDebug(log) << "Choose worker:" << w << m_nNextId;
     m_nNextId = (m_nNextId + 1) % m_Workers.size();
     return w;
+}
+
+CThreadPool::State CThreadPool::GetState()
+{
+    return m_State;
 }
