@@ -213,6 +213,11 @@ public:
         const QString &program,
         const QStringList &arguments = QStringList(),
         bool bDetached = true);
+    /*!
+     * \brief Start program with administrator privilege
+     * \param bQuitOld: true, quit the old program
+     * \return
+     */
     static bool StartWithAdministratorPrivilege(bool bQuitOld = false);
 
     /*!

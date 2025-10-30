@@ -26,9 +26,9 @@
     #include <QDesktopServices>
     #include <QClipboard>
     #include "Style.h"
-#ifdef HAVE_ABOUT
-    #include "Information.h"
-#endif
+    #ifdef HAVE_ABOUT
+        #include "Information.h"
+    #endif
 #else
     #include <QCoreApplication>
 #endif
@@ -614,14 +614,23 @@ bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)
         if(para.isEmpty())
             bRet = ExecuteWithAdministratorPrivilege(szApp);
         else
-            bRet = ExecuteWithAdministratorPrivilege(szApp,
-                para);
+            bRet = ExecuteWithAdministratorPrivilege(szApp, para);
         if(bRet) {
-            if(bQuitOld)
-                QApplication::quit();
+            if(bQuitOld) {
+#ifdef HAVE_RABBITCOMMON_GUI
+                auto pMainWindow = GetMainWindow();
+                if(pMainWindow) {
+                    //pMainWindow->close(); // Note that method is not thread-safe
+                    QMetaObject::invokeMethod(pMainWindow, "close", Qt::QueuedConnection);
+                } else
+#endif
+                    //QCoreApplication::quit(); // Note that method is not thread-safe
+                    if(qApp)
+                        QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
+            }
         }
         else
-            qCritical(log) << "Start by root fail:" << QApplication::applicationFilePath()
+            qCritical(log) << "Start by root fail:" << QCoreApplication::applicationFilePath()
                            << para;
     }
     return bRet;
