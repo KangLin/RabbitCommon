@@ -67,7 +67,7 @@ sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
 sed -i "s/          \"version\":[[:blank:]]*\"v\?[0-9]\+\.[0-9]\+\.[0-9]\+\"/          \"version\":\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Update/update.json
 
 sed -i "s/rabbitcommon (.*)/rabbitcommon (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
-sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/org.Rabbit.RabbitCommon.desktop
+sed -i "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/io.github.KangLin.RabbitCommon.desktop
 sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/README*.md
 sed -i "s/versionName=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
 sed -i "s/versionName=\"[0-9]\+\.[0-9]\+\.[0-9]\+\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml

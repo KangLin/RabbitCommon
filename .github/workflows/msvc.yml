@@ -62,7 +62,7 @@ jobs:
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       VCPKG_MANIFEST_DIR: "${{github.workspace}}${{matrix.VCPKG_MANIFEST_DIR}}"
-      RabbitCommon_VERSION: v2.3.3
+      RabbitCommon_VERSION: v2.3.4
       qt_modules: ${{matrix.qt_modules}}
       artifact_name: build_msvc
 

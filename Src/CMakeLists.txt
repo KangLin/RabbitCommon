@@ -38,7 +38,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 
-SET(RabbitCommon_VERSION "2.3.3")
+SET(RabbitCommon_VERSION "2.3.4")
 SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
     OUT_VERSION RabbitCommon_VERSION

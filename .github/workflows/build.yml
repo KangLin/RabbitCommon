@@ -5,8 +5,8 @@ name: build
 env:
   artifact_path: artifact_path
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  RabbitCommon_VERSION: v2.3.3
-  RabbitCommon_VERSION_PRE: v2.3.2
+  RabbitCommon_VERSION: v2.3.4
+  RabbitCommon_VERSION_PRE: v2.3.3
 
 on:
   push:

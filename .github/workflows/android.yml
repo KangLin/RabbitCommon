@@ -35,7 +35,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      RabbitCommon_VERSION: v2.3.3
+      RabbitCommon_VERSION: v2.3.4
       VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
       ANDROID_PLATFORM: android-35

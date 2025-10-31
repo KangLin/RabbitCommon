@@ -18,6 +18,7 @@
   - 修复在黑暗主题下系统托盘图标为白色。详见： https://github.com/KangLin/RabbitRemoteControl/pull/68
   - 增加从环境变量(LANG)获取语言。详见： https://github.com/KangLin/RabbitCommon/pull/5
   - 增加用系统浏览器打开文件位置。 CTools::LocateFileWithExplorer()
+  - 修复 CTools::StartWithAdministratorPrivilege(bool bQuitOld) 退出错误
 
 ### 版本： v2.3.3
   - 修改在 linux 下用管理员权限启动程序。增加 pkexec

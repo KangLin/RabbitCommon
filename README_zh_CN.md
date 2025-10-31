@@ -404,7 +404,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 
       <?xml version="1.0" encoding="UTF-8"?>
       <REDIRECT>
-           <VERSION>v2.3.3</VERSION>
+           <VERSION>v2.3.4</VERSION>
            <WINDOWS>
                 <URL>url</URL>
            </WINDOWS>

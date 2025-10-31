@@ -18,6 +18,7 @@
   - Fix the theme to other color when the system theme is dark. See: https://github.com/KangLin/RabbitRemoteControl/pull/68
   - Added Fetching Languages from Environment Variables (LANG). See: https://github.com/KangLin/RabbitCommon/pull/5
   - Add CTools::LocateFileWithExplorer()
+  - Fix CTools::StartWithAdministratorPrivilege(bool bQuitOld) quit bug
 
 ### Version v2.3.3
   - CAdminAuthorization: Add pkexec in linux
