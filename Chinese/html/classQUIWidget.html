@@ -1,0 +1,2023 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RabbitCommon: QUIWidget类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="App.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">RabbitCommon<span id="projectnumber">&#160;v2.3.4</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#properties">属性</a> &#124;
+<a href="#pri-slots">Private 槽</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classQUIWidget-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">QUIWidget类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+类 QUIWidget 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classQUIWidget.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:af80d8c00b4c5322ee3b42c159d4673f0" id="r_af80d8c00b4c5322ee3b42c159d4673f0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Widget</b> { <br />
+&#160;&#160;<b>Lab_Ico</b> = 0
+, <b>BtnMenu</b> = 1
+, <b>BtnMenu_Min</b> = 2
+, <b>BtnMenu_Max</b> = 3
+, <br />
+&#160;&#160;<b>BtnMenu_Close</b> = 4
+<br />
+ }</td></tr>
+<tr class="separator:af80d8c00b4c5322ee3b42c159d4673f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66c91c5328b66bbf462e5fbde8f9df7f" id="r_a66c91c5328b66bbf462e5fbde8f9df7f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Style</b> { <br />
+&#160;&#160;<b>Style_Silvery</b> = 0
+, <b>Style_Blue</b> = 1
+, <b>Style_LightBlue</b> = 2
+, <b>Style_DarkBlue</b> = 3
+, <br />
+&#160;&#160;<b>Style_Gray</b> = 4
+, <b>Style_LightGray</b> = 5
+, <b>Style_DarkGray</b> = 6
+, <b>Style_Black</b> = 7
+, <br />
+&#160;&#160;<b>Style_LightBlack</b> = 8
+, <b>Style_DarkBlack</b> = 9
+, <b>Style_PSBlack</b> = 10
+, <b>Style_FlatBlack</b> = 11
+, <br />
+&#160;&#160;<b>Style_FlatWhite</b> = 12
+<br />
+ }</td></tr>
+<tr class="separator:a66c91c5328b66bbf462e5fbde8f9df7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:a71afd7a8d2f6d98d9dac877307f97869" id="r_a71afd7a8d2f6d98d9dac877307f97869"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a71afd7a8d2f6d98d9dac877307f97869">setIcon</a> (QUIWidget::Widget widget, QChar str, quint32 size=9)</td></tr>
+<tr class="separator:a71afd7a8d2f6d98d9dac877307f97869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ffa28cc92b443d8c017368d644a29ff" id="r_a9ffa28cc92b443d8c017368d644a29ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9ffa28cc92b443d8c017368d644a29ff">setPixmap</a> (QUIWidget::Widget widget, const QString &amp;file, const QSize &amp;size=QSize(16, 16))</td></tr>
+<tr class="separator:a9ffa28cc92b443d8c017368d644a29ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6513c2316ee7eac60a310466c5307d50" id="r_a6513c2316ee7eac60a310466c5307d50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a6513c2316ee7eac60a310466c5307d50">setVisible</a> (QUIWidget::Widget widget, bool visible=true)</td></tr>
+<tr class="separator:a6513c2316ee7eac60a310466c5307d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b4697769323b9cb29ea096d3519b372" id="r_a3b4697769323b9cb29ea096d3519b372"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a3b4697769323b9cb29ea096d3519b372">setOnlyCloseBtn</a> ()</td></tr>
+<tr class="separator:a3b4697769323b9cb29ea096d3519b372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9612f55e06a8b21e57efeea24cb1498" id="r_af9612f55e06a8b21e57efeea24cb1498"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#af9612f55e06a8b21e57efeea24cb1498">setTitleHeight</a> (int height)</td></tr>
+<tr class="separator:af9612f55e06a8b21e57efeea24cb1498"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe257f5733533df5b33882c0c943c239" id="r_abe257f5733533df5b33882c0c943c239"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#abe257f5733533df5b33882c0c943c239">setBtnWidth</a> (int width)</td></tr>
+<tr class="separator:abe257f5733533df5b33882c0c943c239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1a1b878816b1e4b0104ee65aca439f" id="r_acb1a1b878816b1e4b0104ee65aca439f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#acb1a1b878816b1e4b0104ee65aca439f">setTitle</a> (const QString &amp;title)</td></tr>
+<tr class="separator:acb1a1b878816b1e4b0104ee65aca439f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed46bfe01fdfb7c5931f7c849c75d770" id="r_aed46bfe01fdfb7c5931f7c849c75d770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#aed46bfe01fdfb7c5931f7c849c75d770">setAlignment</a> (Qt::Alignment alignment)</td></tr>
+<tr class="separator:aed46bfe01fdfb7c5931f7c849c75d770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad48c583a17d36106436b4a2652d232ba" id="r_ad48c583a17d36106436b4a2652d232ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ad48c583a17d36106436b4a2652d232ba">setMainWidget</a> (QWidget *mainWidget, bool bUsed=true)</td></tr>
+<tr class="separator:ad48c583a17d36106436b4a2652d232ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:a87d748474b611e8bf2c183c15ff69edc" id="r_a87d748474b611e8bf2c183c15ff69edc"><td class="memItemLeft" align="right" valign="top"><a id="a87d748474b611e8bf2c183c15ff69edc" name="a87d748474b611e8bf2c183c15ff69edc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>sigChangeStyle</b> (const QString &amp;qssFile)</td></tr>
+<tr class="separator:a87d748474b611e8bf2c183c15ff69edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aea0ee091db560242af8c6e095428229a" id="r_aea0ee091db560242af8c6e095428229a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#aea0ee091db560242af8c6e095428229a">QUIWidget</a> (QWidget *parent=0, bool bQuitOnClose=false)</td></tr>
+<tr class="separator:aea0ee091db560242af8c6e095428229a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eda8d45fdd82ea5d983eecad1cc0bb5" id="r_a2eda8d45fdd82ea5d983eecad1cc0bb5"><td class="memItemLeft" align="right" valign="top">QLabel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a2eda8d45fdd82ea5d983eecad1cc0bb5">getLabIco</a> () const</td></tr>
+<tr class="separator:a2eda8d45fdd82ea5d983eecad1cc0bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6b94ca526bc1741920ffe3042ff1210" id="r_ad6b94ca526bc1741920ffe3042ff1210"><td class="memItemLeft" align="right" valign="top">QLabel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ad6b94ca526bc1741920ffe3042ff1210">getLabTitle</a> () const</td></tr>
+<tr class="separator:ad6b94ca526bc1741920ffe3042ff1210"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8b9ffce700f8c33b08e2b0ccc5b371d" id="r_ae8b9ffce700f8c33b08e2b0ccc5b371d"><td class="memItemLeft" align="right" valign="top">QToolButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ae8b9ffce700f8c33b08e2b0ccc5b371d">getBtnMenu</a> () const</td></tr>
+<tr class="separator:ae8b9ffce700f8c33b08e2b0ccc5b371d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0198ea2cff0de39cb2ca0cfe0b4767d2" id="r_a0198ea2cff0de39cb2ca0cfe0b4767d2"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a0198ea2cff0de39cb2ca0cfe0b4767d2">getBtnMenuMin</a> () const</td></tr>
+<tr class="separator:a0198ea2cff0de39cb2ca0cfe0b4767d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e2ad350f7f9f3fa6b45838544005b07" id="r_a9e2ad350f7f9f3fa6b45838544005b07"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9e2ad350f7f9f3fa6b45838544005b07">getBtnMenuMax</a> () const</td></tr>
+<tr class="separator:a9e2ad350f7f9f3fa6b45838544005b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c558f1f7b4bd5f98893b222fa5c5f2" id="r_ac1c558f1f7b4bd5f98893b222fa5c5f2"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ac1c558f1f7b4bd5f98893b222fa5c5f2">getBtnMenuMClose</a> () const</td></tr>
+<tr class="separator:ac1c558f1f7b4bd5f98893b222fa5c5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17c5886391446abb14c4a83428c4d983" id="r_a17c5886391446abb14c4a83428c4d983"><td class="memItemLeft" align="right" valign="top"><a id="a17c5886391446abb14c4a83428c4d983" name="a17c5886391446abb14c4a83428c4d983"></a>
+Style&#160;</td><td class="memItemRight" valign="bottom"><b>getStyle</b> () const</td></tr>
+<tr class="separator:a17c5886391446abb14c4a83428c4d983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c70ca28b415f67b54435de64d2095e8" id="r_a9c70ca28b415f67b54435de64d2095e8"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9c70ca28b415f67b54435de64d2095e8">getTitle</a> () const</td></tr>
+<tr class="separator:a9c70ca28b415f67b54435de64d2095e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add709faeae020de49bab05c9202bdb40" id="r_add709faeae020de49bab05c9202bdb40"><td class="memItemLeft" align="right" valign="top">Qt::Alignment&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#add709faeae020de49bab05c9202bdb40">getAlignment</a> () const</td></tr>
+<tr class="separator:add709faeae020de49bab05c9202bdb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa614ad75c9cfd1f4cec60b8d948f09" id="r_adfa614ad75c9cfd1f4cec60b8d948f09"><td class="memItemLeft" align="right" valign="top">QSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#adfa614ad75c9cfd1f4cec60b8d948f09">sizeHint</a> () const override</td></tr>
+<tr class="separator:adfa614ad75c9cfd1f4cec60b8d948f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6112769a11881dc1d44811b4a3437d90" id="r_a6112769a11881dc1d44811b4a3437d90"><td class="memItemLeft" align="right" valign="top">QSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a6112769a11881dc1d44811b4a3437d90">minimumSizeHint</a> () const override</td></tr>
+<tr class="separator:a6112769a11881dc1d44811b4a3437d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a1e090d1b7df90688e366573d8b9e539a" id="r_a1e090d1b7df90688e366573d8b9e539a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a1e090d1b7df90688e366573d8b9e539a">setStyle</a> (const QString &amp;qssFile)</td></tr>
+<tr class="separator:a1e090d1b7df90688e366573d8b9e539a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dd02d8ea36065ca0e476835b7957ab6" id="r_a1dd02d8ea36065ca0e476835b7957ab6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a1dd02d8ea36065ca0e476835b7957ab6">setStyle</a> (QUIWidget::Style style)</td></tr>
+<tr class="separator:a1dd02d8ea36065ca0e476835b7957ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a5a6b13a526ea37b1ecb5f14df04399" id="r_a0a5a6b13a526ea37b1ecb5f14df04399"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a0a5a6b13a526ea37b1ecb5f14df04399">setFormInCenter</a> (QWidget *frm)</td></tr>
+<tr class="separator:a0a5a6b13a526ea37b1ecb5f14df04399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a571efbb88a6e53a124b03cf76ea49673" id="r_a571efbb88a6e53a124b03cf76ea49673"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a571efbb88a6e53a124b03cf76ea49673">getQssColor</a> (const QString &amp;qss, QString &amp;textColor, QString &amp;panelColor, QString &amp;borderColor, QString &amp;normalColorStart, QString &amp;normalColorEnd, QString &amp;darkColorStart, QString &amp;darkColorEnd, QString &amp;highColor)</td></tr>
+<tr class="separator:a571efbb88a6e53a124b03cf76ea49673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e0e9601c9566540ae721c790e71d91b" id="r_a0e0e9601c9566540ae721c790e71d91b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a0e0e9601c9566540ae721c790e71d91b">setTranslator</a> (const QString &amp;qmFile)</td></tr>
+<tr class="separator:a0e0e9601c9566540ae721c790e71d91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a337ed71565d13ee4342ac2a779b95c7a" id="r_a337ed71565d13ee4342ac2a779b95c7a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a337ed71565d13ee4342ac2a779b95c7a">setCode</a> ()</td></tr>
+<tr class="separator:a337ed71565d13ee4342ac2a779b95c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a543612659280b7a2ebd1f96ac9842bad" id="r_a543612659280b7a2ebd1f96ac9842bad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a543612659280b7a2ebd1f96ac9842bad">showMessageBoxInfo</a> (const QString &amp;info, int closeSec=0)</td></tr>
+<tr class="separator:a543612659280b7a2ebd1f96ac9842bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9358f869f550189786331270775559f2" id="r_a9358f869f550189786331270775559f2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9358f869f550189786331270775559f2">showMessageBoxError</a> (const QString &amp;info, int closeSec=0)</td></tr>
+<tr class="separator:a9358f869f550189786331270775559f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae069e4b3941ab5a2d3de49606e7eaf6c" id="r_ae069e4b3941ab5a2d3de49606e7eaf6c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ae069e4b3941ab5a2d3de49606e7eaf6c">showMessageBoxQuestion</a> (const QString &amp;info)</td></tr>
+<tr class="separator:ae069e4b3941ab5a2d3de49606e7eaf6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac28122ac00ba1c3d3ba897f92123c784" id="r_ac28122ac00ba1c3d3ba897f92123c784"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ac28122ac00ba1c3d3ba897f92123c784">showInputBox</a> (bool &amp;ok, const QString &amp;title, int type=0, int closeSec=0, QString defaultValue=QString(), bool pwd=false)</td></tr>
+<tr class="separator:ac28122ac00ba1c3d3ba897f92123c784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:afe0b575449a0253fc0a2aa9214cfbfdb" id="r_afe0b575449a0253fc0a2aa9214cfbfdb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#afe0b575449a0253fc0a2aa9214cfbfdb">eventFilter</a> (QObject *obj, QEvent *evt) override</td></tr>
+<tr class="separator:afe0b575449a0253fc0a2aa9214cfbfdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a07e2668c0d3dd9a65feb470f2bd6c1" id="r_a9a07e2668c0d3dd9a65feb470f2bd6c1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9a07e2668c0d3dd9a65feb470f2bd6c1">resizeEvent</a> (QResizeEvent *event) override</td></tr>
+<tr class="separator:a9a07e2668c0d3dd9a65feb470f2bd6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee022f38c6c8792dfff5305bed107b9" id="r_a3ee022f38c6c8792dfff5305bed107b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a3ee022f38c6c8792dfff5305bed107b9">showEvent</a> (QShowEvent *event) override</td></tr>
+<tr class="separator:a3ee022f38c6c8792dfff5305bed107b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+属性</h2></td></tr>
+<tr class="memitem:a6b14fd0de08d46a51452fe4af28ef7dd" id="r_a6b14fd0de08d46a51452fe4af28ef7dd"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a6b14fd0de08d46a51452fe4af28ef7dd">title</a></td></tr>
+<tr class="separator:a6b14fd0de08d46a51452fe4af28ef7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc73b1fe1b74ac6f6b275632e023f983" id="r_abc73b1fe1b74ac6f6b275632e023f983"><td class="memItemLeft" align="right" valign="top">Qt::Alignment&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#abc73b1fe1b74ac6f6b275632e023f983">alignment</a></td></tr>
+<tr class="separator:abc73b1fe1b74ac6f6b275632e023f983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-slots" name="pri-slots"></a>
+Private 槽</h2></td></tr>
+<tr class="memitem:a78d892204e440a02eda1c602296ab6cd" id="r_a78d892204e440a02eda1c602296ab6cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a78d892204e440a02eda1c602296ab6cd">initControl</a> ()</td></tr>
+<tr class="separator:a78d892204e440a02eda1c602296ab6cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3938c682b480c04299c30a31fe601369" id="r_a3938c682b480c04299c30a31fe601369"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a3938c682b480c04299c30a31fe601369">initForm</a> ()</td></tr>
+<tr class="separator:a3938c682b480c04299c30a31fe601369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a123b7b12e0e83b1df57dd1bdf0bf185e" id="r_a123b7b12e0e83b1df57dd1bdf0bf185e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a123b7b12e0e83b1df57dd1bdf0bf185e">changeStyle</a> ()</td></tr>
+<tr class="separator:a123b7b12e0e83b1df57dd1bdf0bf185e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9bce2b656497edff52188ed3d223173" id="r_aa9bce2b656497edff52188ed3d223173"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#aa9bce2b656497edff52188ed3d223173">on_btnMenu_Min_clicked</a> ()</td></tr>
+<tr class="separator:aa9bce2b656497edff52188ed3d223173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c0a6dfff5cde0d0532d7a8112524e9b" id="r_a7c0a6dfff5cde0d0532d7a8112524e9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a7c0a6dfff5cde0d0532d7a8112524e9b">on_btnMenu_Max_clicked</a> ()</td></tr>
+<tr class="separator:a7c0a6dfff5cde0d0532d7a8112524e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e12cbcf553b2458cc41a12fba8a5092" id="r_a5e12cbcf553b2458cc41a12fba8a5092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a5e12cbcf553b2458cc41a12fba8a5092">on_btnMenu_Close_clicked</a> ()</td></tr>
+<tr class="separator:a5e12cbcf553b2458cc41a12fba8a5092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a217772caa675d613abfb6f249a6c8d00" id="r_a217772caa675d613abfb6f249a6c8d00"><td class="memItemLeft" align="right" valign="top">QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a217772caa675d613abfb6f249a6c8d00">verticalLayout1</a></td></tr>
+<tr class="separator:a217772caa675d613abfb6f249a6c8d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae944497ebef60e67843228f0ef057693" id="r_ae944497ebef60e67843228f0ef057693"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#ae944497ebef60e67843228f0ef057693">widgetMain</a></td></tr>
+<tr class="separator:ae944497ebef60e67843228f0ef057693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a71e97c73df8e863caf5b98724e7bc3" id="r_a7a71e97c73df8e863caf5b98724e7bc3"><td class="memItemLeft" align="right" valign="top">QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a7a71e97c73df8e863caf5b98724e7bc3">verticalLayout2</a></td></tr>
+<tr class="separator:a7a71e97c73df8e863caf5b98724e7bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef23b53afbcf3de68409bd927e27f884" id="r_aef23b53afbcf3de68409bd927e27f884"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#aef23b53afbcf3de68409bd927e27f884">widget_title</a></td></tr>
+<tr class="separator:aef23b53afbcf3de68409bd927e27f884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc671f53306a7fa364e4c6cf7dd78ad9" id="r_adc671f53306a7fa364e4c6cf7dd78ad9"><td class="memItemLeft" align="right" valign="top">QHBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#adc671f53306a7fa364e4c6cf7dd78ad9">horizontalLayout4</a></td></tr>
+<tr class="separator:adc671f53306a7fa364e4c6cf7dd78ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49fd81094b0b8d82137c1b5382ac4dc1" id="r_a49fd81094b0b8d82137c1b5382ac4dc1"><td class="memItemLeft" align="right" valign="top">QLabel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a49fd81094b0b8d82137c1b5382ac4dc1">lab_Ico</a></td></tr>
+<tr class="separator:a49fd81094b0b8d82137c1b5382ac4dc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae469511c3d1151c885594863395e45e" id="r_aae469511c3d1151c885594863395e45e"><td class="memItemLeft" align="right" valign="top">QLabel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#aae469511c3d1151c885594863395e45e">lab_Title</a></td></tr>
+<tr class="separator:aae469511c3d1151c885594863395e45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a228f30f5d710fb1f3f736ac71fc7a89d" id="r_a228f30f5d710fb1f3f736ac71fc7a89d"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a228f30f5d710fb1f3f736ac71fc7a89d">widget_menu</a></td></tr>
+<tr class="separator:a228f30f5d710fb1f3f736ac71fc7a89d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c3c4de9da07cdea5b9c6fcf3ee8883" id="r_a47c3c4de9da07cdea5b9c6fcf3ee8883"><td class="memItemLeft" align="right" valign="top">QHBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a47c3c4de9da07cdea5b9c6fcf3ee8883">horizontalLayout</a></td></tr>
+<tr class="separator:a47c3c4de9da07cdea5b9c6fcf3ee8883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf28ea568111df441b25d6a59f368e66" id="r_adf28ea568111df441b25d6a59f368e66"><td class="memItemLeft" align="right" valign="top">QToolButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#adf28ea568111df441b25d6a59f368e66">btnMenu</a></td></tr>
+<tr class="separator:adf28ea568111df441b25d6a59f368e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd55ac51b547b7e14eeddfc29bbbf83" id="r_a5dd55ac51b547b7e14eeddfc29bbbf83"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a5dd55ac51b547b7e14eeddfc29bbbf83">btnMenu_Min</a></td></tr>
+<tr class="separator:a5dd55ac51b547b7e14eeddfc29bbbf83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fc5285ca16ba6eabfbae4bebdbff6d" id="r_a98fc5285ca16ba6eabfbae4bebdbff6d"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a98fc5285ca16ba6eabfbae4bebdbff6d">btnMenu_Max</a></td></tr>
+<tr class="separator:a98fc5285ca16ba6eabfbae4bebdbff6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4a5b00251c84e2c19c3603db07bca30" id="r_af4a5b00251c84e2c19c3603db07bca30"><td class="memItemLeft" align="right" valign="top">QPushButton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#af4a5b00251c84e2c19c3603db07bca30">btnMenu_Close</a></td></tr>
+<tr class="separator:af4a5b00251c84e2c19c3603db07bca30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e0893e35bbb91f33ad0d129542721ac" id="r_a9e0893e35bbb91f33ad0d129542721ac"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a9e0893e35bbb91f33ad0d129542721ac">widget</a></td></tr>
+<tr class="separator:a9e0893e35bbb91f33ad0d129542721ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681574ee3a43f3ccccb5c2c05e11b586" id="r_a681574ee3a43f3ccccb5c2c05e11b586"><td class="memItemLeft" align="right" valign="top">QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a681574ee3a43f3ccccb5c2c05e11b586">verticalLayout3</a></td></tr>
+<tr class="separator:a681574ee3a43f3ccccb5c2c05e11b586"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44a4e8d875c6ed45029502eb3b50d2a6" id="r_a44a4e8d875c6ed45029502eb3b50d2a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a44a4e8d875c6ed45029502eb3b50d2a6">max</a></td></tr>
+<tr class="separator:a44a4e8d875c6ed45029502eb3b50d2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f8b1919c1cbe6ac69dd88866362beb" id="r_a21f8b1919c1cbe6ac69dd88866362beb"><td class="memItemLeft" align="right" valign="top">QRect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#a21f8b1919c1cbe6ac69dd88866362beb">location</a></td></tr>
+<tr class="separator:a21f8b1919c1cbe6ac69dd88866362beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af76b7dcd34cf7853f754eb8b82f25806" id="r_af76b7dcd34cf7853f754eb8b82f25806"><td class="memItemLeft" align="right" valign="top">QWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classQUIWidget.html#af76b7dcd34cf7853f754eb8b82f25806">mainWidget</a></td></tr>
+<tr class="separator:af76b7dcd34cf7853f754eb8b82f25806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock">
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00043">43</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a66c91c5328b66bbf462e5fbde8f9df7f" name="a66c91c5328b66bbf462e5fbde8f9df7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66c91c5328b66bbf462e5fbde8f9df7f">&#9670;&#160;</a></span>Style</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum QUIWidget::Style</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00063">63</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af80d8c00b4c5322ee3b42c159d4673f0" name="af80d8c00b4c5322ee3b42c159d4673f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af80d8c00b4c5322ee3b42c159d4673f0">&#9670;&#160;</a></span>Widget</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum QUIWidget::Widget</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00054">54</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aea0ee091db560242af8c6e095428229a" name="aea0ee091db560242af8c6e095428229a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea0ee091db560242af8c6e095428229a">&#9670;&#160;</a></span>QUIWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUIWidget::QUIWidget </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bQuitOnClose</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00029">29</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7e6f8ae92ab23942d6de453cbcc5a332" name="a7e6f8ae92ab23942d6de453cbcc5a332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e6f8ae92ab23942d6de453cbcc5a332">&#9670;&#160;</a></span>~QUIWidget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUIWidget::~QUIWidget </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00036">36</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a123b7b12e0e83b1df57dd1bdf0bf185e" name="a123b7b12e0e83b1df57dd1bdf0bf185e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a123b7b12e0e83b1df57dd1bdf0bf185e">&#9670;&#160;</a></span>changeStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::changeStyle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00496">496</a> 行定义.</p>
+
+</div>
+</div>
+<a id="afe0b575449a0253fc0a2aa9214cfbfdb" name="afe0b575449a0253fc0a2aa9214cfbfdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe0b575449a0253fc0a2aa9214cfbfdb">&#9670;&#160;</a></span>eventFilter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool QUIWidget::eventFilter </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QEvent *&#160;</td>
+          <td class="paramname"><em>evt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00233">233</a> 行定义.</p>
+
+</div>
+</div>
+<a id="add709faeae020de49bab05c9202bdb40" name="add709faeae020de49bab05c9202bdb40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add709faeae020de49bab05c9202bdb40">&#9670;&#160;</a></span>getAlignment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Qt::Alignment QUIWidget::getAlignment </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00304">304</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae8b9ffce700f8c33b08e2b0ccc5b371d" name="ae8b9ffce700f8c33b08e2b0ccc5b371d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8b9ffce700f8c33b08e2b0ccc5b371d">&#9670;&#160;</a></span>getBtnMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QToolButton * QUIWidget::getBtnMenu </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00279">279</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9e2ad350f7f9f3fa6b45838544005b07" name="a9e2ad350f7f9f3fa6b45838544005b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e2ad350f7f9f3fa6b45838544005b07">&#9670;&#160;</a></span>getBtnMenuMax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton * QUIWidget::getBtnMenuMax </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00289">289</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac1c558f1f7b4bd5f98893b222fa5c5f2" name="ac1c558f1f7b4bd5f98893b222fa5c5f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1c558f1f7b4bd5f98893b222fa5c5f2">&#9670;&#160;</a></span>getBtnMenuMClose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton * QUIWidget::getBtnMenuMClose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00294">294</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0198ea2cff0de39cb2ca0cfe0b4767d2" name="a0198ea2cff0de39cb2ca0cfe0b4767d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0198ea2cff0de39cb2ca0cfe0b4767d2">&#9670;&#160;</a></span>getBtnMenuMin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton * QUIWidget::getBtnMenuMin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00284">284</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a2eda8d45fdd82ea5d983eecad1cc0bb5" name="a2eda8d45fdd82ea5d983eecad1cc0bb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eda8d45fdd82ea5d983eecad1cc0bb5">&#9670;&#160;</a></span>getLabIco()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QLabel * QUIWidget::getLabIco </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00269">269</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ad6b94ca526bc1741920ffe3042ff1210" name="ad6b94ca526bc1741920ffe3042ff1210"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6b94ca526bc1741920ffe3042ff1210">&#9670;&#160;</a></span>getLabTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QLabel * QUIWidget::getLabTitle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00274">274</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a571efbb88a6e53a124b03cf76ea49673" name="a571efbb88a6e53a124b03cf76ea49673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a571efbb88a6e53a124b03cf76ea49673">&#9670;&#160;</a></span>getQssColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::getQssColor </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>qss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>textColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>panelColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>borderColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>normalColorStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>normalColorEnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>darkColorStart</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>darkColorEnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>highColor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00118">118</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9c70ca28b415f67b54435de64d2095e8" name="a9c70ca28b415f67b54435de64d2095e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c70ca28b415f67b54435de64d2095e8">&#9670;&#160;</a></span>getTitle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString QUIWidget::getTitle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00299">299</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a78d892204e440a02eda1c602296ab6cd" name="a78d892204e440a02eda1c602296ab6cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78d892204e440a02eda1c602296ab6cd">&#9670;&#160;</a></span>initControl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::initControl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00319">319</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a3938c682b480c04299c30a31fe601369" name="a3938c682b480c04299c30a31fe601369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3938c682b480c04299c30a31fe601369">&#9670;&#160;</a></span>initForm</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::initForm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00455">455</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a6112769a11881dc1d44811b4a3437d90" name="a6112769a11881dc1d44811b4a3437d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6112769a11881dc1d44811b4a3437d90">&#9670;&#160;</a></span>minimumSizeHint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSize QUIWidget::minimumSizeHint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00314">314</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a5e12cbcf553b2458cc41a12fba8a5092" name="a5e12cbcf553b2458cc41a12fba8a5092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e12cbcf553b2458cc41a12fba8a5092">&#9670;&#160;</a></span>on_btnMenu_Close_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::on_btnMenu_Close_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00681">681</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7c0a6dfff5cde0d0532d7a8112524e9b" name="a7c0a6dfff5cde0d0532d7a8112524e9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c0a6dfff5cde0d0532d7a8112524e9b">&#9670;&#160;</a></span>on_btnMenu_Max_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::on_btnMenu_Max_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00663">663</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aa9bce2b656497edff52188ed3d223173" name="aa9bce2b656497edff52188ed3d223173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9bce2b656497edff52188ed3d223173">&#9670;&#160;</a></span>on_btnMenu_Min_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::on_btnMenu_Min_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00658">658</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9a07e2668c0d3dd9a65feb470f2bd6c1" name="a9a07e2668c0d3dd9a65feb470f2bd6c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a07e2668c0d3dd9a65feb470f2bd6c1">&#9670;&#160;</a></span>resizeEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::resizeEvent </td>
+          <td>(</td>
+          <td class="paramtype">QResizeEvent *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00690">690</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aed46bfe01fdfb7c5931f7c849c75d770" name="aed46bfe01fdfb7c5931f7c849c75d770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed46bfe01fdfb7c5931f7c849c75d770">&#9670;&#160;</a></span>setAlignment</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setAlignment </td>
+          <td>(</td>
+          <td class="paramtype">Qt::Alignment&#160;</td>
+          <td class="paramname"><em>alignment</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00625">625</a> 行定义.</p>
+
+</div>
+</div>
+<a id="abe257f5733533df5b33882c0c943c239" name="abe257f5733533df5b33882c0c943c239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe257f5733533df5b33882c0c943c239">&#9670;&#160;</a></span>setBtnWidth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setBtnWidth </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00607">607</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a337ed71565d13ee4342ac2a779b95c7a" name="a337ed71565d13ee4342ac2a779b95c7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a337ed71565d13ee4342ac2a779b95c7a">&#9670;&#160;</a></span>setCode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setCode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00188">188</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0a5a6b13a526ea37b1ecb5f14df04399" name="a0a5a6b13a526ea37b1ecb5f14df04399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a5a6b13a526ea37b1ecb5f14df04399">&#9670;&#160;</a></span>setFormInCenter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setFormInCenter </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>frm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00099">99</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a71afd7a8d2f6d98d9dac877307f97869" name="a71afd7a8d2f6d98d9dac877307f97869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71afd7a8d2f6d98d9dac877307f97869">&#9670;&#160;</a></span>setIcon</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setIcon </td>
+          <td>(</td>
+          <td class="paramtype">QUIWidget::Widget&#160;</td>
+          <td class="paramname"><em>widget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QChar&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">quint32&#160;</td>
+          <td class="paramname"><em>size</em> = <code>9</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00546">546</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ad48c583a17d36106436b4a2652d232ba" name="ad48c583a17d36106436b4a2652d232ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad48c583a17d36106436b4a2652d232ba">&#9670;&#160;</a></span>setMainWidget</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setMainWidget </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>mainWidget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bUsed</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00633">633</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a3b4697769323b9cb29ea096d3519b372" name="a3b4697769323b9cb29ea096d3519b372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b4697769323b9cb29ea096d3519b372">&#9670;&#160;</a></span>setOnlyCloseBtn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setOnlyCloseBtn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00595">595</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9ffa28cc92b443d8c017368d644a29ff" name="a9ffa28cc92b443d8c017368d644a29ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ffa28cc92b443d8c017368d644a29ff">&#9670;&#160;</a></span>setPixmap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setPixmap </td>
+          <td>(</td>
+          <td class="paramtype">QUIWidget::Widget&#160;</td>
+          <td class="paramname"><em>widget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QSize &amp;&#160;</td>
+          <td class="paramname"><em>size</em> = <code>QSize(16,&#160;16)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00561">561</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1e090d1b7df90688e366573d8b9e539a" name="a1e090d1b7df90688e366573d8b9e539a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e090d1b7df90688e366573d8b9e539a">&#9670;&#160;</a></span>setStyle() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setStyle </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>qssFile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00086">86</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1dd02d8ea36065ca0e476835b7957ab6" name="a1dd02d8ea36065ca0e476835b7957ab6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dd02d8ea36065ca0e476835b7957ab6">&#9670;&#160;</a></span>setStyle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setStyle </td>
+          <td>(</td>
+          <td class="paramtype">QUIWidget::Style&#160;</td>
+          <td class="paramname"><em>style</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00041">41</a> 行定义.</p>
+
+</div>
+</div>
+<a id="acb1a1b878816b1e4b0104ee65aca439f" name="acb1a1b878816b1e4b0104ee65aca439f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb1a1b878816b1e4b0104ee65aca439f">&#9670;&#160;</a></span>setTitle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setTitle </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>title</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00616">616</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af9612f55e06a8b21e57efeea24cb1498" name="af9612f55e06a8b21e57efeea24cb1498"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9612f55e06a8b21e57efeea24cb1498">&#9670;&#160;</a></span>setTitleHeight</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setTitleHeight </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00602">602</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0e0e9601c9566540ae721c790e71d91b" name="a0e0e9601c9566540ae721c790e71d91b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e0e9601c9566540ae721c790e71d91b">&#9670;&#160;</a></span>setTranslator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setTranslator </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>qmFile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00181">181</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a6513c2316ee7eac60a310466c5307d50" name="a6513c2316ee7eac60a310466c5307d50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6513c2316ee7eac60a310466c5307d50">&#9670;&#160;</a></span>setVisible</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::setVisible </td>
+          <td>(</td>
+          <td class="paramtype">QUIWidget::Widget&#160;</td>
+          <td class="paramname"><em>widget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>visible</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00580">580</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a3ee022f38c6c8792dfff5305bed107b9" name="a3ee022f38c6c8792dfff5305bed107b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ee022f38c6c8792dfff5305bed107b9">&#9670;&#160;</a></span>showEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::showEvent </td>
+          <td>(</td>
+          <td class="paramtype">QShowEvent *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00700">700</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac28122ac00ba1c3d3ba897f92123c784" name="ac28122ac00ba1c3d3ba897f92123c784"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac28122ac00ba1c3d3ba897f92123c784">&#9670;&#160;</a></span>showInputBox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString QUIWidget::showInputBox </td>
+          <td>(</td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>ok</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>closeSec</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>defaultValue</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>pwd</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00224">224</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9358f869f550189786331270775559f2" name="a9358f869f550189786331270775559f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9358f869f550189786331270775559f2">&#9670;&#160;</a></span>showMessageBoxError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::showMessageBoxError </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>closeSec</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00211">211</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a543612659280b7a2ebd1f96ac9842bad" name="a543612659280b7a2ebd1f96ac9842bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a543612659280b7a2ebd1f96ac9842bad">&#9670;&#160;</a></span>showMessageBoxInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QUIWidget::showMessageBoxInfo </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>closeSec</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00205">205</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae069e4b3941ab5a2d3de49606e7eaf6c" name="ae069e4b3941ab5a2d3de49606e7eaf6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae069e4b3941ab5a2d3de49606e7eaf6c">&#9670;&#160;</a></span>showMessageBoxQuestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int QUIWidget::showMessageBoxQuestion </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00217">217</a> 行定义.</p>
+
+</div>
+</div>
+<a id="adfa614ad75c9cfd1f4cec60b8d948f09" name="adfa614ad75c9cfd1f4cec60b8d948f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa614ad75c9cfd1f4cec60b8d948f09">&#9670;&#160;</a></span>sizeHint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSize QUIWidget::sizeHint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a> 第 <a class="el" href="QUIWidget_8cpp_source.html#l00309">309</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="adf28ea568111df441b25d6a59f368e66" name="adf28ea568111df441b25d6a59f368e66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf28ea568111df441b25d6a59f368e66">&#9670;&#160;</a></span>btnMenu</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QToolButton* QUIWidget::btnMenu</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00131">131</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af4a5b00251c84e2c19c3603db07bca30" name="af4a5b00251c84e2c19c3603db07bca30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4a5b00251c84e2c19c3603db07bca30">&#9670;&#160;</a></span>btnMenu_Close</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton* QUIWidget::btnMenu_Close</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00134">134</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a98fc5285ca16ba6eabfbae4bebdbff6d" name="a98fc5285ca16ba6eabfbae4bebdbff6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98fc5285ca16ba6eabfbae4bebdbff6d">&#9670;&#160;</a></span>btnMenu_Max</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton* QUIWidget::btnMenu_Max</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00133">133</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a5dd55ac51b547b7e14eeddfc29bbbf83" name="a5dd55ac51b547b7e14eeddfc29bbbf83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd55ac51b547b7e14eeddfc29bbbf83">&#9670;&#160;</a></span>btnMenu_Min</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPushButton* QUIWidget::btnMenu_Min</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00132">132</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a47c3c4de9da07cdea5b9c6fcf3ee8883" name="a47c3c4de9da07cdea5b9c6fcf3ee8883"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c3c4de9da07cdea5b9c6fcf3ee8883">&#9670;&#160;</a></span>horizontalLayout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHBoxLayout* QUIWidget::horizontalLayout</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00130">130</a> 行定义.</p>
+
+</div>
+</div>
+<a id="adc671f53306a7fa364e4c6cf7dd78ad9" name="adc671f53306a7fa364e4c6cf7dd78ad9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc671f53306a7fa364e4c6cf7dd78ad9">&#9670;&#160;</a></span>horizontalLayout4</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHBoxLayout* QUIWidget::horizontalLayout4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00126">126</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a49fd81094b0b8d82137c1b5382ac4dc1" name="a49fd81094b0b8d82137c1b5382ac4dc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49fd81094b0b8d82137c1b5382ac4dc1">&#9670;&#160;</a></span>lab_Ico</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QLabel* QUIWidget::lab_Ico</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00127">127</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aae469511c3d1151c885594863395e45e" name="aae469511c3d1151c885594863395e45e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae469511c3d1151c885594863395e45e">&#9670;&#160;</a></span>lab_Title</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QLabel* QUIWidget::lab_Title</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00128">128</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a21f8b1919c1cbe6ac69dd88866362beb" name="a21f8b1919c1cbe6ac69dd88866362beb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f8b1919c1cbe6ac69dd88866362beb">&#9670;&#160;</a></span>location</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QRect QUIWidget::location</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00140">140</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af76b7dcd34cf7853f754eb8b82f25806" name="af76b7dcd34cf7853f754eb8b82f25806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af76b7dcd34cf7853f754eb8b82f25806">&#9670;&#160;</a></span>mainWidget</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget* QUIWidget::mainWidget</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00141">141</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a44a4e8d875c6ed45029502eb3b50d2a6" name="a44a4e8d875c6ed45029502eb3b50d2a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44a4e8d875c6ed45029502eb3b50d2a6">&#9670;&#160;</a></span>max</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool QUIWidget::max</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00139">139</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a217772caa675d613abfb6f249a6c8d00" name="a217772caa675d613abfb6f249a6c8d00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a217772caa675d613abfb6f249a6c8d00">&#9670;&#160;</a></span>verticalLayout1</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVBoxLayout* QUIWidget::verticalLayout1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00122">122</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7a71e97c73df8e863caf5b98724e7bc3" name="a7a71e97c73df8e863caf5b98724e7bc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a71e97c73df8e863caf5b98724e7bc3">&#9670;&#160;</a></span>verticalLayout2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVBoxLayout* QUIWidget::verticalLayout2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00124">124</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a681574ee3a43f3ccccb5c2c05e11b586" name="a681574ee3a43f3ccccb5c2c05e11b586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a681574ee3a43f3ccccb5c2c05e11b586">&#9670;&#160;</a></span>verticalLayout3</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVBoxLayout* QUIWidget::verticalLayout3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00136">136</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9e0893e35bbb91f33ad0d129542721ac" name="a9e0893e35bbb91f33ad0d129542721ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e0893e35bbb91f33ad0d129542721ac">&#9670;&#160;</a></span>widget</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget* QUIWidget::widget</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00135">135</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a228f30f5d710fb1f3f736ac71fc7a89d" name="a228f30f5d710fb1f3f736ac71fc7a89d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a228f30f5d710fb1f3f736ac71fc7a89d">&#9670;&#160;</a></span>widget_menu</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget* QUIWidget::widget_menu</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00129">129</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aef23b53afbcf3de68409bd927e27f884" name="aef23b53afbcf3de68409bd927e27f884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef23b53afbcf3de68409bd927e27f884">&#9670;&#160;</a></span>widget_title</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget* QUIWidget::widget_title</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00125">125</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae944497ebef60e67843228f0ef057693" name="ae944497ebef60e67843228f0ef057693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae944497ebef60e67843228f0ef057693">&#9670;&#160;</a></span>widgetMain</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWidget* QUIWidget::widgetMain</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00123">123</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">属性说明</h2>
+<a id="abc73b1fe1b74ac6f6b275632e023f983" name="abc73b1fe1b74ac6f6b275632e023f983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc73b1fe1b74ac6f6b275632e023f983">&#9670;&#160;</a></span>alignment</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Qt::Alignment QUIWidget::alignment</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00050">50</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a6b14fd0de08d46a51452fe4af28ef7dd" name="a6b14fd0de08d46a51452fe4af28ef7dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b14fd0de08d46a51452fe4af28ef7dd">&#9670;&#160;</a></span>title</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString QUIWidget::title</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a> 第 <a class="el" href="QUIWidget_8h_source.html#l00049">49</a> 行定义.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/Src/QUIWidget/<a class="el" href="QUIWidget_8h_source.html">QUIWidget.h</a></li>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/Src/QUIWidget/<a class="el" href="QUIWidget_8cpp_source.html">QUIWidget.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.16-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer">
+<a href="mailto:kl222@126.com" >作者：康林 (kl222@126.com) </a>
+<p/>
+<a href="https://github.com/KangLin/RabbitCommon">版权所有(c) 康林工作室 保留所有权力</a>
+</address>
+</body>
+</html>

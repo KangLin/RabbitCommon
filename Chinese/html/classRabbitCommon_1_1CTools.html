@@ -1,0 +1,1330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RabbitCommon: RabbitCommon::CTools类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="App.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">RabbitCommon<span id="projectnumber">&#160;v2.3.4</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a></li><li class="navelem"><a class="el" href="classRabbitCommon_1_1CTools.html">CTools</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classRabbitCommon_1_1CTools-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">RabbitCommon::CTools类 参考<div class="ingroups"><a class="el" href="group__API.html">应用程序接口</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Tools  
+ <a href="classRabbitCommon_1_1CTools.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a>&gt;</code></p>
+<div class="dynheader">
+类 RabbitCommon::CTools 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classRabbitCommon_1_1CTools.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a696697a0b73468a2925d606b190f16b9" id="r_a696697a0b73468a2925d606b190f16b9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><b>TranslationType</b> { <b>Application</b>
+, <b>Library</b>
+, <b>Plugin</b>
+ }</td></tr>
+<tr class="separator:a696697a0b73468a2925d606b190f16b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aeaa6ef2161740c31ce55ee4264d3436c" id="r_aeaa6ef2161740c31ce55ee4264d3436c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c">Init</a> (QString szApplicationName=QCoreApplication::applicationName(), QString szApplicationDirPath=QCoreApplication::applicationDirPath(), QString szApplicationInstallRoot=QString(), const QString szLanguage=<a class="el" href="classRabbitCommon_1_1CTools.html#acbb527d9879f1838212ee97d85f6beee">GetLanguage</a>())</td></tr>
+<tr class="memdesc:aeaa6ef2161740c31ce55ee4264d3436c"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化资源，只在程序开始时调用一次。  <br /></td></tr>
+<tr class="separator:aeaa6ef2161740c31ce55ee4264d3436c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de58bd357c2aa54c3df98dbf037130a" id="r_a9de58bd357c2aa54c3df98dbf037130a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a9de58bd357c2aa54c3df98dbf037130a">Init</a> (int argc, char *argv[], QString szApplicationName=QString())</td></tr>
+<tr class="memdesc:a9de58bd357c2aa54c3df98dbf037130a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init.  <br /></td></tr>
+<tr class="separator:a9de58bd357c2aa54c3df98dbf037130a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64352a2084c8950f9ee5181d6142da2b" id="r_a64352a2084c8950f9ee5181d6142da2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a64352a2084c8950f9ee5181d6142da2b">Clean</a> ()</td></tr>
+<tr class="separator:a64352a2084c8950f9ee5181d6142da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addd346eda2c2a5c6a5bd46e20b284eb2" id="r_addd346eda2c2a5c6a5bd46e20b284eb2"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; QTranslator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#addd346eda2c2a5c6a5bd46e20b284eb2">InstallTranslator</a> (const QString szName=QString(), TranslationType type=TranslationType::Application, const QString szPluginDir=&quot;plugins&quot;, const QString szLanguage=<a class="el" href="classRabbitCommon_1_1CTools.html#acbb527d9879f1838212ee97d85f6beee">GetLanguage</a>())</td></tr>
+<tr class="memdesc:addd346eda2c2a5c6a5bd46e20b284eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Install translation  <br /></td></tr>
+<tr class="separator:addd346eda2c2a5c6a5bd46e20b284eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c47bb59cce3a117abd4702391e9f0c" id="r_a34c47bb59cce3a117abd4702391e9f0c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a34c47bb59cce3a117abd4702391e9f0c">RemoveTranslator</a> (QSharedPointer&lt; QTranslator &gt; translator)</td></tr>
+<tr class="separator:a34c47bb59cce3a117abd4702391e9f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a7a7a7645915e2ee017faa753c4b3d35d" id="r_a7a7a7645915e2ee017faa753c4b3d35d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classRabbitCommon_1_1CTools.html">CTools</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a7a7a7645915e2ee017faa753c4b3d35d">Instance</a> ()</td></tr>
+<tr class="separator:a7a7a7645915e2ee017faa753c4b3d35d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97462c1f6ecf87e6ea2ead60084b09e5" id="r_a97462c1f6ecf87e6ea2ead60084b09e5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a97462c1f6ecf87e6ea2ead60084b09e5">SetLanguage</a> (const QString szLanguage)</td></tr>
+<tr class="separator:a97462c1f6ecf87e6ea2ead60084b09e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbb527d9879f1838212ee97d85f6beee" id="r_acbb527d9879f1838212ee97d85f6beee"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#acbb527d9879f1838212ee97d85f6beee">GetLanguage</a> ()</td></tr>
+<tr class="memdesc:acbb527d9879f1838212ee97d85f6beee"><td class="mdescLeft">&#160;</td><td class="mdescRight">得到语言 获取顺序：  <br /></td></tr>
+<tr class="separator:acbb527d9879f1838212ee97d85f6beee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc4f6ebb20d38c38fdefe6446eaa490c" id="r_acc4f6ebb20d38c38fdefe6446eaa490c"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#acc4f6ebb20d38c38fdefe6446eaa490c">Version</a> ()</td></tr>
+<tr class="memdesc:acc4f6ebb20d38c38fdefe6446eaa490c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a> version  <br /></td></tr>
+<tr class="separator:acc4f6ebb20d38c38fdefe6446eaa490c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d245f1e8ab0e134cac307751ca427f" id="r_a49d245f1e8ab0e134cac307751ca427f"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a49d245f1e8ab0e134cac307751ca427f">Information</a> ()</td></tr>
+<tr class="memdesc:a49d245f1e8ab0e134cac307751ca427f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a> information  <br /></td></tr>
+<tr class="separator:a49d245f1e8ab0e134cac307751ca427f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b66b84ca9069fca2356cd713a81d6de" id="r_a1b66b84ca9069fca2356cd713a81d6de"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a1b66b84ca9069fca2356cd713a81d6de">EnableCoreDump</a> (bool bPrompt=true)</td></tr>
+<tr class="memdesc:a1b66b84ca9069fca2356cd713a81d6de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable core dump  <br /></td></tr>
+<tr class="separator:a1b66b84ca9069fca2356cd713a81d6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3df5e38adbf132a727710cd834fad167" id="r_a3df5e38adbf132a727710cd834fad167"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a3df5e38adbf132a727710cd834fad167">HasAdministratorPrivilege</a> ()</td></tr>
+<tr class="memdesc:a3df5e38adbf132a727710cd834fad167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has administrator privilege.  <br /></td></tr>
+<tr class="separator:a3df5e38adbf132a727710cd834fad167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985f78a7ef5d9458b32051e4568ce76a" id="r_a985f78a7ef5d9458b32051e4568ce76a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a985f78a7ef5d9458b32051e4568ce76a">executeByRoot</a> (const QString &amp;program, const QStringList &amp;arguments=QStringList())</td></tr>
+<tr class="memdesc:a985f78a7ef5d9458b32051e4568ce76a"><td class="mdescLeft">&#160;</td><td class="mdescRight">executeByRoot: Run with administrator privileges  <br /></td></tr>
+<tr class="separator:a985f78a7ef5d9458b32051e4568ce76a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bb39290c702de6621646856ea655103" id="r_a4bb39290c702de6621646856ea655103"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a4bb39290c702de6621646856ea655103">ExecuteWithAdministratorPrivilege</a> (const QString &amp;program, const QStringList &amp;arguments=QStringList(), bool bDetached=true)</td></tr>
+<tr class="separator:a4bb39290c702de6621646856ea655103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75848e6472440bd79e338b148eb23599" id="r_a75848e6472440bd79e338b148eb23599"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a75848e6472440bd79e338b148eb23599">StartWithAdministratorPrivilege</a> (bool bQuitOld=false)</td></tr>
+<tr class="memdesc:a75848e6472440bd79e338b148eb23599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start program with administrator privilege  <br /></td></tr>
+<tr class="separator:a75848e6472440bd79e338b148eb23599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab366476fcbb39046f0b609fd04aa6b77" id="r_ab366476fcbb39046f0b609fd04aa6b77"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#ab366476fcbb39046f0b609fd04aa6b77">InstallStartRun</a> (const QString &amp;szName=QString(), const QString &amp;szPath=QString(), bool bAllUser=false)</td></tr>
+<tr class="memdesc:ab366476fcbb39046f0b609fd04aa6b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">InstallStartRun: auto run when startup  <br /></td></tr>
+<tr class="separator:ab366476fcbb39046f0b609fd04aa6b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac292e5896ac273064ff65be66f5144ca" id="r_ac292e5896ac273064ff65be66f5144ca"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#ac292e5896ac273064ff65be66f5144ca">RemoveStartRun</a> (const QString &amp;szName=QString(), bool bAllUser=false)</td></tr>
+<tr class="separator:ac292e5896ac273064ff65be66f5144ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab96aaa880d6871da57390de1362a6e52" id="r_ab96aaa880d6871da57390de1362a6e52"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#ab96aaa880d6871da57390de1362a6e52">IsStartRun</a> (const QString &amp;szName=QString(), bool bAllUser=false)</td></tr>
+<tr class="separator:ab96aaa880d6871da57390de1362a6e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47746d0ebd92c6ed5ddbc192a9b1d9c1" id="r_a47746d0ebd92c6ed5ddbc192a9b1d9c1"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a47746d0ebd92c6ed5ddbc192a9b1d9c1">GetCurrentUser</a> ()</td></tr>
+<tr class="separator:a47746d0ebd92c6ed5ddbc192a9b1d9c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee9f9530a87ae7bd7ec8541df06cca1" id="r_a1ee9f9530a87ae7bd7ec8541df06cca1"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a1ee9f9530a87ae7bd7ec8541df06cca1">GetHostName</a> ()</td></tr>
+<tr class="separator:a1ee9f9530a87ae7bd7ec8541df06cca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a026f0cc1da09a9d3a0d972ce4a3cc94f" id="r_a026f0cc1da09a9d3a0d972ce4a3cc94f"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a026f0cc1da09a9d3a0d972ce4a3cc94f">MarkDownToHtml</a> (const QString &amp;szText)</td></tr>
+<tr class="separator:a026f0cc1da09a9d3a0d972ce4a3cc94f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33becd2261b8367d2d59af29f698f7e3" id="r_a33becd2261b8367d2d59af29f698f7e3"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a33becd2261b8367d2d59af29f698f7e3">GenerateDesktopFile</a> (const QString &amp;szPath=QString(), const QString &amp;szName=QString())</td></tr>
+<tr class="memdesc:a33becd2261b8367d2d59af29f698f7e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">GenerateDesktopFile: Generate desktop file  <br /></td></tr>
+<tr class="separator:a33becd2261b8367d2d59af29f698f7e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc588fb43333179dd51a2ad2ba08000" id="r_aefc588fb43333179dd51a2ad2ba08000"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#aefc588fb43333179dd51a2ad2ba08000">AndroidRequestPermission</a> (const QStringList &amp;permissions)</td></tr>
+<tr class="separator:aefc588fb43333179dd51a2ad2ba08000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49ee5186c5ee839796f565992bf2d95e" id="r_a49ee5186c5ee839796f565992bf2d95e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a49ee5186c5ee839796f565992bf2d95e">AndroidRequestPermission</a> (const QString &amp;permission)</td></tr>
+<tr class="separator:a49ee5186c5ee839796f565992bf2d95e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a95d53bd5f90ed3cd2ea59c9fbb3af957" id="r_a95d53bd5f90ed3cd2ea59c9fbb3af957"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a95d53bd5f90ed3cd2ea59c9fbb3af957">InitResource</a> ()</td></tr>
+<tr class="separator:a95d53bd5f90ed3cd2ea59c9fbb3af957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acab6fe7edb6e0a64fba90399b011bde0" id="r_acab6fe7edb6e0a64fba90399b011bde0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#acab6fe7edb6e0a64fba90399b011bde0">CleanResource</a> ()</td></tr>
+<tr class="separator:acab6fe7edb6e0a64fba90399b011bde0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11061def5115253be5a4eeab8cd22904" id="r_a11061def5115253be5a4eeab8cd22904"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; QTranslator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a11061def5115253be5a4eeab8cd22904">InstallTranslatorFile</a> (const QString szFile)</td></tr>
+<tr class="separator:a11061def5115253be5a4eeab8cd22904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a4d73c73b45f0046a45dee3f5a8e183ca" id="r_a4d73c73b45f0046a45dee3f5a8e183ca"><td class="memItemLeft" align="right" valign="top">QVector&lt; QSharedPointer&lt; QTranslator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a4d73c73b45f0046a45dee3f5a8e183ca">m_Translator</a></td></tr>
+<tr class="separator:a4d73c73b45f0046a45dee3f5a8e183ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66302fba1c3d96261012ce2a5839b45e" id="r_a66302fba1c3d96261012ce2a5839b45e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#a66302fba1c3d96261012ce2a5839b45e">m_Initialized</a></td></tr>
+<tr class="separator:a66302fba1c3d96261012ce2a5839b45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9f149625ce7ce37641f23fff617165b" id="r_af9f149625ce7ce37641f23fff617165b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRabbitCommon_1_1CTools.html#af9f149625ce7ce37641f23fff617165b">m_bShowMaxWindow</a></td></tr>
+<tr class="separator:af9f149625ce7ce37641f23fff617165b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Tools </p>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a> 第 <a class="el" href="RabbitCommonTools_8h_source.html#l00043">43</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a696697a0b73468a2925d606b190f16b9" name="a696697a0b73468a2925d606b190f16b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a696697a0b73468a2925d606b190f16b9">&#9670;&#160;</a></span>TranslationType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class RabbitCommon::CTools::TranslationType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a> 第 <a class="el" href="RabbitCommonTools_8h_source.html#l00165">165</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a673bd86e4b515232580900865569afab" name="a673bd86e4b515232580900865569afab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673bd86e4b515232580900865569afab">&#9670;&#160;</a></span>CTools()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">RabbitCommon::CTools::CTools </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00118">118</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a10bd25d37c2c302d3d8e884ffbbdf59a" name="a10bd25d37c2c302d3d8e884ffbbdf59a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10bd25d37c2c302d3d8e884ffbbdf59a">&#9670;&#160;</a></span>~CTools()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">RabbitCommon::CTools::~CTools </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00133">133</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a49ee5186c5ee839796f565992bf2d95e" name="a49ee5186c5ee839796f565992bf2d95e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49ee5186c5ee839796f565992bf2d95e">&#9670;&#160;</a></span>AndroidRequestPermission() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::AndroidRequestPermission </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>permission</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00279">279</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aefc588fb43333179dd51a2ad2ba08000" name="aefc588fb43333179dd51a2ad2ba08000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc588fb43333179dd51a2ad2ba08000">&#9670;&#160;</a></span>AndroidRequestPermission() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::AndroidRequestPermission </td>
+          <td>(</td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>permissions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00299">299</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a64352a2084c8950f9ee5181d6142da2b" name="a64352a2084c8950f9ee5181d6142da2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64352a2084c8950f9ee5181d6142da2b">&#9670;&#160;</a></span>Clean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RabbitCommon::CTools::Clean </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section note"><dt>注解</dt><dd>释放资源，只在程序结束前调用一次 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00417">417</a> 行定义.</p>
+
+</div>
+</div>
+<a id="acab6fe7edb6e0a64fba90399b011bde0" name="acab6fe7edb6e0a64fba90399b011bde0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acab6fe7edb6e0a64fba90399b011bde0">&#9670;&#160;</a></span>CleanResource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RabbitCommon::CTools::CleanResource </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00528">528</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1b66b84ca9069fca2356cd713a81d6de" name="a1b66b84ca9069fca2356cd713a81d6de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b66b84ca9069fca2356cd713a81d6de">&#9670;&#160;</a></span>EnableCoreDump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::EnableCoreDump </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bPrompt</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enable core dump </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bPrompt</td><td>prompt </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>It must be called first in the main function </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00552">552</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a985f78a7ef5d9458b32051e4568ce76a" name="a985f78a7ef5d9458b32051e4568ce76a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a985f78a7ef5d9458b32051e4568ce76a">&#9670;&#160;</a></span>executeByRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::executeByRoot </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>program</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>arguments</em> = <code>QStringList()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>executeByRoot: Run with administrator privileges </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">program</td><td></td></tr>
+    <tr><td class="paramname">arguments</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00592">592</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a4bb39290c702de6621646856ea655103" name="a4bb39290c702de6621646856ea655103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bb39290c702de6621646856ea655103">&#9670;&#160;</a></span>ExecuteWithAdministratorPrivilege()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::ExecuteWithAdministratorPrivilege </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>program</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>arguments</em> = <code>QStringList()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bDetached</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00580">580</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a33becd2261b8367d2d59af29f698f7e3" name="a33becd2261b8367d2d59af29f698f7e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33becd2261b8367d2d59af29f698f7e3">&#9670;&#160;</a></span>GenerateDesktopFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::GenerateDesktopFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szPath</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szName</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GenerateDesktopFile: Generate desktop file </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">szPath</td><td>the path of desktop file. </td></tr>
+    <tr><td class="paramname">szName</td><td>the name of desktop file. Default: "org.Rabbit." + qApp-&gt;applicationName() + ".desktop" </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00728">728</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a47746d0ebd92c6ed5ddbc192a9b1d9c1" name="a47746d0ebd92c6ed5ddbc192a9b1d9c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47746d0ebd92c6ed5ddbc192a9b1d9c1">&#9670;&#160;</a></span>GetCurrentUser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::GetCurrentUser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00762">762</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1ee9f9530a87ae7bd7ec8541df06cca1" name="a1ee9f9530a87ae7bd7ec8541df06cca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee9f9530a87ae7bd7ec8541df06cca1">&#9670;&#160;</a></span>GetHostName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::GetHostName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00779">779</a> 行定义.</p>
+
+</div>
+</div>
+<a id="acbb527d9879f1838212ee97d85f6beee" name="acbb527d9879f1838212ee97d85f6beee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbb527d9879f1838212ee97d85f6beee">&#9670;&#160;</a></span>GetLanguage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::GetLanguage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>得到语言 获取顺序： </p>
+<ul>
+<li>环境变量(LANG)</li>
+<li>SetLanguage() 设置的值</li>
+<li>QLocale::system().name() </li>
+</ul>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00157">157</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a3df5e38adbf132a727710cd834fad167" name="a3df5e38adbf132a727710cd834fad167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3df5e38adbf132a727710cd834fad167">&#9670;&#160;</a></span>HasAdministratorPrivilege()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::HasAdministratorPrivilege </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Has administrator privilege. </p>
+<p>Since v2.3.0 </p>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00571">571</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a49d245f1e8ab0e134cac307751ca427f" name="a49d245f1e8ab0e134cac307751ca427f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d245f1e8ab0e134cac307751ca427f">&#9670;&#160;</a></span>Information()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::Information </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a> information </p>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00193">193</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9de58bd357c2aa54c3df98dbf037130a" name="a9de58bd357c2aa54c3df98dbf037130a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de58bd357c2aa54c3df98dbf037130a">&#9670;&#160;</a></span>Init() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RabbitCommon::CTools::Init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>szApplicationName</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Init. </p>
+<p>It can called before QApplication a(argc, argv); It is parse the application name and path from command line parameters. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">szApplicationName</td><td>Set if the application name is not same the program. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>参见</dt><dd>void <a class="el" href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c" title="初始化资源，只在程序开始时调用一次。">Init()</a> </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00307">307</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aeaa6ef2161740c31ce55ee4264d3436c" name="aeaa6ef2161740c31ce55ee4264d3436c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaa6ef2161740c31ce55ee4264d3436c">&#9670;&#160;</a></span>Init() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RabbitCommon::CTools::Init </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>szApplicationName</em> = <code>QCoreApplication::applicationName()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>szApplicationDirPath</em> = <code>QCoreApplication::applicationDirPath()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>szApplicationInstallRoot</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szLanguage</em> = <code><a class="el" href="classRabbitCommon_1_1CTools.html#acbb527d9879f1838212ee97d85f6beee">GetLanguage</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>初始化资源，只在程序开始时调用一次。 </p>
+<dl class="section note"><dt>注解</dt><dd><ul>
+<li>在 main() 函数的开始处 QApplication a(argc, argv) 之后调用： <div class="fragment"><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
+<div class="line">    QApplication a(argc, argv);</div>
+<div class="line">    a.setApplicationName(......);</div>
+<div class="line">    RabbitCommon::CTools::Instance-&gt;<a class="code hl_function" href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c">Init</a>();</div>
+<div class="line">    ......</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassRabbitCommon_1_1CTools_html_aeaa6ef2161740c31ce55ee4264d3436c"><div class="ttname"><a href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c">RabbitCommon::CTools::Init</a></div><div class="ttdeci">void Init(QString szApplicationName=QCoreApplication::applicationName(), QString szApplicationDirPath=QCoreApplication::applicationDirPath(), QString szApplicationInstallRoot=QString(), const QString szLanguage=GetLanguage())</div><div class="ttdoc">初始化资源，只在程序开始时调用一次。</div><div class="ttdef"><b>Definition</b> <a href="RabbitCommonTools_8cpp_source.html#l00325">RabbitCommonTools.cpp:325</a></div></div>
+</div><!-- fragment --></li>
+<li>如果要放到 QApplication a(argc, argv) 之前调用，<ul>
+<li>则在调用此函数之前需要先调用:<ul>
+<li>QCoreApplication::setApplicationName()</li>
+<li>CDir::Instance()-&gt;SetDirApplication()</li>
+<li>CDir::Instance()-&gt;SetDirApplicationInstallRoot() <div class="fragment"><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
+<div class="line">    QCoreApplication::setApplicationName(...);</div>
+<div class="line">    CDir::Instance()-&gt;SetDirApplication(...);</div>
+<div class="line">    CDir::Instance()-&gt;SetDirApplicationInstallRoot(...);</div>
+<div class="line">    RabbitCommon::CTools::Instance-&gt;<a class="code hl_function" href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c">Init</a>();</div>
+<div class="line">    QApplication a(argc, argv);</div>
+<div class="line">    ......</div>
+<div class="line">}</div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>带参数调用： <div class="fragment"><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) {</div>
+<div class="line">    RabbitCommon::CTools::Instance-&gt;<a class="code hl_function" href="classRabbitCommon_1_1CTools.html#aeaa6ef2161740c31ce55ee4264d3436c">Init</a>(szName, szPath, szInstallRoot);</div>
+<div class="line">    QApplication a(argc, argv);</div>
+<div class="line">    ......</div>
+<div class="line">}</div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="classRabbitCommon_1_1CTools.html#a9de58bd357c2aa54c3df98dbf037130a" title="Init.">Init(int argc, char* argv[], QString szApplicationName)</a> </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00325">325</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a95d53bd5f90ed3cd2ea59c9fbb3af957" name="a95d53bd5f90ed3cd2ea59c9fbb3af957"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95d53bd5f90ed3cd2ea59c9fbb3af957">&#9670;&#160;</a></span>InitResource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RabbitCommon::CTools::InitResource </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00523">523</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ab366476fcbb39046f0b609fd04aa6b77" name="ab366476fcbb39046f0b609fd04aa6b77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab366476fcbb39046f0b609fd04aa6b77">&#9670;&#160;</a></span>InstallStartRun()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::InstallStartRun </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szName</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szPath</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bAllUser</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>InstallStartRun: auto run when startup </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">szName</td><td>The programe name<ul>
+<li>Windows: is programe name</li>
+<li>Linux: the name of desktop file. </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">szPath</td><td></td></tr>
+    <tr><td class="paramname">bAllUser</td><td><ul>
+<li>true: all user</li>
+<li>false: current user </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00639">639</a> 行定义.</p>
+
+</div>
+</div>
+<a id="addd346eda2c2a5c6a5bd46e20b284eb2" name="addd346eda2c2a5c6a5bd46e20b284eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addd346eda2c2a5c6a5bd46e20b284eb2">&#9670;&#160;</a></span>InstallTranslator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSharedPointer&lt; QTranslator &gt; RabbitCommon::CTools::InstallTranslator </td>
+          <td>(</td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szName</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TranslationType&#160;</td>
+          <td class="paramname"><em>type</em> = <code>TranslationType::Application</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szPluginDir</em> = <code>&quot;plugins&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szLanguage</em> = <code><a class="el" href="classRabbitCommon_1_1CTools.html#acbb527d9879f1838212ee97d85f6beee">GetLanguage</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Install translation </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">szName</td><td>translation name </td></tr>
+    <tr><td class="paramname">szLanguage</td><td>language </td></tr>
+    <tr><td class="paramname">type</td><td>TranslationType </td></tr>
+    <tr><td class="paramname">szPluginDir</td><td>plugin directory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QSharedPointer&lt;QTranslator&gt; </dd></dl>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="classRabbitCommon_1_1CDir.html#a790447ebfb3f8c3ea9a46ea48acf53f0">CDir::GetDirTranslations</a> cmake/Translations.cmake </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00453">453</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a11061def5115253be5a4eeab8cd22904" name="a11061def5115253be5a4eeab8cd22904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11061def5115253be5a4eeab8cd22904">&#9670;&#160;</a></span>InstallTranslatorFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSharedPointer&lt; QTranslator &gt; RabbitCommon::CTools::InstallTranslatorFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szFile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00427">427</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7a7a7645915e2ee017faa753c4b3d35d" name="a7a7a7645915e2ee017faa753c4b3d35d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a7a7645915e2ee017faa753c4b3d35d">&#9670;&#160;</a></span>Instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classRabbitCommon_1_1CTools.html">CTools</a> * RabbitCommon::CTools::Instance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00142">142</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ab96aaa880d6871da57390de1362a6e52" name="ab96aaa880d6871da57390de1362a6e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab96aaa880d6871da57390de1362a6e52">&#9670;&#160;</a></span>IsStartRun()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::IsStartRun </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szName</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bAllUser</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00714">714</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a026f0cc1da09a9d3a0d972ce4a3cc94f" name="a026f0cc1da09a9d3a0d972ce4a3cc94f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a026f0cc1da09a9d3a0d972ce4a3cc94f">&#9670;&#160;</a></span>MarkDownToHtml()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::MarkDownToHtml </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szText</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00786">786</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac292e5896ac273064ff65be66f5144ca" name="ac292e5896ac273064ff65be66f5144ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac292e5896ac273064ff65be66f5144ca">&#9670;&#160;</a></span>RemoveStartRun()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::RemoveStartRun </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>szName</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bAllUser</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00691">691</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a34c47bb59cce3a117abd4702391e9f0c" name="a34c47bb59cce3a117abd4702391e9f0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34c47bb59cce3a117abd4702391e9f0c">&#9670;&#160;</a></span>RemoveTranslator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::RemoveTranslator </td>
+          <td>(</td>
+          <td class="paramtype">QSharedPointer&lt; QTranslator &gt;&#160;</td>
+          <td class="paramname"><em>translator</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00511">511</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a97462c1f6ecf87e6ea2ead60084b09e5" name="a97462c1f6ecf87e6ea2ead60084b09e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97462c1f6ecf87e6ea2ead60084b09e5">&#9670;&#160;</a></span>SetLanguage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int RabbitCommon::CTools::SetLanguage </td>
+          <td>(</td>
+          <td class="paramtype">const QString&#160;</td>
+          <td class="paramname"><em>szLanguage</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00151">151</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a75848e6472440bd79e338b148eb23599" name="a75848e6472440bd79e338b148eb23599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75848e6472440bd79e338b148eb23599">&#9670;&#160;</a></span>StartWithAdministratorPrivilege()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::StartWithAdministratorPrivilege </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bQuitOld</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Start program with administrator privilege </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bQuitOld</td><td>true, quit the old program </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00597">597</a> 行定义.</p>
+
+</div>
+</div>
+<a id="acc4f6ebb20d38c38fdefe6446eaa490c" name="acc4f6ebb20d38c38fdefe6446eaa490c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc4f6ebb20d38c38fdefe6446eaa490c">&#9670;&#160;</a></span>Version()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString RabbitCommon::CTools::Version </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a> version </p>
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a> 第 <a class="el" href="RabbitCommonTools_8cpp_source.html#l00174">174</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="af9f149625ce7ce37641f23fff617165b" name="af9f149625ce7ce37641f23fff617165b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9f149625ce7ce37641f23fff617165b">&#9670;&#160;</a></span>m_bShowMaxWindow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::m_bShowMaxWindow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a> 第 <a class="el" href="RabbitCommonTools_8h_source.html#l00340">340</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a66302fba1c3d96261012ce2a5839b45e" name="a66302fba1c3d96261012ce2a5839b45e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66302fba1c3d96261012ce2a5839b45e">&#9670;&#160;</a></span>m_Initialized</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RabbitCommon::CTools::m_Initialized</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a> 第 <a class="el" href="RabbitCommonTools_8h_source.html#l00338">338</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a4d73c73b45f0046a45dee3f5a8e183ca" name="a4d73c73b45f0046a45dee3f5a8e183ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d73c73b45f0046a45dee3f5a8e183ca">&#9670;&#160;</a></span>m_Translator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;QSharedPointer&lt;QTranslator&gt; &gt; RabbitCommon::CTools::m_Translator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a> 第 <a class="el" href="RabbitCommonTools_8h_source.html#l00336">336</a> 行定义.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/Src/<a class="el" href="RabbitCommonTools_8h_source.html">RabbitCommonTools.h</a></li>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/App/<a class="el" href="App_2main_8cpp_source.html">main.cpp</a></li>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/FileBrowser/<a class="el" href="FileBrowser_2main_8cpp_source.html">main.cpp</a></li>
+<li>/home/runner/work/RabbitCommon/RabbitCommon/Src/<a class="el" href="RabbitCommonTools_8cpp_source.html">RabbitCommonTools.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.16-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer">
+<a href="mailto:kl222@126.com" >作者：康林 (kl222@126.com) </a>
+<p/>
+<a href="https://github.com/KangLin/RabbitCommon">版权所有(c) 康林工作室 保留所有权力</a>
+</address>
+</body>
+</html>

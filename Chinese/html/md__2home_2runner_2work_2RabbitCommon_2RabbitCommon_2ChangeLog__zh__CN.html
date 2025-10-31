@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RabbitCommon: 版本： v2.3.4</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="App.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">RabbitCommon<span id="projectnumber">&#160;v2.3.4</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div><div class="header">
+  <div class="headertitle"><div class="title">版本： v2.3.4</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="autotoc_md36"></a></p><ul>
+<li>QTextBrowser 替换 QTextEdit</li>
+<li>修改 markdown 到 html</li>
+<li>日志：修复 m_szPath 是空错误</li>
+<li>增加图标</li>
+<li>更新: 增加更新回调函数</li>
+<li>用　QTextBrowser 替换 QTextEdit</li>
+<li>完成　MacOS 打包<ul>
+<li>CMake<ul>
+<li>仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks" (2a9c26a9dda8017ab45815101aaa7b48e39a46d1)</li>
+<li>不产生 Info.plist 文件和 BUNDLE 目录</li>
+<li>仅重命名 "bin" 为 "MacOS" 和 仅重命名 "lib" 为 "FrameWorks"</li>
+<li>用户需要生成 Info.plist 和 BUNDLE 目录</li>
+</ul>
+</li>
+<li>使用 MACOSX_BUNDLE 属性 (459bd9ca55d3c4b5e1a6c262934dee5a9b375766)<ul>
+<li>自动产生 Info.plist 和 BUNDLE 目录</li>
+<li>用户只需要在 ADD_TARGET 设置 IS_MACOSX_BUNDLE</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>修复禁用“图标主题”后，不能选择的错误。详见： <a href="https://github.com/KangLin/RabbitRemoteControl/issues/69">https://github.com/KangLin/RabbitRemoteControl/issues/69</a></li>
+<li>修复在黑暗主题下系统托盘图标为白色。详见： <a href="https://github.com/KangLin/RabbitRemoteControl/pull/68">https://github.com/KangLin/RabbitRemoteControl/pull/68</a></li>
+<li>增加从环境变量(LANG)获取语言。详见： <a href="https://github.com/KangLin/RabbitCommon/pull/5">https://github.com/KangLin/RabbitCommon/pull/5</a></li>
+<li>增加用系统浏览器打开文件位置。 CTools::LocateFileWithExplorer()</li>
+<li>修复 CTools::StartWithAdministratorPrivilege(bool bQuitOld) 退出错误</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md37"></a>
+版本： v2.3.3</h2>
+<ul>
+<li>修改在 linux 下用管理员权限启动程序。增加 pkexec</li>
+<li>更新：修改 AppImage</li>
+<li>移除捐赠比特币</li>
+<li>RabbitCommonUtils: 修改 RPATH 为 "$ORIGIN:$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"</li>
+<li>CTools<ul>
+<li>增加 bool CTools::StartWithAdministratorPrivilege(bool bQuitOld)</li>
+<li>重命名 executeByRoot 为 ExecuteWithAdministratorPrivilege</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md38"></a>
+版本： v2.3.2</h2>
+<ul>
+<li>修改日志文件名</li>
+<li>修改安装目录</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md39"></a>
+版本： v2.3.1</h2>
+<ul>
+<li>修复更新的下载地址</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md40"></a>
+版本： v2.3.0</h2>
+<ul>
+<li>修复日志文件名错误</li>
+<li>修复日志析构后，默认处理器错误</li>
+<li>增加实时监控日志配置文件，变化后立即更新日志配置</li>
+<li>在关于对话框中增加环境变量</li>
+<li>增加 <a class="el" href="classCDlgEdit.html">CDlgEdit</a></li>
+<li>增加 <a class="el" href="classCFileBrowser.html" title="File browser">CFileBrowser</a></li>
+<li>增加文件浏览器应用程序</li>
+<li>增加打印调用堆栈</li>
+<li>增加 CTools::HasAdministratorPrivilege()</li>
+<li>CMake: 修改 qt 库为私有</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md41"></a>
+版本： v2.2.6</h2>
+<ul>
+<li>修改 debian 打包文件</li>
+<li>LINUX下，使用系统安装的 cmark</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md42"></a>
+版本： v2.2.5</h2>
+<ul>
+<li>修复在 android 上，关于窗口加载文件错误</li>
+<li>修改 share/org.Rabbit.RabbitCommon.desktop 的 Categories 值</li>
+<li>debian/rules: 修改并行数</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md43"></a>
+版本： v2.2.4</h2>
+<ul>
+<li>RabbitCommonUtils<ul>
+<li>在 INSTALL_DIR 和 INSTALL_ICON_THEME 增加参数 PARAMETERS</li>
+</ul>
+</li>
+<li>重命名图标方案，增加前缀： rabbit-*</li>
+<li>CMake：修改版本函数</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md44"></a>
+版本： v2.2.3</h2>
+<ul>
+<li>关于对话框：修复拼写错误</li>
+<li>修改自动化编译</li>
+<li>修改 logqt.ini ，加入详细的使用说明</li>
+<li>修改 RabbitCommonUtils.cmake</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md45"></a>
+版本： v2.2.2</h2>
+<ul>
+<li>测试： 增加 <a class="el" href="classCFrmUpdater.html#ab4918deef8ace10db2672feb2c078047" title="CFrmUpdater::CompareVersion">CFrmUpdater::CompareVersion</a> 测试用例</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md46"></a>
+版本： v2.2.1</h2>
+<ul>
+<li>CMAKE：修改安装依赖库</li>
+<li>移动 translations 到 share/translations</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md47"></a>
+版本： v2.2.0</h2>
+<ul>
+<li>增加接口：<ul>
+<li>CTools::InstallTranslator</li>
+<li>CTools::RemoveTranslator</li>
+<li>CDir::GetDirDocument</li>
+</ul>
+</li>
+<li>修复:<ul>
+<li>INSTALL_LOG_CONFIG_FILE 错误</li>
+<li>下载: 修复 file 指针是空错误</li>
+</ul>
+</li>
+<li>CMake: windeployqt 使用 &ndash;compiler-runtime</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md48"></a>
+版本： v2.1.0</h2>
+<ul>
+<li>修复 linux 下动态库接错误 #1 <br  />
+ 8 in <a href="https://github.com/KangLin/RabbitRemoteControl/issues/20">https://github.com/KangLin/RabbitRemoteControl/issues/20</a></li>
+<li>CMake:<ul>
+<li>非 windows 系统，删除版本是的 v</li>
+<li>修改默认输出目录<ul>
+<li>windows LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin</li>
+<li>android Use cmake default output directory</li>
+<li>other LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>修改 GetDirData() share from data <br  />
+ See: <a href="https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html#module:GNUInstallDirs">GNUInstallDirs</a></li>
+<li>修改 ChangeLog.md 等文档存放位置为 ${CMAKE_INSTALL_DOCDIR}</li>
+<li>RabbitCommonUtils: 使用 INSTALL_RPATH <br  />
+ 修复: 7 in <a href="https://github.com/KangLin/RabbitRemoteControl/issues/20">https://github.com/KangLin/RabbitRemoteControl/issues/20</a></li>
+<li>修复 <a class="el" href="classCFrmUpdater.html#ab4918deef8ace10db2672feb2c078047" title="CFrmUpdater::CompareVersion">CFrmUpdater::CompareVersion</a> 错误</li>
+<li>修改 CTools::Version()</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md49"></a>
+版本： v2.0.3</h2>
+<ul>
+<li>修复footer.html中链接错误</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md50"></a>
+版本： v2.0.2</h2>
+<ul>
+<li>修复安装依赖库 libssl 。 因为 -DX_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=ON 安装依赖库。所以需要在程序中引用。</li>
+<li>android 打包时，安装 openssl 库。</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md51"></a>
+版本： v2.0.1</h2>
+<ul>
+<li>修复更新中的下载进度条错误</li>
+<li>关于对话框中使用 CDownLoad 下载捐赠图片</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md52"></a>
+版本： v2.0.0</h2>
+<ul>
+<li>删除 RabbitCommonLog</li>
+<li>自动化 ( github action ) 完成</li>
+<li>增加调试日志停泊条</li>
+<li>Android 需要 Qt 版本大于或等于 6</li>
+<li>CMake:<ul>
+<li>增加 INSTALL_DIR</li>
+<li>增加 INSTALL_FILE</li>
+<li>增加 install dependencies runtime dlls</li>
+</ul>
+</li>
+<li>修改样式接口<ul>
+<li>CFrmStyle。改为内部接口<ul>
+<li>修复 <a class="el" href="classCFrmStyle.html" title="设置样式和图标主题窗体。">CFrmStyle</a> is deleted on close</li>
+<li>增加 RabbitCommon::CTools::AddStyleMenu</li>
+<li>增加 RabbitCommon::CTools::InsertStyleMenu</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CDir:<ul>
+<li>删除 GetOpenDirectory</li>
+<li>删除 GetOpenFileName</li>
+<li>删除 GetSaveFileName</li>
+</ul>
+</li>
+<li>修复自启错误</li>
+<li>RabbitCommon::Tools 只初始化一次</li>
+<li>RabbitCommonUtils: 增加产生 pkg-config 配置文件</li>
+<li>Android:<ul>
+<li>增加 AndroidRequestPermission</li>
+</ul>
+</li>
+<li>修改 debian 打包</li>
+<li>增加单元测试</li>
+<li>重命名 RabbitCommon::CDownloadFile 到 <a class="el" href="classRabbitCommon_1_1CDownload.html" title="从多个 URLS 下载同一个文件">RabbitCommon::CDownload</a><ul>
+<li>增加 int Start(QVector&lt;QUrl&gt; urls, QString szFileName = QString(), bool bSequence = false);</li>
+<li>删除构造函数 CDownloadFile(QVector&lt;QUrl&gt; urls, bool bSequence = false, QObject *parent = nullptr);</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md53"></a>
+版本： v1.0.13</h2>
+<ul>
+<li>修复 <a class="el" href="classCFrmUpdater.html" title="更新软件">CFrmUpdater</a> 内存泄漏</li>
+<li>文档: 修复 titlebar 注释 BUG</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md54"></a>
+版本： v1.0.12</h2>
+<ul>
+<li>增加　RabbitCommon::CTools::GetLogMenu</li>
+<li>修改关于对话框信息</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md55"></a>
+版本： v1.0.11</h2>
+<ul>
+<li>增加版本函数: <a class="el" href="classRabbitCommon_1_1CTools.html#acc4f6ebb20d38c38fdefe6446eaa490c" title="RabbitCommon version">RabbitCommon::CTools::Version</a></li>
+<li>增加函数：RabbitCommon::CTools::Version</li>
+<li>修复 ADD_TARGET 不产生版本配置文件错误</li>
+<li>修复包含头文件错误</li>
+<li>重命名 CFolderBrowser 到 <a class="el" href="classCDockFolderBrowser.html" title="文件夹浏览器。   用法：">CDockFolderBrowser</a></li>
+<li>修复关于对话框错误</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md56"></a>
+版本： v1.0.10</h2>
+<ul>
+<li>CI：<ul>
+<li>增加拼写检查</li>
+<li>增加代码质量检查</li>
+<li>在关于对话框中增加详细信息</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md57"></a>
+版本： v1.0.9</h2>
+<ul>
+<li>修改自启动</li>
+<li>增加文件夹浏览器（CBrowseFolder） 和自定义标题栏（CTitleBar）</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md58"></a>
+版本： v1.0.8</h2>
+<ul>
+<li>CTools: 增加打开日志文件</li>
+<li>支持 Qt6 状态机</li>
+<li>增加 qt 输出到文件</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md59"></a>
+版本： v1.0.7</h2>
+<ul>
+<li>样式<ul>
+<li>增加 <a class="el" href="classCFrmStyle.html" title="设置样式和图标主题窗体。">CFrmStyle</a></li>
+<li>增加图标主题设置</li>
+<li>修改样式保存数据，CStyle 不再是对外接口</li>
+</ul>
+</li>
+<li>修改 CStyle, 增加接口：QString CStyle::GetStyleFile()</li>
+<li>修改CDir, 增加 QString CDir::GetDirIcons()</li>
+<li>增加从多个 URLS 下载同一个文件</li>
+<li>废弃 CStyle，用 <a class="el" href="classCFrmStyle.html" title="设置样式和图标主题窗体。">CFrmStyle</a> 代替</li>
+<li>废弃 LOG_MODEL_DEBUG 等日志输出 , 用 qDebug 等 代替</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md60"></a>
+版本： v1.0.6</h2>
+<ul>
+<li>增加 CEvpAES</li>
+<li>增加日志<ul>
+<li>使用 qDebug 和 QLoggingCategory</li>
+<li>增加 OpenLogConfigureFile()</li>
+<li>增加 GetLogFile()</li>
+<li>增加 OpenLogFolder()</li>
+</ul>
+</li>
+<li>为 Windows 动态库增加版本后缀</li>
+<li>增加 windows core dumper</li>
+<li>增加 InstallRequiredSystemLibraries</li>
+<li>修复除 0 程序崩溃错误</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md61"></a>
+版本： v1.0.5</h2>
+<ul>
+<li>增加日志</li>
+<li>增加样式</li>
+<li>CMAKE: 增加删除安装目标</li>
+<li>增加 <a class="el" href="classQUIWidget.html">QUIWidget</a> ： 用 QDialog 模拟主窗口，可以定制主窗口的标题栏</li>
+<li>增加应用服务程序接口</li>
+<li>增加最近打开菜单</li>
+<li>增加 Log4Qt</li>
+<li>增加 doxygen</li>
+<li>增加 cmark 支持 MarkDown 语法</li>
+<li>增加 cmark_gfm 支持 GitHub MarkDown 语法</li>
+<li>CMake: 为 android 增加安装目标 INSTALL_APK</li>
+<li>增加加密库</li>
+<li>支持 Qt6</li>
+<li>增加产生更新文件程序</li>
+<li>编译增加 WITH_GUI</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md62"></a>
+版本： v1.0.4</h2>
+<ul>
+<li>CMake: 增加 add_target 宏</li>
+<li>修改 Translations.pri</li>
+<li>静态库不分发 Qt dll</li>
+<li>CMake: 增加插件目标</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md63"></a>
+版本： v1.0.3</h2>
+<ul>
+<li>BUG：在LINUX下，修改平台架构</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md64"></a>
+版本： v1.0.2</h2>
+<ul>
+<li>修改 unix 下 appimage 安装更新</li>
+<li>增加得到当前用户名接口(getusername)</li>
+<li>Android: 增加签名</li>
+<li>FIX：关于对话框大小</li>
+<li>修改：在 unix 下库存放到 lib 目录下</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md65"></a>
+版本： v1.0.1</h2>
+<ul>
+<li>增加 data 和 database 目录</li>
+<li>修改程序只读目录（android assert)</li>
+<li>增加 GetDirDatabaseFile</li>
+<li>修改关于和更新对话框中的图标接口</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md66"></a>
+版本： v1.0.0</h2>
+<ul>
+<li>使用命名空间 <a class="el" href="namespaceRabbitCommon.html">RabbitCommon</a></li>
+<li>增加开机自启动</li>
+<li>增加更新不再提示</li>
+<li>增加目录复制功能</li>
+<li>Android 关于对话框的文件，放到 assets 下</li>
+<li>Android 翻译资源，放到 assets 下</li>
+<li>固定BUG</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md67"></a>
+版本： 0.0.3</h2>
+<ul>
+<li>增加更新时，管理员权限</li>
+<li>修改 deb url</li>
+<li>增加 CheckRedirectXmlFile</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md68"></a>
+版本： 0.0.2</h2>
+<ul>
+<li>增加ci</li>
+<li>修改ANDROID</li>
+<li>修改版本比较</li>
+<li>修改GlobalDir to RabbitCommonGlobale</li>
+<li>修改翻译</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md69"></a>
+版本： v0.0.1</h2>
+<ul>
+<li>关于</li>
+<li>更新 </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+<!-- HTML footer for doxygen 1.8.16-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer">
+<a href="mailto:kl222@126.com" >作者：康林 (kl222@126.com) </a>
+<p/>
+<a href="https://github.com/KangLin/RabbitCommon">版权所有(c) 康林工作室 保留所有权力</a>
+</address>
+</body>
+</html>

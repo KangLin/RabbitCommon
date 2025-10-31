@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RabbitCommon: /home/runner/work/RabbitCommon/RabbitCommon/Src/FrmUpdater/FrmUpdater.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="App.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">RabbitCommon<span id="projectnumber">&#160;v2.3.4</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_413f4e031a85da0d68269c6fd2f76e1c.html">Src</a></li><li class="navelem"><a class="el" href="dir_bf9496c4e7f60cd3d70aab8e86a9bfe0.html">FrmUpdater</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">FrmUpdater.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef RABBITCOMMON_FRMUPDATER_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define RABBITCOMMON_FRMUPDATER_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QSystemTrayIcon&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QWidget&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QPixmap&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QApplication&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;QUrl&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;QButtonGroup&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;QCommandLineParser&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;rabbitcommon_export.h&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceRabbitCommon.html">RabbitCommon</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">class </span>CDownload;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceUi.html">Ui</a> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">class </span><a class="code hl_class" href="classCFrmUpdater.html">CFrmUpdater</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">class </span>QStateMachine;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">class </span>QState;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">typedef</span> int (*pUpdateCallback)(<span class="keyword">const</span> QString szFile);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="};">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classCFrmUpdater.html">   76</a></span><span class="keyword">class </span>RABBITCOMMON_EXPORT <a class="code hl_class" href="classCFrmUpdater.html">CFrmUpdater</a> : <span class="keyword">public</span> QWidget</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    Q_OBJECT</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classCFrmUpdater.html">CFrmUpdater</a>(QVector&lt;QUrl&gt; urls = QVector&lt;QUrl&gt;(), QWidget *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">virtual</span> <a class="code hl_class" href="classCFrmUpdater.html">~CFrmUpdater</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">int</span> SetVersion(<span class="keyword">const</span> QString &amp;szVersion);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordtype">int</span> SetTitle(QImage icon = QImage(), <span class="keyword">const</span> QString &amp;szTitle = QString());</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    Q_DECL_DEPRECATED</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">int</span> GenerateUpdateXml();</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    Q_DECL_DEPRECATED</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">int</span> GenerateUpdateXml(QCommandLineParser &amp;parser);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordtype">int</span> GenerateUpdateJson();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">int</span> GenerateUpdateJson(QCommandLineParser &amp;parser);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">int</span> SetInstallAutoStartup(<span class="keywordtype">bool</span> bAutoStart = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">int</span> SetUpdateCallback(pUpdateCallback pCb);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="keyword">protected</span> Q_SLOTS:</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="comment">// [Add the slot functions of RabbitCommon::CDownload]</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordtype">void</span> slotDownloadError(<span class="keywordtype">int</span> nErr, <span class="keyword">const</span> QString szError);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordtype">void</span> slotDownloadFileFinished(<span class="keyword">const</span> QString szFile);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordtype">void</span> slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="comment">// [Add the slot functions of RabbitCommon::CDownload]</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keywordtype">void</span> slotButtonClickd(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">void</span> slotCheck();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordtype">void</span> slotDownloadFile();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> slotCheckConfigFile();</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordtype">void</span> slotDownloadSetupFile();</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordtype">void</span> slotUpdate();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordtype">void</span> slotStateFinished();</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordtype">void</span> on_pbOK_clicked();</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordtype">void</span> on_pbClose_clicked();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordtype">void</span> slotShowWindow(QSystemTrayIcon::ActivationReason reason);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>Q_SIGNALS:</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordtype">void</span> sigError();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordtype">void</span> sigFinished();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordtype">void</span> sigDownLoadRedire();</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <a class="code hl_class" href="classCFrmUpdater.html">CFrmUpdater</a>(QWidget *parent);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordtype">int</span> CompareVersion(<span class="keyword">const</span> QString &amp;newVersion, <span class="keyword">const</span> QString &amp;currentVersion);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <span class="keywordtype">int</span> InitStateMachine();</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordtype">bool</span> IsDownLoad();</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordtype">int</span> CheckRedirectConfigFile();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordtype">int</span> CheckUpdateConfigFile();</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordtype">bool</span> CheckPrompt(<span class="keyword">const</span> QString &amp;szVersion);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    QString InstallScript(<span class="keyword">const</span> QString szDownLoadFile,</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                          <span class="keyword">const</span> QString szApplicationName);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    Q_INVOKABLE <span class="keywordtype">int</span> Execute(<span class="keyword">const</span> QString szFile);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    Ui::CFrmUpdater *ui;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordtype">bool</span> m_InstallAutoStartupType;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    QSystemTrayIcon m_TrayIcon;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    QButtonGroup m_ButtonGroup;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    QString m_szCurrentVersion;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    QFile m_DownloadFile;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keywordtype">bool</span> m_bDownload;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    QVector&lt;QUrl&gt; m_Urls;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="comment">// [Instantiate the object of RabbitCommon::CDownload]</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    QSharedPointer&lt;RabbitCommon::CDownload&gt; m_Download;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="comment">// [Instantiate the object of RabbitCommon::CDownload]</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    QStateMachine* m_StateMachine;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    QState *m_pStateDownloadSetupFile;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keyword">enum class</span> CONFIG_TYPE{</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        VERSION,</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        FILE,</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        VERSION_FILE</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    };</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="foldopen" id="foldopen00196" data-start="{" data-end="};">
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="structCFrmUpdater_1_1CONFIG__VERSION.html">  196</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__VERSION.html">CONFIG_VERSION</a> {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        QString szVerion;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        QString szMinUpdateVersion;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        QString szInfomation;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        QString szTime;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <span class="keywordtype">bool</span> bForce;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        QString szHome;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    };</div>
+</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="foldopen" id="foldopen00205" data-start="{" data-end="};">
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="structCFrmUpdater_1_1CONFIG__FILE.html">  205</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__FILE.html">CONFIG_FILE</a> {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        QString szSystem;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        QString szSystemMinVersion;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        QString szArchitecture;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        QString szArchitectureMinVersion;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        QString szFileName;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        QVector&lt;QUrl&gt; urls;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        QString szMd5sum;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    };</div>
+</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    </div>
+<div class="foldopen" id="foldopen00215" data-start="{" data-end="};">
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="structCFrmUpdater_1_1CONFIG__REDIRECT.html">  215</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__REDIRECT.html">CONFIG_REDIRECT</a> {</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        QString szVersion;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        QString szMinUpdateVersion;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        QVector&lt;CONFIG_FILE&gt; files;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    };</div>
+</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="foldopen" id="foldopen00221" data-start="{" data-end="};">
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="structCFrmUpdater_1_1CONFIG__INFO.html">  221</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__INFO.html">CONFIG_INFO</a> {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__VERSION.html">CONFIG_VERSION</a> version;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        QVector&lt;CONFIG_FILE&gt; files;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    } m_Info;</div>
+</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__FILE.html">CONFIG_FILE</a> m_ConfigFile;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordtype">int</span> GetRedirectFromFile(<span class="keyword">const</span> QString&amp; szFile, QVector&lt;CONFIG_REDIRECT&gt; &amp;conf);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keywordtype">int</span> GetConfigFromFile(<span class="keyword">const</span> QString&amp; szFile, <a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__INFO.html">CONFIG_INFO</a> &amp;conf);</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordtype">int</span> GetConfigFromCommandLine(<span class="comment">/*[in]*/</span>QCommandLineParser &amp;parser,</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                <span class="comment">/*[out]*/</span>QString &amp;szFile,</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                <span class="comment">/*[out]*/</span><a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__INFO.html">CONFIG_INFO</a> &amp;info,</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                <span class="comment">/*[out]*/</span>CONFIG_TYPE &amp;type);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordtype">int</span> GenerateUpdateXmlFile(<span class="keyword">const</span> QString &amp;szFile,</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                              <span class="keyword">const</span> <a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__INFO.html">CONFIG_INFO</a> &amp;info,</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                              CONFIG_TYPE &amp;type);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">int</span> GenerateJsonFile(<span class="keyword">const</span> QString &amp;szFile,</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                         <span class="keyword">const</span> <a class="code hl_struct" href="structCFrmUpdater_1_1CONFIG__INFO.html">CONFIG_INFO</a> &amp;info,</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                         CONFIG_TYPE type);</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    pUpdateCallback m_pcbUpdate;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="comment">// QWidget interface</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> showEvent(QShowEvent *event) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">private</span> Q_SLOTS:</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordtype">void</span> on_cbPrompt_clicked(<span class="keywordtype">bool</span> checked);</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">void</span> on_cbHomePage_clicked(<span class="keywordtype">bool</span> checked);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="preprocessor">#if defined(HAVE_TEST)</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classCUnitTests.html">CUnitTests</a>;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classCTestGenerateJsonFile.html">CTestGenerateJsonFile</a>;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classCTestGenerateDefaultJsonFile.html">CTestGenerateDefaultJsonFile</a>;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classCTestUpdater.html">CTestUpdater</a>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>};</div>
+</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#endif </span><span class="comment">// RABBITCOMMON_FRMUPDATER_H</span></div>
+<div class="ttc" id="aclassCFrmUpdater_html"><div class="ttname"><a href="classCFrmUpdater.html">CFrmUpdater</a></div><div class="ttdoc">更新软件</div><div class="ttdef"><b>Definition</b> <a href="FrmUpdater_8h_source.html#l00076">FrmUpdater.h:77</a></div></div>
+<div class="ttc" id="aclassCTestGenerateDefaultJsonFile_html"><div class="ttname"><a href="classCTestGenerateDefaultJsonFile.html">CTestGenerateDefaultJsonFile</a></div><div class="ttdef"><b>Definition</b> <a href="TestGenerateDefaultJsonFile_8h_source.html#l00006">TestGenerateDefaultJsonFile.h:7</a></div></div>
+<div class="ttc" id="aclassCTestGenerateJsonFile_html"><div class="ttname"><a href="classCTestGenerateJsonFile.html">CTestGenerateJsonFile</a></div><div class="ttdef"><b>Definition</b> <a href="TestGenerateJsonFile_8h_source.html#l00006">TestGenerateJsonFile.h:7</a></div></div>
+<div class="ttc" id="aclassCTestUpdater_html"><div class="ttname"><a href="classCTestUpdater.html">CTestUpdater</a></div><div class="ttdef"><b>Definition</b> <a href="TestUpdater_8h_source.html#l00007">TestUpdater.h:8</a></div></div>
+<div class="ttc" id="aclassCUnitTests_html"><div class="ttname"><a href="classCUnitTests.html">CUnitTests</a></div><div class="ttdef"><b>Definition</b> <a href="UnitTests_8h_source.html#l00006">UnitTests.h:7</a></div></div>
+<div class="ttc" id="anamespaceRabbitCommon_html"><div class="ttname"><a href="namespaceRabbitCommon.html">RabbitCommon</a></div><div class="ttdef"><b>Definition</b> <a href="adminauthoriser_8h_source.html#l00010">adminauthoriser.h:11</a></div></div>
+<div class="ttc" id="anamespaceUi_html"><div class="ttname"><a href="namespaceUi.html">Ui</a></div><div class="ttdef"><b>Definition</b> <a href="App_2MainWindow_8h_source.html#l00013">MainWindow.h:13</a></div></div>
+<div class="ttc" id="astructCFrmUpdater_1_1CONFIG__FILE_html"><div class="ttname"><a href="structCFrmUpdater_1_1CONFIG__FILE.html">CFrmUpdater::CONFIG_FILE</a></div><div class="ttdef"><b>Definition</b> <a href="FrmUpdater_8h_source.html#l00205">FrmUpdater.h:205</a></div></div>
+<div class="ttc" id="astructCFrmUpdater_1_1CONFIG__INFO_html"><div class="ttname"><a href="structCFrmUpdater_1_1CONFIG__INFO.html">CFrmUpdater::CONFIG_INFO</a></div><div class="ttdef"><b>Definition</b> <a href="FrmUpdater_8h_source.html#l00221">FrmUpdater.h:221</a></div></div>
+<div class="ttc" id="astructCFrmUpdater_1_1CONFIG__REDIRECT_html"><div class="ttname"><a href="structCFrmUpdater_1_1CONFIG__REDIRECT.html">CFrmUpdater::CONFIG_REDIRECT</a></div><div class="ttdef"><b>Definition</b> <a href="FrmUpdater_8h_source.html#l00215">FrmUpdater.h:215</a></div></div>
+<div class="ttc" id="astructCFrmUpdater_1_1CONFIG__VERSION_html"><div class="ttname"><a href="structCFrmUpdater_1_1CONFIG__VERSION.html">CFrmUpdater::CONFIG_VERSION</a></div><div class="ttdef"><b>Definition</b> <a href="FrmUpdater_8h_source.html#l00196">FrmUpdater.h:196</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.16-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer">
+<a href="mailto:kl222@126.com" >作者：康林 (kl222@126.com) </a>
+<p/>
+<a href="https://github.com/KangLin/RabbitCommon">版权所有(c) 康林工作室 保留所有权力</a>
+</address>
+</body>
+</html>
