@@ -31,13 +31,13 @@ CInformation::CInformation(const QString &szApp,
     SetContext(tr("Application"), szApp + szInfo);
     
     QString szRabbitCommon;
-    szRabbitCommon = "\n" + tr("### RabbitCommon") + "\n";
+    szRabbitCommon += "# " + tr("RabbitCommon") + "\n";
     szRabbitCommon += "- " + RabbitCommon::CTools::Version() + "\n";
     szRabbitCommon += RabbitCommon::CTools::Information();
     SetContext(tr("RabbitCommon"), szRabbitCommon);
-    
+
     QString szQt;
-    szQt = tr("### Qt") + "\n";
+    szQt =  "# " + tr("Qt") + "\n";
     szQt += "- " + tr("Runtime version: ") + QString(qVersion()) + "\n";
     szQt += "- " + tr("Compile version: ") + QString(QT_VERSION_STR) + "\n";
     szQt += "- " + tr("Libraries:") + "\n";
@@ -67,7 +67,7 @@ CInformation::CInformation(const QString &szApp,
             szQt += "      - " + iconFallback + "\n";
         }
     #endif
-    szQt += "### " + tr("Dependency libraries:") + "\n";
+    szQt += "## " + tr("Dependency libraries:") + "\n";
     szQt += tr("- OpenSSL:") + "\n";
     if(QSslSocket::supportsSsl())
     {
@@ -86,7 +86,7 @@ CInformation::CInformation(const QString &szApp,
     }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
-    szQt += "### " + tr("Standard paths:") + "\n";
+    szQt += "## " + tr("Standard paths:") + "\n";
     szQt += "- " + tr("Standard paths:") + "\n";
     QMetaEnum metaEnum = QMetaEnum::fromType<QStandardPaths::StandardLocation>();
     int nMaxType = metaEnum.keyCount();
@@ -128,7 +128,7 @@ CInformation::CInformation(const QString &szApp,
 
     QString szOS;
 #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
-    szOS = "### " + tr("OS") + "\n";
+    szOS = "## " + tr("OS") + "\n";
     szOS += "- " + tr("OS: ") + QSysInfo::prettyProductName() + "\n";
     szOS += "  - " + tr("Product type: ") + QSysInfo::productType() + "\n";
     szOS += "  - " + tr("Product version: ") + QSysInfo::productVersion() + "\n";
@@ -165,7 +165,7 @@ CInformation::CInformation(const QString &szApp,
     #endif // #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
 
     QString szHost;
-    szHost = "### " + tr("Host") + "\n";
+    szHost = "## " + tr("Host") + "\n";
     #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
         szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
     #endif
@@ -174,7 +174,7 @@ CInformation::CInformation(const QString &szApp,
 #endif // #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
 
     QString szEnv;
-    szEnv += "### " + tr("Environment") + "\n";
+    szEnv += "## " + tr("Environment") + "\n";
     auto env = QProcessEnvironment::systemEnvironment();
     foreach (auto key, env.keys()) {
         szEnv += "  - " + key + "=" + env.value(key) + "\n";

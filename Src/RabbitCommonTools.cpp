@@ -223,6 +223,27 @@ QString CTools::Information()
 #if defined(HAVE_OPENSSL)
     szInfo += tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
+    szInfo += "  - " + tr("Thread pool") + "\n";
+#if defined(HAVE_CURL)
+    szInfo += "  - " + tr("File transfer") + "\n";
+    szInfo += "    - " + tr("libCurl") + " ";
+    curl_version_info_data *version_info = curl_version_info(CURLVERSION_NOW);
+    szInfo += tr("Version:") + " " + QString(version_info->version) + "\n";
+    szInfo += "    - " + tr("Supported protocols:") + " ";
+    if (version_info->protocols) {
+        for (int i = 0; version_info->protocols[i]; i++) {
+            szInfo += " ";
+            szInfo += version_info->protocols[i];
+        }
+    }
+    szInfo += "\n";
+    #if CURL_VERSION_SSL
+        szInfo += "    - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
+    #endif
+    #if CURL_VERSION_LIBSSH2
+        szInfo += "    - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
+    #endif
+#endif
 #if defined(BUILD_QUIWidget)
     szInfo += tr("  - Have QUIWidget") + "\n";
 #endif
@@ -273,6 +294,27 @@ QString CTools::Information()
 #elif HAVE_CMARK
     szInfo += tr("  - cmark") + "\n";
 #endif
+
+#if defined(HAVE_CURL)
+    szInfo += "  - " + tr("libCurl") + " ";
+    version_info = curl_version_info(CURLVERSION_NOW);
+    szInfo += tr("Version:") + " " + QString(version_info->version) + "\n";
+    szInfo += "  - " + tr("Supported protocols:") + " ";
+    if (version_info->protocols) {
+        for (int i = 0; version_info->protocols[i]; i++) {
+            szInfo += " ";
+            szInfo += version_info->protocols[i];
+        }
+    }
+    szInfo += "\n";
+    #if CURL_VERSION_SSL
+        szInfo += "  - " + QString("SSL supported:") + " " + QString(version_info->features & CURL_VERSION_SSL ? "Yes" : "No") + "\n";
+    #endif
+    #if CURL_VERSION_LIBSSH2
+        szInfo += "  - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
+    #endif
+#endif
+
     return szInfo;
 }
 

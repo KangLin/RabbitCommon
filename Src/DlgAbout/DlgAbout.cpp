@@ -296,7 +296,7 @@ void CDlgAbout::on_pbDetails_clicked()
 {
     QString szApp;
 
-    szApp  = tr("### ") + QApplication::applicationDisplayName() + "\n";
+    szApp  = "# " + QApplication::applicationDisplayName() + "\n";
     szApp += "- " + Version() + "\n";
     szApp += "- " + tr("Build Date/Time: ") + BuildTime() + "\n";
     szApp += "- " + tr("File Path: ") + QApplication::applicationFilePath() + "\n";
