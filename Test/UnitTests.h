@@ -20,6 +20,7 @@ private Q_SLOTS:
     void testDownloadFileExistLocalFile();
 
     void testCFrmUpdaterCompareVersion();
+    void testCToolsCompareVersion();
 
     void test_os();
     void test_architecture();

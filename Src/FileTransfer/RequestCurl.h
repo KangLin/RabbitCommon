@@ -10,6 +10,8 @@ class CTaskFileTransfer;
 /*!
  * \brief libcurl request
  * \note It is running in worker thread
+ *
+ * Since 2.4.0
  */
 class CRequestCurl : public QObject
 {

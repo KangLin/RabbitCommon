@@ -175,6 +175,116 @@ QString CTools::GetLanguage()
     return g_szLanguage;
 }
 
+QMap<QString, QString> CTools::GetVersion(const QString &szVersion)
+{
+    QMap<QString, QString> ver;
+    //static QString pattern = R"(^[V|v]?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$)";
+    static QString pattern = R"(^[V|v]?(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$)";
+    static QRegularExpression re(pattern);
+    if (!re.isValid()) {
+        qCritical(log) << "Invalid regex:" << re.errorString();
+        return ver;
+    }
+
+    QRegularExpressionMatch match = re.match(szVersion);
+    if (!match.hasMatch()) {
+        qCritical(log) << "Version format error:" << szVersion << "See [Semantic Versioning](https://semver.org)";
+        return ver;
+    }
+
+    ver.insert("Major", match.captured("major"));
+    ver.insert("Minor", match.captured("minor"));
+    ver.insert("Patch", match.captured("patch"));
+    ver.insert("PreRelease", match.captured("prerelease"));
+    ver.insert("Build", match.captured("build"));
+
+    return ver;
+}
+
+QString CTools::GetVersion(const QString &szVersion, CTools::VersionComponents component)
+{
+    auto map = GetVersion(szVersion);
+    switch(component){
+    case VersionComponents::Major:
+        return map.value("Major");
+    case VersionComponents::Minor:
+        return map.value("Minor");
+    case VersionComponents::Patch:
+        return map.value("Patch");
+    case VersionComponents::PreRelease:
+        return map.value("PreRelease");
+    case VersionComponents::Build:
+        return map.value("Build");
+    }
+    return QString();
+}
+
+bool CTools::VersionValid(const QString &szVersion)
+{
+    auto map = GetVersion(szVersion);
+    if(map.value("Major").isEmpty()
+        || map.value("Minor").isEmpty()
+        || map.value("Patch").isEmpty())
+        return false;
+
+    return true;
+}
+
+int CTools::VersionCompare(const QString &ver1, const QString &ver2)
+{
+    int nRet = 0;
+
+    if(!VersionValid(ver1)) {
+        if(VersionValid(ver2))
+            return -1;
+        else
+            return 0;
+    }
+
+    if(!VersionValid(ver2)) {
+        if(VersionValid(ver1))
+            return 1;
+        else
+            return 0;
+    }
+
+    auto m1 = GetVersion(ver1);
+    auto m2 = GetVersion(ver2);
+
+    int n1 = 0;
+    int n2 = 0;
+    n1 = m1.value("Major").toInt();
+    n2 = m2.value("Major").toInt();
+    nRet = n1 - n2;
+    qDebug(log) << "Major nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
+    if(nRet) return nRet;
+
+    n1 = m1.value("Minor").toInt();
+    n2 = m2.value("Minor").toInt();
+    qDebug(log) << "Minor nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
+    nRet = n1 - n2;
+    if(nRet) return nRet;
+
+    n1 = m1.value("Patch").toInt();
+    n2 = m2.value("Patch").toInt();
+    qDebug(log) << "Patch nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
+    nRet = n1 - n2;
+    if(nRet) return nRet;
+
+    QString v1 = m1.value("PreRelease");
+    QString v2 = m2.value("PreRelease");
+    if(v1.isEmpty() && v2.isEmpty())
+        return 0;
+    if(v1.isEmpty() || v2.isEmpty())
+        return v1.length() - v2.length() > 0 ? -1 : 1;
+
+    n1 = qMin(v1.length(), v2.length());
+    nRet = strncmp(v1.toStdString().c_str(), v2.toStdString().c_str(), n1);
+    if(nRet) return nRet;
+
+    return v1.length() - v2.length();
+}
+
 QString CTools::Version()
 {
     QString szReturn;

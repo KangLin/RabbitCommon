@@ -13,6 +13,7 @@
 
 /*!
  * \brief File transfer with libcurl
+ * Since 2.4.0
  */
 class CWorkerCurl : public CWorkerFileTransfer
 {

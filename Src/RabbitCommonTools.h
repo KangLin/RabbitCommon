@@ -188,6 +188,36 @@ public:
     //! RabbitCommon information
     static QString Information();
 
+    enum class VersionComponents {
+        Major,
+        Minor,
+        Patch,
+        PreRelease,
+        Build
+    };
+    Q_ENUM(VersionComponents)
+    // Since 2.4.0
+    static QString GetVersion(const QString &szVersion, VersionComponents component);
+    /*!
+     * \return key:
+     *           - Major
+     *           - Minor
+     *           - Patch
+     *           - PreRelease
+     *           - Build
+     * Since 2.4.0
+     */
+    static QMap<QString, QString> GetVersion(const QString& szVersion);
+    static bool VersionValid(const QString& szVersion);
+    /*!
+     * \brief Compare version
+     * \return > 0:
+     *         = 0: same
+     *         < 0
+     * \see [Semantic Versioning](https://semver.org)
+     */
+    static int VersionCompare(const QString &ver1, const QString &ver2);
+
     /*!
      * \brief Enable core dump
      * \param bPrompt: prompt
@@ -216,7 +246,7 @@ public:
     /*!
      * \brief Start program with administrator privilege
      * \param bQuitOld: true, quit the old program
-     * \return
+     * Since v2.3.3
      */
     static bool StartWithAdministratorPrivilege(bool bQuitOld = false);
 
@@ -315,7 +345,7 @@ public:
      * \brief 用系统文件浏览器打开文件所在目录，并选中文件
      * \param szFile： 要打开的文件
      * \~english Open the directory where the file is located using the system file browser and select the file.
-     * \brief 
+     * \~ Since v2.3.4
      */
     static bool LocateFileWithExplorer(const QString szFile);
     static QMainWindow* GetMainWindow();

@@ -9,6 +9,7 @@
 
 /*!
  * \brief The CThreadPool class
+ * Since 2.4.0
  */
 class RABBITCOMMON_EXPORT CThreadPool : public QObject
 {

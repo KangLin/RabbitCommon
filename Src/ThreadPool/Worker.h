@@ -10,6 +10,8 @@
  * \note
  *   - It is running in worker thread
  *   - The owner is the CThreadPool
+ *
+ * Since 2.4.0
  */
 class RABBITCOMMON_EXPORT CWorker : public QObject
 {
