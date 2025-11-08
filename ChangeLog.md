@@ -1,6 +1,11 @@
 ### Version v2.4.0
 - Add threa pool
 - Add file transfer
+- CTools:
+  - Add static QString GetVersion(const QString &szVersion, VersionComponents component);
+  - Add static QMap<QString, QString> GetVersion(const QString& szVersion);
+  - Add static bool VersionValid(const QString& szVersion);
+  - Add static int VersionCompare(const QString &ver1, const QString &ver2);
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

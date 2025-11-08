@@ -1,6 +1,11 @@
 ### 版本： v2.4.0
 - 增加线程池
 - 增加文件传输
+- CTools:
+  - 增加 static QString GetVersion(const QString &szVersion, VersionComponents component);
+  - 增加 static QMap<QString, QString> GetVersion(const QString& szVersion);
+  - 增加 static bool VersionValid(const QString& szVersion);
+  - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit
