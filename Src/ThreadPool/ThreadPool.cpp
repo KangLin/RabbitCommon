@@ -66,7 +66,7 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
             }, Qt::DirectConnection);
             Q_ASSERT(check);
 
-            check = connect(worker, SIGNAL(sigFinished()), thr, SLOT(exit()));
+            check = connect(worker, SIGNAL(sigFinished()), thr, SLOT(quit()));
             Q_ASSERT(check);
 
             int size = 0;
