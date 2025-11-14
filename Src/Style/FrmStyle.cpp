@@ -194,9 +194,12 @@ void CFrmStyle::on_pbBrowse_clicked()
 void CFrmStyle::on_pbDefault_clicked()
 {
     ui->leStyleSheet->setText("");
-    if(ui->cbStyleName->count() > 0)
-        ui->cbStyleName->setCurrentIndex(0);
-
+    if(ui->cbStyleName->count() > 0) {
+        int index = ui->cbStyleName->findData("Fusion");
+        if(-1 == index)
+            index = 0;
+        ui->cbStyleName->setCurrentIndex(index);
+    }
     if(ui->gpIconTheme->isChecked()) {
         ui->cbIconTheme->setCurrentText(
             RabbitCommon::CStyle::Instance()->m_szDefaultIconTheme);
