@@ -2,6 +2,8 @@
 // Author Kang Lin <kl222@126.com>
 
 #pragma once
+
+#include <functional>
 #include <QVector>
 #include <QThread>
 #include <QMutex>
