@@ -93,14 +93,20 @@ public:
     explicit CFrmStyle(QWidget *parent = nullptr,
                        Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~CFrmStyle();
-    
+    enum class LoadFontOrder {
+        BeforeStyle,
+        AfterStyle
+    };
+    Q_ENUM(LoadFontOrder)
+
 private Q_SLOTS:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
     void on_pbBrowse_clicked();
     void on_pbDefault_clicked();
     void on_gpIconTheme_clicked();
-
+    void on_pbSetFont_clicked();
+    
 private:
     Ui::CFrmStyle *ui;
 };

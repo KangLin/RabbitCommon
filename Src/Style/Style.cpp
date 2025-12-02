@@ -92,6 +92,7 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
 
 int CStyle::LoadStyle()
 {
+    int nRet = 0;
     // Load icons theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
@@ -176,12 +177,28 @@ int CStyle::LoadStyle()
 
     QString szName = set.value("Style/Name", GetStyleName()).toString();
     SetStyleName(szName);
-    LoadStyle(szName);
+    nRet = LoadStyle(szName);
 
     // Get style sheet file
     QString szFile = set.value("Style/Sheet/File", GetStyleSheetFile()).toString();
     SetStyleSheetFile(szFile);
-    return LoadStyleSheet(szFile);
+    CFrmStyle::LoadFontOrder loadOrder =
+        (CFrmStyle::LoadFontOrder)set.value("Style/FontLoad", (int)CFrmStyle::LoadFontOrder::BeforeStyle).toInt();
+
+    if(CFrmStyle::LoadFontOrder::BeforeStyle == loadOrder)
+        nRet = LoadStyleSheet(szFile);
+
+    QString fontString = set.value("Style/Font", QApplication::font().toString()).toString();
+    if(!fontString.isEmpty()) {
+        QFont font;
+        if(font.fromString(fontString))
+            QApplication::setFont(font);
+    }
+
+    if(CFrmStyle::LoadFontOrder::AfterStyle == loadOrder)
+        nRet = LoadStyleSheet(szFile);
+
+    return nRet;
 }
 
 CStyle* CStyle::Instance()

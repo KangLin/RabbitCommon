@@ -14,11 +14,14 @@
 #include <QStyleFactory>
 #include <QApplication>
 #include <QMessageBox>
+#include <QFontDialog>
+#include <QFontDatabase>
 
 #include "FrmStyle.h"
 #include "ui_FrmStyle.h"
 #include "Style.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Style")
 
@@ -43,10 +46,25 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
 
     ui->leStyleSheet->setText(pStyle->GetStyleSheetFile());
 
-    ui->lbIconThemeChanged->setVisible(false);
-    // Icon theme
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
+
+    QFont font;
+    if(font.fromString(set.value("Style/Font", qApp->font().toString()).toString()))
+        ui->fontComboBox->setCurrentFont(font);
+    
+    LoadFontOrder loadOrder = (LoadFontOrder)set.value("Style/FontLoad", (int)LoadFontOrder::BeforeStyle).toInt();
+    switch (loadOrder) {
+    case LoadFontOrder::BeforeStyle:
+        ui->rbLoadBeforeStyle->setChecked(true);
+        break;
+    case LoadFontOrder::AfterStyle:
+        ui->rbLoadAfterStyle->setChecked(true);
+        break;
+    }
+
+    ui->lbIconThemeChanged->setVisible(false);
+    // Icon theme
     bool bIconTheme = set.value("Style/Icon/Theme/Enable", true).toBool();
     ui->gpIconTheme->setChecked(bIconTheme);
 
@@ -144,8 +162,9 @@ void CFrmStyle::on_pbOK_clicked()
         szColorScheme = tr("Light");
     }
     if(!szColorScheme.isEmpty()) {
-        QString szInfo = tr("Current system theme is") + " \"" + szColorScheme + "\", " + tr("current select theme is")
-        + QString(" \"") + ui->cbIconTheme->currentText() + "\". \n";
+        QString szInfo = tr("Current system theme is") + " \""
+                         + szColorScheme + "\", " + tr("current select theme is")
+                         + QString(" \"") + ui->cbIconTheme->currentText() + "\". \n";
         szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.") + "\n"
                   + tr("Are you sure you want to modify it?");
         auto ret = QMessageBox::information(nullptr, tr("Change theme"),
@@ -176,7 +195,19 @@ void CFrmStyle::on_pbOK_clicked()
     auto pStyle = RabbitCommon::CStyle::Instance();
     pStyle->SetStyleSheetFile(ui->leStyleSheet->text());
     pStyle->SetStyleName(ui->cbStyleName->currentData().toString());
-    pStyle->ReLoadStyle();
+
+    set.setValue("Style/Font", ui->fontComboBox->currentFont().toString());
+
+    if(ui->rbLoadBeforeStyle->isChecked()) {
+        qApp->setFont(ui->fontComboBox->currentFont());
+        pStyle->ReLoadStyle();
+        set.setValue("Style/FontLoad", (int)LoadFontOrder::BeforeStyle);
+    }
+    if(ui->rbLoadAfterStyle->isChecked()) {
+        pStyle->ReLoadStyle();
+        qApp->setFont(ui->fontComboBox->currentFont());
+        set.setValue("Style/FontLoad", (int)LoadFontOrder::AfterStyle);
+    }
 
     close();
 }
@@ -206,9 +237,29 @@ void CFrmStyle::on_pbDefault_clicked()
         ui->cbFallbackTheme->setCurrentText(
             RabbitCommon::CStyle::Instance()->m_szDefaultFallbackIconTheme);
     }
+    
+    ui->rbLoadBeforeStyle->setChecked(true);
+    ui->fontComboBox->setCurrentFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
 }
 
 void CFrmStyle::on_gpIconTheme_clicked()
 {
     ui->lbIconThemeChanged->setVisible(true);
+}
+
+void CFrmStyle::on_pbSetFont_clicked()
+{
+    //*
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, ui->fontComboBox->currentFont(),
+                        this, QString(), QFontDialog::DontUseNativeDialog);
+    if(ok) {
+        ui->fontComboBox->setCurrentFont(font);
+    }//*/
+    /*QFontDialog dlg(qApp->font(), this);
+    dlg.setCurrentFont(qApp->font());
+    int nRet = RC_SHOW_WINDOW(&dlg);
+    if(QDialog::Accepted == nRet) {
+        qApp->setFont(dlg.selectedFont());
+    }//*/
 }

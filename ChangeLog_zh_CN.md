@@ -6,6 +6,7 @@
   - 增加 static QMap<QString, QString> GetVersion(const QString& szVersion);
   - 增加 static bool VersionValid(const QString& szVersion);
   - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
+- 增加设置应用字体
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit
