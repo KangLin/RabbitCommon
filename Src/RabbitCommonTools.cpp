@@ -162,9 +162,11 @@ QString CTools::GetLanguage()
 {
     QString szLANG = QProcessEnvironment::systemEnvironment().value("LANG");
     if(szLANG.isEmpty()) {
+        qInfo(log) << "Change the language using the environment variable \"LANG\"";
         if(g_szLanguage.isEmpty())
             return QLocale::system().name();
     } else {
+        qInfo(log) << "Change the language using the environment variable \"LANG\" =" << szLANG;
         // Separate zh_CN from zh_CN.utf-8
         int underscoreIndex = szLANG.indexOf('.');
         if (underscoreIndex != -1) {
