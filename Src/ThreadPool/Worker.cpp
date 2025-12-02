@@ -1,9 +1,13 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include <QRandomGenerator>
 #include <QTimer>
 #include <QLoggingCategory>
+
+#if QT_VERSION > QT_VERSION_CHECK(5, 10, 0)
+    #include <QRandomGenerator>
+#endif
+
 #include "Worker.h"
 
 static Q_LOGGING_CATEGORY(log, "Pool.Worker")
@@ -22,7 +26,14 @@ CWorkerTest::CWorkerTest(QObject *parent) : CWorker(parent)
 {
     qDebug(log) << Q_FUNC_INFO << this;
     auto t = new QTimer(this);
-    t->singleShot(QRandomGenerator::global()->bounded(100), this, &CWorker::sigFinished);
+
+    t->singleShot(
+#if QT_VERSION > QT_VERSION_CHECK(5, 10, 0)
+        QRandomGenerator::global()->bounded(100),
+#else
+        100,
+#endif
+        this, &CWorker::sigFinished);
 }
 
 CWorkerTest::~CWorkerTest()
