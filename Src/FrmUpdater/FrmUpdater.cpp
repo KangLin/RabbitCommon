@@ -962,19 +962,15 @@ void CFrmUpdater::slotUpdate()
         ui->lbState->setText(tr("The installer has started, Please close the application"));
     }
 
-    QProcess procHome;
     QString szHome = m_Info.version.szHome;
-    if((nRet || ui->cbHomePage->isChecked()) && !szHome.isEmpty())
-        if(!procHome.startDetached(szHome))
+    if((nRet || ui->cbHomePage->isChecked()) && !szHome.isEmpty()) {
+        QUrl url(szHome);
+        if(!QDesktopServices::openUrl(url))
         {
-            QUrl url(szHome);
-            if(!QDesktopServices::openUrl(url))
-            {
-                QString szErr = tr("Failed:") + tr("Open home page fail");
-                ui->lbState->setText(szErr);
-            }
+            QString szErr = tr("Failed:") + tr("Open home page fail");
+            ui->lbState->setText(szErr);
         }
-
+    }
     if(0 == nRet)
     {
         emit sigFinished();
@@ -995,14 +991,14 @@ int CFrmUpdater::Execute(const QString szFile)
 {
     int nRet = 0;
     do {
-        
+
         if(m_pcbUpdate) {
             int nRet = m_pcbUpdate(szFile);
             if(0 == nRet) {
                 return 0;
             }
         }
-        
+
         //修改文件执行权限  
         /*QFileInfo info(m_szDownLoadFile);
         if(!info.permission(QFile::ExeUser))
@@ -1012,11 +1008,12 @@ int CFrmUpdater::Execute(const QString szFile)
             slotError(-2, szErr);
             return;
         }*/
-        
+
         QProcess proc;
         QFileInfo fi(szFile);
+        qDebug(log) << "Setup file:" << szFile << "; suffix:" << fi.suffix();
         if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive)) {
-            
+
             QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
             bool bRet = false;
             if(!szAppImage.isEmpty()) {
@@ -1027,33 +1024,32 @@ int CFrmUpdater::Execute(const QString szFile)
                          + QDir::separator() + fi.fileName();
                 bRet = f.copy(szExec);
                 if(bRet) {
-                    QString szMsg(tr("Please exec: ") + szExec);
+                    QString szMsg(tr("Please exec: ") + fi.fileName());
                     ui->lbState->setText(szMsg);
                     qInfo(log) << szMsg;
-                    QUrl url = QUrl::fromLocalFile(cf.absoluteDir().absolutePath());
-                    if(!QDesktopServices::openUrl(url))
+                    if(!RabbitCommon::CTools::LocateFileWithExplorer(szExec))
                     {
                         QString szErr;
-                        szErr = tr("Failed:") + tr("Open the folder fail: ")
-                                + cf.absoluteDir().absolutePath();
+                        szErr = tr("Failed:") + tr("Open file with explore: ")
+                                + szExec;
                         qCritical(log) << szErr;
                     }
+                    break;
                 }
             }
             if(!bRet) {
-                QString szMsg(tr("Please exec: ") + fi.absoluteFilePath());
+                QString szMsg(tr("Please exec: ") + fi.fileName());
                 ui->lbState->setText(szMsg);
                 qInfo(log) << szMsg;
-                QUrl url = QUrl::fromLocalFile(fi.absoluteDir().absolutePath());
-                if(!QDesktopServices::openUrl(url))
+                if(!RabbitCommon::CTools::LocateFileWithExplorer(fi.absoluteFilePath()))
                 {
                     QString szErr;
-                    szErr = tr("Failed:") + tr("Open the folder fail: ")
+                    szErr = tr("Failed:") + tr("Open file with explore: ")
                             + fi.absoluteDir().absolutePath();
                     qCritical(log) << szErr;
                 }
             }
-            
+
         } else if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
                    || !fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
             
@@ -1062,12 +1058,13 @@ int CFrmUpdater::Execute(const QString szFile)
             QString szCmd = "apt";
             if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
                 szCmd = "dnf";
+
             bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
             if(!bRet) {
                 qCritical(log) << "Execute:" << szCmd << lstPara
                                << "fail. nRet:" << nRet;
-                // Open file folder
-                QDesktopServices::openUrl(QUrl::fromLocalFile(fi.absolutePath()));
+                // Open file with explore
+                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
                 // Open with the default program
                 QUrl url(szFile);
                 if(!QDesktopServices::openUrl(url))
@@ -1081,7 +1078,7 @@ int CFrmUpdater::Execute(const QString szFile)
                     break;
                 }
             }
-            qDebug(log) << "Success: Install" << szCmd << lstPara;
+            qInfo(log) << "Success: Install" << szCmd << lstPara;
 
         } else if(!fi.suffix().compare("gz", Qt::CaseInsensitive)) {
 
@@ -1134,7 +1131,7 @@ int CFrmUpdater::Execute(const QString szFile)
             //            }
 
         } else {
-            
+
             QString szCmd;
             szCmd = szFile;
             //启动安装程序
@@ -1146,6 +1143,9 @@ int CFrmUpdater::Execute(const QString szFile)
                 qInfo(log) << "Start new process fail."
                            << "Use system installer to install"
                            << szFile;
+#if !defined(Q_OS_WIN)
+                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+#endif
                 QUrl url(szFile);
                 if(!QDesktopServices::openUrl(url))
                 {
