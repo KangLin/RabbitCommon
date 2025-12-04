@@ -228,7 +228,7 @@ int CFrmUpdater::InitStateMachine()
     sCheckConfigFile->addTransition(this, SIGNAL(sigFinished()), sDownloadSetupFile);
     sCheckConfigFile->addTransition(ui->pbOK, SIGNAL(clicked()), sDownloadSetupFile);
     sCheckConfigFile->assignProperty(ui->pbOK, "text", tr("OK(&O)"));
-    check = connect(sCheckConfigFile, SIGNAL(entered()),  this, SLOT(slotCheckConfigFile()));
+    check = connect(sCheckConfigFile, SIGNAL(entered()), this, SLOT(slotCheckConfigFile()));
     Q_ASSERT(check);
 
     m_pStateDownloadSetupFile = sDownloadSetupFile;
@@ -248,7 +248,7 @@ int CFrmUpdater::InitStateMachine()
     m_StateMachine->addState(sFinal);
     m_StateMachine->setInitialState(sCheck);
     m_StateMachine->start();
-    return 0;    
+    return ErrCode::Success;
 }
 
 int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
@@ -262,7 +262,7 @@ int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
     if(pixmpa.isNull())
         pixmpa.load(":/icon/RabbitCommon/App", "PNG");
     ui->lbTitleIcon->setPixmap(pixmpa);
-    return 0;
+    return ErrCode::Success;
 }
 
 int CFrmUpdater::SetVersion(const QString &szVersion)
@@ -270,7 +270,7 @@ int CFrmUpdater::SetVersion(const QString &szVersion)
     m_szCurrentVersion = szVersion;
     ui->lbCurrentVersion->setText(tr("Current version: %1")
                                   .arg(m_szCurrentVersion));
-    return 0;
+    return ErrCode::Success;
 }
 
 void CFrmUpdater::slotStateFinished()
@@ -412,11 +412,11 @@ void CFrmUpdater::slotCheckConfigFile()
                           + qApp->applicationDisplayName());
     qDebug(log) << "CFrmUpdater::slotCheckConfigFile()";
 
-    // Redirect
-    int nRet = 0;
-    nRet = CheckRedirectConfigFile();
-    if(nRet <= 0) return;
-    if(2 == nRet)
+    switch (CheckRedirectConfigFile()) {
+    case RedirectCode::RedirectConfigure:
+    case RedirectCode::Failure:
+        return;
+    case RedirectCode::DontUpdate:
     {
         QString szText(tr("There is laster version"));
         ui->lbState->setText(szText);
@@ -424,8 +424,9 @@ void CFrmUpdater::slotCheckConfigFile()
         emit sigError();
         return;
     }
-    if(1 == nRet)
+    case RedirectCode::NormalConfigure:
         CheckUpdateConfigFile();
+    }
 }
 
 /*!
@@ -442,18 +443,18 @@ void CFrmUpdater::slotCheckConfigFile()
  * \include Test/data/redirect.json
  *
  */
-int CFrmUpdater::CheckRedirectConfigFile()
+CFrmUpdater::RedirectCode CFrmUpdater::CheckRedirectConfigFile()
 {
-    int nRet = 0;
-    qDebug(log) << "CFrmUpdater::CheckRedirectConfigFile()"
+    RedirectCode nRet = RedirectCode::RedirectConfigure;
+    qDebug(log) << "CheckRedirectConfigFile()"
                 << m_DownloadFile.fileName();
 
     QVector<CONFIG_REDIRECT> conf;
     nRet = GetRedirectFromFile(m_DownloadFile.fileName(), conf);
-    if(nRet) {
-        if(nRet < 0) {
+    if(RedirectCode::RedirectConfigure != nRet) {
+        if(RedirectCode::Failure == nRet) {
             QString szError = tr("Failed:") + tr("%2 process the file: %1")
-                                      .arg(m_DownloadFile.fileName()).arg(nRet);
+                                      .arg(m_DownloadFile.fileName()).arg((int)nRet);
             ui->lbState->setText(szError);
             qCritical(log) << szError;
             emit sigError();
@@ -472,7 +473,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
             ui->lbState->setText(szError);
             qCritical(log) << szError;
             emit sigError();
-            return -2;
+            return RedirectCode::Failure;
         }
 
         if(CompareVersion(szVersion, m_szCurrentVersion) <= 0)
@@ -489,7 +490,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
     }
 
     if(redirect.szVersion.isEmpty())
-        return 2;
+        return RedirectCode::DontUpdate;
 
     CONFIG_FILE file;
     foreach (auto f, redirect.files) {
@@ -539,7 +540,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
                       + redirect.szMinUpdateVersion;
             qCritical(log) << szError;
             ui->lbState->setText(szError);
-            return -3;
+            return RedirectCode::Failure;
         }
     }
 
@@ -547,7 +548,7 @@ int CFrmUpdater::CheckRedirectConfigFile()
 
     emit sigDownLoadRedire();
 
-    return 0;
+    return RedirectCode::RedirectConfigure;
 }
 
 /*!
@@ -696,14 +697,14 @@ int CFrmUpdater::CheckUpdateConfigFile()
  * \include Test/data/redirect.json
  * \see CheckRedirectConfigFile
  */
-int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf)
+CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf)
 {
     QFile f(szFile);
     if(!f.open(QFile::ReadOnly))
     {
         QString szError = tr("Open file fail").arg(szFile);
         qCritical(log) << szError;
-        return -1;
+        return RedirectCode::Failure;
     }
 
     QJsonDocument doc;
@@ -714,12 +715,12 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
         QString szError = tr("Parse file %1 fail. It isn't configure file")
                               .arg(f.fileName());
         qCritical(log) << szError;
-        return -2;
+        return RedirectCode::Failure;
     }
 
     QJsonObject objRoot = doc.object();
     if(!objRoot.contains("redirect"))
-        return 1;
+        return RedirectCode::NormalConfigure;
 
     QJsonArray arrRedirect = objRoot["redirect"].toArray();
     for(auto it = arrRedirect.begin(); it != arrRedirect.end(); it++) {
@@ -761,7 +762,7 @@ int CFrmUpdater::GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIR
         conf.append(objRedirect);
     }
 
-    return 0;
+    return RedirectCode::RedirectConfigure;
 }
 
 /*!
@@ -855,7 +856,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     
     if(!obj.contains("files")) {
         qDebug(log) << "Configure file isn't contains files array";
-        return 0;
+        return ErrCode::Success;
     }
     
     QJsonArray objFiles = obj["files"].toArray();
@@ -886,7 +887,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
                            << "urls:" << file.urls;//*/
     }
 
-    return 0;
+    return ErrCode::Success;
 }
 
 void CFrmUpdater::slotDownloadSetupFile()
@@ -957,8 +958,8 @@ void CFrmUpdater::slotUpdate()
     }
     
     // Exec download file
-    int nRet = Execute(m_DownloadFile.fileName());
-    if(0 == nRet) {
+    ErrCode nRet = Execute(m_DownloadFile.fileName());
+    if(ErrCode::Success == nRet) {
         ui->lbState->setText(tr("The installer has started, Please close the application"));
     }
 
@@ -971,7 +972,7 @@ void CFrmUpdater::slotUpdate()
             ui->lbState->setText(szErr);
         }
     }
-    if(0 == nRet)
+    if(ErrCode::Success == nRet)
     {
         emit sigFinished();
         qApp->quit();
@@ -987,15 +988,15 @@ void CFrmUpdater::slotUpdate()
     }
 }
 
-int CFrmUpdater::Execute(const QString szFile)
+CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
 {
-    int nRet = 0;
+    ErrCode nRet = ErrCode::Success;
     do {
 
         if(m_pcbUpdate) {
             int nRet = m_pcbUpdate(szFile);
-            if(0 == nRet) {
-                return 0;
+            if(ErrCode::Success == nRet) {
+                return ErrCode::Success;
             }
         }
 
@@ -1049,6 +1050,7 @@ int CFrmUpdater::Execute(const QString szFile)
                     qCritical(log) << szErr;
                 }
             }
+            nRet = ErrCode::Failure;
 
         } else if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
                    || !fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
@@ -1061,6 +1063,7 @@ int CFrmUpdater::Execute(const QString szFile)
 
             bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
             if(!bRet) {
+                nRet = ErrCode::Failure;
                 qCritical(log) << "Execute:" << szCmd << lstPara
                                << "fail. nRet:" << nRet;
                 // Open file with explore
@@ -1074,7 +1077,6 @@ int CFrmUpdater::Execute(const QString szFile)
                          .arg(szFile);
                     ui->lbState->setText(szErr);
                     qCritical(log) << szErr;
-                    nRet = -1;
                     break;
                 }
             }
@@ -1089,7 +1091,7 @@ int CFrmUpdater::Execute(const QString szFile)
                 QString szErr = tr("Failed:")
                 + tr("Open file %1 fail").arg(fi.absolutePath());
                 ui->lbState->setText(szErr);
-                nRet = -1;
+                nRet = ErrCode::Failure;
                 break;
             }
             QString szCmd = InstallScript(szFile, qApp->applicationName());
@@ -1105,7 +1107,7 @@ int CFrmUpdater::Execute(const QString szFile)
                 QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
                                 + szInstall + "fail";
                 ui->lbState->setText(szErr);
-                nRet = -1;
+                nRet = ErrCode::Failure;
                 break;
             }
             
@@ -1129,7 +1131,18 @@ int CFrmUpdater::Execute(const QString szFile)
             //                nRet = -1;
             //                break;
             //            }
-
+        } else if(!fi.suffix().compare("dmg", Qt::CaseInsensitive)) {
+            QUrl url(szFile);
+            if(!QDesktopServices::openUrl(url))
+            {
+                nRet = ErrCode::Failure;
+                QString szErr = tr("Failed:") +
+                                tr("Execute install program error. %1").arg(szFile);
+                ui->lbState->setText(szErr);
+                qCritical(log) << szErr;
+                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+                break;
+            }
         } else {
 
             QString szCmd;
@@ -1153,7 +1166,7 @@ int CFrmUpdater::Execute(const QString szFile)
                     + tr("Execute install program error.%1")
                          .arg(szFile);
                     ui->lbState->setText(szErr);
-                    nRet = -1;
+                    nRet = ErrCode::Failure;
                     break;
                 }
             }
@@ -1417,7 +1430,7 @@ int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info
     }
     f.write(doc.toJson());
     f.close();
-    return 0;
+    return ErrCode::Success;
 }
 
 int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE &type)
@@ -1507,7 +1520,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
         qCritical(log)
                 << "CFrmUpdater::GenerateUpdateXml file open file fail:"
                 << f.fileName();
-        return -1;
+        return ErrCode::Failure;
     }
     QTextStream stream(&f);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -1515,7 +1528,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
 #endif
     doc.save(stream, 4);
     f.close();
-    return 0;
+    return ErrCode::Success;
 }
 
 int CFrmUpdater::GenerateUpdateXml()
@@ -1737,7 +1750,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
 
     info.files.append(file);
 
-    return 0;
+    return ErrCode::Success;
 }
 
 void CFrmUpdater::showEvent(QShowEvent *event)
@@ -1789,11 +1802,11 @@ void CFrmUpdater::on_cbHomePage_clicked(bool checked)
 int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 {
     m_InstallAutoStartupType = bAutoStart;
-    return 0;
+    return ErrCode::Success;
 }
 
 int CFrmUpdater::SetUpdateCallback(pUpdateCallback pCb)
 {
     m_pcbUpdate = pCb;
-    return 0;
+    return ErrCode::Success;
 }

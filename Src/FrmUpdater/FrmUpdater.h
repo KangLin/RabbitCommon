@@ -86,12 +86,19 @@ public:
     explicit CFrmUpdater(QVector<QUrl> urls = QVector<QUrl>(), QWidget *parent = nullptr);
     virtual ~CFrmUpdater() override;
 
+    enum ErrCode {
+        Failure = -1,
+        Success = 0,
+        Ok = Success
+    };
+    Q_ENUM(ErrCode)
+
     int SetVersion(const QString &szVersion);
     /**
      * @brief SetTitle
      * @param icon
      * @param szTitle: default is qApp->applicationDisplayName()
-     * @return 
+     * @return
      */
     int SetTitle(QImage icon = QImage(), const QString &szTitle = QString());
 
@@ -160,12 +167,18 @@ private:
     int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
     bool IsDownLoad();
-    int CheckRedirectConfigFile();
+    enum class RedirectCode {
+        Failure = -1,
+        RedirectConfigure = 0, //! Is redirect configure file
+        NormalConfigure = 1,   //! Is normal configure file
+        DontUpdate = 2         //! Don't updater
+    };
+    RedirectCode CheckRedirectConfigFile();
     int CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
     QString InstallScript(const QString szDownLoadFile,
                           const QString szApplicationName);
-    Q_INVOKABLE int Execute(const QString szFile);
+    ErrCode Execute(const QString szFile);
 
 private:
     Ui::CFrmUpdater *ui;
@@ -225,7 +238,7 @@ private:
     
     CONFIG_FILE m_ConfigFile;
     
-    int GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf);
+    RedirectCode GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf);
     int GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
     int GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 /*[out]*/QString &szFile,
