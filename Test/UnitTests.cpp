@@ -275,11 +275,11 @@ void CUnitTests::test_redirect_json_file()
 {
     CFrmUpdater updater;
     QVector<CFrmUpdater::CONFIG_REDIRECT> conf;
-    int nRet = 0;
+    CFrmUpdater::RedirectCode nRet = CFrmUpdater::RedirectCode::RedirectConfigure;
     nRet = updater.GetRedirectFromFile("update.json", conf);
-    QVERIFY(1 == nRet);
+    QVERIFY(CFrmUpdater::RedirectCode::NormalConfigure == nRet);
     nRet = updater.GetRedirectFromFile("data/redirect.json", conf);
-    QVERIFY(0 == nRet);
+    QVERIFY(CFrmUpdater::RedirectCode::RedirectConfigure == nRet);
     QVERIFY(conf.length() == 5);
 
     QVERIFY(conf[0].szVersion == "v2.0.0");
