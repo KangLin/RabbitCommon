@@ -8,7 +8,6 @@ on:
 
 jobs:
   build_qmake:
-    name: build mingw
 
     strategy:
       matrix:
