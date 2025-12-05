@@ -113,7 +113,7 @@ set(BUILD_PLATFORM "${CMAKE_SYSTEM_NAME}")
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 message("QT_VERSION_MAJOR:${QT_VERSION_MAJOR}")
 #需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets Network Xml)
+SET(QT_COMPONENTS Core Gui Widgets Network Xml Multimedia MultimediaWidgets)
 if(QT_VERSION_MAJOR LESS 6 AND ANDROID)
     message(FATAL_ERROR "Qt must great 6.0.0 for android")
 endif()

@@ -2,7 +2,7 @@
 # The file is deprecated
 #-------------------------------------------------
 
-QT *= core xml
+QT *= core xml multimedia multimediawidgets
 
 CONFIG *= c++11 link_pkgconfig create_prl link_prl
 
@@ -49,13 +49,15 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/FileBrowser/UndoCommand.cpp \
         $$PWD/Log/DockDebugLog.cpp \
         $$PWD/Log/DlgFilter.cpp \
-        $$PWD/Log/DlgEdit.cpp
+        $$PWD/Log/DlgEdit.cpp \
+        $$PWD/Multimedia/FrmMediaDevices.cpp
     INSTALL_HEADERS += \
         $$PWD/Style/FrmStyle.h \
         $$PWD/RabbitRecentMenu.h \
         $$PWD/TitleBar.h \
         $$PWD/DockFolderBrowser/DockFolderBrowser.h \
-        $$PWD/FileBrowser/FileBrowser.h
+        $$PWD/FileBrowser/FileBrowser.h \
+        $$PWD/Multimedia/FrmMediaDevices.cpp
     HEADERS += $${INSTALL_HEADERS} \
         $$PWD/Style/Style.h \
         $$PWD/Log/DockDebugLog.h \
@@ -63,7 +65,7 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/FileBrowser/UndoCommand.h \
         $$PWD/Log/DlgFilter.h \
         $$PWD/Log/DlgEdit.h
-    INCLUDEPATH += $$PWD/Style $$PWD/DockFolderBrowser $$PWD/FileBrowser
+    INCLUDEPATH += $$PWD/Style $$PWD/DockFolderBrowser $$PWD/FileBrowser $$PWD/Multimedia
     FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui \
        $$PWD/Log/DockDebugLog.ui \

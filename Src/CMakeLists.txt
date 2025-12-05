@@ -57,7 +57,7 @@ set(RABBITCOMMON_INCLUDE_DIRS
 
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg Multimedia MultimediaWidgets)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
@@ -65,6 +65,7 @@ if(WITH_GUI)
         TitleBar.h
         DockFolderBrowser/DockFolderBrowser.h
         FileBrowser/FileBrowser.h
+        Multimedia/FrmMediaDevices.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
@@ -86,6 +87,7 @@ if(WITH_GUI)
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
         Log/DlgEdit.cpp
+        Multimedia/FrmMediaDevices.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
@@ -97,7 +99,8 @@ if(WITH_GUI)
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Style>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DockFolderBrowser>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FileBrowser>)
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FileBrowser>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Multimedia>)
 endif()
 
 cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON

@@ -73,7 +73,7 @@ LIBS *= "-L$$DESTDIR" -lRabbitCommon
 
 !equals(WITH_GUI, "OFF"){
     DEFINES *= HAVE_RABBITCOMMON_GUI
-    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DockFolderBrowser
+    INCLUDEPATH+=$$_PRO_FILE_PWD_/../Src/DockFolderBrowser $$_PRO_FILE_PWD_/../Src/Multimedia
 }
 !equals(BUILD_UPDATE, "OFF"){
     DEFINES *= HAVE_UPDATE
