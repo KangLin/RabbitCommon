@@ -14,17 +14,18 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release]
-        qt_arch: [android_arm64_v8a, android_x86_64]
-        qt_version: [6.9.3]
         include:
           - qt_arch: android_arm64_v8a
-            VCPKG_TARGET_TRIPLET: arm-android
+            VCPKG_TARGET_TRIPLET: arm64-android
             ANDROID_ABI: arm64-v8a
+            qt_version: 6.9.3
+            BUILD_TYPE: Release
 
-          - qt_arch: android_x86_64 
+          - qt_arch: android_x86_64
             VCPKG_TARGET_TRIPLET: x64-android
             ANDROID_ABI: x86_64
+            qt_version: 6.9.3
+            BUILD_TYPE: Release
 
     # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
     # See: https://github.com/actions/runner-images/
@@ -35,12 +36,18 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
+      BUILD_DIR:   ${{github.workspace}}/build
       RabbitCommon_VERSION: v2.3.4
       VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
+      VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_HOST_TRIPLET: x64-linux
+      VCPKG_MANIFEST_FEATURES:
       ANDROID_ABI: ${{matrix.ANDROID_ABI}}
       ANDROID_PLATFORM: android-35
       ANDROID_NATIVE_API_LEVEL: 35
-      qt_modules: 'qtscxml qtmultimedia qt5compat qtwebsockets qtpositioning qtwebchannel'
+      ANDROID_ABI: ${{matrix.ANDROID_ABI}}
+      qt_modules: 'qtimageformats qtmultimedia qtscxml qt5compat'
 
     # Map the job outputs to step outputs
     outputs:
@@ -57,7 +64,13 @@ jobs:
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
-          cmake -E make_directory ${{github.workspace}}/build
+          cmake -E make_directory ${{env.BUILD_DIR}}
+
+      - name: Install apt packages
+        run: |
+          #sudo apt-get update -y
+          #sudo apt-get upgrade -y
+          sudo apt install -y -q ninja-build
 
       - name: Cache installed
         #if: false
@@ -66,25 +79,25 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: installed_android_qt${{matrix.qt_version}}_${{matrix.VCPKG_TARGET_TRIPLET}}_${{matrix.BUILD_TYPE}}
+          key: install_android_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
 
-      - name: Install Qt of gcc_64
+      - name: Install Qt of linux_gcc_64
         uses: jurplel/install-qt-action@v4
         with:
-          dir: '${{env.TOOSL_DIR}}' # optional
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
           version: '${{matrix.qt_version}}'
-          host: 'linux'
+          #host: 'linux'
           target: 'desktop'
           arch: 'linux_gcc_64'
           set-env: false
           cache: true
-          cache-key-prefix: cached_qt
+          cache-key-prefix: android-cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
 
       - name: Install Qt of android
         uses: jurplel/install-qt-action@v4
         with:
           # Directory to install Qt
-          dir: '${{env.TOOSL_DIR}}' # optional
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
           # Version of Qt to install
           version: '${{matrix.qt_version}}'
           # Host platform
@@ -93,11 +106,15 @@ jobs:
           target: 'android' # optional, default is desktop
           # Architecture for Windows/Android
           arch: '${{matrix.qt_arch}}' # optional
+          set-env: true
           # Additional Qt modules to install
           modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
-          # Whether or not to actually download Qt
           cache: true
-          cache-key-prefix: cached_qt
+          cache-key-prefix: android-cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
+
+      - name: chmod qt-cmake
+        run: |
+          sudo chmod 777 ${Qt6_DIR}/bin/qt-cmake
 
       - name: run vcpkg
         if: false
@@ -130,11 +147,21 @@ jobs:
           echo "ANDROID_NATIVE_API_LEVEL:$ANDROID_NATIVE_API_LEVEL"
           echo "ANDROID_PLATFORM:$ANDROID_PLATFORM;${{env.ANDROID_PLATFORM}}"
           ${Qt6_DIR}/bin/qt-cmake .. \
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
+              -DWITH_CMARK=OFF \
+              -DWITH_CMARK_GFM=ON \
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
-              -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
-              -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
-              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DCMAKE_AUTOGEN_VERBOSE=ON \
+              -DCMAKE_MAKE_PROGRAM=make \
               -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
+              -DQT_HOST_PATH=${Qt6_DIR}/../gcc_64 \
+              -DQT_ANDROID_SIGN_APK=ON \
+              -DQt6LinguistTools_DIR=${Qt6_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+              -DCMAKE_PREFIX_PATH=${Qt6_DIR}:${{env.INSTALL_DIR}}/lib/cmake \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DQT_ENABLE_VERBOSE_DEPLOYMENT=ON \
               -DBUILD_TEST=OFF \
               -DBUILD_APP=OFF
           cmake --build . --config ${{matrix.BUILD_TYPE}}  --target all
