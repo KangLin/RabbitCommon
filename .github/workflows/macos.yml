@@ -17,31 +17,38 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-13
-            qt_version: 6.9.2
+          - VCPKG_TARGET_TRIPLET: x64-osx
+            os: macos-15-intel
+            qt_version: 6.9.3
             qt_arch: clang_64
-            config_arch: x64
-            VCPKG_TARGET_TRIPLET: x64-osx
-            qt_modules: qtscxml
+            WITH_MACOSX_BUNDLE: false
 
-          - os: macos-14
-            qt_version: 6.9.2
+          - VCPKG_TARGET_TRIPLET: arm64-osx
+            os: macos-14
+            qt_version: 6.9.3
             qt_arch: clang_64
-            config_arch: arm64
-            VCPKG_TARGET_TRIPLET: arm64-osx
-            qt_modules: qtscxml
+            WITH_MACOSX_BUNDLE: true
+
+          - VCPKG_TARGET_TRIPLET: arm64-osx
+            os: macos-14
+            qt_version: 6.9.3
+            qt_arch: clang_64
+            WITH_MACOSX_BUNDLE: false
 
     # See: https://docs.github.com/zh/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
     # See: https://github.com/actions/runner-images/tree/main
-    runs-on: macos-13
+    runs-on: ${{matrix.os}}
 
     env:
       BUILD_TYPE:  Release
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
-      qt_modules: qtwebengine ${{matrix.qt_modules}}
+      qt_modules: qtscxml qtmultimedia qtwebengine ${{matrix.qt_modules}}
       VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
+      VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_MANIFEST_FEATURES:
       RabbitCommon_VERSION: v2.3.4
       artifact_name: build_macos
 
@@ -70,7 +77,7 @@ jobs:
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: macos_install_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.config_arch}}
+          key: macos_install_qt${{matrix.qt_version}}_${{matrix.os}}
 
       - name: run vcpkg
         uses: lukka/run-vcpkg@v11
@@ -141,13 +148,13 @@ jobs:
             otool -L install/FileBrowser.app/Contents/MacOS/FileBrowser
             otool -l install/FrameWorks/libRabbitCommon.dylib | grep -A3 -B1 "LC_RPATH"
             otool -L install/FrameWorks/libRabbitCommon.dylib
-            7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_macos_${{matrix.config_arch}}.zip ./install/*
+            7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_${{matrix.os}}.zip ./install/*
           fi
 
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.config_arch}}
+          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.os}}
           path: |
             ${{github.workspace}}/build/RabbitCommon_${{env.RabbitCommon_VERSION}}_macos.zip
 
