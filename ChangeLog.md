@@ -7,6 +7,7 @@
   - Add static bool VersionValid(const QString& szVersion);
   - Add static int VersionCompare(const QString &ver1, const QString &ver2);
 - Add set applicaiont font
+- Add audio and video settings
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

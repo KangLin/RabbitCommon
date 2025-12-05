@@ -41,6 +41,8 @@ private slots:
     
     void on_pbUpdateBrowse_clicked();
     
+    void on_pbAudioVideoSettings_clicked();
+
 private:
     Ui::MainWindow *ui;
     

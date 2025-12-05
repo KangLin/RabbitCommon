@@ -2,26 +2,6 @@
  *  @author Kang Lin(kl222@126.com)
  */
 
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
-
-#ifdef HAVE_ABOUT
-#include "DlgAbout.h"
-#endif
-#ifdef HAVE_UPDATE
-#include "FrmUpdater.h"
-#endif
-#ifdef BUILD_QUIWidget
-#include "QUIWidget/QUIWidget.h"
-#endif
-#include "RabbitCommonTools.h"
-#include "RabbitCommonEncrypt.h"
-#ifdef HAVE_RABBITCOMMON_GUI
-#include "DockFolderBrowser.h"
-#include "FileBrowser.h"
-#endif
-#include "RabbitCommonDir.h"
-
 #include <QMetaObject>
 #include <QDir>
 #include <QDesktopServices>
@@ -29,6 +9,29 @@
 #include <QFileDialog>
 #include <QLoggingCategory>
 #include <QThread>
+
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
+
+#ifdef HAVE_ABOUT
+    #include "DlgAbout.h"
+#endif
+#ifdef HAVE_UPDATE
+    #include "FrmUpdater.h"
+#endif
+#ifdef BUILD_QUIWidget
+    #include "QUIWidget/QUIWidget.h"
+#endif
+#include "RabbitCommonTools.h"
+#include "RabbitCommonEncrypt.h"
+#ifdef HAVE_RABBITCOMMON_GUI
+    #include "DockFolderBrowser.h"
+    #include "FileBrowser.h"
+#endif
+#include "RabbitCommonDir.h"
+
+#include "FrmMediaDevices.h"
+
 //#include <source_location>
 
 /*! \see Use Q_FUNC_INFO
@@ -266,3 +269,11 @@ void MainWindow::on_pbUpdateBrowse_clicked()
         return;
     ui->leUpdateFIle->setText(szFile);
 }
+
+void MainWindow::on_pbAudioVideoSettings_clicked()
+{
+    CFrmMediaDevices* dlg = new CFrmMediaDevices();
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    RC_SHOW_WINDOW(dlg);
+}
+
