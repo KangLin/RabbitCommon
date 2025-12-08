@@ -57,7 +57,7 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/TitleBar.h \
         $$PWD/DockFolderBrowser/DockFolderBrowser.h \
         $$PWD/FileBrowser/FileBrowser.h \
-        $$PWD/Multimedia/FrmMediaDevices.cpp
+        $$PWD/Multimedia/FrmMediaDevices.h
     HEADERS += $${INSTALL_HEADERS} \
         $$PWD/Style/Style.h \
         $$PWD/Log/DockDebugLog.h \

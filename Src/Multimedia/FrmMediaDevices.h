@@ -33,7 +33,7 @@ class CSineWriter : public QObject
     Q_OBJECT
 public:
     explicit CSineWriter(QObject *parent = nullptr);
-    virtual ~CSineWriter();
+    ~CSineWriter() override;
 
     void start(QIODevice *sinkDevice, const QAudioFormat &format);
     void stop();
@@ -56,7 +56,7 @@ class RABBITCOMMON_EXPORT CFrmMediaDevices : public QWidget
     Q_OBJECT
 public:
     explicit CFrmMediaDevices(bool bDisableButtonApply = false, QWidget *parent = nullptr);
-    virtual ~CFrmMediaDevices();
+    ~CFrmMediaDevices() override;
 
     // Return value
     enum RV{
