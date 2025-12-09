@@ -12,11 +12,11 @@ namespace RabbitCommon {
 
 static const qint32 RecentFilesMenuMagic = 0xff;
 
-CRecentMenu::CRecentMenu(QWidget * parent)
+CRecentMenu::CRecentMenu(bool bSave, QWidget * parent)
     : QMenu(parent),
     m_maxCount(10),
     m_format(QLatin1String("%d %s")),
-    m_DisableSaveState(false),
+    m_bSave(bSave),
     m_bUpdate(true)
 {
     bool check = connect(this, SIGNAL(triggered(QAction*)),
@@ -25,27 +25,22 @@ CRecentMenu::CRecentMenu(QWidget * parent)
     check = connect(this, SIGNAL(aboutToShow()),
                     this, SLOT(updateRecentFileActions()));
     Q_ASSERT(check);
-    check = connect(this, SIGNAL(sigSaveState()), this, SLOT(slotSaveState()));
-    Q_ASSERT(check);
 
     setMaxCount(m_maxCount);
-    if(!m_DisableSaveState)
-    {
-        QSettings settings(
-                    RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                    QSettings::IniFormat);
-        restoreState(settings.value("RecentOpen").toByteArray());
-    }
+    if(m_bSave)
+        slotRestoreState();
 }
 
-CRecentMenu::CRecentMenu(const QString & title, QWidget * parent)
-    : CRecentMenu(parent)
+CRecentMenu::CRecentMenu(const QString & title,
+                         bool bSave, QWidget * parent)
+    : CRecentMenu(bSave, parent)
 {
     setTitle(title);
 }
 
-CRecentMenu::CRecentMenu(const QString& title, const QIcon& icon, QWidget * parent)
-    : CRecentMenu(title, parent)
+CRecentMenu::CRecentMenu(const QString& title, const QIcon& icon,
+                         bool bSave, QWidget * parent)
+    : CRecentMenu(title, bSave, parent)
 {
     setIcon(icon);
 }
@@ -62,14 +57,16 @@ void CRecentMenu::addRecentFile(const QString &fileName, const QString &title)
 
     m_bUpdate = true;
 
-    emit sigSaveState();
+    if(m_bSave)
+        slotSaveState();
 }
 
 void CRecentMenu::clearMenu()
 {
     m_OpenContent.clear();
     m_bUpdate = true;
-    emit sigSaveState();
+    if(m_bSave)
+        slotSaveState();
 }
 
 void CRecentMenu::setMaxCount(int count)
@@ -77,7 +74,8 @@ void CRecentMenu::setMaxCount(int count)
     if(m_maxCount == count) return;
     m_maxCount = count;
     m_bUpdate = true;
-    emit sigSaveState();
+    if(m_bSave)
+        slotSaveState();
 }
 
 int CRecentMenu::maxCount() const
@@ -90,7 +88,8 @@ void CRecentMenu::setFormat(const QString &format)
     if (m_format == format) return;
     m_format = format;
     m_bUpdate = true;
-    emit sigSaveState();
+    if(m_bSave)
+        slotSaveState();
 }
 
 const QString& CRecentMenu::format() const
@@ -100,7 +99,7 @@ const QString& CRecentMenu::format() const
 
 bool CRecentMenu::disableSaveState(bool disable)
 {
-    m_DisableSaveState = disable;
+    m_bSave = !disable;
     return true;
 }
 
@@ -188,11 +187,16 @@ void CRecentMenu::updateRecentFileActions()
     setEnabled(numRecentFiles > 0);
 }
 
+void CRecentMenu::slotRestoreState()
+{
+    QSettings settings(
+        RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+        QSettings::IniFormat);
+    restoreState(settings.value("RecentOpen").toByteArray());
+}
+
 void CRecentMenu::slotSaveState()
 {
-    if(m_DisableSaveState)
-        return;
-
     QSettings settings(
                 RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                 QSettings::IniFormat);

@@ -8,6 +8,7 @@
   - Add static int VersionCompare(const QString &ver1, const QString &ver2);
 - Add set applicaiont font
 - Add audio and video settings
+- Modify CRecentMenu interface
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit
