@@ -91,7 +91,7 @@ jobs:
       - name: Install Qt
         # You may pin to the exact commit or the version.
         # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           # Directory to install Qt
           dir: ${{env.TOOSL_DIR}}/qt # optional
@@ -135,13 +135,7 @@ jobs:
           cmake --build . --verbose --config Release --target install
           cmake --build . --verbose --config Release --target package
           if [ "Release" == "Release" ]; then
-            if [ -n "${Qt5_DIR}" ]; then
-              QT_ROOT=${Qt5_DIR}
-            fi
-            if [ -n "${Qt6_DIR}" ]; then
-              QT_ROOT=${Qt6_DIR}
-            fi
-            #${QT_ROOT}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
+            #${QT_ROOT_DIR}/bin/macdeployqt `pwd`/install/FileBrowser.app -dmg -verbose=3
             lipo -info install/FileBrowser.app/Contents/MacOS/FileBrowser
             #lipo -info install/FileBrowser.app/FrameWorks/QtGui.framework/Versions/5/QtGui
             otool -l install/FileBrowser.app/Contents/MacOS/FileBrowser | grep -A2 LC_RPATH

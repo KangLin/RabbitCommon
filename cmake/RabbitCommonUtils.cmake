@@ -666,6 +666,7 @@ function(INSTALL_TARGET)
                     endif()
 
                     if(STOREPASS)
+                        # See: https://doc.qt.io/qt-6/android-deploy-qt-tool.html#androiddeployqt
                         add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
                                 --output ${CMAKE_INSTALL_PREFIX} #注意输出文件名为：[${CMAKE_INSTALL_PREFIX}的最后一级目录名]-release-signed.apk
@@ -678,6 +679,12 @@ function(INSTALL_TARGET)
                                 --storepass ${STOREPASS}
                             )
                     else()
+                        # Signs the resulting package. The path of the keystore file, the alias of the key, and passwords have to be specified by additional environment variables:
+                        # QT_ANDROID_KEYSTORE_PATH
+                        # QT_ANDROID_KEYSTORE_ALIAS
+                        # QT_ANDROID_KEYSTORE_STORE_PASS
+                        # QT_ANDROID_KEYSTORE_KEY_PASS
+                        # See: https://doc.qt.io/qt-6/cmake-variable-qt-android-sign-apk.html
                         message(WARNING "Please set camke parameter or environment value STOREPASS, will use debug deploy ......")
                         add_custom_target(APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                             COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
