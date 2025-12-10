@@ -631,21 +631,30 @@ int CFrmUpdater::CheckUpdateConfigFile()
             continue;
 
         if(szArchitecture != f.szArchitecture) {
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
-            if(!szArchitecture.compare("x86_64", Qt::CaseInsensitive)
-                && !f.szArchitecture.compare("i386", Qt::CaseInsensitive))
-            {
-                ;
-            } else
-                continue;
-#else
             continue;
-#endif
         }
 
         file = f;
         break;
     }
+
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    if(file.szSystem.compare(szSystem, Qt::CaseInsensitive)) {
+        foreach (auto f, info.files) {
+            if(f.szSystem.compare(szSystem, Qt::CaseInsensitive))
+                continue;
+
+            if(szArchitecture != f.szArchitecture) {
+                if(!(!szArchitecture.compare("x86_64", Qt::CaseInsensitive)
+                      && !f.szArchitecture.compare("i386", Qt::CaseInsensitive)))
+                    continue;
+            }
+
+            file = f;
+            break;
+        }
+    }
+#endif
 
     if(file.szSystem.compare(szSystem, Qt::CaseInsensitive)) {
         QString szErr;
