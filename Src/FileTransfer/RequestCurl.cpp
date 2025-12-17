@@ -162,9 +162,11 @@ int CRequestCurl::Init(CTaskFileTransfer* pTask)
             case CTaskFileTransfer::ProxyType::Https:
                 type = CURLPROXY_HTTPS;
                 break;
+#ifdef CURLPROXY_HTTPS2
             case CTaskFileTransfer::ProxyType::Https2:
                 type = CURLPROXY_HTTPS2;
                 break;
+#endif
             default:
                 break;
             }
