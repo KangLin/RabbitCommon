@@ -357,7 +357,7 @@ option(RABBIT_ENABLE_INSTALL_TARGETS
     "Enable install the targets. It only needs to be used when it is first configured"
     OFF)
 function(INSTALL_TARGETS)
-    cmake_parse_arguments(PARA "" "DESTINATION;COMPONENT" "TARGETS" ${ARGN})
+    cmake_parse_arguments(PARA "" "NAME;DESTINATION;COMPONENT" "TARGETS" ${ARGN})
     if(NOT DEFINED PARA_TARGETS)
         message(FATAL_ERROR "Usage: INSTALL_TARGETS(TARGETS ... DESTINATION ... [COMPONENT ...])")
     endif()
@@ -365,6 +365,11 @@ function(INSTALL_TARGETS)
     if(NOT RABBIT_ENABLE_INSTALL_TARGETS)
         return()
     endif()
+
+    if(NOT PARA_NAME)
+        set(PARA_NAME ${PROJECT_NAME})
+    endif()
+
     if(NOT DEFINED PARA_DESTINATION)
         if(ANDROID)
             set(PARA_DESTINATION "libs/${ANDROID_ABI}")
@@ -398,7 +403,10 @@ function(INSTALL_TARGETS)
         INSTALL(FILES $<TARGET_FILE:${component}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
-        IF((NOT ANDROID) AND UNIX)
+        IF(ANDROID)
+            set_target_properties(${PARA_NAME} PROPERTIES
+                QT_ANDROID_EXTRA_LIBS $<TARGET_SONAME_FILE:${component}>)
+        else(UNIX)
             INSTALL(FILES $<TARGET_SONAME_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT ${PARA_COMPONENT})
