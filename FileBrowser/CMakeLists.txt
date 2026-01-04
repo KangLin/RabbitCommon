@@ -39,7 +39,7 @@ if(NOT ANDROID AND UNIX)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/share/${APP_ID}.desktop
         DESTINATION "share/applications" COMPONENT Application)
     
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/scalable/apps/browser.svg
         RENAME ${APP_ID}.svg
         DESTINATION "share/pixmaps" COMPONENT Application)
 endif()
@@ -53,7 +53,7 @@ if(APPLE)
         MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
         MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
         )
-    file(COPY_FILE ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/svg/browser.svg
+    file(COPY_FILE ${CMAKE_SOURCE_DIR}/Src/Resource/icons/rabbit-green/scalable/apps/browser.svg
         ${APP_ID}.svg)
     target_add_resources(${PROJECT_NAME} . ${APP_ID}.svg)
 endif()
