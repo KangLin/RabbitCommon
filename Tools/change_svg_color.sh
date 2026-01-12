@@ -15,11 +15,17 @@ fi
 
 source_path=$1
 source_color=$2
+source_color_upper=${source_color^^}
+
 destination_path=$3
 destination_color=$4
+destination_color_upper=${destination_color^^}
+
+#echo "source_color_upper=$source_color_upper;destination_color_upper=$destination_color_upper"
 
 if [ ! -d $destination_path ]; then
     mkdir -p $destination_path
 fi
 cp -rf $source_path/* $destination_path/ 
-sed -i "s/fill=\"$source_color\"/fill=\"$destination_color\"/g" `grep "fill=\"$source_color\"" -rl $destination_path`
+sed -i "s/fill=\"$source_color\"/fill=\"$destination_color_upper\"/g" `grep "fill=\"$source_color\"" -rl $destination_path`
+sed -i "s/fill=\"$source_color\"/fill=\"$destination_color_upper\"/g" `grep "fill=\"$source_color_upper\"" -rl $destination_path`
