@@ -63,6 +63,7 @@ if(WITH_GUI)
         RabbitRecentMenu.h
         Style/FrmStyle.h
         TitleBar.h
+        IconUtils.h
         DockFolderBrowser/DockFolderBrowser.h
         FileBrowser/FileBrowser.h
         Multimedia/FrmMediaDevices.h
@@ -80,6 +81,7 @@ if(WITH_GUI)
         Style/Style.cpp
         Style/FrmStyle.cpp
         TitleBar.cpp
+        IconUtils.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
         FileBrowser/FileBrowser.cpp
         FileBrowser/FileBroserTreeView.cpp
