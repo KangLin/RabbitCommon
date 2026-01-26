@@ -62,6 +62,24 @@ void CRecentMenu::addRecentFile(
         slotSaveState();
 }
 
+void CRecentMenu::updateRecentFile(
+    const QString &fileName, const QString &title, const QIcon &icon)
+{
+    if(title.isEmpty() && icon.isNull())
+        return;
+
+    for(int i = 0; i < m_OpenContent.size(); i++) {
+        auto c = m_OpenContent[i];
+        if(c.m_szFile == fileName) {
+            if(!title.isEmpty())
+                c.m_szTitle = title;
+            if(!icon.isNull())
+                c.m_Icon = icon;
+            m_OpenContent.replace(i, c);
+        }
+    }
+}
+
 void CRecentMenu::clearMenu()
 {
     m_OpenContent.clear();
