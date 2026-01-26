@@ -45,9 +45,10 @@ CRecentMenu::CRecentMenu(const QString& title, const QIcon& icon,
     setIcon(icon);
 }
 
-void CRecentMenu::addRecentFile(const QString &fileName, const QString &title)
+void CRecentMenu::addRecentFile(
+    const QString &fileName, const QString &title, const QIcon &icon)
 {
-    _Content content(title, fileName);
+    _Content content(title, fileName, icon);
 
     m_OpenContent.removeAll(content);
     m_OpenContent.prepend(content);
@@ -161,6 +162,8 @@ void CRecentMenu::updateRecentFileActions()
     for (int i = 0; i < numRecentFiles; ++i) {
         QString szdName = m_OpenContent[i].m_szTitle;
         QString szFile = m_OpenContent[i].m_szFile;
+        QIcon icon = m_OpenContent[i].m_Icon;
+
         if(szdName.isEmpty())
             szdName = QFileInfo(szFile).fileName();
         
@@ -168,7 +171,7 @@ void CRecentMenu::updateRecentFileActions()
         text.replace(QLatin1String("%d"), QString::number(i + 1));
         text.replace(QLatin1String("%s"), szdName);
         
-        QAction* recentFileAct = addAction(text);
+        QAction* recentFileAct = addAction(icon, text);
         QFileInfo fi(szFile);
         recentFileAct->setEnabled(fi.exists());
         recentFileAct->setData(szFile);
@@ -205,13 +208,13 @@ void CRecentMenu::slotSaveState()
 
 QDataStream& operator<< (QDataStream& d, const CRecentMenu::_Content& c)
 {
-    d << c.m_szFile << c.m_szTitle;
+    d << c.m_szFile << c.m_szTitle << c.m_Icon;
     return d;
 }
 
 QDataStream& operator>> (QDataStream& d, CRecentMenu::_Content& c)
 {
-    d >> c.m_szFile >> c.m_szTitle;
+    d >> c.m_szFile >> c.m_szTitle >> c.m_Icon;
     return d;
 }
 

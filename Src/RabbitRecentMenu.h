@@ -15,7 +15,7 @@
 
 namespace RabbitCommon {
 
-/**
+/*!
  * \~chinese 最近打开菜单
  * 
  * \~english Recently opened menu
@@ -74,8 +74,10 @@ public:
     bool restoreState(const QByteArray &state);
 
 public slots:
-    //!
-    void addRecentFile(const QString &fileName, const QString& title = QString());
+    //! Add recent file
+    void addRecentFile(const QString &fileName,
+                       const QString& title = QString(),
+                       const QIcon& icon = QIcon());
 
     //! Removes all the menu's actions.
     void clearMenu();
@@ -104,15 +106,17 @@ private:
     class _Content
     {
     public:
-        _Content(){}
-        _Content(const QString& title, const QString& file) {
+        _Content() {}
+        _Content(const QString& title, const QString& file, const QIcon &icon = QIcon()) {
             m_szTitle = title;
             m_szFile = file;
+            m_Icon = icon;
         }
 
         _Content(const _Content& c) {
             m_szTitle = c.m_szTitle;
             m_szFile = c.m_szFile;
+            m_Icon = c.m_Icon;
         }
         bool operator==(const _Content& c) const {
             if(m_szFile == c.m_szFile && m_szTitle == c.m_szTitle)
@@ -122,6 +126,7 @@ private:
 
         QString m_szTitle;
         QString m_szFile;
+        QIcon m_Icon;
     };
 
     friend QDataStream & operator<< (QDataStream& d, const _Content& image);
