@@ -1,13 +1,15 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "TitleBar.h"
 #include <QHBoxLayout>
 #include <QDockWidget>
 #include <QMargins>
+#include <QLoggingCategory>
+
+#include "TitleBar.h"
 
 namespace RabbitCommon {
-
+static Q_LOGGING_CATEGORY(log, "TitleBar")
 QPushButton* CTitleBar::CreateSmallPushButton(QIcon icon, QWidget *parent) {
     QPushButton *button = new QPushButton(icon, "", parent);
     if(!button) return button;
@@ -32,7 +34,8 @@ CTitleBar::CTitleBar(QWidget *parent)
 {
     bool check = false;
 
-    // Muse set parent
+    qCritical(log) << "The parent is null. must set it";
+    // Must set parent
     Q_ASSERT(parent);
 
     // Title bar horizontal layout

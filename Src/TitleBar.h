@@ -49,6 +49,14 @@ class RABBITCOMMON_EXPORT CTitleBar : public QWidget
     Q_OBJECT
 
 public:
+    /*!
+     * \~english
+     * \param parent: It is QDockWidget, show float button
+     *                It is QWdiget, show minimized and maximized button
+     * \~chinese
+     * \param parent: 如果是 QDockWidget ，则显示浮动按钮
+     *                如果是 QWidget ，则显示最小化和最大化按钮
+     */
     explicit CTitleBar(QWidget *parent);
 
     /* The default button */
