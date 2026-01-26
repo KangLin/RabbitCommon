@@ -53,8 +53,10 @@ void CRecentMenu::addRecentFile(
     m_OpenContent.removeAll(content);
     m_OpenContent.prepend(content);
 
-    while (m_OpenContent.size() > maxCount())
-        m_OpenContent.removeLast();
+    if(maxCount() >= 0) {
+        while (m_OpenContent.size() > maxCount())
+            m_OpenContent.removeLast();
+    }
 
     m_bUpdate = true;
 
@@ -174,6 +176,8 @@ void CRecentMenu::updateRecentFileActions()
     if(!m_bUpdate) return;
 
     int numRecentFiles = qMin(m_OpenContent.size(), maxCount());
+    if(numRecentFiles < 0)
+        numRecentFiles = m_OpenContent.size();
 
     clear();
 

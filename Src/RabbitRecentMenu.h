@@ -88,7 +88,10 @@ public slots:
     void clearMenu();
 
     //! Sets the maximum number of entries int he menu.
-    void setMaxCount(int);
+    //! \param count: > 0 : Limit the maximum number of entries
+    //!               = 0 : No entries
+    //!               < 0 : Unlimited entries
+    void setMaxCount(int count);
 
     //! Restore from configure file
     void slotRestoreState();
