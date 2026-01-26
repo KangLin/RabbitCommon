@@ -9,6 +9,9 @@
 - Add set applicaiont font
 - Add audio and video settings
 - Modify CRecentMenu interface
+- CRecentMenu:
+  - Add unlimited entries
+  - Add update entries interface 
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

@@ -9,6 +9,9 @@
 - 增加设置应用字体
 - 增加音视频设备设置
 - 修改 CRecentMenu 接口
+- CRecentMenu:
+  - 增加不限制条目
+  - 增加更新条目接口
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit
