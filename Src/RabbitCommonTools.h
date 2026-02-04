@@ -211,9 +211,9 @@ public:
     static bool VersionValid(const QString& szVersion);
     /*!
      * \brief Compare version
-     * \return > 0:
+     * \return > 0: ver1 > ver2
      *         = 0: same
-     *         < 0
+     *         < 0  ver1 < ver2
      * \see [Semantic Versioning](https://semver.org)
      */
     static int VersionCompare(const QString &ver1, const QString &ver2);
