@@ -404,8 +404,9 @@ function(INSTALL_TARGETS)
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
         IF(ANDROID)
+            get_target_property(${PARA_NAME}_LIB_SONAME ${PARA_NAME} TARGET_SONAME_FILE)
             set_target_properties(${PARA_NAME} PROPERTIES
-                QT_ANDROID_EXTRA_LIBS $<TARGET_SONAME_FILE:${component}>)
+                QT_ANDROID_EXTRA_LIBS ${${PARA_NAME}_LIB_SONAME})
         else(UNIX)
             INSTALL(FILES $<TARGET_SONAME_FILE:${component}>
                 DESTINATION "${PARA_DESTINATION}"
