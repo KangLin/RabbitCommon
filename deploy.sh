@@ -31,9 +31,13 @@ if [ -n "$1" ]; then
     fi
     git tag -a $1 -m "Release $1 ${MESSAGE}"
 else
-    echo "Usage: $0 release_version [release_message]"
+    echo "Update version and push to remote repository."
+    echo "If no parameters are provided, the data will not be pushed to the remote repository."
+    echo ""
+    echo "Usage: $0 [release_version] [release_message]"
     echo "   release_version format: [v][0-9].[0-9].[0-9]"
-    exit -1
+    echo ""
+    #exit -1
 fi
 
 VERSION=`git describe --tags`
@@ -41,11 +45,15 @@ if [ -z "$VERSION" ]; then
     VERSION=`git rev-parse --short HEAD`
 fi
 
+echo "Update version to $VERSION ......"
+
+VERSION_PATTERN="[0-9]\+\.[0-9]\+\.[0-9]\+[\+\-\^_~0-9A-Za-z]*"
+
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
 
 #sed -i "s/^\  - export VERSION=.*/\  - export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/.travis.yml
-sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
-sed -i "s/version:.*/version: \"${VERSION}.{build}\"/g" ${SOURCE_DIR}/appveyor.yml
+#sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/appveyor.yml
+#sed -i "s/version:.*/version: \"${VERSION}.{build}\"/g" ${SOURCE_DIR}/appveyor.yml
 
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
 sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_DIR}/.github/workflows/build.yml
@@ -57,10 +65,10 @@ sed -i "s/RabbitCommon_VERSION:.*/RabbitCommon_VERSION: ${VERSION}/g" ${SOURCE_D
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
 
-sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
-sed -i "s/^\SET(RabbitCommon_VERSION.*/\SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
-sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
-sed -i "s/^\    RabbitCommon_VERSION=.*/\    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
+sed -i "s/SET(RabbitCommon_VERSION[[:space:]]*\"${VERSION_PATTERN}\")/SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
+sed -i "s/SET(RabbitCommon_VERSION[[:space:]]*\"${VERSION_PATTERN}\")/SET(RabbitCommon_VERSION \"${DEBIAN_VERSION}\")/g" ${SOURCE_DIR}/Src/CMakeLists.txt
+sed -i "s/^    RabbitCommon_VERSION=.*/    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/App/App.pro
+sed -i "s/^    RabbitCommon_VERSION=.*/    RabbitCommon_VERSION=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/Src/Src.pro
 sed -i "s/version:.*'[0-9]\+\.[0-9]\+\.[0-9]\+'/version: '${DEBIAN_VERSION}'/g" ${SOURCE_DIR}/snap/snapcraft.yaml
 
 sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" ${SOURCE_DIR}/Update/update.xml
@@ -91,6 +99,7 @@ MAJOR_VERSION=`echo ${DEBIAN_VERSION}|cut -d "." -f 1`
 
 DATE_TIME_UTC=$(date -u +"%F at %T (UTC)")
 if [ -n "$1" ]; then
+    echo "Push to remote repository ......"
     git add .
     git commit -m "Release $1"
     git tag -d $1

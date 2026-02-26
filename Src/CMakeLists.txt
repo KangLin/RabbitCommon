@@ -43,6 +43,9 @@ SET(RABBITCOMMON_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 GET_VERSION(SOURCE_DIR ${RABBITCOMMON_SOURCE_DIR}
     OUT_VERSION RabbitCommon_VERSION
     OUT_REVISION RabbitCommon_REVISION)
+if(NOT(RabbitCommon_VERSION MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+[+\\-^_~0-9A-Za-z]*"))
+    SET(RabbitCommon_VERSION "2.3.4")
+endif()
 message("RabbitCommon_VERSION: ${RabbitCommon_VERSION}")
 message("RabbitCommon_REVISION: ${RabbitCommon_REVISION}")
 set(VERSION ${RabbitCommon_VERSION})
