@@ -455,6 +455,7 @@ option(RABBIT_ENABLE_INSTALL_QT
 #         - 插件组件名为： ${COMPONENT_PREFIX}Plugin
 #         - Qt 依赖库组件名为： ${COMPONENT_PREFIX}DependLibraries
 #    INSTALL_CMAKE_CONFIG_IN_FILE   ${PROJECT_NAME}Config.cmake.in 位置
+#    DEPLOYQT: 分发qt程序的参数（windeployqt、androiddeployqt、macosdeployqt)
 function(INSTALL_TARGET)
     SET(SINGLE_PARAS
         NAME
@@ -469,6 +470,7 @@ function(INSTALL_TARGET)
         COMPONENT
         COMPONENT_PREFIX
         INSTALL_CMAKE_CONFIG_IN_FILE
+        DEPLOYQT
         )
     cmake_parse_arguments(PARA "ISEXE;ISPLUGIN;IS_MACOSX_BUNDLE"
         "${SINGLE_PARAS}"
@@ -491,7 +493,8 @@ function(INSTALL_TARGET)
                 [EXPORT_NAME install export configure file name]
                 [COMPONENT ...]
                 [COMPONENT_PREFIX ...]
-                [INSTALL_CMAKE_CONFIG_IN_FILE cmake configure(Config.cmake.in) file]"
+                [INSTALL_CMAKE_CONFIG_IN_FILE cmake configure(Config.cmake.in) file]
+                [DEPLOYQT deploy qt program parameters]"
                 )
     endif()
     if(NOT DEFINED PARA_COMPONENT)
@@ -500,6 +503,9 @@ function(INSTALL_TARGET)
     else()
         set(PARA_COMPONENT_DEV ${PARA_COMPONENT})
         set(PARA_COMPONENT_DEPEND_LIBRARY ${PARA_COMPONENT})
+    endif()
+    if(NOT DEFINED PARA_DEPLOYQT)
+        set(PARA_DEPLOYQT "")
     endif()
 
     # cmake >= 3.16, the CMAKE_INSTALL_LIBDIR is support multi-arch lib dir
@@ -622,7 +628,7 @@ function(INSTALL_TARGET)
                     # Create dmg file
                     string(CONFIGURE [[
                         message(STATUS "Execute macdeployqt to deploy @PARA_NAME@.app ......")
-                        execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/@PARA_NAME@.app" -dmg -verbose=3)
+                        execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/@PARA_NAME@.app" -dmg -verbose=3 @PARA_DEPLOYQT@)
                         ]] macdeploy_string @ONLY
                     )
                     INSTALL(CODE ${macdeploy_string}
@@ -642,7 +648,7 @@ function(INSTALL_TARGET)
                             # Create dmg file
                             string(CONFIGURE [[
                                 message(STATUS "Execute macdeployqt to deploy @PARA_NAME@.app ......")
-                                execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/.." -dmg -verbose=3)
+                                execute_process(COMMAND @MACDEPLOYQT_EXECUTABLE@ "$<INSTALL_PREFIX>/.." -dmg -verbose=3 @PARA_DEPLOYQT@)
                                 ]] macdeploy_string @ONLY
                                 )
                             INSTALL(CODE ${macdeploy_string}
@@ -686,6 +692,7 @@ function(INSTALL_TARGET)
                                 --android-platform ${ANDROID_PLATFORM}
                                 --sign ${RabbitCommon_ROOT}/RabbitCommon.keystore rabbitcommon
                                 --storepass ${STOREPASS}
+                                ${PARA_DEPLOYQT}
                             )
                     else()
                         # Signs the resulting package. The path of the keystore file, the alias of the key, and passwords have to be specified by additional environment variables:
@@ -702,6 +709,7 @@ function(INSTALL_TARGET)
                                 --verbose
                                 --gradle
                                 --android-platform ${ANDROID_PLATFORM}
+                                ${PARA_DEPLOYQT}
                             )
                     endif()
 
@@ -713,6 +721,7 @@ function(INSTALL_TARGET)
                             --verbose
                             --gradle
                             --android-platform ${ANDROID_PLATFORM}
+                            ${PARA_DEPLOYQT}
                         )
                     add_custom_target(INSTALL_APK_${PARA_NAME} #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
                         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
@@ -722,6 +731,7 @@ function(INSTALL_TARGET)
                             --verbose
                             --gradle
                             --android-platform ${ANDROID_PLATFORM}
+                            ${PARA_DEPLOYQT}
                         )
                 endif()
 
@@ -852,7 +862,7 @@ function(INSTALL_TARGET)
                 #     COMMAND ${CMAKE_COMMAND} -E echo "Exec windeployqt for ${PARA_NAME}"
                 #     COMMAND "${WINDEPLOYQT_EXECUTABLE}"
                 #         #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                #         --verbose 7
+                #         --verbose 7 ${PARA_DEPLOYQT}
                 #         --no-quick-import
                 #         --dir "${CMAKE_BINARY_DIR}/DependLibraries"
                 #         --libdir "${CMAKE_BINARY_DIR}/DependLibraries"
@@ -864,7 +874,7 @@ function(INSTALL_TARGET)
                     execute_process(
                         COMMAND "@WINDEPLOYQT_EXECUTABLE@"
                             #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                            --verbose 7
+                            --verbose 7 @PARA_DEPLOYQT@
                             --no-quick-import
                             --dir "@CMAKE_BINARY_DIR@/DependLibraries"
                             --libdir "@CMAKE_BINARY_DIR@/DependLibraries"
@@ -894,7 +904,7 @@ function(INSTALL_TARGET)
                 execute_process(
                     COMMAND "@WINDEPLOYQT_EXECUTABLE@"
                         #--compiler-runtime # 因为已用了 include(InstallRequiredSystemLibraries)
-                        --verbose 7
+                        --verbose 7 @PARA_DEPLOYQT@
                         --no-quick-import
                         --dir "@CMAKE_BINARY_DIR@/DependLibraries"
                         --libdir "@CMAKE_BINARY_DIR@/DependLibraries"
