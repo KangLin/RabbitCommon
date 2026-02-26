@@ -1557,12 +1557,12 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="331"/>
         <source>      - Icon theme: </source>
-        <translation>      -圖標主題：</translation>
+        <translation>      - 圖標主題：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="333"/>
         <source>      - Fall back icon theme: </source>
-        <translation>      -後備圖標主題：</translation>
+        <translation>      - 後備圖標主題：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="336"/>
