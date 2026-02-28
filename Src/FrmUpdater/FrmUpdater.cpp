@@ -476,12 +476,12 @@ CFrmUpdater::RedirectCode CFrmUpdater::CheckRedirectConfigFile()
             return RedirectCode::Failure;
         }
 
-        if(CompareVersion(szVersion, m_szCurrentVersion) <= 0)
+        if(RabbitCommon::CTools::VersionCompare(szVersion, m_szCurrentVersion) <= 0)
             continue;
 
         QString szMinVersion = it->szMinUpdateVersion;
         if(!szMinVersion.isEmpty()) {
-            if(CompareVersion(szMinVersion, m_szCurrentVersion) > 0)
+            if(RabbitCommon::CTools::VersionCompare(szMinVersion, m_szCurrentVersion) > 0)
                 continue;
         }
 
@@ -598,7 +598,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
         return nRet;
     }
 
-    if(CompareVersion(info.version.szVerion, m_szCurrentVersion) <= 0)
+    if(RabbitCommon::CTools::VersionCompare(info.version.szVerion, m_szCurrentVersion) <= 0)
     {
         QString szError;
         szError = tr("There is laster version");
@@ -1228,62 +1228,6 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
 }
 
 /*!
- * \brief CFrmUpdater::CompareVersion
- * \param newVersion
- * \param currentVersion
- * \return > 0:
- *         = 0: 相同
- *         < 0
- * \see [Semantic Versioning](https://semver.org)
- * \see [rpm version](https://rpm-software-management.github.io/rpm/manual/spec.html)
- */
-int CFrmUpdater::CompareVersion(const QString &newVersion, const QString &currentVersion)
-{
-    int nRet = 0;
-    QString sN = newVersion;
-    QString sC = currentVersion;
-    
-    if(sN.isEmpty() || sC.isEmpty())
-        return sN.length() - sC.length();
-
-    sN = sN.replace(QRegularExpression("[-~_]"), ".");
-    sC = sC.replace(QRegularExpression("[-~_]"), ".");
-
-    QStringList szNew = sN.split(".");
-    QStringList szCur = sC.split(".");
-
-    int count = qMin(szNew.length(), szCur.length());
-    qDebug(log) << "count:" << count;
-
-    if(count <= 1)
-        return szNew.length() - szCur.length();
-
-    QString firstNew = szNew.at(0);
-    QString firstCur = szCur.at(0);
-    firstNew = firstNew.remove(QChar('v'), Qt::CaseInsensitive);
-    firstCur = firstCur.remove(QChar('v'), Qt::CaseInsensitive);
-    nRet = firstNew.toInt() - firstCur.toInt();
-    if(nRet)
-        return nRet;
-
-    if(count < 2)
-        return sN.length() - sC.length();
-    nRet = szNew.at(1).toInt() - szCur.at(1).toInt();
-    if(nRet)
-        return nRet;
-
-    if(count < 3)
-        return sN.length() - sC.length();
-    nRet = szNew.at(2).toInt() - szCur.at(2).toInt();
-    if(nRet)
-        return nRet;
-    
-    if(count < 4)
-        return sC.length() - sN.length();
-    return szNew.at(3).toInt() - szCur.at(3).toInt();
-}
-
-/*!
  * \brief Check file is exist
  * \return 
  */
@@ -1786,7 +1730,7 @@ bool CFrmUpdater::CheckPrompt(const QString &szVersion)
                   QSettings::IniFormat);
     QString version = set.value("Updater/Version", m_szCurrentVersion).toString();
     set.setValue("Updater/Version", szVersion);
-    int nRet = CompareVersion(szVersion, version);
+    int nRet = RabbitCommon::CTools::VersionCompare(szVersion, version);
     if (nRet > 0)
         return true;
     else if(nRet == 0)

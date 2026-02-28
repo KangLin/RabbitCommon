@@ -2,8 +2,7 @@
 - 增加线程池
 - 增加文件传输
 - CTools:
-  - 增加 static QString GetVersion(const QString &szVersion, VersionComponents component);
-  - 增加 static QMap<QString, QString> GetVersion(const QString& szVersion);
+  - 增加 static VersionInfo GetVersion(const QString& szVersion);
   - 增加 static bool VersionValid(const QString& szVersion);
   - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
 - 增加设置应用字体

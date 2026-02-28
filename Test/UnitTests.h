@@ -19,7 +19,6 @@ private Q_SLOTS:
     void testDownloadFileNoExistLocalFile();
     void testDownloadFileExistLocalFile();
 
-    void testCFrmUpdaterCompareVersion();
     void testCToolsCompareVersion();
 
     void test_os();

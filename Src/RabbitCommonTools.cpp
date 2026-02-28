@@ -177,9 +177,11 @@ QString CTools::GetLanguage()
     return g_szLanguage;
 }
 
-QMap<QString, QString> CTools::GetVersion(const QString &szVersion)
+CTools::VersionInfo CTools::GetVersion(const QString &szVersion)
 {
-    QMap<QString, QString> ver;
+    VersionInfo ver;
+    ver.isValid = false;
+
     //static QString pattern = R"(^[V|v]?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$)";
     static QString pattern = R"(^[V|v]?(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$)";
     static QRegularExpression re(pattern);
@@ -194,42 +196,24 @@ QMap<QString, QString> CTools::GetVersion(const QString &szVersion)
         return ver;
     }
 
-    ver.insert("Major", match.captured("major"));
-    ver.insert("Minor", match.captured("minor"));
-    ver.insert("Patch", match.captured("patch"));
-    ver.insert("PreRelease", match.captured("prerelease"));
-    ver.insert("Build", match.captured("build"));
+    bool ok = false;
+    ver.major = match.captured("major").toInt(&ok);
+    if(!ok) return ver;
+    ver.minor = match.captured("minor").toInt(&ok);
+    if(!ok) return ver;
+    ver.patch = match.captured("patch").toInt(&ok);
+    if(!ok) return ver;
+    ver.preRelease = match.captured("prerelease");
+    ver.build = match.captured("build");
+    ver.isValid = true;
 
     return ver;
 }
 
-QString CTools::GetVersion(const QString &szVersion, CTools::VersionComponents component)
-{
-    auto map = GetVersion(szVersion);
-    switch(component){
-    case VersionComponents::Major:
-        return map.value("Major");
-    case VersionComponents::Minor:
-        return map.value("Minor");
-    case VersionComponents::Patch:
-        return map.value("Patch");
-    case VersionComponents::PreRelease:
-        return map.value("PreRelease");
-    case VersionComponents::Build:
-        return map.value("Build");
-    }
-    return QString();
-}
-
 bool CTools::VersionValid(const QString &szVersion)
 {
-    auto map = GetVersion(szVersion);
-    if(map.value("Major").isEmpty()
-        || map.value("Minor").isEmpty()
-        || map.value("Patch").isEmpty())
-        return false;
-
-    return true;
+    auto version = GetVersion(szVersion);
+    return version.isValid;
 }
 
 int CTools::VersionCompare(const QString &ver1, const QString &ver2)
@@ -253,38 +237,123 @@ int CTools::VersionCompare(const QString &ver1, const QString &ver2)
     auto m1 = GetVersion(ver1);
     auto m2 = GetVersion(ver2);
 
-    int n1 = 0;
-    int n2 = 0;
-    n1 = m1.value("Major").toInt();
-    n2 = m2.value("Major").toInt();
-    nRet = n1 - n2;
-    qDebug(log) << "Major nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
+    nRet = m1.major - m2.major;
     if(nRet) return nRet;
 
-    n1 = m1.value("Minor").toInt();
-    n2 = m2.value("Minor").toInt();
-    qDebug(log) << "Minor nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
-    nRet = n1 - n2;
+    nRet = m1.minor - m2.minor;
     if(nRet) return nRet;
 
-    n1 = m1.value("Patch").toInt();
-    n2 = m2.value("Patch").toInt();
-    qDebug(log) << "Patch nRet:" << nRet << "n1:" << n1 << "n2:" << n2 << ver1 << ver2;
-    nRet = n1 - n2;
+    nRet = m1.patch - m2.patch;
     if(nRet) return nRet;
 
-    QString v1 = m1.value("PreRelease");
-    QString v2 = m2.value("PreRelease");
-    if(v1.isEmpty() && v2.isEmpty())
+    QString p1 = m1.preRelease;
+    QString p2 = m2.preRelease;
+    if(p1.isEmpty() && p2.isEmpty())
         return 0;
-    if(v1.isEmpty() || v2.isEmpty())
-        return v1.length() - v2.length() > 0 ? -1 : 1;
 
-    n1 = qMin(v1.length(), v2.length());
-    nRet = strncmp(v1.toStdString().c_str(), v2.toStdString().c_str(), n1);
-    if(nRet) return nRet;
+    // 其中之一是 git 开发版本，另一个是Semantic版本。则 git开发版本优先级高于 Semantic 版本
+    if(IsGitDevelopmentVersion(ver1) && !IsGitDevelopmentVersion(ver2))
+        return 1;
+    if(!IsGitDevelopmentVersion(ver1) && IsGitDevelopmentVersion(ver2))
+        return -1;
+    if(IsGitDevelopmentVersion(ver1) && IsGitDevelopmentVersion(ver2)) {
+        GitVersionInfo info1 = GetGitDevelopmentVersion(ver1);
+        GitVersionInfo info2 = GetGitDevelopmentVersion(ver2);
+        return info1.commitCount.toInt() - info2.commitCount.toInt();
+    }
 
-    return v1.length() - v2.length();
+
+    if(p1.isEmpty() || p2.isEmpty()) {
+        // Semantic 版本： 先行版的优先级低于相关联的标准版本
+        return p1.length() - p2.length() > 0 ? -1 : 1;
+    }
+
+    return ComparePreRelease(p1, p2);
+}
+
+/*
+ * - 只有数字的标识符以数值高低比较。
+ * - 有字母或连接号时则逐字以 ASCII 的排序来比较。
+ * - 数字的标识符比非数字的标识符优先层级低。
+ * - 若开头的标识符都相同时，栏位比较多的先行版本号优先层级比较高。
+ */
+int CTools::ComparePreRelease(const QString &ver1, const QString &ver2)
+{
+    QStringList pre1 = ver1.split(".");
+    QStringList pre2 = ver2.split(".");
+    int i = 0;
+    while(i < pre1.length() && i < pre2.length()) {
+        QString p1 = pre1.at(i);
+        QString p2 = pre2.at(i);
+        int nRet = p1.compare(p2);
+        if(nRet) return nRet;
+        i++;
+    }
+    if(pre1.length() == pre2.length())
+        return 0;
+
+    //- 若开头的标识符都相同时，栏位比较多的先行版本号优先层级比较高。
+    return pre1.length() - pre2.length() > 0 ? 1 : -1;
+}
+
+bool CTools::IsGitDevelopmentVersion(const QString szVersion)
+{
+    // 使用命名捕获组的正则表达式
+    // static QRegularExpression pattern(
+    //     R"(^(?<base>v?[0-9]+\.[0-9]+\.[0-9]+)(?:-(?<commits>[0-9]+)-g[0-9a-f]+)?$)"
+    //     );
+    // 支持不同的哈希长度 (7-40位)
+    static QRegularExpression pattern(
+        R"(^[V|v]?(?<base>[0-9]+\.[0-9]+\.[0-9]+)(?:-(?<commits>[0-9]+)-g(?<hash>[0-9a-f]{7,40}))?$)"
+        );
+    QRegularExpressionMatch match = pattern.match(szVersion);
+
+    if (match.hasMatch()) {
+        QString baseVersion = match.captured("base");      // 基础版本号
+        QString commitCount = match.captured("commits");   // 提交数
+        QString commitHash = match.captured("hash");
+
+        qDebug(log) << "  - Base:" << baseVersion;
+        if (commitCount.isEmpty()) {
+            qDebug() << "  - Type: Official version";
+        } else {
+            qDebug(log) << "  - Commit count:" << commitCount;
+            qDebug(log) << "  - Hash:" << commitHash; // 简单提取哈希
+            qDebug(log) << "  - Type: Is Development version";
+            return true;
+        }
+    } else {
+        qDebug() << "Invalid Git version format:" << szVersion;
+    }
+
+    return false;
+}
+
+CTools::GitVersionInfo CTools::GetGitDevelopmentVersion(const QString szVersion)
+{
+    GitVersionInfo info;
+    info.isValid = false;
+
+    // 使用命名捕获组的正则表达式
+    // static QRegularExpression pattern(
+    //     R"(^(?<base>v?[0-9]+\.[0-9]+\.[0-9]+)(?:-(?<commits>[0-9]+)-g[0-9a-f]+)?$)"
+    //     );
+    // 支持不同的哈希长度 (7-40位)
+    static QRegularExpression pattern(
+        R"(^[V|v]?(?<base>[0-9]+\.[0-9]+\.[0-9]+)(?:-(?<commits>[0-9]+)-g(?<hash>[0-9a-f]{7,40}))?$)"
+        );
+    QRegularExpressionMatch match = pattern.match(szVersion);
+
+    if (match.hasMatch()) {
+        info.baseVersion = match.captured("base");      // 基础版本号
+        info.commitCount = match.captured("commits");   // 提交数
+        info.commitHash = match.captured("hash");
+        info.isValid = true;
+        info.isDevelopment = !info.commitCount.isEmpty();
+    } else {
+        qDebug() << "Invalid Git version format:" << szVersion;
+    }
+    return info;
 }
 
 QString CTools::Version()

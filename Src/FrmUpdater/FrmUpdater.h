@@ -164,7 +164,6 @@ Q_SIGNALS:
 
 private:
     CFrmUpdater(QWidget *parent);
-    int CompareVersion(const QString &newVersion, const QString &currentVersion);
     int InitStateMachine();
     bool IsDownLoad();
     enum class RedirectCode {

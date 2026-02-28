@@ -188,16 +188,14 @@ public:
     //! RabbitCommon information
     static QString Information();
 
-    enum class VersionComponents {
-        Major,
-        Minor,
-        Patch,
-        PreRelease,
-        Build
+    struct VersionInfo {
+        bool isValid;
+        int major;
+        int minor;
+        int patch;
+        QString preRelease;
+        QString build;
     };
-    Q_ENUM(VersionComponents)
-    // Since 2.4.0
-    static QString GetVersion(const QString &szVersion, VersionComponents component);
     /*!
      * \return key:
      *           - Major
@@ -205,9 +203,10 @@ public:
      *           - Patch
      *           - PreRelease
      *           - Build
-     * Since 2.4.0
+     * \~ Since 2.4.0
      */
-    static QMap<QString, QString> GetVersion(const QString& szVersion);
+    static VersionInfo GetVersion(const QString& szVersion);
+    // Since 2.4.0
     static bool VersionValid(const QString& szVersion);
     /*!
      * \brief Compare version
@@ -215,8 +214,20 @@ public:
      *         = 0: same
      *         < 0  ver1 < ver2
      * \see [Semantic Versioning](https://semver.org)
+     * \~ Since 2.4.0
      */
     static int VersionCompare(const QString &ver1, const QString &ver2);
+    struct GitVersionInfo {
+        QString baseVersion;
+        QString commitCount;
+        QString commitHash;
+        bool isDevelopment;
+        bool isValid;
+    };
+    // Since 2.4.0
+    static GitVersionInfo GetGitDevelopmentVersion(const QString szVersion);
+    // Since 2.4.0
+    static bool IsGitDevelopmentVersion(const QString szVersion);
 
     /*!
      * \brief Enable core dump
@@ -368,6 +379,14 @@ private:
     bool m_Initialized;
 
     bool m_bShowMaxWindow;
+
+    /*!
+     * \brief Compare PreRelease
+     * \param ver1
+     * \param ver2
+     * Since 2.4.0
+     */
+    static int ComparePreRelease(const QString &ver1, const QString &ver2);
 };
 
 //! Fit the platform to display the dialog or widget.
