@@ -534,13 +534,13 @@ VERSION_PATTERN="v?[0-9]+\.[0-9]+\.[0-9]+([-+_~.^][0-9A-Za-z.-]*)?"
 version_parser() {
     local version=$1
     local -n version_data=$2 # 使用引用传递
-    
+
     # 定义版本号模式
     local major minor patch pre build
 
     # 移除 v 前缀
     version=${version#v}
-    
+
     # 正则表达式匹配语义化版本
     local semantic_pattern=${SEMVER_PATTERN}
 
@@ -550,9 +550,9 @@ version_parser() {
             "${BASH_REMATCH[1]}"           # major
             "${BASH_REMATCH[2]}"           # minor
             "${BASH_REMATCH[3]}"           # patch
-            "${BASH_REMATCH[5]:-}"          # pre
-            "${BASH_REMATCH[10]:-}"          # build
-            "$version"                      # original
+            "${BASH_REMATCH[5]:-}"         # pre
+            "${BASH_REMATCH[10]:-}"        # build
+            "$version"                     # original
             $([[ -n "${BASH_REMATCH[5]}" ]] && echo "true" || echo "false")  # is_pre
             $([[ -n "${BASH_REMATCH[10]}" ]] && echo "true" || echo "false")  # has_build
         )
@@ -566,7 +566,7 @@ version_parser() {
 # 辅助函数：显示版本数组
 display_version_info() {
     local -a data=($@)
-    
+
     if [[ ${#data[@]} -ge 8 ]]; then
         cat << EOF
 版本信息:
@@ -593,10 +593,10 @@ parse_version_assoc() {
     # 正则表达式匹配语义化版本
     local pattern=$SEMVER_PATTERN
     #local pattern='^([0-9]+)\.([0-9]+)\.([0-9]+)(-([a-zA-Z0-9\.]+))?(\+([a-zA-Z0-9\.]+))?$'
-    
+
     # 移除 v 前缀
     version=${version#v}
-    
+
     if [[ $version =~ $pattern ]]; then
         version_array[major]="${BASH_REMATCH[1]}"
         version_array[minor]="${BASH_REMATCH[2]}"
@@ -614,10 +614,10 @@ parse_version_assoc() {
 compare_pre_release() {
     local pre1=$1
     local pre2=$2
-    
+
     IFS='.' read -ra parts1 <<< "$pre1"
     IFS='.' read -ra parts2 <<< "$pre2"
-    
+
     local i=0
     while [[ $i -lt ${#parts1[@]} ]] && [[ $i -lt ${#parts2[@]} ]]; do
         # 判断是数字还是字符串
@@ -642,14 +642,14 @@ compare_pre_release() {
         fi
         ((i++))
     done
-    
-    # 如果所有相同部分都相等，较长的预发布版本更低
+
+    # 如果所有相同部分都相等，较长的预发布版本更高
     if [[ ${#parts1[@]} -gt ${#parts2[@]} ]]; then
-        return 2
-    elif [[ ${#parts1[@]} -lt ${#parts2[@]} ]]; then
         return 1
+    elif [[ ${#parts1[@]} -lt ${#parts2[@]} ]]; then
+        return 2
     fi
-    
+
     return 0
 }
 
@@ -659,6 +659,7 @@ compare_pre_release() {
 #   1: 版本1 > 版本2
 #   2: 版本1 < 版本2
 #   3: 版本格式错误
+# Official SemVer 2.0.0 pattern. See: https://semver.org/
 compare_versions() {
     local ver1=$1
     local ver2=$2
@@ -727,7 +728,7 @@ test_version() {
         "5.6"
         "v5.6.6"
     )
-    
+
     for ver in "${test_versions[@]}"; do
         echo "================================="
         echo "测试版本: $ver"
@@ -736,7 +737,7 @@ test_version() {
             display_version_info "${result[@]}"
         fi
     done
-    
+
     # 使用示例
     local -A version_info #声明关联数组
     if parse_version_assoc "2.1.0-beta.2+build.456" version_info; then
@@ -748,7 +749,14 @@ test_version() {
     fi
 
     echo "compare_versions \"v1.0.0\" \"1.0.0\": `compare_versions "v1.0.0" "1.0.0"; echo $?`"
+    echo "compare_versions \"v1.0.0\" \"1.0.0\": `compare_versions "2.0.0" "2.0.0"; echo $?`"
     echo "compare_versions \"v1.0.0\" \"1.1.0\": `compare_versions "v1.0.0" "1.1.0"; echo $?`"
     echo "compare_versions \"v2.0.0\" \"1.1.0\": `compare_versions "v2.0.0" "1.1.0"; echo $?`"
+    echo "compare_versions \"v2.0.0\" \"2.0.0-alpha\": `compare_versions "v2.0.0" "2.0.0-alpha"; echo $?`"
     echo "compare_versions \"v2.0.0-alpha\" \"2.0.0-beta\": `compare_versions "v2.0.0-alpha" "2.0.0-beta"; echo $?`"
+    echo "compare_versions \"1.0.0-alpha.1\" \"1.0.0-alpha.beta\": `compare_versions "1.0.0-alpha.1" "1.0.0-alpha.beta"; echo $?`"
+    echo "compare_versions \"1.0.0-alpha\" \"1.0.0-alpha.1\": `compare_versions "1.0.0-alpha" "1.0.0-alpha.1"; echo $?`"
+    echo "compare_versions \"1.0.0-rc.1\" \"1.1.0\": `compare_versions "1.0.0-rc.1" "1.1.0"; echo $?`"
+    echo "compare_versions \"v2.0.0+dev\" \"v2.0.0+dev.1\": `compare_versions "v2.0.0+dev" "v2.0.0+dev.1"; echo $?`"
+    echo "compare_versions \"v2.0.0-alpha+dev\" \"v2.0.0-alpha+dev.1\": `compare_versions "v2.0.0-alpha+dev" "v2.0.0-alpha+dev.1"; echo $?`"
 }
