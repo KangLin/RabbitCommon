@@ -327,6 +327,7 @@ QString CTools::Information()
     szInfo += tr("    - Custom title bar for QWidget") + "\n";
     szInfo += tr("    - Dock Folder browser") + "\n";
     szInfo += tr("    - Recent menu") + "\n";
+    szInfo += tr("    - Icon utils") + "\n";
     szInfo += tr("    - Style") + "\n";
     szInfo += tr("      - Icon theme: ") + QIcon::themeName() + "\n";
     #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
@@ -363,6 +364,10 @@ QString CTools::Information()
 #if defined(BUILD_QUIWidget)
     szInfo += tr("  - Have QUIWidget") + "\n";
 #endif
+#if HAVE_MEDIA_DEVICES
+    szInfo += tr("  - Have media devices settings widget") + "\n";
+#endif
+
     szInfo += tr("  - Application paths and files: ") + "\n";
     szInfo += tr("    - Installation root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
     szInfo += tr("    - Application path: ") + RabbitCommon::CDir::Instance()->GetDirApplication() + "\n";

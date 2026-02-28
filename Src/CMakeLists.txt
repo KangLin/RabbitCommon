@@ -60,7 +60,7 @@ set(RABBITCOMMON_INCLUDE_DIRS
 
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg Multimedia MultimediaWidgets)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
@@ -69,7 +69,6 @@ if(WITH_GUI)
         IconUtils.h
         DockFolderBrowser/DockFolderBrowser.h
         FileBrowser/FileBrowser.h
-        Multimedia/FrmMediaDevices.h
         )
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
@@ -92,7 +91,6 @@ if(WITH_GUI)
         Log/DockDebugLog.cpp
         Log/DlgFilter.cpp
         Log/DlgEdit.cpp
-        Multimedia/FrmMediaDevices.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
@@ -108,9 +106,9 @@ if(WITH_GUI)
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Multimedia>)
 endif()
 
-cmake_dependent_option(BUILD_ABOUT "Set to ON to build about function" ON
+cmake_dependent_option(WITH_ABOUT "Set to ON to build about function" ON
     WITH_GUI OFF)
-if(BUILD_ABOUT)
+if(WITH_ABOUT)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_ABOUT)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES DlgAbout/DlgAbout.h)
     list(APPEND RABBITCOMMON_HEAD_FILES DlgAbout/Information.h)
@@ -129,13 +127,13 @@ if(BUILD_ABOUT)
     #  $<BUILD_INTERFACE:...> 只有在编译时才会生成，所以安装时，是空值。
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DlgAbout>")
-endif(BUILD_ABOUT)
+endif(WITH_ABOUT)
 
 set(CMARK_SHARED OFF CACHE BOOL "Set cmark shared library")
 set(CMARK_STATIC ON CACHE BOOL "Set cmark static library")
 set(CMARK_TESTS OFF CACHE BOOL "Set cmark tests")
 cmake_dependent_option(WITH_CMARK "Use cmark. to support Markdown" ON
-    "BUILD_ABOUT" OFF)
+    "WITH_ABOUT" OFF)
 if(WITH_CMARK)
 
     find_package(cmark)
@@ -179,7 +177,7 @@ if(WITH_CMARK)
 endif(WITH_CMARK)
 
 cmake_dependent_option(WITH_CMARK_GFM "Use github cmark-gfm. to support Markdown" ON
-    "BUILD_ABOUT;NOT WITH_CMARK" OFF)
+    "WITH_ABOUT;NOT WITH_CMARK" OFF)
 if(WITH_CMARK_GFM)
 
     #find_package(PkgConfig)
@@ -256,9 +254,9 @@ if(WITH_WebEngineWidgets)
     endif()
 endif()
 
-cmake_dependent_option(BUILD_UPDATE "Set to ON to build update function" ON
+cmake_dependent_option(WITH_UPDATE "Set to ON to build update function" ON
     WITH_GUI OFF)
-if(BUILD_UPDATE)
+if(WITH_UPDATE)
     if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
         find_package(Qt${QT_VERSION_MAJOR}StateMachine)
         if(Qt${QT_VERSION_MAJOR}StateMachine_FOUND)
@@ -299,8 +297,8 @@ IF(OpenSSL_FOUND)
     list(APPEND RABBIT_PRIVATE_COMMON_LIBS OpenSSL::SSL OpenSSL::Crypto)
 ENDIF()
 
-option(BUILD_ADMINAUTHORISER "Set to ON to build admin authoriser function()" ON)
-if(BUILD_ADMINAUTHORISER)
+option(WITH_ADMINAUTHORISER "Set to ON to build admin authoriser functions" ON)
+if(WITH_ADMINAUTHORISER)
     list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_ADMINAUTHORISER)
     list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthoriser.cpp)
     list(APPEND RABBITCOMMON_HEAD_FILES AdminAuthoriser/adminauthorization_p.h
@@ -314,7 +312,7 @@ if(BUILD_ADMINAUTHORISER)
     else()
         list(APPEND RABBITCOMMON_SOURCE_FILES AdminAuthoriser/adminauthorization_dummy.cpp)
     endif()
-endif(BUILD_ADMINAUTHORISER)
+endif(WITH_ADMINAUTHORISER)
 
 if(WIN32)
     list(APPEND RABBITCOMMON_HEAD_FILES CoreDump/MiniDumper.h)
@@ -347,20 +345,38 @@ if(WIN32)
     endif()
 endif()
 
-find_package(CURL)
-if(CURL_FOUND)
-    list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CURL)
+option(WITH_FILE_TRANSFER "Set to ON to build file transfer functions" ON)
+if(WITH_FILE_TRANSFER)
+    find_package(CURL)
+    if(CURL_FOUND)
+        list(APPEND RabbitCommon_PRIVATE_DEFINITIONS HAVE_CURL)
+        list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
+            FileTransfer/WorkerCurl.h
+            FileTransfer/RequestCurl.h
+        )
+        list(APPEND RABBITCOMMON_SOURCE_FILES
+            FileTransfer/WorkerCurl.cpp
+            FileTransfer/RequestCurl.cpp
+        )
+        list(APPEND RABBITCOMMON_INCLUDE_DIRS
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Download>)
+        list(APPEND RABBIT_PRIVATE_COMMON_LIBS CURL::libcurl)
+    endif()
+endif()
+
+cmake_dependent_option(WITH_MEDIA_DEVICES "Set to ON to build media devices settings widget" ON
+    WITH_GUI OFF)
+if(WITH_MEDIA_DEVICES)
+    LIST(APPEND _QT_COMPONENTS Multimedia MultimediaWidgets)
+    list(APPEND RabbitCommon_DEFINITIONS HAVE_MEDIA_DEVICES)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
-        FileTransfer/WorkerCurl.h
-        FileTransfer/RequestCurl.h
+        Multimedia/FrmMediaDevices.h
     )
     list(APPEND RABBITCOMMON_SOURCE_FILES
-        FileTransfer/WorkerCurl.cpp
-        FileTransfer/RequestCurl.cpp
+        Multimedia/FrmMediaDevices.cpp
     )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Download>)
-    list(APPEND RABBIT_PRIVATE_COMMON_LIBS CURL::libcurl)
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Multimedia>)
 endif()
 
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
@@ -484,6 +500,11 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RabbitCommon
+        COMPONENT Development
+    )
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../Script/RabbitCommon.sh
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/Script
         COMPONENT Development
     )
 

@@ -11,6 +11,10 @@
 
 namespace RabbitCommon {
 
+/**
+ * @brief Icon utils
+ * @ingroup API
+ */
 class RABBITCOMMON_EXPORT CIconUtils
 {
 public:
