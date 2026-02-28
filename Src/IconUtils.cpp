@@ -1,5 +1,6 @@
 // Author: Kang Lin <kl222@126.com>
 
+#include <QUrl>
 #include <QPainter>
 #include <QFontMetrics>
 #include <QApplication>
