@@ -60,13 +60,12 @@ set(RABBITCOMMON_INCLUDE_DIRS
 
 option(WITH_GUI "Set ON to with gui" ON)
 if(WITH_GUI)
-    LIST(APPEND _QT_COMPONENTS Gui Widgets Svg)
+    LIST(APPEND _QT_COMPONENTS Gui Widgets)
     LIST(APPEND RabbitCommon_DEFINITIONS HAVE_RABBITCOMMON_GUI)
     list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
         RabbitRecentMenu.h
         Style/FrmStyle.h
         TitleBar.h
-        IconUtils.h
         DockFolderBrowser/DockFolderBrowser.h
         FileBrowser/FileBrowser.h
         )
@@ -83,7 +82,6 @@ if(WITH_GUI)
         Style/Style.cpp
         Style/FrmStyle.cpp
         TitleBar.cpp
-        IconUtils.cpp
         DockFolderBrowser/DockFolderBrowser.cpp
         FileBrowser/FileBrowser.cpp
         FileBrowser/FileBroserTreeView.cpp
@@ -367,16 +365,31 @@ endif()
 cmake_dependent_option(WITH_MEDIA_DEVICES "Set to ON to build media devices settings widget" ON
     WITH_GUI OFF)
 if(WITH_MEDIA_DEVICES)
-    LIST(APPEND _QT_COMPONENTS Multimedia MultimediaWidgets)
-    list(APPEND RabbitCommon_DEFINITIONS HAVE_MEDIA_DEVICES)
-    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
-        Multimedia/FrmMediaDevices.h
-    )
-    list(APPEND RABBITCOMMON_SOURCE_FILES
-        Multimedia/FrmMediaDevices.cpp
-    )
-    list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Multimedia>)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Multimedia MultimediaWidgets)
+    if(Qt${QT_VERSION_MAJOR}Multimedia_FOUND AND Qt${QT_VERSION_MAJOR}MultimediaWidgets_FOUND)
+        LIST(APPEND _QT_COMPONENTS Multimedia MultimediaWidgets)
+        list(APPEND RabbitCommon_DEFINITIONS HAVE_MEDIA_DEVICES)
+        list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES
+            Multimedia/FrmMediaDevices.h
+        )
+        list(APPEND RABBITCOMMON_SOURCE_FILES
+            Multimedia/FrmMediaDevices.cpp
+        )
+        list(APPEND RABBITCOMMON_INCLUDE_DIRS
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Multimedia>)
+    endif()
+endif()
+
+cmake_dependent_option(WITH_ICON_UTILS "Set to ON to build about function" ON
+    WITH_GUI OFF)
+if(WITH_ICON_UTILS)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Svg)
+    if(Qt${QT_VERSION_MAJOR}Svg_FOUND)
+        LIST(APPEND _QT_COMPONENTS Svg)
+        list(APPEND RabbitCommon_DEFINITIONS HAVE_ICON_UTILS)
+        list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES IconUtils.h)
+        list(APPEND RABBITCOMMON_SOURCE_FILES IconUtils.cpp)
+    endif()
 endif()
 
 list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES

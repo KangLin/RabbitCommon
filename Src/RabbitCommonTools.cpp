@@ -380,6 +380,7 @@ QString CTools::Information()
     QString szInfo;
     szInfo = tr("- Functions:") + "\n";
     szInfo += tr("  - Locale: ") + GetLanguage() + "\n";
+
 #if defined(HAVE_RABBITCOMMON_GUI)
     szInfo += tr("  - Have GUI") + "\n";
 #if defined(HAVE_ABOUT)
@@ -396,13 +397,22 @@ QString CTools::Information()
     szInfo += tr("    - Custom title bar for QWidget") + "\n";
     szInfo += tr("    - Dock Folder browser") + "\n";
     szInfo += tr("    - Recent menu") + "\n";
-    szInfo += tr("    - Icon utils") + "\n";
     szInfo += tr("    - Style") + "\n";
     szInfo += tr("      - Icon theme: ") + QIcon::themeName() + "\n";
     #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     szInfo += tr("      - Fall back icon theme: ") + QIcon::fallbackThemeName() + "\n";
     #endif
+#if defined(BUILD_QUIWidget)
+    szInfo += tr("    - Have QUIWidget") + "\n";
+#endif
+#if HAVE_MEDIA_DEVICES
+    szInfo += tr("    - Have media devices settings widget") + "\n";
+#endif
+#ifdef HAVE_ICON_UTILS
+    szInfo += tr("    - Icon utils") + "\n";
+#endif
 #endif // #if defined(HAVE_RABBITCOMMON_GUI)
+
     szInfo += tr("  - Log") + "\n";
     szInfo += tr("    - Core dump") + "\n";
     szInfo += tr("    - Log file: ") + CLog::Instance()->GetLogFile() + "\n";
@@ -410,6 +420,7 @@ QString CTools::Information()
     szInfo += tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
     szInfo += "  - " + tr("Thread pool") + "\n";
+
 #if defined(HAVE_CURL)
     szInfo += "  - " + tr("File transfer") + "\n";
     szInfo += "    - " + tr("libCurl") + " ";
@@ -429,13 +440,7 @@ QString CTools::Information()
     #if CURL_VERSION_LIBSSH2
         szInfo += "      - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
     #endif
-#endif
-#if defined(BUILD_QUIWidget)
-    szInfo += tr("  - Have QUIWidget") + "\n";
-#endif
-#if HAVE_MEDIA_DEVICES
-    szInfo += tr("  - Have media devices settings widget") + "\n";
-#endif
+#endif // #if defined(HAVE_CURL)
 
     szInfo += tr("  - Application paths and files: ") + "\n";
     szInfo += tr("    - Installation root path: ") + RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot() + "\n";
@@ -476,6 +481,7 @@ QString CTools::Information()
 #endif
         szInfo += "    - Qt " + tr("Don't install OPENSSL dynamic library. Please install it") + "\n";
     }
+
 #if HAVE_StackWalker
     szInfo += tr("  - StackWalker") + "\n";
 #endif
@@ -503,7 +509,7 @@ QString CTools::Information()
     #if CURL_VERSION_LIBSSH2
         szInfo += "    - " + QString("LIBSSH2 supported:") +  " " + QString(version_info->features & CURL_VERSION_LIBSSH2 ? "Yes" : "No") + "\n";
     #endif
-#endif
+#endif // #if defined(HAVE_CURL)
 
     return szInfo;
 }
