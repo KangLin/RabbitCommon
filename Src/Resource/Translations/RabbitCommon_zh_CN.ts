@@ -371,83 +371,87 @@ You can read files up to %1 MB.</source>
 <context>
     <name>CFrmMediaDevices</name>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="89"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="91"/>
         <source>Media Devices Settings</source>
         <translation>多媒体设备设置</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="137"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="170"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="140"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="173"/>
         <source>Camera</source>
         <translation>摄像头</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="142"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="287"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="428"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="175"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="367"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="543"/>
         <source>Turn on camera preview</source>
         <translation>打开摄像头预览</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="147"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="180"/>
         <source>Audio</source>
         <translation>音频</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="151"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="184"/>
         <source>Microphone (Input):</source>
         <translation>麦克风（输入）:</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="153"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="190"/>
+        <source>Input Volume:</source>
+        <translation>输入音量：</translation>
+    </message>
+    <message>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="193"/>
         <source>Speaker (Output):</source>
         <translation>扬声器（输出）:</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="159"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="199"/>
         <source>Output Volume:</source>
         <translation>输出音量:</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="162"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="351"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="497"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="202"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="432"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="613"/>
         <source>Play test sound</source>
         <translation>播放测试音</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="166"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="206"/>
         <source>Microphone input level:</source>
         <translation>麦克风输入电平:</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="177"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="217"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="178"/>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="vanished">关闭</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="190"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="229"/>
         <source>Camera preview</source>
         <translation>摄像头预览</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="280"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="423"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="360"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="538"/>
         <source>Turn off camera preview</source>
         <translation>关闭摄像头预览</translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="312"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="455"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="392"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="570"/>
         <source>Stop test sound</source>
         <translation>停止测试音</translation>
     </message>
@@ -607,7 +611,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="196"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="421"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="603"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="604"/>
         <source>There is laster version</source>
         <translation>这是最新版本</translation>
     </message>
@@ -649,7 +653,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="355"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="230"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="677"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="687"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -664,58 +668,59 @@ You can read files up to %1 MB.</source>
         <translation>当前版本: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="534"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="535"/>
         <source>Don&apos;t find the urls in configure file:</source>
         <translation>在配置文件中没有 urls：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="663"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="673"/>
         <source>New version: %1</source>
         <translation>新版本: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="665"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="675"/>
         <source>New architecture: %1</source>
         <translation>新架构: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="714"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="724"/>
         <source>Parse file %1 fail. It isn&apos;t configure file</source>
         <translation>解析文件[%1]失败。它不是配置文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="667"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="677"/>
         <source>There is a new version, is it updated?</source>
         <translation>有新的版本，是否更新？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="704"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="714"/>
         <source>Open file fail</source>
         <translation>打开文件失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="895"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="905"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="316"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="455"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="470"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="533"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="592"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="612"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="651"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="921"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="456"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="471"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="534"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="593"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="613"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="661"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="940"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="973"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1037"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1051"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1075"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1092"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1108"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1152"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1084"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1100"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1148"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1174"/>
         <source>Failed:</source>
         <translation>失败:</translation>
     </message>
@@ -730,137 +735,148 @@ You can read files up to %1 MB.</source>
         <translation>正在下载 %1% [%2/%3]</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="455"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="592"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="456"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="593"/>
         <source>%2 process the file: %1</source>
         <translation>%2 处理文件失败：%1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="470"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="471"/>
         <source>Configure file content error:</source>
         <translation>配置文件内容错误：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="536"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="537"/>
         <source>Current version:</source>
         <translation>当前版本：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="537"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="538"/>
         <source>version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="538"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="539"/>
         <source>min update version:</source>
         <translation>最小更新版本：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="612"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="613"/>
         <source>There is not files in the configure file </source>
         <translation>在配置文件中没有发现文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="652"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="662"/>
         <source>The system or architecture is not exist in the configure file </source>
         <translation>在配置文件中，操作系统或架构不存在</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="921"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
         <source>Don&apos;t open download file </source>
         <translation>不能打开下载的文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="951"/>
         <source>Download file md5sum: </source>
         <translation>下载文件的 MD5 校验和:</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1030"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1044"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1037"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1051"/>
         <source>Please exec: </source>
         <translation>请执行：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1076"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1153"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
+        <source>Open file with explore: </source>
+        <translation>用文件浏览器打开文件：</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1085"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1175"/>
         <source>Execute install program error.%1</source>
         <translation>执行安装错误：%1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1093"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1101"/>
         <source>Open file %1 fail</source>
         <translation>打开文件 %1 失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1108"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
         <source>Execute</source>
         <translation>执行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="962"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="972"/>
         <source>The installer has started, Please close the application</source>
         <translation>开始安装，请先关闭本程序</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="973"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="989"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="995"/>
         <source>Open home page fail</source>
         <translation>打开主页失败</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1196"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1149"/>
+        <source>Execute install program error. %1</source>
+        <translation>执行安装程序错误: %1</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1218"/>
         <source>Run</source>
         <translation>运行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1197"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1219"/>
         <source>Run after install</source>
         <translation>安装后运行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1319"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1285"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1320"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1286"/>
         <source>Is updating, be sure to close?</source>
         <translation>正在更新，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1594"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1560"/>
         <source>Configure file name</source>
         <translation>配置文件名</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1599"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1565"/>
         <source>Configure file output content:</source>
         <translation>配置文件输出内容：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1600"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1566"/>
         <source>: content is version</source>
         <translation>：内容是版本</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1601"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1567"/>
         <source>: content is file</source>
         <translation>：内容是文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1602"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1568"/>
         <source>: content is version and file</source>
         <translation>：内容是版本和文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1663"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1629"/>
         <source>Set force flag</source>
         <translation>设置强制更新标识</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1607"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1573"/>
         <source>Package version</source>
         <translation>包版本</translation>
     </message>
@@ -885,78 +901,76 @@ You can read files up to %1 MB.</source>
         <translation>安装更新</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="896"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
         <source>Downloading ......</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="910"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="920"/>
         <source>Installing update ......</source>
         <translation>安装更新&#x3000;……</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="940"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
         <source>Md5sum is different.</source>
         <translation>MD5 校验和不同。</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="943"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="953"/>
         <source>md5sum in Update configure file: </source>
         <translation>配置文件中的&#x3000;MD5 校验和：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1037"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1051"/>
         <source>Open the folder fail: </source>
-        <translation>打开文件夹失败：</translation>
+        <translation type="vanished">打开文件夹失败：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1612"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1578"/>
         <source>Time</source>
         <translation>时间</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1617"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1583"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1623"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1589"/>
         <source>Operating system</source>
         <translation>操作系统</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1628"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1594"/>
         <source>Architecture</source>
         <translation>架构</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1633"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1599"/>
         <source>MD5 checksum</source>
         <translation>MD5 校验和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1637"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1603"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation>包文件，用于计算 md5 校验和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1642"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1608"/>
         <source>File name</source>
         <translation>文件名</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1647"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1613"/>
         <source>Package download urls</source>
         <translation>包下载 URLS</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1653"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1619"/>
         <source>Project home url</source>
         <translation>项目主页</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1658"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1624"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
     </message>
@@ -1380,17 +1394,17 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CRecentMenu</name>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="178"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="202"/>
         <source>Recent open: </source>
         <translation>最近打开：</translation>
     </message>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="180"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="204"/>
         <source>The file doesn&apos;t exists: </source>
         <translation>文件不存在：</translation>
     </message>
     <message>
-        <location filename="../../RabbitRecentMenu.cpp" line="186"/>
+        <location filename="../../RabbitRecentMenu.cpp" line="210"/>
         <source>Clear Menu</source>
         <translation>清除菜单</translation>
     </message>
@@ -1466,22 +1480,22 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CTitleBar</name>
     <message>
-        <location filename="../../TitleBar.cpp" line="88"/>
+        <location filename="../../TitleBar.cpp" line="91"/>
         <source>Minimize</source>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="96"/>
+        <location filename="../../TitleBar.cpp" line="99"/>
         <source>Maximize</source>
         <translation>最大化</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="104"/>
+        <location filename="../../TitleBar.cpp" line="107"/>
         <source>Floating</source>
         <translation>浮动</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="113"/>
+        <location filename="../../TitleBar.cpp" line="116"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -1489,307 +1503,317 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CTools</name>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="296"/>
-        <location filename="../../RabbitCommonTools.cpp" line="298"/>
+        <location filename="../../RabbitCommonTools.cpp" line="365"/>
+        <location filename="../../RabbitCommonTools.cpp" line="367"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="298"/>
+        <location filename="../../RabbitCommonTools.cpp" line="367"/>
         <source> (From revision: </source>
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="312"/>
+        <location filename="../../RabbitCommonTools.cpp" line="381"/>
         <source>- Functions:</source>
         <translation>- 功能：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="313"/>
+        <location filename="../../RabbitCommonTools.cpp" line="382"/>
         <source>  - Locale: </source>
         <translation>  - 语言：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="315"/>
+        <location filename="../../RabbitCommonTools.cpp" line="385"/>
         <source>  - Have GUI</source>
         <translation>  - 界面</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="317"/>
+        <location filename="../../RabbitCommonTools.cpp" line="387"/>
         <source>    - Have About dialog</source>
         <translation>    - 关于对话框</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="319"/>
+        <location filename="../../RabbitCommonTools.cpp" line="389"/>
         <source>    - Use cmark-gfm</source>
         <translation>    使用&#x3000;cmark-gfm</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="321"/>
+        <location filename="../../RabbitCommonTools.cpp" line="391"/>
         <source>      - Use cmark</source>
         <translation>      - 使用 cmark</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="325"/>
+        <location filename="../../RabbitCommonTools.cpp" line="395"/>
         <source>    - Have Update</source>
         <translation>    - 更新</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="327"/>
+        <location filename="../../RabbitCommonTools.cpp" line="397"/>
         <source>    - Custom title bar for QWidget</source>
         <translation>    - 自定窗口标题栏</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="328"/>
+        <location filename="../../RabbitCommonTools.cpp" line="398"/>
         <source>    - Dock Folder browser</source>
         <translation>    - 文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="329"/>
+        <location filename="../../RabbitCommonTools.cpp" line="399"/>
         <source>    - Recent menu</source>
         <translation>    - 最近菜单</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="330"/>
+        <location filename="../../RabbitCommonTools.cpp" line="400"/>
         <source>    - Style</source>
         <translation>    - 样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="331"/>
+        <location filename="../../RabbitCommonTools.cpp" line="401"/>
         <source>      - Icon theme: </source>
         <translation>      - 图标主题：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="333"/>
+        <location filename="../../RabbitCommonTools.cpp" line="403"/>
         <source>      - Fall back icon theme: </source>
         <translation>      - 后备图标主题：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="336"/>
+        <location filename="../../RabbitCommonTools.cpp" line="406"/>
+        <source>    - Have QUIWidget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="409"/>
+        <source>    - Have media devices settings widget</source>
+        <translation>    - 多媒体设备设置窗口</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="412"/>
+        <source>    - Icon utils</source>
+        <translation>    - 图标实用程序</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="416"/>
         <source>  - Log</source>
         <translation>  - 日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="337"/>
+        <location filename="../../RabbitCommonTools.cpp" line="417"/>
         <source>    - Core dump</source>
         <translation>    - 核心转储</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="338"/>
+        <location filename="../../RabbitCommonTools.cpp" line="418"/>
         <source>    - Log file: </source>
         <translation>日志文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="340"/>
+        <location filename="../../RabbitCommonTools.cpp" line="420"/>
         <source>  - Have encrypt(OPENSSL)</source>
         <translation>  - 加密 (OPENSSL)</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="342"/>
+        <location filename="../../RabbitCommonTools.cpp" line="422"/>
         <source>Thread pool</source>
         <translation>线程池</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="344"/>
+        <location filename="../../RabbitCommonTools.cpp" line="425"/>
         <source>File transfer</source>
         <translation>文件传输</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="345"/>
-        <location filename="../../RabbitCommonTools.cpp" line="415"/>
+        <location filename="../../RabbitCommonTools.cpp" line="426"/>
+        <location filename="../../RabbitCommonTools.cpp" line="495"/>
         <source>libCurl</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="347"/>
-        <location filename="../../RabbitCommonTools.cpp" line="417"/>
+        <location filename="../../RabbitCommonTools.cpp" line="428"/>
+        <location filename="../../RabbitCommonTools.cpp" line="497"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="348"/>
-        <location filename="../../RabbitCommonTools.cpp" line="418"/>
+        <location filename="../../RabbitCommonTools.cpp" line="429"/>
+        <location filename="../../RabbitCommonTools.cpp" line="498"/>
         <source>Supported protocols:</source>
         <translation>支持协议：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="364"/>
-        <source>  - Have QUIWidget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../RabbitCommonTools.cpp" line="366"/>
+        <location filename="../../RabbitCommonTools.cpp" line="445"/>
         <source>  - Application paths and files: </source>
         <translation>  - 应用程序目录和文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="367"/>
+        <location filename="../../RabbitCommonTools.cpp" line="446"/>
         <source>    - Installation root path: </source>
         <translation>    - 安装根目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="368"/>
+        <location filename="../../RabbitCommonTools.cpp" line="447"/>
         <source>    - Application path: </source>
         <translation>    - 应用程序目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="369"/>
-        <location filename="../../RabbitCommonTools.cpp" line="380"/>
+        <location filename="../../RabbitCommonTools.cpp" line="448"/>
+        <location filename="../../RabbitCommonTools.cpp" line="459"/>
         <source>    - Configure path: </source>
         <translation>    - 配置目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="370"/>
-        <location filename="../../RabbitCommonTools.cpp" line="381"/>
+        <location filename="../../RabbitCommonTools.cpp" line="449"/>
+        <location filename="../../RabbitCommonTools.cpp" line="460"/>
         <source>    - Configure file: </source>
         <translation>    - 配置文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="371"/>
+        <location filename="../../RabbitCommonTools.cpp" line="450"/>
         <source>    - Translations path: </source>
         <translation>    - 翻译目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="372"/>
+        <location filename="../../RabbitCommonTools.cpp" line="451"/>
         <source>    - Log path: </source>
         <translation>    - 日志目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="373"/>
-        <location filename="../../RabbitCommonTools.cpp" line="382"/>
+        <location filename="../../RabbitCommonTools.cpp" line="452"/>
+        <location filename="../../RabbitCommonTools.cpp" line="461"/>
         <source>    - Data path: </source>
         <translation>    - 数据目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="374"/>
+        <location filename="../../RabbitCommonTools.cpp" line="453"/>
         <source>    - Icons path: </source>
         <translation>    - 图标目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="375"/>
-        <location filename="../../RabbitCommonTools.cpp" line="384"/>
+        <location filename="../../RabbitCommonTools.cpp" line="454"/>
+        <location filename="../../RabbitCommonTools.cpp" line="463"/>
         <source>    - Database path: </source>
         <translation>    - 数据库目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="376"/>
-        <location filename="../../RabbitCommonTools.cpp" line="385"/>
+        <location filename="../../RabbitCommonTools.cpp" line="455"/>
+        <location filename="../../RabbitCommonTools.cpp" line="464"/>
         <source>    - Database file: </source>
         <translation>    - 数据库文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="377"/>
+        <location filename="../../RabbitCommonTools.cpp" line="456"/>
         <source>    - Plugins path: </source>
         <translation>    - 插件目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="378"/>
+        <location filename="../../RabbitCommonTools.cpp" line="457"/>
         <source>  - User folders and files: </source>
         <translation>  - 用户目录与文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="379"/>
+        <location filename="../../RabbitCommonTools.cpp" line="458"/>
         <source>    - Documents path: </source>
         <translation>    - 文档目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="383"/>
+        <location filename="../../RabbitCommonTools.cpp" line="462"/>
         <source>    - Image path: </source>
         <translation>    - 图像目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="387"/>
+        <location filename="../../RabbitCommonTools.cpp" line="466"/>
         <source>- Dependent libraries:</source>
         <translation>- 依赖库：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="388"/>
+        <location filename="../../RabbitCommonTools.cpp" line="467"/>
         <source>  - OpenSSL:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="390"/>
-        <location filename="../../RabbitCommonTools.cpp" line="396"/>
-        <location filename="../../RabbitCommonTools.cpp" line="401"/>
+        <location filename="../../RabbitCommonTools.cpp" line="469"/>
+        <location filename="../../RabbitCommonTools.cpp" line="475"/>
+        <location filename="../../RabbitCommonTools.cpp" line="480"/>
         <source>Build Version: </source>
         <translation>编译时版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="391"/>
+        <location filename="../../RabbitCommonTools.cpp" line="470"/>
         <source>Runtime Version: </source>
         <translation>运行时版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="398"/>
+        <location filename="../../RabbitCommonTools.cpp" line="477"/>
         <source>Installed Version: </source>
         <translation>安装的版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="403"/>
+        <location filename="../../RabbitCommonTools.cpp" line="482"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安装 OPENSSL 动态库，请安装！</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="406"/>
+        <location filename="../../RabbitCommonTools.cpp" line="486"/>
         <source>  - StackWalker</source>
         <translation>  - 堆栈查看器</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="409"/>
+        <location filename="../../RabbitCommonTools.cpp" line="489"/>
         <source>  - cmark-gfm</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="411"/>
+        <location filename="../../RabbitCommonTools.cpp" line="491"/>
         <source>  - cmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1005"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1016"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1019"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1085"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1096"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1099"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1030"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1032"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1110"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1112"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1035"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1115"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1049"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1129"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1053"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1133"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1057"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1137"/>
         <source>Open Log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1072"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1074"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1152"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1154"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1082"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1162"/>
         <source>Copy log file path to clipboard</source>
         <translation>复制日志文件路径到剪切板</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1086"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1166"/>
         <source>Copy log folder to clipboard</source>
         <translation>复制日志文件夹到剪切板</translation>
     </message>
