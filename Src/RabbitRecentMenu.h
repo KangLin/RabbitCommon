@@ -99,6 +99,9 @@ public slots:
     //! Save to configure file
     void slotSaveState();
 
+    //! Show file eixst
+    bool slotShowFileEixst(bool bShow);
+
 signals:
     //! This signal is emitted when a recent file in this menu is triggered.
     void recentFileTriggered(const QString & filename);
@@ -146,6 +149,7 @@ private:
 
     bool m_bSave;
     bool m_bUpdate;
+    bool m_bShowFileEixst;
 };
 
 } //namespace RabbitCommon 

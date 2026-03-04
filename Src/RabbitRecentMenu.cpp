@@ -17,7 +17,8 @@ CRecentMenu::CRecentMenu(bool bSave, QWidget * parent)
     m_maxCount(10),
     m_format(QLatin1String("%d %s")),
     m_bSave(bSave),
-    m_bUpdate(true)
+    m_bUpdate(true),
+    m_bShowFileEixst(true)
 {
     bool check = connect(this, SIGNAL(triggered(QAction*)),
                          this, SLOT(menuTriggered(QAction*)));
@@ -165,6 +166,13 @@ bool CRecentMenu::restoreState(const QByteArray &state)
     return true;
 }
 
+bool CRecentMenu::slotShowFileEixst(bool bShow)
+{
+    bool old = m_bShowFileEixst;
+    m_bShowFileEixst = bShow;
+    return old;
+}
+
 void CRecentMenu::menuTriggered(QAction* action)
 {
     if (action->data().isValid())
@@ -195,8 +203,9 @@ void CRecentMenu::updateRecentFileActions()
         
         QAction* recentFileAct = addAction(icon, text);
         QFileInfo fi(szFile);
-        recentFileAct->setEnabled(fi.exists());
         recentFileAct->setData(szFile);
+        if(m_bShowFileEixst)
+            recentFileAct->setEnabled(fi.exists());
         QString szMsg;
         if(fi.exists())
             szMsg = tr("Recent open: ") + szFile;
