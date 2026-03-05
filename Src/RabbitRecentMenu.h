@@ -99,7 +99,9 @@ public slots:
     //! Save to configure file
     void slotSaveState();
 
-    //! Show file eixst
+    /*! Show file eixst
+     * \since 2.4.0
+     */
     bool slotShowFileEixst(bool bShow);
 
 signals:

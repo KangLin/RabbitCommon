@@ -203,10 +203,11 @@ public:
      *           - Patch
      *           - PreRelease
      *           - Build
-     * \~ Since 2.4.0
+     * \~
+     * \since 2.4.0
      */
     static VersionInfo GetVersion(const QString& szVersion);
-    // Since 2.4.0
+    //! \since 2.4.0
     static bool VersionValid(const QString& szVersion);
     /*!
      * \brief Compare version
@@ -214,7 +215,8 @@ public:
      *         = 0: same
      *         < 0  ver1 < ver2
      * \see [Semantic Versioning](https://semver.org)
-     * \~ Since 2.4.0
+     * \~
+     * \since 2.4.0
      */
     static int VersionCompare(const QString &ver1, const QString &ver2);
     struct GitVersionInfo {
@@ -224,9 +226,15 @@ public:
         bool isDevelopment;
         bool isValid;
     };
-    // Since 2.4.0
+    /*!
+     * \note For testing only
+     * \~ince 2.4.0
+     */
     static GitVersionInfo GetGitDevelopmentVersion(const QString szVersion);
-    // Since 2.4.0
+    /*!
+     * \note For testing only
+     * \~ince 2.4.0
+     */
     static bool IsGitDevelopmentVersion(const QString szVersion);
 
     /*!
@@ -239,7 +247,7 @@ public:
 
     /*!
      * \brief Has administrator privilege.
-     *        Since v2.3.0
+     * \since v2.3.0
      */
     static bool HasAdministratorPrivilege();
     /*!
@@ -257,7 +265,7 @@ public:
     /*!
      * \brief Start program with administrator privilege
      * \param bQuitOld: true, quit the old program
-     * Since v2.3.3
+     * \since v2.3.3
      */
     static bool StartWithAdministratorPrivilege(bool bQuitOld = false);
 
@@ -356,7 +364,8 @@ public:
      * \brief 用系统文件浏览器打开文件所在目录，并选中文件
      * \param szFile： 要打开的文件
      * \~english Open the directory where the file is located using the system file browser and select the file.
-     * \~ Since v2.3.4
+     * \~
+     * \since v2.3.4
      */
     static bool LocateFileWithExplorer(const QString szFile);
     static QMainWindow* GetMainWindow();
@@ -384,7 +393,7 @@ private:
      * \brief Compare PreRelease
      * \param ver1
      * \param ver2
-     * Since 2.4.0
+     * \since 2.4.0
      */
     static int ComparePreRelease(const QString &ver1, const QString &ver2);
 };
