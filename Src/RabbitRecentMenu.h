@@ -31,13 +31,13 @@ class RABBITCOMMON_EXPORT CRecentMenu : public QMenu
 
 public:
     //! Constructs a menu with parent parent.
-    CRecentMenu(bool bSave = false, QWidget * parent = 0);
+    CRecentMenu(bool bSave = false, bool bShowFileEixst = true, QWidget * parent = 0);
     //! Constructs a menu with a title and a parent.
     CRecentMenu(const QString & title,
-                bool bSave = false, QWidget * parent = 0);
+                bool bSave = false, bool bShowFileEixst = true, QWidget * parent = 0);
     //! Constructs a menu with a title, icon and a parent.
     CRecentMenu(const QString & title, const QIcon& icon,
-                bool bSave = false, QWidget * parent = 0);
+                bool bSave = false, bool bShowFileEixst = true, QWidget * parent = 0);
 
     //! Returns the maximum number of entries in the menu.
     int maxCount() const;

@@ -12,13 +12,13 @@ namespace RabbitCommon {
 
 static const qint32 RecentFilesMenuMagic = 0xff;
 
-CRecentMenu::CRecentMenu(bool bSave, QWidget * parent)
+CRecentMenu::CRecentMenu(bool bSave, bool bShowFileEixst, QWidget * parent)
     : QMenu(parent),
     m_maxCount(10),
     m_format(QLatin1String("%d %s")),
     m_bSave(bSave),
     m_bUpdate(true),
-    m_bShowFileEixst(true)
+    m_bShowFileEixst(bShowFileEixst)
 {
     bool check = connect(this, SIGNAL(triggered(QAction*)),
                          this, SLOT(menuTriggered(QAction*)));
@@ -33,15 +33,15 @@ CRecentMenu::CRecentMenu(bool bSave, QWidget * parent)
 }
 
 CRecentMenu::CRecentMenu(const QString & title,
-                         bool bSave, QWidget * parent)
-    : CRecentMenu(bSave, parent)
+                         bool bSave, bool bShowFileEixst, QWidget * parent)
+    : CRecentMenu(bSave, bShowFileEixst, parent)
 {
     setTitle(title);
 }
 
 CRecentMenu::CRecentMenu(const QString& title, const QIcon& icon,
-                         bool bSave, QWidget * parent)
-    : CRecentMenu(title, bSave, parent)
+                         bool bSave, bool bShowFileEixst, QWidget * parent)
+    : CRecentMenu(title, bSave, bShowFileEixst, parent)
 {
     setIcon(icon);
 }
