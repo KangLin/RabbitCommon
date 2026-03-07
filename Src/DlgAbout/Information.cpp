@@ -51,6 +51,11 @@ CInformation::CInformation(const QString &szApp,
     #endif
     szQt += "  - " + tr("Path: ") + "\n";
     szQt += GetLibrariesLocation();
+    szQt += "  - " + tr("Search library paths:") + "\n";
+    QStringList paths = QCoreApplication::libraryPaths();
+    for (int i = 0; i < paths.size(); ++i) {
+        szQt += "    - " + paths[i] + "\n";
+    }
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
     szQt += "- " + tr("Icon: ") + "\n";
     szQt += "  - " + tr("Theme: ") + QIcon::themeName() + "\n";
@@ -242,28 +247,27 @@ QString CInformation::GetLibrariesLocation(QLibraryInfo::LibraryPath path)
             szQt += s;
         }
     #endif
-    szQt += "\n";
     return szQt;
 }
 
 QString CInformation::GetLibrariesLocation()
 {
     QString szQt;
-    szQt += "    - PrefixPath: " + GetLibrariesLocation(QLibraryInfo::PrefixPath);
-    szQt += "    - DocumentationPath: " + GetLibrariesLocation(QLibraryInfo::DocumentationPath);
-    szQt += "    - HeadersPath: " + GetLibrariesLocation(QLibraryInfo::HeadersPath);
-    szQt += "    - LibrariesPath: " + GetLibrariesLocation(QLibraryInfo::LibrariesPath);
-    szQt += "    - LibraryExecutablesPath: " + GetLibrariesLocation(QLibraryInfo::LibraryExecutablesPath);
-    szQt += "    - BinariesPath: " + GetLibrariesLocation(QLibraryInfo::BinariesPath);
-    szQt += "    - PluginsPath: " + GetLibrariesLocation(QLibraryInfo::PluginsPath);
+    szQt += "    - PrefixPath: " + GetLibrariesLocation(QLibraryInfo::PrefixPath) + "\n";
+    szQt += "    - DocumentationPath: " + GetLibrariesLocation(QLibraryInfo::DocumentationPath) + "\n";
+    szQt += "    - HeadersPath: " + GetLibrariesLocation(QLibraryInfo::HeadersPath) + "\n";
+    szQt += "    - LibrariesPath: " + GetLibrariesLocation(QLibraryInfo::LibrariesPath) + "\n";
+    szQt += "    - LibraryExecutablesPath: " + GetLibrariesLocation(QLibraryInfo::LibraryExecutablesPath) + "\n";
+    szQt += "    - BinariesPath: " + GetLibrariesLocation(QLibraryInfo::BinariesPath) + "\n";
+    szQt += "    - PluginsPath: " + GetLibrariesLocation(QLibraryInfo::PluginsPath) + "\n";
     #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-        szQt += "    - QmlImportsPath: " + GetLibrariesLocation(QLibraryInfo::QmlImportsPath);
+        szQt += "    - QmlImportsPath: " + GetLibrariesLocation(QLibraryInfo::QmlImportsPath) + "\n";
     #endif
-    szQt += "    - ArchDataPath: " + GetLibrariesLocation(QLibraryInfo::ArchDataPath);
-    szQt += "    - DataPath: " + GetLibrariesLocation(QLibraryInfo::DataPath);
-    szQt += "    - TranslationsPath: " + GetLibrariesLocation(QLibraryInfo::TranslationsPath);
-    szQt += "    - ExamplesPath: " + GetLibrariesLocation(QLibraryInfo::ExamplesPath);
-    szQt += "    - TestsPath: " + GetLibrariesLocation(QLibraryInfo::TestsPath);
-    szQt += "    - SettingsPath: " + GetLibrariesLocation(QLibraryInfo::SettingsPath);
+    szQt += "    - ArchDataPath: " + GetLibrariesLocation(QLibraryInfo::ArchDataPath) + "\n";
+    szQt += "    - DataPath: " + GetLibrariesLocation(QLibraryInfo::DataPath) + "\n";
+    szQt += "    - TranslationsPath: " + GetLibrariesLocation(QLibraryInfo::TranslationsPath) + "\n";
+    szQt += "    - ExamplesPath: " + GetLibrariesLocation(QLibraryInfo::ExamplesPath) + "\n";
+    szQt += "    - TestsPath: " + GetLibrariesLocation(QLibraryInfo::TestsPath) + "\n";
+    szQt += "    - SettingsPath: " + GetLibrariesLocation(QLibraryInfo::SettingsPath) + "\n";
     return szQt;
 }
