@@ -1526,7 +1526,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="382"/>
         <source>  - Locale: </source>
-        <translation>  - 語言：</translation>
+        <translation>  - 區域：</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="385"/>

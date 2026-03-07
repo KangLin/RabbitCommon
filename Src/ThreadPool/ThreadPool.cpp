@@ -4,7 +4,7 @@
 #include <QLoggingCategory>
 #include "ThreadPool.h"
 
-static Q_LOGGING_CATEGORY(log, "Pool")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Pool")
 CThreadPool::CThreadPool(QObject *parent)
     : QObject{parent}
     , m_State(State::Stop)

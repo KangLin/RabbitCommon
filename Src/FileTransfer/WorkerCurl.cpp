@@ -6,7 +6,7 @@
 #include <QThread>
 #include "WorkerCurl.h"
 
-static Q_LOGGING_CATEGORY(log, "FileTransfer.Worker.Curl")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.FileTransfer.Worker.Curl")
 
 CWorkerCurl::CWorkerCurl(QObject *parent)
     : CWorkerFileTransfer{parent}

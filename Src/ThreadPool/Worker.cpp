@@ -10,7 +10,7 @@
 
 #include "Worker.h"
 
-static Q_LOGGING_CATEGORY(log, "Pool.Worker")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Pool.Worker")
 CWorker::CWorker(QObject *parent)
     : QObject{parent}
 {

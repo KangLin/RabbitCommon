@@ -10,8 +10,8 @@
     #include "WorkerCurl.h"
 #endif
 
-static Q_LOGGING_CATEGORY(logTask, "FileTransfer.Task")
-static Q_LOGGING_CATEGORY(logWorker, "FileTransfer.Worker")
+static Q_LOGGING_CATEGORY(logTask, "RabbitCommon.FileTransfer.Task")
+static Q_LOGGING_CATEGORY(logWorker, "RabbitCommon.FileTransfer.Worker")
 
 CTaskFileTransfer::CTaskFileTransfer(QObject *parent)
     : CTaskFileTransfer(QUrl(), QString(), true, parent)

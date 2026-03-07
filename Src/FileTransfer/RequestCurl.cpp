@@ -3,7 +3,7 @@
 #include "RequestCurl.h"
 #include "WorkerFileTransfer.h"
 
-static Q_LOGGING_CATEGORY(log, "FileTransfer.Curl.Req")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.FileTransfer.Curl.Req")
 CRequestCurl::CRequestCurl(QObject *parent)
     : QObject{parent}
     , m_pTask(nullptr)

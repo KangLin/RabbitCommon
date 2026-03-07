@@ -9,7 +9,9 @@
 #include "TitleBar.h"
 
 namespace RabbitCommon {
-static Q_LOGGING_CATEGORY(log, "TitleBar")
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.TitleBar")
+
 QPushButton* CTitleBar::CreateSmallPushButton(QIcon icon, QWidget *parent) {
     QPushButton *button = new QPushButton(icon, "", parent);
     if(!button) return button;

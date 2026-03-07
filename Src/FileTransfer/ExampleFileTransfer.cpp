@@ -7,7 +7,7 @@
 #include "WorkerFileTransfer.h"
 #include "RabbitCommonTools.h"
 
-static Q_LOGGING_CATEGORY(log, "Pool.Example")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Pool.Example")
 CExampleFileTransfer::CExampleFileTransfer(QObject *parent)
     : QObject{parent}
 {}

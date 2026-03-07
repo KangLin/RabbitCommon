@@ -11,7 +11,7 @@
 #include <QtMath>
 #include "FrmMediaDevices.h"
 
-static Q_LOGGING_CATEGORY(log, "Device")
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Device")
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 static QString deviceDisplayName(const QAudioDevice &d) {

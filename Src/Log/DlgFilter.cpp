@@ -1,12 +1,14 @@
 // Copyright Copyright (c) Kang Lin studio, All Rights Reserved
 // Author Kang Lin <kl222@126.com>
 
-#include "DlgFilter.h"
-#include "ui_DlgFilter.h"
-#include <QDebug>
 #include <QRegularExpression>
 #include <QMessageBox>
+#include <QLoggingCategory>
 
+#include "DlgFilter.h"
+#include "ui_DlgFilter.h"
+
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgFilter")
 CDlgFilter::CDlgFilter(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgFilter)
@@ -40,7 +42,7 @@ void CDlgFilter::on_leInclude_editingFinished()
         return;
     QString szMsg;
     szMsg = tr("Filter of include is error: ") + r.errorString();
-    qCritical() << szMsg;
+    qCritical(log) << szMsg;
     QMessageBox::critical(this, tr("Error"), szMsg);
 }
 
@@ -51,6 +53,6 @@ void CDlgFilter::on_leExclude_editingFinished()
         return;
     QString szMsg;
     szMsg = tr("Filter of exclude is error: ") + r.errorString();
-    qCritical() << szMsg;
+    qCritical(log) << szMsg;
     QMessageBox::critical(this, tr("Error"), szMsg);
 }
