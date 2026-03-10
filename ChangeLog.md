@@ -11,7 +11,9 @@
 - Modify CRecentMenu interface
 - CRecentMenu:
   - Add unlimited entries
-  - Add update entries interface 
+  - Add update entries interface
+- CDir
+  - GetDirUserDocument(): add development version, ${DocumentRoot}/Rabbit/${ApplicationName}_dev
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

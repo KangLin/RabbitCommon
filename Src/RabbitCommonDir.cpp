@@ -19,6 +19,9 @@ CDir::CDir()
              QStandardPaths::DocumentsLocation)
              + QDir::separator() + "Rabbit"
              + QDir::separator() + QCoreApplication::applicationName();
+#if DEBUG
+    m_szDocumentPath += "_dev";
+#endif
     qInfo(log) << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
@@ -201,6 +204,9 @@ int CDir::SetDirUserDocument(QString szPath)
             QStandardPaths::DocumentsLocation)
             + QDir::separator() + "Rabbit"
             + QDir::separator() + QCoreApplication::applicationName();
+#if DEBUG
+        m_szDocumentPath += "_dev";
+#endif
     }
 
     QDir d;

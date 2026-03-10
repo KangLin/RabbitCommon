@@ -40,6 +40,7 @@ namespace RabbitCommon {
  *
  * The follow folder is write and read:
  * ${DocumentRoot}/Rabbit/${ApplicationName}       GetDirUserDocument()
+ * ${DocumentRoot}/Rabbit/${ApplicationName}_dev GetDirUserDocument() development version
  *       |- applicationName.conf                   GetFileUserConfigure()
  *       |- etc                                    GetDirUserConfig()
  *       |- share                                  GetDirUserData()
