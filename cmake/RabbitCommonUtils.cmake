@@ -384,7 +384,7 @@ function(INSTALL_TARGETS)
         set(PARA_COMPONENT DependLibraries)
     endif()
 
-    foreach(component ${PARA_TARGETS})
+    foreach(target ${PARA_TARGETS})
         # if(RABBIT_ENABLE_INSTALL_TO_BUILD_PATH)
         #     if(WIN32)
         #         set(BUILD_PATH ${CMAKE_BINARY_DIR}/bin)
@@ -392,23 +392,23 @@ function(INSTALL_TARGETS)
         #         set(BUILD_PATH ${CMAKE_BINARY_DIR}/lib)
         #     endif()
         #     add_custom_command(
-        #         TARGET ${component} POST_BUILD
+        #         TARGET ${target} POST_BUILD
         #         COMMAND ${CMAKE_COMMAND} -E echo "Copy files ${PARA_SOURCES} to ${BUILD_PATH}"
         #         COMMAND ${CMAKE_COMMAND} -E make_directory "${BUILD_PATH}"
-        #         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${component}> "${BUILD_PATH}"
+        #         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${target}> "${BUILD_PATH}"
         #         COMPONENT ${PARA_COMPONENT}
         #         COMMAND_EXPAND_LISTS
         #         VERBATIM)
         # endif()
-        INSTALL(FILES $<TARGET_FILE:${component}>
+        INSTALL(FILES $<TARGET_FILE:${target}>
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
         IF(ANDROID)
-            get_target_property(${component}_LIB_SONAME ${component} TARGET_SONAME_FILE)
             set_target_properties(${PARA_NAME} PROPERTIES
-                QT_ANDROID_EXTRA_LIBS ${${component}_LIB_SONAME})
+                QT_ANDROID_EXTRA_LIBS $<TARGET_SONAME_FILE:${target}>)
+            set_property(GLOBAL APPEND PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS_TARGETS ${target})
         else(UNIX)
-            INSTALL(FILES $<TARGET_SONAME_FILE:${component}>
+            INSTALL(FILES $<TARGET_SONAME_FILE:${target}>
                 DESTINATION "${PARA_DESTINATION}"
                     COMPONENT ${PARA_COMPONENT})
         ENDIF()
@@ -1128,18 +1128,23 @@ function(ADD_TARGET)
                 )
                 FetchContent_MakeAvailable(android_openssl)
                 include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
-                get_target_property(VAR_QT_ANDROID_EXTRA_LIBS ${PARA_NAME} QT_ANDROID_EXTRA_LIBS)
-                SET(PARA_QT_ANDROID_EXTRA_LIBS
-                    ${PARA_QT_ANDROID_EXTRA_LIBS} ${VAR_QT_ANDROID_EXTRA_LIBS})
-                add_android_openssl_libraries(${PROJECT_NAME})
+                add_android_openssl_libraries(${PARA_NAME})
             endif()
 
-            if(PARA_QT_ANDROID_EXTRA_LIBS)
-                get_target_property(VAR_QT_ANDROID_EXTRA_LIBS ${PARA_NAME} QT_ANDROID_EXTRA_LIBS)
-                SET(PARA_QT_ANDROID_EXTRA_LIBS
-                    ${PARA_QT_ANDROID_EXTRA_LIBS} ${VAR_QT_ANDROID_EXTRA_LIBS})
+            get_property(VAR_QT_ANDROID_EXTRA_LIBS GLOBAL PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS_TARGETS)
+            foreach(target ${VAR_QT_ANDROID_EXTRA_LIBS})
+                find_dependency(${target})
+                if(${target}_FOUND)
+	            target_link_libraries(${PARA_NAME} PRIVATE ${target})
+                    #set_property(GLOBAL APPEND PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS
+                    #    $<TARGET_SONAME_FILE:${target}>)
+                endif()
+            endforeach()
+            get_property(VAR_QT_ANDROID_EXTRA_LIBS GLOBAL PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS)
+            if(VAR_QT_ANDROID_EXTRA_LIBS)
                 set_target_properties(${PARA_NAME} PROPERTIES
-                    QT_ANDROID_EXTRA_LIBS ${PARA_QT_ANDROID_EXTRA_LIBS})
+                    QT_ANDROID_EXTRA_LIBS ${VAR_QT_ANDROID_EXTRA_LIBS})
+                message("QT_ANDROID_EXTRA_LIBS: ${VAR_QT_ANDROID_EXTRA_LIBS}")
             endif()
 
             # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE
@@ -1262,6 +1267,13 @@ function(ADD_TARGET)
             message("Generate pkg-config file: ${PC_FILE} to ${CMAKE_CURRENT_BINARY_DIR}/${PARA_NAME}.pc")
         endif()
 
+        if(ANDROID)
+            get_target_property(VAR_QT_ANDROID_EXTRA_LIBS ${PARA_NAME} QT_ANDROID_EXTRA_LIBS)
+            if(VAR_QT_ANDROID_EXTRA_LIBS)
+                set_property(GLOBAL APPEND PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS
+                    ${PARA_QT_ANDROID_EXTRA_LIBS} ${VAR_QT_ANDROID_EXTRA_LIBS})
+            endif()
+        endif()
     endif(PARA_ISEXE)
 
     if(NOT PARA_INSTALL_RPATH)
@@ -1511,43 +1523,43 @@ endfunction()
 
 # 增加插件目标
 # 参数：
-#  NAME                    目标名
-#  OUTPUT_DIR              目标生成目录
-#  VERSION                 版本
+#  NAME                           目标名
+#  OUTPUT_DIR                     目标生成目录
+#  VERSION                        版本
 #  SOVERSION
 #  INSTALL_RPATH
-#  ANDROID_SOURCES_DIR     Android 源码文件目录
-#  [必须]SOURCE_FILES       源文件（包括头文件，资源文件等）
-#  INCLUDE_DIRS            包含目录
-#  PRIVATE_INCLUDE_DIRS    私有包含目录
-#  LIBS                    公有依赖库
-#  PRIVATE_LIBS            私有依赖库
+#  ANDROID_SOURCES_DIR            Android 源码文件目录
+#  [必须]SOURCE_FILES              源文件（包括头文件，资源文件等）
+#  INCLUDE_DIRS                   包含目录
+#  PRIVATE_INCLUDE_DIRS           私有包含目录
+#  LIBS                           公有依赖库
+#  PRIVATE_LIBS                   私有依赖库
 #  LINK_DIRECTORIES               连接目录
 #  PRIVATE_LINK_DIRECTORIES       私有连接目录
-#  DEFINITIONS             公有宏定义
-#  PRIVATE_DEFINITIONS     私有宏宏义
-#  OPTIONS                 公有选项
-#  PRIVATE_OPTIONS         私有选项
-#  FEATURES                公有特性
-#  PRIVATE_FEATURES        私有特性
-#  INSTALL_DIR             插件库安装目录，默认：plugins 。
-#                          注意：只接受相对路径。绝对路径时，翻译资源前缀会有问题。
-#  NO_TRANSLATION          不产生翻译资源
+#  DEFINITIONS                    公有宏定义
+#  PRIVATE_DEFINITIONS            私有宏宏义
+#  OPTIONS                        公有选项
+#  PRIVATE_OPTIONS                私有选项
+#  FEATURES                       公有特性
+#  PRIVATE_FEATURES               私有特性
+#  INSTALL_DIR                    插件库安装目录，默认：plugins 。
+#                                 注意：只接受相对路径。绝对路径时，翻译资源前缀会有问题。
+#  NO_TRANSLATION                 不产生翻译资源
 function(ADD_PLUGIN_TARGET)
     SET(MUT_PARAS
-        SOURCE_FILES            #源文件（包括头文件，资源文件等）
-        INCLUDE_DIRS            #包含目录
-        PRIVATE_INCLUDE_DIRS    #私有包含目录
-        LIBS                    #公有依赖库
-        PRIVATE_LIBS            #私有依赖库
-        LINK_DIRECTORIES         #连接目录
-        PRIVATE_LINK_DIRECTORIES #私有连接目录
-        DEFINITIONS             #公有宏定义
-        PRIVATE_DEFINITIONS     #私有宏宏义
-        OPTIONS                 #公有选项
-        PRIVATE_OPTIONS         #私有选项
-        FEATURES                #公有特性
-        PRIVATE_FEATURES        #私有特性
+        SOURCE_FILES              #源文件（包括头文件，资源文件等）
+        INCLUDE_DIRS              #包含目录
+        PRIVATE_INCLUDE_DIRS      #私有包含目录
+        LIBS                      #公有依赖库
+        PRIVATE_LIBS              #私有依赖库
+        LINK_DIRECTORIES          #连接目录
+        PRIVATE_LINK_DIRECTORIES  #私有连接目录
+        DEFINITIONS               #公有宏定义
+        PRIVATE_DEFINITIONS       #私有宏宏义
+        OPTIONS                   #公有选项
+        PRIVATE_OPTIONS           #私有选项
+        FEATURES                  #公有特性
+        PRIVATE_FEATURES          #私有特性
         )
     cmake_parse_arguments(PARA "NO_TRANSLATION"
         "NAME;OUTPUT_DIR;VERSION;SOVERSION;INSTALL_RPATH;ANDROID_SOURCES_DIR;INSTALL_DIR"
@@ -1612,9 +1624,10 @@ function(ADD_PLUGIN_TARGET)
         )
 endfunction()
 
-message(STATUS "RABBIT_ENABLE_INSTALL_TO_BUILD_PATH:${RABBIT_ENABLE_INSTALL_TO_BUILD_PATH}")
-message(STATUS "RABBIT_ENABLE_INSTALL_DEPENDENT:${RABBIT_ENABLE_INSTALL_DEPENDENT}")
-message(STATUS "RABBIT_ENABLE_INSTALL_QT:${RABBIT_ENABLE_INSTALL_QT}")
-message(STATUS "RABBIT_ENABLE_INSTALL_TARGETS:${RABBIT_ENABLE_INSTALL_TARGETS}")
-message(STATUS "RABBIT_WITH_LIBRARY_SUFFIX_VERSION:${RABBIT_WITH_LIBRARY_SUFFIX_VERSION}")
-message(STATUS "RABBIT_WIN32_USE_MP:${RABBIT_WIN32_USE_MP}")
+message(STATUS "RABBIT_ENABLE_INSTALL_TO_BUILD_PATH: ${RABBIT_ENABLE_INSTALL_TO_BUILD_PATH}")
+message(STATUS "RABBIT_ENABLE_INSTALL_DEPENDENT: ${RABBIT_ENABLE_INSTALL_DEPENDENT}")
+message(STATUS "RABBIT_ENABLE_INSTALL_QT: ${RABBIT_ENABLE_INSTALL_QT}")
+message(STATUS "RABBIT_ENABLE_INSTALL_TARGETS: ${RABBIT_ENABLE_INSTALL_TARGETS}")
+message(STATUS "RABBIT_WITH_LIBRARY_SUFFIX_VERSION: ${RABBIT_WITH_LIBRARY_SUFFIX_VERSION}")
+message(STATUS "RABBIT_WIN32_USE_MP: ${RABBIT_WIN32_USE_MP}")
+message(STATUS "RABBIT_WITH_MACDEPLOY: ${RABBIT_WITH_MACDEPLOY}")
