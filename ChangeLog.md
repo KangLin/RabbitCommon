@@ -14,6 +14,8 @@
   - Add update entries interface
 - CDir
   - GetDirUserDocument(): add development version, ${DocumentRoot}/Rabbit/${ApplicationName}_dev
+- CMake
+  - Add SaveTarget.cmake
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

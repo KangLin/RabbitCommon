@@ -14,6 +14,8 @@
   - 增加更新条目接口
 - CDir
   - GetDirUserDocument(): 增加开发版本位置： ${DocumentRoot}/Rabbit/${ApplicationName}_dev
+- CMake
+  - 增加　SaveTarget.cmake。用于　android　安装扩展库
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit

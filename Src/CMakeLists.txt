@@ -34,8 +34,11 @@ message(STATUS "CMAKE_SYSTEM_PROCESSOR:${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "CMAKE_HOST_SYSTEM_PROCESSOR:${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 include(CMakeDependentOption)
+# NOTE: 新增加的文件，还需要在增加到后面的安装部分和在　RabbitCommonConfig.cmake.in　中增加
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/SaveTarget.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake)
 
 SET(RabbitCommon_VERSION "2.3.4")
@@ -425,10 +428,6 @@ list(APPEND RABBITCOMMON_INCLUDE_DIRS
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FileTransfer>
     )
 
-#翻译
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)
-
-#设置资源文件
 LIST(APPEND RCC_FILES
     Resource/ResourceRabbitCommon.qrc
     )
@@ -513,8 +512,10 @@ ADD_TARGET(NAME ${PROJECT_NAME}
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommonUtils.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/SaveTarget.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake
         ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/RabbitCommon.pc.in
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Version.rc.in
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/RabbitCommon
         COMPONENT Development
     )

@@ -404,9 +404,7 @@ function(INSTALL_TARGETS)
             DESTINATION "${PARA_DESTINATION}"
                 COMPONENT ${PARA_COMPONENT})
         IF(ANDROID)
-            set_target_properties(${PARA_NAME} PROPERTIES
-                QT_ANDROID_EXTRA_LIBS $<TARGET_SONAME_FILE:${target}>)
-            set_property(GLOBAL APPEND PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS_TARGETS ${target})
+            SAVE_TARGET(TARGETS ${target})
         else(UNIX)
             INSTALL(FILES $<TARGET_SONAME_FILE:${target}>
                 DESTINATION "${PARA_DESTINATION}"
@@ -1131,13 +1129,14 @@ function(ADD_TARGET)
                 add_android_openssl_libraries(${PARA_NAME})
             endif()
 
-            get_property(VAR_QT_ANDROID_EXTRA_LIBS GLOBAL PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS_TARGETS)
-            foreach(target ${VAR_QT_ANDROID_EXTRA_LIBS})
-                find_dependency(${target})
+            get_property(VAR_SAVE_TARGET GLOBAL PROPERTY GLOBAL_SAVE_TARGETS)
+            foreach(target ${VAR_SAVE_TARGET})
+                safe_find_dependency(${target})
                 if(${target}_FOUND)
-	            target_link_libraries(${PARA_NAME} PRIVATE ${target})
-                    #set_property(GLOBAL APPEND PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS
-                    #    $<TARGET_SONAME_FILE:${target}>)
+                    message(STATUS "Successfully found ${target}")
+                    target_link_libraries(${PARA_NAME} PRIVATE ${target})
+                else()
+                    message(WARNING "Failed to find ${target}, skipping...")
                 endif()
             endforeach()
             get_property(VAR_QT_ANDROID_EXTRA_LIBS GLOBAL PROPERTY GLOBAL_QT_ANDROID_EXTRA_LIBS)
@@ -1397,16 +1396,18 @@ function(ADD_TARGET)
 
     if(DEFINED PARA_LIBS AND PARA_LIBS)
         target_link_libraries(${PARA_NAME} PUBLIC ${PARA_LIBS})
+        SAVE_TARGET(TARGETS ${PARA_LIBS})
     endif()
 
     if(DEFINED PARA_PRIVATE_LIBS AND PARA_PRIVATE_LIBS)
         target_link_libraries(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LIBS})
+        SAVE_TARGET(TARGETS ${PARA_PRIVATE_LIBS})
     endif()
 
     if(PARA_LINK_DIRECTORIES)
         target_link_directories(${PARA_NAME} PRIVATE ${PARA_LINK_DIRECTORIES})
     endif()
-    
+
     if(PARA_PRIVATE_LINK_DIRECTORIES)
         target_link_directories(${PARA_NAME} PRIVATE ${PARA_PRIVATE_LINK_DIRECTORIES})
     endif()
