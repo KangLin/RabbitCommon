@@ -193,18 +193,18 @@
         <translation>排除下面内容（支持正则表达式）</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgFilter.cpp" line="42"/>
+        <location filename="../../Log/DlgFilter.cpp" line="44"/>
         <source>Filter of include is error: </source>
         <translation>过滤器包含表达式错误：</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgFilter.cpp" line="44"/>
-        <location filename="../../Log/DlgFilter.cpp" line="55"/>
+        <location filename="../../Log/DlgFilter.cpp" line="46"/>
+        <location filename="../../Log/DlgFilter.cpp" line="57"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgFilter.cpp" line="53"/>
+        <location filename="../../Log/DlgFilter.cpp" line="55"/>
         <source>Filter of exclude is error: </source>
         <translation>过滤器排除表达式错误：</translation>
     </message>
@@ -1485,22 +1485,22 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CTitleBar</name>
     <message>
-        <location filename="../../TitleBar.cpp" line="91"/>
+        <location filename="../../TitleBar.cpp" line="93"/>
         <source>Minimize</source>
         <translation>最小化</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="99"/>
+        <location filename="../../TitleBar.cpp" line="101"/>
         <source>Maximize</source>
         <translation>最大化</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="107"/>
+        <location filename="../../TitleBar.cpp" line="109"/>
         <source>Floating</source>
         <translation>浮动</translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="116"/>
+        <location filename="../../TitleBar.cpp" line="118"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
