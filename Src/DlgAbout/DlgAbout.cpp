@@ -257,7 +257,7 @@ QString CDlgAbout::Version()
     QString szVersion;
     if(m_szVersionRevision.isEmpty())
     {
-        szVersion = tr("Version: ") + m_szVersion + " " + tr("Arch: ") + m_szArch;
+        szVersion = tr("Version: ") + m_szVersion;
     } else {
         if(m_szVersionRevisionUrl.isEmpty())
         {
@@ -271,8 +271,9 @@ QString CDlgAbout::Version()
 #else
                     + m_szVersionRevision
 #endif
-                    + ") " + tr("Arch: ") + m_szArch;
+                    + ")";
     }
+    szVersion += " " + tr("Arch: ") + m_szArch;
     return szVersion;
 }
 

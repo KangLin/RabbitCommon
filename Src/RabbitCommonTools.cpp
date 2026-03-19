@@ -370,8 +370,9 @@ QString CTools::Version()
 #else
         szReturn += szRevision;
 #endif
-        szReturn += ") ";
+        szReturn += ")";
     }
+    szReturn += " " + tr("Arch: ") + QSysInfo::buildCpuArchitecture();
     return szReturn;
 }
 
