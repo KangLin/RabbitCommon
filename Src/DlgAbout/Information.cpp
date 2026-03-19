@@ -33,6 +33,7 @@ CInformation::CInformation(const QString &szApp,
     QString szRabbitCommon;
     szRabbitCommon += "# " + tr("RabbitCommon") + "\n";
     szRabbitCommon += "- " + RabbitCommon::CTools::Version() + "\n";
+    szRabbitCommon += "- " + tr("Build Date/Time: ") + QString("%1/%2").arg(__DATE__, __TIME__) + "\n";
     szRabbitCommon += RabbitCommon::CTools::Information();
     SetContext(tr("RabbitCommon"), szRabbitCommon);
 
