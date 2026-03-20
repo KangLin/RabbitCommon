@@ -4,7 +4,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../Src/FileTransfer/ExampleFileTransfer.cpp" line="63"/>
+        <location filename="../../../Src/FileTransfer/ExampleFileTransfer.cpp" line="64"/>
         <source>ExampleFile</source>
         <translation type="unfinished"></translation>
     </message>

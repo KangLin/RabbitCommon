@@ -90,8 +90,7 @@
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="260"/>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="274"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="276"/>
         <source>Arch: </source>
         <translation>架构：</translation>
     </message>
@@ -101,27 +100,27 @@
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="282"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="283"/>
         <source>Failed:</source>
         <translation>失败:</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="282"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="283"/>
         <source>Download file is Failed.</source>
         <translation>下载文件失败。</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="301"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="302"/>
         <source>Build Date/Time: </source>
         <translation>编译日期/时间：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="302"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="303"/>
         <source>File Path: </source>
         <translation>文件路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/DlgAbout.cpp" line="303"/>
+        <location filename="../../DlgAbout/DlgAbout.cpp" line="304"/>
         <source>Arguments: </source>
         <translation>参数：</translation>
     </message>
@@ -988,227 +987,362 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="59"/>
+        <location filename="../../DlgAbout/Information.cpp" line="61"/>
         <source>Locale: </source>
         <translation>区域：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="80"/>
-        <location filename="../../DlgAbout/Information.cpp" line="87"/>
+        <location filename="../../DlgAbout/Information.cpp" line="82"/>
+        <location filename="../../DlgAbout/Information.cpp" line="89"/>
         <source>Build Version: </source>
         <translation>编译时版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="83"/>
+        <location filename="../../DlgAbout/Information.cpp" line="85"/>
         <source>Installed Version: </source>
         <translation>安装的版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="90"/>
+        <location filename="../../DlgAbout/Information.cpp" line="92"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安装 OPENSSL 动态库，请安装！</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="94"/>
-        <location filename="../../DlgAbout/Information.cpp" line="95"/>
+        <location filename="../../DlgAbout/Information.cpp" line="96"/>
+        <location filename="../../DlgAbout/Information.cpp" line="97"/>
         <source>Standard paths:</source>
         <translation>标准路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="116"/>
+        <location filename="../../DlgAbout/Information.cpp" line="118"/>
         <source>Writable Location:</source>
         <translation>可写入位置：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="138"/>
+        <location filename="../../DlgAbout/Information.cpp" line="140"/>
         <source>Product type: </source>
         <translation>操作系统类型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="139"/>
+        <location filename="../../DlgAbout/Information.cpp" line="141"/>
         <source>Product version: </source>
         <translation>操作系统版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="137"/>
+        <location filename="../../DlgAbout/Information.cpp" line="139"/>
         <source>OS: </source>
         <translation>操作系统：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="41"/>
+        <location filename="../../DlgAbout/Information.cpp" line="37"/>
+        <source>Build Date/Time: </source>
+        <translation>编译日期/时间：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="43"/>
         <source>Runtime version: </source>
         <translation>运行版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="42"/>
+        <location filename="../../DlgAbout/Information.cpp" line="44"/>
         <source>Compile version: </source>
         <translation>编译版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="43"/>
+        <location filename="../../DlgAbout/Information.cpp" line="45"/>
         <source>Libraries:</source>
         <translation>库版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="45"/>
+        <location filename="../../DlgAbout/Information.cpp" line="47"/>
         <source>Version: </source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="48"/>
+        <location filename="../../DlgAbout/Information.cpp" line="50"/>
         <source>Is debug build: </source>
         <translation>是调试编译：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="50"/>
+        <location filename="../../DlgAbout/Information.cpp" line="52"/>
         <source>Is shared build: </source>
         <translation>是动态库编译：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="52"/>
+        <location filename="../../DlgAbout/Information.cpp" line="54"/>
         <source>Path: </source>
         <translation>路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="54"/>
+        <location filename="../../DlgAbout/Information.cpp" line="56"/>
         <source>Search library paths:</source>
         <translation>搜索库路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="60"/>
+        <location filename="../../DlgAbout/Information.cpp" line="62"/>
         <source>Icon: </source>
         <translation>图标：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="61"/>
+        <location filename="../../DlgAbout/Information.cpp" line="63"/>
         <source>Theme: </source>
         <translation>主题：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="62"/>
+        <location filename="../../DlgAbout/Information.cpp" line="64"/>
         <source>Search paths:</source>
         <translation>搜索路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="68"/>
+        <location filename="../../DlgAbout/Information.cpp" line="70"/>
         <source>Fallback theme: </source>
         <translation>备份主题：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="69"/>
+        <location filename="../../DlgAbout/Information.cpp" line="71"/>
         <source>Fallback search paths:</source>
         <translation>备份主题搜索路径：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="75"/>
+        <location filename="../../DlgAbout/Information.cpp" line="77"/>
         <source>Dependency libraries:</source>
         <translation>依赖库：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="76"/>
+        <location filename="../../DlgAbout/Information.cpp" line="78"/>
         <source>- OpenSSL:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="40"/>
-        <location filename="../../DlgAbout/Information.cpp" line="132"/>
+        <location filename="../../DlgAbout/Information.cpp" line="42"/>
+        <location filename="../../DlgAbout/Information.cpp" line="134"/>
         <source>Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="140"/>
+        <location filename="../../DlgAbout/Information.cpp" line="142"/>
         <source>Kernel type: </source>
         <translation>内核类型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="141"/>
+        <location filename="../../DlgAbout/Information.cpp" line="143"/>
         <source>Kernel version: </source>
         <translation>内核版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="144"/>
+        <location filename="../../DlgAbout/Information.cpp" line="146"/>
         <source>Boot Id: </source>
         <translation>启动 ID：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="146"/>
+        <location filename="../../DlgAbout/Information.cpp" line="148"/>
         <source>Build ABI: </source>
         <translation>编译 ABI：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="147"/>
+        <location filename="../../DlgAbout/Information.cpp" line="149"/>
         <source>CPU: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="149"/>
+        <location filename="../../DlgAbout/Information.cpp" line="151"/>
         <source>Number:</source>
         <translation>个数：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="157"/>
+        <location filename="../../DlgAbout/Information.cpp" line="159"/>
         <source>Theme:</source>
         <translation>主题：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="160"/>
+        <location filename="../../DlgAbout/Information.cpp" line="162"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="163"/>
+        <location filename="../../DlgAbout/Information.cpp" line="165"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="166"/>
+        <location filename="../../DlgAbout/Information.cpp" line="168"/>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="175"/>
+        <location filename="../../DlgAbout/Information.cpp" line="177"/>
         <source>Host name: </source>
         <translation>主机名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="177"/>
+        <location filename="../../DlgAbout/Information.cpp" line="179"/>
         <source>Domain name: </source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="182"/>
+        <location filename="../../DlgAbout/Information.cpp" line="184"/>
+        <source>Screen</source>
+        <translation>屏幕</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="186"/>
+        <source>Total:</source>
+        <translation>总数：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="192"/>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="191"/>
+        <source>Primery</source>
+        <translation>主屏</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="194"/>
+        <source>Manufacturer</source>
+        <translation>生产厂家</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="196"/>
+        <source>Serial Number</source>
+        <translation>序列号</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="198"/>
+        <source>Model</source>
+        <translation>模型</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="199"/>
+        <source>Refresh Rate</source>
+        <translation>刷新率</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="200"/>
+        <source>Depth</source>
+        <translation>深度</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="201"/>
+        <source>Device Pixel Ratio</source>
+        <translation>设备像素比</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="202"/>
+        <source>Logical Dots Per Inch</source>
+        <translation>逻辑每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="203"/>
+        <source>Logical Dots Per Inch X</source>
+        <translation>X 轴逻辑每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="204"/>
+        <source>Logical Dots Per Inch Y</source>
+        <translation>Y 轴逻辑每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="205"/>
+        <source>Physical Dots Per Inch</source>
+        <translation>物理每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="206"/>
+        <source>Physical Dots Per Inch X</source>
+        <translation>X 轴物理每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="207"/>
+        <source>Physical Dots Per Inch Y</source>
+        <translation>Y 轴物物理每英寸点数</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="208"/>
+        <source>Physical size</source>
+        <translation>物理尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="209"/>
+        <source>Size</source>
+        <translation>尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="210"/>
+        <source>Geometry</source>
+        <translation>几何尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="211"/>
+        <source>Available Size</source>
+        <translation>有效尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="212"/>
+        <source>Available Geometry</source>
+        <translation>有效几何尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="215"/>
+        <source>Siblings</source>
+        <translation>兄弟屏幕</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="217"/>
+        <source>Virtual Size</source>
+        <translation>虚拟尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="218"/>
+        <source>Virtual Geometry</source>
+        <translation>虚拟几何尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="219"/>
+        <source>Available Virtual Size</source>
+        <translation>有效虚拟尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="220"/>
+        <source>Available Virtual Geometry</source>
+        <translation>有效虚拟几何尺寸</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="225"/>
         <source>Environment</source>
         <translation>环境变量</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="31"/>
+        <location filename="../../DlgAbout/Information.cpp" line="32"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="34"/>
-        <location filename="../../DlgAbout/Information.cpp" line="37"/>
+        <location filename="../../DlgAbout/Information.cpp" line="35"/>
+        <location filename="../../DlgAbout/Information.cpp" line="39"/>
         <source>RabbitCommon</source>
         <translation>玉兔公共库</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="151"/>
+        <location filename="../../DlgAbout/Information.cpp" line="153"/>
         <source>Architecture: </source>
         <translation>架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="153"/>
+        <location filename="../../DlgAbout/Information.cpp" line="155"/>
         <source>Build architecture: </source>
         <translation>编译架构：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="136"/>
+        <location filename="../../DlgAbout/Information.cpp" line="138"/>
         <source>OS</source>
         <translation>操作系统</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="173"/>
-        <location filename="../../DlgAbout/Information.cpp" line="189"/>
+        <location filename="../../DlgAbout/Information.cpp" line="175"/>
+        <location filename="../../DlgAbout/Information.cpp" line="232"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
@@ -1519,306 +1653,311 @@ You can read files up to %1 MB.</source>
         <translation>(校订版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="381"/>
+        <location filename="../../RabbitCommonTools.cpp" line="375"/>
+        <source>Arch: </source>
+        <translation type="unfinished">架构：</translation>
+    </message>
+    <message>
+        <location filename="../../RabbitCommonTools.cpp" line="382"/>
         <source>- Functions:</source>
         <translation>- 功能：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="382"/>
+        <location filename="../../RabbitCommonTools.cpp" line="383"/>
         <source>  - Locale: </source>
         <translation>  - 区域：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="385"/>
+        <location filename="../../RabbitCommonTools.cpp" line="386"/>
         <source>  - Have GUI</source>
         <translation>  - 界面</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="387"/>
+        <location filename="../../RabbitCommonTools.cpp" line="388"/>
         <source>    - Have About dialog</source>
         <translation>    - 关于对话框</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="389"/>
+        <location filename="../../RabbitCommonTools.cpp" line="390"/>
         <source>    - Use cmark-gfm</source>
         <translation>    使用&#x3000;cmark-gfm</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="391"/>
+        <location filename="../../RabbitCommonTools.cpp" line="392"/>
         <source>      - Use cmark</source>
         <translation>      - 使用 cmark</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="395"/>
+        <location filename="../../RabbitCommonTools.cpp" line="396"/>
         <source>    - Have Update</source>
         <translation>    - 更新</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="397"/>
+        <location filename="../../RabbitCommonTools.cpp" line="398"/>
         <source>    - Custom title bar for QWidget</source>
         <translation>    - 自定窗口标题栏</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="398"/>
+        <location filename="../../RabbitCommonTools.cpp" line="399"/>
         <source>    - Dock Folder browser</source>
         <translation>    - 文件夹浏览器</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="399"/>
+        <location filename="../../RabbitCommonTools.cpp" line="400"/>
         <source>    - Recent menu</source>
         <translation>    - 最近菜单</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="400"/>
+        <location filename="../../RabbitCommonTools.cpp" line="401"/>
         <source>    - Style</source>
         <translation>    - 样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="401"/>
+        <location filename="../../RabbitCommonTools.cpp" line="402"/>
         <source>      - Icon theme: </source>
         <translation>      - 图标主题：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="403"/>
+        <location filename="../../RabbitCommonTools.cpp" line="404"/>
         <source>      - Fall back icon theme: </source>
         <translation>      - 后备图标主题：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="406"/>
+        <location filename="../../RabbitCommonTools.cpp" line="407"/>
         <source>    - Have QUIWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="409"/>
+        <location filename="../../RabbitCommonTools.cpp" line="410"/>
         <source>    - Have media devices settings widget</source>
         <translation>    - 多媒体设备设置窗口</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="412"/>
+        <location filename="../../RabbitCommonTools.cpp" line="413"/>
         <source>    - Icon utils</source>
         <translation>    - 图标实用程序</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="416"/>
+        <location filename="../../RabbitCommonTools.cpp" line="417"/>
         <source>  - Log</source>
         <translation>  - 日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="417"/>
+        <location filename="../../RabbitCommonTools.cpp" line="418"/>
         <source>    - Core dump</source>
         <translation>    - 核心转储</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="418"/>
+        <location filename="../../RabbitCommonTools.cpp" line="419"/>
         <source>    - Log file: </source>
         <translation>日志文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="420"/>
+        <location filename="../../RabbitCommonTools.cpp" line="421"/>
         <source>  - Have encrypt(OPENSSL)</source>
         <translation>  - 加密 (OPENSSL)</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="422"/>
+        <location filename="../../RabbitCommonTools.cpp" line="423"/>
         <source>Thread pool</source>
         <translation>线程池</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="425"/>
+        <location filename="../../RabbitCommonTools.cpp" line="426"/>
         <source>File transfer</source>
         <translation>文件传输</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="426"/>
-        <location filename="../../RabbitCommonTools.cpp" line="495"/>
+        <location filename="../../RabbitCommonTools.cpp" line="427"/>
+        <location filename="../../RabbitCommonTools.cpp" line="496"/>
         <source>libCurl</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="428"/>
-        <location filename="../../RabbitCommonTools.cpp" line="497"/>
+        <location filename="../../RabbitCommonTools.cpp" line="429"/>
+        <location filename="../../RabbitCommonTools.cpp" line="498"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="429"/>
-        <location filename="../../RabbitCommonTools.cpp" line="498"/>
+        <location filename="../../RabbitCommonTools.cpp" line="430"/>
+        <location filename="../../RabbitCommonTools.cpp" line="499"/>
         <source>Supported protocols:</source>
         <translation>支持协议：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="445"/>
+        <location filename="../../RabbitCommonTools.cpp" line="446"/>
         <source>  - Application paths and files: </source>
         <translation>  - 应用程序目录和文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="446"/>
+        <location filename="../../RabbitCommonTools.cpp" line="447"/>
         <source>    - Installation root path: </source>
         <translation>    - 安装根目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="447"/>
+        <location filename="../../RabbitCommonTools.cpp" line="448"/>
         <source>    - Application path: </source>
         <translation>    - 应用程序目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="448"/>
-        <location filename="../../RabbitCommonTools.cpp" line="459"/>
+        <location filename="../../RabbitCommonTools.cpp" line="449"/>
+        <location filename="../../RabbitCommonTools.cpp" line="460"/>
         <source>    - Configure path: </source>
         <translation>    - 配置目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="449"/>
-        <location filename="../../RabbitCommonTools.cpp" line="460"/>
+        <location filename="../../RabbitCommonTools.cpp" line="450"/>
+        <location filename="../../RabbitCommonTools.cpp" line="461"/>
         <source>    - Configure file: </source>
         <translation>    - 配置文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="450"/>
+        <location filename="../../RabbitCommonTools.cpp" line="451"/>
         <source>    - Translations path: </source>
         <translation>    - 翻译目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="451"/>
+        <location filename="../../RabbitCommonTools.cpp" line="452"/>
         <source>    - Log path: </source>
         <translation>    - 日志目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="452"/>
-        <location filename="../../RabbitCommonTools.cpp" line="461"/>
+        <location filename="../../RabbitCommonTools.cpp" line="453"/>
+        <location filename="../../RabbitCommonTools.cpp" line="462"/>
         <source>    - Data path: </source>
         <translation>    - 数据目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="453"/>
+        <location filename="../../RabbitCommonTools.cpp" line="454"/>
         <source>    - Icons path: </source>
         <translation>    - 图标目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="454"/>
-        <location filename="../../RabbitCommonTools.cpp" line="463"/>
+        <location filename="../../RabbitCommonTools.cpp" line="455"/>
+        <location filename="../../RabbitCommonTools.cpp" line="464"/>
         <source>    - Database path: </source>
         <translation>    - 数据库目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="455"/>
-        <location filename="../../RabbitCommonTools.cpp" line="464"/>
+        <location filename="../../RabbitCommonTools.cpp" line="456"/>
+        <location filename="../../RabbitCommonTools.cpp" line="465"/>
         <source>    - Database file: </source>
         <translation>    - 数据库文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="456"/>
+        <location filename="../../RabbitCommonTools.cpp" line="457"/>
         <source>    - Plugins path: </source>
         <translation>    - 插件目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="457"/>
+        <location filename="../../RabbitCommonTools.cpp" line="458"/>
         <source>  - User folders and files: </source>
         <translation>  - 用户目录与文件：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="458"/>
+        <location filename="../../RabbitCommonTools.cpp" line="459"/>
         <source>    - Documents path: </source>
         <translation>    - 文档目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="462"/>
+        <location filename="../../RabbitCommonTools.cpp" line="463"/>
         <source>    - Image path: </source>
         <translation>    - 图像目录：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="466"/>
+        <location filename="../../RabbitCommonTools.cpp" line="467"/>
         <source>- Dependent libraries:</source>
         <translation>- 依赖库：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="467"/>
+        <location filename="../../RabbitCommonTools.cpp" line="468"/>
         <source>  - OpenSSL:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="469"/>
-        <location filename="../../RabbitCommonTools.cpp" line="475"/>
-        <location filename="../../RabbitCommonTools.cpp" line="480"/>
+        <location filename="../../RabbitCommonTools.cpp" line="470"/>
+        <location filename="../../RabbitCommonTools.cpp" line="476"/>
+        <location filename="../../RabbitCommonTools.cpp" line="481"/>
         <source>Build Version: </source>
         <translation>编译时版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="470"/>
+        <location filename="../../RabbitCommonTools.cpp" line="471"/>
         <source>Runtime Version: </source>
         <translation>运行时版本：</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="477"/>
+        <location filename="../../RabbitCommonTools.cpp" line="478"/>
         <source>Installed Version: </source>
         <translation>安装的版本： </translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="482"/>
+        <location filename="../../RabbitCommonTools.cpp" line="483"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安装 OPENSSL 动态库，请安装！</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="486"/>
+        <location filename="../../RabbitCommonTools.cpp" line="487"/>
         <source>  - StackWalker</source>
         <translation>  - 堆栈查看器</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="489"/>
+        <location filename="../../RabbitCommonTools.cpp" line="490"/>
         <source>  - cmark-gfm</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="491"/>
+        <location filename="../../RabbitCommonTools.cpp" line="492"/>
         <source>  - cmark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1085"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1096"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1099"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1086"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1097"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1100"/>
         <source>Style</source>
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1110"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1112"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1111"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1113"/>
         <source>Log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1115"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1116"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1129"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1130"/>
         <source>Open Log configure file</source>
         <translation>打开日志配置文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1133"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1134"/>
         <source>Open Log file</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1137"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1138"/>
         <source>Open Log folder</source>
         <translation>打开日志文件夹</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1152"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1154"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1153"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1155"/>
         <source>Log dock</source>
         <translation>日志 - 停泊条</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1162"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1163"/>
         <source>Copy log file path to clipboard</source>
         <translation>复制日志文件路径到剪切板</translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1166"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1167"/>
         <source>Copy log folder to clipboard</source>
         <translation>复制日志文件夹到剪切板</translation>
     </message>
