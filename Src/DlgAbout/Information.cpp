@@ -12,6 +12,7 @@
 #include <QMetaEnum>
 #include <QSslSocket>
 #include <QThread>
+#include <QScreen>
 
 #include "Information.h"
 #include "ui_Information.h"
@@ -176,8 +177,49 @@ CInformation::CInformation(const QString &szApp,
         szHost += "- " + tr("Host name: ") + QSysInfo::machineHostName() + "\n";
     #endif
     szHost += "- " + tr("Domain name: ") + QHostInfo::localDomainName() + "\n";
-
 #endif // #if QT_VERSION > QT_VERSION_CHECK(5, 4, 0)
+
+#if HAVE_RABBITCOMMON_GUI
+    QString szScreen;
+    szScreen += "## " + tr("Screen") + "\n";
+    auto screens = QGuiApplication::screens();
+    szScreen += "  - " + tr("Total:") + " " + QString::number(screens.size()) + "\n";
+    int indexScreen = 1;
+    foreach(QScreen* s, screens) {
+        szScreen += "    - [" + QString::number(indexScreen++);
+        if(s == QGuiApplication::primaryScreen())
+            szScreen += " - " + tr("Primery");
+        szScreen += "] " + tr("Name") + ": " + s->name() + "\n";
+        if(!s->manufacturer().isEmpty())
+            szScreen += "      - " + tr("Manufacturer") + ": " + s->manufacturer() + "\n";
+        if(!s->serialNumber().isEmpty())
+            szScreen += "      - " + tr("Serial Number") + ": " + s->serialNumber() + "\n";
+        if(!s->model().isEmpty())
+            szScreen += "      - " + tr("Model") + ": " + s->model() + "\n";
+        szScreen += "      - " + tr("Refresh Rate") + ": " + QString::number(s->refreshRate()) + "\n";
+        szScreen += "      - " + tr("Depth") + ": " + QString::number(s->depth()) + "\n";
+        szScreen += "      - " + tr("Device Pixel Ratio") + ": " + QString::number(s->devicePixelRatio()) + "\n";
+        szScreen += "      - " + tr("Logical Dots Per Inch") + ": " + QString::number(s->logicalDotsPerInch()) + "\n";
+        szScreen += "        - " + tr("Logical Dots Per Inch X") + ": " + QString::number(s->logicalDotsPerInchX()) + "\n";
+        szScreen += "        - " + tr("Logical Dots Per Inch Y") + ": " + QString::number(s->logicalDotsPerInchY()) + "\n";
+        szScreen += "      - " + tr("Physical Dots Per Inch") + ": " + QString::number(s->physicalDotsPerInch()) + "\n";
+        szScreen += "        - " + tr("Physical Dots Per Inch X") + ": " + QString::number(s->physicalDotsPerInchX()) + "\n";
+        szScreen += "        - " + tr("Physical Dots Per Inch Y") + ": " + QString::number(s->physicalDotsPerInchY()) + "\n";
+        szScreen += "      - " + tr("Physical size") + ": " + QString::number(s->physicalSize().width()) + "×" + QString::number(s->physicalSize().height()) + "\n";
+        szScreen += "      - " + tr("Size") + ": " + QString::number(s->size().width()) + "×" + QString::number(s->size().height()) + "\n";
+        szScreen += "      - " + tr("Geometry") + ": (" + QString::number(s->geometry().left()) + "," + QString::number(s->geometry().top()) + "," + QString::number(s->geometry().width()) + "," + QString::number(s->geometry().height()) + ")\n";
+        szScreen += "      - " + tr("Available Size") + ": " + QString::number(s->availableSize().width()) + "×" + QString::number(s->availableSize().height()) + "\n";
+        szScreen += "      - " + tr("Available Geometry") + ": (" + QString::number(s->availableGeometry().left()) + "," + QString::number(s->availableGeometry().top()) + "," + QString::number(s->availableGeometry().width()) + "," + QString::number(s->availableGeometry().height()) + ")\n";
+        auto siblings = s->virtualSiblings();
+        if(siblings.size() > 0) {
+            szScreen += "      - " + tr("Siblings") + ": " + QString::number(siblings.size()) + "\n";
+        }
+        szScreen += "      - " + tr("Virtual Size") + ": " + QString::number(s->virtualSize().width()) + "×" + QString::number(s->virtualSize().height()) + "\n";
+        szScreen += "      - " + tr("Virtual Geometry") + ": (" + QString::number(s->virtualGeometry().left()) + "," + QString::number(s->virtualGeometry().top()) + "," + QString::number(s->virtualGeometry().width()) + "," + QString::number(s->virtualGeometry().height()) + ")\n";
+        szScreen += "      - " + tr("Available Virtual Size") + ": " + QString::number(s->availableVirtualSize().width()) + "×" + QString::number(s->availableVirtualSize().height()) + "\n";
+        szScreen += "      - " + tr("Available Virtual Geometry") + ":( " + QString::number(s->availableVirtualGeometry().left()) + "," + QString::number(s->availableVirtualGeometry().top()) + "," + QString::number(s->availableVirtualGeometry().width()) + "," + QString::number(s->availableVirtualGeometry().height()) + ")\n";
+    }
+#endif // #if HAVE_RABBITCOMMON_GUI
 
     QString szEnv;
     szEnv += "## " + tr("Environment") + "\n";
@@ -187,7 +229,7 @@ CInformation::CInformation(const QString &szApp,
     }
 
     if(!szHost.isEmpty())
-        SetContext(tr("Host"), szHost + szOS + szEnv);
+        SetContext(tr("Host"), szHost + szOS + szScreen + szEnv);
 
     qDebug(log) << (szApp + szInfo + szRabbitCommon
                     + szQt + szOS + szHost + szEnv).toStdString().c_str();
