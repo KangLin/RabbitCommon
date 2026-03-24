@@ -144,6 +144,14 @@ void MainWindow::on_pushButton_clicked()
                 << RabbitCommon::CTools::executeByRoot(ui->leCommand->text(), paras);
 }
 
+void MainWindow::on_pbGenerator_clicked()
+{
+    RabbitCommon::CPasswordGenerator g;
+    std::string s = g.Generate(16);
+    qDebug(log) << s.size() << s;
+    ui->lePassword->setText(s.c_str());
+}
+
 void MainWindow::on_pbEncrypt_clicked()
 {
     RabbitCommon::CEncrypt e;
@@ -276,4 +284,3 @@ void MainWindow::on_pbAudioVideoSettings_clicked()
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     RC_SHOW_WINDOW(dlg);
 }
-

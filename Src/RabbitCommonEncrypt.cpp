@@ -2,6 +2,8 @@
 
 #include <string.h>
 #include <QLoggingCategory>
+#include <QRandomGenerator>
+#include <QThread>
 
 #if defined (HAVE_OPENSSL)
 #include "EvpAES.h"
@@ -135,6 +137,82 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
         delete [] pOut;
     }
     return nRet;
+}
+
+CPasswordGenerator::CPasswordGenerator(QObject* parent) : QObject(parent)
+    , m_bLowser(true)
+    , m_bUpper(true)
+    , m_bDigits(true)
+    , m_bSymbols(true)
+{
+    SetCharSet(true, true, true, true);
+}
+
+void CPasswordGenerator::SetCharSet(
+    bool use_lower, bool use_upper, bool use_digits, bool use_symbols)
+{
+    m_bLowser = use_lower;
+    m_bUpper = use_upper;
+    m_bDigits = use_digits;
+    m_bSymbols = use_symbols;
+    if (m_bLowser) m_CharSet.append(LOWERCASE);
+    if (m_bUpper) m_CharSet.append(UPPERCASE);
+    if (m_bDigits) m_CharSet.append(DIGITS);
+    if (m_bSymbols) m_CharSet.append(SYMBOLS);
+}
+
+std::string CPasswordGenerator::Generate(int length)
+{
+    if (m_CharSet.size() == 0 || length <= 0) {
+        return "";
+    }
+    
+    std::string password;
+    password.reserve(length);
+    
+    QRandomGenerator rng = QRandomGenerator::securelySeeded();
+    for (int i = 0; i < length; ++i) {
+        int index = rng.bounded((double)m_CharSet.size() - 1);
+        //qDebug(log) << i << charSet.size() << index << charSet[index];
+        password += m_CharSet[index];
+    }
+    
+    return password;
+}
+
+std::string CPasswordGenerator::GeneratePassword(
+    int length, bool use_lower, bool use_upper,
+    bool use_digits, bool use_symbols)
+{
+    std::string charSet;
+    if (use_lower) {
+        charSet.append(LOWERCASE);
+    }
+    if (use_upper) {
+        charSet.append(UPPERCASE);
+    }
+    if (use_digits) {
+        charSet.append(DIGITS);
+    }
+    if (use_symbols) {
+        charSet.append(SYMBOLS);
+    }
+    
+    if (charSet.size() == 0 || length <= 0) {
+        return "";
+    }
+    
+    std::string password;
+    password.reserve(length);
+
+    QRandomGenerator rng = QRandomGenerator::securelySeeded();
+    for (int i = 0; i < length; ++i) {
+        int index = rng.bounded((double)charSet.size() - 1);
+        //qDebug(log) << i << charSet.size() << index << charSet[index];
+        password += charSet[index];
+    }
+    
+    return password;
 }
 
 } // namespace RabbitCommon

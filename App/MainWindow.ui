@@ -29,6 +29,13 @@
         <item>
          <widget class="QLineEdit" name="lePassword"/>
         </item>
+        <item>
+         <widget class="QPushButton" name="pbGenerator">
+          <property name="text">
+           <string>Generator</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -169,16 +176,16 @@
          <string>Log</string>
         </property>
         <property name="popupMode">
-         <enum>QToolButton::MenuButtonPopup</enum>
+         <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
         </property>
         <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonIconOnly</enum>
+         <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
         </property>
         <property name="autoRaise">
          <bool>false</bool>
         </property>
         <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
+         <enum>Qt::ArrowType::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -199,7 +206,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">

@@ -47,6 +47,34 @@ private:
     std::string m_szPassword;
 };
 
+/*!
+ * \brief Password Generator
+ * \since 2.4.0
+ */
+class RABBITCOMMON_EXPORT CPasswordGenerator : public QObject{
+    Q_OBJECT
+public:
+    CPasswordGenerator(QObject* parent = nullptr);
+
+    void SetCharSet(bool use_lower, bool use_upper, bool use_digits, bool use_symbols);
+    std::string Generate(int length = 16);
+    static std::string GeneratePassword(int length = 16, bool use_lower = true,
+                         bool use_upper = true, bool use_digits = true,
+                         bool use_symbols = true);
+
+private:
+    static constexpr char LOWERCASE[] = "abcdefghijklmnopqrstuvwxyz";
+    static constexpr char UPPERCASE[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static constexpr char DIGITS[] = "0123456789";
+    static constexpr char SYMBOLS[] = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
+
+    std::string m_CharSet;
+    bool m_bLowser;
+    bool m_bUpper;
+    bool m_bDigits;
+    bool m_bSymbols;
+};
+
 } // namespace RabbitCommon
 #endif // CENCRYPT_H_KL_2021_12_10
 

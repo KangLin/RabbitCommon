@@ -26,6 +26,7 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionUpdate_triggered();
     void on_pushButton_clicked();
+    void on_pbGenerator_clicked();
     void on_pbEncrypt_clicked();
     void on_pbGenerateCoreFile_clicked();
     void on_pbThreadCore_clicked();

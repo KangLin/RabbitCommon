@@ -5,6 +5,7 @@
   - 增加 static VersionInfo GetVersion(const QString& szVersion);
   - 增加 static bool VersionValid(const QString& szVersion);
   - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
+  - 增加密码生成器
 - 增加设置应用字体
 - 增加音视频设备设置对话框
 - 增加 CIconUtils
