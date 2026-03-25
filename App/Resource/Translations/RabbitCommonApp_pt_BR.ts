@@ -9,47 +9,47 @@
         <translation>Janela Principal</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="169"/>
+        <location filename="../../MainWindow.ui" line="176"/>
         <source>Log</source>
         <translation>Log</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="155"/>
+        <location filename="../../MainWindow.ui" line="162"/>
         <source>Generate core file</source>
         <translation>Gerar arquivo de despejo de memória</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="162"/>
+        <location filename="../../MainWindow.ui" line="169"/>
         <source>Thread core</source>
         <translation>Thread de despejo de memória</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="90"/>
+        <location filename="../../MainWindow.ui" line="97"/>
         <source>Command:</source>
         <translation>Comando:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="100"/>
+        <location filename="../../MainWindow.ui" line="107"/>
         <source>Parameters:</source>
         <translation>Parâmetros:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="110"/>
+        <location filename="../../MainWindow.ui" line="117"/>
         <source>Exec program with root</source>
         <translation>Executar programa como administrador</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="62"/>
+        <location filename="../../MainWindow.ui" line="69"/>
         <source>Update file:</source>
         <translation>Arquivo de atualização:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="72"/>
+        <location filename="../../MainWindow.ui" line="79"/>
         <source>Browse</source>
         <translation>Procurar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="79"/>
+        <location filename="../../MainWindow.ui" line="86"/>
         <source>Execute update</source>
         <translation>Executar atualização</translation>
     </message>
@@ -59,63 +59,68 @@
         <translation>Senha:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="49"/>
+        <location filename="../../MainWindow.ui" line="35"/>
+        <source>Generator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="56"/>
         <source>Encrypt</source>
         <translation>Criptografar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="119"/>
+        <location filename="../../MainWindow.ui" line="126"/>
         <source>Download file</source>
         <translation>Baixar arquivo</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="134"/>
+        <location filename="../../MainWindow.ui" line="141"/>
         <source>Add file</source>
         <translation>Adicionar arquivo</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="141"/>
+        <location filename="../../MainWindow.ui" line="148"/>
         <source>Download</source>
         <translation>Baixar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="190"/>
+        <location filename="../../MainWindow.ui" line="197"/>
         <source>Media Devices Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="207"/>
+        <location filename="../../MainWindow.ui" line="214"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="214"/>
+        <location filename="../../MainWindow.ui" line="221"/>
         <source>Tools</source>
         <translation>Ferramentas</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="227"/>
+        <location filename="../../MainWindow.ui" line="234"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="235"/>
+        <location filename="../../MainWindow.ui" line="242"/>
         <source>Update</source>
         <translation>Atualizar</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="240"/>
+        <location filename="../../MainWindow.ui" line="247"/>
         <location filename="../../MainWindow.cpp" line="81"/>
         <source>Folder browser</source>
         <translation>Navegador de pasta</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="159"/>
+        <location filename="../../MainWindow.cpp" line="167"/>
         <source>Encrypt:</source>
         <translation>Criptografado:</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="159"/>
+        <location filename="../../MainWindow.cpp" line="167"/>
         <source>Source:</source>
         <translation>Origem:</translation>
     </message>
