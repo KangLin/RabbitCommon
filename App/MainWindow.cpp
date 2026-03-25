@@ -164,7 +164,7 @@ void MainWindow::on_pbEncrypt_clicked()
         nRet = e.Dencode(out, szOut);
         if(!nRet)
         {
-            szOut = tr("Encrypt:") + out.toHex() + "\n" + tr("Source:") + szOut;
+            szOut = tr("Encrypt:") + " " + out.toHex() + "\n" + tr("Source:") + " " + szOut;
             ui->teOutput->setPlainText(szOut);
         }
     }

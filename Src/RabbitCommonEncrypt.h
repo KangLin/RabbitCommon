@@ -52,10 +52,9 @@ private:
  * \ingroup API
  * \since 2.4.0
  */
-class RABBITCOMMON_EXPORT CPasswordGenerator : public QObject{
-    Q_OBJECT
+class RABBITCOMMON_EXPORT CPasswordGenerator {
 public:
-    CPasswordGenerator(QObject* parent = nullptr);
+    CPasswordGenerator();
 
     void SetCharSet(bool use_lower, bool use_upper, bool use_digits, bool use_symbols);
     std::string Generate(int length = 16);
@@ -64,11 +63,6 @@ public:
                          bool use_symbols = true);
 
 private:
-    static constexpr char LOWERCASE[] = "abcdefghijklmnopqrstuvwxyz";
-    static constexpr char UPPERCASE[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    static constexpr char DIGITS[] = "0123456789";
-    static constexpr char SYMBOLS[] = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
-
     std::string m_CharSet;
     bool m_bLowser;
     bool m_bUpper;

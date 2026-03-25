@@ -139,8 +139,12 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
     return nRet;
 }
 
-CPasswordGenerator::CPasswordGenerator(QObject* parent) : QObject(parent)
-    , m_bLowser(true)
+static constexpr char LOWERCASE[] = "abcdefghijklmnopqrstuvwxyz";
+static constexpr char UPPERCASE[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static constexpr char DIGITS[] = "0123456789";
+static constexpr char SYMBOLS[] = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
+CPasswordGenerator::CPasswordGenerator()
+    : m_bLowser(true)
     , m_bUpper(true)
     , m_bDigits(true)
     , m_bSymbols(true)
