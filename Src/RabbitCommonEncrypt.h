@@ -49,6 +49,7 @@ private:
 
 /*!
  * \brief Password Generator
+ * \ingroup API
  * \since 2.4.0
  */
 class RABBITCOMMON_EXPORT CPasswordGenerator : public QObject{

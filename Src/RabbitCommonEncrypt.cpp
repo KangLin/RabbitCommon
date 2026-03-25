@@ -44,7 +44,7 @@ int CEncrypt::SetPassword(const char* pszPassword)
     {
         m_szPassword[i] ^= pszPassword[i];
     }
-        
+
     return 0;
 }
 
@@ -69,7 +69,7 @@ int CEncrypt::Encode(const QString& szIn, QByteArray& szOut)
     QByteArray in = szIn.toUtf8();
         bool b = aes.ecb_encrypt(in, szOut,
                         QByteArray::fromStdString(m_szPassword));
-    
+
 //    bool b = aes.cbc_encrypt(in, szOut,
 //                    QByteArray::fromStdString(m_szPassword),
 //                    QByteArray::fromRawData((const char*)Key, PASSWORD_LENGTH));
@@ -166,17 +166,17 @@ std::string CPasswordGenerator::Generate(int length)
     if (m_CharSet.size() == 0 || length <= 0) {
         return "";
     }
-    
+
     std::string password;
     password.reserve(length);
-    
+
     QRandomGenerator rng = QRandomGenerator::securelySeeded();
     for (int i = 0; i < length; ++i) {
         int index = rng.bounded((double)m_CharSet.size() - 1);
         //qDebug(log) << i << charSet.size() << index << charSet[index];
         password += m_CharSet[index];
     }
-    
+
     return password;
 }
 

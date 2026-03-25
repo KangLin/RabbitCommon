@@ -420,6 +420,7 @@ QString CTools::Information()
 #if defined(HAVE_OPENSSL)
     szInfo += tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
+    szInfo += tr("  - Password generator") + "\n";
     szInfo += "  - " + tr("Thread pool") + "\n";
 
 #if defined(HAVE_CURL)

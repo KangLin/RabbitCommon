@@ -148,7 +148,7 @@ void MainWindow::on_pbGenerator_clicked()
 {
     RabbitCommon::CPasswordGenerator g;
     std::string s = g.Generate(16);
-    qDebug(log) << s.size() << s;
+    qDebug(log) << s.size() << s.c_str();
     ui->lePassword->setText(s.c_str());
 }
 
@@ -162,9 +162,9 @@ void MainWindow::on_pbEncrypt_clicked()
     {
         QString szOut;
         nRet = e.Dencode(out, szOut);
-        if(nRet)
+        if(!nRet)
         {
-            szOut = tr("Encrypt:") + QString(out) + "\n" + tr("Source:") + szOut;
+            szOut = tr("Encrypt:") + out.toHex() + "\n" + tr("Source:") + szOut;
             ui->teOutput->setPlainText(szOut);
         }
     }
