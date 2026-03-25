@@ -329,8 +329,7 @@ create_tag() {
         echo "Please verify:"
         echo "  √ Tests passed?"
         echo "  √ Translations updated?"
-        echo "  √ Setup files correct?"
-        echo "  √ Update_*.json files updated?"
+        echo "  √ Modiyf change log?"
         echo ""
 
         read -t 30 -p "? Deploy? (y/N): " INPUT
