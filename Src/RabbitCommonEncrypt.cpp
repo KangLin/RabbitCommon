@@ -2,13 +2,14 @@
 
 #include <string.h>
 #include <QLoggingCategory>
-#include <QRandomGenerator>
+
 #include <QThread>
 
 #if defined (HAVE_OPENSSL)
 #include "EvpAES.h"
 #endif
 
+#include "RabbitCommonTools.h"
 #include "RabbitCommonEncrypt.h"
 
 namespace RabbitCommon {
@@ -174,9 +175,8 @@ std::string CPasswordGenerator::Generate(int length)
     std::string password;
     password.reserve(length);
 
-    QRandomGenerator rng = QRandomGenerator::securelySeeded();
     for (int i = 0; i < length; ++i) {
-        int index = rng.bounded((double)m_CharSet.size() - 1);
+        int index = CTools::GetRandomNumber(0, (double)m_CharSet.size() - 1);
         //qDebug(log) << i << charSet.size() << index << charSet[index];
         password += m_CharSet[index];
     }
@@ -209,9 +209,8 @@ std::string CPasswordGenerator::GeneratePassword(
     std::string password;
     password.reserve(length);
 
-    QRandomGenerator rng = QRandomGenerator::securelySeeded();
     for (int i = 0; i < length; ++i) {
-        int index = rng.bounded((double)charSet.size() - 1);
+        int index = CTools::GetRandomNumber(0, (double)charSet.size() - 1);
         //qDebug(log) << i << charSet.size() << index << charSet[index];
         password += charSet[index];
     }

@@ -82,6 +82,12 @@
     #include <curl/curl.h>
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRandomGenerator>
+#else
+#include <random>
+#endif
+
 inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
@@ -1078,6 +1084,21 @@ QString CTools::MarkDownToHtml(const QString &szText)
 #endif
 */
     return szHtml;
+}
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+static QRandomGenerator g_Generator = QRandomGenerator::securelySeeded();
+#else
+static std::random_device g_rd;
+static std::mt19937 g_Generator(g_rd());
+#endif
+int CTools::GetRandomNumber(int min, int max) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return g_Generator.bounded(min, max);
+#else
+    std::uniform_int_distribution<> distrib(min, max);
+    return distrib(g_Generator);
+#endif
 }
 
 #ifdef HAVE_RABBITCOMMON_GUI

@@ -301,6 +301,14 @@ public:
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szName = QString());
 
+    /*!
+     * \brief Get Random Number
+     * \param min
+     * \param max
+     * \return
+     */
+    static int GetRandomNumber(int min, int max);
+
 #ifdef HAVE_RABBITCOMMON_GUI
     /*!
      * \brief Add style menu after pMenu
