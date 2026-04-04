@@ -190,12 +190,14 @@ CInformation::CInformation(const QString &szApp,
         if(s == QGuiApplication::primaryScreen())
             szScreen += " - " + tr("Primery");
         szScreen += "] " + tr("Name") + ": " + s->name() + "\n";
+#if QT_VERSION > QT_VERSION_CHECK(5, 12, 0)
         if(!s->manufacturer().isEmpty())
             szScreen += "      - " + tr("Manufacturer") + ": " + s->manufacturer() + "\n";
         if(!s->serialNumber().isEmpty())
             szScreen += "      - " + tr("Serial Number") + ": " + s->serialNumber() + "\n";
         if(!s->model().isEmpty())
             szScreen += "      - " + tr("Model") + ": " + s->model() + "\n";
+#endif
         szScreen += "      - " + tr("Refresh Rate") + ": " + QString::number(s->refreshRate()) + "\n";
         szScreen += "      - " + tr("Depth") + ": " + QString::number(s->depth()) + "\n";
         szScreen += "      - " + tr("Device Pixel Ratio") + ": " + QString::number(s->devicePixelRatio()) + "\n";
