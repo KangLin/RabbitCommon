@@ -303,9 +303,7 @@ public:
 
     /*!
      * \brief Get Random Number
-     * \param min
-     * \param max
-     * \return
+     * \since 2.4.0
      */
     static int GetRandomNumber(int min, int max);
 

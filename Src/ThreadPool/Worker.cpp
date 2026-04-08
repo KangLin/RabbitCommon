@@ -3,11 +3,7 @@
 
 #include <QTimer>
 #include <QLoggingCategory>
-
-#if QT_VERSION > QT_VERSION_CHECK(5, 10, 0)
-    #include <QRandomGenerator>
-#endif
-
+#include "RabbitCommonTools.h"
 #include "Worker.h"
 
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.Pool.Worker")
@@ -25,14 +21,8 @@ CWorker::~CWorker()
 CWorkerTest::CWorkerTest(QObject *parent) : CWorker(parent)
 {
     qDebug(log) << Q_FUNC_INFO << this;
-    auto t = new QTimer(this);
-
-    t->singleShot(
-#if QT_VERSION > QT_VERSION_CHECK(5, 10, 0)
-        QRandomGenerator::global()->bounded(100),
-#else
-        100,
-#endif
+    QTimer::singleShot(
+        RabbitCommon::CTools::GetRandomNumber(0, 100),
         this, &CWorker::sigFinished);
 }
 

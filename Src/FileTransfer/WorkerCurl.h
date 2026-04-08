@@ -13,7 +13,7 @@
 
 /*!
  * \brief File transfer with libcurl
- * Since 2.4.0
+ * \since 2.4.0
  */
 class CWorkerCurl : public CWorkerFileTransfer
 {
@@ -34,7 +34,8 @@ protected:
 
 private:
     // socket/timer integration
-    static int CurlSocketCallback(CURL *easy, curl_socket_t s, int what, void *userp, void *socketp);
+    static int CurlSocketCallback(CURL *easy, curl_socket_t s,
+                                  int what, void *userp, void *socketp);
     static int CurlTimerCallback(CURLM *multi, long timeout_ms, void *userp);
 
     struct SocketInfo {

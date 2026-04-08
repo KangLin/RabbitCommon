@@ -1,13 +1,14 @@
 ### Version v2.4.0
-- Add threa pool
+- Add threa pool: CThreadPool
 - Add file transfer
 - CTools:
   - Add static VersionInfo GetVersion(const QString& szVersion);
   - Add static bool VersionValid(const QString& szVersion);
   - Add static int VersionCompare(const QString &ver1, const QString &ver2);
-  - Add password generator
+  - Add static int GetRandomNumber(int min, int max);
+- Add password generator: CPasswordGenerator
 - Add set applicaiont font
-- Add audio and video settings widget
+- Add audio and video settings widget: CFrmMediaDevices
 - Add CIconUtils
 - Modify CRecentMenu interface
 - CRecentMenu:
@@ -17,6 +18,7 @@
   - GetDirUserDocument(): add development version, ${DocumentRoot}/Rabbit/${ApplicationName}_dev
 - CMake
   - Add SaveTarget.cmake
+- Add RabbitCommon.sh
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit

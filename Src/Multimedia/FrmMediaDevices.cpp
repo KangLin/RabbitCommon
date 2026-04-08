@@ -143,8 +143,9 @@ int CFrmMediaDevices::SetParameter(CParameter* para)
     return RV::Success;
 }
 
-int CFrmMediaDevices::Accept()
+void CFrmMediaDevices::slotAccept()
 {
+    if(!m_pParameters) return;
     applyCurrentSelections();
     *m_pParameters = m_Para;
     qDebug(log) << "Camera:" << m_Para.m_Camera
@@ -152,12 +153,7 @@ int CFrmMediaDevices::Accept()
                 << "AudioOutput:" << m_Para.m_AudioOutput
                 << m_Para.m_VolumeInput
                 << m_Para.m_VolumeOutput;
-    return RV::Success;
-}
-
-void CFrmMediaDevices::slotAccept()
-{
-    Accept();
+    return;
 }
 
 void CFrmMediaDevices::setupUi()
@@ -231,7 +227,7 @@ void CFrmMediaDevices::setupUi()
     mainLayout->addLayout(rightLayout, 2);
 
     // connections
-    connect(m_btnApply, &QPushButton::clicked, this, &CFrmMediaDevices::applyCurrentSelections);
+    connect(m_btnApply, &QPushButton::clicked, this, &CFrmMediaDevices::slotAccept);
     connect(m_btnTestCamera, &QPushButton::clicked, this, &CFrmMediaDevices::onCameraTestToggled);
     connect(m_btnTestTone, &QPushButton::clicked, this, &CFrmMediaDevices::onToneTestToggled);
     connect(m_sliderVolumeInput, &QSlider::valueChanged, this, &CFrmMediaDevices::onVolumeInputChanged);
@@ -434,7 +430,7 @@ void CFrmMediaDevices::onToneTestToggled()
     }
 }
 
-int CFrmMediaDevices::applyCurrentSelections()
+void CFrmMediaDevices::applyCurrentSelections()
 {
     qDebug(log) << Q_FUNC_INFO;
     if(m_cbCamera->count() > 0)
@@ -447,7 +443,7 @@ int CFrmMediaDevices::applyCurrentSelections()
         m_Para.m_AudioOutput = m_cbAudioOutput->currentData().value<QAudioDevice>().id();
         m_Para.m_VolumeOutput = qreal(m_sliderVolumeOutput->value()) / 100.0;
     }
-    return RV::Success;
+    return;
 }
 
 #else // #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -615,7 +611,7 @@ void CFrmMediaDevices::onToneTestToggled()
     }
 }
 
-int CFrmMediaDevices::applyCurrentSelections()
+void CFrmMediaDevices::applyCurrentSelections()
 {
     if(m_cbCamera->count() > 0)
         m_Para.m_Camera = m_cbCamera->currentData().toString().toLatin1();
@@ -627,7 +623,7 @@ int CFrmMediaDevices::applyCurrentSelections()
         m_Para.m_AudioOutput = m_cbAudioOutput->currentData().value<QAudioDeviceInfo>().deviceName().toLatin1();
         m_Para.m_VolumeOutput = qreal(m_sliderVolumeOutput->value()) / 100.0;
     }
-    return RV::Success;
+    return;
 }
 
 #endif // #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)

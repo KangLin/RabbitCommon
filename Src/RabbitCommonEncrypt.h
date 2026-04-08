@@ -72,4 +72,3 @@ private:
 
 } // namespace RabbitCommon
 #endif // CENCRYPT_H_KL_2021_12_10
-

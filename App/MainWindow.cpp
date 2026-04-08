@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QLoggingCategory>
 #include <QThread>
+#include <QHBoxLayout>
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -280,7 +281,11 @@ void MainWindow::on_pbUpdateBrowse_clicked()
 
 void MainWindow::on_pbAudioVideoSettings_clicked()
 {
-    CFrmMediaDevices* dlg = new CFrmMediaDevices();
-    dlg->setAttribute(Qt::WA_DeleteOnClose);
-    RC_SHOW_WINDOW(dlg);
+    QDialog dlg;
+    QHBoxLayout* pLayout = new QHBoxLayout(&dlg);
+    dlg.setLayout(pLayout);
+    CFrmMediaDevices* md = new CFrmMediaDevices();
+    pLayout->addWidget(md);
+    connect(&dlg, &QDialog::accepted, md, &CFrmMediaDevices::slotAccept);
+    RC_SHOW_WINDOW(&dlg);
 }

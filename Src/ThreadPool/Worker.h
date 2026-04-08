@@ -10,8 +10,9 @@
  * \note
  *   - It is running in worker thread
  *   - The owner is the CThreadPool
- *
- * Since 2.4.0
+ * \see CThreadPool
+ * \since 2.4.0
+ * \ingroup API_THREAD_POOL
  */
 class RABBITCOMMON_EXPORT CWorker : public QObject
 {
@@ -30,9 +31,16 @@ public:
     virtual int Workload() = 0;
 
 Q_SIGNALS:
+    /*!
+     * \brief emit sigFinished when the worker is exit
+     */
     void sigFinished();
 };
 
+/*!
+ * \brief The CWorkerTest class
+ * \note For testing only
+ */
 class CWorkerTest : public CWorker
 {
     Q_OBJECT

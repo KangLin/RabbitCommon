@@ -9,10 +9,52 @@
 #include "rabbitcommon_export.h"
 
 /*!
+ * \defgroup API_FILE_TRANSFER File transfer
+ * \ingroup API
+ * \code
+    CThreadPool threadPool;
+    threadPool.Start(CreateWorkerFileTransfer);
+    // The thread pool is running. see CThreadPool::sigRunning
+    if(threadPool.GetState() == CThreadPool::State::Running) {
+        CWorkerFileTransfer* pWorker =
+            qobject_cast<CWorkerFileTransfer*>(threadPool.ChooseWorker());
+        if(pWorker) {
+            QUrl url(szUrl);
+            QString szDownload;
+            if(!url.fileName().isEmpty()) {
+                szDownload = QStandardPaths::writableLocation(
+                    QStandardPaths::TempLocation);
+                if(szDownload.right(1) != "/" && szDownload.right(1) != "\\")
+                    szDownload += QDir::separator();
+                szDownload += QString("Rabbit") + QDir::separator()
+                              + QCoreApplication::applicationName()
+                              + QDir::separator();
+                szDownload += url.fileName();
+            }
+            CTaskFileTransfer* task = new CTaskFileTransfer(szUrl, szDownload);
+            bool check = connect(task, &CTaskFileTransfer::sigFinished,
+                                 this, [task, pWorker]() {
+                qDebug(log) << "Download finished:" << task->Title();
+                task->deleteLater();
+            });
+            check = connect(task, &CTaskFileTransfer::sigError,
+                            this, [task, pWorker](int nErr, const QString& szError){
+                qDebug(log) << "Download fail:" << nErr << szError << task->Title();
+            });
+            pWorker->AddTask(task);
+        }
+    }
+ * \endcode
+ *
+ */
+
+/*!
  * \brief File transfer task
  * \note
  *   - It is running in main thread(UI thread)
  *   - The owner is the caller
+ * \ingroup API_FILE_TRANSFER
+ * \since 2.4.0
  */
 class RABBITCOMMON_EXPORT CTaskFileTransfer : public QObject
 {
@@ -139,8 +181,8 @@ private:
  * \note
  *   - It is running in worker thread
  *   - The owner is the CThreadPool
- *
- * Since 2.4.0
+ * \ingroup API_FILE_TRANSFER
+ * \since 2.4.0
  */
 class RABBITCOMMON_EXPORT CWorkerFileTransfer : public CWorker
 {
@@ -176,5 +218,9 @@ protected Q_SLOTS:
     virtual void slotRemoveTask(CTaskFileTransfer* pTask) = 0;
 };
 
-//! Create file transfer worker
+/*!
+ * \brief Create file transfer worker
+ * \ingroup API_FILE_TRANSFER
+ * \since 2.4.0
+ */
 RABBITCOMMON_EXPORT CWorker *CreateWorkerFileTransfer();

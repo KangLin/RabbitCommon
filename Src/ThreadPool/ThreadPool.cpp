@@ -79,8 +79,8 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
                 m_State = State::Running;
                 QString szMsg = tr("%1 worker threads is running").arg(m_Threads.size());
                 qInfo(log) << szMsg;
-                emit sigRunning();
                 emit sigMessage(szMsg);
+                emit sigRunning();
             }
         }, Qt::DirectConnection);
         Q_ASSERT(check);
@@ -91,6 +91,7 @@ int CThreadPool::Start(std::function<CWorker *()> cb, int maxThreadCount)
             m_Threads.removeOne(thr);
         }, Qt::DirectConnection);
         Q_ASSERT(check);
+
         m_Threads.append(thr);
         thr->start();
     }

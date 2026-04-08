@@ -10,8 +10,15 @@
 #include "Worker.h"
 
 /*!
+ * \defgroup API_THREAD_POOL Thread Pool
+ * \ingroup API
+ */
+
+/*!
  * \brief The CThreadPool class
- * Since 2.4.0
+ * \see CWorker
+ * \ingroup API_THREAD_POOL
+ * \since 2.4.0
  */
 class RABBITCOMMON_EXPORT CThreadPool : public QObject
 {
@@ -22,7 +29,8 @@ public:
     virtual ~CThreadPool() override;
 
     /*! Start pool with N workers
-     *  \param cb: create worker callback function. \see CWorker *CreateWorkerDownload()
+     *  \param cb: Create worker callback function.
+     *             \see CWorker *CreateWorkerFileTransfer()
      *  \param maxThreadCount: Max thread counts
      */
     virtual int Start(std::function<CWorker*()> cb,

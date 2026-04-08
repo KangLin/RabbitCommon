@@ -51,6 +51,30 @@ private:
     int m_amplitude = 16000; // for signed 16-bit
 };
 
+/*!
+ * \brief The media devices settings widget
+ * \details
+ * \code
+    CFrmMediaDevices::CParameter para;
+    QDialog dlg;
+    QHBoxLayout* pLayout = new QHBoxLayout(&dlg);
+    dlg.setLayout(pLayout);
+    CFrmMediaDevices* md = new CFrmMediaDevices(true); // Disable apply button
+    pLayout->addWidget(md);
+    md->SetParameter(&para); // Set parameters
+    // Accept parameters
+    connect(&dlg, &QDialog::accepted, md, &CFrmMediaDevices::slotAccept);
+    RC_SHOW_WINDOW(&dlg);
+ * \endcode
+ * \code
+    CFrmMediaDevices::CParameter para;
+    CFrmMediaDevices* md = new CFrmMediaDevices();
+    md->SetParameter(&para); // Set parameters
+    RC_SHOW_WINDOW(md);
+    // Click the apply button, and the parameters will be applied.
+ * \endcode
+ * \ingroup API
+ */
 class RABBITCOMMON_EXPORT CFrmMediaDevices : public QWidget
 {
     Q_OBJECT
@@ -63,7 +87,7 @@ public:
         Success = 0,
         Failure = -1
     };
-    Q_ENUM(RV);
+    Q_ENUM(RV)
 
     struct CParameter {
         QByteArray m_Camera;
@@ -73,29 +97,20 @@ public:
         qreal m_VolumeOutput = 0.8;
     };
 
-    //! [Parameter commone functions]
     /*!
      * \~chinese 设置参数，并初始化界面
      * \~english Set the parameters and initialize the user interface
      */
     int SetParameter(CParameter* pParameter);
-    /*!
-     * \~chinese 接受参数
-     * \param validity: 标志是否检查参数
-     *    - true: 检查参数
-     *    - false: 不检查参数
-     * \return 成功返回 0 。其它值为失败。
-     * \~english Accept parameters
-     * \param validity
-     *    - true: Check parameters
-     *    - false: Not check parameters
-     * \return 0 is success. otherwise is fail
-     */
-    int Accept();
-    //! [Parameter commone functions]
 
 public Q_SLOTS:
-    virtual void slotAccept();
+    /*!
+     * \~chinese 接受参数
+     * \return 成功返回 0 。其它值为失败。
+     * \~english Accept parameters
+     * \return 0 is success. otherwise is fail
+     */
+    void slotAccept();
 
 private slots:
     void refreshDevices();
@@ -104,7 +119,7 @@ private slots:
     void onVolumeInputChanged(int value);
     void onVolumeOutputChanged(int value);
     void readMicData(); // read from QAudioSource to compute level
-    int applyCurrentSelections();
+    void applyCurrentSelections();
 
 private:
     void setupUi();

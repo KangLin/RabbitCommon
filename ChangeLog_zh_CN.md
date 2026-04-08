@@ -1,13 +1,14 @@
 ### 版本： v2.4.0
-- 增加线程池
+- 增加线程池: CThreadPool
 - 增加文件传输
 - CTools:
   - 增加 static VersionInfo GetVersion(const QString& szVersion);
   - 增加 static bool VersionValid(const QString& szVersion);
   - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
-  - 增加密码生成器
+  - 增加 static int GetRandomNumber(int min, int max);
+- 增加密码生成器: CPasswordGenerator
 - 增加设置应用字体
-- 增加音视频设备设置对话框
+- 增加音视频设备设置对话框: CFrmMediaDevices
 - 增加 CIconUtils
 - 修改 CRecentMenu 接口
 - CRecentMenu:
@@ -17,6 +18,7 @@
   - GetDirUserDocument(): 增加开发版本位置： ${DocumentRoot}/Rabbit/${ApplicationName}_dev
 - CMake
   - 增加　SaveTarget.cmake。用于　android　安装扩展库
+- 增加 RabbitCommon.sh
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit
