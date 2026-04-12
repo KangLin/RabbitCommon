@@ -1,4 +1,3 @@
-
 # 定义一个全局属性来存储所有保存的目标
 define_property(GLOBAL PROPERTY GLOBAL_SAVE_TARGETS
     BRIEF_DOCS "List of saved targets"
@@ -15,6 +14,8 @@ define_property(GLOBAL PROPERTY GLOBAL_SAVE_TARGETS
 #   TARGETS: 要保存的目标名称（必选）
 #===============================================================================
 function(SAVE_TARGET)
+    cmake_policy(PUSH)
+    cmake_policy(SET CMP0057 NEW)
     # 解析参数
     set(options )
     set(oneValueArgs )
@@ -42,13 +43,18 @@ function(SAVE_TARGET)
         message(VERBOSE "Saving target: ${target_name}")
 
         get_property(saved_targets GLOBAL PROPERTY GLOBAL_SAVE_TARGETS)
-        if(NOT target_name IN_LIST saved_targets)
+        if(saved_targets)
+            if(NOT target_name IN_LIST saved_targets)
+                set_property(GLOBAL APPEND PROPERTY GLOBAL_SAVE_TARGETS ${target_name})
+            endif()
+        else()
             set_property(GLOBAL APPEND PROPERTY GLOBAL_SAVE_TARGETS ${target_name})
         endif()
 
         message(VERBOSE "  Save to global targets")
     endforeach()
 
+    cmake_policy(POP)
 endfunction()
 
 #===============================================================================
