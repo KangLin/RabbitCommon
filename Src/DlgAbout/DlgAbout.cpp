@@ -91,8 +91,14 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     m_Download->Start(urls);
 
     m_pLicense = new QTextBrowser(ui->tabWidget);
+    if(m_pLicense)
+        m_pLicense->hide();
     m_pChangeLog = new QTextBrowser(ui->tabWidget);
+    if(m_pChangeLog)
+        m_pChangeLog->hide();
     m_pThanks = new QTextBrowser(ui->tabWidget);
+    if(m_pThanks)
+        m_pThanks->hide();
 
     AppendFile(m_pChangeLog, "ChangeLog", tr("Change log"));
     AppendFile(m_pLicense, "License", tr("License"));
@@ -193,8 +199,10 @@ int CDlgAbout::AppendFile(QTextBrowser *pEdit, const QString &szFile, const QStr
             pEdit->show();
         }
         readme.close();
-        if(pEdit)
+        if(pEdit) {
             ui->tabWidget->addTab(pEdit, szTitle);
+            pEdit->show();
+        }
     }
     return 0;
 }
