@@ -196,12 +196,11 @@ int CDlgAbout::AppendFile(QTextBrowser *pEdit, const QString &szFile, const QStr
             QTextCursor cursor = pEdit->textCursor();
             cursor.movePosition(QTextCursor::Start);
             pEdit->setTextCursor(cursor);
-            pEdit->show();
         }
         readme.close();
         if(pEdit) {
-            ui->tabWidget->addTab(pEdit, szTitle);
             pEdit->show();
+            ui->tabWidget->addTab(pEdit, szTitle);
         }
     }
     return 0;
