@@ -110,17 +110,17 @@
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="247"/>
-        <location filename="../../MainWindow.cpp" line="81"/>
+        <location filename="../../MainWindow.cpp" line="82"/>
         <source>Folder browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="167"/>
+        <location filename="../../MainWindow.cpp" line="168"/>
         <source>Encrypt:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="167"/>
+        <location filename="../../MainWindow.cpp" line="168"/>
         <source>Source:</source>
         <translation type="unfinished"></translation>
     </message>
