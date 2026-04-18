@@ -138,6 +138,17 @@ CFrmStyle::CFrmStyle(QWidget *parent, Qt::WindowFlags f) :
     ui->gbFallbackTheme->setVisible(false);
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    ui->cbColorScheme->addItem(tr("Unknown"), (int)RabbitCommon::CStyle::ColorScheme::Unknown);
+    ui->cbColorScheme->addItem(tr("Light"), (int)RabbitCommon::CStyle::ColorScheme::Light);
+    ui->cbColorScheme->addItem(tr("Dark"), (int)RabbitCommon::CStyle::ColorScheme::Dark);
+    ui->cbColorScheme->addItem(tr("System"), (int)RabbitCommon::CStyle::ColorScheme::System);
+    int index = ui->cbColorScheme->findData((int)pStyle->GetColorScheme());
+    ui->cbColorScheme->setCurrentIndex(index);
+#else
+    ui->cbColorScheme->hide();
+    ui->lbColorScheme->hide();
+#endif
 }
 
 CFrmStyle::~CFrmStyle()
@@ -162,12 +173,12 @@ void CFrmStyle::on_pbOK_clicked()
         szColorScheme = tr("Light");
     }
     if(!szColorScheme.isEmpty()) {
-        QString szInfo = tr("Current system theme is") + " \""
-                         + szColorScheme + "\", " + tr("current select theme is")
+        QString szInfo = tr("Current system color scheme is") + " \""
+                         + szColorScheme + "\", " + tr("current select icon theme is")
                          + QString(" \"") + ui->cbIconTheme->currentText() + "\". \n";
-        szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.") + "\n"
+        szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.") + "\n"
                   + tr("Are you sure you want to modify it?");
-        auto ret = QMessageBox::information(nullptr, tr("Change theme"),
+        auto ret = QMessageBox::information(nullptr, tr("Change icon theme"),
                                             szInfo,
                                             QMessageBox::Ok | QMessageBox::No,
                                             QMessageBox::No);
@@ -208,6 +219,11 @@ void CFrmStyle::on_pbOK_clicked()
         qApp->setFont(ui->fontComboBox->currentFont());
         set.setValue("Style/FontLoad", (int)LoadFontOrder::AfterStyle);
     }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    pStyle->SetColorScheme((RabbitCommon::CStyle::ColorScheme)ui->cbColorScheme->currentData().toInt());
+    QApplication::styleHints()->setColorScheme(pStyle->GetQtColorScheme());
+#endif
 
     close();
 }

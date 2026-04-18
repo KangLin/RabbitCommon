@@ -210,13 +210,13 @@ CInformation::CInformation(const QString &szApp,
             szOS += "    - " + tr("Used: %1 GB (%2%)").arg(used / (1024.0 * 1024 * 1024), 0, 'f', 2)
                             .arg(percentUsed, 0, 'f', 1) + "\n";
             szOS += "    - " + tr("Available: %1 GB").arg(available / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-            szOS += "    - " + tr("File system type: %1").arg(storage.fileSystemType());
+            szOS += "    - " + tr("File system type: %1").arg(QString(storage.fileSystemType()));
             szOS.append("\n");
         }
     }
 
     #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-        szOS += "- " + tr("Theme:") + " ";
+        szOS += "- " + tr("Color scheme:") + " ";
         switch(QApplication::styleHints()->colorScheme()) {
         case Qt::ColorScheme::Dark:
             szOS += tr("Dark");

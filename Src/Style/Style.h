@@ -59,6 +59,23 @@ private:
     QString m_szDefaultIconTheme;
     QString m_szDefaultFallbackIconTheme;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+public:
+    enum class ColorScheme {
+        Unknown,
+        Light,
+        Dark,
+        System
+    };
+private:
+    Qt::ColorScheme GetQtColorScheme(ColorScheme cs);
+    Qt::ColorScheme GetQtColorScheme();
+    ColorScheme GetColorScheme();
+    int SetColorScheme(ColorScheme cs);
+    ColorScheme m_ColorScheme;
+    Qt::ColorScheme m_SystemColorScheme;
+#endif
+
     friend CFrmStyle;
 
 private Q_SLOTS:

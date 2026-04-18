@@ -106,7 +106,7 @@ private Q_SLOTS:
     void on_pbDefault_clicked();
     void on_gpIconTheme_clicked();
     void on_pbSetFont_clicked();
-    
+
 private:
     Ui::CFrmStyle *ui;
 };

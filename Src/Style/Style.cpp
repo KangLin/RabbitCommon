@@ -25,8 +25,23 @@ static Q_LOGGING_CATEGORY(log, "RabbitCommon.Style")
 CStyle::CStyle(QObject *parent) : QObject(parent)
     , m_bModifyStyleSheetFile(false)
     , m_bModifyStyleName(false)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    , m_ColorScheme(ColorScheme::System)
+    , m_SystemColorScheme(Qt::ColorScheme::Unknown)
+#endif
 {
     qDebug(log) << Q_FUNC_INFO;
+
+    bool check = false;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    if(QApplication::instance()) {
+        check = connect(QApplication::styleHints(),
+                        SIGNAL(colorSchemeChanged(Qt::ColorScheme)),
+                        this, SLOT(slotColorSchemeChanged(Qt::ColorScheme)));
+        Q_ASSERT(check);
+    }
+    m_SystemColorScheme = QApplication::styleHints()->colorScheme();
+#endif
 
     m_szDefaultIconTheme = QIcon::themeName();
     if(m_szDefaultIconTheme.isEmpty()) {
@@ -61,16 +76,6 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
         #endif // QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
         ;
 
-    bool check = false;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    if(QApplication::instance()) {
-        check = connect(QApplication::styleHints(),
-                        SIGNAL(colorSchemeChanged(Qt::ColorScheme)),
-                        this, SLOT(slotColorSchemeChanged(Qt::ColorScheme)));
-        Q_ASSERT(check);
-    }
-#endif
-
 #if defined(Q_OS_WIN)
     if(QStyleFactory::keys().contains("Fusion"))
         m_szStyleName = "Fusion";
@@ -93,9 +98,16 @@ CStyle::CStyle(QObject *parent) : QObject(parent)
 int CStyle::LoadStyle()
 {
     int nRet = 0;
-    // Load icons theme
+
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    SetColorScheme((ColorScheme)set.value("Style/ColorScheme", (int)GetColorScheme()).toInt());
+    QApplication::styleHints()->setColorScheme(GetQtColorScheme());
+#endif
+
+    // Load icons theme
     QIcon::setThemeSearchPaths(
         QIcon::themeSearchPaths()
         << RabbitCommon::CDir::Instance()->GetDirIcons(true));
@@ -107,15 +119,13 @@ int CStyle::LoadStyle()
         szThemeName = set.value("Style/Icon/Theme", szThemeName).toString();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-        Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
-        if(QGuiApplication::styleHints())
-            scheme = QGuiApplication::styleHints()->colorScheme();
+        Qt::ColorScheme scheme = GetQtColorScheme();
         //qDebug(log) << "Scheme:" << scheme;
         static QRegularExpression reBlack("black|[Dd]ark");
         QRegularExpressionMatch matchBlack = reBlack.match(szThemeName);
         if (Qt::ColorScheme::Dark == scheme && matchBlack.hasMatch()) {
-            QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + szThemeName + "\". ";
-            szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
+            QString szInfo = tr("Current system color scheme is dark, current icon theme is ") + QString("\"") + szThemeName + "\". ";
+            szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.");
             szThemeName = "rabbit-white";
             szInfo += " " + tr("change to ") + szThemeName;
             qInfo(log) << szInfo;
@@ -123,8 +133,8 @@ int CStyle::LoadStyle()
         static QRegularExpression reWhite("[Ww]hite|[L|l]ight");
         QRegularExpressionMatch matchWhite = reWhite.match(szThemeName);
         if (Qt::ColorScheme::Light == scheme && matchWhite.hasMatch()) {
-            QString szInfo = tr("Current system theme is light, current theme is ") + QString("\"") + szThemeName + "\". ";
-            szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
+            QString szInfo = tr("Current system color scheme is light, current icon theme is ") + QString("\"") + szThemeName + "\". ";
+            szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.");
             szThemeName = "rabbit-black";
             szInfo += " " + tr("change to ") + szThemeName;
             qInfo(log) << szInfo;
@@ -145,15 +155,15 @@ int CStyle::LoadStyle()
 
         #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
         if (Qt::ColorScheme::Dark == scheme && matchBlack.hasMatch()) {
-            QString szInfo = tr("Current system theme is dark, current theme is ") + QString("\"") + szFallbackThemeName + "\". ";
-            szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
+            QString szInfo = tr("Current system color scheme is dark, current icon theme is ") + QString("\"") + szFallbackThemeName + "\". ";
+            szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.");
             szFallbackThemeName = "rabbit-white";
             szInfo += " " + tr("change to ") + szFallbackThemeName;
             qInfo(log) << szInfo;
         }
         if (Qt::ColorScheme::Light == scheme && matchWhite.hasMatch()) {
-            QString szInfo = tr("Current system theme is light, current theme is ") + QString("\"") + szFallbackThemeName + "\". ";
-            szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");
+            QString szInfo = tr("Current system color scheme is light, current icon theme is ") + QString("\"") + szFallbackThemeName + "\". ";
+            szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.");
             szFallbackThemeName = "rabbit-black";
             szInfo += " " + tr("change to ") + szFallbackThemeName;
             qInfo(log) << szInfo;
@@ -371,6 +381,42 @@ void CStyle::SetStyleName(const QString &szName)
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+Qt::ColorScheme CStyle::GetQtColorScheme()
+{
+    return GetQtColorScheme(GetColorScheme());
+}
+
+Qt::ColorScheme CStyle::GetQtColorScheme(CStyle::ColorScheme cs)
+{
+    switch(cs){
+    case ColorScheme::Unknown:
+        return Qt::ColorScheme::Unknown;
+    case ColorScheme::Light:
+        return Qt::ColorScheme::Light;
+    case ColorScheme::Dark:
+        return Qt::ColorScheme::Dark;
+    case ColorScheme::System:
+        return m_SystemColorScheme;
+    }
+    return m_SystemColorScheme;
+}
+
+CStyle::ColorScheme CStyle::GetColorScheme()
+{
+    return m_ColorScheme;
+}
+
+int CStyle::SetColorScheme(CStyle::ColorScheme cs)
+{
+    if(m_ColorScheme == cs)
+        return 0;
+    m_ColorScheme = cs;
+    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                  QSettings::IniFormat);
+    set.setValue("Style/ColorScheme", (int)m_ColorScheme);
+    return 0;
+}
+
 void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
 {
     QString szThemeName;
@@ -390,10 +436,10 @@ void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
         szColorScheme = tr("Light");
     }
     if(szThemeName.isEmpty()) return;
-    QString szInfo = tr("Current system theme is") + " \"" + szColorScheme + "\", " + tr("current theme is") + QString(" \"") + QIcon::themeName() + "\". ";
-    szInfo += tr("it's almost impossible to find the icon because its color matches the current system theme.");        
+    QString szInfo = tr("Current system color scheme is") + " \"" + szColorScheme + "\", " + tr("current icon theme is") + QString(" \"") + QIcon::themeName() + "\". ";
+    szInfo += tr("it's almost impossible to find the icon because its color matches the current system color scheme.");
     szInfo += " " + tr("change to ") + "\"" + szThemeName + "\"?";
-    auto ret = QMessageBox::information(nullptr, tr("Change theme"), szInfo,
+    auto ret = QMessageBox::information(nullptr, tr("Change icon theme"), szInfo,
                                         QMessageBox::Ok | QMessageBox::No,
                                         QMessageBox::Ok);
     if(QMessageBox::Ok == ret) {
@@ -403,6 +449,6 @@ void CStyle::slotColorSchemeChanged(Qt::ColorScheme colorScheme)
         szThemeName = set.value("Style/Icon/Theme", szThemeName).toString();
     }
 }
-#endif // QT_VERSION
+#endif //#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
 
 } //namespace RabbitCommon
