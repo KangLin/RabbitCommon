@@ -463,116 +463,133 @@ You can read files up to %1 MB.</source>
         <translation>設置樣式</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="29"/>
+        <location filename="../../Style/FrmStyle.ui" line="130"/>
         <source>Style</source>
         <translation>樣式</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="40"/>
+        <location filename="../../Style/FrmStyle.ui" line="141"/>
         <source>Style sheet:</source>
         <translation>樣式罩</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="61"/>
+        <location filename="../../Style/FrmStyle.ui" line="162"/>
         <source>Style name:</source>
         <translation>樣式名：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="212"/>
+        <location filename="../../Style/FrmStyle.ui" line="186"/>
+        <source>Color scheme:</source>
+        <translation>配色方案：</translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.ui" line="311"/>
         <source>Default(&amp;D)</source>
         <translation>默認(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="241"/>
+        <location filename="../../Style/FrmStyle.ui" line="211"/>
         <source>Application font</source>
         <translation>應用字體</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="268"/>
+        <location filename="../../Style/FrmStyle.ui" line="238"/>
         <source>Details</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="285"/>
+        <location filename="../../Style/FrmStyle.ui" line="255"/>
         <source>Load before style</source>
         <translation>在加載樣式前加載</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="301"/>
+        <location filename="../../Style/FrmStyle.ui" line="271"/>
         <source>Load after style</source>
         <translation>在加載樣式後加載</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="50"/>
+        <location filename="../../Style/FrmStyle.ui" line="151"/>
         <source>Browse(&amp;B)</source>
         <translation>瀏覽(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="89"/>
-        <location filename="../../Style/FrmStyle.ui" line="162"/>
+        <location filename="../../Style/FrmStyle.ui" line="29"/>
+        <location filename="../../Style/FrmStyle.ui" line="102"/>
         <source>Icon theme:</source>
         <translation>圖標主題：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="117"/>
-        <location filename="../../Style/FrmStyle.ui" line="128"/>
+        <location filename="../../Style/FrmStyle.ui" line="57"/>
+        <location filename="../../Style/FrmStyle.ui" line="68"/>
         <source>Fallback theme:</source>
         <translation>後備主題：</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="147"/>
+        <location filename="../../Style/FrmStyle.ui" line="87"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation>後備主題改變需要重啟程序。</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="101"/>
+        <location filename="../../Style/FrmStyle.ui" line="41"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
         <translation>圖標主題選擇改變後,需要重啟程序.</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="219"/>
+        <location filename="../../Style/FrmStyle.ui" line="318"/>
         <source>Ok(&amp;O)</source>
         <translation>確認(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="226"/>
+        <location filename="../../Style/FrmStyle.ui" line="325"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="157"/>
+        <location filename="../../Style/FrmStyle.cpp" line="144"/>
+        <location filename="../../Style/FrmStyle.cpp" line="168"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="162"/>
+        <location filename="../../Style/FrmStyle.cpp" line="143"/>
+        <location filename="../../Style/FrmStyle.cpp" line="173"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="165"/>
-        <source>Current system theme is</source>
-        <translation>當前系統主題是</translation>
+        <location filename="../../Style/FrmStyle.cpp" line="142"/>
+        <source>Unkown</source>
+        <translation>未知</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="166"/>
-        <source>current select theme is</source>
-        <translation>當前選擇的主題是</translation>
+        <location filename="../../Style/FrmStyle.cpp" line="145"/>
+        <source>System</source>
+        <translation>系統</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="168"/>
-        <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
+        <location filename="../../Style/FrmStyle.cpp" line="176"/>
+        <source>Current system color scheme is</source>
+        <translation>當前系統配色方案是</translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.cpp" line="177"/>
+        <source>current select icon theme is</source>
+        <translation>當前選擇的圖標主題是</translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.cpp" line="179"/>
+        <source>it&apos;s almost impossible to find the icon because its color matches the current system color scheme.</source>
         <translation>它們顏色相近，可能看不清圖標。</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="169"/>
-        <source>Are you sure you want to modify it?</source>
-        <translation>確定要修改它？</translation>
+        <location filename="../../Style/FrmStyle.cpp" line="181"/>
+        <source>Change icon theme</source>
+        <translation>改變圖標主題</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="170"/>
-        <source>Change theme</source>
-        <translation>改變主題</translation>
+        <location filename="../../Style/FrmStyle.cpp" line="180"/>
+        <source>Are you sure you want to modify it?</source>
+        <translation>確定要修改它？</translation>
     </message>
 </context>
 <context>
@@ -1150,11 +1167,6 @@ You can read files up to %1 MB.</source>
         <translation>個數：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="219"/>
-        <source>Theme:</source>
-        <translation>主題：</translation>
-    </message>
-    <message>
         <location filename="../../DlgAbout/Information.cpp" line="222"/>
         <source>Dark</source>
         <translation>暗色</translation>
@@ -1265,6 +1277,11 @@ You can read files up to %1 MB.</source>
         <location filename="../../DlgAbout/Information.cpp" line="213"/>
         <source>File system type: %1</source>
         <translation>文件系統: %1</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="219"/>
+        <source>Color scheme:</source>
+        <translation>配色方案：</translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="255"/>
@@ -1618,69 +1635,69 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="117"/>
-        <location filename="../../Style/Style.cpp" line="148"/>
-        <source>Current system theme is dark, current theme is </source>
-        <translation>當前系統主題是暗色的，當前主題是 </translation>
-    </message>
-    <message>
-        <location filename="../../Style/Style.cpp" line="120"/>
-        <location filename="../../Style/Style.cpp" line="129"/>
-        <location filename="../../Style/Style.cpp" line="151"/>
-        <location filename="../../Style/Style.cpp" line="158"/>
-        <location filename="../../Style/Style.cpp" line="395"/>
+        <location filename="../../Style/Style.cpp" line="130"/>
+        <location filename="../../Style/Style.cpp" line="139"/>
+        <location filename="../../Style/Style.cpp" line="161"/>
+        <location filename="../../Style/Style.cpp" line="168"/>
+        <location filename="../../Style/Style.cpp" line="440"/>
         <source>change to </source>
         <translation>改變到 </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="118"/>
         <location filename="../../Style/Style.cpp" line="127"/>
-        <location filename="../../Style/Style.cpp" line="149"/>
-        <location filename="../../Style/Style.cpp" line="156"/>
-        <location filename="../../Style/Style.cpp" line="394"/>
-        <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
+        <location filename="../../Style/Style.cpp" line="158"/>
+        <source>Current system color scheme is dark, current icon theme is </source>
+        <translation>當前系統配色方案是暗色，當前圖標主題是</translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="128"/>
+        <location filename="../../Style/Style.cpp" line="137"/>
+        <location filename="../../Style/Style.cpp" line="159"/>
+        <location filename="../../Style/Style.cpp" line="166"/>
+        <location filename="../../Style/Style.cpp" line="439"/>
+        <source>it&apos;s almost impossible to find the icon because its color matches the current system color scheme.</source>
         <translation>它們顏色相近，可能看不清圖標。</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="126"/>
-        <location filename="../../Style/Style.cpp" line="155"/>
-        <source>Current system theme is light, current theme is </source>
-        <translation>當前系統主題是亮色，當前主題是 </translation>
+        <location filename="../../Style/Style.cpp" line="136"/>
+        <location filename="../../Style/Style.cpp" line="165"/>
+        <source>Current system color scheme is light, current icon theme is </source>
+        <translation>當前系統配色方案是亮色，當前圖標主題是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="332"/>
+        <location filename="../../Style/Style.cpp" line="342"/>
         <source>Open style</source>
         <translation>打開樣式</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="334"/>
+        <location filename="../../Style/Style.cpp" line="344"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>樣式文件(*.qss *.css);; All files(*.*)</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="383"/>
+        <location filename="../../Style/Style.cpp" line="428"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="390"/>
+        <location filename="../../Style/Style.cpp" line="435"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="393"/>
-        <source>Current system theme is</source>
-        <translation>當前系統主題是</translation>
+        <location filename="../../Style/Style.cpp" line="438"/>
+        <source>Current system color scheme is</source>
+        <translation>當前系統配色方案是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="393"/>
-        <source>current theme is</source>
-        <translation>當前主題是</translation>
+        <location filename="../../Style/Style.cpp" line="438"/>
+        <source>current icon theme is</source>
+        <translation>當前圖標主題是</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="396"/>
-        <source>Change theme</source>
-        <translation>改變主題</translation>
+        <location filename="../../Style/Style.cpp" line="441"/>
+        <source>Change icon theme</source>
+        <translation>改變圖標主題</translation>
     </message>
 </context>
 <context>

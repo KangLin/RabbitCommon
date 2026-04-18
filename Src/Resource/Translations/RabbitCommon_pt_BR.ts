@@ -447,79 +447,84 @@ Você pode ler arquivos de até %1 MB.</translation>
         <translation>Definir estilo</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="29"/>
+        <location filename="../../Style/FrmStyle.ui" line="130"/>
         <source>Style</source>
         <translation>Estilo</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="40"/>
+        <location filename="../../Style/FrmStyle.ui" line="141"/>
         <source>Style sheet:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="61"/>
+        <location filename="../../Style/FrmStyle.ui" line="162"/>
         <source>Style name:</source>
         <translation>Nome do estilo:</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="212"/>
+        <location filename="../../Style/FrmStyle.ui" line="186"/>
+        <source>Color scheme:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.ui" line="311"/>
         <source>Default(&amp;D)</source>
         <translation>Redefinir(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="241"/>
+        <location filename="../../Style/FrmStyle.ui" line="211"/>
         <source>Application font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="268"/>
+        <location filename="../../Style/FrmStyle.ui" line="238"/>
         <source>Details</source>
         <translation type="unfinished">Detalhes</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="285"/>
+        <location filename="../../Style/FrmStyle.ui" line="255"/>
         <source>Load before style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="301"/>
+        <location filename="../../Style/FrmStyle.ui" line="271"/>
         <source>Load after style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="50"/>
+        <location filename="../../Style/FrmStyle.ui" line="151"/>
         <source>Browse(&amp;B)</source>
         <translation>Procurar(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="89"/>
-        <location filename="../../Style/FrmStyle.ui" line="162"/>
+        <location filename="../../Style/FrmStyle.ui" line="29"/>
+        <location filename="../../Style/FrmStyle.ui" line="102"/>
         <source>Icon theme:</source>
         <translation>Tema de Ícones:</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="117"/>
-        <location filename="../../Style/FrmStyle.ui" line="128"/>
+        <location filename="../../Style/FrmStyle.ui" line="57"/>
+        <location filename="../../Style/FrmStyle.ui" line="68"/>
         <source>Fallback theme:</source>
         <translation>Tema de Fallback:</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="147"/>
+        <location filename="../../Style/FrmStyle.ui" line="87"/>
         <source>You need to restart the program after the fallback theme is changed.</source>
         <translation>Você precisa reiniciar o programa depois que o Tema de Fallback for alterado.</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="101"/>
+        <location filename="../../Style/FrmStyle.ui" line="41"/>
         <source>You need to restart the programe after the icon theme checked is changed.</source>
         <translation>Você precisa reiniciar o programa depois que o Tema de Ícones for alterado.</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="219"/>
+        <location filename="../../Style/FrmStyle.ui" line="318"/>
         <source>Ok(&amp;O)</source>
         <translation>OK(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.ui" line="226"/>
+        <location filename="../../Style/FrmStyle.ui" line="325"/>
         <source>Cancel(&amp;C)</source>
         <translation>Cancelar(&amp;C)</translation>
     </message>
@@ -528,39 +533,59 @@ Você pode ler arquivos de até %1 MB.</translation>
         <translation type="vanished">O tema atual do sistema é escuro, o tema de seleção atual é </translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="157"/>
+        <location filename="../../Style/FrmStyle.cpp" line="144"/>
+        <location filename="../../Style/FrmStyle.cpp" line="168"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="162"/>
+        <location filename="../../Style/FrmStyle.cpp" line="143"/>
+        <location filename="../../Style/FrmStyle.cpp" line="173"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="165"/>
-        <source>Current system theme is</source>
+        <location filename="../../Style/FrmStyle.cpp" line="142"/>
+        <source>Unkown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="166"/>
-        <source>current select theme is</source>
+        <location filename="../../Style/FrmStyle.cpp" line="145"/>
+        <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="168"/>
+        <location filename="../../Style/FrmStyle.cpp" line="176"/>
+        <source>Current system color scheme is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.cpp" line="177"/>
+        <source>current select icon theme is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.cpp" line="179"/>
+        <source>it&apos;s almost impossible to find the icon because its color matches the current system color scheme.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/FrmStyle.cpp" line="181"/>
+        <source>Change icon theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
-        <translation>é quase impossível encontrar o ícone porque sua cor corresponde ao tema atual do sistema.</translation>
+        <translation type="vanished">é quase impossível encontrar o ícone porque sua cor corresponde ao tema atual do sistema.</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="169"/>
+        <location filename="../../Style/FrmStyle.cpp" line="180"/>
         <source>Are you sure you want to modify it?</source>
         <translation>Tem certeza de que deseja modificá-lo?</translation>
     </message>
     <message>
-        <location filename="../../Style/FrmStyle.cpp" line="170"/>
         <source>Change theme</source>
-        <translation>Alterar tema</translation>
+        <translation type="vanished">Alterar tema</translation>
     </message>
 </context>
 <context>
@@ -1142,6 +1167,11 @@ Você pode ler arquivos de até %1 MB.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../DlgAbout/Information.cpp" line="219"/>
+        <source>Color scheme:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../DlgAbout/Information.cpp" line="244"/>
         <source>Screen</source>
         <translation type="unfinished"></translation>
@@ -1376,11 +1406,6 @@ Você pode ler arquivos de até %1 MB.</translation>
         <location filename="../../DlgAbout/Information.cpp" line="159"/>
         <source>Build architecture: </source>
         <translation>Arquitetura de compilação: </translation>
-    </message>
-    <message>
-        <location filename="../../DlgAbout/Information.cpp" line="219"/>
-        <source>Theme:</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="222"/>
@@ -1810,69 +1835,81 @@ Você pode ler arquivos de até %1 MB.</translation>
 <context>
     <name>RabbitCommon::CStyle</name>
     <message>
-        <location filename="../../Style/Style.cpp" line="117"/>
-        <location filename="../../Style/Style.cpp" line="148"/>
         <source>Current system theme is dark, current theme is </source>
-        <translation>O tema atual do sistema é escuro, o tema atual é </translation>
+        <translation type="vanished">O tema atual do sistema é escuro, o tema atual é </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="120"/>
-        <location filename="../../Style/Style.cpp" line="129"/>
-        <location filename="../../Style/Style.cpp" line="151"/>
-        <location filename="../../Style/Style.cpp" line="158"/>
-        <location filename="../../Style/Style.cpp" line="395"/>
+        <location filename="../../Style/Style.cpp" line="130"/>
+        <location filename="../../Style/Style.cpp" line="139"/>
+        <location filename="../../Style/Style.cpp" line="161"/>
+        <location filename="../../Style/Style.cpp" line="168"/>
+        <location filename="../../Style/Style.cpp" line="440"/>
         <source>change to </source>
         <translation>alterado para </translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="126"/>
-        <location filename="../../Style/Style.cpp" line="155"/>
-        <source>Current system theme is light, current theme is </source>
+        <location filename="../../Style/Style.cpp" line="127"/>
+        <location filename="../../Style/Style.cpp" line="158"/>
+        <source>Current system color scheme is dark, current icon theme is </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="332"/>
+        <location filename="../../Style/Style.cpp" line="128"/>
+        <location filename="../../Style/Style.cpp" line="137"/>
+        <location filename="../../Style/Style.cpp" line="159"/>
+        <location filename="../../Style/Style.cpp" line="166"/>
+        <location filename="../../Style/Style.cpp" line="439"/>
+        <source>it&apos;s almost impossible to find the icon because its color matches the current system color scheme.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="136"/>
+        <location filename="../../Style/Style.cpp" line="165"/>
+        <source>Current system color scheme is light, current icon theme is </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="342"/>
         <source>Open style</source>
         <translation>Abrir estilo</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="334"/>
+        <location filename="../../Style/Style.cpp" line="344"/>
         <source>Style files(*.qss *.css);; All files(*.*)</source>
         <translation>Arquivos de estilo(*.qss *.css);; Todos os arquivos (*.*)</translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="118"/>
-        <location filename="../../Style/Style.cpp" line="127"/>
-        <location filename="../../Style/Style.cpp" line="149"/>
-        <location filename="../../Style/Style.cpp" line="156"/>
-        <location filename="../../Style/Style.cpp" line="394"/>
-        <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
-        <translation>é quase impossível encontrar o ícone porque sua cor corresponde ao tema atual do sistema.</translation>
+        <location filename="../../Style/Style.cpp" line="438"/>
+        <source>Current system color scheme is</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="383"/>
+        <location filename="../../Style/Style.cpp" line="438"/>
+        <source>current icon theme is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="441"/>
+        <source>Change icon theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>it&apos;s almost impossible to find the icon because its color matches the current system theme.</source>
+        <translation type="vanished">é quase impossível encontrar o ícone porque sua cor corresponde ao tema atual do sistema.</translation>
+    </message>
+    <message>
+        <location filename="../../Style/Style.cpp" line="428"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="390"/>
+        <location filename="../../Style/Style.cpp" line="435"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Style/Style.cpp" line="393"/>
-        <source>Current system theme is</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Style/Style.cpp" line="393"/>
-        <source>current theme is</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Style/Style.cpp" line="396"/>
         <source>Change theme</source>
-        <translation>Alterar tema</translation>
+        <translation type="vanished">Alterar tema</translation>
     </message>
 </context>
 <context>
