@@ -256,6 +256,11 @@ void CFrmStyle::on_pbDefault_clicked()
     
     ui->rbLoadBeforeStyle->setChecked(true);
     ui->fontComboBox->setCurrentFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    int index = ui->cbColorScheme->findData((int)RabbitCommon::CStyle::ColorScheme::System);
+    ui->cbColorScheme->setCurrentIndex(index);
+#endif
 }
 
 void CFrmStyle::on_gpIconTheme_clicked()
