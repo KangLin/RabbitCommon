@@ -150,72 +150,8 @@ CInformation::CInformation(const QString &szApp,
             szOS += "- " + tr("Boot Id: ") + QSysInfo::bootUniqueId() + "\n";
     #endif
     szOS += "- " + tr("Build ABI: ") + QSysInfo::buildAbi() + "\n";
-    szOS += "- " + tr("CPU: ") + "\n";
-    int nCPU = QThread::idealThreadCount();
-    szOS += "  - " + tr("Number:") + " " + QString::number(nCPU) + "\n";
-    //szOS += "  - " + tr("Number:") + QString::number(std::thread::hardware_concurrency()) + "\n";
-    szOS += "  - " + tr("Architecture: ")
-            + QSysInfo::currentCpuArchitecture() + "\n";
-    szOS += "  - " + tr("Build architecture: ")
-            + QSysInfo::buildCpuArchitecture() + "\n";
 
-    szOS += "- " + tr("Memory:") + "\n";
-#ifdef Q_OS_WIN
-    MEMORYSTATUSEX memStatus;
-    memStatus.dwLength = sizeof(memStatus);
-    if (GlobalMemoryStatusEx(&memStatus)) {
-        szOS += "  - " + tr("Total physical memory: %1 GB").arg(memStatus.ullTotalPhys / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-        szOS += "  - " + tr("Available physical memory: %1 GB").arg(memStatus.ullAvailPhys / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-        szOS += "  - " + tr("Memory Usage: %1%").arg(memStatus.dwMemoryLoad) + "\n";
-        szOS += "  - " + tr("Total virtual memory: %1 GB").arg(memStatus.ullTotalVirtual / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-        szOS += "  - " + tr("Available virtual memory: %1 GB").arg(memStatus.ullAvailVirtual / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-    }
-#elif defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    QFile meminfo("/proc/meminfo");
-    if (meminfo.open(QIODevice::ReadOnly)) {
-        QByteArray content = meminfo.readAll();
-        QString memStr = QString::fromUtf8(content);
-        QStringList lines = memStr.split('\n', Qt::SkipEmptyParts);
-        for (const QString &line : lines) {
-            if (line.startsWith("MemTotal:")) {
-                qint64 kb = line.split(' ', Qt::SkipEmptyParts)[1].toLongLong();
-                szOS += "  - " + tr("Total physical memory: %1 GB").arg(kb / (1024.0 * 1024), 0, 'f', 2) + "\n";
-            } else if (line.startsWith("MemAvailable:")) {
-                qint64 kb = line.split(' ', Qt::SkipEmptyParts)[1].toLongLong();
-                szOS += "  - " + tr("Available physical memory: %1 GB").arg(kb / (1024.0 * 1024), 0, 'f', 2) + "\n";
-            }
-        }
-        meminfo.close();
-    }
-#endif
-
-    szOS += "- " + tr("Storage:") + "\n";
-    QList<QStorageInfo> storages = QStorageInfo::mountedVolumes();
-    for (const QStorageInfo &storage : storages) {
-        if (storage.isValid() && storage.isReady()) {
-            QString rootPath = storage.rootPath();
-            quint64 total = storage.bytesTotal();
-            quint64 available = storage.bytesAvailable();
-            quint64 used = total - available;
-            double percentUsed = (total > 0) ? (used * 100.0 / total) : 0;
-
-            szOS += "  - " +
-#ifdef Q_OS_WIN
-                    tr("Volume letter:")
-#else
-                    tr("Root:")
-#endif
-                    + " " + (rootPath.isEmpty() ? "/" : rootPath) + "\n";
-            szOS += "    - " + tr("Total capacity: %1 GB").arg(total / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-            szOS += "    - " + tr("Used: %1 GB (%2%)").arg(used / (1024.0 * 1024 * 1024), 0, 'f', 2)
-                            .arg(percentUsed, 0, 'f', 1) + "\n";
-            szOS += "    - " + tr("Available: %1 GB").arg(available / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
-            szOS += "    - " + tr("File system type: %1").arg(QString(storage.fileSystemType()));
-            szOS.append("\n");
-        }
-    }
-
-    #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
         szOS += "- " + tr("Color scheme:") + " ";
         switch(QApplication::styleHints()->colorScheme()) {
         case Qt::ColorScheme::Dark:
@@ -229,7 +165,74 @@ CInformation::CInformation(const QString &szApp,
             break;
         }
         szOS += "\n";
-    #endif // #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+#endif // #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+
+    QString szHardware;
+    szHardware = "## " + tr("Hardware") + "\n";
+    szHardware += "- " + tr("CPU: ") + "\n";
+    int nCPU = QThread::idealThreadCount();
+    szHardware += "  - " + tr("Number:") + " " + QString::number(nCPU) + "\n";
+    //szHardware += "  - " + tr("Number:") + QString::number(std::thread::hardware_concurrency()) + "\n";
+    szHardware += "  - " + tr("Architecture: ")
+            + QSysInfo::currentCpuArchitecture() + "\n";
+    szHardware += "  - " + tr("Build architecture: ")
+            + QSysInfo::buildCpuArchitecture() + "\n";
+
+    szHardware += "- " + tr("Memory:") + "\n";
+#ifdef Q_OS_WIN
+    MEMORYSTATUSEX memStatus;
+    memStatus.dwLength = sizeof(memStatus);
+    if (GlobalMemoryStatusEx(&memStatus)) {
+        szHardware += "  - " + tr("Total physical memory: %1 GB").arg(memStatus.ullTotalPhys / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+        szHardware += "  - " + tr("Available physical memory: %1 GB").arg(memStatus.ullAvailPhys / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+        szHardware += "  - " + tr("Memory Usage: %1%").arg(memStatus.dwMemoryLoad) + "\n";
+        szHardware += "  - " + tr("Total virtual memory: %1 GB").arg(memStatus.ullTotalVirtual / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+        szHardware += "  - " + tr("Available virtual memory: %1 GB").arg(memStatus.ullAvailVirtual / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+    }
+#elif defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    QFile meminfo("/proc/meminfo");
+    if (meminfo.open(QIODevice::ReadOnly)) {
+        QByteArray content = meminfo.readAll();
+        QString memStr = QString::fromUtf8(content);
+        QStringList lines = memStr.split('\n', Qt::SkipEmptyParts);
+        for (const QString &line : lines) {
+            if (line.startsWith("MemTotal:")) {
+                qint64 kb = line.split(' ', Qt::SkipEmptyParts)[1].toLongLong();
+                szHardware += "  - " + tr("Total physical memory: %1 GB").arg(kb / (1024.0 * 1024), 0, 'f', 2) + "\n";
+            } else if (line.startsWith("MemAvailable:")) {
+                qint64 kb = line.split(' ', Qt::SkipEmptyParts)[1].toLongLong();
+                szHardware += "  - " + tr("Available physical memory: %1 GB").arg(kb / (1024.0 * 1024), 0, 'f', 2) + "\n";
+            }
+        }
+        meminfo.close();
+    }
+#endif
+
+    szHardware += "- " + tr("Storage:") + "\n";
+    QList<QStorageInfo> storages = QStorageInfo::mountedVolumes();
+    for (const QStorageInfo &storage : storages) {
+        if (storage.isValid() && storage.isReady()) {
+            QString rootPath = storage.rootPath();
+            quint64 total = storage.bytesTotal();
+            quint64 available = storage.bytesAvailable();
+            quint64 used = total - available;
+            double percentUsed = (total > 0) ? (used * 100.0 / total) : 0;
+
+            szHardware += "  - " +
+#ifdef Q_OS_WIN
+                    tr("Volume letter:")
+#else
+                    tr("Root:")
+#endif
+                    + " " + (rootPath.isEmpty() ? "/" : rootPath) + "\n";
+            szHardware += "    - " + tr("Total capacity: %1 GB").arg(total / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+            szHardware += "    - " + tr("Used: %1 GB (%2%)").arg(used / (1024.0 * 1024 * 1024), 0, 'f', 2)
+                            .arg(percentUsed, 0, 'f', 1) + "\n";
+            szHardware += "    - " + tr("Available: %1 GB").arg(available / (1024.0 * 1024 * 1024), 0, 'f', 2) + "\n";
+            szHardware += "    - " + tr("File system type: %1").arg(QString(storage.fileSystemType()));
+            szHardware.append("\n");
+        }
+    }
 
     QString szHost;
     szHost = "## " + tr("Host") + "\n";
@@ -241,7 +244,7 @@ CInformation::CInformation(const QString &szApp,
 
 #if HAVE_RABBITCOMMON_GUI
     QString szScreen;
-    szScreen += "## " + tr("Screen") + "\n";
+    szScreen += "- " + tr("Screen") + ":\n";
     auto screens = QGuiApplication::screens();
     szScreen += "  - " + tr("Total:") + " " + QString::number(screens.size()) + "\n";
     int indexScreen = 1;
@@ -281,6 +284,7 @@ CInformation::CInformation(const QString &szApp,
         szScreen += "      - " + tr("Available Virtual Size") + ": " + QString::number(s->availableVirtualSize().width()) + "×" + QString::number(s->availableVirtualSize().height()) + "\n";
         szScreen += "      - " + tr("Available Virtual Geometry") + ":( " + QString::number(s->availableVirtualGeometry().left()) + "," + QString::number(s->availableVirtualGeometry().top()) + "," + QString::number(s->availableVirtualGeometry().width()) + "," + QString::number(s->availableVirtualGeometry().height()) + ")\n";
     }
+    szHardware += szScreen;
 #endif // #if HAVE_RABBITCOMMON_GUI
 
     QString szEnv;
@@ -291,7 +295,7 @@ CInformation::CInformation(const QString &szApp,
     }
 
     if(!szHost.isEmpty())
-        SetContext(tr("Host"), szHost + szOS + szScreen + szEnv);
+        SetContext(tr("Host"), szHost + szOS + szHardware + szEnv);
 
     qDebug(log) << (szApp + szInfo + szRabbitCommon
                     + szQt + szOS + szHost + szEnv).toStdString().c_str();
