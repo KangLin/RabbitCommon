@@ -346,7 +346,7 @@ bool CRegister::IsRegister(const QString &reg, const QString &name)
 QString CRegister::GetDesktopFileName(const QString &szPath,
                                    const QString &szName)
 {
-    QString appName = "org.Rabbit." + qApp->applicationName() + ".desktop";
+    QString appName = "io.github.KangLin." + qApp->applicationName() + ".desktop";
     if(!szName.isEmpty())
         appName = szName;
 
@@ -368,7 +368,7 @@ QString CRegister::GetDesktopFileName(const QString &szPath,
 QString CRegister::GetDesktopFileLink(const QString &szName, bool bAllUser)
 {
     QString appName
-            = "org.Rabbit." + QCoreApplication::applicationName() +".desktop";
+            = "io.github.KangLin." + QCoreApplication::applicationName() +".desktop";
     if(!szName.isEmpty()) appName = szName;
     QString szLink;
     if(bAllUser)
