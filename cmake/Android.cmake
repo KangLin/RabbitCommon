@@ -1,8 +1,9 @@
 # Process android build file build.gradle
+# See: https://doc.qt.io/qt-6/zh/qt-android-generate-deployment-settings.html
 function(process_build_gradle name build_dir)
 
     # 创建临时 CMake 脚本来修改 build.gradle
-    set(FIX_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/fix_gradle.cmake")
+    set(FIX_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/fix_build_gradle_${name}.cmake")
 
     file(WRITE "${FIX_SCRIPT}"
         "
@@ -24,7 +25,7 @@ function(process_build_gradle name build_dir)
     )
 
     # 创建一个独立的目标，在 androiddeployqt 之后运行
-    add_custom_target(fix_build_gradle ALL
+    add_custom_target(fix_build_gradle_${name} ALL
         COMMAND ${CMAKE_COMMAND}
             -DBUILD_DIR="${build_dir}"
             -P "${FIX_SCRIPT}"

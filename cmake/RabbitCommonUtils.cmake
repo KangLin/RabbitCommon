@@ -1098,10 +1098,10 @@ function(ADD_TARGET)
     if(PARA_ISEXE)
 
         if(ANDROID)
+
             if(QT_VERSION_MAJOR GREATER_EQUAL 6)
                 qt_add_executable(${PARA_NAME} ${PARA_SOURCE_FILES}
                     ${PARA_INSTALL_HEADER_FILES})
-                process_build_gradle(${PARA_NAME} ${CMAKE_CURRENT_BINARY_DIR}/android-build-${PARA_NAME})
             else()
                 add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             endif()
@@ -1147,14 +1147,21 @@ function(ADD_TARGET)
                 message("QT_ANDROID_EXTRA_LIBS: ${VAR_QT_ANDROID_EXTRA_LIBS}")
             endif()
 
-            # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见：INSTALL_DIR，INSTALL_FILE
+            if(QT_VERSION GREATER_EQUAL 6.11.0)
+                set(ANDROID_BUILD android-build-${PARA_NAME})
+            else()
+                set(ANDROID_BUILD android-build)
+            endif()
+            process_build_gradle(${PARA_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${ANDROID_BUILD})
+
+            # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见: INSTALL_DIR, INSTALL_FILE
 #                file(COPY ${CMAKE_BINARY_DIR}/assets
-#                    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/android-build/)
+#                    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${ANDROID_BUILD}/)
             add_custom_command(
                 TARGET ${PARA_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E echo "copy directory ${CMAKE_BINARY_DIR}/assets to ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
-                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
-                COMMENT "Copy directory ${CMAKE_BINARY_DIR}/assets/ to ${CMAKE_CURRENT_BINARY_DIR}/android-build/assets"
+                COMMAND ${CMAKE_COMMAND} -E echo "copy directory ${CMAKE_BINARY_DIR}/assets to ${CMAKE_CURRENT_BINARY_DIR}/${ANDROID_BUILD}/assets"
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/${ANDROID_BUILD}/assets"
+                COMMENT "Copy directory ${CMAKE_BINARY_DIR}/assets/ to ${CMAKE_CURRENT_BINARY_DIR}/${ANDROID_BUILD}/assets"
                 COMMAND_EXPAND_LISTS
                 VERBATIM)
 
