@@ -43,6 +43,7 @@ message(STATUS "CMAKE_HOST_SYSTEM_PROCESSOR:${CMAKE_HOST_SYSTEM_PROCESSOR}")
 include(CMakeDependentOption)
 # NOTE: 新增加的文件，还需要在增加到后面的安装部分和在　RabbitCommonConfig.cmake.in　中增加
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/macos.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Android.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Download.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/SaveTarget.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Translations.cmake)

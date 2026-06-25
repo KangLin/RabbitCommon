@@ -18,6 +18,7 @@
   - GetDirUserDocument(): add development version, ${DocumentRoot}/Rabbit/${ApplicationName}_dev
 - CMake
   - Add SaveTarget.cmake
+  - Add Android.cmake
 - Add RabbitCommon.sh
 
 ### Version v2.3.4

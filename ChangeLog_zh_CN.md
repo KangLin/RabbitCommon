@@ -17,7 +17,8 @@
 - CDir
   - GetDirUserDocument(): 增加开发版本位置： ${DocumentRoot}/Rabbit/${ApplicationName}_dev
 - CMake
-  - 增加　SaveTarget.cmake。用于　android　安装扩展库
+  - 增加 SaveTarget.cmake。用于　android　安装扩展库
+  - 增加 Android.cmake
 - 增加 RabbitCommon.sh
 
 ### 版本： v2.3.4
