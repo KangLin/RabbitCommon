@@ -1101,6 +1101,7 @@ function(ADD_TARGET)
             if(QT_VERSION_MAJOR GREATER_EQUAL 6)
                 qt_add_executable(${PARA_NAME} ${PARA_SOURCE_FILES}
                     ${PARA_INSTALL_HEADER_FILES})
+                process_build_gradle(${PARA_NAME} ${CMAKE_CURRENT_BINARY_DIR}/android-build-${PARA_NAME})
             else()
                 add_library(${PARA_NAME} SHARED ${PARA_SOURCE_FILES} ${PARA_INSTALL_HEADER_FILES})
             endif()
