@@ -1466,14 +1466,12 @@ You can read files up to %1 MB.</source>
 <context>
     <name>CWorkerCurl</name>
     <message>
-        <location filename="../../FileTransfer/WorkerCurl.cpp" line="20"/>
         <source>Version:</source>
-        <translation>版本：</translation>
+        <translation type="vanished">版本：</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/WorkerCurl.cpp" line="21"/>
         <source>Supported protocols:</source>
-        <translation>支持协议：</translation>
+        <translation type="vanished">支持协议：</translation>
     </message>
 </context>
 <context>
@@ -1489,29 +1487,24 @@ You can read files up to %1 MB.</source>
         <translation>打开日志文件</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="243"/>
         <source>Application Error</source>
-        <translation>应用错误</translation>
+        <translation type="vanished">应用错误</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="245"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation>应用崩溃！</translation>
+        <translation type="vanished">应用崩溃！</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="246"/>
         <source>Current path: </source>
-        <translation>录前目录：</translation>
+        <translation type="vanished">录前目录：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="248"/>
         <source>Dump file: </source>
-        <translation>崩溃文件：</translation>
+        <translation type="vanished">崩溃文件：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="250"/>
         <source>Log file: </source>
-        <translation>日志文件：</translation>
+        <translation type="vanished">日志文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="581"/>
