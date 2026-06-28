@@ -29,9 +29,7 @@ function(process_build_gradle name build_dir)
         COMMAND ${CMAKE_COMMAND}
             -DBUILD_DIR="${build_dir}"
             -P "${FIX_SCRIPT}"
-        #DEPENDS ${name}_make_apk  # 依赖 APK 生成目标
+        DEPENDS ${name}_make_apk  # 依赖 APK 生成目标
         COMMENT "Patching build.gradle after androiddeployqt"
     )
-    # 让这个目标在 APK 构建前执行
-    add_dependencies(fix_build_gradle_${name} ${name}_prepare_apk_dir)
 endfunction()
