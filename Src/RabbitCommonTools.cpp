@@ -626,7 +626,7 @@ void CTools::Init(QString szApplicationName,
     SetLanguage(szLanguage);
     qInfo(logTranslation) << "Language:" << szLanguage;
     InitResource();
-    InstallTranslator("RabbitCommon", TranslationType::Library, szLanguage);
+    InstallTranslator("RabbitCommon", TranslationType::Library, "", szLanguage);
     //Init qt translation
     QString szQtTranslationPath;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -733,6 +733,7 @@ QSharedPointer<QTranslator> CTools::InstallTranslator(
 #if defined(Q_OS_LINUX)
         QFile file(szPath + szSuffix);
         if(!file.exists()) {
+            qWarning(logTranslation) << "File is not existed:" << file.fileName();
             szPath = CDir::Instance()->GetDirTranslations("/usr/share");
             file.setFileName(szPath + szSuffix);
             if(!file.exists()) {
