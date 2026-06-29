@@ -125,8 +125,8 @@ static Q_LOGGING_CATEGORY(logTranslation, "RabbitCommon.Tools.Translation")
 
 static CCallTrace* g_pCallStack = nullptr;
 
+static bool g_bInitialized = false;
 CTools::CTools() : QObject()
-    , m_Initialized(false)
 #if defined(Q_OS_ANDROID)
     , m_bShowMaxWindow(true)
 #else
@@ -577,7 +577,7 @@ void CTools::Init(QString szApplicationName,
                   QString szApplicationInstallRoot,
                   const QString szLanguage)
 {
-    if(m_Initialized) {
+    if(g_bInitialized) {
         qWarning(log) << "CTools is already initialized";
         Q_ASSERT(false);
         return;

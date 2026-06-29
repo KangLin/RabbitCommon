@@ -391,8 +391,6 @@ private:
     QSharedPointer<QTranslator> InstallTranslatorFile(const QString szFile);
     QVector<QSharedPointer<QTranslator> > m_Translator;
 
-    bool m_Initialized;
-
     bool m_bShowMaxWindow;
 
     /*!
