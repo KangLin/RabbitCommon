@@ -1152,7 +1152,7 @@ function(ADD_TARGET)
             else()
                 set(ANDROID_BUILD ${CMAKE_CURRENT_BINARY_DIR}/android-build)
             endif()
-            process_build_gradle(${PARA_NAME} ${ANDROID_BUILD})
+            #process_build_gradle(${PARA_NAME} ${ANDROID_BUILD})
 
             # NOTE: 如果不用 ADD_TARGET 时，请手动安装.参见: INSTALL_DIR, INSTALL_FILE
 #                file(COPY ${CMAKE_BINARY_DIR}/assets
