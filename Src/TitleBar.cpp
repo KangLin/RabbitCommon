@@ -36,7 +36,8 @@ CTitleBar::CTitleBar(QWidget *parent)
 {
     bool check = false;
 
-    qCritical(log) << "The parent is null. must set it";
+    if(nullptr == parent)
+        qCritical(log) << "The parent is null. must set it";
     // Must set parent
     Q_ASSERT(parent);
 
