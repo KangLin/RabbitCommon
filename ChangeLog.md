@@ -20,6 +20,7 @@
   - Add SaveTarget.cmake
   - Add Android.cmake
 - Add RabbitCommon.sh
+- Resource: Rename icon subdirectory. and index.theme
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit
