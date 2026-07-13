@@ -526,16 +526,44 @@ int CTools::AndroidRequestPermission(const QString &permission)
 {
 #if defined (Q_OS_ANDROID)
     #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-    // get android storage permission
-    // 该接口也可以直接使用字符串，可自行跳转到头文件自行查看
-    
-    if (QtAndroidPrivate::checkPermission(permission).result()
-        == QtAndroidPrivate::Denied)
-    {
-        QtAndroidPrivate::requestPermission(permission).waitForFinished();
-    }
-    qInfo(log) << "android permission" << permission << ";status:"
-                  << QtAndroidPrivate::checkPermission(permission).result();
+        // get android storage permission
+        // 该接口也可以直接使用字符串，可自行跳转到头文件自行查看
+
+        if (QtAndroidPrivate::checkPermission(permission).result()
+            == QtAndroidPrivate::Denied)
+        {
+            QtAndroidPrivate::requestPermission(permission).waitForFinished();
+        }
+        qInfo(log) << "android permission" << permission << ";status:"
+                      << QtAndroidPrivate::checkPermission(permission).result();
+    #elif (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+        QtAndroid::PermissionResult r;
+        r = QtAndroid::checkPermission(permission);
+        if(QtAndroid::PermissionResult::Denied == r)
+        {
+            QtAndroid::requestPermissionsSync(permission);
+        }
+    #else
+
+        /* Checks if the app has permission to read and write to device storage
+         * If the app does not has permission then the user will be prompted to
+         * grant permissions, When android > 6.0(SDK API > 23)
+         */
+        QAndroidJniObject mainActive = QtAndroid::androidActivity();
+        CHECK_EXCEPTION();
+        if(mainActive.isValid())
+        {
+            QAndroidJniObject::callStaticMethod<void>(
+                "org/KangLinStudio/QtAndroidUtils/Utils",
+                "verifyCameraPermissions",
+                "(Landroid/app/Activity;)V",
+                mainActive.object<jobject>());
+            CHECK_EXCEPTION();
+        }
+        else
+        {
+            qDebug() << "QtAndroid::androidActivity() isn't valid\n";
+        }
     #endif
 #endif
 
