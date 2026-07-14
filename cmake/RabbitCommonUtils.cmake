@@ -949,7 +949,6 @@ endfunction()
 #    PRIVATE_OPTIONS                私有选项
 #    FEATURES                       公有特性
 #    PRIVATE_FEATURES               私有特性
-#    NO_INSTALL_ANDROID_OPENSSL     当是 android 时，不安装 openssl 库
 #    QT_ANDROID_EXTRA_LIBS          Android 外部库
 #    NO_INSTALL                     不安装
 #    INSTALL_RPATH                  INSTALL_RPATH
@@ -1009,7 +1008,7 @@ function(ADD_TARGET)
         COMPONENT_PREFIX
         )
     cmake_parse_arguments(PARA
-        "ISEXE;ISPLUGIN;ISWINDOWS;IS_MACOSX_BUNDLE;NO_TRANSLATION;NO_INSTALL;NO_INSTALL_ANDROID_OPENSSL"
+        "ISEXE;ISPLUGIN;ISWINDOWS;IS_MACOSX_BUNDLE;NO_TRANSLATION;NO_INSTALL"
         "${SINGLE_PARAS}"
         "${MUT_PARAS}"
         ${ARGN})
@@ -1023,7 +1022,6 @@ function(ADD_TARGET)
                 [IS_MACOSX_BUNDLE]
                 [NO_TRANSLATION]
                 [NO_INSTALL]
-                [NO_INSTALL_ANDROID_OPENSSL]
                 SOURCE_FILES source1 [source2 ... header1 ...]]
                 [INSTALL_HEADER_FILES header1 [header2 ...]]
                 [LIBS lib1 [lib2 ...]]
@@ -1118,7 +1116,8 @@ function(ADD_TARGET)
                 endif()
             endif()
 
-            if (NOT PARA_NO_INSTALL_ANDROID_OPENSSL)
+            option(INSTALL_ANDROID_OPENSSL "Install openssl in android" ON)
+            if (INSTALL_ANDROID_OPENSSL)
                 include(FetchContent)
                 FetchContent_Declare(
                     android_openssl
