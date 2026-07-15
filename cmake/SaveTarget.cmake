@@ -217,12 +217,6 @@ function(safe_find_dependency target)
     # 恢复 CMAKE_FIND_PACKAGE_NAME
     set(CMAKE_FIND_PACKAGE_NAME ${OLD_CMAKE_FIND_PACKAGE_NAME})
 
-    # 返回找到的状态（也可以通过返回值返回）
-    if(${target}_FOUND)
-        return(TRUE)
-    else()
-        return(FALSE)
-    endif()
 endfunction()
 
 #===============================================================================
@@ -327,12 +321,6 @@ function(safe_find_dependency_ext target)
     set(CMAKE_FIND_PACKAGE_NAME ${OLD_CMAKE_FIND_PACKAGE_NAME})
     set(CMAKE_FIND_PACKAGE_COMPONENTS ${OLD_CMAKE_FIND_PACKAGE_COMPONENTS})
 
-    # 返回找到的状态
-    if(${target}_FOUND)
-        return(TRUE)
-    else()
-        return(FALSE)
-    endif()
 endfunction()
 
 #===============================================================================
