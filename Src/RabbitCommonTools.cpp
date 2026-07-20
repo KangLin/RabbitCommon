@@ -640,14 +640,10 @@ void CTools::Init(QString szApplicationName,
         return;
     }
 
+    // Set default android permissions
     QStringList permissions;
     permissions << "android.permission.WRITE_EXTERNAL_STORAGE"
-                << "android.permission.INTERNET"
-                << "android.permission.ACCESS_NETWORK_STATE"
-                << "android.permission.CHANGE_WIFI_STATE"
-                << "android.permission.ACCESS_WIFI_STATE"
-                << "android.permission.ACCESS_NETWORK_STATE"
-                << "android.permission.CHANGE_NETWORK_STATE";
+                << "android.permission.READ_EXTERNAL_STORAGE";
     AndroidRequestPermission(permissions);
     EnableCoreDump();
     RabbitCommon::CLog::Instance();
