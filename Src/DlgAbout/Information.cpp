@@ -177,8 +177,9 @@ CInformation::CInformation(const QString &szApp,
             + QSysInfo::currentCpuArchitecture() + "\n";
     szHardware += "  - " + tr("Build architecture: ")
             + QSysInfo::buildCpuArchitecture() + "\n";
-
+#if !defined(Q_OS_ANDROID)
     szHardware += "- " + tr("Memory:") + "\n";
+#endif
 #ifdef Q_OS_WIN
     MEMORYSTATUSEX memStatus;
     memStatus.dwLength = sizeof(memStatus);
@@ -295,10 +296,10 @@ CInformation::CInformation(const QString &szApp,
     }
 
     if(!szHost.isEmpty())
-        SetContext(tr("Host"), szHost + szOS + szHardware + szEnv);
+        SetContext(tr("Host"), szHost + szOS + szEnv + szHardware);
 
     qDebug(log) << (szApp + szInfo + szRabbitCommon
-                    + szQt + szOS + szHost + szEnv).toStdString().c_str();
+                    + szQt + szOS + szHost + szEnv + szHardware).toStdString().c_str();
 }
 
 CInformation::~CInformation()
