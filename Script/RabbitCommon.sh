@@ -313,6 +313,9 @@ create_debian_folder() {
             ubuntu:24.*|linuxmint:22.*)
                 control_source="$repo_root/Package/debian/control.ubuntu.24"
                 ;;
+            ubuntu:22.*)
+                control_source="$repo_root/Package/debian/control.ubuntu.22"
+                ;;
             debian:12)
                 control_source="$repo_root/Package/debian/control.debian.12"
                 ;;
