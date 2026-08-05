@@ -68,7 +68,11 @@ void CSineWriter::onTimer()
     if (!m_sinkDevice || !m_sinkDevice->isOpen()) return;
     int frames = (m_sampleRate / 10); // 0.1s of audio
     QByteArray buffer;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     buffer.resize((qsizetype)frames * (qsizetype)m_channels * sizeof(qint16));
+#else
+    buffer.resize(frames * m_channels * sizeof(qint16));
+#endif
     qint16 *out = reinterpret_cast<qint16*>(buffer.data());
     for (int i = 0; i < frames; ++i) {
         qint16 sample = qint16(m_amplitude * std::sin(m_phase));
