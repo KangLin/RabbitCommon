@@ -274,7 +274,7 @@ package_install() {
         do
             case "$PACKAGE_TOOL" in
                 brew)
-                    brew install -q $p
+                    brew install -q -y $p
                     ;;
                 apt)
                     if [ "$BUILD_VERBOSE" = "ON" ]; then
