@@ -404,9 +404,6 @@ get_system_info() {
 }
 
 install_gnu_getopt() {
-    if command -v getopt > /dev/null 2>&1; then
-        return
-    fi
     case "$DISTRO" in
         fedora)
             package_install util-linux
@@ -414,12 +411,12 @@ install_gnu_getopt() {
         macOS)
             # 检查　GNU setopt
             # 在 macOS 上，本地 getopt 不支持长格式参数，所以需要先在系统上安装 GNU getopt，并设置环境变量 PATH
-            #if [ ! -f /usr/local/opt/gnu-getopt/bin/getopt ]; then
-            #    brew install gnu-getopt
-            #fi
-            #if [[ ! "$PATH" =~ /usr/local/opt/gnu-getopt/bin/getopt/bin ]]; then
-            #    export PATH=/usr/local/opt/gnu-getopt/bin/getopt/bin::$PATH
-            #fi
+            if [ ! -f /usr/local/opt/gnu-getopt/bin/getopt ]; then
+                brew install gnu-getopt
+            fi
+            if [[ ! "$PATH" =~ /usr/local/opt/gnu-getopt/bin ]]; then
+                export PATH=/usr/local/opt/gnu-getopt/bin::$PATH
+            fi
             ;;
             *)
             ;;
@@ -486,11 +483,6 @@ detect_os_info() {
 #    export DISTRO_VERSION=$(echo "$system_info" | grep "^Version:" | awk -F': ' '{print $2}')
 #    export PACKAGE_TOOL=$(echo "$system_info" | grep "^Package tool:" | awk -F': ' '{print $2}')
 #    export ARCHITECTURE=$(echo "$system_info" | grep "^Architecture:" | awk -F': ' '{print $2}')
-
-    # 如果是 macOS，进行初始化设置
-    if [ "$DISTRO" = "macOS" ]; then
-        setup_macos
-    fi
 
     if [ "$BUILD_VERBOSE" = "ON" ]; then
         echo "=== OS information (detect_os_info) ==="
@@ -961,5 +953,10 @@ init_global() {
         #check_echo_color
         check_echo_color_with_tput
         detect_os_info
+
+        # 如果是 macOS，进行初始化设置
+        if [ "$DISTRO" = "macOS" ]; then
+            setup_macos
+        fi
     fi
 }
