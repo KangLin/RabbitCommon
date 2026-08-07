@@ -242,7 +242,7 @@ int CStyle::LoadStyle(const QString& szName)
     if(QApplication::style() && QApplication::style()->name() == szName)
         return 0;
 #endif
-    qInfo(log) << "Apply style:" << szName;
+    qDebug(log) << "Apply style:" << szName;
     QApplication::setStyle(QStyleFactory::create(szName));
     return 0;
 

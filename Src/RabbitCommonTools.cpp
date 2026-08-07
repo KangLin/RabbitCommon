@@ -168,11 +168,11 @@ QString CTools::GetLanguage()
 {
     QString szLANG = QProcessEnvironment::systemEnvironment().value("LANG");
     if(szLANG.isEmpty()) {
-        qInfo(log) << "Change the language using the environment variable \"LANG\"";
+        //qDebug(log) << "Change the language using the environment variable \"LANG\"";
         if(g_szLanguage.isEmpty())
             return QLocale::system().name();
     } else {
-        qInfo(log) << "Change the language using the environment variable \"LANG\" =" << szLANG;
+        //qDebug(log) << "Change the language using the environment variable \"LANG\" =" << szLANG;
         // Separate zh_CN from zh_CN.utf-8
         int underscoreIndex = szLANG.indexOf('.');
         if (underscoreIndex != -1) {
@@ -648,7 +648,8 @@ void CTools::Init(QString szApplicationName,
     EnableCoreDump();
     RabbitCommon::CLog::Instance();
     SetLanguage(szLanguage);
-    qInfo(logTranslation) << "Language:" << szLanguage;
+    qInfo(logTranslation).noquote() << "Language:" << szLanguage
+                          + ". You can change the language using the environment variable \"LANG\"";
     InitResource();
     InstallTranslator("RabbitCommon", TranslationType::Library, "", szLanguage);
     //Init qt translation
