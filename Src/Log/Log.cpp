@@ -91,11 +91,17 @@ CLog::CLog() : QObject(),
                      + QDir::separator() + "logqt.ini";
     LoadConfigure(szConfFile);
 
-    qInfo(log) << "Application name:" << QCoreApplication::applicationName();
-    qInfo(log) << "Application folder:" << CDir::Instance()->GetDirApplication();
-    qInfo(log) << "Application install root folder:"
-               << CDir::Instance()->GetDirApplicationInstallRoot();
-    qInfo(log) << "Document folder:" << CDir::Instance()->GetDirUserDocument();
+    // Show application configure
+    qInfo(log) << "Configure:" << '\n'
+               << "  Application name:" << QCoreApplication::applicationName() << '\n'
+               << "  Application folder:" << CDir::Instance()->GetDirApplication() << '\n'
+               << "  Application install root folder:"
+               << CDir::Instance()->GetDirApplicationInstallRoot() << '\n'
+               << "  Document folder:" << CDir::Instance()->GetDirUserDocument() << '\n'
+               << "  User configure file:" << CDir::Instance()->GetFileUserConfigure();;
+    QFileInfo fi(CDir::Instance()->GetFileApplicationConfigure());
+    if(fi.exists())
+        qInfo(log) << "Application configure file:" << CDir::Instance()->GetFileApplicationConfigure();
 
     bool check = false;
     check = connect(&m_Watcher, SIGNAL(fileChanged(QString)),
@@ -236,7 +242,7 @@ int CLog::LoadConfigure(const QString &szFile)
         qWarning(log) << "Log configure file is not exist:" << szFile
                       << ". Use default settings.";
 
-    qInfo(log) << "Log configure:"
+    qDebug(log) << "Log configure:"
                << "\n    Path:" << m_szPath
                << "\n    Name:" << m_szName
                << "\n    DateFormat:" << m_szDateFormat

@@ -22,14 +22,14 @@ CDir::CDir()
 #if DEBUG
     m_szDocumentPath += "_dev";
 #endif
-    qInfo(log) << "Document path:" << m_szDocumentPath;
+    qDebug(log) << "Document path:" << m_szDocumentPath;
     QDir d;
     if(!d.exists(m_szDocumentPath))
         if(!d.mkpath(m_szDocumentPath))
             qCritical(log) << "mkdir documents dir fail:" << m_szDocumentPath;
     
     m_szApplicationDir =  QCoreApplication::applicationDirPath();
-    qInfo(log) << "Application dir:" << m_szApplicationDir;
+    qDebug(log) << "Application dir:" << m_szApplicationDir;
 #if defined (Q_OS_ANDROID)
     m_szApplicationInstallRootDir = "assets:";
 #else
@@ -40,7 +40,7 @@ CDir::CDir()
     QDir r(m_szApplicationInstallRootDir);
     m_szApplicationInstallRootDir = r.absolutePath();
 #endif
-    qInfo(log) << "Application root dir:" << m_szApplicationInstallRootDir;
+    qDebug(log) << "Application root dir:" << m_szApplicationInstallRootDir;
 }
 
 CDir* CDir::Instance()
@@ -316,7 +316,9 @@ QString CDir::GetFileUserConfigure()
     return szName;
 }
 
-int CDir::CopyDirectory(const QString &fromDir, const QString &toDir, bool bCoverIfFileExists)
+int CDir::CopyDirectory(const QString &fromDir,
+                        const QString &toDir,
+                        bool bCoverIfFileExists)
 {
     QDir formDir_(fromDir);
     QDir toDir_(toDir);
