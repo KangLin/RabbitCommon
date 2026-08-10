@@ -353,83 +353,83 @@ You can read files up to %1 MB.</source>
 <context>
     <name>CFrmMediaDevices</name>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="91"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="95"/>
         <source>Media Devices Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="166"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="170"/>
         <source>Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="169"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="173"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="171"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="363"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="539"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="175"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="367"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="543"/>
         <source>Turn on camera preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="176"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="180"/>
         <source>Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="180"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="184"/>
         <source>Microphone (Input):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="186"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="190"/>
         <source>Input Volume:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="189"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="193"/>
         <source>Speaker (Output):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="195"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="199"/>
         <source>Output Volume:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="198"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="428"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="609"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="202"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="432"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="613"/>
         <source>Play test sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="202"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="206"/>
         <source>Microphone input level:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="213"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="217"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="225"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="229"/>
         <source>Camera preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="356"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="534"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="360"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="538"/>
         <source>Turn off camera preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="388"/>
-        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="566"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="392"/>
+        <location filename="../../Multimedia/FrmMediaDevices.cpp" line="570"/>
         <source>Stop test sound</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1168,17 +1168,17 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="229"/>
+        <location filename="../../DlgAbout/Information.cpp" line="230"/>
         <source>Used: %1 GB (%2%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="231"/>
+        <location filename="../../DlgAbout/Information.cpp" line="232"/>
         <source>Available: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="232"/>
+        <location filename="../../DlgAbout/Information.cpp" line="233"/>
         <source>File system type: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1198,38 +1198,38 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="238"/>
-        <location filename="../../DlgAbout/Information.cpp" line="298"/>
+        <location filename="../../DlgAbout/Information.cpp" line="239"/>
+        <location filename="../../DlgAbout/Information.cpp" line="299"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="240"/>
+        <location filename="../../DlgAbout/Information.cpp" line="241"/>
         <source>Host name: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="242"/>
+        <location filename="../../DlgAbout/Information.cpp" line="243"/>
         <source>Domain name: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="247"/>
+        <location filename="../../DlgAbout/Information.cpp" line="248"/>
         <source>Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="249"/>
+        <location filename="../../DlgAbout/Information.cpp" line="250"/>
         <source>Total:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="255"/>
+        <location filename="../../DlgAbout/Information.cpp" line="256"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="254"/>
+        <location filename="../../DlgAbout/Information.cpp" line="255"/>
         <source>Primery</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1239,49 +1239,49 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="186"/>
-        <location filename="../../DlgAbout/Information.cpp" line="201"/>
+        <location filename="../../DlgAbout/Information.cpp" line="187"/>
+        <location filename="../../DlgAbout/Information.cpp" line="202"/>
         <source>Total physical memory: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="187"/>
-        <location filename="../../DlgAbout/Information.cpp" line="204"/>
+        <location filename="../../DlgAbout/Information.cpp" line="188"/>
+        <location filename="../../DlgAbout/Information.cpp" line="205"/>
         <source>Available physical memory: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="188"/>
+        <location filename="../../DlgAbout/Information.cpp" line="189"/>
         <source>Memory Usage: %1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="189"/>
+        <location filename="../../DlgAbout/Information.cpp" line="190"/>
         <source>Total virtual memory: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="190"/>
+        <location filename="../../DlgAbout/Information.cpp" line="191"/>
         <source>Available virtual memory: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="211"/>
+        <location filename="../../DlgAbout/Information.cpp" line="212"/>
         <source>Storage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="223"/>
+        <location filename="../../DlgAbout/Information.cpp" line="224"/>
         <source>Volume letter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="225"/>
+        <location filename="../../DlgAbout/Information.cpp" line="226"/>
         <source>Root:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="228"/>
+        <location filename="../../DlgAbout/Information.cpp" line="229"/>
         <source>Total capacity: %1 GB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1296,117 +1296,117 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="258"/>
+        <location filename="../../DlgAbout/Information.cpp" line="259"/>
         <source>Manufacturer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="260"/>
+        <location filename="../../DlgAbout/Information.cpp" line="261"/>
         <source>Serial Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="262"/>
+        <location filename="../../DlgAbout/Information.cpp" line="263"/>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="264"/>
+        <location filename="../../DlgAbout/Information.cpp" line="265"/>
         <source>Refresh Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="265"/>
+        <location filename="../../DlgAbout/Information.cpp" line="266"/>
         <source>Depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="266"/>
+        <location filename="../../DlgAbout/Information.cpp" line="267"/>
         <source>Device Pixel Ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="267"/>
+        <location filename="../../DlgAbout/Information.cpp" line="268"/>
         <source>Logical Dots Per Inch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="268"/>
+        <location filename="../../DlgAbout/Information.cpp" line="269"/>
         <source>Logical Dots Per Inch X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="269"/>
+        <location filename="../../DlgAbout/Information.cpp" line="270"/>
         <source>Logical Dots Per Inch Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="270"/>
+        <location filename="../../DlgAbout/Information.cpp" line="271"/>
         <source>Physical Dots Per Inch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="271"/>
+        <location filename="../../DlgAbout/Information.cpp" line="272"/>
         <source>Physical Dots Per Inch X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="272"/>
+        <location filename="../../DlgAbout/Information.cpp" line="273"/>
         <source>Physical Dots Per Inch Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="273"/>
+        <location filename="../../DlgAbout/Information.cpp" line="274"/>
         <source>Physical size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="274"/>
+        <location filename="../../DlgAbout/Information.cpp" line="275"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="275"/>
+        <location filename="../../DlgAbout/Information.cpp" line="276"/>
         <source>Geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="276"/>
+        <location filename="../../DlgAbout/Information.cpp" line="277"/>
         <source>Available Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="277"/>
+        <location filename="../../DlgAbout/Information.cpp" line="278"/>
         <source>Available Geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="280"/>
+        <location filename="../../DlgAbout/Information.cpp" line="281"/>
         <source>Siblings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="282"/>
+        <location filename="../../DlgAbout/Information.cpp" line="283"/>
         <source>Virtual Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="283"/>
+        <location filename="../../DlgAbout/Information.cpp" line="284"/>
         <source>Virtual Geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="284"/>
+        <location filename="../../DlgAbout/Information.cpp" line="285"/>
         <source>Available Virtual Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="285"/>
+        <location filename="../../DlgAbout/Information.cpp" line="286"/>
         <source>Available Virtual Geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="291"/>
+        <location filename="../../DlgAbout/Information.cpp" line="292"/>
         <source>Environment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1435,6 +1435,19 @@ You can read files up to %1 MB.</source>
     </message>
 </context>
 <context>
+    <name>CWorkerCurl</name>
+    <message>
+        <location filename="../../FileTransfer/WorkerCurl.cpp" line="20"/>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FileTransfer/WorkerCurl.cpp" line="21"/>
+        <source>Supported protocols:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <location filename="../../Log/DockDebugLog.cpp" line="130"/>
@@ -1447,32 +1460,32 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="581"/>
+        <location filename="../../Log/Log.cpp" line="587"/>
         <source>Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="582"/>
+        <location filename="../../Log/Log.cpp" line="588"/>
         <source>Log configure file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="597"/>
+        <location filename="../../Log/Log.cpp" line="603"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="629"/>
+        <location filename="../../Log/Log.cpp" line="635"/>
         <source>Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="629"/>
+        <location filename="../../Log/Log.cpp" line="635"/>
         <source>Log file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="652"/>
+        <location filename="../../Log/Log.cpp" line="658"/>
         <source>Log folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1484,6 +1497,31 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../CoreDump/StackTrace.cpp" line="73"/>
         <source>Open core dump folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="243"/>
+        <source>Application Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="245"/>
+        <source>I&apos;m Sorry, Application is Crash!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="246"/>
+        <source>Current path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="248"/>
+        <source>Dump file: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="250"/>
+        <source>Log file: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1597,22 +1635,22 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CTitleBar</name>
     <message>
-        <location filename="../../TitleBar.cpp" line="93"/>
+        <location filename="../../TitleBar.cpp" line="94"/>
         <source>Minimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="101"/>
+        <location filename="../../TitleBar.cpp" line="102"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="109"/>
+        <location filename="../../TitleBar.cpp" line="110"/>
         <source>Floating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../TitleBar.cpp" line="118"/>
+        <location filename="../../TitleBar.cpp" line="119"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1896,51 +1934,51 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1108"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1119"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1122"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1134"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1145"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1148"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1133"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1135"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1159"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1161"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1138"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1164"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1152"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1178"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1156"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1182"/>
         <source>Open Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1160"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1186"/>
         <source>Open Log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1175"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1177"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1201"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1203"/>
         <source>Log dock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1185"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1211"/>
         <source>Copy log file path to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1189"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1215"/>
         <source>Copy log folder to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
