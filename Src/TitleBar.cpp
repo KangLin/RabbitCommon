@@ -55,6 +55,7 @@ CTitleBar::CTitleBar(QWidget *parent)
 
     m_pIcon = new QLabel(this);
     Q_ASSERT(m_pIcon);
+    m_pIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     m_pIcon->setWindowIcon(parent->windowIcon());
     check = connect(parent, &QWidget::windowIconChanged,
                     this, [&](const QIcon &icon){
@@ -78,13 +79,12 @@ CTitleBar::CTitleBar(QWidget *parent)
                     });
     Q_ASSERT(check);
     layout->addWidget(m_pIcon);
-    m_pIcon->show();
 
     m_pTitle = new QLabel(this);
     Q_ASSERT(m_pTitle);
     m_pTitle->setText(parent->windowTitle());
     check = connect(parent, SIGNAL(windowTitleChanged(const QString&)),
-                           m_pTitle, SLOT(setText(const QString&)));
+                    m_pTitle, SLOT(setText(const QString&)));
     Q_ASSERT(check);
     m_pTitle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     layout->addWidget(m_pTitle);
