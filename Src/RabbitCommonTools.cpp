@@ -1383,4 +1383,40 @@ QMainWindow* CTools::GetMainWindow()
 }
 #endif // #ifdef HAVE_RABBITCOMMON_GUI
 
+// 1) 反色（RGB 逐分量取反）
+inline QColor invertColor(const QColor &c) {
+    return QColor(255 - c.red(),
+                  255 - c.green(),
+                  255 - c.blue(),
+                  c.alpha());
+}
+
+// 2) 色轮互补色（在 HSV 空间 hue + 180°；若为无色相（灰/白/黑），则反转亮度/值）
+inline QColor complementaryByHue(const QColor &c) {
+    int h = c.hsvHue();            // -1 表示无色相（achromatic）
+    int s = c.hsvSaturation();     // 0..255
+    int v = c.value();             // 0..255
+    if (h < 0) {
+        // 对灰度/白/黑：将明度（value）取反，保持透明度
+        return QColor::fromHsv(0, 0, 255 - v, c.alpha());
+    }
+    int newH = (h + 180) % 360;
+    return QColor::fromHsv(newH, s, v, c.alpha());
+}
+
+// 3) 为背景返回可读的前景色（黑或白），常用于文本对比
+// 使用加权亮度（ITU-R BT.601）：Y = 0.299 R + 0.587 G + 0.114 B
+inline QColor readableTextColor(const QColor &bg, int threshold = 128) {
+    int r = bg.red();
+    int g = bg.green();
+    int b = bg.blue();
+    int brightness = (299 * r + 587 * g + 114 * b) / 1000; // 0..255
+    return (brightness > threshold) ? QColor(Qt::black) : QColor(Qt::white);
+}
+
+QColor CTools::InvertColor(const QColor &color)
+{
+    return invertColor(color);
+}
+
 } //namespace RabbitCommon

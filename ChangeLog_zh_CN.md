@@ -6,6 +6,7 @@
   - 增加 static bool VersionValid(const QString& szVersion);
   - 增加 static int VersionCompare(const QString &ver1, const QString &ver2);
   - 增加 static int GetRandomNumber(int min, int max);
+  - 增加 static QColor InvertColor(const QColor& color);
 - 增加密码生成器: CPasswordGenerator
 - 增加设置应用字体
 - 增加音视频设备设置对话框: CFrmMediaDevices

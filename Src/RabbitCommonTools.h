@@ -377,9 +377,14 @@ public:
     static QMainWindow* GetMainWindow();
 #endif //#ifdef HAVE_RABBITCOMMON_GUI
 
-public:
     static int AndroidRequestPermission(const QStringList& permissions);
     static int AndroidRequestPermission(const QString& permission);
+
+    /*!
+     * \brief Invert color
+     * \since 2.4.0
+     */
+    static QColor InvertColor(const QColor& color);
 
 private:
     CTools();
