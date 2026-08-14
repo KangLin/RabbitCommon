@@ -62,6 +62,7 @@ CInformation::CInformation(const QString &szApp,
     for (int i = 0; i < paths.size(); ++i) {
         szQt += "    - " + paths[i] + "\n";
     }
+    szQt += "- " + tr("Platform plugin: ") + QGuiApplication::platformName() + "\n";
     szQt += "- " + tr("Locale: ") + QLocale::system().name() + "\n";
     szQt += "- " + tr("Icon: ") + "\n";
     szQt += "  - " + tr("Theme: ") + QIcon::themeName() + "\n";
