@@ -1008,49 +1008,49 @@ You can read files up to %1 MB.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="65"/>
+        <location filename="../../DlgAbout/Information.cpp" line="66"/>
         <source>Locale: </source>
         <translation>區域：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="86"/>
-        <location filename="../../DlgAbout/Information.cpp" line="93"/>
+        <location filename="../../DlgAbout/Information.cpp" line="87"/>
+        <location filename="../../DlgAbout/Information.cpp" line="94"/>
         <source>Build Version: </source>
         <translation>編譯時版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="89"/>
+        <location filename="../../DlgAbout/Information.cpp" line="90"/>
         <source>Installed Version: </source>
         <translation>安裝的版本： </translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="96"/>
+        <location filename="../../DlgAbout/Information.cpp" line="97"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation>未安裝 OPENSSL 動態庫，請安裝！</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="100"/>
         <location filename="../../DlgAbout/Information.cpp" line="101"/>
+        <location filename="../../DlgAbout/Information.cpp" line="102"/>
         <source>Standard paths:</source>
         <translation>標準路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="122"/>
+        <location filename="../../DlgAbout/Information.cpp" line="123"/>
         <source>Writable Location:</source>
         <translation>可寫入位置：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="144"/>
+        <location filename="../../DlgAbout/Information.cpp" line="145"/>
         <source>Product type: </source>
         <translation>操作系統類型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="145"/>
+        <location filename="../../DlgAbout/Information.cpp" line="146"/>
         <source>Product version: </source>
         <translation>操作系統版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="143"/>
+        <location filename="../../DlgAbout/Information.cpp" line="144"/>
         <source>OS: </source>
         <translation>操作系統：</translation>
     </message>
@@ -1100,310 +1100,315 @@ You can read files up to %1 MB.</source>
         <translation>搜索庫路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="66"/>
+        <location filename="../../DlgAbout/Information.cpp" line="67"/>
         <source>Icon: </source>
         <translation>圖標：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="67"/>
+        <location filename="../../DlgAbout/Information.cpp" line="68"/>
         <source>Theme: </source>
         <translation>主題：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="68"/>
+        <location filename="../../DlgAbout/Information.cpp" line="69"/>
         <source>Search paths:</source>
         <translation>搜索路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="74"/>
+        <location filename="../../DlgAbout/Information.cpp" line="75"/>
         <source>Fallback theme: </source>
         <translation>備份主題：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="75"/>
+        <location filename="../../DlgAbout/Information.cpp" line="76"/>
         <source>Fallback search paths:</source>
         <translation>備份主題搜索路徑：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="81"/>
+        <location filename="../../DlgAbout/Information.cpp" line="82"/>
         <source>Dependency libraries:</source>
         <translation>依賴庫：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="82"/>
+        <location filename="../../DlgAbout/Information.cpp" line="83"/>
         <source>- OpenSSL:</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../DlgAbout/Information.cpp" line="46"/>
-        <location filename="../../DlgAbout/Information.cpp" line="138"/>
+        <location filename="../../DlgAbout/Information.cpp" line="139"/>
         <source>Qt</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="146"/>
+        <location filename="../../DlgAbout/Information.cpp" line="147"/>
         <source>Kernel type: </source>
         <translation>內核類型：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="147"/>
+        <location filename="../../DlgAbout/Information.cpp" line="148"/>
         <source>Kernel version: </source>
         <translation>內核版本：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="150"/>
+        <location filename="../../DlgAbout/Information.cpp" line="151"/>
         <source>Boot Id: </source>
         <translation>啟動 ID：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="152"/>
+        <location filename="../../DlgAbout/Information.cpp" line="153"/>
         <source>Build ABI: </source>
         <translation>編譯 ABI：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="172"/>
+        <location filename="../../DlgAbout/Information.cpp" line="173"/>
         <source>CPU: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="174"/>
+        <location filename="../../DlgAbout/Information.cpp" line="175"/>
         <source>Number:</source>
         <translation>個數：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="158"/>
+        <location filename="../../DlgAbout/Information.cpp" line="159"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="161"/>
+        <location filename="../../DlgAbout/Information.cpp" line="162"/>
         <source>Light</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="164"/>
+        <location filename="../../DlgAbout/Information.cpp" line="165"/>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="241"/>
+        <location filename="../../DlgAbout/Information.cpp" line="242"/>
         <source>Host name: </source>
         <translation>主機名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="243"/>
+        <location filename="../../DlgAbout/Information.cpp" line="244"/>
         <source>Domain name: </source>
         <translation>域名：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="248"/>
+        <location filename="../../DlgAbout/Information.cpp" line="249"/>
         <source>Screen</source>
         <translation>屏幕</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="250"/>
+        <location filename="../../DlgAbout/Information.cpp" line="251"/>
         <source>Total:</source>
         <translation>總數：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="256"/>
+        <location filename="../../DlgAbout/Information.cpp" line="257"/>
         <source>Name</source>
         <translation>名稱</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="255"/>
+        <location filename="../../DlgAbout/Information.cpp" line="256"/>
         <source>Primery</source>
         <translation>主屏</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="181"/>
+        <location filename="../../DlgAbout/Information.cpp" line="182"/>
         <source>Memory:</source>
         <translation>內存：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="187"/>
-        <location filename="../../DlgAbout/Information.cpp" line="202"/>
+        <location filename="../../DlgAbout/Information.cpp" line="188"/>
+        <location filename="../../DlgAbout/Information.cpp" line="203"/>
         <source>Total physical memory: %1 GB</source>
         <translation>物理內存總量： %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="188"/>
-        <location filename="../../DlgAbout/Information.cpp" line="205"/>
+        <location filename="../../DlgAbout/Information.cpp" line="189"/>
+        <location filename="../../DlgAbout/Information.cpp" line="206"/>
         <source>Available physical memory: %1 GB</source>
         <translation>可用物理內存: %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="189"/>
+        <location filename="../../DlgAbout/Information.cpp" line="190"/>
         <source>Memory Usage: %1%</source>
         <translation>內存使用率: %1%</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="190"/>
+        <location filename="../../DlgAbout/Information.cpp" line="191"/>
         <source>Total virtual memory: %1 GB</source>
         <translation>虛擬內存總量: %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="191"/>
+        <location filename="../../DlgAbout/Information.cpp" line="192"/>
         <source>Available virtual memory: %1 GB</source>
         <translation>可用虛擬內存: %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="212"/>
+        <location filename="../../DlgAbout/Information.cpp" line="213"/>
         <source>Storage:</source>
         <translation>磁盤：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="224"/>
+        <location filename="../../DlgAbout/Information.cpp" line="225"/>
         <source>Volume letter:</source>
         <translation>盤符：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="226"/>
+        <location filename="../../DlgAbout/Information.cpp" line="227"/>
         <source>Root:</source>
         <translation>根：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="229"/>
+        <location filename="../../DlgAbout/Information.cpp" line="230"/>
         <source>Total capacity: %1 GB</source>
         <translation>總容量: %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="230"/>
+        <location filename="../../DlgAbout/Information.cpp" line="231"/>
         <source>Used: %1 GB (%2%)</source>
         <translation>已用: %1 GB (%2%)</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="232"/>
+        <location filename="../../DlgAbout/Information.cpp" line="233"/>
         <source>Available: %1 GB</source>
         <translation>可用: %1 GB</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="233"/>
+        <location filename="../../DlgAbout/Information.cpp" line="234"/>
         <source>File system type: %1</source>
         <translation>文件系統: %1</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="155"/>
+        <location filename="../../DlgAbout/Information.cpp" line="156"/>
         <source>Color scheme:</source>
         <translation>配色方案：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="171"/>
+        <location filename="../../DlgAbout/Information.cpp" line="65"/>
+        <source>Platform plugin: </source>
+        <translation>平臺插件：</translation>
+    </message>
+    <message>
+        <location filename="../../DlgAbout/Information.cpp" line="172"/>
         <source>Hardware</source>
         <translation>硬件</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="259"/>
+        <location filename="../../DlgAbout/Information.cpp" line="260"/>
         <source>Manufacturer</source>
         <translation>生產廠家</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="261"/>
+        <location filename="../../DlgAbout/Information.cpp" line="262"/>
         <source>Serial Number</source>
         <translation>序列號</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="263"/>
+        <location filename="../../DlgAbout/Information.cpp" line="264"/>
         <source>Model</source>
         <translation>模型</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="265"/>
+        <location filename="../../DlgAbout/Information.cpp" line="266"/>
         <source>Refresh Rate</source>
         <translation>刷新率</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="266"/>
+        <location filename="../../DlgAbout/Information.cpp" line="267"/>
         <source>Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="267"/>
+        <location filename="../../DlgAbout/Information.cpp" line="268"/>
         <source>Device Pixel Ratio</source>
         <translation>設備像素比</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="268"/>
+        <location filename="../../DlgAbout/Information.cpp" line="269"/>
         <source>Logical Dots Per Inch</source>
         <translation>邏輯每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="269"/>
+        <location filename="../../DlgAbout/Information.cpp" line="270"/>
         <source>Logical Dots Per Inch X</source>
         <translation>X 軸邏輯每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="270"/>
+        <location filename="../../DlgAbout/Information.cpp" line="271"/>
         <source>Logical Dots Per Inch Y</source>
         <translation>Y 軸邏輯每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="271"/>
+        <location filename="../../DlgAbout/Information.cpp" line="272"/>
         <source>Physical Dots Per Inch</source>
         <translation>物理每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="272"/>
+        <location filename="../../DlgAbout/Information.cpp" line="273"/>
         <source>Physical Dots Per Inch X</source>
         <translation>X 軸物理每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="273"/>
+        <location filename="../../DlgAbout/Information.cpp" line="274"/>
         <source>Physical Dots Per Inch Y</source>
         <translation>Y 軸物物理每英寸點數</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="274"/>
+        <location filename="../../DlgAbout/Information.cpp" line="275"/>
         <source>Physical size</source>
         <translation>物理尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="275"/>
+        <location filename="../../DlgAbout/Information.cpp" line="276"/>
         <source>Size</source>
         <translation>尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="276"/>
+        <location filename="../../DlgAbout/Information.cpp" line="277"/>
         <source>Geometry</source>
         <translation>幾何尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="277"/>
+        <location filename="../../DlgAbout/Information.cpp" line="278"/>
         <source>Available Size</source>
         <translation>有效尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="278"/>
+        <location filename="../../DlgAbout/Information.cpp" line="279"/>
         <source>Available Geometry</source>
         <translation>有效幾何尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="281"/>
+        <location filename="../../DlgAbout/Information.cpp" line="282"/>
         <source>Siblings</source>
         <translation>兄弟屏幕</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="283"/>
+        <location filename="../../DlgAbout/Information.cpp" line="284"/>
         <source>Virtual Size</source>
         <translation>虛擬尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="284"/>
+        <location filename="../../DlgAbout/Information.cpp" line="285"/>
         <source>Virtual Geometry</source>
         <translation>虛擬幾何尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="285"/>
+        <location filename="../../DlgAbout/Information.cpp" line="286"/>
         <source>Available Virtual Size</source>
         <translation>有效虛擬尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="286"/>
+        <location filename="../../DlgAbout/Information.cpp" line="287"/>
         <source>Available Virtual Geometry</source>
         <translation>有效虛擬幾何尺寸</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="292"/>
+        <location filename="../../DlgAbout/Information.cpp" line="293"/>
         <source>Environment</source>
         <translation>環境變量</translation>
     </message>
@@ -1419,23 +1424,23 @@ You can read files up to %1 MB.</source>
         <translation>玉兔公共庫</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="176"/>
+        <location filename="../../DlgAbout/Information.cpp" line="177"/>
         <source>Architecture: </source>
         <translation>架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="178"/>
+        <location filename="../../DlgAbout/Information.cpp" line="179"/>
         <source>Build architecture: </source>
         <translation>編譯架構：</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="142"/>
+        <location filename="../../DlgAbout/Information.cpp" line="143"/>
         <source>OS</source>
         <translation>操作系統</translation>
     </message>
     <message>
-        <location filename="../../DlgAbout/Information.cpp" line="239"/>
-        <location filename="../../DlgAbout/Information.cpp" line="299"/>
+        <location filename="../../DlgAbout/Information.cpp" line="240"/>
+        <location filename="../../DlgAbout/Information.cpp" line="300"/>
         <source>Host</source>
         <translation>主機</translation>
     </message>
@@ -1489,29 +1494,24 @@ You can read files up to %1 MB.</source>
         <translation>打開日誌文件</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="243"/>
         <source>Application Error</source>
-        <translation>應用錯誤</translation>
+        <translation type="vanished">應用錯誤</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="245"/>
         <source>I&apos;m Sorry, Application is Crash!</source>
-        <translation>應用崩潰！</translation>
+        <translation type="vanished">應用崩潰！</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="246"/>
         <source>Current path: </source>
-        <translation>錄前目錄：</translation>
+        <translation type="vanished">錄前目錄：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="248"/>
         <source>Dump file: </source>
-        <translation>崩潰文件：</translation>
+        <translation type="vanished">崩潰文件：</translation>
     </message>
     <message>
-        <location filename="../../CoreDump/QMiniDumper.cpp" line="250"/>
         <source>Log file: </source>
-        <translation>日誌文件：</translation>
+        <translation type="vanished">日誌文件：</translation>
     </message>
     <message>
         <location filename="../../Log/Log.cpp" line="587"/>
@@ -1554,18 +1554,22 @@ You can read files up to %1 MB.</source>
         <translation>打開內核崩潰文件夾</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
         <source>Critical</source>
-        <translation type="vanished">錯誤</translation>
+        <translation>錯誤</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
         <source>AdminAuthorization</source>
         <comment>Enter Password</comment>
-        <translation type="vanished">輸入密碼</translation>
+        <translation>輸入密碼</translation>
     </message>
     <message>
+        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
         <source>AdminAuthorization</source>
         <comment>Enter your root password to run the program:</comment>
-        <translation type="vanished">輸入 root 密碼運行程序：</translation>
+        <translation>輸入 root 密碼運行程序：</translation>
     </message>
 </context>
 <context>
