@@ -775,7 +775,7 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
 }
 
 /*!
- * json 格式：
+ * json format:
  * 
  * |   os  |         architecture       |platform    |
  * |:-----:|:--------------------------:|:----------:|
@@ -785,6 +785,7 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
  * |macos  |        x86,x86_64          |            |
  
  * \see: [static, since 5.4] QString QSysInfo::currentCpuArchitecture()
+ *      QSysInfo::productType() QSysInfo::productVersion()
  *
  * \code
  * {
@@ -1070,27 +1071,54 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
             if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
                 szCmd = "dnf";
 
-            bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
-            if(!bRet) {
-                nRet = ErrCode::Failure;
-                qCritical(log) << "Execute:" << szCmd << lstPara
-                               << "fail. nRet:" << nRet;
+            bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara);
+            if(bRet)
+                qInfo(log) << "Success:" << szCmd << lstPara;
+            else {
+                qCritical(log) << "Failed:" << szCmd << lstPara;
                 // Open file with explore
                 RabbitCommon::CTools::LocateFileWithExplorer(szFile);
                 // Open with the default program
                 QUrl url(szFile);
                 if(!QDesktopServices::openUrl(url))
                 {
-                    QString szErr = tr("Failed:")
-                    + tr("Execute install program error.%1")
-                         .arg(szFile);
+                    QString szErr = tr("Failed:") + " "
+                                    + tr("Execute install program error.")
+                                    + szFile;
                     ui->lbState->setText(szErr);
                     qCritical(log) << szErr;
                     break;
                 }
             }
-            qInfo(log) << "Success: Install" << szCmd << lstPara;
 
+        } else if(!fi.suffix().compare("zip", Qt::CaseInsensitive)) {
+            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
+            QFile f(szInstall);
+            if(!f.open(QFile::WriteOnly))
+            {
+                QString szErr = tr("Failed:")
+                + tr("Open file %1 fail").arg(fi.absolutePath());
+                ui->lbState->setText(szErr);
+                nRet = ErrCode::Failure;
+                break;
+            }
+            QString szCmd = InstallZipScript(szFile);
+            f.write(szCmd.toStdString().c_str());
+            qDebug(log) << szCmd << szInstall;
+            f.close();
+
+            //启动安装程序
+            if(!QProcess::startDetached("/bin/bash",
+                                         QStringList() << szInstall,
+                                         fi.absolutePath())
+                )
+            {
+                QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
+                                + szInstall + "fail";
+                ui->lbState->setText(szErr);
+                nRet = ErrCode::Failure;
+                break;
+            }
         } else if(!fi.suffix().compare("gz", Qt::CaseInsensitive)) {
 
             QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
@@ -1111,7 +1139,8 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
             //启动安装程序
             if(!RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(
                     "/bin/bash",
-                    QStringList() << szInstall))
+                    QStringList() << szInstall)
+                )
             {
                 QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
                                 + szInstall + "fail";
@@ -1157,8 +1186,7 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
             QString szCmd;
             szCmd = szFile;
             //启动安装程序
-            qInfo(log) << "Start"
-                       << szCmd
+            qInfo(log) << "Start" << szCmd
                        << "in a new process, and detaches from it.";
             if(!proc.startDetached(szCmd))
             {
@@ -1171,9 +1199,9 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
                 QUrl url(szFile);
                 if(!QDesktopServices::openUrl(url))
                 {
-                    QString szErr = tr("Failed:")
-                    + tr("Execute install program error.%1")
-                         .arg(szFile);
+                    QString szErr = tr("Failed:") + " "
+                                    + tr("Execute install program error.")
+                                    + szFile;
                     ui->lbState->setText(szErr);
                     nRet = ErrCode::Failure;
                     break;
@@ -1189,8 +1217,8 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
     return nRet;
 }
 
-QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
-                                   const QString szApplicationName)
+QString CFrmUpdater::InstallScript(const QString &szDownLoadFile,
+                                   const QString &szApplicationName)
 {
     QFileInfo fi(szDownLoadFile);
     QString szCmd;
@@ -1224,6 +1252,21 @@ QString CFrmUpdater::InstallScript(const QString szDownLoadFile,
         szCmd += "_run";
     }
     szCmd += " " + szApplicationName + "\n";
+    return szCmd;
+}
+
+QString CFrmUpdater::InstallZipScript(const QString &szDownloadFile)
+{
+    QFileInfo fi(szDownloadFile);
+    QString szCmd;
+    szCmd = "#!/bin/bash\n";
+    szCmd += "set -e\n";
+    szCmd += "cd " + fi.absolutePath() + "\n";
+    szCmd += "unzip " + szDownloadFile + "\n";
+    szCmd += "cd " + fi.baseName() + "\n";
+
+    //See: Install/install.sh
+    szCmd += "./install1.sh ";
     return szCmd;
 }
 
@@ -1689,7 +1732,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     /* 注意：这里要放在包文件后。
      * 优先级：
      *   1. -n 参数设置
-     *   2. 从包文件中提取
+     *   2. 从包文件中提取，在上面包 md5sum 时设置
      *   3. 默认值
      */
     if(file.szFileName.isEmpty())

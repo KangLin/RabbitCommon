@@ -557,13 +557,9 @@ You can read files up to %1 MB.</source>
         <translation>亮色</translation>
     </message>
     <message>
-        <source>Unkown</source>
-        <translation type="vanished">未知</translation>
-    </message>
-    <message>
         <location filename="../../Style/FrmStyle.cpp" line="142"/>
         <source>Unknown</source>
-        <translation type="unfinished">未知</translation>
+        <translation>未知</translation>
     </message>
     <message>
         <location filename="../../Style/FrmStyle.cpp" line="145"/>
@@ -643,7 +639,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="243"/>
         <source>Every week</source>
-        <translation>每周</translation>
+        <translation>每週</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="256"/>
@@ -718,7 +714,7 @@ You can read files up to %1 MB.</source>
         <translation>打開文件失敗</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="905"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
         <source>Hide</source>
         <translation>隱藏</translation>
     </message>
@@ -730,17 +726,19 @@ You can read files up to %1 MB.</source>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="593"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="613"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="661"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1084"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1100"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="932"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="942"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="951"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="981"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1044"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1058"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1085"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1099"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1148"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1174"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1128"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1144"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1176"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1201"/>
         <source>Failed:</source>
         <translation>失敗:</translation>
     </message>
@@ -791,112 +789,114 @@ You can read files up to %1 MB.</source>
         <translation>在配置文件中，操作系統或架構不存在</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="932"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="942"/>
         <source>Don&apos;t open download file </source>
         <translation>不能打開下載的文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="951"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="952"/>
         <source>Download file md5sum: </source>
         <translation>下載文件的 MD5 校驗和:</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1037"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1051"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1038"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1052"/>
         <source>Please exec: </source>
         <translation>請執行：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1044"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1058"/>
         <source>Open file with explore: </source>
         <translation>用文件瀏覽器打開文件：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1085"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1175"/>
-        <source>Execute install program error.%1</source>
-        <translation>執行安裝錯誤：%1</translation>
-    </message>
-    <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1101"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1100"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1129"/>
         <source>Open file %1 fail</source>
         <translation>打開文件 %1 失敗</translation>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1144"/>
         <source>Execute</source>
         <translation>執行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="972"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="973"/>
         <source>The installer has started, Please close the application</source>
         <translation>開始安裝，請先關閉本程序</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="995"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="981"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="996"/>
         <source>Open home page fail</source>
         <translation>打開主頁失敗</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1149"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1086"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1202"/>
+        <source>Execute install program error.</source>
+        <translation>執行安裝錯誤：</translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1177"/>
         <source>Execute install program error. %1</source>
         <translation>執行安裝程序錯誤: %1</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1218"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1245"/>
         <source>Run</source>
         <translation>運行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1219"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1246"/>
         <source>Run after install</source>
         <translation>安裝後運行</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1285"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1327"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1286"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1328"/>
         <source>Is updating, be sure to close?</source>
         <translation>正在更新，是否關閉？</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1560"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1602"/>
         <source>Configure file name</source>
         <translation>配置文件名</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1565"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1607"/>
         <source>Configure file output content:</source>
         <translation>配置文件輸出內容：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1566"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1608"/>
         <source>: content is version</source>
         <translation>：內容是版本</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1567"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1609"/>
         <source>: content is file</source>
         <translation>：內容是文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1568"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1610"/>
         <source>: content is version and file</source>
         <translation>：內容是版本和文件</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1629"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1671"/>
         <source>Set force flag</source>
-        <translation>設置強製更新標識</translation>
+        <translation>設置強制更新標識</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1573"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1615"/>
         <source>Package version</source>
         <translation>包版本</translation>
     </message>
@@ -921,22 +921,22 @@ You can read files up to %1 MB.</source>
         <translation>安裝更新</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="907"/>
         <source>Downloading ......</source>
         <translation>下載</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="920"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="921"/>
         <source>Installing update ......</source>
         <translation>安裝更新&#x3000;……</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="951"/>
         <source>Md5sum is different.</source>
         <translation>MD5 校驗和不同。</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="953"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="954"/>
         <source>md5sum in Update configure file: </source>
         <translation>配置文件中的&#x3000;MD5 校驗和：</translation>
     </message>
@@ -945,52 +945,52 @@ You can read files up to %1 MB.</source>
         <translation type="vanished">打開文件夾失敗：</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1578"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1620"/>
         <source>Time</source>
         <translation>時間</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1583"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1625"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1589"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1631"/>
         <source>Operating system</source>
         <translation>操作系統</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1594"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1636"/>
         <source>Architecture</source>
         <translation>架構</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1599"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1641"/>
         <source>MD5 checksum</source>
         <translation>MD5 校驗和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1603"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1645"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation>包文件，用於計算 md5 校驗和</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1608"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1650"/>
         <source>File name</source>
         <translation>文件名</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1613"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1655"/>
         <source>Package download urls</source>
         <translation>包下載 URLS</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1619"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1661"/>
         <source>Project home url</source>
         <translation>項目主頁</translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1624"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1666"/>
         <source>Min update version</source>
         <translation>最小更新版本</translation>
     </message>
@@ -1611,7 +1611,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../CoreDump/StackTrace.cpp" line="75"/>
         <source>Copy to clipboard</source>
-        <translation>復製剪切板</translation>
+        <translation>複製剪切板</translation>
     </message>
 </context>
 <context>
@@ -2056,12 +2056,12 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="1211"/>
         <source>Copy log file path to clipboard</source>
-        <translation>復製日誌文件路徑到剪切板</translation>
+        <translation>複製日誌文件路徑到剪切板</translation>
     </message>
     <message>
         <location filename="../../RabbitCommonTools.cpp" line="1215"/>
         <source>Copy log folder to clipboard</source>
-        <translation>復製日誌文件夾到剪切板</translation>
+        <translation>複製日誌文件夾到剪切板</translation>
     </message>
 </context>
 </TS>

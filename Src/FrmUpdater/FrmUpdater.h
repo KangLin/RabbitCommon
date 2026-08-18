@@ -175,8 +175,9 @@ private:
     RedirectCode CheckRedirectConfigFile();
     int CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
-    QString InstallScript(const QString szDownLoadFile,
-                          const QString szApplicationName);
+    QString InstallScript(const QString& szDownLoadFile,
+                          const QString& szApplicationName);
+    QString InstallZipScript(const QString& szDownloadFile);
     ErrCode Execute(const QString szFile);
 
 private:

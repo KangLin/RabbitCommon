@@ -42,6 +42,15 @@
             "urls": [
                 "file:data/update.json"
             ]
+        },
+        {
+            "os": "appimage",
+            "arch": "x86_64",
+            "md5": "8bccd9edee0d23da4a5b0e344c006e8d",
+            "name": "appimage",
+            "urls": [
+                "file:data/update.json"
+            ]
         }
     ]
 }
