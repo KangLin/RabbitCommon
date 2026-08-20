@@ -760,12 +760,12 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
             objRedirect.files.append(file);
             //*
             qDebug(log) << "OS:" << file.szSystem
-                               << "os_min_version:" << file.szSystemMinVersion
-                               << "arch:" << file.szArchitecture
-                               << "arch_min_version:" << file.szArchitectureMinVersion
-                               << "md5:" << file.szMd5sum
-                               << "name:" << file.szFileName
-                               << "urls:" << file.urls;//*/
+                        << "os_min_version:" << file.szSystemMinVersion
+                        << "arch:" << file.szArchitecture
+                        << "arch_min_version:" << file.szArchitectureMinVersion
+                        << "md5:" << file.szMd5sum
+                        << "name:" << file.szFileName
+                        << "urls:" << file.urls;//*/
         }
 
         conf.append(objRedirect);
@@ -855,13 +855,13 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         conf.version.bForce = objVersion["force"].toBool();
         //*
         qDebug(log) << "Current version:" << m_szCurrentVersion
-                           << "version:" << conf.version.szVerion
-                           << "minUpdateVersion:" << conf.version.szMinUpdateVersion
-                           << "time:" << conf.version.szTime
-                           << "information:" << conf.version.szInfomation
-                           << "home:" << conf.version.szHome
-                           << "bForce:" << conf.version.bForce
-                           ;//*/
+                    << "version:" << conf.version.szVerion
+                    << "minUpdateVersion:" << conf.version.szMinUpdateVersion
+                    << "time:" << conf.version.szTime
+                    << "information:" << conf.version.szInfomation
+                    << "home:" << conf.version.szHome
+                    << "bForce:" << conf.version.bForce
+            ;//*/
     }
     
     if(!obj.contains("files")) {
@@ -889,12 +889,12 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         conf.files.append(file);
         //*
         qDebug(log) << "OS:" << file.szSystem
-                           << "os_min_version:" << file.szSystemMinVersion
-                           << "arch:" << file.szArchitecture
-                           << "arch_min_version:" << file.szArchitectureMinVersion
-                           << "md5:" << file.szMd5sum
-                           << "name:" << file.szFileName
-                           << "urls:" << file.urls;//*/
+                    << "os_min_version:" << file.szSystemMinVersion
+                    << "arch:" << file.szArchitecture
+                    << "arch_min_version:" << file.szArchitectureMinVersion
+                    << "md5:" << file.szMd5sum
+                    << "name:" << file.szFileName
+                    << "urls:" << file.urls;//*/
     }
 
     return ErrCode::Success;
@@ -1561,6 +1561,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/CONFIG_TYPE &type)
 {
     QString szSystem = QSysInfo::productType();
+    QString szSystemVersion = QSysInfo::productVersion();
 #if defined(Q_OS_LINUX)
     QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
     if(!szAppImage.isEmpty())
@@ -1633,6 +1634,11 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                              "Operating system",
                              szSystem);
     parser.addOption(oSystem);
+    QCommandLineOption oSystemVersion(QStringList() << "sv" << "system-version",
+                               tr("Operating system version"),
+                               "Operating system version",
+                               szSystemVersion);
+    parser.addOption(oSystemVersion);
     QCommandLineOption oArch(QStringList() << "a" << "arch",
                              tr("Architecture"),
                              "Architecture",
@@ -1699,6 +1705,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
 
     CONFIG_FILE file;
     file.szSystem = parser.value(oSystem);
+    file.szSystemMinVersion = parser.value(oSystemVersion);
     file.szArchitecture = parser.value(oArch);
     file.szMd5sum = parser.value(oMd5);
     file.szFileName = parser.value(oFileName);
