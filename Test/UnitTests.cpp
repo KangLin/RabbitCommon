@@ -72,18 +72,28 @@ void CUnitTests::testCToolsCompareVersion()
     QVERIFY(RabbitCommon::CTools::VersionValid("v3.4.50-alpha"));
     QVERIFY(RabbitCommon::CTools::VersionValid("v3.4.50-alpha+build"));
     QVERIFY(RabbitCommon::CTools::VersionValid("13.24.150-alpha1"));
+    QVERIFY(RabbitCommon::CTools::VersionValid("v3.4"));
+    QVERIFY(RabbitCommon::CTools::VersionValid("v3"));
+    QVERIFY(RabbitCommon::CTools::VersionValid("50"));
     QVERIFY(!RabbitCommon::CTools::VersionValid("v3.4.a50"));
-    QVERIFY(!RabbitCommon::CTools::VersionValid("v3.4"));
     QVERIFY(!RabbitCommon::CTools::VersionValid("4.a50"));
-    QVERIFY(!RabbitCommon::CTools::VersionValid("v3"));
-    QVERIFY(!RabbitCommon::CTools::VersionValid("50"));
+    QVERIFY(!RabbitCommon::CTools::VersionValid("3b48ef5"));
 
-    QVERIFY(RabbitCommon::CTools::GetVersion("v1.2.3").major == 1);
-    QVERIFY(RabbitCommon::CTools::GetVersion("v41.2.3").major == 41);
+    QVERIFY(!RabbitCommon::CTools::GetVersion("1.2", true).isValid);
+    QVERIFY(RabbitCommon::CTools::GetVersion("1.2").isValid);
+    QVERIFY(!RabbitCommon::CTools::GetVersion("3", true).isValid);
+    QVERIFY(RabbitCommon::CTools::GetVersion("5").isValid);
+    QVERIFY(!RabbitCommon::CTools::GetVersion("3", true).isValid);
+    QVERIFY(RabbitCommon::CTools::GetVersion("V5").isValid);
+
+    auto vi = RabbitCommon::CTools::GetVersion("v1.2.3");
+    QVERIFY(vi.major == 1 && vi.minor == 2 && vi.patch == 3);
+    vi = RabbitCommon::CTools::GetVersion("v41.2.3");
+    QVERIFY(vi.major == 41 && vi.minor == 2 && vi.patch == 3);
     QVERIFY(RabbitCommon::CTools::GetVersion("1.2.3").major == 1);
     QVERIFY(RabbitCommon::CTools::GetVersion("1.2.3").minor == 2);
     QVERIFY(RabbitCommon::CTools::GetVersion("1.2.3").patch == 3);
-    QVERIFY(!RabbitCommon::CTools::GetVersion("1.2").isValid);
+
     QVERIFY(RabbitCommon::CTools::GetVersion("1.2.3").build.isEmpty());
     QVERIFY(RabbitCommon::CTools::GetVersion("15.22.300+build1").build == "build1");
     QVERIFY(RabbitCommon::CTools::GetVersion("15.22.300-alpha").build.isEmpty());
@@ -91,27 +101,32 @@ void CUnitTests::testCToolsCompareVersion()
     QVERIFY(RabbitCommon::CTools::GetVersion("15.22.300_alpha").preRelease.isEmpty());
     QVERIFY(RabbitCommon::CTools::GetVersion("1.2.3").preRelease.isEmpty());
 
-    // 不完整版本号
     QVERIFY(RabbitCommon::CTools::VersionCompare("", "v0.0.21") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("", "") == 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.21", "") > 0);
 
     QVERIFY(RabbitCommon::CTools::VersionCompare("3b48ef5", "v0.0.21") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.21", "3b48ef5") > 0);
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.21", "348564") > 0);
-    QVERIFY(RabbitCommon::CTools::VersionCompare("348564", "v0.0.21") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.21", "348564") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("348564", "v0.0.21") > 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("3b48ef5", "v1.0.21") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0.21", "3b48ef5") > 0);
 
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.1.20", "v1.0") > 0);
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0", "v1.0") == 0);
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0", "v0.0.19") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.1.20", "v1.0") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0", "v1.1") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0", "v0.0.19") > 0);
 
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.20", "v0.1") > 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.20", "v0.1") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v0.1", "v0.1") == 0);
-    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.1", "v0.0.19") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v0.1", "v0.0.19") > 0);
 
     QVERIFY(RabbitCommon::CTools::VersionCompare("va.b.20-f", "vc.0.19-w") == 0);
+
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v1.0", "v1.1") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v1", "v1.1") < 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v2", "v1.1") > 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v2.2", "v2.2") == 0);
+    QVERIFY(RabbitCommon::CTools::VersionCompare("v2.2", "v2.2.1") < 0);
 
     // 完整版本号
     QVERIFY(RabbitCommon::CTools::VersionCompare("v0.0.20", "v0.0.21") < 0);

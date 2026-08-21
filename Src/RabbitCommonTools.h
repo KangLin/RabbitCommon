@@ -189,24 +189,73 @@ public:
     static QString Information();
 
     struct VersionInfo {
-        bool isValid;
-        int major;
-        int minor;
-        int patch;
+        bool isValid = false;
+        int major = 0;
+        int minor = 0;
+        int patch = 0;
         QString preRelease;
         QString build;
+        // 新增辅助方法
+        QString toString() const {
+            QString result = QString("%1.%2.%3").arg(major).arg(minor).arg(patch);
+            if (!preRelease.isEmpty())
+                result += "-" + preRelease;
+            if (!build.isEmpty())
+                result += "+" + build;
+            return result;
+        }
+
+        // 版本比较
+        bool isGreaterThan(const VersionInfo& other) const {
+            if (major != other.major) return major > other.major;
+            if (minor != other.minor) return minor > other.minor;
+            if (patch != other.patch) return patch > other.patch;
+            return false;  // 简化实现
+        }
     };
     /*!
-     * \return key:
-     *           - Major
-     *           - Minor
-     *           - Patch
-     *           - PreRelease
-     *           - Build
+     * \~chinese
+     * \brief 获取版本信息
+     * \param szVersion 版本字符串，例如 "v1.2.3", "24.04", "1", "v1.2.3-alpha+build"
+     * \param bSemantic 是否严格遵循 Semantic Versioning (需要 major.minor.patch)
+     * \return VersionInfo 结构体，包含解析后的版本信息
+     *
+     * 简化模式（bSemantic=false）支持：
+     *   - "24.04"     → major=24, minor=4
+     *   - "1"         → major=1
+     *   - "1.0"       → major=1, minor=0
+     *   - "1.2.3"     → major=1, minor=2, patch=3
+     *   - "v24.04"    → major=24, minor=4
+     *
+     * 严格模式（bSemantic=true）只支持完整的 major.minor.patch：
+     *   - "1.2.3"     → major=1, minor=2, patch=3
+     *   - "v1.2.3"    → major=1, minor=2, patch=3
+     *   - "1"         → ❌ 无效
+     *
+     * \~english
+     * \brief Get version information
+     * \param szVersion: version string. eg: "v1.2.3", "24.04", "1", "v1.2.3-alpha+build"
+     * \param bSemantic: Whether to strictly follow Semantic Versioning (need major.minor.patch)
+     * \return VersionInfo: A struct that contains the parsed version information
+     *
+     * Simplified Mode（bSemantic=false）support：
+     *   - "24.04"     → major=24, minor=4
+     *   - "1"         → major=1
+     *   - "1.0"       → major=1, minor=0
+     *   - "1.2.3"     → major=1, minor=2, patch=3
+     *   - "v24.04"    → major=24, minor=4
+     *
+     * Strictly Mode（bSemantic=true）Only supports the full version major.minor.patch：
+     *   - "1.2.3"     → major=1, minor=2, patch=3
+     *   - "v1.2.3"    → major=1, minor=2, patch=3
+     *   - "1"         → ❌ Invalid
+     *
      * \~
+     * \see [Semantic Versioning](https://semver.org)
+     * \see [Calendar Versioning](https://calver.org/)
      * \since 2.4.0
      */
-    static VersionInfo GetVersion(const QString& szVersion);
+    static VersionInfo GetVersion(const QString& szVersion, bool bSemantic = false);
     //! \since 2.4.0
     static bool VersionValid(const QString& szVersion);
     /*!

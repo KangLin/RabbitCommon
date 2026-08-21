@@ -183,32 +183,110 @@ QString CTools::GetLanguage()
     return g_szLanguage;
 }
 
-CTools::VersionInfo CTools::GetVersion(const QString &szVersion)
+/*
+ * \~chinese
+ * \brief 获取版本信息
+ * \param szVersion 版本字符串，例如 "v1.2.3", "24.04", "1", "v1.2.3-alpha+build"
+ * \param bSemantic 是否严格遵循 Semantic Versioning (需要 major.minor.patch)
+ * \return VersionInfo 结构体，包含解析后的版本信息
+ *
+ * 简化模式（bSemantic=false）支持：
+ *   - "24.04"     → major=24, minor=4
+ *   - "1"         → major=1
+ *   - "1.0"       → major=1, minor=0
+ *   - "1.2.3"     → major=1, minor=2, patch=3
+ *   - "v24.04"    → major=24, minor=4
+ *
+ * 严格模式（bSemantic=true）只支持完整的 major.minor.patch：
+ *   - "1.2.3"     → major=1, minor=2, patch=3
+ *   - "v1.2.3"    → major=1, minor=2, patch=3
+ *   - "1"         → ❌ 无效
+ *
+ * \see [Semantic Versioning](https://semver.org)
+ * \see [Calendar Versioning](https://calver.org/)
+ */
+CTools::VersionInfo CTools::GetVersion(const QString &szVersion, bool bSemantic)
 {
     VersionInfo ver;
     ver.isValid = false;
 
-    //static QString pattern = R"(^[V|v]?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$)";
-    static QString pattern = R"(^[V|v]?(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$)";
-    static QRegularExpression re(pattern);
+    //static QString pattern = R"(^[Vv]?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$)";
+
+    // 严格的 Semantic Versioning 模式
+    // 必须有完整的 major.minor.patch
+    // 参考: https://semver.org/
+    static QString patternSemantic =
+        R"(^[Vv]?(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*))"
+        R"((?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))"
+        R"((?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
+        R"()?(?:\+(?<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$)";
+
+    // 简化版本号模式
+    // 支持 major; major.minor; major.minor.patch 等格式
+    // 特别适合 Ubuntu 版本号 (24.04), 简单版本号 (1 或 2.2)
+    // 参考：[Calendar Versioning](https://calver.org/)
+    static QString patternSimplified =
+        R"(^[Vv]?(?<major>0|[1-9]\d*)?(?:\.(?<minor>0|[1-9]\d*))?(?:\.(?<patch>0|[1-9]\d*))?)"
+        R"((?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))"
+        R"((?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
+        R"()?(?:\+(?<build>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$)";
+
+    QString pattern = bSemantic ? patternSemantic : patternSimplified;
+    QRegularExpression re(pattern);
     if (!re.isValid()) {
-        qCritical(log) << "Invalid regex:" << re.errorString();
+        qCritical(log) << "Invalid regex pattern:" << re.errorString();
         return ver;
     }
 
     QRegularExpressionMatch match = re.match(szVersion);
     if (!match.hasMatch()) {
-        qCritical(log) << "Version format error:" << szVersion << "See [Semantic Versioning](https://semver.org)";
+        qCritical(log) << "Version string does not match pattern:" << szVersion
+                    << "Pattern error:" << re.errorString()
+                    << (bSemantic ? "See [Semantic Versioning](https://semver.org)" : "[Calendar Versioning](https://calver.org/)");
+        return ver;
+    }
+
+    // 解析 major
+    QString majorStr = match.captured("major");
+    if (majorStr.isEmpty()) {
+        qCritical(log) << "Major version is required:" << szVersion;
         return ver;
     }
 
     bool ok = false;
-    ver.major = match.captured("major").toInt(&ok);
-    if(!ok) return ver;
-    ver.minor = match.captured("minor").toInt(&ok);
-    if(!ok) return ver;
-    ver.patch = match.captured("patch").toInt(&ok);
-    if(!ok) return ver;
+    ver.major = majorStr.toInt(&ok);
+    if (!ok) {
+        qCritical(log) << "Failed to parse major version:" << majorStr;
+        return ver;
+    }
+
+    // 解析 minor (可选，简化模式)
+    QString minorStr = match.captured("minor");
+    if (!minorStr.isEmpty()) {
+        ver.minor = minorStr.toInt(&ok);
+        if (!ok) {
+            qCritical(log) << "Failed to parse minor version:" << minorStr;
+            return ver;
+        }
+    }
+
+    // 解析 patch (可选，简化模式)
+    QString patchStr = match.captured("patch");
+    if (!patchStr.isEmpty()) {
+        ver.patch = patchStr.toInt(&ok);
+        if (!ok) {
+            qCritical(log) << "Failed to parse patch version:" << patchStr;
+            return ver;
+        }
+    }
+
+    // 在严格模式中，如果没有 minor 或 patch 则返回无效
+    if (bSemantic && (minorStr.isEmpty() || patchStr.isEmpty())) {
+        qCritical(log) << "Semantic Versioning requires major.minor.patch format:" << szVersion;
+        return ver;
+    }
+
+    // 解析预发布和构建元数据
     ver.preRelease = match.captured("prerelease");
     ver.build = match.captured("build");
     ver.isValid = true;
