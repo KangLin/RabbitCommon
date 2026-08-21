@@ -221,8 +221,8 @@ private:
         QString szArchitecture;
         QString szArchitectureMinVersion;
         QString szFileName;
-        QVector<QUrl> urls;
         QString szMd5sum;
+        QVector<QUrl> urls;
     };
     
     struct CONFIG_REDIRECT {

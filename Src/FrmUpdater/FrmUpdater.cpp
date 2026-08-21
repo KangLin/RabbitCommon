@@ -625,7 +625,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
         szSystem = "AppImage";
 #endif
     QString szArchitecture = QSysInfo::currentCpuArchitecture();
-    CONFIG_FILE file;
+    QVector<CONFIG_FILE> file;
     foreach (auto f, info.files) {
         if(f.szSystem.compare(szSystem, Qt::CaseInsensitive))
             continue;
@@ -634,12 +634,11 @@ int CFrmUpdater::CheckUpdateConfigFile()
             continue;
         }
 
-        file = f;
-        break;
+        file.append(f);
     }
 
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
-    if(file.szSystem.compare(szSystem, Qt::CaseInsensitive)) {
+    if(file.isEmpty()) {
         foreach (auto f, info.files) {
             if(f.szSystem.compare(szSystem, Qt::CaseInsensitive))
                 continue;
@@ -650,15 +649,15 @@ int CFrmUpdater::CheckUpdateConfigFile()
                     continue;
             }
 
-            file = f;
+            file.append(f);
             break;
         }
     }
 #endif
 
-    if(file.szSystem.compare(szSystem, Qt::CaseInsensitive)) {
+    if(file.isEmpty()) {
         QString szErr;
-        szErr = tr("Failed:")
+        szErr = tr("Failed:") + " "
               + tr("The system or architecture is not exist in the configure file ")
               + m_DownloadFile.fileName();
         ui->lbState->setText(szErr);
@@ -667,12 +666,30 @@ int CFrmUpdater::CheckUpdateConfigFile()
         return -6;
     }
 
+#if defined(Q_OS_LINUX)
+    std::sort(file.begin(), file.end(),
+              [](const CONFIG_FILE& a1, const CONFIG_FILE& a2) ->bool {
+        QString v1 = a1.szSystemMinVersion;
+        QString v2 = a2.szSystemMinVersion;
+        return RabbitCommon::CTools::VersionCompare(v1, v2) >= 0;
+    });
+    foreach(auto f, file) {
+        if(RabbitCommon::CTools::VersionCompare(
+                f.szSystemMinVersion, QSysInfo::productVersion()) > 0)
+            continue;
+
+        m_ConfigFile = f;
+        break;
+    }
+#endif
+    if(m_ConfigFile.urls.isEmpty())
+        m_ConfigFile = file.at(file.size() - 1);
+
     m_Info.version = info.version;
-    m_ConfigFile = file;
 
     ui->lbNewVersion->setText(tr("New version: %1").arg(info.version.szVerion));
     ui->lbNewVersion->show();
-    ui->lbNewArch->setText(tr("New architecture: %1").arg(file.szArchitecture));
+    ui->lbNewArch->setText(tr("New architecture: %1").arg(m_ConfigFile.szArchitecture));
     ui->lbNewArch->show();
     ui->lbState->setText(tr("There is a new version, is it updated?"));
     if(info.version.bForce)
