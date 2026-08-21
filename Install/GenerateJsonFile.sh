@@ -1,11 +1,6 @@
 #!/bin/bash
 
 # Use to generate update json file in linux
-# $1: the name of json file
-# $2: the file of package
-# $3: OS
-# $4: ARCH
-# $5: urls
 
 function usage_long()
 {
@@ -107,7 +102,8 @@ if [ -z "$FILE_PACKAGE" -o -z "$JSON_FILE" -o -z "$urls" ]; then
     usage_long
 fi
 
-md5=`md5sum $FILE_PACKAGE|awk '{print $1}'`
+chmod a+xr $FILE_PACKAGE
+md5=`md5sum $FILE_PACKAGE | awk '{print $1}'`
 name=`basename $FILE_PACKAGE`
 
 array=(${urls//,/ })
