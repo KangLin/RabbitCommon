@@ -4,6 +4,7 @@
 
 #include "FrmUpdater.h"
 
+static Q_LOGGING_CATEGORY(log, "RabbitCommon.Test.GenerateDefaultJsonFile")
 CTestGenerateDefaultJsonFile::CTestGenerateDefaultJsonFile(QObject *parent)
     : QObject{parent}
 {}
@@ -16,7 +17,7 @@ void CTestGenerateDefaultJsonFile::test_generate_update_json_file()
 
 void CTestGenerateDefaultJsonFile::test_default_update_json_file()
 {
-    qDebug() << "CUnitTests::test_default_update_json_file()";
+    qDebug(log) << "CUnitTests::test_default_update_json_file()";
     CFrmUpdater updater;
     QFile file("update.json");
     QVERIFY(file.exists());

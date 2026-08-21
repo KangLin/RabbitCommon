@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Use to merge update json file in linux
-# $1: the name of json file
-# $2: the directory of json files
-# $3: the json file of version
+# $1: the name of the json file
+# $2: the directory of the json files
+# $3: the json file of the version
 
 function usage()
 {

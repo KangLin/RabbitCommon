@@ -30,6 +30,7 @@ void CTestGenerateJsonFile::test_json_file()
 
     CFrmUpdater::CONFIG_FILE conf_file = info.files[0];
     QVERIFY(conf_file.szSystem == "ubuntu");
+    QVERIFY(conf_file.szSystemMinVersion == "26.04");
     QVERIFY(conf_file.szArchitecture == "x86_64");
     QVERIFY(conf_file.szMd5sum == "aab854ec7cc6831d591237e609a8bf36");
     QVERIFY(conf_file.urls[0] == QUrl("https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb"));

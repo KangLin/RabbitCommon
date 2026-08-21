@@ -16,10 +16,10 @@ private Q_SLOTS:
     void init();
     void cleanup();
 
+    void testCToolsCompareVersion();
+
     void testDownloadFileNoExistLocalFile();
     void testDownloadFileExistLocalFile();
-
-    void testCToolsCompareVersion();
 
     void test_os();
     void test_architecture();

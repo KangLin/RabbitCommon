@@ -13,56 +13,28 @@ CUnitTests::CUnitTests(QObject *parent)
 {}
 
 void CUnitTests::initTestCase()
-{}
-
-void CUnitTests::initTestCase_data()
-{}
-
-void CUnitTests::cleanupTestCase()
-{}
-
-void CUnitTests::init()
-{}
-
-void CUnitTests::cleanup()
-{}
-
-void CUnitTests::testDownloadFileNoExistLocalFile()
 {
-    QString szNoExitFile = "data/nofile";
-    QString szExitFile = "data/redirect.json";
-    QVector<QUrl> urls;
-    urls << QUrl::fromLocalFile(szNoExitFile) << QUrl::fromLocalFile(szExitFile);
-    RabbitCommon::CDownload dwonload;
-    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
-          [&](int nRet, const QString msg){
-        QVERIFY(tr("The file doesn't exists: ") + szNoExitFile == msg && -6 == nRet);
-    });
-    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
-                     [&](const QString szPath){
-                         QVERIFY(szExitFile == szPath);
-                     });
-    dwonload.Start(urls);
-
-    QTest::qWait(100);
+    qDebug(log) << Q_FUNC_INFO;
 }
 
-void CUnitTests::testDownloadFileExistLocalFile()
+void CUnitTests::initTestCase_data()
 {
-    QString szFile = "data/nofile";
-    QVector<QUrl> urls;
-    urls << szFile;
-    RabbitCommon::CDownload dwonload;
-    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
-                     [&](int nRet, const QString msg){
-                         QVERIFY(true);
-                     });
-    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
-                     [&](const QString szFile){
-                         QVERIFY(false);
-                     });
-    dwonload.Start(urls);
-    QTest::qWait(100);
+    qDebug(log) << Q_FUNC_INFO;
+}
+
+void CUnitTests::cleanupTestCase()
+{
+    qDebug(log) << Q_FUNC_INFO;
+}
+
+void CUnitTests::init()
+{
+    qDebug(log) << Q_FUNC_INFO;
+}
+
+void CUnitTests::cleanup()
+{
+    qDebug(log) << Q_FUNC_INFO;
 }
 
 void CUnitTests::testCToolsCompareVersion()
@@ -166,6 +138,44 @@ void CUnitTests::testCToolsCompareVersion()
     QVERIFY(RabbitCommon::CTools::VersionCompare("v1.1.20", "v1.1.20-45-g6b2ab8a3") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v1.1.20-alpha", "v1.1.20-45-g6b2ab8a3") < 0);
     QVERIFY(RabbitCommon::CTools::VersionCompare("v1.1.20-401-g6b2ab8a3", "v1.1.20-45-g6b2ab8a3") > 0);
+}
+
+void CUnitTests::testDownloadFileNoExistLocalFile()
+{
+    QString szNoExitFile = "data/nofile";
+    QString szExitFile = "data/redirect.json";
+    QVector<QUrl> urls;
+    urls << QUrl::fromLocalFile(szNoExitFile) << QUrl::fromLocalFile(szExitFile);
+    RabbitCommon::CDownload dwonload;
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
+          [&](int nRet, const QString msg){
+        QVERIFY(tr("The file doesn't exists: ") + szNoExitFile == msg && -6 == nRet);
+    });
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
+                     [&](const QString szPath){
+                         QVERIFY(szExitFile == szPath);
+                     });
+    dwonload.Start(urls);
+
+    QTest::qWait(100);
+}
+
+void CUnitTests::testDownloadFileExistLocalFile()
+{
+    QString szFile = "data/nofile";
+    QVector<QUrl> urls;
+    urls << szFile;
+    RabbitCommon::CDownload dwonload;
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigError,
+                     [&](int nRet, const QString msg){
+                         QVERIFY(true);
+                     });
+    QObject::connect(&dwonload, &RabbitCommon::CDownload::sigFinished,
+                     [&](const QString szFile){
+                         QVERIFY(false);
+                     });
+    dwonload.Start(urls);
+    QTest::qWait(100);
 }
 
 void CUnitTests::test_os()
