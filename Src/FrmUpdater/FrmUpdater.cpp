@@ -1015,7 +1015,7 @@ void CFrmUpdater::slotUpdate()
     }
 }
 
-CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
+CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
 {
     ErrCode nRet = ErrCode::Success;
     do {
@@ -1027,210 +1027,163 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString szFile)
             }
         }
 
-        //修改文件执行权限  
-        /*QFileInfo info(m_szDownLoadFile);
-        if(!info.permission(QFile::ExeUser))
+        /* 文件执行权限
+        QFileInfo info(szFile);
+        if(!info.isExecutable()) // info.permission(QFile::ExeUser))
         {
-            //修改文件执行权限  
-            QString szErr = tr("Download file don't execute permissions. Please modify permission then manually  execute it.\n%1").arg(m_szDownLoadFile);
-            slotError(-2, szErr);
-            return;
-        }*/
+            QString szErr = tr("The file of download don't execute permissions. Please modify permission then manually execute it.\n%1").arg(szFile);
+            ui->lbState->setText(szErr);
+            RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+            return ErrCode::Failure;
+        } //*/
 
         QProcess proc;
         QFileInfo fi(szFile);
         qDebug(log) << "Setup file:" << szFile << "; suffix:" << fi.suffix();
-        if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive)) {
 
-            QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
-            bool bRet = false;
-            if(!szAppImage.isEmpty()) {
-                QFile f(fi.filePath());
-                QFileInfo cf(szAppImage);
-                QString szExec;
-                szExec = cf.absoluteDir().absolutePath()
-                         + QDir::separator() + fi.fileName();
-                bRet = f.copy(szExec);
-                if(bRet) {
-                    QString szMsg(tr("Please exec: ") + fi.fileName());
-                    ui->lbState->setText(szMsg);
-                    qInfo(log) << szMsg;
-                    if(!RabbitCommon::CTools::LocateFileWithExplorer(szExec))
-                    {
-                        QString szErr;
-                        szErr = tr("Failed:") + tr("Open file with explore: ")
-                                + szExec;
-                        qCritical(log) << szErr;
-                    }
-                    break;
-                }
-            }
-            if(!bRet) {
-                QString szMsg(tr("Please exec: ") + fi.fileName());
-                ui->lbState->setText(szMsg);
-                qInfo(log) << szMsg;
-                if(!RabbitCommon::CTools::LocateFileWithExplorer(fi.absoluteFilePath()))
-                {
-                    QString szErr;
-                    szErr = tr("Failed:") + tr("Open file with explore: ")
-                            + fi.absoluteDir().absolutePath();
-                    qCritical(log) << szErr;
-                }
-            }
-            nRet = ErrCode::Failure;
+        if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive))
+            return ExecuteAppImage(szFile);
 
-        } else if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
-                   || !fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
-            
-            QStringList lstPara;
-            lstPara << "install" << "-y" << szFile;
-            QString szCmd = "apt";
-            if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
-                szCmd = "dnf";
+        if(!fi.suffix().compare("zip", Qt::CaseInsensitive))
+            return ExecuteZip(szFile);
 
-            bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara);
-            if(bRet)
-                qInfo(log) << "Success:" << szCmd << lstPara;
-            else {
-                qCritical(log) << "Failed:" << szCmd << lstPara;
-                // Open file with explore
-                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
-                // Open with the default program
-                QUrl url(szFile);
-                if(!QDesktopServices::openUrl(url))
-                {
-                    QString szErr = tr("Failed:") + " "
-                                    + tr("Execute install program error.")
-                                    + szFile;
-                    ui->lbState->setText(szErr);
-                    qCritical(log) << szErr;
-                    break;
-                }
-            }
-
-        } else if(!fi.suffix().compare("zip", Qt::CaseInsensitive)) {
-            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
-            QFile f(szInstall);
-            if(!f.open(QFile::WriteOnly))
-            {
-                QString szErr = tr("Failed:")
-                + tr("Open file %1 fail").arg(fi.absolutePath());
-                ui->lbState->setText(szErr);
-                nRet = ErrCode::Failure;
-                break;
-            }
-            QString szCmd = InstallZipScript(szFile);
-            f.write(szCmd.toStdString().c_str());
-            qDebug(log) << szCmd << szInstall;
-            f.close();
-
-            //启动安装程序
-            if(!QProcess::startDetached("/bin/bash",
-                                         QStringList() << szInstall,
-                                         fi.absolutePath())
-                )
-            {
-                QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
-                                + szInstall + "fail";
-                ui->lbState->setText(szErr);
-                nRet = ErrCode::Failure;
-                break;
-            }
-        } else if(!fi.suffix().compare("gz", Qt::CaseInsensitive)) {
-
-            QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
-            QFile f(szInstall);
-            if(!f.open(QFile::WriteOnly))
-            {
-                QString szErr = tr("Failed:")
-                + tr("Open file %1 fail").arg(fi.absolutePath());
-                ui->lbState->setText(szErr);
-                nRet = ErrCode::Failure;
-                break;
-            }
-            QString szCmd = InstallScript(szFile, qApp->applicationName());
-            f.write(szCmd.toStdString().c_str());
-            qDebug(log) << szCmd << szInstall;
-            f.close();
-            
-            //启动安装程序
-            if(!RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(
-                    "/bin/bash",
-                    QStringList() << szInstall)
-                )
-            {
-                QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
-                                + szInstall + "fail";
-                ui->lbState->setText(szErr);
-                nRet = ErrCode::Failure;
-                break;
-            }
-            
-            //启动程序
-            //            int nRet = QMessageBox::information(this, tr("Run"),
-            //                                        tr("Run after install"),
-            //                              QMessageBox::Yes|QMessageBox::No,
-            //                                             QMessageBox::Yes);
-            //            if(QMessageBox::No == nRet)
-            //                break;
-            //            QString szProgram = "/opt/"
-            //                    + qApp->applicationName()
-            //                    + "/install1.sh start "
-            //                    + qApp->applicationName();
-            //            QProcess exe;
-            //            if(!exe.startDetached(szProgram))
-            //            {
-            //                QString szErr = tr("Failed:") + tr("Execute program error.%1")
-            //                        .arg(szProgram);
-            //                ui->lbState->setText(szErr);
-            //                nRet = -1;
-            //                break;
-            //            }
-        } else if(!fi.suffix().compare("dmg", Qt::CaseInsensitive)) {
-            QUrl url(szFile);
-            if(!QDesktopServices::openUrl(url))
-            {
-                nRet = ErrCode::Failure;
-                QString szErr = tr("Failed:") +
-                                tr("Execute install program error. %1").arg(szFile);
-                ui->lbState->setText(szErr);
-                qCritical(log) << szErr;
-                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
-                break;
-            }
-        } else {
-
-            QString szCmd;
-            szCmd = szFile;
-            //启动安装程序
-            qInfo(log) << "Start" << szCmd
-                       << "in a new process, and detaches from it.";
-            if(!proc.startDetached(szCmd))
-            {
-                qInfo(log) << "Start new process fail."
-                           << "Use system installer to install"
-                           << szFile;
-#if !defined(Q_OS_WIN)
-                RabbitCommon::CTools::LocateFileWithExplorer(szFile);
-#endif
-                QUrl url(szFile);
-                if(!QDesktopServices::openUrl(url))
-                {
-                    QString szErr = tr("Failed:") + " "
-                                    + tr("Execute install program error.")
-                                    + szFile;
-                    ui->lbState->setText(szErr);
-                    nRet = ErrCode::Failure;
-                    break;
-                }
-            }
-
+        // Open with the default program
+        QUrl url(szFile, QUrl::TolerantMode); //路径中可以带空格
+        if(QDesktopServices::openUrl(url)) {
+            qInfo(log) << "OpenUrl" << url;
+            break;
         }
 
+        if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
+            || !fi.suffix().compare("rpm", Qt::CaseInsensitive))
+            return ExecuteLinuxPackage(szFile);
+
+        //启动安装程序
+        if(proc.startDetached(szFile)) {
+            qInfo(log) << "Start" << szFile
+                       << "in a new process, and detaches from this programe.";
+            break;
+        } else {
+            qInfo(log) << "Start new process fail."
+                       << "Use system installer to install"
+                       << szFile;
+            RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+            nRet = ErrCode::Failure;
+        }
         //int nRet = QProcess::execute(szFile);
         //qDebug(log) << "QProcess::execute return: " << nRet;
 
     } while(0);
+    return nRet;
+}
+
+CFrmUpdater::ErrCode CFrmUpdater::ExecuteAppImage(const QString &szFile)
+{
+    CFrmUpdater::ErrCode nRet = ErrCode::Success;
+    QFileInfo fi(szFile);
+    if(fi.suffix().compare("AppImage", Qt::CaseInsensitive))
+        return ErrCode::Failure;
+
+    QString szAppImage = QString::fromLocal8Bit(qgetenv("APPIMAGE"));
+    bool bRet = false;
+    if(!szAppImage.isEmpty()) {
+        QFile f(fi.filePath());
+        QFileInfo cf(szAppImage);
+        QString szExec;
+        szExec = cf.absoluteDir().absolutePath()
+                 + QDir::separator() + fi.fileName();
+        bRet = f.copy(szExec);
+        if(bRet) {
+            nRet = ErrCode::Success;
+            QString szMsg(tr("Please exec: ") + fi.fileName());
+            ui->lbState->setText(szMsg);
+            qInfo(log) << szMsg;
+            if(!RabbitCommon::CTools::LocateFileWithExplorer(szExec))
+            {
+                QString szErr;
+                szErr = tr("Failed:") + tr("Open file with explore: ")
+                        + szExec;
+                qCritical(log) << szErr;
+            }
+        }
+    }
+    if(!bRet) {
+        nRet = ErrCode::Failure;
+        QString szMsg(tr("Please exec: ") + fi.fileName());
+        ui->lbState->setText(szMsg);
+        qInfo(log) << szMsg;
+        if(!RabbitCommon::CTools::LocateFileWithExplorer(fi.absoluteFilePath()))
+        {
+            QString szErr;
+            szErr = tr("Failed:") + tr("Open file with explore: ")
+                    + fi.absoluteDir().absolutePath();
+            qCritical(log) << szErr;
+        }
+    }
+    return nRet;
+}
+
+CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
+{
+    ErrCode nRet = ErrCode::Success;
+    QFileInfo fi(szFile);
+    if(fi.suffix().compare("zip", Qt::CaseInsensitive))
+        return ErrCode::Failure;
+
+    QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
+    QFile f(szInstall);
+    if(!f.open(QFile::WriteOnly))
+    {
+        QString szErr = tr("Failed:")
+        + tr("Open file %1 fail").arg(fi.absolutePath());
+        ui->lbState->setText(szErr);
+        return ErrCode::Failure;
+    }
+    QString szCmd = InstallZipScript(szFile);
+    f.write(szCmd.toStdString().c_str());
+    qDebug(log) << szCmd << szInstall;
+    f.close();
+
+    //启动安装程序
+    if(!QProcess::startDetached("/bin/bash",
+                                 QStringList() << szInstall,
+                                 fi.absolutePath())
+        )
+    {
+        QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
+                        + szInstall + "fail";
+        ui->lbState->setText(szErr);
+        nRet = ErrCode::Failure;
+
+        // Open file with explore
+        RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+    }
+    return nRet;
+}
+
+CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
+{
+    ErrCode nRet = ErrCode::Success;
+    QFileInfo fi(szFile);
+    if(!(!fi.suffix().compare("deb", Qt::CaseInsensitive)
+          || !fi.suffix().compare("rpm", Qt::CaseInsensitive)))
+        return ErrCode::Failure;
+
+    QStringList lstPara;
+    lstPara << "install" << "-y" << szFile;
+    QString szCmd = "apt";
+    if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
+        szCmd = "dnf";
+
+    bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
+    if(bRet) {
+        qInfo(log) << "Success:" << szCmd << lstPara;
+    } else {
+        qCritical(log) << "Failed:" << szCmd << lstPara;
+        // Open file with explore
+        RabbitCommon::CTools::LocateFileWithExplorer(szFile);
+        nRet = ErrCode::Failure;
+    }
     return nRet;
 }
 

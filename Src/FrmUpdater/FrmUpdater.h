@@ -178,7 +178,10 @@ private:
     QString InstallScript(const QString& szDownLoadFile,
                           const QString& szApplicationName);
     QString InstallZipScript(const QString& szDownloadFile);
-    ErrCode Execute(const QString szFile);
+    ErrCode Execute(const QString& szFile);
+    ErrCode ExecuteAppImage(const QString& szFile);
+    ErrCode ExecuteZip(const QString& szFile);
+    ErrCode ExecuteLinuxPackage(const QString& szFile);
 
 private:
     Ui::CFrmUpdater *ui;
