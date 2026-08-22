@@ -605,8 +605,8 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="196"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="421"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="604"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="452"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="635"/>
         <source>There is laster version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -648,7 +648,7 @@ You can read files up to %1 MB.</source>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.ui" line="355"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="230"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="687"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="735"/>
         <source>OK(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -664,23 +664,20 @@ You can read files up to %1 MB.</source>
     </message>
     <message>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="316"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="456"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="471"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="534"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="593"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="613"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="661"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="487"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="502"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="565"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="624"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="644"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="691"/>
         <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1084"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1100"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1148"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1174"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="990"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="999"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1029"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1135"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1149"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1168"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1184"/>
         <source>Failed:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -690,137 +687,121 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="376"/>
-        <source>Downloading %1% [%2/%3]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="456"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="593"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="487"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="624"/>
         <source>%2 process the file: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="471"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="502"/>
         <source>Configure file content error:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="535"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="566"/>
         <source>Don&apos;t find the urls in configure file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="537"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="568"/>
         <source>Current version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="538"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="569"/>
         <source>version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="539"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="570"/>
         <source>min update version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="613"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="644"/>
         <source>There is not files in the configure file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="662"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="692"/>
         <source>The system or architecture is not exist in the configure file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="673"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="721"/>
         <source>New version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="675"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="723"/>
         <source>New architecture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="677"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="725"/>
         <source>There is a new version, is it updated?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="714"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="762"/>
         <source>Open file fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="724"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="772"/>
         <source>Parse file %1 fail. It isn&apos;t configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="905"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="954"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="931"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="941"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="990"/>
         <source>Don&apos;t open download file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="950"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="999"/>
         <source>Md5sum is different.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="951"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1000"/>
         <source>Download file md5sum: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="953"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1002"/>
         <source>md5sum in Update configure file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1037"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1051"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1129"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1143"/>
         <source>Please exec: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1043"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1057"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1135"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1149"/>
         <source>Open file with explore: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1085"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1175"/>
-        <source>Execute install program error.%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1101"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1169"/>
         <source>Open file %1 fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1116"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1184"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1149"/>
-        <source>Execute install program error. %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="972"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1021"/>
         <source>The installer has started, Please close the application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -845,123 +826,153 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="906"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="368"/>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="370"/>
+        <source>KB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="372"/>
+        <source>MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="374"/>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="402"/>
+        <source>%p% - %1 of %2 downloaded - %3/s - time left: %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="955"/>
         <source>Downloading ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="920"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="969"/>
         <source>Installing update ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="980"/>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="995"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1029"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1044"/>
         <source>Open home page fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1218"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1247"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1219"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1248"/>
         <source>Run after install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1285"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1329"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1286"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1330"/>
         <source>Is updating, be sure to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1560"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1605"/>
         <source>Configure file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1565"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1610"/>
         <source>Configure file output content:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1566"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1611"/>
         <source>: content is version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1567"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1612"/>
         <source>: content is file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1568"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1613"/>
         <source>: content is version and file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1573"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1618"/>
         <source>Package version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1578"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1623"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1583"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1628"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1589"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1634"/>
         <source>Operating system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1594"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1639"/>
+        <source>Operating system version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1644"/>
         <source>Architecture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1599"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1649"/>
         <source>MD5 checksum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1603"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1653"/>
         <source>Package file, Is used to calculate md5sum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1608"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1658"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1613"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1663"/>
         <source>Package download urls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1619"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1669"/>
         <source>Project home url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1624"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1674"/>
         <source>Min update version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1629"/>
+        <location filename="../../FrmUpdater/FrmUpdater.cpp" line="1679"/>
         <source>Set force flag</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1505,21 +1516,28 @@ You can read files up to %1 MB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="205"/>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="242"/>
-        <source>Critical</source>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="243"/>
+        <source>Application Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="213"/>
-        <source>AdminAuthorization</source>
-        <comment>Enter Password</comment>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="245"/>
+        <source>I&apos;m Sorry, Application is Crash!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../AdminAuthoriser/adminauthorization_x11.cpp" line="215"/>
-        <source>AdminAuthorization</source>
-        <comment>Enter your root password to run the program:</comment>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="246"/>
+        <source>Current path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="248"/>
+        <source>Dump file: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../CoreDump/QMiniDumper.cpp" line="250"/>
+        <source>Log file: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1656,327 +1674,327 @@ You can read files up to %1 MB.</source>
 <context>
     <name>RabbitCommon::CTools</name>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="371"/>
-        <location filename="../../RabbitCommonTools.cpp" line="373"/>
+        <location filename="../../RabbitCommonTools.cpp" line="449"/>
+        <location filename="../../RabbitCommonTools.cpp" line="451"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="373"/>
+        <location filename="../../RabbitCommonTools.cpp" line="451"/>
         <source> (From revision: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="381"/>
+        <location filename="../../RabbitCommonTools.cpp" line="459"/>
         <source>Arch: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="388"/>
+        <location filename="../../RabbitCommonTools.cpp" line="466"/>
         <source>- Functions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="389"/>
+        <location filename="../../RabbitCommonTools.cpp" line="467"/>
         <source>  - Locale: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="392"/>
+        <location filename="../../RabbitCommonTools.cpp" line="470"/>
         <source>  - Have GUI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="394"/>
+        <location filename="../../RabbitCommonTools.cpp" line="472"/>
         <source>    - Have About dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="396"/>
+        <location filename="../../RabbitCommonTools.cpp" line="474"/>
         <source>    - Use cmark-gfm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="398"/>
+        <location filename="../../RabbitCommonTools.cpp" line="476"/>
         <source>      - Use cmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="402"/>
+        <location filename="../../RabbitCommonTools.cpp" line="480"/>
         <source>    - Have Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="404"/>
+        <location filename="../../RabbitCommonTools.cpp" line="482"/>
         <source>    - Custom title bar for QWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="405"/>
+        <location filename="../../RabbitCommonTools.cpp" line="483"/>
         <source>    - Dock Folder browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="406"/>
+        <location filename="../../RabbitCommonTools.cpp" line="484"/>
         <source>    - Recent menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="407"/>
+        <location filename="../../RabbitCommonTools.cpp" line="485"/>
         <source>    - Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="408"/>
+        <location filename="../../RabbitCommonTools.cpp" line="486"/>
         <source>      - Icon theme: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="410"/>
+        <location filename="../../RabbitCommonTools.cpp" line="488"/>
         <source>      - Fall back icon theme: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="413"/>
+        <location filename="../../RabbitCommonTools.cpp" line="491"/>
         <source>    - Have QUIWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="416"/>
+        <location filename="../../RabbitCommonTools.cpp" line="494"/>
         <source>    - Have media devices settings widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="419"/>
+        <location filename="../../RabbitCommonTools.cpp" line="497"/>
         <source>    - Icon utils</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="423"/>
+        <location filename="../../RabbitCommonTools.cpp" line="501"/>
         <source>  - Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="424"/>
+        <location filename="../../RabbitCommonTools.cpp" line="502"/>
         <source>    - Core dump</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="425"/>
+        <location filename="../../RabbitCommonTools.cpp" line="503"/>
         <source>    - Log file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="427"/>
+        <location filename="../../RabbitCommonTools.cpp" line="505"/>
         <source>  - Have encrypt(OPENSSL)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="429"/>
+        <location filename="../../RabbitCommonTools.cpp" line="507"/>
         <source>  - Password generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="430"/>
+        <location filename="../../RabbitCommonTools.cpp" line="508"/>
         <source>Thread pool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="433"/>
+        <location filename="../../RabbitCommonTools.cpp" line="511"/>
         <source>File transfer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="434"/>
-        <location filename="../../RabbitCommonTools.cpp" line="503"/>
+        <location filename="../../RabbitCommonTools.cpp" line="512"/>
+        <location filename="../../RabbitCommonTools.cpp" line="581"/>
         <source>libCurl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="436"/>
-        <location filename="../../RabbitCommonTools.cpp" line="505"/>
+        <location filename="../../RabbitCommonTools.cpp" line="514"/>
+        <location filename="../../RabbitCommonTools.cpp" line="583"/>
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="437"/>
-        <location filename="../../RabbitCommonTools.cpp" line="506"/>
+        <location filename="../../RabbitCommonTools.cpp" line="515"/>
+        <location filename="../../RabbitCommonTools.cpp" line="584"/>
         <source>Supported protocols:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="453"/>
+        <location filename="../../RabbitCommonTools.cpp" line="531"/>
         <source>  - Application paths and files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="454"/>
+        <location filename="../../RabbitCommonTools.cpp" line="532"/>
         <source>    - Installation root path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="455"/>
+        <location filename="../../RabbitCommonTools.cpp" line="533"/>
         <source>    - Application path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="456"/>
-        <location filename="../../RabbitCommonTools.cpp" line="467"/>
+        <location filename="../../RabbitCommonTools.cpp" line="534"/>
+        <location filename="../../RabbitCommonTools.cpp" line="545"/>
         <source>    - Configure path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="457"/>
-        <location filename="../../RabbitCommonTools.cpp" line="468"/>
+        <location filename="../../RabbitCommonTools.cpp" line="535"/>
+        <location filename="../../RabbitCommonTools.cpp" line="546"/>
         <source>    - Configure file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="458"/>
+        <location filename="../../RabbitCommonTools.cpp" line="536"/>
         <source>    - Translations path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="459"/>
+        <location filename="../../RabbitCommonTools.cpp" line="537"/>
         <source>    - Log path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="460"/>
-        <location filename="../../RabbitCommonTools.cpp" line="469"/>
+        <location filename="../../RabbitCommonTools.cpp" line="538"/>
+        <location filename="../../RabbitCommonTools.cpp" line="547"/>
         <source>    - Data path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="461"/>
+        <location filename="../../RabbitCommonTools.cpp" line="539"/>
         <source>    - Icons path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="462"/>
-        <location filename="../../RabbitCommonTools.cpp" line="471"/>
+        <location filename="../../RabbitCommonTools.cpp" line="540"/>
+        <location filename="../../RabbitCommonTools.cpp" line="549"/>
         <source>    - Database path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="463"/>
-        <location filename="../../RabbitCommonTools.cpp" line="472"/>
+        <location filename="../../RabbitCommonTools.cpp" line="541"/>
+        <location filename="../../RabbitCommonTools.cpp" line="550"/>
         <source>    - Database file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="464"/>
+        <location filename="../../RabbitCommonTools.cpp" line="542"/>
         <source>    - Plugins path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="465"/>
+        <location filename="../../RabbitCommonTools.cpp" line="543"/>
         <source>  - User folders and files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="466"/>
+        <location filename="../../RabbitCommonTools.cpp" line="544"/>
         <source>    - Documents path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="470"/>
+        <location filename="../../RabbitCommonTools.cpp" line="548"/>
         <source>    - Image path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="474"/>
+        <location filename="../../RabbitCommonTools.cpp" line="552"/>
         <source>- Dependent libraries:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="475"/>
+        <location filename="../../RabbitCommonTools.cpp" line="553"/>
         <source>  - OpenSSL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="477"/>
-        <location filename="../../RabbitCommonTools.cpp" line="483"/>
-        <location filename="../../RabbitCommonTools.cpp" line="488"/>
+        <location filename="../../RabbitCommonTools.cpp" line="555"/>
+        <location filename="../../RabbitCommonTools.cpp" line="561"/>
+        <location filename="../../RabbitCommonTools.cpp" line="566"/>
         <source>Build Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="478"/>
+        <location filename="../../RabbitCommonTools.cpp" line="556"/>
         <source>Runtime Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="485"/>
+        <location filename="../../RabbitCommonTools.cpp" line="563"/>
         <source>Installed Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="490"/>
+        <location filename="../../RabbitCommonTools.cpp" line="568"/>
         <source>Don&apos;t install OPENSSL dynamic library. Please install it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="494"/>
+        <location filename="../../RabbitCommonTools.cpp" line="572"/>
         <source>  - StackWalker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="497"/>
+        <location filename="../../RabbitCommonTools.cpp" line="575"/>
         <source>  - cmark-gfm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="499"/>
+        <location filename="../../RabbitCommonTools.cpp" line="577"/>
         <source>  - cmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1134"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1145"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1148"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1212"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1223"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1226"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1159"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1161"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1237"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1239"/>
         <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1164"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1242"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1178"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1256"/>
         <source>Open Log configure file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1182"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1260"/>
         <source>Open Log file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1186"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1264"/>
         <source>Open Log folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1201"/>
-        <location filename="../../RabbitCommonTools.cpp" line="1203"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1279"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1281"/>
         <source>Log dock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1211"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1289"/>
         <source>Copy log file path to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../RabbitCommonTools.cpp" line="1215"/>
+        <location filename="../../RabbitCommonTools.cpp" line="1293"/>
         <source>Copy log folder to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
