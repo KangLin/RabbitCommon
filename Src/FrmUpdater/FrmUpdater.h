@@ -11,7 +11,7 @@
 #include <QFile>
 #include <QPixmap>
 #include <QApplication>
-
+#include <QElapsedTimer>
 #include <QUrl>
 #include <QButtonGroup>
 #include <QCommandLineParser>
@@ -201,6 +201,7 @@ private:
     // [Instantiate the object of RabbitCommon::CDownload]
     QSharedPointer<RabbitCommon::CDownload> m_Download;
     // [Instantiate the object of RabbitCommon::CDownload]
+    QElapsedTimer m_timeAdded;
 
     QStateMachine* m_StateMachine;
     QState *m_pStateDownloadSetupFile;

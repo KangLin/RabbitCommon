@@ -387,10 +387,24 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
     if(bytesTotal > 0) {
-        QString szInfo = tr("Downloading %1% [%2/%3]")
-        .arg(QString::number(bytesReceived * 100 / bytesTotal))
-            .arg(Convertbytes(bytesReceived))
-            .arg(Convertbytes(bytesTotal));
+        qreal bytesPerSecond = 0;  // Initialized to 0 for a reasonable default value
+        int remaining = 0;
+        QString szRemaining;
+        // Check for division by zero
+        if (m_timeAdded.elapsed() != 0)
+            bytesPerSecond = bytesReceived / m_timeAdded.elapsed() * 1000;
+        remaining = (bytesTotal - bytesReceived) / bytesPerSecond + 1;
+        if(remaining >= 0) {
+            QTime tm(0, 0, 0);
+            szRemaining = tm.addSecs(remaining).toString("hh:mm:ss");
+            qDebug(log) << "Remaining:" << remaining << tm << szRemaining;
+        }
+        QString szInfo = tr("%p% - %1 of %2 downloaded - %3/s - time left: %4")
+                             .arg(Convertbytes(bytesReceived),
+                             Convertbytes(bytesTotal),
+                             Convertbytes(bytesPerSecond),
+                             szRemaining);
+        ui->progressBar->setFormat(szInfo);
         //qDebug(log) << szInfo;
         m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName()
@@ -417,6 +431,7 @@ void CFrmUpdater::slotDownloadFile()
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
         m_Download->Start(m_Urls);
+        m_timeAdded.start();
     }
     // [Use RabbitCommon::CDownload download file]
 }
