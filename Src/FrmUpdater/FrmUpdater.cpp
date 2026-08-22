@@ -361,6 +361,20 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     emit sigFinished();
 }
 
+QString CFrmUpdater::Convertbytes(quint64 bytes)
+{
+    QString szBytes;
+    if((1 << 10) >= bytes)
+        szBytes = QString::number(bytes) + " " + tr("B");
+    else if((1 << 20) >= bytes)
+        szBytes = QString::number((qreal)bytes / (1 << 10), 'f', 2) + " " + tr("KB");
+    else if((1 << 30) >= bytes)
+        szBytes = QString::number((qreal)bytes / (1 << 20), 'f', 2) + " " + tr("MB");
+    else
+        szBytes = QString::number((qreal)bytes / (1 << 30), 'f', 2) + " " + tr("GB");
+    return szBytes;
+}
+
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if(ui->progressBar->isHidden())
@@ -374,8 +388,9 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     ui->progressBar->setValue(static_cast<int>(bytesReceived));
     if(bytesTotal > 0) {
         QString szInfo = tr("Downloading %1% [%2/%3]")
-                              .arg(QString::number(bytesReceived * 100 / bytesTotal))
-                              .arg(QString::number(bytesReceived)).arg(QString::number(bytesTotal));
+        .arg(QString::number(bytesReceived * 100 / bytesTotal))
+            .arg(Convertbytes(bytesReceived))
+            .arg(Convertbytes(bytesTotal));
         //qDebug(log) << szInfo;
         m_TrayIcon.setToolTip(windowTitle() + " - "
                           + qApp->applicationDisplayName()
