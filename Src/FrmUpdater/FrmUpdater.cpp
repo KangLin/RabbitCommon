@@ -1007,11 +1007,13 @@ void CFrmUpdater::slotUpdate()
     }
 
     QString szHome = m_Info.version.szHome;
-    if(ui->cbHomePage->isChecked() && !szHome.isEmpty()) {
+    if(((ErrCode::Success != nRet) || ui->cbHomePage->isChecked())
+        && !szHome.isEmpty()) {
         QUrl url(szHome);
         if(!QDesktopServices::openUrl(url))
         {
             QString szErr = tr("Failed:") + tr("Open home page fail");
+            qCritical(log) << szErr;
             ui->lbState->setText(szErr);
         }
     }
@@ -1023,17 +1025,10 @@ void CFrmUpdater::slotUpdate()
         return;
     }
 
-    ui->lbState->setText(tr("Failed: install %1. Please install it manually from the homepage.")
-                             .arg(m_DownloadFile.fileName()));
+    ui->lbState->setText(
+        tr("Failed: install %1. Please install it manually from the homepage.")
+            .arg(m_DownloadFile.fileName()));
     emit sigError();
-    if(!szHome.isEmpty()) {
-        QUrl url(szHome);
-        if(!QDesktopServices::openUrl(url))
-        {
-            QString szErr = tr("Open home page fail");
-            qCritical(log) << szErr;
-        }
-    }
 }
 
 CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
