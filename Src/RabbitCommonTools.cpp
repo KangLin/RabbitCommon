@@ -718,11 +718,14 @@ void CTools::Init(QString szApplicationName,
         return;
     }
 
+#if defined(Q_OS_ANDROID)
     // Set default android permissions
     QStringList permissions;
     permissions << "android.permission.WRITE_EXTERNAL_STORAGE"
-                << "android.permission.READ_EXTERNAL_STORAGE";
+                << "android.permission.READ_EXTERNAL_STORAGE"
+                << "android.permission.REQUEST_INSTALL_PACKAGES";
     AndroidRequestPermission(permissions);
+#endif
     EnableCoreDump();
     RabbitCommon::CLog::Instance();
     SetLanguage(szLanguage);
