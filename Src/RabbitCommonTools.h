@@ -160,7 +160,7 @@ public:
      *     - The value set by SetLanguage().
      *     - QLocale::system().name()
      */
-    static QString GetLanguage();
+    [[nodiscard]] static QString GetLanguage();
 
     enum class TranslationType {
         Application,
@@ -184,9 +184,9 @@ public:
     int RemoveTranslator(QSharedPointer<QTranslator> translator);
 
     //! RabbitCommon version
-    static QString Version();
+    [[nodiscard]] static QString Version();
     //! RabbitCommon information
-    static QString Information();
+    [[nodiscard]] static QString Information();
 
     struct VersionInfo {
         bool isValid = false;
@@ -196,7 +196,7 @@ public:
         QString preRelease;
         QString build;
         // 新增辅助方法
-        QString toString() const {
+        [[nodiscard]] QString toString() const {
             QString result = QString("%1.%2.%3").arg(major).arg(minor).arg(patch);
             if (!preRelease.isEmpty())
                 result += "-" + preRelease;
@@ -206,7 +206,7 @@ public:
         }
 
         // 版本比较
-        bool isGreaterThan(const VersionInfo& other) const {
+        [[nodiscard]] bool isGreaterThan(const VersionInfo& other) const {
             if (major != other.major) return major > other.major;
             if (minor != other.minor) return minor > other.minor;
             if (patch != other.patch) return patch > other.patch;
@@ -255,9 +255,9 @@ public:
      * \see [Calendar Versioning](https://calver.org/)
      * \since 2.4.0
      */
-    static VersionInfo GetVersion(const QString& szVersion, bool bSemantic = false);
+    [[nodiscard]] static VersionInfo GetVersion(const QString& szVersion, bool bSemantic = false);
     //! \since 2.4.0
-    static bool VersionValid(const QString& szVersion);
+    [[nodiscard]] static bool VersionValid(const QString& szVersion);
     /*!
      * \brief Compare version
      * \return > 0: ver1 > ver2
@@ -267,7 +267,7 @@ public:
      * \~
      * \since 2.4.0
      */
-    static int VersionCompare(const QString &ver1, const QString &ver2);
+    [[nodiscard]] static int VersionCompare(const QString &ver1, const QString &ver2);
     struct GitVersionInfo {
         QString baseVersion;
         QString commitCount;
@@ -279,12 +279,12 @@ public:
      * \note For testing only
      * \~ince 2.4.0
      */
-    static GitVersionInfo GetGitDevelopmentVersion(const QString szVersion);
+    [[nodiscard]] static GitVersionInfo GetGitDevelopmentVersion(const QString szVersion);
     /*!
      * \note For testing only
      * \~ince 2.4.0
      */
-    static bool IsGitDevelopmentVersion(const QString szVersion);
+    [[nodiscard]] static bool IsGitDevelopmentVersion(const QString szVersion);
 
     /*!
      * \brief Enable core dump
@@ -298,7 +298,7 @@ public:
      * \brief Has administrator privilege.
      * \since v2.3.0
      */
-    static bool HasAdministratorPrivilege();
+    [[nodiscard]] static bool HasAdministratorPrivilege();
     /*!
      * \brief executeByRoot: Run with administrator privileges
      * \param program
@@ -336,10 +336,10 @@ public:
     static bool IsStartRun(const QString &szName = QString(),
                            bool bAllUser = false);
 
-    static QString GetCurrentUser();
-    static QString GetHostName();
+    [[nodiscard]] static QString GetCurrentUser();
+    [[nodiscard]] static QString GetHostName();
 
-    static QString MarkDownToHtml(const QString &szText);
+    [[nodiscard]] static QString MarkDownToHtml(const QString &szText);
 
     /*!
      * \brief GenerateDesktopFile: Generate desktop file
@@ -400,7 +400,7 @@ public:
      * \param parentMainWindow: QMainWindow pointer isn't nullptr, then add log QDockWidget
      * \return 
      */
-    static QMenu* GetLogMenu(QWidget *parentMainWindow = nullptr);
+    [[nodiscard]] static QMenu* GetLogMenu(QWidget *parentMainWindow = nullptr);
 
     static int RestoreWidget(QWidget* pWidget);
     static int SaveWidget(QWidget* pWidget);
@@ -423,7 +423,7 @@ public:
      * \since v2.3.4
      */
     static bool LocateFileWithExplorer(const QString szFile);
-    static QMainWindow* GetMainWindow();
+    [[nodiscard]] static QMainWindow* GetMainWindow();
 #endif //#ifdef HAVE_RABBITCOMMON_GUI
 
     static int AndroidRequestPermission(const QStringList& permissions);
@@ -433,7 +433,13 @@ public:
      * \brief Invert color
      * \since 2.4.0
      */
-    static QColor InvertColor(const QColor& color);
+    [[nodiscard]] static QColor InvertColor(const QColor& color);
+    /*!
+     * \brief Bytes convert to string
+     * \param bytes
+     * \since 2.4.0
+     */
+    [[nodiscard]] static QString BytesToString(quint64 bytes);
 
 private:
     CTools();

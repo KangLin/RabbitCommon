@@ -1497,4 +1497,18 @@ QColor CTools::InvertColor(const QColor &color)
     return invertColor(color);
 }
 
+QString CTools::BytesToString(quint64 bytes)
+{
+    QString szBytes;
+    if((1 << 10) >= bytes)
+        szBytes = QString::number(bytes) + " " + tr("B");
+    else if((1 << 20) >= bytes)
+        szBytes = QString::number((qreal)bytes / (1 << 10), 'f', 2) + " " + tr("KB");
+    else if((1 << 30) >= bytes)
+        szBytes = QString::number((qreal)bytes / (1 << 20), 'f', 2) + " " + tr("MB");
+    else
+        szBytes = QString::number((qreal)bytes / (1 << 30), 'f', 2) + " " + tr("GB");
+    return szBytes;
+}
+
 } //namespace RabbitCommon

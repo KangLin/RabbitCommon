@@ -138,8 +138,6 @@ public:
      */
     int SetUpdateCallback(pUpdateCallback pCb);
 
-    [[nodiscard]] static QString Convertbytes(quint64 bytes);
-
 protected Q_SLOTS:
     // [Add the slot functions of RabbitCommon::CDownload]
     void slotDownloadError(int nErr, const QString szError);

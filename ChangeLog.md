@@ -7,6 +7,7 @@
   - Add static int VersionCompare(const QString &ver1, const QString &ver2);
   - Add static int GetRandomNumber(int min, int max);
   - Add static QColor InvertColor(const QColor& color);
+  - Add static QString BytesToString(quint64 bytes);
 - Add password generator: CPasswordGenerator
 - Add set applicaiont font
 - Add audio and video settings widget: CFrmMediaDevices

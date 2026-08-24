@@ -361,20 +361,6 @@ void CFrmUpdater::slotDownloadFileFinished(const QString szFile)
     emit sigFinished();
 }
 
-QString CFrmUpdater::Convertbytes(quint64 bytes)
-{
-    QString szBytes;
-    if((1 << 10) >= bytes)
-        szBytes = QString::number(bytes) + " " + tr("B");
-    else if((1 << 20) >= bytes)
-        szBytes = QString::number((qreal)bytes / (1 << 10), 'f', 2) + " " + tr("KB");
-    else if((1 << 30) >= bytes)
-        szBytes = QString::number((qreal)bytes / (1 << 20), 'f', 2) + " " + tr("MB");
-    else
-        szBytes = QString::number((qreal)bytes / (1 << 30), 'f', 2) + " " + tr("GB");
-    return szBytes;
-}
-
 void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if(ui->progressBar->isHidden())
@@ -400,9 +386,9 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
             qDebug(log) << "Remaining:" << remaining << tm << szRemaining;
         }
         QString szInfo = tr("%p% - %1 of %2 downloaded - %3/s - time left: %4")
-                             .arg(Convertbytes(bytesReceived),
-                             Convertbytes(bytesTotal),
-                             Convertbytes(bytesPerSecond),
+                             .arg(RabbitCommon::CTools::BytesToString(bytesReceived),
+                             RabbitCommon::CTools::BytesToString(bytesTotal),
+                             RabbitCommon::CTools::BytesToString(bytesPerSecond),
                              szRemaining);
         ui->progressBar->setFormat(szInfo);
         //qDebug(log) << szInfo;
@@ -1021,7 +1007,7 @@ void CFrmUpdater::slotUpdate()
     }
 
     QString szHome = m_Info.version.szHome;
-    if((nRet || ui->cbHomePage->isChecked()) && !szHome.isEmpty()) {
+    if(ui->cbHomePage->isChecked() && !szHome.isEmpty()) {
         QUrl url(szHome);
         if(!QDesktopServices::openUrl(url))
         {
@@ -1029,19 +1015,24 @@ void CFrmUpdater::slotUpdate()
             ui->lbState->setText(szErr);
         }
     }
+
     if(ErrCode::Success == nRet)
     {
         emit sigFinished();
         qApp->quit();
         return;
     }
-    
+
+    ui->lbState->setText(tr("Failed: install %1. Please install it manually from the homepage.")
+                             .arg(m_DownloadFile.fileName()));
     emit sigError();
-    QUrl url(szHome);
-    if(!QDesktopServices::openUrl(url))
-    {
-        QString szErr = tr("Open home page fail");
-        qCritical(log) << szErr;
+    if(!szHome.isEmpty()) {
+        QUrl url(szHome);
+        if(!QDesktopServices::openUrl(url))
+        {
+            QString szErr = tr("Open home page fail");
+            qCritical(log) << szErr;
+        }
     }
 }
 
