@@ -1072,6 +1072,7 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
         QUrl url(szFile, QUrl::TolerantMode); //路径中可以带空格
         if(QDesktopServices::openUrl(url)) {
             qInfo(log) << "OpenUrl" << url;
+            nRet = ErrCode::Success;
             break;
         }
 

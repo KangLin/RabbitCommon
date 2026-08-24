@@ -38,11 +38,11 @@ update_version() {
     $SED_CMD "s/rabbitcommon (.*)/rabbitcommon (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
     $SED_CMD "s/Version=.*/Version=${DEBIAN_VERSION}/g" ${SOURCE_DIR}/share/io.github.KangLin.RabbitCommon.desktop
     #$SED_CMD "s/${VERSION_PATTERN}/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/README*.md
-    $SED_CMD "s/versionName=\"${VERSION_PATTERN}\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
-    $SED_CMD "s/android:versionCode=\".*\"/android:versionCode=\"${MAJOR_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
+    #$SED_CMD "s/versionName=\"${VERSION_PATTERN}\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
+    #$SED_CMD "s/android:versionCode=\".*\"/android:versionCode=\"${MAJOR_VERSION}\"/g" ${SOURCE_DIR}/FileBrowser/android/AndroidManifest.xml
 
-    $SED_CMD "s/versionName=\"${VERSION_PATTERN}\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml
-    $SED_CMD "s/android:versionCode=\".*\"/android:versionCode=\"${MAJOR_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml
+    #$SED_CMD "s/versionName=\"${VERSION_PATTERN}\"/versionName=\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml
+    #$SED_CMD "s/android:versionCode=\".*\"/android:versionCode=\"${MAJOR_VERSION}\"/g" ${SOURCE_DIR}/MimeTypeBrowser/android/AndroidManifest.xml
 
     if [ -f ${SOURCE_DIR}/vcpkg.json ]; then
         $SED_CMD "s/  \"version-string\":.*\"${VERSION_PATTERN}\",/  \"version-string\": \"${DEBIAN_VERSION}\",/g" ${SOURCE_DIR}/vcpkg.json
