@@ -385,11 +385,19 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
             szRemaining = tm.addSecs(remaining).toString("hh:mm:ss");
             qDebug(log) << "Remaining:" << remaining << tm << szRemaining;
         }
+#if defined(Q_OS_ANDROID)
         QString szInfo = tr("%p% [%1/%2] time left: %4")
                              .arg(RabbitCommon::CTools::BytesToString(bytesReceived),
                              RabbitCommon::CTools::BytesToString(bytesTotal),
                              //RabbitCommon::CTools::BytesToString(bytesPerSecond),
                              szRemaining);
+#else
+        QString szInfo = tr("%p% - %1 of %2 downloaded - %3/s - time left: %4")
+                             .arg(RabbitCommon::CTools::BytesToString(bytesReceived),
+                                  RabbitCommon::CTools::BytesToString(bytesTotal),
+                                  RabbitCommon::CTools::BytesToString(bytesPerSecond),
+                                  szRemaining);
+#endif
         ui->progressBar->setFormat(szInfo);
         //qDebug(log) << szInfo;
         m_TrayIcon.setToolTip(windowTitle() + " - "
