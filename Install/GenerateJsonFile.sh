@@ -4,7 +4,7 @@
 
 function usage_long()
 {
-    echo "$0 [ [-h|--help] [-v|--verbose[=0|1]] [-f|--file=<json file>] [-p|--package=<package>] [-s|--system=<system>] [--system-version=<System version] [-a|--arch=<Archecture>] [-u|-urls=<\"url1,url2...\">]"
+    echo "$0 [ [-h|--help] [-v|--verbose[=0|1]] [-f|--file=<json file>] [-p|--package=<package>] [-s|--system=<system>] [--system-version=<System version>] [-a|--arch=<Archecture>] [-u|-urls=<\"url1,url2...\">]"
     echo "  --help|-h: Show help"
     echo "  -v|--verbose: Show build verbose"
     echo "  -f|--file: json file"
