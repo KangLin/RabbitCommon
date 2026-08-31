@@ -1170,11 +1170,13 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
     f.close();
 
     //启动安装程序
-    if(!QProcess::startDetached("/bin/bash",
+    if(QProcess::startDetached("/bin/bash",
                                  QStringList() << szInstall,
                                  fi.absolutePath())
         )
     {
+        qInfo(log) << "Success: Execute /bin/bash" << szInstall;
+    } else {
         QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
                         + szInstall + "fail";
         ui->lbState->setText(szErr);
@@ -1258,7 +1260,7 @@ QString CFrmUpdater::InstallZipScript(const QString &szDownloadFile)
     szCmd += "set -e\n";
     szCmd += "cd " + fi.absolutePath() + "\n";
     szCmd += "unzip " + szDownloadFile + "\n";
-    szCmd += "cd " + fi.baseName() + "\n";
+    szCmd += "cd " + fi.completeBaseName() + "\n";
 
     //See: Install/install.sh
     szCmd += "./install1.sh ";
