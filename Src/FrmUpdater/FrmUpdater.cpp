@@ -790,7 +790,8 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
             file.szArchitecture = f["arch"].toString();
             file.szArchitectureMinVersion = f["arch_min_version"].toString();
             file.szMd5sum = f["md5"].toString();
-            file.szFileName = f["name"].toString();
+            file.szFileName = f["file_name"].toString();
+            file.szPackageName = f["package_name"].toString();
 
             QJsonArray urls = f["urls"].toArray();
             foreach(auto u, urls)
@@ -805,7 +806,8 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
                         << "arch:" << file.szArchitecture
                         << "arch_min_version:" << file.szArchitectureMinVersion
                         << "md5:" << file.szMd5sum
-                        << "name:" << file.szFileName
+                        << "package_name:" << file.szPackageName
+                        << "file_name:" << file.szFileName
                         << "urls:" << file.urls;//*/
         }
 
@@ -919,7 +921,8 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         file.szArchitecture = f["arch"].toString();
         file.szArchitectureMinVersion = f["arch_min_version"].toString();
         file.szMd5sum = f["md5"].toString();
-        file.szFileName = f["name"].toString();
+        file.szFileName = f["file_name"].toString();
+        file.szPackageName = f["package_name"].toString();
         
         QJsonArray urls = f["urls"].toArray();
         foreach(auto u, urls)
@@ -934,7 +937,8 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
                     << "arch:" << file.szArchitecture
                     << "arch_min_version:" << file.szArchitectureMinVersion
                     << "md5:" << file.szMd5sum
-                    << "name:" << file.szFileName
+                    << "package_name:" << file.szPackageName
+                    << "file_name:" << file.szFileName
                     << "urls:" << file.urls;//*/
     }
 
@@ -1196,13 +1200,19 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
           || !fi.suffix().compare("rpm", Qt::CaseInsensitive)))
         return ErrCode::Failure;
 
+    QStringList lstRemovePara;
     QStringList lstPara;
     lstPara << "install" << "-y" << szFile;
     QString szCmd = "apt";
-    if(!fi.suffix().compare("rpm", Qt::CaseInsensitive))
+    if(!fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
         szCmd = "dnf";
-
-    bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara, false);
+        lstRemovePara << "remove";
+    } else {
+        lstRemovePara << "purge";
+    }
+    lstRemovePara << m_ConfigFile.szPackageName;
+    RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstRemovePara);
+    bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara);
     if(bRet) {
         qInfo(log) << "Success:" << szCmd << lstPara;
     } else {
@@ -1388,7 +1398,8 @@ int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info
         if(!f.szArchitectureMinVersion.isEmpty())
             file.insert("arch_min_version", f.szArchitectureMinVersion);
         file.insert("md5", f.szMd5sum);
-        file.insert("name", f.szFileName);
+        file.insert("file_name", f.szFileName);
+        file.insert("package_name", f.szPackageName);
         QJsonArray urls;
         foreach (auto u, f.urls) {
             urls.append(u.toString());
@@ -1650,6 +1661,10 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                             "Package file"
                             );
     parser.addOption(oPackageFile);
+    QCommandLineOption oPackageName(QStringList() << "pn" << "package-name",
+                                    tr("Package name. it is used to uninstall"),
+                                    "Package name");
+    parser.addOption(oPackageName);
     QCommandLineOption oFileName(QStringList() << "n" << "file-name",
                                  tr("File name"),
                                  "File name"
@@ -1706,7 +1721,8 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     file.szArchitecture = parser.value(oArch);
     file.szMd5sum = parser.value(oMd5);
     file.szFileName = parser.value(oFileName);
-    
+    file.szPackageName = parser.value(oPackageName);
+
     QString szPackageFile = parser.value(oPackageFile);
     if(!szPackageFile.isEmpty()) {
         QFileInfo fi(szPackageFile);

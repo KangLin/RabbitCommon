@@ -4,10 +4,11 @@
 
 function usage_long()
 {
-    echo "$0 [ [-h|--help] [-v|--verbose[=0|1]] [-f|--file=<json file>] [-p|--package=<package>] [-s|--system=<system>] [--system-version=<System version>] [-a|--arch=<Archecture>] [-u|-urls=<\"url1,url2...\">]"
+    echo "$0 [ [-h|--help] [-v|--verbose[=0|1]] [-f|--file=<json file>] [-n|--name=<package name>] [-p|--package=<package file>] [-s|--system=<system>] [--system-version=<System version>] [-a|--arch=<Archecture>] [-u|-urls=<\"url1,url2...\">]"
     echo "  --help|-h: Show help"
     echo "  -v|--verbose: Show build verbose"
     echo "  -f|--file: json file"
+    echo "  -n|--name: package name"
     echo "  -p|--package: package file"
     echo "  -s|--system: system name"
     echo "  --system-version: system version"
@@ -26,8 +27,8 @@ if command -V getopt >/dev/null; then
     # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
     # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
     # -n 选项后接选项解析错误时提示的脚本名字
-    OPTS=help,verbose::file:,package:,system:,system-version::,archecture:,urls:
-    SHORT_OPTS=h,v::,f:,p:,s:,a:,u:
+    OPTS=help,verbose::file:,name:,package:,system:,system-version::,archecture:,urls:
+    SHORT_OPTS=h,v::,n:,f:,p:,s:,a:,u:
     ARGS=`getopt -o $SHORT_OPTS -l $OPTS -n $(basename $0) -- "$@"`
     if [ $? != 0 ]; then
         echo_error "exec getopt fail: $?"
@@ -54,6 +55,10 @@ if command -V getopt >/dev/null; then
             ;;
         -f | --file)
             JSON_FILE=$2
+            shift 2
+            ;;
+        -n | --name)
+            PACKAGE_NAME=$2
             shift 2
             ;;
         -p | --package)
@@ -104,7 +109,7 @@ fi
 
 chmod a+xr $FILE_PACKAGE
 md5=`md5sum $FILE_PACKAGE | awk '{print $1}'`
-name=`basename $FILE_PACKAGE`
+PACKAGE_FILE_NAME=`basename $FILE_PACKAGE`
 
 array=(${urls//,/ })
 
@@ -123,7 +128,8 @@ cat > $JSON_FILE << EOF
     "os_min_version": "$SYSTEM_VERSION",
     "arch": "$ARCH",
     "md5": "${md5}",
-    "name": "${name}",
+    "package_name": "${PACKAGE_NAME}",
+    "file_name": "${PACKAGE_FILE_NAME}",
     "urls": [
         $szUrls
     ]

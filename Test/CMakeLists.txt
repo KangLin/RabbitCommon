@@ -43,6 +43,7 @@ add_test(NAME TestGenerateJsonFile
         -s "ubuntu" --sv "26.04" -a "x86_64" --force "true"
         -c "aab854ec7cc6831d591237e609a8bf36"
         -n "rabbitremotecontrol_0.0.26_amd64.deb"
+        --pn "rabbitremotecontrol"
         -p "package-file"
         -u "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb,https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb/download"
         --home "home" -m "1.9.0"

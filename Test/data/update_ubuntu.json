@@ -11,7 +11,7 @@
             "os": "ubuntu",
             "arch": "x86_64",
             "md5": "8bccd9edee0d23da4a5b0e344c006e8d",
-            "name": "ubuntu",
+            "file_name": "ubuntu",
             "urls": [
                 "file:data/update.json"
             ]

@@ -11,7 +11,7 @@
             "os": "ubuntu",
             "arch": "x86_64",
             "md5": "aab854ec7cc6831d591237e609a8bf36",
-            "name": "rabbitremotecontrol_0.0.26_amd64.deb",
+            "file_name": "rabbitremotecontrol_0.0.26_amd64.deb",
             "urls": [
                 "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb",
                 "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb?viasf=1"
@@ -21,7 +21,7 @@
             "os": "windows",
             "arch": "x86_64",
             "md5": "84446b987ffbad9efc7df8100425369d",
-            "name": "RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe",
+            "file_name": "RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe",
             "urls": [
                 "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe",
                 "https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/RabbitRemoteControl_v0.0.26_qt_6.5.2_Setup.exe?viasf=1"
@@ -31,7 +31,7 @@
             "os": "appimage",
             "arch": "x86_64",
             "md5": "84446b987ffbad9efc7df8100425369d",
-            "name": "RabbitRemoteControl_0.1.0-bate10_Linux_x86_64_Setup.zip",
+            "file_name": "RabbitRemoteControl_0.1.0-bate10_Linux_x86_64_Setup.zip",
             "urls": [
                 "https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.1.0-bate10/RabbitRemoteControl_0.1.0-bate10_Linux_x86_64_Setup.zip"
             ]

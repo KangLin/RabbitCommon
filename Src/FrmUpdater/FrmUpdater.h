@@ -225,6 +225,7 @@ private:
         QString szArchitecture;
         QString szArchitectureMinVersion;
         QString szFileName;
+        QString szPackageName;
         QString szMd5sum;
         QVector<QUrl> urls;
     };

@@ -36,6 +36,7 @@ void CTestGenerateJsonFile::test_json_file()
     QVERIFY(conf_file.urls[0] == QUrl("https://github.com/KangLin/RabbitRemoteControl/releases/download/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb"));
     QVERIFY(conf_file.urls[1] == QUrl("https://sourceforge.net/projects/rabbitremotecontrol/files/v0.0.26/rabbitremotecontrol_0.0.26_amd64.deb/download"));
     QVERIFY(conf_file.szFileName == "rabbitremotecontrol_0.0.26_amd64.deb");
+    QVERIFY(conf_file.szPackageName == "rabbitremotecontrol");
 }
 
 int main(int argc, char* argv[])
