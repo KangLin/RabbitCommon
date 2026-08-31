@@ -166,6 +166,7 @@ private:
     CFrmUpdater(QWidget *parent);
     int InitStateMachine();
     bool IsDownLoad();
+    bool CheckFileSum(const QString &szFile);
     enum class RedirectCode {
         Failure = -1,
         RedirectConfigure = 0, //! Is redirect configure file
@@ -178,6 +179,7 @@ private:
     QString InstallScript(const QString& szDownLoadFile,
                           const QString& szApplicationName);
     QString InstallZipScript(const QString& szDownloadFile);
+    QString InstallLinuxPackage(const QString &szFile);
     ErrCode Execute(const QString& szFile);
     ErrCode ExecuteAppImage(const QString& szFile);
     ErrCode ExecuteZip(const QString& szFile);

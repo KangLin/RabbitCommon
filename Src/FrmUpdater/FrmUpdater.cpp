@@ -170,7 +170,7 @@ CFrmUpdater::~CFrmUpdater()
  *   |      |                       |   |                  |
  *   |      | sigFinished           |   |                  |
  *   |      |                       |   |                  |
- *   |      V   sigDownLoadRedire   |   |                  |
+ *   |      V     sigDownLoadRedire |   |                  |
  *   |  |--------------------|      |   |                  |
  *   |  |Check config file   |      |   |                  |
  *   |  |(sCheckConfigFile)  |------|   |                  |
@@ -410,6 +410,7 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 void CFrmUpdater::slotDownloadFile()
 {
     qDebug(log) << "CFrmUpdater::slotDownloadFile";
+
     // [Use RabbitCommon::CDownload download file]
     if(!m_Urls.isEmpty())
     {
@@ -791,7 +792,16 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
             file.szArchitectureMinVersion = f["arch_min_version"].toString();
             file.szMd5sum = f["md5"].toString();
             file.szFileName = f["file_name"].toString();
+            // Support old "name"
+            if(file.szFileName.isEmpty())
+                file.szFileName = f["name"].toString();
             file.szPackageName = f["package_name"].toString();
+#if defined(Q_OS_LINUX)
+            if(file.szPackageName.isEmpty()) {
+                file.szPackageName = QCoreApplication::applicationName().toLower();
+                qWarning(log) << "The package name is empty. set it to application name";
+            }
+#endif
 
             QJsonArray urls = f["urls"].toArray();
             foreach(auto u, urls)
@@ -921,9 +931,12 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
         file.szArchitecture = f["arch"].toString();
         file.szArchitectureMinVersion = f["arch_min_version"].toString();
         file.szMd5sum = f["md5"].toString();
-        file.szFileName = f["file_name"].toString();
         file.szPackageName = f["package_name"].toString();
-        
+        file.szFileName = f["file_name"].toString();
+        // Support old "name"
+        if(file.szFileName.isEmpty())
+            file.szFileName = f["name"].toString();
+
         QJsonArray urls = f["urls"].toArray();
         foreach(auto u, urls)
         {
@@ -969,44 +982,7 @@ void CFrmUpdater::slotUpdate()
     //qDebug(log) << "CFrmUpdater::slotUpdate()";
 
     // Check file md5sum
-    bool bSuccess = false;
-    do {
-        if(!m_DownloadFile.open(QIODevice::ReadOnly))
-        {
-            QString szErr;
-            szErr = tr("Failed:") + tr("Don't open download file ")
-                + m_DownloadFile.fileName();
-            qCritical(log) << szErr;
-            ui->lbState->setText(szErr);
-            break;
-        }
-        QCryptographicHash md5sum(QCryptographicHash::Md5);
-        if(!md5sum.addData(&m_DownloadFile))
-        {
-            QString szErr;
-            szErr = tr("Failed:") + tr("Don't open download file ")
-                    + m_DownloadFile.fileName();
-            qCritical(log) << szErr;
-            ui->lbState->setText(szErr);
-            break;
-        }
-        if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
-        {
-            QString szFail;
-            szFail = tr("Failed:") + tr("Md5sum is different.")
-                    + "\n" + tr("Download file md5sum: ")
-                    + md5sum.result().toHex()
-                    + "\n" + tr("md5sum in Update configure file: ")
-                    + m_ConfigFile.szMd5sum;
-            ui->lbState->setText(szFail);
-            qCritical(log) << szFail;
-            break;
-        }
-        bSuccess = true;
-    } while(0);
-
-    m_DownloadFile.close();
-    if(!bSuccess)
+    if(!CheckFileSum(m_DownloadFile.fileName()))
     {
         emit sigError();
         return;
@@ -1075,6 +1051,17 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
         if(!fi.suffix().compare("zip", Qt::CaseInsensitive))
             return ExecuteZip(szFile);
 
+        if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
+            || !fi.suffix().compare("rpm", Qt::CaseInsensitive)
+            || !fi.suffix().compare("snap", Qt::CaseInsensitive)
+            || !fi.suffix().compare("flatpak", Qt::CaseInsensitive)) {
+            int nRet = QMessageBox::question(
+                this, tr("Install"), tr("Use the system default program"),
+                QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+            if(QMessageBox::No == nRet)
+                return ExecuteLinuxPackage(szFile);
+        }
+
         // Open with the default program
         QUrl url(szFile, QUrl::TolerantMode); //路径中可以带空格
         if(QDesktopServices::openUrl(url)) {
@@ -1082,10 +1069,6 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
             nRet = ErrCode::Success;
             break;
         }
-
-        if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
-            || !fi.suffix().compare("rpm", Qt::CaseInsensitive))
-            return ExecuteLinuxPackage(szFile);
 
         //启动安装程序
         if(proc.startDetached(szFile)) {
@@ -1164,7 +1147,7 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
     if(!f.open(QFile::WriteOnly))
     {
         QString szErr = tr("Failed:")
-        + tr("Open file %1 fail").arg(fi.absolutePath());
+            + tr("Open file %1 fail").arg(fi.absoluteFilePath());
         ui->lbState->setText(szErr);
         return ErrCode::Failure;
     }
@@ -1174,10 +1157,8 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
     f.close();
 
     //启动安装程序
-    if(QProcess::startDetached("/bin/bash",
-                                 QStringList() << szInstall,
-                                 fi.absolutePath())
-        )
+    if(QProcess::startDetached(
+            "/bin/bash", QStringList() << szInstall, fi.absolutePath()))
     {
         qInfo(log) << "Success: Execute /bin/bash" << szInstall;
     } else {
@@ -1197,31 +1178,72 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
     ErrCode nRet = ErrCode::Success;
     QFileInfo fi(szFile);
     if(!(!fi.suffix().compare("deb", Qt::CaseInsensitive)
-          || !fi.suffix().compare("rpm", Qt::CaseInsensitive)))
+          || !fi.suffix().compare("rpm", Qt::CaseInsensitive)
+          || !fi.suffix().compare("snap", Qt::CaseInsensitive)
+          || !fi.suffix().compare("flatpak", Qt::CaseInsensitive)))
         return ErrCode::Failure;
 
-    QStringList lstRemovePara;
-    QStringList lstPara;
-    lstPara << "install" << "-y" << szFile;
-    QString szCmd = "apt";
-    if(!fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
-        szCmd = "dnf";
-        lstRemovePara << "remove";
-    } else {
-        lstRemovePara << "purge";
+    QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
+    QFile f(szInstall);
+    if(!f.open(QFile::WriteOnly))
+    {
+        QString szErr = tr("Failed:")
+            + tr("Open file %1 fail").arg(fi.absolutePath());
+        ui->lbState->setText(szErr);
+        return ErrCode::Failure;
     }
-    lstRemovePara << m_ConfigFile.szPackageName;
-    RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstRemovePara);
-    bool bRet = RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(szCmd, lstPara);
-    if(bRet) {
-        qInfo(log) << "Success:" << szCmd << lstPara;
+    QString szCmd = InstallLinuxPackage(szFile);
+    f.write(szCmd.toStdString().c_str());
+    qDebug(log) << "Setup.sh:" << szCmd << szInstall;
+    f.close();
+
+    //启动安装程序
+    if(RabbitCommon::CTools::ExecuteWithAdministratorPrivilege(
+            "/bin/bash", QStringList() << szInstall))
+    {
+        qInfo(log) << "Success: Execute /bin/bash" << szInstall;
     } else {
-        qCritical(log) << "Failed:" << szCmd << lstPara;
+        QString szErr = tr("Failed:") + tr("Execute") + "/bin/bash "
+                        + szInstall + "fail";
+        ui->lbState->setText(szErr);
+        nRet = ErrCode::Failure;
+
         // Open file with explore
         RabbitCommon::CTools::LocateFileWithExplorer(szFile);
-        nRet = ErrCode::Failure;
     }
     return nRet;
+}
+
+QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
+{
+    QString szRemove;
+    QString szInstall;
+
+    QFileInfo fi(szFile);
+    if(!fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
+        szRemove = "dnf remove -y ";
+        szInstall = "dnf install -y ";
+    }
+    if(!fi.suffix().compare("deb", Qt::CaseInsensitive)) {
+        szRemove += "apt purge -y ";
+        szInstall = "apt install -y ";
+    }
+    if(!fi.suffix().compare("snap", Qt::CaseInsensitive)) {
+        szRemove = "snap remove ";
+        szInstall = "snap install ";
+    }
+    if(!fi.suffix().compare("snap", Qt::CaseInsensitive)) {
+        szRemove = "flatpak remove -y ";
+        szInstall = "flatpak install -y ";
+    }
+    if(m_ConfigFile.szPackageName.isEmpty())
+        szRemove += QCoreApplication::applicationName().toLower();
+    else
+        szRemove += m_ConfigFile.szPackageName;
+    szRemove += "\n";
+    szInstall += szFile + "\n";
+
+    return szRemove + szInstall;
 }
 
 QString CFrmUpdater::InstallScript(const QString &szDownLoadFile,
@@ -1269,12 +1291,52 @@ QString CFrmUpdater::InstallZipScript(const QString &szDownloadFile)
     szCmd = "#!/bin/bash\n";
     szCmd += "set -e\n";
     szCmd += "cd " + fi.absolutePath() + "\n";
-    szCmd += "unzip " + szDownloadFile + "\n";
+    szCmd += "unzip -o " + szDownloadFile + "\n";
     szCmd += "cd " + fi.completeBaseName() + "\n";
 
-    //See: Install/install.sh
-    szCmd += "./install1.sh ";
+    //See: Script/install.sh
+    szCmd += "./install.sh ";
     return szCmd;
+}
+
+bool CFrmUpdater::CheckFileSum(const QString &szFile)
+{
+    // Check file md5sum
+    bool bSuccess = false;
+    QFile file(szFile);
+    do {
+        if(!file.open(QIODevice::ReadOnly))
+        {
+            QString szErr;
+            szErr = tr("Failed:") + tr("Don't open download file ")
+                    + file.fileName();
+            qCritical(log) << szErr;
+            break;
+        }
+        QCryptographicHash md5sum(QCryptographicHash::Md5);
+        if(!md5sum.addData(&file))
+        {
+            QString szErr;
+            szErr = tr("Failed:") + tr("Adds the characters in bytes to the cryptographic hash.")
+                    + " " + file.fileName();
+            qCritical(log) << szErr;
+            break;
+        }
+        if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
+        {
+            QString szFail;
+            szFail = tr("Failed:") + tr("Md5sum is different.")
+                     + tr("Download file md5sum: ")
+                     + md5sum.result().toHex()
+                     + tr("md5sum in Update configure file: ")
+                     + m_ConfigFile.szMd5sum;
+            qCritical(log) << szFail << "File:" << file.fileName();
+            break;
+        }
+        bSuccess = true;
+    } while(0);
+    file.close();
+    return bSuccess;
 }
 
 /*!
@@ -1283,39 +1345,15 @@ QString CFrmUpdater::InstallZipScript(const QString &szDownloadFile)
  */
 bool CFrmUpdater::IsDownLoad()
 {
-    bool bRet = false;
+    qDebug(log) << Q_FUNC_INFO;
     QString szTmp
             = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     szTmp = szTmp + QDir::separator() + "Rabbit"
             + QDir::separator() + qApp->applicationName();
 
     QString szFile = szTmp + QDir::separator() + m_ConfigFile.szFileName;
-
-    QFile f(szFile);
-    if(!f.open(QIODevice::ReadOnly))
-        return false;
-
     m_DownloadFile.setFileName(szFile);
-    do {
-        QCryptographicHash md5sum(QCryptographicHash::Md5);
-        if(!md5sum.addData(&f))
-        {
-            bRet = false;
-            break;
-        }
-        if(md5sum.result().toHex() != m_ConfigFile.szMd5sum)
-        {
-            bRet = false;
-            break;
-        }
-        else 
-        {
-            bRet = true;
-            break;
-        }
-    } while(0);
-    f.close();
-    return bRet;
+    return CheckFileSum(szFile);
 }
 
 void CFrmUpdater::on_pbOK_clicked()

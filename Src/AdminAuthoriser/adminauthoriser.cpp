@@ -26,11 +26,11 @@ bool RabbitCommon::CAdminAuthoriser::execute(const QString &program, const QStri
         QFileInfo fi(program);
         if(GetDetached())
             return QProcess::startDetached(fi.absoluteFilePath(),
-                                       arguments,
-                                       fi.absolutePath());
+                                           arguments,
+                                           fi.absolutePath());
         else
             return QProcess::execute(fi.absoluteFilePath(),
-                                           arguments);
+                                     arguments);
     } else {
         return executeAsAdmin(program, arguments);
     }

@@ -34,7 +34,7 @@ function install_autostart()
 
 function install()
 {
-    echo "install ${PROGRAM_NAME}-x86_64.AppImage ......"
+    echo "install AppImage ......"
     # Install desktop
     if [ -f /usr/share/applications/${PROGRAM_NAME}.desktop ]; then
         rm /usr/share/applications/${PROGRAM_NAME}.desktop
@@ -42,8 +42,11 @@ function install()
     ln -s ${PROGRAM_DIR}/share/applications/${PROGRAM_NAME}.desktop /usr/share/applications/${PROGRAM_NAME}.desktop
     
     # Reset exec to desktop
+    pushd ${PROGRAM_DIR}
+    APPIMAGE_FILE=`ls *.AppImage`
+    popd
     sed -i "s/Exec=.*//g" ${PROGRAM_DIR}/share/applications/${PROGRAM_NAME}.desktop
-    echo "Exec=${PROGRAM_DIR}/${PROGRAM_NAME}-x86_64.AppImage" >> ${PROGRAM_DIR}/share/applications/${PROGRAM_NAME}.desktop
+    echo "Exec=${PROGRAM_DIR}/${APPIMAGE_FILE}" >> ${PROGRAM_DIR}/share/applications/${PROGRAM_NAME}.desktop
     
     # Install applications icon
     if [ -f /usr/share/pixmaps/${PROGRAM_NAME}.png ]; then
