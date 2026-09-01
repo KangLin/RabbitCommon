@@ -796,12 +796,6 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
             if(file.szFileName.isEmpty())
                 file.szFileName = f["name"].toString();
             file.szPackageName = f["package_name"].toString();
-#if defined(Q_OS_LINUX)
-            if(file.szPackageName.isEmpty()) {
-                file.szPackageName = QCoreApplication::applicationName().toLower();
-                qWarning(log) << "The package name is empty. set it to application name";
-            }
-#endif
 
             QJsonArray urls = f["urls"].toArray();
             foreach(auto u, urls)
@@ -1223,6 +1217,9 @@ QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
 {
     QString szRemove;
     QString szInstall;
+    QString szCmd;
+    szCmd = "#!/bin/bash\n";
+    szCmd += "set -e\n";
 
     QFileInfo fi(szFile);
     if(!fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
@@ -1248,7 +1245,8 @@ QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
     szRemove += "\n";
     szInstall += szFile + "\n";
 
-    return szRemove + szInstall;
+    szCmd += szRemove + szInstall;
+    return szCmd;
 }
 
 // See: Script/install_appimage.sh
@@ -1272,9 +1270,13 @@ QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
     //qDebug(log) << "Directory:" << d;
     if(QFileInfo::exists(d + "install.sh"))
         szCmd += "./install.sh ";
-    else if(QFileInfo::exists(d + "install_appimage.sh") && !m_ConfigFile.szPackageName.isEmpty())
-        //See: Script/install_appimage.sh
-        szCmd += "./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
+    else if(QFileInfo::exists(d + "install_appimage.sh"))
+        if(!m_ConfigFile.szPackageName.isEmpty())
+            szCmd += "./install_appimage.sh";
+        else {
+            //See: Script/install_appimage.sh
+            szCmd += "./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
+        }
     else {
         qCritical(log) << "The compressed file is not install package." << szFile;
         szCmd.clear();
