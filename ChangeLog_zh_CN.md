@@ -23,6 +23,7 @@
   - 增加 Android.cmake
 - 增加 RabbitCommon.sh
 - 修改图标资源的子目录和 index.theme 文件
+- 修改更新
 
 ### 版本： v2.3.4
 - QTextBrowser 替换 QTextEdit

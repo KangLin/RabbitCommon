@@ -176,13 +176,11 @@ private:
     RedirectCode CheckRedirectConfigFile();
     int CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
-    QString InstallScript(const QString& szDownLoadFile,
-                          const QString& szApplicationName);
-    QString InstallZipScript(const QString& szDownloadFile);
+    QString InstallCompressedFileScript(const QString& szFile);
     QString InstallLinuxPackage(const QString &szFile);
     ErrCode Execute(const QString& szFile);
     ErrCode ExecuteAppImage(const QString& szFile);
-    ErrCode ExecuteZip(const QString& szFile);
+    ErrCode ExecuteCompressedFile(const QString& szFile);
     ErrCode ExecuteLinuxPackage(const QString& szFile);
 
 private:
@@ -226,8 +224,9 @@ private:
         QString szSystemMinVersion;
         QString szArchitecture;
         QString szArchitectureMinVersion;
-        QString szFileName;
-        QString szPackageName;
+        QString szFileName;    // MUST File name
+        QString szPackageName; // deb, rpm is package name.
+                               // AppImage is application ID and with Script/install_appimage.sh
         QString szMd5sum;
         QVector<QUrl> urls;
     };

@@ -1048,8 +1048,10 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
         if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive))
             return ExecuteAppImage(szFile);
 
-        if(!fi.suffix().compare("zip", Qt::CaseInsensitive))
-            return ExecuteZip(szFile);
+        // See: Script/install_appimage.sh
+        if(!fi.suffix().compare("zip", Qt::CaseInsensitive)
+            || !fi.suffix().compare("gz", Qt::CaseInsensitive))
+            return ExecuteCompressedFile(szFile);
 
         if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
             || !fi.suffix().compare("rpm", Qt::CaseInsensitive)
@@ -1135,11 +1137,13 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteAppImage(const QString &szFile)
     return nRet;
 }
 
-CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
+// See: Script/install_appimage.sh
+CFrmUpdater::ErrCode CFrmUpdater::ExecuteCompressedFile(const QString &szFile)
 {
     ErrCode nRet = ErrCode::Success;
     QFileInfo fi(szFile);
-    if(fi.suffix().compare("zip", Qt::CaseInsensitive))
+    if(!(!fi.suffix().compare("zip", Qt::CaseInsensitive)
+          || !fi.suffix().compare("gz", Qt::CaseInsensitive)))
         return ErrCode::Failure;
 
     QString szInstall = fi.absolutePath() + QDir::separator() + "setup.sh";
@@ -1151,7 +1155,8 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteZip(const QString &szFile)
         ui->lbState->setText(szErr);
         return ErrCode::Failure;
     }
-    QString szCmd = InstallZipScript(szFile);
+    QString szCmd;
+    szCmd = InstallCompressedFileScript(szFile);
     f.write(szCmd.toStdString().c_str());
     qDebug(log) << szCmd << szInstall;
     f.close();
@@ -1246,56 +1251,34 @@ QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
     return szRemove + szInstall;
 }
 
-QString CFrmUpdater::InstallScript(const QString &szDownLoadFile,
-                                   const QString &szApplicationName)
+// See: Script/install_appimage.sh
+QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
 {
-    QFileInfo fi(szDownLoadFile);
-    QString szCmd;
-    szCmd = "#!/bin/bash\n";
-    szCmd += "set -e\n";
-    szCmd += "if [ ! -d /opt/" + szApplicationName + " ]; then\n";
-    szCmd += "    mkdir -p /opt/" + szApplicationName + "\n";
-    szCmd += "fi\n";
-    szCmd += "cd /opt/" + szApplicationName + "\n";
-    szCmd += "if [ -f install1.sh ]; then\n";
-    szCmd += "    ./install1.sh remove " + szApplicationName + "\n";
-    //szCmd += "    rm -fr *\n";
-    szCmd += "fi\n";
-    szCmd += "cp " + szDownLoadFile + " ." + "\n";
-    szCmd += "tar xvfz " + fi.fileName() + "\n";
-    szCmd += "rm " + fi.fileName() + "\n";
-    
-    //See: Install/install.sh
-    szCmd += "./install1.sh ";
-    if(m_InstallAutoStartupType)
-        szCmd += "install_autostart";
-    else
-        szCmd += "install";
-    //启动程序
-    int nRet = QMessageBox::information(this, tr("Run"),
-                                        tr("Run after install"),
-                                        QMessageBox::Yes|QMessageBox::No,
-                                        QMessageBox::Yes);
-    if(QMessageBox::Yes == nRet)
-    {
-        szCmd += "_run";
-    }
-    szCmd += " " + szApplicationName + "\n";
-    return szCmd;
-}
-
-QString CFrmUpdater::InstallZipScript(const QString &szDownloadFile)
-{
-    QFileInfo fi(szDownloadFile);
+    QFileInfo fi(szFile);
+    QString d = fi.absoluteFilePath();
     QString szCmd;
     szCmd = "#!/bin/bash\n";
     szCmd += "set -e\n";
     szCmd += "cd " + fi.absolutePath() + "\n";
-    szCmd += "unzip -o " + szDownloadFile + "\n";
-    szCmd += "cd " + fi.completeBaseName() + "\n";
-
-    //See: Script/install.sh
-    szCmd += "./install.sh ";
+    if(!fi.suffix().compare("zip", Qt::CaseInsensitive)) {
+        szCmd += "unzip -o " + szFile + "\n";
+        szCmd += "cd " + fi.completeBaseName() + "\n";
+        d = d.replace(QRegularExpression("\\.zip$"), QDir::separator());
+    } else if(!fi.suffix().compare("gz", Qt::CaseInsensitive)) {
+        szCmd += "tar -zxvf " + szFile + "\n";
+        szCmd += "cd $(basename " + fi.fileName() + " .tar.gz)\n";
+        d = d.replace(QRegularExpression("\\.tar\\.gz$"), QDir::separator());
+    }
+    //qDebug(log) << "Directory:" << d;
+    if(QFileInfo::exists(d + "install.sh"))
+        szCmd += "./install.sh ";
+    else if(QFileInfo::exists(d + "install_appimage.sh") && !m_ConfigFile.szPackageName.isEmpty())
+        //See: Script/install_appimage.sh
+        szCmd += "./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
+    else {
+        qCritical(log) << "The compressed file is not install package." << szFile;
+        szCmd.clear();
+    }
     return szCmd;
 }
 
@@ -1701,7 +1684,8 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     parser.addOption(oPackageFile);
     QCommandLineOption oPackageName(QStringList() << "pn" << "package-name",
                                     tr("Package name. it is used to uninstall"),
-                                    "Package name");
+                                    "Package name",
+                                    QCoreApplication::applicationName().toLower());
     parser.addOption(oPackageName);
     QCommandLineOption oFileName(QStringList() << "n" << "file-name",
                                  tr("File name"),

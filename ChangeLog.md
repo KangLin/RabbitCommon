@@ -23,6 +23,7 @@
   - Add Android.cmake
 - Add RabbitCommon.sh
 - Resource: Rename icon subdirectory. and index.theme
+- Modify updater
 
 ### Version v2.3.4
 - QTextBrowser replace QTextEdit
