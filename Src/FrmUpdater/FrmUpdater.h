@@ -176,12 +176,12 @@ private:
     RedirectCode CheckRedirectConfigFile();
     int CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
-    QString InstallCompressedFileScript(const QString& szFile);
-    QString InstallLinuxPackage(const QString &szFile);
     ErrCode Execute(const QString& szFile);
     ErrCode ExecuteAppImage(const QString& szFile);
     ErrCode ExecuteCompressedFile(const QString& szFile);
     ErrCode ExecuteLinuxPackage(const QString& szFile);
+    QString InstallCompressedFileScript(const QString& szFile);
+    QString InstallLinuxPackage(const QString &szFile);
 
 private:
     Ui::CFrmUpdater *ui;

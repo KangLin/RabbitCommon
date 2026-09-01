@@ -307,12 +307,19 @@ public:
     Q_DECL_DEPRECATED_X("Will be move to private in v3, with executeWithAdministratorPrivilege")
     static bool executeByRoot(const QString &program,
                               const QStringList &arguments = QStringList());
+    /*!
+     * \brief Run the program as an administrator
+     * \param program: the program path
+     * \param arguments: the parameter of the program
+     * \param bDetached: true: detached; false: no detached
+     * \return
+     */
     static bool ExecuteWithAdministratorPrivilege(
         const QString &program,
         const QStringList &arguments = QStringList(),
         bool bDetached = true);
     /*!
-     * \brief Start program with administrator privilege
+     * \brief Start the self program with administrator privilege
      * \param bQuitOld: true, quit the old program
      * \since v2.3.3
      */
@@ -351,10 +358,22 @@ public:
                                    const QString &szName = QString());
 
     /*!
+     * \brief Invert color
+     * \since 2.4.0
+     */
+    [[nodiscard]] static QColor InvertColor(const QColor& color);
+    /*!
+     * \brief Bytes convert to string
+     * \param bytes
+     * \since 2.4.0
+     */
+    [[nodiscard]] static QString BytesToString(quint64 bytes);
+
+    /*!
      * \brief Get Random Number
      * \since 2.4.0
      */
-    static int GetRandomNumber(int min, int max);
+    [[nodiscard]] static int GetRandomNumber(int min, int max);
 
 #ifdef HAVE_RABBITCOMMON_GUI
     /*!
@@ -428,18 +447,6 @@ public:
 
     static int AndroidRequestPermission(const QStringList& permissions);
     static int AndroidRequestPermission(const QString& permission);
-
-    /*!
-     * \brief Invert color
-     * \since 2.4.0
-     */
-    [[nodiscard]] static QColor InvertColor(const QColor& color);
-    /*!
-     * \brief Bytes convert to string
-     * \param bytes
-     * \since 2.4.0
-     */
-    [[nodiscard]] static QString BytesToString(quint64 bytes);
 
 private:
     CTools();
