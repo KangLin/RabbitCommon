@@ -1042,10 +1042,12 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
         if(!fi.suffix().compare("AppImage", Qt::CaseInsensitive))
             return ExecuteAppImage(szFile);
 
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID) && !defined(Q_OS_MACOS) && !defined(Q_OS_OSX)
         // See: Script/install_appimage.sh
         if(!fi.suffix().compare("zip", Qt::CaseInsensitive)
             || !fi.suffix().compare("gz", Qt::CaseInsensitive))
             return ExecuteCompressedFile(szFile);
+#endif
 
         if(!fi.suffix().compare("deb", Qt::CaseInsensitive)
             || !fi.suffix().compare("rpm", Qt::CaseInsensitive)
