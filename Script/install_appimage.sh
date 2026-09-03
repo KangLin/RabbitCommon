@@ -190,6 +190,10 @@ if [ "$INSTALL_DIR" != "$ROOT_DIR" ]; then
         ICON_FILE="$INSTALL_DIR/$APP_ID.png"
     fi
     cp "$APP_ID.desktop" "$INSTALL_DIR/$APP_ID.desktop"
+    if [ -d mime/packages ]; then
+        mkdir -p "$INSTALL_DIR/mime/packages"
+        cp mime/packages/* "$INSTALL_DIR/mime/packages/"
+    fi
 fi
 if [ ! -f "$ICON_FILE" ]; then
     usage_dev "Don't find icon file(.png or .svg)"
@@ -208,12 +212,23 @@ fi
 # 修改执行权限
 chmod a+xr "$INSTALL_DIR/$APP_ID.desktop"
 
+# Update desktop database
+update-desktop-database "$DESKTOP_FILE_DIR"
+# Update mime type database
+if [ -d mime/packages ]; then
+    update-mime-database "$INSTALL_DIR/mime/packages/"
+fi
+
 echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
 if [ -n "$CREATE_DESKTOP_FILE" ]; then
     echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
 fi
 if [ -n "$CREATE_INSTALL_DIR" ]; then
     echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
+fi
+echo "update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
+if [ -d mime/packages ]; then
+    echo "update-mime-database \"$INSTALL_DIR/mime/packages\"" >> "$INSTALL_DIR/uninstall.sh"
 fi
 chmod u+x "$INSTALL_DIR/uninstall.sh"
 chmod u+x "$INSTALL_DIR/$APPIMAGE_FILE"
