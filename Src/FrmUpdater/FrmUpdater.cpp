@@ -1269,11 +1269,14 @@ QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
         szCmd += "cd $(basename " + fi.fileName() + " .tar.gz)\n";
         d = d.replace(QRegularExpression("\\.tar\\.gz$"), QDir::separator());
     }
-    szCmd += "if [ -f install.sh ]; then";
-    szCmd += "    ./install.sh";
-    szCmd += "elif [ -f install_appimage.sh ]; then";
-    szCmd += "    ./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
-    szCmd += "fi";
+    szCmd += "if [ -f install.sh ]; then\n";
+    szCmd += "    ./install.sh\n";
+    szCmd += "elif [ -f install_appimage.sh ]; then\n";
+    szCmd += "    ./install_appimage.sh ";
+    if(!m_ConfigFile.szPackageName.isEmpty())
+        szCmd += "--id=" + m_ConfigFile.szPackageName;
+    szCmd += "\n";
+    szCmd += "fi\n";
     //qDebug(log) << "Directory:" << d;
     return szCmd;
 }
@@ -1680,8 +1683,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
     parser.addOption(oPackageFile);
     QCommandLineOption oPackageName(QStringList() << "pn" << "package-name",
                                     tr("Package name. it is used to uninstall"),
-                                    "Package name",
-                                    QCoreApplication::applicationName().toLower());
+                                    "Package name");
     parser.addOption(oPackageName);
     QCommandLineOption oFileName(QStringList() << "n" << "file-name",
                                  tr("File name"),

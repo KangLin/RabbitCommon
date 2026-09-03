@@ -54,7 +54,7 @@ void CTestGenerateDefaultJsonFile::test_default_update_json_file()
     }
 #endif
     QVERIFY(conf_file.szFileName == szFileName);
-    QVERIFY(conf_file.szPackageName.isEmpty());
+    QVERIFY(!conf_file.szPackageName.isEmpty());
 }
 
 int main(int argc, char* argv[])
