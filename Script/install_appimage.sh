@@ -213,10 +213,14 @@ fi
 chmod a+xr "$INSTALL_DIR/$APP_ID.desktop"
 
 # Update desktop database
-update-desktop-database "$DESKTOP_FILE_DIR"
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database "$DESKTOP_FILE_DIR"
+fi
 # Update mime type database
 if [ -d mime/packages ]; then
-    update-mime-database "$INSTALL_DIR/mime/packages/"
+    if command -v update-mime-database >/dev/null 2>&1; then
+        update-mime-database "$INSTALL_DIR/mime/packages/"
+    fi
 fi
 
 echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
@@ -226,10 +230,10 @@ fi
 if [ -n "$CREATE_INSTALL_DIR" ]; then
     echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
 fi
-echo "update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
-if [ -d mime/packages ]; then
-    echo "update-mime-database \"$INSTALL_DIR/mime/packages\"" >> "$INSTALL_DIR/uninstall.sh"
-fi
+#echo "update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
+#if [ -d mime/packages ]; then
+#    echo "update-mime-database \"$INSTALL_DIR/mime/packages\"" >> "$INSTALL_DIR/uninstall.sh"
+#fi
 chmod u+x "$INSTALL_DIR/uninstall.sh"
 chmod u+x "$INSTALL_DIR/$APPIMAGE_FILE"
 
