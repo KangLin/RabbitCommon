@@ -1267,20 +1267,12 @@ QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
         szCmd += "cd $(basename " + fi.fileName() + " .tar.gz)\n";
         d = d.replace(QRegularExpression("\\.tar\\.gz$"), QDir::separator());
     }
+    szCmd += "if [ -f install.sh ]; then";
+    szCmd += "    ./install.sh";
+    szCmd += "elif [ -f install_appimage.sh ]; then";
+    szCmd += "    ./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
+    szCmd += "fi";
     //qDebug(log) << "Directory:" << d;
-    if(QFileInfo::exists(d + "install.sh"))
-        szCmd += "./install.sh ";
-    else if(QFileInfo::exists(d + "install_appimage.sh"))
-        if(!m_ConfigFile.szPackageName.isEmpty())
-            szCmd += "./install_appimage.sh";
-        else {
-            //See: Script/install_appimage.sh
-            szCmd += "./install_appimage.sh --id=" + m_ConfigFile.szPackageName;
-        }
-    else {
-        qCritical(log) << "The compressed file is not install package." << szFile;
-        szCmd.clear();
-    }
     return szCmd;
 }
 
