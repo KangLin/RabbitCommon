@@ -152,43 +152,46 @@ get_absolute_path() {
     fi
 }
 
+ROOT_DIR=$(dirname $(readlink -f "$0"))
+
 check_parameters
 
-if [ -f $DESKTOP_FILE ]; then
+if [ -f "$DESKTOP_FILE" ]; then
     OLD_UNINSTALL=$(dirname $(safe_readlink "$DESKTOP_FILE"))
-    if [ -f $OLD_UNINSTALL/uninstall.sh ]; then
+    if [ -f "$OLD_UNINSTALL/uninstall.sh" ]; then
         #echo "Run $OLD_UNINSTALL/uninstall.sh"
-        $OLD_UNINSTALL/uninstall.sh
+        pushd "$OLD_UNINSTALL" > /dev/null
+        ./uninstall.sh
+        popd > /dev/null
     fi
 fi
 
 INSTALL_DIR=$(safe_readlink "$INSTALL_DIR")
-if [ ! -d $INSTALL_DIR ]; then
-    mkdir -p $INSTALL_DIR
+if [ ! -d "$INSTALL_DIR" ]; then
+    mkdir -p "$INSTALL_DIR"
     CREATE_INSTALL_DIR=1
 fi
 
-ROOT_DIR=$(dirname $(readlink -f $0))
-if [ ! -d $DESKTOP_FILE_DIR ]; then
-    mkdir -p $DESKTOP_FILE_DIR
+if [ ! -d "$DESKTOP_FILE_DIR" ]; then
+    mkdir -p "$DESKTOP_FILE_DIR"
 fi
 
-pushd $ROOT_DIR > /dev/null
+pushd "$ROOT_DIR" > /dev/null
 
 APPIMAGE_FILE=`ls *.AppImage`
-if [ $INSTALL_DIR != $ROOT_DIR ]; then
-    cp $APPIMAGE_FILE $INSTALL_DIR/$APPIMAGE_FILE
-    if [ -f $APP_ID.svg ]; then
-        cp $APP_ID.svg $INSTALL_DIR/$APP_ID.svg
-        ICON_FILE=$INSTALL_DIR/$APP_ID.svg
+if [ "$INSTALL_DIR" != "$ROOT_DIR" ]; then
+    cp $APPIMAGE_FILE "$INSTALL_DIR/$APPIMAGE_FILE"
+    if [ -f "$APP_ID.svg" ]; then
+        cp "$APP_ID.svg" "$INSTALL_DIR/$APP_ID.svg"
+        ICON_FILE="$INSTALL_DIR/$APP_ID.svg"
     fi
-    if [ -f $APP_ID.png ]; then
-        cp $APP_ID.png $INSTALL_DIR/$APP_ID.png
-        ICON_FILE=$INSTALL_DIR/$APP_ID.png
+    if [ -f "$APP_ID.png" ]; then
+        cp "$APP_ID.png" "$INSTALL_DIR/$APP_ID.png"
+        ICON_FILE="$INSTALL_DIR/$APP_ID.png"
     fi
-    cp $APP_ID.desktop $INSTALL_DIR/$APP_ID.desktop
+    cp "$APP_ID.desktop" "$INSTALL_DIR/$APP_ID.desktop"
 fi
-if [ ! -f $ICON_FILE ]; then
+if [ ! -f "$ICON_FILE" ]; then
     usage_dev "Don't find icon file(.png or .svg)"
 fi
 
@@ -196,24 +199,24 @@ fi
 sed -i "s#Exec=.*#Exec=$INSTALL_DIR/${APPIMAGE_FILE}#g" $INSTALL_DIR/$APP_ID.desktop
 # 修改路径
 sed -i "s#Path=.*#Path=${INSTALL_DIR}#g" $INSTALL_DIR/$APP_ID.desktop
-if [ ! -f $DESKTOP_FILE ]; then
+if [ ! -f "$DESKTOP_FILE" ]; then
     CREATE_DESKTOP_FILE=1
-    ln -s ${INSTALL_DIR}/$APP_ID.desktop $DESKTOP_FILE
+    ln -s "${INSTALL_DIR}/$APP_ID.desktop" "$DESKTOP_FILE"
     # ICON 使用绝对路径
-    sed -i "s#^Icon=.*#Icon=$ICON_FILE#" $INSTALL_DIR/$APP_ID.desktop
+    sed -i "s#^Icon=.*#Icon=$ICON_FILE#" "$INSTALL_DIR/$APP_ID.desktop"
 fi
 # 修改执行权限
-chmod a+xr $INSTALL_DIR/$APP_ID.desktop
+chmod a+xr "$INSTALL_DIR/$APP_ID.desktop"
 
-echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > $INSTALL_DIR/uninstall.sh
-if [ -n $CREATE_DESKTOP_FILE ]; then
-    echo "rm $DESKTOP_FILE" >> $INSTALL_DIR/uninstall.sh
+echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
+if [ -n "$CREATE_DESKTOP_FILE" ]; then
+    echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
 fi
-if [ -n $CREATE_INSTALL_DIR ]; then
-    echo "rm -fr $INSTALL_DIR" >> $INSTALL_DIR/uninstall.sh
+if [ -n "$CREATE_INSTALL_DIR" ]; then
+    echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
 fi
-chmod u+x $INSTALL_DIR/uninstall.sh
-chmod u+x $INSTALL_DIR/$APPIMAGE_FILE
+chmod u+x "$INSTALL_DIR/uninstall.sh"
+chmod u+x "$INSTALL_DIR/$APPIMAGE_FILE"
 
 echo ""
 echo "Install \"$APP_ID\" AppImage to \"$INSTALL_DIR\"."
