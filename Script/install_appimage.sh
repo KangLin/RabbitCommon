@@ -3,9 +3,10 @@
 # Install AppImage shell script
 # Author: Kang Lin <kl222@126.com>
 # In the same directory, the following files must exist:
-#   - desktop file($APP_ID.desktop)
-#   - icon file($APP_ID.png or $APP_ID.svg)
-#   - AppImae file(.AppImage)
+#   - [MUST] desktop file($APP_ID.desktop)
+#   - [MUST] icon file($APP_ID.png or $APP_ID.svg)
+#   - [MUST] AppImae file(.AppImage)
+#   - [OPTION] mime type file(mime/packages/.xml)
 # See: CFrmUpdater::InstallCompressedFileScript
 
 #set -v
@@ -52,6 +53,7 @@ check_parameters() {
     fi
     DESKTOP_FILE_DIR=$HOME/.local/share/applications
     DESKTOP_FILE=$DESKTOP_FILE_DIR/$APP_ID.AppImage.desktop
+    MIME_DIR=$HOME/.local/share/mime
 }
 
 # [如何使用getopt和getopts命令解析命令行选项和参数](https://zhuanlan.zhihu.com/p/673908518)
@@ -169,7 +171,6 @@ fi
 INSTALL_DIR=$(safe_readlink "$INSTALL_DIR")
 if [ ! -d "$INSTALL_DIR" ]; then
     mkdir -p "$INSTALL_DIR"
-    CREATE_INSTALL_DIR=1
 fi
 
 if [ ! -d "$DESKTOP_FILE_DIR" ]; then
@@ -181,6 +182,8 @@ pushd "$ROOT_DIR" > /dev/null
 APPIMAGE_FILE=`ls *.AppImage`
 if [ "$INSTALL_DIR" != "$ROOT_DIR" ]; then
     cp $APPIMAGE_FILE "$INSTALL_DIR/$APPIMAGE_FILE"
+    chmod a+xr,u+w "$INSTALL_DIR/$APPIMAGE_FILE"
+
     if [ -f "$APP_ID.svg" ]; then
         cp "$APP_ID.svg" "$INSTALL_DIR/$APP_ID.svg"
         ICON_FILE="$INSTALL_DIR/$APP_ID.svg"
@@ -190,12 +193,26 @@ if [ "$INSTALL_DIR" != "$ROOT_DIR" ]; then
         ICON_FILE="$INSTALL_DIR/$APP_ID.png"
     fi
     cp "$APP_ID.desktop" "$INSTALL_DIR/$APP_ID.desktop"
-    if [ -d mime/packages ]; then
+
+    if [ -d "mime/packages" ]; then
         mkdir -p "$INSTALL_DIR/mime/packages"
-        cp mime/packages/* "$INSTALL_DIR/mime/packages/"
+        chmod a+r,u+w "$INSTALL_DIR/mime/packages"
+        cp mime/packages/* "$INSTALL_DIR/mime/packages/."
+        if [ ! -d "$MIME_DIR/packages" ]; then
+            mkdir -p "$MIME_DIR/packages"
+        fi
+        for m in `ls $INSTALL_DIR/mime/packages/`
+        do
+            chmod a+r,u+w "$INSTALL_DIR/mime/packages/$m"
+            if [ ! -f "$MIME_DIR/packages/$m" ]; then
+                ln -s "$INSTALL_DIR/mime/packages/$m" "$MIME_DIR/packages/$m"
+            fi
+        done
     fi
 fi
-if [ ! -f "$ICON_FILE" ]; then
+if [  -f "$ICON_FILE" ]; then
+    chmod a+r,u+w "$ICON_FILE"
+else
     usage_dev "Don't find icon file(.png or .svg)"
 fi
 
@@ -204,38 +221,49 @@ sed -i "s#Exec=.*#Exec=$INSTALL_DIR/${APPIMAGE_FILE}#g" $INSTALL_DIR/$APP_ID.des
 # 修改路径
 sed -i "s#Path=.*#Path=${INSTALL_DIR}#g" $INSTALL_DIR/$APP_ID.desktop
 if [ ! -f "$DESKTOP_FILE" ]; then
-    CREATE_DESKTOP_FILE=1
     ln -s "${INSTALL_DIR}/$APP_ID.desktop" "$DESKTOP_FILE"
     # ICON 使用绝对路径
     sed -i "s#^Icon=.*#Icon=$ICON_FILE#" "$INSTALL_DIR/$APP_ID.desktop"
 fi
 # 修改执行权限
-chmod a+xr "$INSTALL_DIR/$APP_ID.desktop"
+chmod a+xr,u+w "$INSTALL_DIR/$APP_ID.desktop"
 
 # Update desktop database
 if command -v update-desktop-database >/dev/null 2>&1; then
     update-desktop-database "$DESKTOP_FILE_DIR"
 fi
 # Update mime type database
-if [ -d mime/packages ]; then
+if [ -d "$MIME_DIR/packages" ]; then
     if command -v update-mime-database >/dev/null 2>&1; then
-        update-mime-database "$INSTALL_DIR/mime/packages/"
+        update-mime-database "$MIME_DIR"
     fi
 fi
 
 echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
-if [ -n "$CREATE_DESKTOP_FILE" ]; then
-    echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
+echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
+echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
+
+echo "if command -v update-desktop-database >/dev/null 2>&1; then" >> "$INSTALL_DIR/uninstall.sh"
+echo "    if [ -d \"$DESKTOP_FILE_DIR\" ]; then" >> "$INSTALL_DIR/uninstall.sh"
+echo "        update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
+echo "    fi" >> "$INSTALL_DIR/uninstall.sh"
+echo "fi" >> "$INSTALL_DIR/uninstall.sh"
+
+if [ -d "mime/packages" ]; then
+    for m in `ls $INSTALL_DIR/mime/packages/`
+    do
+        if [ -f "$MIME_DIR/packages/$m" ]; then
+            echo "rm -fr \"$MIME_DIR/packages/$m\"" >> "$INSTALL_DIR/uninstall.sh"
+        fi
+    done
+    echo "if command -v update-mime-database >/dev/null 2>&1; then" >> "$INSTALL_DIR/uninstall.sh"
+    echo "    if [ -d \"$MIME_DIR\" ]; then" >> "$INSTALL_DIR/uninstall.sh"
+    echo "        update-mime-database \"$MIME_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
+    echo "    fi" >> "$INSTALL_DIR/uninstall.sh"
+    echo "fi" >> "$INSTALL_DIR/uninstall.sh"
 fi
-if [ -n "$CREATE_INSTALL_DIR" ]; then
-    echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
-fi
-#echo "update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
-#if [ -d mime/packages ]; then
-#    echo "update-mime-database \"$INSTALL_DIR/mime/packages\"" >> "$INSTALL_DIR/uninstall.sh"
-#fi
-chmod u+x "$INSTALL_DIR/uninstall.sh"
-chmod u+x "$INSTALL_DIR/$APPIMAGE_FILE"
+
+chmod a+xr,u+w "$INSTALL_DIR/uninstall.sh"
 
 echo ""
 echo "Install \"$APP_ID\" AppImage to \"$INSTALL_DIR\"."

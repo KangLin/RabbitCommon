@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Use to merge update json file in linux
+# Merge update json file in linux
+# Author: Kang Lin <kl222@126.com>
 # $1: the name of the json file
 # $2: the directory of the json files
 # $3: the json file of the version

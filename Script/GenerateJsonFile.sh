@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Use to generate update json file in linux
+# Generate update json file in linux
+# Author: Kang Lin <kl222@126.com>
 
 function usage_long()
 {
