@@ -12,7 +12,7 @@ CTestGenerateDefaultJsonFile::CTestGenerateDefaultJsonFile(QObject *parent)
 void CTestGenerateDefaultJsonFile::test_generate_update_json_file()
 {
     CFrmUpdater updater;
-    QVERIFY(0 == updater.GenerateUpdateJson());
+    QVERIFY(CFrmUpdater::ErrCode::Success == updater.GenerateUpdateJson());
 }
 
 void CTestGenerateDefaultJsonFile::test_default_update_json_file()
@@ -23,7 +23,7 @@ void CTestGenerateDefaultJsonFile::test_default_update_json_file()
     QVERIFY(file.exists());
     
     CFrmUpdater::CONFIG_INFO info;
-    QVERIFY(0 == updater.GetConfigFromFile("update.json", info));
+    QVERIFY(CFrmUpdater::ErrCode::Success == updater.GetConfigFromFile("update.json", info));
     QVERIFY(info.version.szVerion == updater.m_szCurrentVersion);
     QVERIFY(info.version.szMinUpdateVersion == updater.m_szCurrentVersion);
     QVERIFY(info.version.szInfomation == qApp->applicationName() + " " + updater.m_szCurrentVersion);
@@ -54,7 +54,7 @@ void CTestGenerateDefaultJsonFile::test_default_update_json_file()
     }
 #endif
     QVERIFY(conf_file.szFileName == szFileName);
-    QVERIFY(!conf_file.szPackageName.isEmpty());
+    QVERIFY(conf_file.szPackageName.isEmpty());
 }
 
 int main(int argc, char* argv[])

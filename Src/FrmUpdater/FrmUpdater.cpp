@@ -194,7 +194,7 @@ CFrmUpdater::~CFrmUpdater()
  *
  * \endcode
  */
-int CFrmUpdater::InitStateMachine()
+CFrmUpdater::ErrCode CFrmUpdater::InitStateMachine()
 {
     qDebug(log) << "Init State Machine";
     QFinalState *sFinal = new QFinalState();
@@ -251,7 +251,7 @@ int CFrmUpdater::InitStateMachine()
     return ErrCode::Success;
 }
 
-int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
+CFrmUpdater::ErrCode CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
 {
     QString title = szTitle;
     if(szTitle.isEmpty())
@@ -265,7 +265,7 @@ int CFrmUpdater::SetTitle(QImage icon, const QString &szTitle)
     return ErrCode::Success;
 }
 
-int CFrmUpdater::SetVersion(const QString &szVersion)
+CFrmUpdater::ErrCode CFrmUpdater::SetVersion(const QString &szVersion)
 {
     m_szCurrentVersion = szVersion;
     ui->lbCurrentVersion->setText(tr("Current version: %1")
@@ -479,7 +479,8 @@ CFrmUpdater::RedirectCode CFrmUpdater::CheckRedirectConfigFile()
     if(RedirectCode::RedirectConfigure != nRet) {
         if(RedirectCode::Failure == nRet) {
             QString szError = tr("Failed:") + tr("%2 process the file: %1")
-                                      .arg(m_DownloadFile.fileName()).arg((int)nRet);
+            .arg(m_DownloadFile.fileName()).arg(
+                QMetaEnum::fromType<ErrCode>().valueToKey(static_cast<int>(nRet)));
             ui->lbState->setText(szError);
             qCritical(log) << szError;
             emit sigError();
@@ -608,15 +609,16 @@ CFrmUpdater::RedirectCode CFrmUpdater::CheckRedirectConfigFile()
  * 
  * \see GetConfigFromFile
  */
-int CFrmUpdater::CheckUpdateConfigFile()
+CFrmUpdater::ErrCode CFrmUpdater::CheckUpdateConfigFile()
 {
-    int nRet = 0;
+    ErrCode nRet = ErrCode::Success;
     qDebug(log) << "CFrmUpdater::CheckUpdateConfigFile()";
     CONFIG_INFO info;
     nRet = GetConfigFromFile(m_DownloadFile.fileName(), info);
-    if(nRet) {
+    if(ErrCode::Success != nRet) {
         QString szError = tr("Failed:") + tr("%2 process the file: %1")
-                                      .arg(m_DownloadFile.fileName()).arg(nRet);
+        .arg(m_DownloadFile.fileName()).arg(
+            QMetaEnum::fromType<ErrCode>().valueToKey(static_cast<int>(nRet)));
         ui->lbState->setText(szError);
         qCritical(log) << szError;
         emit sigError();
@@ -630,7 +632,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
         ui->lbState->setText(szError);
         qInfo(log) << szError;
         emit sigError();
-        return -4;
+        return ErrCode::Version;
     }
     
     if(info.files.isEmpty()) {
@@ -640,7 +642,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
         ui->lbState->setText(szError);
         qCritical(log) << szError;
         emit sigError();
-        return -5;
+        return ErrCode::File;
     }
 
     QString szSystem = QSysInfo::productType();
@@ -688,7 +690,7 @@ int CFrmUpdater::CheckUpdateConfigFile()
         ui->lbState->setText(szErr);
         qCritical(log) << szErr;
         emit sigError();
-        return -6;
+        return ErrCode::File;
     }
 
 #if defined(Q_OS_LINUX)
@@ -874,12 +876,12 @@ CFrmUpdater::RedirectCode CFrmUpdater::GetRedirectFromFile(const QString& szFile
  * \endcode
  * \see GenerateJsonFile GetConfigFromCommandLine
  */
-int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
+CFrmUpdater::ErrCode CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
 {
     QFile file(szFile);
     if(!file.open(QFile::ReadOnly)) {
         qDebug(log) << "The file isn't opened:" << szFile;
-        return -1;
+        return ErrCode::File;
     }
 
     QJsonDocument doc;
@@ -888,7 +890,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     if(!doc.isObject())
     {
         qCritical(log) << "Parser configure file fail." << szFile;
-        return -2;
+        return ErrCode::Document;
     }
     
     QJsonObject obj = doc.object();
@@ -913,7 +915,7 @@ int CFrmUpdater::GetConfigFromFile(const QString &szFile, CONFIG_INFO& conf)
     
     if(!obj.contains("files")) {
         qDebug(log) << "Configure file isn't contains files array";
-        return ErrCode::Success;
+        return ErrCode::Document;
     }
     
     QJsonArray objFiles = obj["files"].toArray();
@@ -1019,7 +1021,7 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
     do {
 
         if(m_pcbUpdate) {
-            int nRet = m_pcbUpdate(szFile);
+            nRet = (ErrCode) m_pcbUpdate(szFile);
             if(ErrCode::Success == nRet) {
                 return ErrCode::Success;
             }
@@ -1369,23 +1371,24 @@ void CFrmUpdater::slotButtonClickd(int id)
     set.setValue("Update/RadioButton", id);
 }
 
-int CFrmUpdater::GenerateUpdateJson()
+CFrmUpdater::ErrCode CFrmUpdater::GenerateUpdateJson()
 {
     QCommandLineParser parser;
-    int nRet = GenerateUpdateJson(parser);
-    parser.process(qApp->arguments());
+    ErrCode nRet = GenerateUpdateJson(parser);
     return nRet;
 }
 
-int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
+CFrmUpdater::ErrCode CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
 {
     QString szFile;
     CONFIG_INFO info;
     CONFIG_TYPE type;
-    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
-    if(nRet)
-        return nRet;
-    return GenerateJsonFile(szFile, info, type);
+    ErrCode nRet = GetConfigFromCommandLine(parser, szFile, info, type);
+    ErrCode nRet1 = GenerateJsonFile(szFile, info, type);
+    if(ErrCode::Success == nRet1 && ErrCode::Arguments == nRet)
+        return ErrCode::Arguments;
+
+    return nRet1;
 }
 
 /*!
@@ -1396,7 +1399,7 @@ int CFrmUpdater::GenerateUpdateJson(QCommandLineParser &parser)
  * \return 
  * \see GetConfigFromFile
  */
-int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE type)
+CFrmUpdater::ErrCode CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE type)
 {
     QJsonDocument doc;
     
@@ -1450,14 +1453,14 @@ int CFrmUpdater::GenerateJsonFile(const QString &szFile, const CONFIG_INFO &info
     if(!f.open(QIODevice::WriteOnly))
     {
         qCritical(log) << "Open file fail:" << f.fileName();
-        return -1;
+        return ErrCode::File;
     }
     f.write(doc.toJson());
     f.close();
     return ErrCode::Success;
 }
 
-int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE &type)
+CFrmUpdater::ErrCode CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO &info, CONFIG_TYPE &type)
 {
     QDomDocument doc;
     QDomProcessingInstruction ins;
@@ -1544,7 +1547,7 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
         qCritical(log)
                 << "CFrmUpdater::GenerateUpdateXml file open file fail:"
                 << f.fileName();
-        return ErrCode::Failure;
+        return ErrCode::File;
     }
     QTextStream stream(&f);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -1555,23 +1558,24 @@ int CFrmUpdater::GenerateUpdateXmlFile(const QString &szFile, const CONFIG_INFO 
     return ErrCode::Success;
 }
 
-int CFrmUpdater::GenerateUpdateXml()
+CFrmUpdater::ErrCode CFrmUpdater::GenerateUpdateXml()
 {
     QCommandLineParser parser;
-    int nRet = GenerateUpdateXml(parser);
-    parser.process(qApp->arguments());
+    ErrCode nRet = GenerateUpdateXml(parser);
     return nRet;
 }
 
-int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
+CFrmUpdater::ErrCode CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
 {
     QString szFile;
     CONFIG_INFO info;
     CONFIG_TYPE type;
-    int nRet = GetConfigFromCommandLine(parser, szFile, info, type);
-    if(nRet)
-        return nRet;
-    return GenerateUpdateXmlFile(szFile + ".xml", info, type);
+    ErrCode nRet = GetConfigFromCommandLine(parser, szFile, info, type);
+    ErrCode nRet1 = GenerateUpdateXmlFile(szFile + ".xml", info, type);
+    if(ErrCode::Success == nRet1 && ErrCode::Arguments == nRet)
+        return ErrCode::Arguments;
+
+    return nRet1;
 }
 
 /*!
@@ -1583,7 +1587,7 @@ int CFrmUpdater::GenerateUpdateXml(QCommandLineParser &parser)
  * \return 
  * \see GetConfigFromFile
  */
-int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
+CFrmUpdater::ErrCode CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                          /*[out]*/QString &szFile,
                          /*[out]*/CONFIG_INFO &info,
                          /*[out]*/CONFIG_TYPE &type)
@@ -1714,7 +1718,9 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
 
     if(!parser.parse(QApplication::arguments())) {
         qDebug(log) << "parser.parse fail" << parser.errorText()
-                              << qApp->arguments();
+                    << qApp->arguments() << parser.optionNames()
+                    << parser.unknownOptionNames()
+                    << parser.positionalArguments();
     }
 
     szFile = parser.value(oFile);
@@ -1786,7 +1792,7 @@ int CFrmUpdater::GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
 
     info.files.append(file);
 
-    return ErrCode::Success;
+    return parser.optionNames().isEmpty() ? ErrCode::Success : ErrCode::Arguments;
 }
 
 void CFrmUpdater::showEvent(QShowEvent *event)
@@ -1835,13 +1841,13 @@ void CFrmUpdater::on_cbHomePage_clicked(bool checked)
     set.setValue("Updater/ShowHomePage", checked);
 }
 
-int CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
+CFrmUpdater::ErrCode CFrmUpdater::SetInstallAutoStartup(bool bAutoStart)
 {
     m_InstallAutoStartupType = bAutoStart;
     return ErrCode::Success;
 }
 
-int CFrmUpdater::SetUpdateCallback(pUpdateCallback pCb)
+CFrmUpdater::ErrCode CFrmUpdater::SetUpdateCallback(pUpdateCallback pCb)
 {
     m_pcbUpdate = pCb;
     return ErrCode::Success;

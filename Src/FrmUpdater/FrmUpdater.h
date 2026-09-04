@@ -86,36 +86,40 @@ public:
     explicit CFrmUpdater(QVector<QUrl> urls = QVector<QUrl>(), QWidget *parent = nullptr);
     virtual ~CFrmUpdater() override;
 
-    enum ErrCode {
-        Failure = -1,
+    enum class ErrCode {
+        Arguments = 1,
         Success = 0,
-        Ok = Success
+        Ok = Success,
+        Failure = -1,
+        File = -2,
+        Document = -3,
+        Version = -4
     };
     Q_ENUM(ErrCode)
 
-    int SetVersion(const QString &szVersion);
+    ErrCode SetVersion(const QString &szVersion);
     /**
      * @brief SetTitle
      * @param icon
      * @param szTitle: default is qApp->applicationDisplayName()
      * @return
      */
-    int SetTitle(QImage icon = QImage(), const QString &szTitle = QString());
+    ErrCode SetTitle(QImage icon = QImage(), const QString &szTitle = QString());
 
     /**
      * @brief Update XML file used only to generate programs
      * @return 
      */
     Q_DECL_DEPRECATED
-    int GenerateUpdateXml();
+    ErrCode GenerateUpdateXml();
     Q_DECL_DEPRECATED
-    int GenerateUpdateXml(QCommandLineParser &parser);
+    ErrCode GenerateUpdateXml(QCommandLineParser &parser);
     /*!
      * \brief Generate update json configure file
      * \note  If your application hasn't a command-line argument, use it.
      * \see GetConfigFromFile
      */
-    int GenerateUpdateJson();
+    ErrCode GenerateUpdateJson();
     /*!
      * \brief Generate update json configure file
      * \param parser: QCommandLineParser
@@ -123,20 +127,20 @@ public:
      * \snippet App/main.cpp Use CFrmUpdater GenerateUpdateJson
      * \see GetConfigFromFile
      */
-    int GenerateUpdateJson(QCommandLineParser &parser);
+    ErrCode GenerateUpdateJson(QCommandLineParser &parser);
 
     /*!
      * \brief Set install and automation startup
      * \param bAutoStart
      * \return 
      */
-    int SetInstallAutoStartup(bool bAutoStart = true);
+    ErrCode SetInstallAutoStartup(bool bAutoStart = true);
 
     /*!
      * \brief SetUpdateCallback
      * \param pCb
      */
-    int SetUpdateCallback(pUpdateCallback pCb);
+    ErrCode SetUpdateCallback(pUpdateCallback pCb);
 
 protected Q_SLOTS:
     // [Add the slot functions of RabbitCommon::CDownload]
@@ -164,7 +168,7 @@ Q_SIGNALS:
 
 private:
     CFrmUpdater(QWidget *parent);
-    int InitStateMachine();
+    ErrCode InitStateMachine();
     bool IsDownLoad();
     bool CheckFileSum(const QString &szFile);
     enum class RedirectCode {
@@ -174,7 +178,7 @@ private:
         DontUpdate = 2         //! Don't updater
     };
     RedirectCode CheckRedirectConfigFile();
-    int CheckUpdateConfigFile();
+    ErrCode CheckUpdateConfigFile();
     bool CheckPrompt(const QString &szVersion);
     ErrCode Execute(const QString& szFile);
     ErrCode ExecuteAppImage(const QString& szFile);
@@ -245,15 +249,15 @@ private:
     CONFIG_FILE m_ConfigFile;
     
     RedirectCode GetRedirectFromFile(const QString& szFile, QVector<CONFIG_REDIRECT> &conf);
-    int GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
-    int GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
+    ErrCode GetConfigFromFile(const QString& szFile, CONFIG_INFO &conf);
+    ErrCode GetConfigFromCommandLine(/*[in]*/QCommandLineParser &parser,
                 /*[out]*/QString &szFile,
                 /*[out]*/CONFIG_INFO &info,
                 /*[out]*/CONFIG_TYPE &type);
-    int GenerateUpdateXmlFile(const QString &szFile,
+    ErrCode GenerateUpdateXmlFile(const QString &szFile,
                               const CONFIG_INFO &info,
                               CONFIG_TYPE &type);
-    int GenerateJsonFile(const QString &szFile,
+    ErrCode GenerateJsonFile(const QString &szFile,
                          const CONFIG_INFO &info,
                          CONFIG_TYPE type);
     

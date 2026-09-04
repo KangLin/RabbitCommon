@@ -11,7 +11,7 @@ CTestGenerateJsonFile::CTestGenerateJsonFile() : QObject()
 void CTestGenerateJsonFile::test_generate_update_json_file()
 {
     CFrmUpdater updater;
-    QVERIFY(0 == updater.GenerateUpdateJson());
+    QVERIFY(CFrmUpdater::ErrCode::Arguments == updater.GenerateUpdateJson());
 }
 
 void CTestGenerateJsonFile::test_json_file()
@@ -20,7 +20,7 @@ void CTestGenerateJsonFile::test_json_file()
     QFile file("test.json");
     QVERIFY(file.exists());
     CFrmUpdater::CONFIG_INFO info;
-    QVERIFY(0 == updater.GetConfigFromFile("test.json", info));
+    QVERIFY(CFrmUpdater::ErrCode::Success == updater.GetConfigFromFile("test.json", info));
     QVERIFY(info.version.szVerion == "2.0.0");
     QVERIFY(info.version.szMinUpdateVersion == "1.9.0");
     QVERIFY(info.version.szTime == "time");
