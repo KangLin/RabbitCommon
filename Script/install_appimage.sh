@@ -228,26 +228,20 @@ fi
 # 修改执行权限
 chmod a+xr,u+w "$INSTALL_DIR/$APP_ID.desktop"
 
-# Update desktop database
-if command -v update-desktop-database >/dev/null 2>&1; then
-    update-desktop-database "$DESKTOP_FILE_DIR"
-fi
 # Update mime type database
 if [ -d "$MIME_DIR/packages" ]; then
     if command -v update-mime-database >/dev/null 2>&1; then
         update-mime-database "$MIME_DIR"
     fi
 fi
+# Update desktop database
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database "$DESKTOP_FILE_DIR"
+fi
 
 echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
 echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
 echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
-
-echo "if command -v update-desktop-database >/dev/null 2>&1; then" >> "$INSTALL_DIR/uninstall.sh"
-echo "    if [ -d \"$DESKTOP_FILE_DIR\" ]; then" >> "$INSTALL_DIR/uninstall.sh"
-echo "        update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
-echo "    fi" >> "$INSTALL_DIR/uninstall.sh"
-echo "fi" >> "$INSTALL_DIR/uninstall.sh"
 
 if [ -d "mime/packages" ]; then
     for m in `ls $INSTALL_DIR/mime/packages/`
@@ -262,6 +256,11 @@ if [ -d "mime/packages" ]; then
     echo "    fi" >> "$INSTALL_DIR/uninstall.sh"
     echo "fi" >> "$INSTALL_DIR/uninstall.sh"
 fi
+echo "if command -v update-desktop-database >/dev/null 2>&1; then" >> "$INSTALL_DIR/uninstall.sh"
+echo "    if [ -d \"$DESKTOP_FILE_DIR\" ]; then" >> "$INSTALL_DIR/uninstall.sh"
+echo "        update-desktop-database \"$DESKTOP_FILE_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
+echo "    fi" >> "$INSTALL_DIR/uninstall.sh"
+echo "fi" >> "$INSTALL_DIR/uninstall.sh"
 
 chmod a+xr,u+w "$INSTALL_DIR/uninstall.sh"
 
