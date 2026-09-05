@@ -14,10 +14,13 @@ set -e
 #set -x
 
 usage_long() {
-    echo "$0 [-h|--help] [--install=<install directory>]"
+    echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir]"
     echo "  -h|--help: show help"
-    echo "  --id: Application ID"
-    echo "  --install: Set install directory"
+    echo "  --id=<APP id>: Application ID. the default is the base name of desktop file(.desktop)"
+    echo "  --install=<install directory>: Set install directory."
+    echo "        the default is ‘$HOME/AppImage/$APP_ID’ without '--system-dir';"
+    echo "        Otherwise is '/usr/local/AppImage/$APP_ID' with '--system-dir'"
+    echo "  --system-dir: Use system directories(/usr/local); Otherwise is current user directories($HOME)"
     exit -1
 }
 
@@ -29,7 +32,8 @@ usage_dev() {
     echo "   - desktop file($APP_ID.desktop)"
     echo "   - icon file($APP_ID.png or $APP_ID.svg)"
     echo "   - AppImae file(.AppImage)"
-    exit -2
+    echo ""
+    usage_long()
 }
 
 check_parameters() {
@@ -48,12 +52,20 @@ check_parameters() {
     if [ -z "$APP_ID" ]; then
         usage_long
     fi
-    if [ -z "$INSTALL_DIR" ]; then
-        INSTALL_DIR=$HOME/AppImage/$APP_ID
+    if [ $SYSTEM_DIR -eq 1 ]; then
+        DESKTOP_FILE_DIR=/usr/local/share/applications
+        MIME_DIR=/usr/local/share/mime
+        if [ -z "$INSTALL_DIR" ]; then
+            INSTALL_DIR=/usr/local/AppImage/$APP_ID
+        fi
+    else
+        DESKTOP_FILE_DIR=$HOME/.local/share/applications
+        MIME_DIR=$HOME/.local/share/mime
+        if [ -z "$INSTALL_DIR" ]; then
+            INSTALL_DIR=$HOME/AppImage/$APP_ID
+        fi
     fi
-    DESKTOP_FILE_DIR=$HOME/.local/share/applications
     DESKTOP_FILE=$DESKTOP_FILE_DIR/$APP_ID.AppImage.desktop
-    MIME_DIR=$HOME/.local/share/mime
 }
 
 # [如何使用getopt和getopts命令解析命令行选项和参数](https://zhuanlan.zhihu.com/p/673908518)
@@ -66,7 +78,7 @@ if command -V getopt >/dev/null; then
     # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
     # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
     # -n 选项后接选项解析错误时提示的脚本名字
-    OPTS=help,install:,id:
+    OPTS=help,install:,id:,system-dir
     ARGS=`getopt -o h,v:: -l $OPTS -n $(basename $0) -- "$@"`
     if [ $? != 0 ]; then
         echo "exec getopt fail: $?"
@@ -88,6 +100,10 @@ if command -V getopt >/dev/null; then
             ;;
         --id)
             APP_ID=$2
+            shift 2
+            ;;
+        --system-dir)
+            SYSTEM_DIR=1
             shift 2
             ;;
         --) # 当解析到“选项和参数“与“non-option parameters“的分隔符时终止
