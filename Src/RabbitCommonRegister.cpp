@@ -40,7 +40,7 @@ int CRegister::InstallStartRunCurrentUser(QString szName, QString szPath)
 
     return 0;
 #elif defined(Q_OS_UNIX)
-    //See: debian/postinst and Install/install.sh
+    //See: debian/postinst and Script/install_appimage.sh
     //Ubuntu use gnome-session-properties
     // - Current user: ~/.config/autostart
     // - All user: /etc/xdg/autostart/
@@ -163,7 +163,7 @@ int CRegister::InstallStartRun(QString szName, QString szPath)
 
     return 0;
 #elif defined(Q_OS_UNIX)
-    //See: debian/postinst and Install/install.sh
+    //See: debian/postinst and Script/install_appimage.sh
     //Ubuntu use gnome-session-properties
     // - Current user: ~/.config/autostart
     // - All user: /etc/xdg/autostart/
@@ -359,7 +359,7 @@ QString CRegister::GetDesktopFileName(const QString &szPath,
 }
 
 /*
-    //See: debian/postinst and Install/install.sh
+    //See: debian/postinst and Script/install_appimage.sh
     //Ubuntu use gnome-session-properties
     // - Current user: ~/.config/autostart
     // - All user: /etc/xdg/autostart/

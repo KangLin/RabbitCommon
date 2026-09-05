@@ -14,13 +14,14 @@ set -e
 #set -x
 
 usage_long() {
-    echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir]"
+    echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir] [--auto-start]"
     echo "  -h|--help: show help"
     echo "  --id=<APP id>: Application ID. the default is the base name of desktop file(.desktop)"
     echo "  --install=<install directory>: Set install directory."
     echo "        the default is ‘$HOME/AppImage/$APP_ID’ without '--system-dir';"
     echo "        Otherwise is '/usr/local/AppImage/$APP_ID' with '--system-dir'"
     echo "  --system-dir: Use system directories(/usr/local); Otherwise is current user directories($HOME)"
+    echo "  --auto-start: add automatically start the program"
     exit -1
 }
 
@@ -58,14 +59,17 @@ check_parameters() {
         if [ -z "$INSTALL_DIR" ]; then
             INSTALL_DIR=/usr/local/AppImage/$APP_ID
         fi
+        AUTO_START_DIR=/etc/xdg/autostart/
     else
         DESKTOP_FILE_DIR=$HOME/.local/share/applications
         MIME_DIR=$HOME/.local/share/mime
+        AUTO_START_DIR=$HOME/.config/autostart
         if [ -z "$INSTALL_DIR" ]; then
             INSTALL_DIR=$HOME/AppImage/$APP_ID
         fi
     fi
     DESKTOP_FILE=$DESKTOP_FILE_DIR/$APP_ID.AppImage.desktop
+    DESKTOP_FILE_AUTO_START=$AUTO_START_DIR/$APP_ID.AppImage.desktop
 }
 
 # [如何使用getopt和getopts命令解析命令行选项和参数](https://zhuanlan.zhihu.com/p/673908518)
@@ -78,7 +82,7 @@ if command -V getopt >/dev/null; then
     # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
     # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
     # -n 选项后接选项解析错误时提示的脚本名字
-    OPTS=help,install:,id:,system-dir
+    OPTS=help,install:,id:,system-dir,auto-start
     ARGS=`getopt -o h,v:: -l $OPTS -n $(basename $0) -- "$@"`
     if [ $? != 0 ]; then
         echo "exec getopt fail: $?"
@@ -104,6 +108,10 @@ if command -V getopt >/dev/null; then
             ;;
         --system-dir)
             SYSTEM_DIR=1
+            shift 2
+            ;;
+        --auto-start)
+            AUTO_START=1
             shift 2
             ;;
         --) # 当解析到“选项和参数“与“non-option parameters“的分隔符时终止
@@ -238,6 +246,9 @@ sed -i "s#Exec=.*#Exec=$INSTALL_DIR/${APPIMAGE_FILE}#g" $INSTALL_DIR/$APP_ID.des
 sed -i "s#Path=.*#Path=${INSTALL_DIR}#g" $INSTALL_DIR/$APP_ID.desktop
 if [ ! -f "$DESKTOP_FILE" ]; then
     ln -s "${INSTALL_DIR}/$APP_ID.desktop" "$DESKTOP_FILE"
+    if [ $AUTO_START -eq 1 ]; then
+        ln -s "${INSTALL_DIR}/$APP_ID.desktop" "$DESKTOP_FILE_AUTO_START"
+    fi
     # ICON 使用绝对路径
     sed -i "s#^Icon=.*#Icon=$ICON_FILE#" "$INSTALL_DIR/$APP_ID.desktop"
 fi
@@ -256,8 +267,11 @@ if command -v update-desktop-database >/dev/null 2>&1; then
 fi
 
 echo "echo \"Uninstall \\\"$APP_ID\\\" AppImage from \\\"$(dirname $(readlink -f $DESKTOP_FILE))\\\"\"" > "$INSTALL_DIR/uninstall.sh"
-echo "rm -f $DESKTOP_FILE" >> "$INSTALL_DIR/uninstall.sh"
-echo "rm -fr $INSTALL_DIR" >> "$INSTALL_DIR/uninstall.sh"
+echo "rm -f \"$DESKTOP_FILE\"" >> "$INSTALL_DIR/uninstall.sh"
+if [ $AUTO_START -eq 1 ]; then
+    echo "rm -f \"$DESKTOP_FILE_AUTO_START\"" >> "$INSTALL_DIR/uninstall.sh"
+fi
+echo "rm -fr \"$INSTALL_DIR\"" >> "$INSTALL_DIR/uninstall.sh"
 
 if [ -d "mime/packages" ]; then
     for m in `ls $INSTALL_DIR/mime/packages/`

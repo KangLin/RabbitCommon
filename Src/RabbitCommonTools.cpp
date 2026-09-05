@@ -1017,7 +1017,7 @@ int CTools::InstallStartRun(const QString &szName, const QString &szPath, bool b
     if(bAllUser)
         return RabbitCommon::CRegister::InstallStartRun();
     return RabbitCommon::CRegister::InstallStartRunCurrentUser();
-    //See: debian/postinst and Install/install.sh
+    //See: debian/postinst and Script/install_appimage.sh
     //Ubuntu use gnome-session-properties
     // - Current user: ~/.config/autostart
     // - All user: /etc/xdg/autostart/
