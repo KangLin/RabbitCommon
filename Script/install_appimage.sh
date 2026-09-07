@@ -13,6 +13,8 @@
 set -e
 #set -x
 
+SYSTEM_DIR=0
+AUTO_START=0
 usage_long() {
     echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir] [--auto-start]"
     echo "  -h|--help: show help"
@@ -34,7 +36,7 @@ usage_dev() {
     echo "   - icon file($APP_ID.png or $APP_ID.svg)"
     echo "   - AppImae file(.AppImage)"
     echo ""
-    usage_long()
+    usage_long
 }
 
 check_parameters() {
