@@ -223,11 +223,16 @@ void CFrmMediaDevices::setupUi()
     mainLayout->addLayout(leftLayout, 1);
 
     // Right: camera preview area
+    QSize minVideo(420, 320);
     m_videoWidget = new QVideoWidget(this);
-    m_videoWidget->setMinimumSize(420, 320);
+    m_videoWidget->setMinimumSize(minVideo);
+    m_videoWidget->hide();
     auto *rightLayout = new QVBoxLayout();
-    rightLayout->addWidget(new QLabel(tr("Camera preview")));
+    QLabel* pVideoTitle = new QLabel(tr("Camera preview"));
+    pVideoTitle->setMinimumWidth(minVideo.width());
+    rightLayout->addWidget(pVideoTitle);
     rightLayout->addWidget(m_videoWidget, 1);
+    rightLayout->addStretch();
     mainLayout->addLayout(rightLayout, 2);
 
     // connections
@@ -358,6 +363,7 @@ void CFrmMediaDevices::onCameraTestToggled()
         m_captureSession.setVideoOutput(m_videoWidget);
         m_camera->start();
         m_btnTestCamera->setText(tr("Turn off camera preview"));
+        m_videoWidget->show();
     } else {
         m_camera->stop();
         m_captureSession.setCamera(nullptr);
@@ -367,7 +373,6 @@ void CFrmMediaDevices::onCameraTestToggled()
         m_btnTestCamera->setText(tr("Turn on camera preview"));
         // clear video widget
         m_videoWidget->hide();
-        m_videoWidget->show();
     }
 }
 
@@ -536,6 +541,7 @@ void CFrmMediaDevices::onCameraTestToggled()
         m_camera->setViewfinder(m_videoWidget);
         m_camera->start();
         m_btnTestCamera->setText(tr("Turn off camera preview"));
+        m_videoWidget->show();
     } else {
         m_camera->stop();
         delete m_camera;
@@ -543,7 +549,6 @@ void CFrmMediaDevices::onCameraTestToggled()
         m_btnTestCamera->setText(tr("Turn on camera preview"));
         // clear video widget
         m_videoWidget->hide();
-        m_videoWidget->show();
     }
 }
 
