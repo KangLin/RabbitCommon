@@ -1223,7 +1223,7 @@ QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
     QString szInstall;
     QString szCmd;
     szCmd = "#!/bin/bash\n";
-    szCmd += "set -e\n";
+    //szCmd += "set -e\n";
 
     QFileInfo fi(szFile);
     if(!fi.suffix().compare("rpm", Qt::CaseInsensitive)) {
@@ -1260,7 +1260,7 @@ QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
     QString d = fi.absoluteFilePath();
     QString szCmd;
     szCmd = "#!/bin/bash\n";
-    szCmd += "set -e\n";
+    //szCmd += "set -e\n";
     szCmd += "cd " + fi.absolutePath() + "\n";
     if(!fi.suffix().compare("zip", Qt::CaseInsensitive)) {
         szCmd += "unzip -o " + szFile + "\n";
