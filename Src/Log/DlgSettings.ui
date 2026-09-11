@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CDlgFilter</class>
- <widget class="QDialog" name="CDlgFilter">
+ <class>CDlgSettings</class>
+ <widget class="QDialog" name="CDlgSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>207</height>
+    <width>600</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Filter</string>
+   <string>Log settings</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="filter"/>
+   <iconset theme="system-settings"/>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="0">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Filter</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Include the following(Regular expressions are supported):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="leInclude"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Exclude the following(Regular expressions are supported):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLineEdit" name="leExclude"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -27,27 +56,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLineEdit" name="leExclude"/>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Include the following(Regular expressions are supported):</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLineEdit" name="leInclude"/>
-   </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Exclude the following(Regular expressions are supported):</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Vertical</enum>
@@ -60,6 +69,13 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="cbOpenFile">
+     <property name="text">
+      <string>Open with the system's default program</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -67,7 +83,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>CDlgFilter</receiver>
+   <receiver>CDlgSettings</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -83,7 +99,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>CDlgFilter</receiver>
+   <receiver>CDlgSettings</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

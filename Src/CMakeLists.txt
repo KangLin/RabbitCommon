@@ -83,8 +83,9 @@ if(WITH_GUI)
     list(APPEND RABBITCOMMON_HEAD_FILES
         Style/Style.h
         Log/DockDebugLog.h
-        Log/DlgFilter.h
+        Log/DlgSettings.h
         Log/DlgEdit.h
+        Log/ParameterLog.h
         FileBrowser/FileBroserTreeView.h
         FileBrowser/UndoCommand.h
         )
@@ -98,14 +99,15 @@ if(WITH_GUI)
         FileBrowser/FileBroserTreeView.cpp
         FileBrowser/UndoCommand.cpp
         Log/DockDebugLog.cpp
-        Log/DlgFilter.cpp
+        Log/DlgSettings.cpp
         Log/DlgEdit.cpp
+        Log/ParameterLog.cpp
         )
     list(APPEND RABBITCOMMON_SOURCE_UI_FILES
         Style/FrmStyle.ui
         DockFolderBrowser/DockFolderBrowser.ui
         Log/DockDebugLog.ui
-        Log/DlgFilter.ui
+        Log/DlgSettings.ui
         Log/DlgEdit.ui
         )
     list(APPEND RABBITCOMMON_INCLUDE_DIRS

@@ -17,6 +17,7 @@
 #include <QLoggingCategory>
 
 #ifdef HAVE_RABBITCOMMON_GUI
+    #include "DlgSettings.h"
     #include <QDesktopServices>
     #include <QMessageBox>
     #include <QClipboard>
@@ -67,8 +68,9 @@ CLog::CLog() : QObject(),
     QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                   QSettings::IniFormat);
 
-    SetFilter(set.value("Log/Filter/include").toString(),
-              set.value("Log/Filter/Exclude").toString());
+    m_Parameters.Load(set);
+    g_reInclude = QRegularExpression(m_Parameters.GetFilterInclude());
+    g_reExclude = QRegularExpression(m_Parameters.GetFilterExclude());
 
     bool bReadOnly = false;
 #if defined(Q_OS_ANDROID)
@@ -289,28 +291,14 @@ QString CLog::GetLogDir()
 {
     QString f = GetLogFile();
     if(f.isEmpty()) return f;
-    
+
     QFileInfo fi(f);
     return fi.absolutePath();
 }
 
-int CLog::SetFilter(const QString &szInclude, const QString &szExclude)
+CParameterLog* CLog::GetParamter()
 {
-    g_reInclude = QRegularExpression(szInclude);
-    g_reExclude = QRegularExpression(szExclude);
-    
-    QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                  QSettings::IniFormat);
-    set.setValue("Log/Filter/include", szInclude);
-    set.setValue("Log/Filter/Exclude", szExclude);
-    return 0;
-}
-
-int CLog::GetFilter(QString &szInclude, QString &szExclude)
-{
-    szInclude = g_reInclude.pattern();
-    szExclude = g_reExclude.pattern();
-    return 0;
+    return &m_Parameters;
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
@@ -576,8 +564,9 @@ void OpenLogConfigureFile()
 
     auto env = QProcessEnvironment::systemEnvironment();
     bool bRet = false;
-    if(env.value("SNAP").isEmpty() && env.value("APPDIR").isEmpty()
-        && env.value("FLATPAK_ID").isEmpty()) {
+    if(env.value("SNAP").isEmpty() /*&& env.value("APPDIR").isEmpty()*/
+        && env.value("FLATPAK_ID").isEmpty()
+        && CLog::Instance()->GetParamter()->GetOpenFileWithSystemProgram()) {
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
     }
     if(bRet)
@@ -628,7 +617,8 @@ void OpenLogFile()
     }
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty())
+    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty()
+        && CLog::Instance()->GetParamter()->GetOpenFileWithSystemProgram())
         bRet = QDesktopServices::openUrl(QUrl::fromLocalFile(f));
     if(!bRet) {
         //qCritical(log) << "Open log file fail:" << f;
@@ -649,7 +639,8 @@ void OpenLogFolder()
 #if defined(Q_OS_LINUX)
     bool bRet = false;
     auto env = QProcessEnvironment::systemEnvironment();
-    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty()) {
+    if(env.value("SNAP").isEmpty() && env.value("FLATPAK_ID").isEmpty()
+        && CLog::Instance()->GetParamter()->GetOpenFileWithSystemProgram()) {
         bRet = RabbitCommon::CTools::LocateFileWithExplorer(d);
     }
     if(!bRet) {
@@ -695,6 +686,20 @@ void CopyLogFolderToClipboard()
     if(cb) {
         cb->setText(d);
     }
+}
+
+int CLog::OpenSettingsDialog(QWidget* parent)
+{
+    CDlgSettings dlg(&m_Parameters, parent);
+    int nRet = RC_SHOW_WINDOW(&dlg);
+    if(QDialog::Accepted == nRet) {
+        g_reInclude = QRegularExpression(m_Parameters.GetFilterInclude());
+        g_reExclude = QRegularExpression(m_Parameters.GetFilterExclude());
+        QSettings set(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                      QSettings::IniFormat);
+        m_Parameters.Save(set);
+    }
+    return nRet;
 }
 
 #endif // #ifdef HAVE_RABBITCOMMON_GUI

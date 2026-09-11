@@ -12,7 +12,6 @@
 #include "Log.h"
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
-#include "DlgFilter.h"
 
 CDockDebugLog* g_pDcokDebugLog = nullptr;
 
@@ -92,24 +91,6 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
             set.setValue("DockDebugLog/Wrap", nWrap);
         });
 
-        QString szInclude = set.value("DockDebugLog/Filter/Include").toString();
-        SetInclude(szInclude);
-        QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
-        SetExclude(szExclude);
-        pMenu->addAction(QIcon::fromTheme("filter"), tr("Filter"), [&](){
-            QString szInclude = set.value("DockDebugLog/Filter/Include").toString();
-            QString szExclude = set.value("DockDebugLog/Filter/Exclude").toString();
-            CDlgFilter f(this);
-            f.SetFilter(szInclude, szExclude);
-            if(QDialog::Accepted == RC_SHOW_WINDOW(&f)) {
-                f.GetFilter(szInclude, szExclude);
-                this->SetInclude(szInclude);
-                this->SetExclude(szExclude);
-                set.setValue("DockDebugLog/Filter/Include", szInclude);
-                set.setValue("DockDebugLog/Filter/Exclude", szExclude);
-            }
-        });
-
         int nMaxBlockCount = set.value("DockDebugLog/MaximumBlockCount", ui->txtDebugLog->maximumBlockCount()).toInt();
         ui->txtDebugLog->setMaximumBlockCount(nMaxBlockCount);
         pMenu->addAction(tr("Set maximum block count"), [&](){
@@ -123,6 +104,10 @@ CDockDebugLog::CDockDebugLog(QWidget *parent) :
                 this->ui->txtDebugLog->setMaximumBlockCount(count);
                 set.setValue("DockDebugLog/MaximumBlockCount", ui->txtDebugLog->maximumBlockCount());
             }
+        });
+
+        pMenu->addAction(QIcon::fromTheme("system-settings"), tr("Settings"), [&](){
+            RabbitCommon::CLog::Instance()->OpenSettingsDialog();
         });
 
         pMenu->addSeparator();

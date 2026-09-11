@@ -48,8 +48,9 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/FileBrowser/FileBroserTreeView.cpp \
         $$PWD/FileBrowser/UndoCommand.cpp \
         $$PWD/Log/DockDebugLog.cpp \
-        $$PWD/Log/DlgFilter.cpp \
+        $$PWD/Log/DlgSettings.cpp \
         $$PWD/Log/DlgEdit.cpp \
+        $$PWD/Log/ParameterLog.cpp \
         $$PWD/Multimedia/FrmMediaDevices.cpp
     INSTALL_HEADERS += \
         $$PWD/Style/FrmStyle.h \
@@ -63,13 +64,14 @@ DEFINES *= QT_MESSAGELOGCONTEXT
         $$PWD/Log/DockDebugLog.h \
         $$PWD/FileBrowser/FileBroserTreeView.h \
         $$PWD/FileBrowser/UndoCommand.h \
-        $$PWD/Log/DlgFilter.h \
-        $$PWD/Log/DlgEdit.h
+        $$PWD/Log/DlgSettings.h \
+        $$PWD/Log/DlgEdit.h \
+        $$PWD/Log/ParameterLog.h
     INCLUDEPATH += $$PWD/Style $$PWD/DockFolderBrowser $$PWD/FileBrowser $$PWD/Multimedia
     FORMS += $$PWD/Style/FrmStyle.ui \
        $$PWD/DockFolderBrowser/DockFolderBrowser.ui \
        $$PWD/Log/DockDebugLog.ui \
-       $$PWD/Log/DlgFilter.ui \
+       $$PWD/Log/DlgSettings.ui \
        $$PWD/Log/DlgEdit.ui
 
     equals(BUILD_QUIWidget, "ON"){

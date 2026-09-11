@@ -66,7 +66,6 @@
 
 #ifdef HAVE_RABBITCOMMON_GUI
     #include "Log/DockDebugLog.h"
-    #include "Log/DlgFilter.h"
     extern CDockDebugLog* g_pDcokDebugLog;
 #endif
 
@@ -499,8 +498,11 @@ QString CTools::Information()
 #endif // #if defined(HAVE_RABBITCOMMON_GUI)
 
     szInfo += tr("  - Log") + "\n";
+    szInfo += tr("    - Log configure file:") + CLog::Instance()->GetLogConfigureFile() + "\n";
+    szInfo += tr("    - Log file directory:") + CLog::Instance()->GetLogDir() + "\n";
     szInfo += tr("    - Core dump") + "\n";
     szInfo += tr("    - Log file: ") + CLog::Instance()->GetLogFile() + "\n";
+
 #if defined(HAVE_OPENSSL)
     szInfo += tr("  - Have encrypt(OPENSSL)") + "\n";
 #endif
@@ -1241,18 +1243,10 @@ QMenu* CTools::GetLogMenu(QWidget *parentMainWindow)
     if(!pMenu) return pMenu;
     pMenu->setStatusTip(tr("Log"));
     pMenu->setIcon(QIcon::fromTheme("folder-open"));
-    QAction* pAction = pMenu->addAction(QIcon::fromTheme("emblem-system"),
+    QAction* pAction = pMenu->addAction(QIcon::fromTheme("system-settings"),
                      tr("Settings"),
                      [](){
-                         CDlgFilter dlg;
-                         QString szInclude, szExclude;
-                         CLog::Instance()->GetFilter(szInclude, szExclude);
-                         dlg.SetFilter(szInclude, szExclude);
-                         if(QDialog::Accepted == RC_SHOW_WINDOW(&dlg))
-                         {
-                             dlg.GetFilter(szInclude, szExclude);
-                             CLog::Instance()->SetFilter(szInclude, szExclude);
-                         }
+                         CLog::Instance()->OpenSettingsDialog();
                      });
     pAction->setStatusTip(pAction->text());
     pAction = pMenu->addAction(QIcon::fromTheme("document-open"),

@@ -17,6 +17,7 @@
 #include <QTextStream>
 #include <QTimer>
 #include <QFileSystemWatcher>
+#include "ParameterLog.h"
 
 namespace RabbitCommon {
 
@@ -44,12 +45,16 @@ public:
     QString GetLogFile();
     QString GetLogDir();
     
-    int SetFilter(const QString &szInclude, const QString &szExclude);
-    int GetFilter(QString &szInclude, QString &szExclude);
+    CParameterLog* GetParamter();
+
+#ifdef HAVE_RABBITCOMMON_GUI
+    int OpenSettingsDialog(QWidget* parent = nullptr);
+#endif
 
 private:
     CLog();
 
+    CParameterLog m_Parameters;
     QString m_szConfigureFile;
 
     QString m_szPath;
