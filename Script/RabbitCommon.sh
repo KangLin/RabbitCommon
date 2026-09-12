@@ -175,9 +175,35 @@ validate_directory() {
     fi
 }
 
+# 辅助函数: 判断是否在 Termux 环境
+# 三重判断，任意一个成立即认为是 Termux
+is_termux() {
+    # 1) $PREFIX 指向 Termux 的 usr 目录
+    if [ -n "$PREFIX" ] && [ -d "$PREFIX" ]; then
+        case "$PREFIX" in
+            *com.termux*) return 0 ;;
+        esac
+    fi
+
+    # 2) Termux 的固定安装目录存在
+    if [ -d "/data/data/com.termux/files/usr" ]; then
+        return 0
+    fi
+
+    # 3) termux-info 命令存在
+    if command -v termux-info >/dev/null 2>&1; then
+        return 0
+    fi
+
+    return 1
+}
+
 # 详细的 Linux 发行版检测函数
 get_linux_distro() {
-    if [ -f /etc/os-release ]; then
+    # Termux 优先短路（Termux 没有 /etc/os-release）
+    if is_termux; then
+        echo "termux"
+    elif [ -f /etc/os-release ]; then
         . /etc/os-release
         echo "$ID"
     elif [ -f /etc/redhat-release ]; then
@@ -205,7 +231,17 @@ get_linux_distro() {
 
 # 获取版本号
 get_linux_version() {
-    if [ -f /etc/os-release ]; then
+    # Termux: 返回 Android 版本
+    if is_termux; then
+        local android_ver
+        android_ver=$(getprop ro.build.version.release 2>/dev/null)
+        if [ -n "$android_ver" ]; then
+            echo "$android_ver"
+        else
+            # 兜底：从 uname -r 提取（形如 5.15.x-android13-...）
+            uname -r | cut -d'-' -f1
+        fi
+    elif [ -f /etc/os-release ]; then
         . /etc/os-release
         echo "$VERSION_ID"
     elif [ -f /etc/redhat-release ]; then
@@ -243,6 +279,9 @@ get_package_tool() {
         alpine)
             echo "apk"
             ;;
+        termux)
+            echo "pkg"
+            ;;
         *)
             # 尝试自动检测可用的包管理器
             if command -v apt >/dev/null 2>&1; then
@@ -257,6 +296,8 @@ get_package_tool() {
                 echo "zypper"
             elif command -v apk >/dev/null 2>&1; then
                 echo "apk"
+            elif command -v pkg >/dev/null 2>&1; then
+                echo "pkg"
             else
                 echo "unknown"
             fi
@@ -264,19 +305,50 @@ get_package_tool() {
     esac
 }
 
+is_installed() {
+    local p="$1"
+    case "$PACKAGE_TOOL" in
+        brew)    brew list --formula "$p" >/dev/null 2>&1 ;;
+        apt)     dpkg -s "$p" >/dev/null 2>&1 ;;
+        pkg)     dpkg -s "$p" >/dev/null 2>&1 ;;
+        dnf|yum) rpm -q "$p" >/dev/null 2>&1 ;;
+        pacman)  pacman -Qi "$p" >/dev/null 2>&1 ;;
+        apk)     apk -e info "$p" >/dev/null 2>&1 ;;
+        *)       return 1 ;;
+    esac
+}
+
 package_install() {
     local PACKAGE=$@
+    local p
+
+    if [ $# -eq 0 ]; then
+           echo_error "package_install: no package specified" >&2
+           return 1
+    fi
+    if [ -z "$PACKAGE_TOOL" ] || [ "$PACKAGE_TOOL" = "unknown" ]; then
+            echo_error "package_install: PACKAGE_TOOL is not set, run detect_os_info first" >&2
+            return 1
+    fi
+
     if [ -n "$PACKAGE" ]; then
-        #if [ "$BUILD_VERBOSE" = "ON" ]; then
-        #    echo "Install package: $PACKAGE"
-        #fi
         for p in $PACKAGE
         do
+            [ -z "$p" ] && continue
+#            if [ "$BUILD_VERBOSE" = "ON" ]; then
+#               echo "Install package [$PACKAGE_TOOL]: $p"
+#            fi
+
+            if is_installed "$p"; then
+                [ "$BUILD_VERBOSE" = "ON" ] && echo_info "Already installed: $p"
+                continue
+            fi
+
             case "$PACKAGE_TOOL" in
                 brew)
-                    brew install -q -y $p
+                    brew install -q $p
                     ;;
-                apt)
+                apt|pkg)
                     if [ "$BUILD_VERBOSE" = "ON" ]; then
                         ${PACKAGE_TOOL} install -y -q $p
                     else
@@ -285,6 +357,22 @@ package_install() {
                     ;;
                 dnf|yum)
                     ${PACKAGE_TOOL} install -y $p
+                    ;;
+                apk)
+                    # Alpine: apk add
+                    apk add --no-cache "$p"
+                    ;;
+                emerge)
+                    # Gentoo: emerge 无 install 子命令
+                    emerge --ask=n "$p"
+                    ;;
+                xbps)
+                    # Void: xbps-install -y
+                    xbps-install -y "$p"
+                    ;;
+                choco)
+                    # Windows Chocolatey
+                    choco install -y "$p"
                     ;;
                 *)
                     ${PACKAGE_TOOL} install -y $p
@@ -382,11 +470,17 @@ get_system_info() {
             version=$(get_linux_version)
             pkg_tool=$(get_package_tool "$distro")
             ;;
-        CYGWIN*|MINGW*|MSYS*)
+        CYGWIN*)
             os="Windows"
             distro="windows"
             version=$(uname -r)
             pkg_tool="choco"  # Chocolatey
+            ;;
+        MINGW*|MSYS*)
+            os="Windows"
+            distro="windows"
+            version=$(uname -r)
+            pkg_tool="pacman"  # Chocolatey
             ;;
         *)
             os="Unknown"
