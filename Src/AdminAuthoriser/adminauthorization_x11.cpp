@@ -129,7 +129,9 @@ bool execAdminFallback(const QString &program, const QStringList &arguments)
         return false;
     }
     
+#ifdef HAVE_REVOKE
     ::revoke(ttyName);
+#endif
     ::unlockpt(masterFD);
     
     slaveFD = ::open(ttyName, O_RDWR | O_NOCTTY | O_CLOEXEC);
