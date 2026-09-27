@@ -6,6 +6,7 @@ project(RabbitCommon
 
 include(GNUInstallDirs)
 include(FetchContent)
+include(CheckSymbolExists)
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
