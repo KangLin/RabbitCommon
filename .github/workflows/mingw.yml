@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release, Debug]
+        BUILD_TYPE: [Release]
 
     defaults:
       run:
@@ -27,12 +27,14 @@ jobs:
 
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_DIR:   ${{github.workspace}}/build
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
       RabbitCommon_VERSION: v2.3.4
       artifact_name: build_mingw
-      CMAKE_GENERATOR: "MinGW Makefiles"
+      MSYSTEM: CLANG64
+      MSYSTEM_PREFIX: C:\msys64\clang64
 
     # Map the job outputs to step outputs
     outputs:
@@ -43,9 +45,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
       - name: Make directories
         run: |
+          cmake -E make_directory ${{env.BUILD_DIR}}
           cmake -E make_directory ${{env.SOURCE_DIR}}
           cmake -E make_directory ${{env.TOOSL_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
@@ -55,21 +59,22 @@ jobs:
         env:
           PATH: C:\msys64\usr\bin
         run: | 
-          C:\msys64\usr\bin\pacman -S --noconfirm ^
-              mingw-w64-x86_64-cmake ^
-              mingw-w64-x86_64-make ^
-              mingw-w64-x86_64-nsis ^
-              mingw-w64-x86_64-gcc ^
-              mingw-w64-x86_64-qt6 ^
-              mingw-w64-x86_64-cmark ^
-              git base-devel
+          C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
+          C:\msys64\usr\bin\pacman.exe -S --noconfirm ^
+            mingw-w64-clang-x86_64-cmake ^
+            mingw-w64-clang-x86_64-ninja ^
+            mingw-w64-clang-x86_64-nsis ^
+            mingw-w64-clang-x86_64-gcc ^
+            mingw-w64-clang-x86_64-qt6 ^
+            mingw-w64-clang-x86_64-cmark ^
+            mingw-w64-clang-x86_64-git base-devel
 
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: git clone https://github.com/KangLin/RabbitCommon.git
 
       - name: Cache installed
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-installed
         with:
           path: |
@@ -77,14 +82,11 @@ jobs:
           key: installed_mingw_${{matrix.BUILD_TYPE}}
 
       - name: Build RabbitCommon
-        working-directory: ${{github.workspace}}
+        working-directory: ${{env.BUILD_DIR}}
         env:
-          MSYSTEM: MINGW64
-          PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
+          PATH: ${{env.MSYSTEM_PREFIX}}\bin;C:\msys64\usr\bin
         run: |
-          cmake -E make_directory build
-          cd build
-          cmake .. -G"MinGW Makefiles" ^
+          cmake ${{github.workspace}} ^
               -DCMARK_SHARED=OFF ^
               -DCMARK_TESTS=OFF ^
               -DCMARK_STATIC=ON ^
@@ -103,7 +105,7 @@ jobs:
 #          ctest -V
 
       - name: Package
-        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        if: false #${{ matrix.BUILD_TYPE == 'Release' }}
         working-directory: ${{github.workspace}}\build
         run: |
           cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
@@ -113,7 +115,7 @@ jobs:
           7z a RabbitCommon_${{env.RabbitCommon_VERSION}}_mingw_x86_64_${{matrix.BUILD_TYPE}}.zip .\install\*
 
       - name: Update artifact
-        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        if: false # ${{ matrix.BUILD_TYPE == 'Release' }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}_${{matrix.BUILD_TYPE}}

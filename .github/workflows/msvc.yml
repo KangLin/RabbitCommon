@@ -15,7 +15,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - CMAKE_GENERATOR_PLATFORM: x64
+          - CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_GENERATOR_PLATFORM: x64
             VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             qt_version: 6.10.3
@@ -23,7 +24,8 @@ jobs:
             qt_modules: qtscxml qtmultimedia qt5compat qtwebsockets qtpositioning qtwebchannel qtwebengine
             os: windows-2022
 
-          - CMAKE_GENERATOR_PLATFORM: arm64
+          - CMAKE_GENERATOR: "Visual Studio 18 2026"
+            CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             qt_version: 6.10.3
@@ -31,14 +33,16 @@ jobs:
             qt_modules: qtscxml qtmultimedia qt5compat qtwebsockets qtpositioning qtwebchannel
             os: windows-11-arm
 
-          - CMAKE_GENERATOR_PLATFORM: x64
+          - CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_GENERATOR_PLATFORM: x64
             VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
             qt_version: 5.15.2
             qt_arch: win64_msvc2019_64
             os: windows-2022
 
-          - CMAKE_GENERATOR_PLATFORM: Win32
+          - CMAKE_GENERATOR: "Visual Studio 17 2022"
+            CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             #VCPKG_MANIFEST_DIR: "\\vcpkg\\manifests"
@@ -56,7 +60,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install
-      CMAKE_GENERATOR: "Visual Studio 17 2022"
+      CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
