@@ -151,7 +151,7 @@ protected Q_SLOTS:
 
     void slotButtonClickd(int id);
     void slotCheck();
-    void slotDownloadFile();
+    void slotDownloadFile(bool bSequence = false);
     virtual void slotCheckConfigFile();
     void slotDownloadSetupFile();
     void slotUpdate();

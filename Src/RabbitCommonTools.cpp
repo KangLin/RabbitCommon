@@ -241,7 +241,7 @@ CTools::VersionInfo CTools::GetVersion(const QString &szVersion, bool bSemantic)
     if (!match.hasMatch()) {
         qCritical(log) << "Version string does not match pattern:" << szVersion
                     << "Pattern error:" << re.errorString()
-                    << (bSemantic ? "See [Semantic Versioning](https://semver.org)" : "[Calendar Versioning](https://calver.org/)");
+                    << (bSemantic ? "See [Semantic Versioning](https://semver.org)" : "See [Calendar Versioning](https://calver.org/)");
         return ver;
     }
 

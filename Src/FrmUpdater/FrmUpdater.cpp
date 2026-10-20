@@ -407,7 +407,7 @@ void CFrmUpdater::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 }
 // [Process the signals of RabbitCommon::CDownload]
 
-void CFrmUpdater::slotDownloadFile()
+void CFrmUpdater::slotDownloadFile(bool bSequence)
 {
     qDebug(log) << "CFrmUpdater::slotDownloadFile";
 
@@ -425,7 +425,7 @@ void CFrmUpdater::slotDownloadFile()
         check = connect(m_Download.data(), SIGNAL(sigDownloadProgress(qint64, qint64)),
                         this, SLOT(slotDownloadProgress(qint64, qint64)));
         Q_ASSERT(check);
-        m_Download->Start(m_Urls);
+        m_Download->Start(m_Urls, QString(), bSequence);
         m_timeAdded.start();
     }
     // [Use RabbitCommon::CDownload download file]
@@ -964,7 +964,7 @@ void CFrmUpdater::slotDownloadSetupFile()
     else
     {
         m_Urls = m_ConfigFile.urls;
-        slotDownloadFile();
+        slotDownloadFile(true);
     }
 }
 
