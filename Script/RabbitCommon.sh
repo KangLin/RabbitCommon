@@ -419,7 +419,7 @@ create_debian_folder() {
         esac
         if [ -f "$control_source" ]; then
             if [ "$BUILD_VERBOSE" = "ON" ]; then
-                echo "ln -s $control_source $repo_root/debian/control"
+                echo_info "ln -s $control_source $repo_root/debian/control"
             fi
             ln -s $control_source $repo_root/debian/control
         else
