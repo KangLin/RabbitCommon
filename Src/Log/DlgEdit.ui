@@ -14,7 +14,7 @@
    <string>Edit</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+   <iconset theme="document-open"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
