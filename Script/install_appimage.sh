@@ -2,10 +2,10 @@
 
 # Install AppImage shell script
 # Author: Kang Lin <kl222@126.com>
-# In the same directory, the following files must exist:
+# In the same directory, The following files exist:
+#   - [MUST] AppImae file($APP_ID.AppImage)
 #   - [MUST] desktop file($APP_ID.desktop)
 #   - [MUST] icon file($APP_ID.png or $APP_ID.svg)
-#   - [MUST] AppImae file(.AppImage)
 #   - [OPTION] mime type file(mime/packages/.xml)
 # See: CFrmUpdater::InstallCompressedFileScript
 
@@ -20,10 +20,12 @@ usage_long() {
     echo "  -h|--help: show help"
     echo "  --id=<APP id>: Application ID. the default is the base name of desktop file(.desktop)"
     echo "  --install=<install directory>: Set install directory."
-    echo "        the default is ‘$HOME/AppImage/$APP_ID’ without '--system-dir';"
-    echo "        Otherwise is '/usr/local/AppImage/$APP_ID' with '--system-dir'"
+    echo "        the default is '$HOME/AppImage/$APP_ID' without '--system-dir';"
+    echo "        otherwise is '/usr/local/AppImage/$APP_ID' with '--system-dir'"
     echo "  --system-dir: Use system directories(/usr/local); Otherwise is current user directories($HOME)"
     echo "  --auto-start: add automatically start the program"
+    echo "        the default is '$HOME/.config/autostart' without '--system-dir'"
+    echo "        otherwise is '/etc/xdg/autostart' with '--system-dir'"
     exit -1
 }
 
@@ -31,11 +33,13 @@ usage_dev() {
     if [ -n "$1" ]; then
         echo "$1"
     fi
-    echo "In the same directory, the following files must exist:"
-    echo "   - desktop file($APP_ID.desktop)"
-    echo "   - icon file($APP_ID.png or $APP_ID.svg)"
-    echo "   - AppImae file(.AppImage)"
+    echo "In the same directory($ROOT_DIR), Does the following file exist?"
+    echo "   - [MUST] AppImae file($APP_ID.AppImage)"
+    echo "   - [MUST] desktop file($APP_ID.desktop)"
+    echo "   - [MUST] icon file($APP_ID.png or $APP_ID.svg)"
+    echo "   - [OPTION] mime type file(mime/packages/.xml)"
     echo ""
+    echo "Useg:"
     usage_long
 }
 
