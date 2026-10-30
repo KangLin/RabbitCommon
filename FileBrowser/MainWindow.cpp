@@ -8,7 +8,9 @@
 #include "./ui_MainWindow.h"
 #include "FileBrowser.h"
 #include "RabbitCommonDir.h"
+#ifdef HAVE_UPDATE
 #include "FrmUpdater.h"
+#endif
 #include "DlgAbout.h"
 
 static Q_LOGGING_CATEGORY(log, "FileBrowser.MainWindow")
