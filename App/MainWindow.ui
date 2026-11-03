@@ -206,7 +206,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -215,6 +215,7 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionUpdate"/>
+    <addaction name="actionQt_version"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -245,6 +246,11 @@
   <action name="actionFolder_browser">
    <property name="text">
     <string>Folder browser</string>
+   </property>
+  </action>
+  <action name="actionQt_version">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

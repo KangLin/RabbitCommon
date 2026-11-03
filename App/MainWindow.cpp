@@ -10,7 +10,7 @@
 #include <QLoggingCategory>
 #include <QThread>
 #include <QHBoxLayout>
-
+#include <QSysInfo>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -288,4 +288,9 @@ void MainWindow::on_pbAudioVideoSettings_clicked()
     pLayout->addWidget(md);
     connect(&dlg, &QDialog::accepted, md, &CFrmMediaDevices::slotAccept);
     RC_SHOW_WINDOW(&dlg);
+}
+
+void MainWindow::on_actionQt_version_triggered()
+{
+    QApplication::aboutQt();
 }

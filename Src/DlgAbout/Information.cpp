@@ -26,7 +26,8 @@
 static Q_LOGGING_CATEGORY(log, "RabbitCommon.DlgAbout.Information")
 
 CInformation::CInformation(const QString &szApp,
-                           const QString &szInfo, QWidget *parent) :
+                           const QString &szInfo,
+                           QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CInformation)
 {

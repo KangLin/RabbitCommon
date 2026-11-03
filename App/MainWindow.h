@@ -44,6 +44,8 @@ private slots:
     
     void on_pbAudioVideoSettings_clicked();
 
+    void on_actionQt_version_triggered();
+
 private:
     Ui::MainWindow *ui;
     
