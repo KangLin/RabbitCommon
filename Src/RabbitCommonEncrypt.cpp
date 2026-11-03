@@ -84,6 +84,11 @@ int CEncrypt::Encode(const QString& szIn, QByteArray& szOut)
 
 int CEncrypt::Dencode(const QByteArray &szIn, QString &szOut)
 {
+    return Decode(szIn, szOut);
+}
+
+int CEncrypt::Decode(const QByteArray &szIn, QString &szOut)
+{
     int nRet = 0;
 #if defined (HAVE_OPENSSL)
     EvpAES aes;
@@ -109,6 +114,10 @@ int CEncrypt::Dencode(const QByteArray &szIn, QString &szOut)
 
 int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLen)
 {
+    return Decode(pIn, inLen, pOut, outLen);
+}
+int CEncrypt::Decode(const char* pIn, const int& inLen, char** pOut, int& outLen)
+{
     int nRet = 0;
     QByteArray in(pIn, inLen);
     QString out;
@@ -121,6 +130,10 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLe
 }
 
 int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
+{
+    return Decode(pIn, inLen, szOut);
+}
+int CEncrypt::Decode(const char* pIn, const int& inLen, std::string& szOut)
 {
     char *pOut = NULL;
     int nOutLen = 0;

@@ -39,10 +39,17 @@ public:
      * \param pOut: 输出解密了的数据指针.调用者使用完成后,需要用delete []*pOut
      * \param outLen: 解密了的数据长度
      */
+    int Decode(const char* pIn, const int &inLen, char** pOut, int &outLen);
+    int Decode(const char* pIn, const int &inLen, std::string &szOut);
+    int Decode(const QByteArray& szIn, QString& szOut);
+    //! typo
+    Q_DECL_DEPRECATED_X("Typo. Use Decode. Will be move to private in v3")
     int Dencode(const char* pIn, const int &inLen, char** pOut, int &outLen);
+    Q_DECL_DEPRECATED_X("Typo. Use Decode. Will be move to private in v3")
     int Dencode(const char* pIn, const int &inLen, std::string &szOut);
+    Q_DECL_DEPRECATED_X("Typo. Use Decode. Will be move to private in v3")
     int Dencode(const QByteArray& szIn, QString& szOut);
-    
+
 private:
     std::string m_szPassword;
 };
