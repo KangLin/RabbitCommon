@@ -354,6 +354,7 @@ public:
      * \param szName: the name of desktop file.
      *            Default: "org.Rabbit." + qApp->applicationName() + ".desktop"
      */
+    Q_DECL_DEPRECATED_X("Will be move to private in v3")
     static int GenerateDesktopFile(const QString &szPath = QString(),
                                    const QString &szName = QString());
 
