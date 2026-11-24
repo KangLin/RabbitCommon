@@ -15,6 +15,7 @@ isEmpty(RabbitCommon_VERSION): error("Please set RabbitCommon_VERSION")
 #}
 win32: DEFINES *= WINDOWS
 mingw: DEFINES *= MINGW
+macx: DEFINES *= MACOS
 unix: DEFINES *= UNIX
 CONFIG(debug, debug|release): DEFINES *= _DEBUG
 DEFINES += BUILD_PLATFORM=\"\\\"$${QMAKE_PLATFORM}\\\"\"
@@ -157,6 +158,11 @@ win32 {
     HEADERS += $$PWD/CoreDump/MiniDumper.h
     DEFINES += _UNICODE UNICODE STRSAFE_NO_DEPRECATE
     LIBS += -lDbghelp -luser32
+}
+
+macx {
+    # macOS libproc（proc_listpids / proc_pidpath），系统库无需 find_package
+    LIBS += -lproc
 }
 
 SOURCES += \

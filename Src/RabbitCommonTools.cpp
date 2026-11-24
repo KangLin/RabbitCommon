@@ -10,11 +10,14 @@
 #include <QSettings>
 #include <QMimeData>
 #include <QProcessEnvironment>
+#include <QFile>
+#include <QFileInfo>
+#include <QTextStream>
 
 #if defined(Q_OS_ANDROID)
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <QtCore/private/qandroidextras_p.h>
-#endif
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        #include <QtCore/private/qandroidextras_p.h>
+    #endif
 #endif
 
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -49,11 +52,17 @@
 
 #if defined(Q_OS_WIN)
     #include <windows.h>
+    #include <tlhelp32.h>
     #include <tchar.h>
-//    #include <stdio.h>
+    //#include <stdio.h>
     //#include "lm.h"
     //#pragma comment(lib,"netapi32.lib")
-#else
+#elif defined(Q_OS_MACOS)
+    #include <libproc.h>
+    #include <sys/types.h>
+    #include <cstdlib>
+    #include <cstring>
+#elif defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     #include <pwd.h>
     #include <unistd.h>
     #include <signal.h>
@@ -76,15 +85,15 @@
     #include "cmark-gfm.h"
     #include "cmark-gfm-core-extensions.h"
 #endif
-    
+
 #ifdef HAVE_CURL
     #include <curl/curl.h>
 #endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <QRandomGenerator>
+    #include <QRandomGenerator>
 #else
-#include <random>
+    #include <random>
 #endif
 
 inline void g_RabbitCommon_InitResource()
@@ -1145,6 +1154,101 @@ QString CTools::GetHostName()
     char buf[255];
     gethostname(buf, sizeof(buf));
     return buf;
+}
+
+QList<qint64> CTools::GetProcessIdsByName(const QString &szProcessName, bool caseSensitive)
+{
+    QList<qint64> pids;
+    if (szProcessName.isEmpty())
+        return pids;
+
+    QFileInfo fi(szProcessName);
+    QString szName = fi.fileName();
+    const Qt::CaseSensitivity cs = caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive;
+
+#ifdef Q_OS_WIN
+    // ---------- Windows: ToolHelp32 ----------
+    HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnap == INVALID_HANDLE_VALUE)
+        return pids;
+
+    PROCESSENTRY32W pe32;
+    pe32.dwSize = sizeof(PROCESSENTRY32W);
+
+    if (Process32FirstW(hSnap, &pe32)) {
+        do {
+            if (QString::fromWCharArray(pe32.szExeFile).compare(szName, cs) == 0)
+                pids.append(static_cast<qint64>(pe32.th32ProcessID));
+        } while (Process32NextW(hSnap, &pe32));
+    }
+    CloseHandle(hSnap);
+#elif defined(Q_OS_MACOS)
+    // ---------- macOS: libproc ----------
+    // 先获取所需缓冲区大小
+    const int bytes = proc_listpids(PROC_ALL_PIDS, 0, nullptr, 0);
+    if (bytes <= 0)
+        return pids;
+
+    QList<pid_t> pidBuf(bytes / static_cast<int>(sizeof(pid_t)) + 16, 0);
+    const int actual = proc_listpids(PROC_ALL_PIDS, 0,
+                                     pidBuf.data(),
+                                     pidBuf.size() * static_cast<int>(sizeof(pid_t)));
+    if (actual <= 0)
+        return pids;
+
+    const int count = actual / static_cast<int>(sizeof(pid_t));
+    for (int i = 0; i < count; ++i) {
+        const pid_t pid = pidBuf.at(i);
+        if (pid <= 0)
+            continue;
+
+        char path[PROC_PIDPATHINFO_MAXSIZE] = {0};
+        if (proc_pidpath(pid, path, sizeof(path)) <= 0)
+            continue;
+
+        // 取 basename 比较
+        const char *base = std::strrchr(path, '/');
+        base = base ? base + 1 : path;
+
+        if (QString::fromUtf8(base).compare(szName, cs) == 0)
+            pids.append(static_cast<qint64>(pid));
+    }
+#elif defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
+    // ---------- Linux / Android: 遍历 /proc ----------
+    // 注意：Android 7.0+ 普通应用通常只能看到自身进程，需 Root/系统权限
+    QDir procDir(QStringLiteral("/proc"));
+    const QStringList entries = procDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (const QString &entry : entries) {
+        bool ok = false;
+        const qint64 pid = entry.toLongLong(&ok);
+        if (!ok)
+            continue; // 非 PID 目录
+
+        // 优先读取 comm（更短更可靠），失败再解析 stat
+        QString name;
+        QFile commFile(QStringLiteral("/proc/%1/comm").arg(entry));
+        if (commFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            name = QTextStream(&commFile).readLine().trimmed();
+            commFile.close();
+        } else {
+            QFile statFile(QStringLiteral("/proc/%1/stat").arg(entry));
+            if (statFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                const QString stat = QTextStream(&statFile).readLine();
+                // 格式: PID (comm) state ...
+                const int l = stat.indexOf(QLatin1Char('('));
+                const int r = stat.lastIndexOf(QLatin1Char(')'));
+                if (l >= 0 && r > l)
+                    name = stat.mid(l + 1, r - l - 1);
+                statFile.close();
+            }
+        }
+
+        if (!name.isEmpty() && name.compare(szName, cs) == 0)
+            pids.append(pid);
+    }
+#endif
+
+    return pids;
 }
 
 QString CTools::MarkDownToHtml(const QString &szText)

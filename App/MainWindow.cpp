@@ -2,6 +2,7 @@
  *  @author Kang Lin(kl222@126.com)
  */
 
+#include <QMessageBox>
 #include <QMetaObject>
 #include <QDir>
 #include <QDesktopServices>
@@ -294,3 +295,20 @@ void MainWindow::on_actionQt_version_triggered()
 {
     QApplication::aboutQt();
 }
+
+void MainWindow::on_pbGetProcessIDsByName_clicked()
+{
+    QString szName = ui->leGetProcessIDsByName->text();
+    if(szName.isEmpty())
+        szName = QApplication::applicationFilePath();
+    QFileInfo fi(szName);
+    szName = fi.fileName();
+    auto pids = RabbitCommon::CTools::GetProcessIdsByName(szName);
+    qDebug(log) << "Process name:" << szName << "pids:" << pids;
+    QString szPids;
+    foreach(auto pid, pids) {
+        szPids += QString::number(pid) + "\n";
+    }
+    QMessageBox::information(this, tr("Get process ids by name"), szPids);
+}
+

@@ -175,47 +175,82 @@
     </message>
 </context>
 <context>
+    <name>CDlgSettings</name>
+    <message>
+        <location filename="../../Log/DlgSettings.ui" line="14"/>
+        <source>Log settings</source>
+        <translation type="unfinished">日誌設置</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.ui" line="23"/>
+        <source>Filter</source>
+        <translation type="unfinished">過濾器</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.ui" line="29"/>
+        <source>Include the following(Regular expressions are supported):</source>
+        <translation type="unfinished">包括下面內容（支持正則表達式）</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.ui" line="39"/>
+        <source>Exclude the following(Regular expressions are supported):</source>
+        <translation type="unfinished">排除下面內容（支持正則表達式）</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.ui" line="75"/>
+        <source>Open with the system&apos;s default program</source>
+        <translation type="unfinished">使用系統默認程序打開</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.cpp" line="34"/>
+        <source>Filter of include is error: </source>
+        <translation type="unfinished">過濾器包含表達式錯誤：</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.cpp" line="36"/>
+        <location filename="../../Log/DlgSettings.cpp" line="47"/>
+        <source>Error</source>
+        <translation type="unfinished">錯誤</translation>
+    </message>
+    <message>
+        <location filename="../../Log/DlgSettings.cpp" line="45"/>
+        <source>Filter of exclude is error: </source>
+        <translation type="unfinished">過濾器排除表達式錯誤：</translation>
+    </message>
+</context>
+<context>
     <name>CDlgSetttings</name>
     <message>
-        <location filename="../../Log/DlgSetttings.ui" line="14"/>
         <source>Log settings</source>
-        <translation>日誌設置</translation>
+        <translation type="vanished">日誌設置</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.ui" line="23"/>
         <source>Filter</source>
-        <translation>過濾器</translation>
+        <translation type="vanished">過濾器</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.ui" line="29"/>
         <source>Include the following(Regular expressions are supported):</source>
-        <translation>包括下面內容（支持正則表達式）</translation>
+        <translation type="vanished">包括下面內容（支持正則表達式）</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.ui" line="39"/>
         <source>Exclude the following(Regular expressions are supported):</source>
-        <translation>排除下面內容（支持正則表達式）</translation>
+        <translation type="vanished">排除下面內容（支持正則表達式）</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.ui" line="75"/>
         <source>Open with the system&apos;s default program</source>
-        <translation>使用系統默認程序打開</translation>
+        <translation type="vanished">使用系統默認程序打開</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.cpp" line="34"/>
         <source>Filter of include is error: </source>
-        <translation>過濾器包含表達式錯誤：</translation>
+        <translation type="vanished">過濾器包含表達式錯誤：</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.cpp" line="36"/>
-        <location filename="../../Log/DlgSetttings.cpp" line="47"/>
         <source>Error</source>
-        <translation>錯誤</translation>
+        <translation type="vanished">錯誤</translation>
     </message>
     <message>
-        <location filename="../../Log/DlgSetttings.cpp" line="45"/>
         <source>Filter of exclude is error: </source>
-        <translation>過濾器排除表達式錯誤：</translation>
+        <translation type="vanished">過濾器排除表達式錯誤：</translation>
     </message>
 </context>
 <context>
@@ -246,7 +281,7 @@
     </message>
     <message>
         <source>Filter</source>
-        <translation>過濾器</translation>
+        <translation type="vanished">過濾器</translation>
     </message>
     <message>
         <location filename="../../Log/DockDebugLog.cpp" line="96"/>
@@ -1562,32 +1597,32 @@ You can read files up to %1 MB.</source>
         <translation>日誌文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="577"/>
+        <location filename="../../Log/Log.cpp" line="576"/>
         <source>Log configure file</source>
         <translation>日誌配置文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="578"/>
+        <location filename="../../Log/Log.cpp" line="577"/>
         <source>Log configure file:</source>
         <translation>日誌配置文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="593"/>
+        <location filename="../../Log/Log.cpp" line="592"/>
         <source>Save as...</source>
         <translation>另存為...</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="626"/>
+        <location filename="../../Log/Log.cpp" line="625"/>
         <source>Log file</source>
         <translation>日誌文件</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="626"/>
+        <location filename="../../Log/Log.cpp" line="625"/>
         <source>Log file:</source>
         <translation>日誌文件：</translation>
     </message>
     <message>
-        <location filename="../../Log/Log.cpp" line="650"/>
+        <location filename="../../Log/Log.cpp" line="649"/>
         <source>Log folder</source>
         <translation>日誌文件夾</translation>
     </message>

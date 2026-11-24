@@ -46,6 +46,8 @@ private slots:
 
     void on_actionQt_version_triggered();
 
+    void on_pbGetProcessIDsByName_clicked();
+
 private:
     Ui::MainWindow *ui;
     

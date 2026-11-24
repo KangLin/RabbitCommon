@@ -346,6 +346,21 @@ public:
     [[nodiscard]] static QString GetCurrentUser();
     [[nodiscard]] static QString GetHostName();
 
+    /*!
+     * \~chinese 跨平台按进程名查找 PID。
+     * \param processName 进程名（Windows 为 xxx.exe；Linux/macOS/Android 为可执行文件名）
+     * \param caseSensitive 是否区分大小写（默认不区分）
+     * \return 匹配到的 PID 列表，未找到返回空列表
+     *
+     * \~english
+     * \brief Get process Ids by name
+     * \param processName
+     * \param caseSensitive
+     * \return
+     */
+    [[nodiscard]] static QList<qint64> GetProcessIdsByName(
+        const QString &processName, bool caseSensitive = false);
+
     [[nodiscard]] static QString MarkDownToHtml(const QString &szText);
 
     /*!

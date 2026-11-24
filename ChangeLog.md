@@ -8,6 +8,7 @@
   - Add static int GetRandomNumber(int min, int max);
   - Add static QColor InvertColor(const QColor& color);
   - Add static QString BytesToString(quint64 bytes);
+  - Add [[nodiscard]] static QList<qint64> GetProcessIdsByName(const QString &processName, bool caseSensitive = false);
 - Add password generator: CPasswordGenerator
 - Add set applicaiont font
 - Add audio and video settings widget: CFrmMediaDevices
