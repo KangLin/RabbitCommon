@@ -41,7 +41,7 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt upgrade -y
-          sudo apt install -y -q cmake build-essential xvfb xpra \
+          sudo apt install -y -q cmake build-essential xvfb \
               libglu1-mesa-dev libpulse-mainloop-glib0 \
               debhelper fakeroot \
               qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools \
