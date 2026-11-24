@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
@@ -116,7 +116,7 @@ jobs:
 
       - name: Update artifact
         if: false # ${{ matrix.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.artifact_name }}_${{matrix.BUILD_TYPE}}
           path: |

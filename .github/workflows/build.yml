@@ -39,47 +39,47 @@ jobs:
     needs: [ubuntu, msvc, macos, android, doxygen]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: false
 
       - name: Download ubuntu
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: ${{ needs.ubuntu.outputs.name }}
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
       - name: Download msvc
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: ${{ needs.msvc.outputs.name }}_*
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
       - name: Download mingw
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: ${{ needs.mingw.outputs.name }}
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
       - name: Download macos
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: ${{ needs.macos.outputs.name }}_*
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
       - name: Download android
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: ${{ needs.android.outputs.name }}_*
           path: ${{ env.artifact_path }}
           merge-multiple: true
 
       - name: Download doxygen
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: ${{ needs.doxygen.outputs.name }}
           path: ${{ env.artifact_path }}

@@ -34,7 +34,7 @@ jobs:
 
     env:
       RabbitCommon_VERSION: v2.3.4
-      VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
+      VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_HOST_TRIPLET: x64-linux
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
@@ -76,7 +76,7 @@ jobs:
 
       - name: Cache installed
         #if: false
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-installed
         with:
           path: |
@@ -166,7 +166,7 @@ jobs:
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
           path: |

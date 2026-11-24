@@ -19,19 +19,19 @@ jobs:
         include:
           - VCPKG_TARGET_TRIPLET: x64-osx
             os: macos-15-intel
-            qt_version: 6.9.3
+            qt_version: 6.12.0
             qt_arch: clang_64
             WITH_MACOSX_BUNDLE: false
 
           - VCPKG_TARGET_TRIPLET: arm64-osx
-            os: macos-14
-            qt_version: 6.9.3
+            os: macos-26
+            qt_version: 6.12.0
             qt_arch: clang_64
             WITH_MACOSX_BUNDLE: true
 
           - VCPKG_TARGET_TRIPLET: arm64-osx
-            os: macos-14
-            qt_version: 6.9.3
+            os: macos-15
+            qt_version: 6.12.0
             qt_arch: clang_64
             WITH_MACOSX_BUNDLE: false
 
@@ -45,7 +45,7 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install
       qt_modules: qtscxml qtmultimedia qtwebengine ${{matrix.qt_modules}}
-      VCPKGGITCOMMITID: 0e39c10736341cc8135b560438229bbda3d3219a
+      VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_MANIFEST_FEATURES:
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -72,7 +72,7 @@ jobs:
           cmake -E make_directory ${{github.workspace}}/build_test
 
       - name: Cache installed
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-installed
         with:
           path: |
@@ -146,7 +146,7 @@ jobs:
           fi
 
       - name: Update artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.os}}
           path: |
