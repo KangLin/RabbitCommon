@@ -39,7 +39,7 @@ usage_dev() {
     echo "   - [MUST] icon file($APP_ID.png or $APP_ID.svg)"
     echo "   - [OPTION] mime type file(mime/packages/.xml)"
     echo ""
-    echo "Useg:"
+    echo "Usage:"
     usage_long
 }
 

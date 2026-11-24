@@ -467,10 +467,6 @@ See: [FrmUpdater.h](Src/FrmUpdater/FrmUpdater.h)
 
       RabbitCommon::CTools::GetCurrentUser();
 
-- Get host name:
-
-      RabbitCommon::CTools::GetHostName();
-
 ### Other projects using this project
 
 - [Rabbit remote control](https://github.com/KangLin/RabbitRemoteControl)

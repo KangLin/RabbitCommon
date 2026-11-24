@@ -453,11 +453,7 @@ Qt因为版权原因，没有提供openssl动态库，所以必须自己复制op
 #### 得到系统信息
 - 得到当前登录用户
 
-        RabbitCommon::CTools::GetCurrentUser();
-        
-- 得到主机名
-
-        RabbitCommon::CTools::GetHostName();
+      RabbitCommon::CTools::GetCurrentUser();
         
 ### 使用本项目的项目
 

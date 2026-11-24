@@ -62,6 +62,9 @@
     #include <sys/types.h>
     #include <cstdlib>
     #include <cstring>
+    #include <pwd.h>
+    #include <unistd.h>
+    #include <signal.h>
 #elif defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     #include <pwd.h>
     #include <unistd.h>
@@ -1151,9 +1154,7 @@ QString CTools::GetCurrentUser()
 
 QString CTools::GetHostName()
 {
-    char buf[255];
-    gethostname(buf, sizeof(buf));
-    return buf;
+    return QSysInfo::machineHostName();
 }
 
 QList<qint64> CTools::GetProcessIdsByName(const QString &szProcessName, bool caseSensitive)

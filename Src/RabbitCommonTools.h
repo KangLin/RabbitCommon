@@ -344,6 +344,7 @@ public:
                            bool bAllUser = false);
 
     [[nodiscard]] static QString GetCurrentUser();
+    Q_DECL_DEPRECATED_X("Will be move to private in v3, with QSysInfo::machineHostName() or QHostInfo::hostName()")
     [[nodiscard]] static QString GetHostName();
 
     /*!

@@ -9,6 +9,7 @@
   - 增加 static QColor InvertColor(const QColor& color);
   - 增加 static QString BytesToString(quint64 bytes);
   - 增加 [[nodiscard]] static QList<qint64> GetProcessIdsByName(const QString &processName, bool caseSensitive = false);
+  - 删除 GetHostName , 用 QSysInfo::machineHostName() 或 QHostInfo::hostName() 替代
 - 增加密码生成器: CPasswordGenerator
 - 增加设置应用字体
 - 增加音视频设备设置对话框: CFrmMediaDevices
