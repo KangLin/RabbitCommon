@@ -657,9 +657,8 @@ CFrmUpdater::ErrCode CFrmUpdater::CheckUpdateConfigFile()
         if(f.szSystem.compare(szSystem, Qt::CaseInsensitive))
             continue;
 
-        if(szArchitecture != f.szArchitecture) {
+        if(szArchitecture != f.szArchitecture)
             continue;
-        }
 
         file.append(f);
     }
@@ -723,9 +722,7 @@ CFrmUpdater::ErrCode CFrmUpdater::CheckUpdateConfigFile()
     {
         qDebug(log) << "Force update";
         emit sigFinished();
-    }
-    else
-    {
+    } else {
         ui->cbHomePage->show();
         ui->cbPrompt->show();
         ui->pbOK->setText(tr("OK(&O)"));
@@ -1055,11 +1052,30 @@ CFrmUpdater::ErrCode CFrmUpdater::Execute(const QString& szFile)
             || !fi.suffix().compare("rpm", Qt::CaseInsensitive)
             || !fi.suffix().compare("snap", Qt::CaseInsensitive)
             || !fi.suffix().compare("flatpak", Qt::CaseInsensitive)) {
-            int nRet = QMessageBox::question(
-                this, tr("Install"), tr("Use the system default program"),
-                QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
-            if(QMessageBox::No == nRet)
-                return ExecuteLinuxPackage(szFile);
+            QMessageBox msg(this);
+            msg.setIcon(QMessageBox::Icon::Question);
+            msg.setWindowTitle(tr("Install"));
+            msg.setText(
+                "<p><b>" + tr("Install the package using the system's default installer") + "</b></p>"
+                + "<ul>"
+                + "<li>" + tr("Yes: Use the system's default installer (App stores), but some app stores might have bugs.") + "</li>"
+                + "<li>" + tr("No: Install the program using a package manager") + "</li>"
+                + "</ul>"
+                );
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::No);
+            QCheckBox* cb = new QCheckBox(tr("Start the program after installation"), &msg);
+            if(cb) {
+                cb->setCheckable(true);
+                cb->setChecked(true);
+                msg.setCheckBox(cb);
+            }
+            if(QMessageBox::No == msg.exec()) {
+                bool bStart = false;
+                if(msg.checkBox())
+                    bStart = msg.checkBox()->isChecked();
+                return ExecuteLinuxPackage(szFile, bStart);
+            }
         }
 
         // Open with the default program
@@ -1176,7 +1192,7 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteCompressedFile(const QString &szFile)
     return nRet;
 }
 
-CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
+CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile, bool bStart)
 {
     ErrCode nRet = ErrCode::Success;
     QFileInfo fi(szFile);
@@ -1195,7 +1211,7 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
         ui->lbState->setText(szErr);
         return ErrCode::Failure;
     }
-    QString szCmd = InstallLinuxPackage(szFile);
+    QString szCmd = InstallLinuxPackage(szFile, bStart);
     f.write(szCmd.toStdString().c_str());
     qDebug(log) << "Setup.sh:" << szCmd << szInstall;
     f.close();
@@ -1217,10 +1233,11 @@ CFrmUpdater::ErrCode CFrmUpdater::ExecuteLinuxPackage(const QString &szFile)
     return nRet;
 }
 
-QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
+QString CFrmUpdater::InstallLinuxPackage(const QString &szFile, bool bStart)
 {
     QString szRemove;
     QString szInstall;
+    QString szStart;
     QString szCmd;
     szCmd = "#!/bin/bash\n";
     //szCmd += "set -e\n";
@@ -1237,19 +1254,29 @@ QString CFrmUpdater::InstallLinuxPackage(const QString &szFile)
     if(!fi.suffix().compare("snap", Qt::CaseInsensitive)) {
         szRemove = "snap remove ";
         szInstall = "snap install ";
+        szStart = "snap run ";
     }
     if(!fi.suffix().compare("snap", Qt::CaseInsensitive)) {
         szRemove = "flatpak remove -y ";
         szInstall = "flatpak install -y ";
+        szStart = "flatpak run ";
     }
-    if(m_ConfigFile.szPackageName.isEmpty())
+    if(m_ConfigFile.szPackageName.isEmpty()) {
         szRemove += QCoreApplication::applicationName().toLower();
-    else
+        szStart += QCoreApplication::applicationName().toLower();
+    } else {
         szRemove += m_ConfigFile.szPackageName;
+        szStart += m_ConfigFile.szPackageName;
+    }
+
     szRemove += "\n";
     szInstall += szFile + "\n";
+    if(bStart)
+        szStart += "\n";
+    else
+        szStart.clear();
+    szCmd += szRemove + szInstall + szStart;
 
-    szCmd += szRemove + szInstall;
     return szCmd;
 }
 
@@ -1277,6 +1304,11 @@ QString CFrmUpdater::InstallCompressedFileScript(const QString &szFile)
     szCmd += "    ./install_appimage.sh ";
     if(!m_ConfigFile.szPackageName.isEmpty())
         szCmd += "--id=" + m_ConfigFile.szPackageName;
+    int nRet = QMessageBox::question(
+        this, "Start the program", "Start the program after installation?",
+        QMessageBox::Yes | QMessageBox::No);
+    if(QMessageBox::Yes == nRet)
+        szCmd += "--start";
     szCmd += "\n";
     szCmd += "fi\n";
     //qDebug(log) << "Directory:" << d;

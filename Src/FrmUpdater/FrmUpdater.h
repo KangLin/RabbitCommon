@@ -183,9 +183,9 @@ private:
     ErrCode Execute(const QString& szFile);
     ErrCode ExecuteAppImage(const QString& szFile);
     ErrCode ExecuteCompressedFile(const QString& szFile);
-    ErrCode ExecuteLinuxPackage(const QString& szFile);
+    ErrCode ExecuteLinuxPackage(const QString& szFile, bool bStart);
     QString InstallCompressedFileScript(const QString& szFile);
-    QString InstallLinuxPackage(const QString &szFile);
+    QString InstallLinuxPackage(const QString &szFile, bool bStart);
 
 private:
     Ui::CFrmUpdater *ui;

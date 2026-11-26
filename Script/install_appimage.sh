@@ -15,8 +15,9 @@ set -e
 
 SYSTEM_DIR=0
 AUTO_START=0
+START=0
 usage_long() {
-    echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir] [--auto-start]"
+    echo "$0 [-h|--help] [--id=<APP id>] [--install=<install directory>] [--system-dir] [--auto-start] [--star]"
     echo "  -h|--help: show help"
     echo "  --id=<APP id>: Application ID. the default is the base name of desktop file(.desktop)"
     echo "  --install=<install directory>: Set install directory."
@@ -26,6 +27,7 @@ usage_long() {
     echo "  --auto-start: add automatically start the program"
     echo "        the default is '$HOME/.config/autostart' without '--system-dir'"
     echo "        otherwise is '/etc/xdg/autostart' with '--system-dir'"
+    echo "  --star: Start the program after installation"
     exit -1
 }
 
@@ -118,6 +120,10 @@ if command -V getopt >/dev/null; then
             ;;
         --auto-start)
             AUTO_START=1
+            shift 2
+            ;;
+        --start)
+            START=1
             shift 2
             ;;
         --) # 当解析到“选项和参数“与“non-option parameters“的分隔符时终止
@@ -306,5 +312,9 @@ echo ""
 echo "If you want to uninstall it. Please execute:"
 echo "    $INSTALL_DIR/uninstall.sh"
 echo ""
+
+if [ $START ]; then
+    "$INSTALL_DIR/$APPIMAGE_FILE"
+fi
 
 popd > /dev/null
