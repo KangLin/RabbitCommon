@@ -5,9 +5,6 @@
 #include <QLoggingCategory>
 #include <QApplication>
 
-#ifdef BUILD_QUIWidget
-    #include "QUIWidget/QUIWidget.h"
-#endif
 #include <QTranslator>
 #include <QDir>
 #include <QCommandLineOption>
@@ -69,24 +66,9 @@ int main(int argc, char *argv[])
     MainWindow *m = new MainWindow();
     m->setWindowIcon(QIcon(":/icon/RabbitCommon/App"));
     m->setWindowTitle(a.applicationDisplayName());
-
-#ifdef BUILD_QUIWidget
-    QUIWidget quiwidget;
-   // quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/icon/RabbitCommon/App");
-   // quiwidget.setTitle(QObject::tr("Rabbit Common - QUIWidget"));
-    quiwidget.setMainWidget(m);
-    quiwidget.setAlignment(Qt::AlignCenter);
-    quiwidget.setVisible(QUIWidget::BtnMenu, true);
-    quiwidget.show();
-#else
     m->show();
-#endif
-
     int nRet = a.exec();
-
-#ifndef  BUILD_QUIWidget
-     delete m;
-#endif
+    delete m;
 
     RabbitCommon::CTools::Instance()->Clean();
     return nRet;

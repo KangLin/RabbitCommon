@@ -21,9 +21,6 @@
 #ifdef HAVE_UPDATE
     #include "FrmUpdater.h"
 #endif
-#ifdef BUILD_QUIWidget
-    #include "QUIWidget/QUIWidget.h"
-#endif
 #include "RabbitCommonTools.h"
 #include "RabbitCommonEncrypt.h"
 #ifdef HAVE_RABBITCOMMON_GUI
@@ -129,9 +126,6 @@ void MainWindow::on_actionUpdate_triggered()
     m_pfrmUpdater->SetInstallAutoStartup();
     RC_SHOW_WINDOW(m_pfrmUpdater);
     // [Use CFrmUpdater]
-#endif
-#ifdef BUILD_QUIWidget
-    QUIWidget::setFormInCenter(m_pfrmUpdater);
 #endif
 }
 

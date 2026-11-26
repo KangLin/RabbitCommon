@@ -103,29 +103,18 @@ inline void g_RabbitCommon_InitResource()
 {
     Q_INIT_RESOURCE(ResourceRabbitCommon);
 
-#ifdef BUILD_QUIWidget
-    Q_INIT_RESOURCE(QUIWidget);
-#endif
 #if DEBUG
     // Must set cmake parameters: -DCMAKE_BUILD_TYPE=Debug
     //Q_INIT_RESOURCE(translations_RabbitCommon);
-#ifdef BUILD_QUIWidget
-    Q_INIT_RESOURCE(QUIWidgetQss);
-#endif
 #endif
 }
 
 inline void g_RabbitCommon_CleanResource()
 {
     Q_CLEANUP_RESOURCE(ResourceRabbitCommon);
-#ifdef BUILD_QUIWidget
-    Q_CLEANUP_RESOURCE(QUIWidget);
-#endif
+
 #if DEBUG
     //Q_CLEANUP_RESOURCE(translations_RabbitCommon);
-#ifdef BUILD_QUIWidget
-    Q_CLEANUP_RESOURCE(QUIWidgetQss);
-#endif
 #endif
 }
 
@@ -498,9 +487,6 @@ QString CTools::Information()
     #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     szInfo += tr("      - Fall back icon theme: ") + QIcon::fallbackThemeName() + "\n";
     #endif
-#if defined(BUILD_QUIWidget)
-    szInfo += tr("    - Have QUIWidget") + "\n";
-#endif
 #if HAVE_MEDIA_DEVICES
     szInfo += tr("    - Have media devices settings widget") + "\n";
 #endif

@@ -75,13 +75,6 @@ DEFINES *= QT_MESSAGELOGCONTEXT
        $$PWD/Log/DlgSettings.ui \
        $$PWD/Log/DlgEdit.ui
 
-    equals(BUILD_QUIWidget, "ON"){
-        SOURCES += $$PWD/QUIWidget/QUIWidget.cpp
-        INSTALL_HEADERS += $$PWD/QUIWidget/QUIWidget.h
-        RESOURCES += $$PWD/QUIWidget/Resource/QUIWidget.qrc
-        CONFIG(debug, debug|release):RESOURCES += $$PWD/QUIWidget/Resource/QUIWidgetQss.qrc
-    }
-
     !equals(BUILD_UPDATE, "OFF"){
         greaterThan(QT_MAJOR_VERSION, 5): qtHaveModule(statemachine): QT *= statemachine
         QT *= network
@@ -208,7 +201,6 @@ android{
 # Install style files
 style.target = style
 style.files = $$PWD/Resource/style/*
-CONFIG(release, debug|release): style.files += $$PWD/QUIWidget/Resource/qss/*
 android: style.path = $$system_path(assets/data/style)
 else: style.path = $$system_path($${PREFIX}/data/style)
 style.CONFIG += directory no_check_exist

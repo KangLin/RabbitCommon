@@ -288,19 +288,6 @@ if(WITH_UPDATE)
     endif()
 endif()
 
-cmake_dependent_option(BUILD_QUIWidget "Set to ON to build QUIWidget" OFF
-    WITH_GUI OFF)
-if(BUILD_QUIWidget)
-    list(APPEND RabbitCommon_DEFINITIONS BUILD_QUIWidget)
-    list(APPEND RABBITCOMMON_INSTALL_HEAD_FILES QUIWidget/QUIWidget.h)
-    list(APPEND RABBITCOMMON_SOURCE_FILES QUIWidget/QUIWidget.cpp)
-    #设置资源文件
-    LIST(APPEND RCC_FILES QUIWidget/Resource/QUIWidget.qrc)
-    LIST(APPEND RCC_FILES $<$<CONFIG:Debug>:QUIWidget/Resource/QUIWidgetQss.qrc>)
-    list(APPEND RABBITCOMMON_INCLUDE_DIRS
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget>")
-endif(BUILD_QUIWidget)
-
 find_package(OpenSSL)
 IF(OpenSSL_FOUND)
     list(APPEND RabbitCommon_DEFINITIONS HAVE_OPENSSL)
@@ -547,8 +534,7 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../Script/RabbitCommon.sh
 
 ## Install style files
 INSTALL_STYLE(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/style)
-#INSTALL_DIR(SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/QUIWidget/Resource/qss
-#    DESTINATION data)
+
 # Install QIcon theme
 INSTALL_ICON_THEME(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Resource/icons)
 
