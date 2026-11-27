@@ -46,7 +46,7 @@
 # [>]        - Progress / Next step
 # [*]        - Generic bullet point
 
-check_echo_color() {
+function check_echo_color() {
     # 定义颜色常量
     # 8色（标准）
     BLACK='\033[0;30m'
@@ -101,7 +101,7 @@ check_echo_color() {
     echo -e "${GREEN}带颜色的输出${NC}"
 }
 
-check_echo_color_with_tput() {
+function check_echo_color_with_tput() {
     # 使用 tput（更兼容）
     if command -v tput >/dev/null 2>&1 && [ -t 1 ]; then
         BOLD=$(tput bold)
@@ -116,54 +116,54 @@ check_echo_color_with_tput() {
         BOLD=""; RED=""; GREEN=""; YELLOW=""; BLUE=""; MAGENTA=""; CYAN=""; NC=""
     fi
 }
-log_info() {
+function log_info() {
     echo -e "[i] $(date '+%Y-%m-%d %H:%M:%S') - $1"
 }
-log_warn() {
+function log_warn() {
     echo -e "${YELLOW}[!]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1"
 }
-log_error() {
+function log_error() {
     echo -e "${RED}[X]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1" >&2
 }
-log_success() {
+function log_success() {
     echo -e "${GREEN}[✓]${NC} $(date '+%Y-%m-%d %H:%M:%S') -  $1"
 }
-echo_success() {
+function echo_success() {
     echo -e "${GREEN}[✓]${NC} $1"
 }
-echo_error() {
+function echo_error() {
     echo -e "${RED}[X]${NC} $1" >&2
 }
-echo_warn() {
+function echo_warn() {
     echo -e "${YELLOW}[!]${NC} $1"
 }
-echo_info() {
+function echo_info() {
     echo -e "[i] $1"
 }
-echo_status() {
+function echo_status() {
     echo "=== $1"
 }
-echo_color_success() {
+function echo_color_success() {
     echo -e "${GREEN}$1${NC}"
 }
-echo_color_warn() {
+function echo_color_warn() {
     echo -e "${YELLOW}$1${NC}"
 }
-echo_color_error() {
+function echo_color_error() {
     echo -e "${RED}$1${NC}" >&2
 }
-echo_color_red() {
+function echo_color_red() {
     echo -e "${RED}$1${NC}"
 }
-echo_color_green() {
+function echo_color_green() {
     echo -e "${GREEN}$1${NC}"
 }
-echo_color_yellow() {
+function echo_color_yellow() {
     echo -e "${YELLOW}$1${NC}"
 }
 
 # Validate directory path
-validate_directory() {
+function validate_directory() {
     local dir="$1"
     local type="$2"
 
@@ -177,7 +177,7 @@ validate_directory() {
 
 # 辅助函数: 判断是否在 Termux 环境
 # 三重判断，任意一个成立即认为是 Termux
-is_termux() {
+function is_termux() {
     # 1) $PREFIX 指向 Termux 的 usr 目录
     if [ -n "$PREFIX" ] && [ -d "$PREFIX" ]; then
         case "$PREFIX" in
@@ -199,7 +199,7 @@ is_termux() {
 }
 
 # 详细的 Linux 发行版检测函数
-get_linux_distro() {
+function get_linux_distro() {
     # Termux 优先短路（Termux 没有 /etc/os-release）
     if is_termux; then
         echo "termux"
@@ -230,7 +230,7 @@ get_linux_distro() {
 }
 
 # 获取版本号
-get_linux_version() {
+function get_linux_version() {
     # Termux: 返回 Android 版本
     if is_termux; then
         local android_ver
@@ -254,7 +254,7 @@ get_linux_version() {
 }
 
 # 检测包管理器
-get_package_tool() {
+function get_package_tool() {
     local distro=$1
     case $distro in
         ubuntu|debian|kali|linuxmint)
@@ -305,7 +305,7 @@ get_package_tool() {
     esac
 }
 
-is_installed() {
+function is_installed() {
     local p="$1"
     case "$PACKAGE_TOOL" in
         brew)    brew list --formula "$p" >/dev/null 2>&1 ;;
@@ -318,7 +318,7 @@ is_installed() {
     esac
 }
 
-package_install() {
+function package_install() {
     local PACKAGE=$@
     local p
 
@@ -382,7 +382,7 @@ package_install() {
     fi
 }
 
-create_debian_folder() {
+function create_debian_folder() {
     local repo_root=$1
     if [ ! -d "$repo_root/debian" ]; then
         echo_status "Create $repo_root/debian ......"
@@ -428,7 +428,7 @@ create_debian_folder() {
     fi
 }
 
-install_debian_depend() {
+function install_debian_depend() {
     local repo_root=$1
     create_debian_folder $repo_root
     if [ -f "$repo_root/debian/control" ]; then
@@ -451,7 +451,7 @@ install_debian_depend() {
 }
 
 # 完整的系统信息函数
-get_system_info() {
+function get_system_info() {
     local os
     local distro
     local version
@@ -497,7 +497,7 @@ get_system_info() {
     echo "Architecture: $(uname -m)"
 }
 
-install_gnu_getopt() {
+function install_gnu_getopt() {
     case "$DISTRO" in
         fedora)
             package_install util-linux
@@ -518,7 +518,7 @@ install_gnu_getopt() {
 }
 
 # macOS 设置函数
-setup_macos() {
+function setup_macos() {
     echo_status "Setting up macOS environment..."
 
     # 检查是否安装了 Homebrew
@@ -538,7 +538,7 @@ setup_macos() {
 }
 
 # 安全的 readlink 函数，兼容各种系统
-safe_readlink() {
+function safe_readlink() {
     local path="$1"
     if [ -L "$path" ]; then
         if command -v readlink >/dev/null 2>&1; then
@@ -562,7 +562,7 @@ safe_readlink() {
 }
 
 # 检测操作系统并设置环境变量
-detect_os_info() {
+function detect_os_info() {
     local system_info
     system_info=$(get_system_info)
 
@@ -591,7 +591,11 @@ detect_os_info() {
 }
 
 # Simple version comparison function
-version_compare() {
+# Return:
+#   0: v1 = v2
+#   1: v1 > v2
+#   2: v1 < v2
+function version_compare() {
     local v1="$1"
     local v2="$2"
 
@@ -607,9 +611,9 @@ version_compare() {
         local c2=$(printf "%010d" ${v2_arr[i]:-0})
 
         if [[ "$c1" < "$c2" ]]; then
-            return 1  # v1 < v2
+            return 2  # v1 < v2
         elif [[ "$c1" > "$c2" ]]; then
-            return 0  # v1 > v2
+            return 1  # v1 > v2
         fi
     done
 
@@ -617,7 +621,7 @@ version_compare() {
 }
 
 # Function to check if git is installed
-check_git() {
+function check_git() {
     if ! command -v git >/dev/null 2>&1; then
         echo_color_error "X Git is not installed" >&2
         echo "  Git is required for this script to work." >&2
@@ -649,11 +653,14 @@ check_git() {
 
         # Optional: Check git version if minimum version required
         local min_version="${1:-2.0.0}"
-        local git_version=$(git --version | cut -d' ' -f3)
 
-        if ! version_compare "$git_version" "$min_version"; then
-            echo_color_warn "!️ Git version $git_version is installed, but version $min_version or higher is recommended" >&2
-            # Continue anyway, just a warning
+        local git_version
+        git_version=$(git --version | cut -d' ' -f3)
+        local rc
+        version_compare "$git_version" "$min_version"
+        rc=$?
+        if [ "$rc" -eq 2 ]; then
+            echo_color_warn "!️ Git $git_version < recommended $min_version" >&2
         else
             echo_color_success "√ Git $git_version is installed"
         fi
@@ -663,7 +670,7 @@ check_git() {
 }
 
 # Option to automatically install git (with user confirmation)
-install_git_if_missing() {
+function install_git_if_missing() {
     if ! command -v git >/dev/null 2>&1; then
         echo_color_warn "!️ Git is required but not installed." >&2
         read -p "Would you like to install Git now? (y/n): " -n 1 -r
@@ -706,14 +713,14 @@ install_git_if_missing() {
 }
 
 # Function to create sed-safe pattern
-sed_safe_pattern() {
+function sed_safe_pattern() {
     local pattern="$1"
     # Escape special chars for sed BRE
     echo "$pattern" | sed 's/\([][\.*^$+?(){}|/]\)/\\\1/g'
 }
 
 # Test function for sed pattern
-test_sed_pattern() {
+function test_sed_pattern() {
     local test_string="$1"
     local expected="$2"
 
@@ -752,7 +759,7 @@ VERSION_PATTERN="v?[0-9]+\.[0-9]+\.[0-9]+([-+_~.^][0-9A-Za-z.-]*)?"
 #    if [[ $? -eq 0 ]]; then
 #        display_version_info "${result[@]}"
 #    fi
-version_parser() {
+function version_parser() {
     local version=$1
     local -n version_data=$2 # 使用引用传递
     
@@ -785,7 +792,7 @@ version_parser() {
 }
 
 # 辅助函数：显示版本数组
-display_version_info() {
+function display_version_info() {
     local -a data=($@)
 
     if [[ ${#data[@]} -ge 8 ]]; then
@@ -808,7 +815,7 @@ EOF
 # 函数：返回版本号的关联数组
 # $1: 版本字符串
 # #2: 输出的版本关联数组。需要用 `local -A` 声明：例如 `local -A version_info`
-parse_version_assoc() {
+function parse_version_assoc() {
     local version=$1
     local -n version_array=$2  # 使用引用传递
     # 正则表达式匹配语义化版本
@@ -832,7 +839,7 @@ parse_version_assoc() {
 }
 
 # 比较预发布版本
-compare_pre_release() {
+function compare_pre_release() {
     local pre1=$1
     local pre2=$2
     
@@ -881,7 +888,7 @@ compare_pre_release() {
 #   2: 版本1 < 版本2
 #   3: 版本格式错误
 # Official SemVer 2.0.0 pattern. See: https://semver.org/
-compare_versions() {
+function compare_versions() {
     local ver1=$1
     local ver2=$2
 
@@ -929,7 +936,7 @@ compare_versions() {
 }
 
 # 辅助函数：将返回值转换为可读文本
-get_comparison_text() {
+function get_comparison_text() {
     case $1 in
         0) echo "相等" ;;
         1) echo "大于" ;;
@@ -939,7 +946,7 @@ get_comparison_text() {
     esac
 }
 
-test_version() {
+function test_version() {
     # 批量测试
     test_versions=(
         "1.2.3"
@@ -1014,7 +1021,7 @@ test_version() {
 # 参数1: 文件名
 # 参数2: 标记（默认 ###）
 # 参数3: 区块索引（默认 1，获取第几个区块）
-get_section() {
+function get_section() {
     local file="$1"
     local marker="${2:-###}"
     local index="${3:-1}"
@@ -1039,7 +1046,7 @@ get_section() {
 
 # 用法: make_apprun [AppDir路径]
 # 默认: make_apprun AppDir
-make_apprun() {
+function make_apprun() {
     local APPDIR="${1:-AppDir}"
 
     if [[ ! -d "$APPDIR" ]]; then
@@ -1136,7 +1143,7 @@ EOF
 }
 
 # TODO: 初始化，必须放在此文件最后
-init_global() {
+function init_global() {
     if [ ! $INIT_GLOBAL_RABBIT ]; then
         if [ "$BUILD_VERBOSE" = "ON" ]; then
             echo_status "Init global ......"
@@ -1149,6 +1156,8 @@ init_global() {
         # 如果是 macOS，进行初始化设置
         if [ "$DISTRO" = "macOS" ]; then
             setup_macos
+        else
+            install_gnu_getopt
         fi
     fi
 }
