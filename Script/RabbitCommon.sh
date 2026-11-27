@@ -579,15 +579,19 @@ function detect_os_info() {
 #    export ARCHITECTURE=$(echo "$system_info" | grep "^Architecture:" | awk -F': ' '{print $2}')
 
     if [ "$BUILD_VERBOSE" = "ON" ]; then
-        echo "=== OS information (detect_os_info) ==="
-        echo "Detected OS[OS]:            $OS"
-        echo "Distribution[DISTRO]:       $DISTRO"
-        echo "Version[DISTRO_VERSION]:    $DISTRO_VERSION"
-        echo "Package tool[PACKAGE_TOOL]: $PACKAGE_TOOL"
-        echo "Architecture[ARCHITECTURE]: $ARCHITECTURE"
-        echo "======================================="
-        echo "PATH: $PATH"
+        show_os_info
     fi
+}
+
+function show_os_info() {
+    echo "=== OS information (detect_os_info) ==="
+    echo "Detected OS[OS]:            $OS"
+    echo "Distribution[DISTRO]:       $DISTRO"
+    echo "Version[DISTRO_VERSION]:    $DISTRO_VERSION"
+    echo "Package tool[PACKAGE_TOOL]: $PACKAGE_TOOL"
+    echo "Architecture[ARCHITECTURE]: $ARCHITECTURE"
+    echo "======================================="
+    echo "PATH: $PATH"
 }
 
 # Simple version comparison function
