@@ -577,10 +577,6 @@ function detect_os_info() {
 #    export DISTRO_VERSION=$(echo "$system_info" | grep "^Version:" | awk -F': ' '{print $2}')
 #    export PACKAGE_TOOL=$(echo "$system_info" | grep "^Package tool:" | awk -F': ' '{print $2}')
 #    export ARCHITECTURE=$(echo "$system_info" | grep "^Architecture:" | awk -F': ' '{print $2}')
-
-    if [ "$BUILD_VERBOSE" = "ON" ]; then
-        show_os_info
-    fi
 }
 
 function show_os_info() {
@@ -1152,7 +1148,7 @@ function init_global() {
         if [ "$BUILD_VERBOSE" = "ON" ]; then
             echo_status "Init global ......"
         fi
-        export INIT_GLOBAL_RABBIT=TRUE
+        INIT_GLOBAL_RABBIT=TRUE
         #check_echo_color
         check_echo_color_with_tput
         detect_os_info
